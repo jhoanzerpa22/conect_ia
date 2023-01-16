@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
-// Ck Editer
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  selector: 'app-create-type',
+  templateUrl: './type.component.html',
+  styleUrls: ['./type.component.scss']
 })
 
 /**
- * Create Component
+ * Type Component
  */
-export class CreateComponent implements OnInit {
+export class TypeComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-
-  public Editor = ClassicEditor;
 
   constructor() { }
 
@@ -27,7 +22,8 @@ export class CreateComponent implements OnInit {
     */
      this.breadCrumbItems = [
       { label: 'Proyectos' },
-      { label: 'Crear Proyecto', active: true }
+      { label: 'Crear Proyecto' },
+      { label: 'Tipo', active: true }
     ];
   }
 

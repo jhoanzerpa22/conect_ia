@@ -26,8 +26,8 @@ export class CreateComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Proyectos' },
-      { label: 'Crear Proyecto', active: true }
+      { label: 'Projects' },
+      { label: 'Create Project', active: true }
     ];
   }
 

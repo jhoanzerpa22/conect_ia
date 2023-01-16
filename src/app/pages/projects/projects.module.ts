@@ -29,6 +29,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ListComponent } from './list/list.component';
 import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
+import { TypeComponent } from './create/type/type.component';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
@@ -40,7 +41,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   declarations: [
     ListComponent,
     OverviewComponent,
-    CreateComponent
+    CreateComponent,
+    TypeComponent
   ],
   imports: [
     CommonModule,

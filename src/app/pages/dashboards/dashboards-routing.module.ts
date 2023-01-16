@@ -22,10 +22,10 @@ const routes: Routes = [
     path: "crypto",
     component: CryptoComponent
   },
-  {
+  /*{
     path: "projects",
     component: ProjectsComponent
-  },
+  },*/
   {
     path: "nft",
     component: NftComponent
