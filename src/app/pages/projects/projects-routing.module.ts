@@ -6,6 +6,7 @@ import { ListComponent } from "./list/list.component";
 import { OverviewComponent } from "./overview/overview.component";
 import { CreateComponent } from "./create/create.component";
 import { TypeComponent } from "./create/type/type.component";
+import { Step1Component } from "./create/step1/step1.component";
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: "create/type",
     component: TypeComponent
+  },
+  {
+    path: "step1",
+    component: Step1Component
   }
 ];
 

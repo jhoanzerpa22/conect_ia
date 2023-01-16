@@ -30,6 +30,9 @@ import { ListComponent } from './list/list.component';
 import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
 import { TypeComponent } from './create/type/type.component';
+import { Step1Component } from "./create/step1/step1.component";
+// Ngx Sliders
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
@@ -42,7 +45,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ListComponent,
     OverviewComponent,
     CreateComponent,
-    TypeComponent
+    TypeComponent,
+    Step1Component
   ],
   imports: [
     CommonModule,
@@ -60,7 +64,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DropzoneModule,
     NgSelectModule,
     ProjectsRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxSliderModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

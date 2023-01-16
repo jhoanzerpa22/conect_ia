@@ -1,0 +1,77 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paso 1: Define las variables generales de tu proyecto" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<!-- End Breadcrumbs -->
+<!-- Vertical alignment (align-items-center) -->
+<div class="row justify-content-center" style="padding-top: 10%;">
+    <div class="col-lg-8">
+        <h4 style="text-align: center;">Define la ubicación de tu proyecto</h4>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="mb-3 mb-lg-0">
+                            <label for="choices-priority-input" class="form-label">Región</label>
+                            <select class="form-select" placeholder="Selecciona región" data-choices data-choices-search-false
+                                id="choices-priority-input">
+                                <option value="">Selecciona región</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="mb-3 mb-lg-0">
+                            <label for="choices-priority-input" class="form-label">Comuna</label>
+                            <select class="form-select" placeholder="Selecciona comuna" data-choices data-choices-search-false
+                                id="choices-priority-input2">
+                                <option value="">Selecciona comuna</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="mb-3 mb-lg-0">
+                            <label for="choices-priority-input" class="form-label">Tipo de zona</label>
+                            <select class="form-select" placeholder="Selecciona tipo de zona" data-choices data-choices-search-false
+                                id="choices-priority-input3">
+                                <option value="">Selecciona tipo de zona</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
+    <div class="row justify-content-center">
+        <div class="mt-4 mb-5">
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                  <ngx-slider [(value)]="visibleSelection" [options]="visibleBarOptions"></ngx-slider>
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div><!-- end row-->
+        </div>
+    </div>
+</div>
+<div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
+    <div class="row justify-content-end">
+        <div class="col-4">
+            <a mat-raised-button routerLink="/projects/step2" class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;">Siguiente</a>   
+        </div>
+    </div>
+</div>
