@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 
 @Component({
   selector: 'app-step1',
@@ -14,6 +15,8 @@ export class Step1Component implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
+  step: number = 1;
+  step_total: number = 6;
   
   visibleSelection = 1;
   visibleBarOptions: Options = {
@@ -22,7 +25,7 @@ export class Step1Component implements OnInit {
     showSelectionBar: true
   };
 
-  constructor() { }
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
     /**
@@ -38,5 +41,12 @@ export class Step1Component implements OnInit {
   * Multiple Default Select2
   */
    selectValue = ['Choice 1', 'Choice 2', 'Choice 3'];
+
+   changeStep(step: number){
+    this.step = step;
+    if(step > this.step_total){
+      this._router.navigate(['/projects/step2']);
+    }
+   }
 
 }

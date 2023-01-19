@@ -5,7 +5,7 @@
 <!-- End Breadcrumbs -->
 <!-- Vertical alignment (align-items-center) -->
 <div class="row justify-content-center" style="padding-top: 10%;">
-    <div class="col-lg-8">
+    <div class="col-lg-8" *ngIf="step == 1">
         <h4 style="text-align: center;">Define la ubicación de tu proyecto</h4>
         <div class="card">
             <div class="card-body">
@@ -48,10 +48,183 @@
                             </select>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="col-lg-8" *ngIf="step == 2">
+        <h4 style="text-align: center;">Define el sector productivo</h4>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3 mb-lg-0">
+                            <label for="choices-priority-input" class="form-label">Sector productivo</label>
+                            <select class="form-select" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
+                                id="choices-priority-input">
+                                <option value="">Selecciona sector productivo</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8" *ngIf="step == 3">
+        <h4 style="text-align: center;">Especifica el tipo de actividad</h4>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3 mb-lg-0">
+                            <label for="choices-priority-input" class="form-label">Tipo de actividad</label>
+                            <select class="form-select" placeholder="Selecciona actividad" data-choices data-choices-search-false
+                                id="choices-priority-input">
+                                <option value="">Selecciona actividad</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8" *ngIf="step == 4">
+        <h4 style="text-align: center;">Variables Generales</h4>
+        <h5 style="text-align: center;">Selecciona el tipo de obligación legal de interes</h5>
+        <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <div class="card border" style="background: #fef2df;">
+                <div class="card-body" style="text-align: center;">
+                    <b>OBLIGACIONES HABILITANTES</b>
+                </div>
+            </div>
+            
+            <div class="card border">
+                <div class="card-body">
+                    <h5>Descripción</h5>
+                    Alguna descripcion
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border" style="background: #fef2df;">
+                <div class="card-body" style="text-align: center;">
+                    <b>OBLIGACIONES REPORTABLES</b>
+                </div>
+            </div>
+            
+            <div class="card border">
+                <div class="card-body">
+                    <h5>Descripción</h5>
+                    Alguna descripcion
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border" style="background: #fef2df;">
+                <div class="card-body" style="text-align: center;">
+                    <b>TODAS LAS OBLIGACIONES</b>
+                </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+
+    <div class="col-lg-10" *ngIf="step == 5">
+        <h4 style="text-align: center;">Variables Generales</h4>
+        <h5 style="text-align: center;">Selecciona el ambito o los ambitos legales a evaluar</h5>
+        <div class="row justify-content-center">
+        <div class="col-lg-3">
+            <div class="card border" style="background: #d1eeea;">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #d7e8d8;width: 40px;height: 40px; border: 1px solid #d7e8d8;border-radius: 24px;margin: auto;">
+                        <i class="ri-plant-fill" style="font-size: 24px;color: #4a9d4b;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>MEDIO AMBIENTE</b></p>
+                    <p>Todas aquellas normas que tienen la finalidad de asegurar la protección del medio ambiente.</p>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-3">
+            <div class="card border" style="background: #faeedc;">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #f4d890;width: 40px;height: 40px; border: 1px solid #f4d890;border-radius: 24px;margin: auto;">
+                        <i class="ri-briefcase-fill" style="font-size: 24px;color: #ebaf47;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>SEGURIDAD Y SALUD LABORAL</b></p>
+                    <p>Es un área multidisciplinaria relacionada con la seguridad, salud y la calidad de vida de las personas en la ocupación.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card border" style="background: #fae1dc;">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #ebbdb4;width: 40px;height: 40px; border: 1px solid #ebbdb4;border-radius: 24px;margin: auto;">
+                        <i class="ri-shirt-fill" style="font-size: 24px;color: #f25c03;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>LABORAL</b></p>
+                    <p>Todas las empresas deben cumplir y hacer cumplir los requisitos contractuales y estatutarios.</p>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-lg-3">
+            <div class="card border" style="background: #b3ebf6;">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #8de1f2;width: 40px;height: 40px; border: 1px solid #8de1f2;border-radius: 24px;margin: auto;">
+                        <i class="ri-flashlight-line" style="font-size: 24px;color: #0cc2e7;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>EFICIENCIA ENERGETICA</b></p>
+                    <p>Optimización del consumo energético para alcanzar unos niveles determinados de confort y de servicio.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8" *ngIf="step == 6">
+        <h4 style="text-align: center;">Variables Generales</h4>
+        <h5 style="text-align: center;">Selecciona la fase del proyecto</h5>
+        <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <div class="card border" style="background: #fef2df;">
+                <div class="card-body" style="text-align: center;">
+                    <b>CONSTRUCCIÓN</b>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            <div class="card border" style="background: #fef2df;">
+                <div class="card-body" style="text-align: center;">
+                    <b>OPERACIÓN</b>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            <div class="card border" style="background: #fef2df;">
+                <div class="card-body" style="text-align: center;">
+                    <b>CIERRE</b>
+                </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
 
 <div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
     <div class="row justify-content-center">
@@ -71,7 +244,7 @@
 <div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
     <div class="row justify-content-end">
         <div class="col-4">
-            <a mat-raised-button routerLink="/projects/step2" class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;">Siguiente</a>   
+            <a mat-raised-button href="javascript:void(0);" (click)="changeStep(step + 1)" class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;">Siguiente</a>   
         </div>
     </div>
 </div>
