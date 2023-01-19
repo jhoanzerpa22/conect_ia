@@ -16,7 +16,8 @@ export class Step1Component implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   step: number = 1;
-  step_total: number = 6;
+  step_total: number = 7;
+  title: any = 'Paso 1: Define las variables generales de tu proyecto';
   
   visibleSelection = 1;
   visibleBarOptions: Options = {
@@ -45,7 +46,14 @@ export class Step1Component implements OnInit {
    changeStep(step: number){
     this.step = step;
     if(step > this.step_total){
-      this._router.navigate(['/projects/step2']);
+      this._router.navigate(['/projects/anality']);
+    }else if(step == this.step_total){
+      this.visibleSelection = 2;
+      this.title = 'Paso 2: Define las variables específicas de tu proyecto';
+      this.breadCrumbItems = [
+        { label: 'Proyectos' },
+        { label: 'Variables Específicas', active: true }
+      ];
     }
    }
 

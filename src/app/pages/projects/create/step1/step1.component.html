@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Paso 1: Define las variables generales de tu proyecto" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{title}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!-- End Breadcrumbs -->
@@ -219,6 +219,64 @@
             <div class="card border" style="background: #fef2df;">
                 <div class="card-body" style="text-align: center;">
                     <b>CIERRE</b>
+                </div>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8" *ngIf="step == 7">
+        <h4 style="text-align: center;">Variables Específicas</h4>
+        <h5 style="text-align: center;">Seleccione la categoría de obligaciones</h5>
+        <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <div class="card border">
+                <div class="card-body" style="text-align: center;">
+                    <b>PERSONAS</b>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            <div class="card border">
+                <div class="card-body" style="text-align: center;">
+                    <b>INSUMOS</b>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            <div class="card border">
+                <div class="card-body" style="text-align: center;">
+                    <b>PRODUCTOS</b>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card border">
+                <div class="card-body" style="text-align: center;">
+                    <b>PLANTAS Y PROCESOS</b>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card border">
+                <div class="card-body" style="text-align: center;">
+                    <b>EXTRACCIÓN Y CONSUMO DE RECURSOS NATURALES</b>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card border">
+                <div class="card-body" style="text-align: center;">
+                    <b>MAQUINARIA Y EQUIPOS</b>
                 </div>
             </div>
             
