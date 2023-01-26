@@ -66,14 +66,26 @@ export class LoginComponent implements OnInit {
 
     // Login Api
     this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data:any) => { 
-      if(data.status == 'success'){
+      //if(data.status == 'success'){
+      if(data.data){
+        const user: any = {
+        "_id": data.data.user.id,
+        "first_name": data.data.user.nombre,
+        "last_name": data.data.user.apellido,
+        "email": data.data.user.email,
+        "phone": data.data.user.telefono,
+        "role": "admin"
+        };
         localStorage.setItem('toast', 'true');
-        localStorage.setItem('currentUser', JSON.stringify(data.data));
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('token', data.data.token);
         this.router.navigate(['/']);
       } else {
         this.toastService.show(data.data, { classname: 'bg-danger text-white', delay: 15000 });
       }
+    },
+    (error: any) => {
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
 
     // stop here if form is invalid

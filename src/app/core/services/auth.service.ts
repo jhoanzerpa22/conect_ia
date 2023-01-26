@@ -36,17 +36,21 @@ export class AuthenticationService {
      * @param email email
      * @param password password
      */
-    register(email: string, first_name: string, password: string) {        
+    register(email: string, first_name: string, password: string, confirm_password: string) {        
         // return getFirebaseBackend()!.registerUser(email, password).then((response: any) => {
         //     const user = response;
         //     return user;
         // });
 
         // Register Api
-        return this.http.post(AUTH_API + 'signup', {
-            email,
-            first_name,
-            password,
+        return this.http.post(AUTH_API + 'signUp', {
+            "email": email,
+            "nombre": first_name,/*
+            "apellido": last_name,
+            "rut": rut,
+            "telefono": telefono,*/
+            "password": password,
+            "confirm_password": confirm_password
           }, httpOptions);
     }
 
@@ -61,7 +65,7 @@ export class AuthenticationService {
         //     return user;
         // });
 
-        return this.http.post(AUTH_API + 'signin', {
+        return this.http.post(AUTH_API + 'signIn', {
             email,
             password
           }, httpOptions);
