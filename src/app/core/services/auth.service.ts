@@ -43,11 +43,14 @@ export class AuthenticationService {
         // });
 
         // Register Api
-        return this.http.post(AUTH_API + 'signup', {
-            email,
-            first_name,
-            password,
-            confirm_password
+        return this.http.post(AUTH_API + 'signUp', {
+            "email": email,
+            "nombre": first_name,/*
+            "apellido": last_name,
+            "rut": rut,
+            "telefono": telefono,*/
+            "password": password,
+            "confirm_password": confirm_password
           }, httpOptions);
     }
 
@@ -62,7 +65,7 @@ export class AuthenticationService {
         //     return user;
         // });
 
-        return this.http.post(AUTH_API + 'signin', {
+        return this.http.post(AUTH_API + 'signIn', {
             email,
             password
           }, httpOptions);
