@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
       password: ['', Validators.required],
+      confirm_password: ['', Validators.required]
     });
   }
 
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
     
     //Register Api
-    this.authenticationService.register(this.f['email'].value, this.f['name'].value, this.f['password'].value).pipe(first()).subscribe(
+    this.authenticationService.register(this.f['email'].value, this.f['name'].value, this.f['password'].value, this.f['confirm_password'].value).pipe(first()).subscribe(
       (data: any) => {
       this.successmsg = true;
       if (this.successmsg) {
