@@ -1,30 +1,30 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Project List" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Lista de Proyectos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <div class="row g-4 mb-3">
   <div class="col-sm-auto">
       <div>
-          <a routerLink="/projects/create" class="btn btn-success"><i
-                  class="ri-add-line align-bottom me-1"></i> Add New</a>
+          <a routerLink="/projects/create" class="btn btn-danger"><i
+                  class="ri-add-line align-bottom me-1"></i> Crea un Proyecto</a>
       </div>
   </div>
   <div class="col-sm">
       <div class="d-flex justify-content-sm-end gap-2">
           <div class="search-box ms-2">
-              <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="service.searchTerm">
+              <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="service.searchTerm">
               <i class="ri-search-line search-icon"></i>
           </div>
 
 		<div class="w-md">
           <select class="form-control" data-choices data-choices-search-false>
-            <option value="All">All</option>
-            <option value="Today">Today</option>
-            <option value="Yesterday" selected>Yesterday</option>
-            <option value="Last 7 Days">Last 7 Days</option>
-            <option value="Last 30 Days">Last 30 Days</option>
-            <option value="This Month">This Month</option>
-            <option value="Last Year">Last Year</option>
+            <option value="All">Todos</option>
+            <option value="Today">Hoy</option>
+            <option value="Yesterday" selected>Ayer</option>
+            <option value="Last 7 Days">Ultimos 7 días</option>
+            <option value="Last 30 Days">Ultimos 30 días</option>
+            <option value="This Month">Este Mes</option>
+            <option value="Last Year">Ultimo Año</option>
           </select>
 		</div>
       </div>
@@ -33,7 +33,7 @@
 
 <div class="row">
   <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets" id="pl1_{{data.id}}">
-      <div class="card card-height-100">
+      <div class="card card-height-100" routerLink="/pages/steps" style="cursor: pointer;">
           <div class="card-body">
               <div class="d-flex flex-column h-100">
                   <div class="d-flex">
@@ -42,43 +42,50 @@
                       </div>
                       <div class="flex-shrink-0">
                           <div class="d-flex gap-1 align-items-center">
-                              <button type="button" class="btn avatar-xs mt-n1 p-0 favourite-btn heart_icon_{{data.id}}" [ngClass]="{'active': data.isIcon !== true}" (click)="activeMenu(data.id)">
+                              <!--<button type="button" class="btn avatar-xs mt-n1 p-0 favourite-btn heart_icon_{{data.id}}" [ngClass]="{'active': data.isIcon !== true}" (click)="activeMenu(data.id)">
                                   <span class="avatar-title bg-transparent fs-15">
                                       <i class="ri-star-fill"></i>
                                   </span>
-                              </button>
+                              </button>-->
                               <div class="dropdown" ngbDropdown>
                                   <button class="btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 arrow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ngbDropdownToggle>
                                       <i-feather name="more-horizontal" class="icon-sm"></i-feather>
                                   </button>
 
                                   <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                      <a class="dropdown-item" routerLink="/projects/overview"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                      <a class="dropdown-item" routerLink="/projects/create"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
+                                      <a class="dropdown-item" routerLink="/projects/overview"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Ver</a>
+                                      <a class="dropdown-item" routerLink="/projects/create"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Editar</a>
                                       <div class="dropdown-divider"></div>
-                                      <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#removeProjectModal" (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
+                                      <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#removeProjectModal" (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Quitar</a>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>
                   <div class="d-flex mb-2">
-                      <div class="flex-shrink-0 me-3">
+                      <!--<div class="flex-shrink-0 me-3">
                           <div class="avatar-sm">
                               <span class="avatar-title bg-soft-warning rounded p-2">
                                   <img src="{{data.img}}" alt="" class="img-fluid p-1">
                               </span>
                           </div>
-                      </div>
+                      </div>-->
                       <div class="flex-grow-1">
-                          <h5 class="mb-1 fs-15"><a routerLink="/projects/overview" class="text-dark">{{data.label}}</a></h5>
+                          <h5 class="mb-1 fs-15"><label><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.label}}</label></h5>
                           <p class="text-muted text-truncate-two-lines mb-3">{{data.caption}}</p>
                       </div>
                   </div>
                   <div class="mt-auto">
                       <div class="d-flex mb-2">
                           <div class="flex-grow-1">
-                              <div>Tasks</div>
+                              <div>Creado por: Jhoan Zerpa</div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="mt-auto">
+                      <div class="d-flex mb-2">
+                          <div class="flex-grow-1">
+                              <div>Identificación</div>
                           </div>
                           <div class="flex-shrink-0">
                               <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number}}</div>
@@ -95,7 +102,7 @@
           <div class="card-footer bg-transparent border-top-dashed py-2">
               <div class="d-flex align-items-center">
                   <div class="flex-grow-1">
-                      <div class="avatar-group">
+                      <!--<div class="avatar-group">
                         <div class="avatar-group-item" *ngFor="let user of data.users">
                           <a href="javascript: void(0);" class="d-block" ngbTooltip="{{user.name}}" placement="top" *ngIf="!user.profile">
                             <div class="avatar-xxs">
@@ -108,11 +115,11 @@
                               <img :src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
                           </a>
                         </div>
-                      </div>
+                      </div>-->
                   </div>
                   <div class="flex-shrink-0">
                       <div class="text-muted">
-                          <i class="ri-calendar-event-fill me-1 align-bottom"></i>{{data.date}}
+                          Creado el <i class="ri-calendar-event-fill me-1 align-bottom"></i>{{data.date}}
                       </div>
                   </div>
 

@@ -282,6 +282,16 @@
           }
         }
       }
+    },
+    "LIBRARY": {
+      "TEXT": "Biblioteca"
+    },
+    "PYS": {
+      "TEXT": "PyS",
+      "LIST": {
+        "QUOTE": "Cotizar",
+        "REQUEST": "Solicitud"
+      }
     }
   }
 }

@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Component Pages
 import { MaintenanceComponent } from "./maintenance/maintenance.component";
 import { ComingSoonComponent } from "./coming-soon/coming-soon.component";
-
+import { StepsComponent } from "./steps/steps.component";
 const routes: Routes = [
   {
     path: "maintenance",
@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: "coming-soon",
     component:ComingSoonComponent
+  },
+  {
+    path: "steps",
+    component:StepsComponent
   }
 ];
 

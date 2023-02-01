@@ -39,8 +39,8 @@ export class ListComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Projects' },
-      { label: 'Project List', active: true }
+      { label: 'Proyectos' },
+      { label: 'Lista de Proyectos', active: true }
     ];
 
     /**
