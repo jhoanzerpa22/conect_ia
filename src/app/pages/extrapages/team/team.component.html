@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Team" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Usuarios" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <div class="card">
@@ -8,7 +8,7 @@
             <div class="col-sm-4">
                 <div class="search-box">
                     <input type="text" class="form-control"
-                        placeholder="Search for name, tasks, projects or something..." [(ngModel)]="term">
+                        placeholder="Buscar por nombre, proyectos o algo..." [(ngModel)]="term">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -33,14 +33,14 @@
                                                     <div class="col team-settings">
                                                         <div class="row">
                                                             <div class="col">
-                                                                <div class="flex-shrink-0 me-2">
+                                                                <!--<div class="flex-shrink-0 me-2">
                                                                     <button type="button"
                                                                         class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn star_{{data.id}}"
                                                                         [ngClass]="{'active': data.isActive == true}"
                                                                         (click)="activeMenu(data.id)">
                                                                         <i class="ri-star-fill fs-14"></i>
                                                                     </button>
-                                                                </div>
+                                                                </div>-->
                                                             </div>
                                                             <div class="col text-end dropdown" ngbDropdown>
                                                                 <a href="javascript:void(0);" class="arrow-none"
@@ -52,16 +52,16 @@
                                                                     aria-labelledby="dropdownMenuLink2" ngbDropdownMenu>
                                                                     <li><a class="dropdown-item"
                                                                             href="javascript:void(0);"><i
-                                                                                class="ri-eye-line me-2 align-middle"></i>View</a>
+                                                                                class="ri-eye-line me-2 align-middle"></i>Ver</a>
                                                                     </li>
-                                                                    <li><a class="dropdown-item"
+                                                                    <!--<li><a class="dropdown-item"
                                                                             href="javascript:void(0);"><i
                                                                                 class="ri-star-line me-2 align-middle"></i>Favorites</a>
-                                                                    </li>
+                                                                    </li>-->
                                                                     <li><a class="dropdown-item"
                                                                             href="javascript:void(0);"
                                                                             (click)="confirm(deleteModel,data.id)"><i
-                                                                                class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a>
+                                                                                class="ri-delete-bin-5-line me-2 align-middle"></i>Borrar</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -95,18 +95,18 @@
                                                         <div class="row text-muted text-center">
                                                             <div class="col-6 border-end border-end-dashed">
                                                                 <h5 class="mb-1">{{data.projectCount}}</h5>
-                                                                <p class="text-muted mb-0">Projects</p>
+                                                                <p class="text-muted mb-0">Proyectos</p>
                                                             </div>
                                                             <div class="col-6">
                                                                 <h5 class="mb-1">{{data.taskCount}}</h5>
-                                                                <p class="text-muted mb-0">Tasks</p>
+                                                                <p class="text-muted mb-0">Tareas</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-2 col">
                                                         <div class="text-end">
                                                             <a routerLink="/pages/profile"
-                                                                class="btn btn-light view-btn">View Profile</a>
+                                                                class="btn btn-light view-btn">Ver Perfil</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -118,8 +118,7 @@
                                     <div class="col-lg-12">
                                         <div class="text-center mb-3">
                                             <a href="javascript:void(0);" class="text-success arrow-none"><i
-                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Load
-                                                More </a>
+                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Cargar Mas </a>
                                         </div>
                                     </div>
                                 </div>
@@ -143,14 +142,14 @@
                                                     <div class="col team-settings">
                                                         <div class="row">
                                                             <div class="col">
-                                                                <div class="flex-shrink-0 me-2">
+                                                                <!--<div class="flex-shrink-0 me-2">
                                                                     <button type="button"
                                                                         class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn star_{{data.id}}"
                                                                         [ngClass]="{'active': data.isActive == true}"
                                                                         (click)="activeMenu(data.id)">
                                                                         <i class="ri-star-fill fs-14"></i>
                                                                     </button>
-                                                                </div>
+                                                                </div>-->
                                                             </div>
                                                             <div class="col text-end dropdown" ngbDropdown>
                                                                 <a href="javascript:void(0);" class="arrow-none"
@@ -162,16 +161,16 @@
                                                                     aria-labelledby="dropdownMenuLink2" ngbDropdownMenu>
                                                                     <li><a class="dropdown-item"
                                                                             href="javascript:void(0);"><i
-                                                                                class="ri-eye-line me-2 align-middle"></i>View</a>
+                                                                                class="ri-eye-line me-2 align-middle"></i>Ver</a>
                                                                     </li>
-                                                                    <li><a class="dropdown-item"
+                                                                    <!--<li><a class="dropdown-item"
                                                                             href="javascript:void(0);"><i
                                                                                 class="ri-star-line me-2 align-middle"></i>Favorites</a>
-                                                                    </li>
+                                                                    </li>-->
                                                                     <li><a class="dropdown-item"
                                                                             href="javascript:void(0);"
                                                                             (click)="confirm(deleteModel,data.id)"><i
-                                                                                class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a>
+                                                                                class="ri-delete-bin-5-line me-2 align-middle"></i>Borrar</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -205,18 +204,18 @@
                                                         <div class="row text-muted text-center">
                                                             <div class="col-6 border-end border-end-dashed">
                                                                 <h5 class="mb-1">{{data.projectCount}}</h5>
-                                                                <p class="text-muted mb-0">Projects</p>
+                                                                <p class="text-muted mb-0">Proyectos</p>
                                                             </div>
                                                             <div class="col-6">
                                                                 <h5 class="mb-1">{{data.taskCount}}</h5>
-                                                                <p class="text-muted mb-0">Tasks</p>
+                                                                <p class="text-muted mb-0">Tareas</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-2 col">
                                                         <div class="text-end">
                                                             <a routerLink="/pages/profile"
-                                                                class="btn btn-light view-btn">View Profile</a>
+                                                                class="btn btn-light view-btn">Ver Perfil</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -228,8 +227,7 @@
                                     <div class="col-lg-12">
                                         <div class="text-center mb-3">
                                             <a href="javascript:void(0);" class="text-success"><i
-                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Load
-                                                More </a>
+                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Cargar Mas </a>
                                         </div>
                                     </div>
                                 </div>
@@ -241,13 +239,13 @@
                         class="btn btn-soft-info btn-icon fs-14 arrow-none" ngbDropdownToggle><i
                             class="ri-more-2-fill"></i></button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1" ngbDropdownMenu>
-                        <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">Last Week</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">Last Month</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">Last Year</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Todos</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Ultima semana</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Ultimo mes</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Ultimo año</a></li>
                     </ul>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addmembers"
-                        (click)="openModal(content)"><i class="ri-add-fill me-1 align-bottom"></i> Add Members</button>
+                        (click)="openModal(content)"><i class="ri-add-fill me-1 align-bottom"></i> Agregar Usuario</button>
                 </div>
             </div>
             <!--end col-->
@@ -276,8 +274,7 @@
 
                                         <div class="d-flex position-absolute start-0 end-0 top-0 p-3">
                                             <div class="flex-grow-1">
-                                                <h5 class="modal-title text-white" id="createMemberLabel">Add New
-                                                    Members</h5>
+                                                <h5 class="modal-title text-white" id="createMemberLabel">Agregar Nuevo Usuario</h5>
                                             </div>
                                             <div class="flex-shrink-0">
                                                 <div class="d-flex gap-3 align-items-center">
@@ -331,40 +328,40 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="teammembersName" class="form-label">Name</label>
+                                    <label for="teammembersName" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="teammembersName"
-                                        placeholder="Enter name" formControlName="name"
+                                        placeholder="Ingresar Nombre" formControlName="name"
                                         [ngClass]="{ 'is-invalid': submitted && form['name'].errors }">
-                                    <div class="invalid-feedback">Please Enter a member name.</div>
+                                    <div class="invalid-feedback">Ingrese Nombre.</div>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="designation" class="form-label">Designation</label>
+                                    <label for="designation" class="form-label">Descripción</label>
                                     <input type="text" class="form-control" id="designation"
-                                        placeholder="Enter designation" formControlName="designation"
+                                        placeholder="Ingresar descripción" formControlName="designation"
                                         [ngClass]="{ 'is-invalid': submitted && form['designation'].errors }">
-                                    <div class="invalid-feedback">Please Enter a designation.</div>
+                                    <div class="invalid-feedback">Ingrese descripción.</div>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="totalProjects" class="form-label">Projects</label>
+                                    <label for="totalProjects" class="form-label">Proyectos</label>
                                     <input type="number" class="form-control" id="totalProjects"
-                                        placeholder="Total projects" formControlName="projects"
+                                        placeholder="Total proyectos" formControlName="projects"
                                         [ngClass]="{ 'is-invalid': submitted && form['projects'].errors }">
-                                    <div class="invalid-feedback">Please Enter a projectd.</div>
+                                    <div class="invalid-feedback">Ingrese un proyecto.</div>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="totalTasks" class="form-label">Tasks</label>
-                                    <input type="number" class="form-control" id="totalTasks" placeholder="Total tasks"
+                                    <label for="totalTasks" class="form-label">Tareas</label>
+                                    <input type="number" class="form-control" id="totalTasks" placeholder="Total tareas"
                                         formControlName="tasks"
                                         [ngClass]="{ 'is-invalid': submitted && form['tasks'].errors }">
-                                    <div class="invalid-feedback">Please Enter a tasks.</div>
+                                    <div class="invalid-feedback">Ingrese una tarea.</div>
                                 </div>
 
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Close</button>
-                                    <button type="submit" class="btn btn-success" id="addNewMember" (click)="modal.dismiss('Cross click')">Add Member</button>
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Cerrar</button>
+                                    <button type="submit" class="btn btn-success" id="addNewMember" (click)="modal.dismiss('Cross click')">Agregar Usuario</button>
                                 </div>
                             </div>
                         </div>
@@ -381,12 +378,12 @@
                         <div class="team-settings">
                             <div class="row">
                                 <div class="col">
-                                    <div class="bookmark-icon flex-shrink-0 me-2">
+                                    <!--<div class="bookmark-icon flex-shrink-0 me-2">
                                         <input type="checkbox" id="favourite13" class="bookmark-input bookmark-hide">
                                         <label class="btn-star fs-16 favourite-btn">
                                             <i class="ri-star-fill"></i>
                                         </label>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="col text-end dropdown" ngbDropdown>
                                     <a href="javascript:void(0);" class="arrow-none" id="dropdownMenuLink14"
@@ -396,11 +393,11 @@
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink14"
                                         ngbDropdownMenu>
                                         <li><a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="ri-eye-line me-2 align-middle"></i>View</a></li>
+                                                    class="ri-eye-line me-2 align-middle"></i>Ver</a></li>
+                                        <!--<li><a class="dropdown-item" href="javascript:void(0);"><i
+                                                    class="ri-star-line me-2 align-middle"></i>Favorites</a></li>-->
                                         <li><a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="ri-star-line me-2 align-middle"></i>Favorites</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a></li>
+                                                    class="ri-delete-bin-5-line me-2 align-middle"></i>Borrar</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -445,21 +442,21 @@
                         <div class="col-6">
                             <div class="p-3 border border-dashed border-start-0">
                                 <h5 class="mb-1 project_count">124</h5>
-                                <p class="text-muted mb-0">Projects</p>
+                                <p class="text-muted mb-0">Proyectos</p>
                             </div>
                         </div>
                         <!--end col-->
                         <div class="col-6">
                             <div class="p-3 border border-dashed border-start-0">
                                 <h5 class="mb-1 task_count">81</h5>
-                                <p class="text-muted mb-0">Tasks</p>
+                                <p class="text-muted mb-0">Tareas</p>
                             </div>
                         </div>
                         <!--end col-->
                     </div>
                     <!--end row-->
                     <div class="p-3">
-                        <h5 class="fs-15 mb-3">Personal Details</h5>
+                        <h5 class="fs-15 mb-3">Detalles Personales</h5>
                         <div class="mb-3">
                             <p class="text-muted text-uppercase fw-semibold fs-12 mb-2">Number</p>
                             <h6>+(256) 2451 8974</h6>
@@ -538,7 +535,7 @@
                     <button class="btn btn-light w-100"><i class="ri-question-answer-fill align-bottom ms-1"></i> Send
                         Message</button>
                     <a routerLink="/pages/profile" class="btn btn-primary w-100"><i
-                            class="ri-user-3-fill align-bottom ms-1"></i> View Profile</a>
+                            class="ri-user-3-fill align-bottom ms-1"></i> Ver Perfil</a>
                 </div>
             </ng-template>
         </div>
