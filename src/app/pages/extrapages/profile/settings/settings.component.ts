@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../../../../core/services/token-storage.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,10 +11,12 @@ import { Component, OnInit } from '@angular/core';
  * Profile Settings Component
  */
 export class SettingsComponent implements OnInit {
+  userData:any;
 
-  constructor() { }
+  constructor(private TokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    this.userData =  this.TokenStorageService.getUser();    
   }
 
   /**
