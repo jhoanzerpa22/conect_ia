@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { MENU } from './menu_orig';
+import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 
 @Component({
