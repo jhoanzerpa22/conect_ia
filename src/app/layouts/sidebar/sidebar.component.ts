@@ -5,6 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 
+import { TokenStorageService } from '../../core/services/token-storage.service';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -17,12 +19,16 @@ export class SidebarComponent implements OnInit {
   menuItems: MenuItem[] = [];
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
+  userData:any;
 
-  constructor(private router: Router, public translate: TranslateService) {
+  constructor(private router: Router, public translate: TranslateService,private TokenStorageService : TokenStorageService) {
     translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {
+    
+    this.userData =  this.TokenStorageService.getUser();   
+    
     // Menu Items
     this.menuItems = MENU;
   }
