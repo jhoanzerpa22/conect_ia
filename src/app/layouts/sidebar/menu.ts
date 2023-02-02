@@ -47,6 +47,7 @@ export const MENU: MenuItem[] = [
     id: 8,
     label: 'MENUITEMS.DASHBOARD.LIST.USERS',
     icon: 'ri-user-3-line',
-    link: '/pages/team'
+    link: '/pages/team',
+    onlyAdmin: true
   }
 ];

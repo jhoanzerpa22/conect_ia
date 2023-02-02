@@ -32,8 +32,8 @@ export class TeamComponent {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Pages' },
-      { label: 'Team', active: true }
+      { label: 'Usuarios', active: true }/*,
+      { label: 'Team', active: true }*/
     ];
 
     /**
