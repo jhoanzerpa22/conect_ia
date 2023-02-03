@@ -239,4 +239,9 @@ export class TopbarComponent implements OnInit {
     searchInputReponsive.value = "";
   }
 
+  irPerfil(){
+    this.TokenStorageService.saveUserProfile(this.userData);
+    this.router.navigate(['/pages/profile']);
+  }
+
 }

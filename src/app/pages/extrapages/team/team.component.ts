@@ -3,9 +3,15 @@ import { NgbModal, NgbOffcanvas  } from '@ng-bootstrap/ng-bootstrap';
 import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
+import { UserProfileService } from '../../../core/services/user.service';
+import { first } from 'rxjs/operators';
 
-import {teamModel} from './team.model';
+
+//import {teamModel} from './team.model';
+import {userModel} from './user.model';
 import { Team } from './data';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team',
@@ -20,12 +26,13 @@ export class TeamComponent {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-  Team!: teamModel[];
+  Team!: userModel[];
   submitted = false;
   teamForm!: UntypedFormGroup;
   term:any;
 
-  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas) { }
+  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService,
+    private router: Router, private TokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     /**
@@ -40,10 +47,14 @@ export class TeamComponent {
      * Form Validation
      */
      this.teamForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      apellido: ['', [Validators.required]],
+      rut: ['', [Validators.required]],
+      telefono: [''],
+      email: ['', [,Validators.required, Validators.email]],/*
       designation: ['', [Validators.required]],
       projects: ['', [Validators.required]],
-      tasks: ['', [Validators.required]]
+      tasks: ['', [Validators.required]]*/
     });
 
      // Chat Data Get Function
@@ -52,7 +63,13 @@ export class TeamComponent {
 
   // Chat Data Fetch
   private _fetchData() {
-    this.Team = Team;
+
+    //this.Team = Team;
+    this.userService.get().pipe().subscribe(
+      (obj: any) => {
+        this.Team = obj.data;
+      }
+    )
   }
 
   /**
@@ -76,14 +93,15 @@ export class TeamComponent {
   */
    saveTeam() {
     if (this.teamForm.valid) {
+      /*
       const id = '10';
       const backgroundImg = 'assets/images/small/img-6.jpg';
       const userImage = null;
-      const name =  this.teamForm.get('name')?.value;
+      const nombre =  this.teamForm.get('name')?.value;
       const jobPosition = this.teamForm.get('designation')?.value;
       const projectCount = this.teamForm.get('projects')?.value;
-      const taskCount = this.teamForm.get('tasks')?.value;      
-      this.Team.push({
+      const taskCount = this.teamForm.get('tasks')?.value;*/      
+      /*this.Team.push({
         id,
         backgroundImg,
         userImage,
@@ -91,8 +109,22 @@ export class TeamComponent {
         jobPosition,
         projectCount,
         taskCount
+      });*/
+      const data = {
+        nombre: this.teamForm.get('nombre')?.value,
+        apellido: this.teamForm.get('apellido')?.value,
+        rut: this.teamForm.get('rut')?.value,
+        telefono: this.teamForm.get('telefono')?.value,
+        email: this.teamForm.get('email')?.value
+      };
+      this.userService.create(data).pipe(first()).subscribe(
+        (data: any) => {
+          this._fetchData();
+          this.modalService.dismissAll()
+        },
+      (error: any) => {
+        console.log(error);
       });
-      this.modalService.dismissAll()
     }
     this.submitted = true
   }
@@ -115,7 +147,15 @@ export class TeamComponent {
 
    // Delete Data
    deleteData(id:any) { 
-    document.getElementById('t_'+id)?.remove();
+    this.userService.delete(id)
+    .subscribe(
+      response => {
+        //this._fetchData();
+        document.getElementById('t_'+id)?.remove();
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   // View Data Get
@@ -126,14 +166,14 @@ export class TeamComponent {
     var profile_img = teamData[0].userImage ? 
       `<img src="`+teamData[0].userImage+`" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto">`:
       `<div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0 mx-auto fs-20">
-        <div class="avatar-title bg-soft-danger text-danger rounded-circle">`+teamData[0].name[0]+`</div>
+        <div class="avatar-title bg-soft-danger text-danger rounded-circle">`+teamData[0].nombre[0]+`</div>
       </div>`
     var img_data = (document.querySelector('.profile-offcanvas .team-cover img') as HTMLImageElement);
     img_data.src = teamData[0].backgroundImg;
     var profile = (document.querySelector('.profileImg') as HTMLImageElement);
     profile.innerHTML = profile_img;
-    (document.querySelector('.profile-offcanvas .p-3 .mt-3 h5') as HTMLImageElement).innerHTML = teamData[0].name;
-    (document.querySelector('.profile-offcanvas .p-3 .mt-3 p') as HTMLImageElement).innerHTML = teamData[0].jobPosition;
+    (document.querySelector('.profile-offcanvas .p-3 .mt-3 h5') as HTMLImageElement).innerHTML = teamData[0].nombre;
+    (document.querySelector('.profile-offcanvas .p-3 .mt-3 p') as HTMLImageElement).innerHTML = teamData[0].email;
     (document.querySelector('.project_count') as HTMLImageElement).innerHTML = teamData[0].projectCount;
     (document.querySelector('.task_count') as HTMLImageElement).innerHTML = teamData[0].taskCount;
   }
@@ -176,6 +216,11 @@ export class TeamComponent {
       (document.getElementById('cover-img') as HTMLImageElement).src = this.bgimageURL;
     }
     reader.readAsDataURL(file)
+  }
+
+  irPerfil(userData: any){
+    this.TokenStorageService.saveUserProfile(userData);
+    this.router.navigate(['/pages/profile']);
   }
 
 }

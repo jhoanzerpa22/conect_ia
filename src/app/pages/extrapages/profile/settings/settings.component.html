@@ -31,7 +31,7 @@
                             </label>
                         </div>
                     </div>
-                    <h5 class="fs-16 mb-1">{{userData.first_name}} {{userData.last_name}}</h5>
+                    <h5 class="fs-16 mb-1">{{userData.nombre}} {{userData.apellido}}</h5>
                     <p class="text-muted mb-0">{{userData.role}}</p>
                 </div>
             </div>
@@ -114,42 +114,61 @@
                             Detalles Personales
                         </a>
                         <ng-template ngbNavContent>
-                            <form action="javascript:void(0);">
+                            <form (ngSubmit)="updateUser()" [formGroup]="userForm">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">Nombre</label>
                                             <input type="text" class="form-control" id="firstnameInput"
-                                                placeholder="Ingresa tu nombre" value="{{userData.first_name}}">
+                                                placeholder="Ingresa tu nombre" value="{{userData.nombre}}" required formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }">
+                                            <div class="invalid-feedback">
+                                                Nombre requerido
+                                            </div>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="lastnameInput" class="form-label">Apellido</label>
                                             <input type="text" class="form-control" id="lastnameInput"
-                                                placeholder="Ingresa tu apellido" value=" {{userData.last_name}}">
+                                                placeholder="Ingresa tu apellido" value="{{userData.apellido}}" required formControlName="apellido" [ngClass]="{ 'is-invalid': submitted && f['apellido'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Apellido requerido
+                                                </div>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="phonenumberInput" class="form-label">Telefóno</label>
                                             <input type="text" class="form-control" id="phonenumberInput"
-                                                placeholder="Ingresa tu telefóno" value="+(1) 987 6543">
+                                                placeholder="Ingresa tu telefóno" value="{{userData.telefono}}"  formControlName="telefono">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
+                                            <label for="rutInput" class="form-label">RUT</label>
+                                            <input type="text" class="form-control" id="rutInput"
+                                                placeholder="Ingresa tu RUT" value="{{userData.rut}}" required formControlName="rut" [ngClass]="{ 'is-invalid': submitted && f['rut'].errors }">
+                                                <div class="invalid-feedback">
+                                                    RUT requerido
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
                                             <label for="emailInput" class="form-label">Correo Electrónico</label>
                                             <input type="email" class="form-control" id="emailInput"
-                                                placeholder="Ingresa tu correo Electrónico" value=" {{userData.email}}">
+                                                placeholder="Ingresa tu correo Electrónico" value="{{userData.email}}" required formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Correo Electrónico requerido
+                                                </div>
                                         </div>
                                     </div><!--end col-->
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">Dia de Ingreso</label>
                                             <input class="form-control flatpickr-input" type="text"
                                                 placeholder="Seleccionar dia" mwlFlatpickr [altInput]="true"
-                                                [convertModelValue]="true">
+                                                [convertModelValue]="true" formControlName="joinDate">
                                         </div>
                                     </div><!--end col-->
                                     <!--<div class="col-lg-12">
@@ -171,28 +190,28 @@
                                             <input type="text" class="form-control" id="websiteInput1"
                                                 placeholder="www.example.com" value="www.velzon.com" />
                                         </div>
-                                    </div>-->
+                                    </div>
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="cityInput" class="form-label">Ciudad</label>
                                             <input type="text" class="form-control" id="cityInput" placeholder="City"
                                                 value="California" />
                                         </div>
-                                    </div><!--end col-->
+                                    </div>
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="countryInput" class="form-label">Región</label>
                                             <input type="text" class="form-control" id="countryInput"
                                                 placeholder="Country" value="United States" />
                                         </div>
-                                    </div><!--end col-->
-                                    <!--<div class="col-lg-4">
+                                    </div>
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="zipcodeInput" class="form-label">Zip Code</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="6"
                                                 id="zipcodeInput" placeholder="Enter zipcode" value="90011">
                                         </div>
-                                    </div>-->
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="mb-3 pb-2">
                                             <label for="exampleFormControlTextarea"
@@ -201,11 +220,11 @@
                                                 placeholder="Enter your description"
                                                 rows="3">Hi I'm Anna Adame,It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is European languages are members of the same family.</textarea>
                                         </div>
-                                    </div><!--end col-->
+                                    </div>-->
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
                                             <button type="submit" class="btn btn-primary">Modificar</button>
-                                            <button type="button" class="btn btn-soft-success">Cancelar</button>
+                                            <button routerLink="/pages/profile" type="button" class="btn btn-soft-success">Cancelar</button>
                                         </div>
                                     </div><!--end col-->
                                 </div><!--end row-->
