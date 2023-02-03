@@ -36,7 +36,7 @@ export class AuthenticationService {
      * @param email email
      * @param password password
      */
-    register(email: string, first_name: string, password: string, confirm_password: string) {        
+    register(email: string, nombre: string, password: string, confirm_password: string) {        
         // return getFirebaseBackend()!.registerUser(email, password).then((response: any) => {
         //     const user = response;
         //     return user;
@@ -45,8 +45,8 @@ export class AuthenticationService {
         // Register Api
         return this.http.post(AUTH_API + 'signUp', {
             "email": email,
-            "nombre": first_name,/*
-            "apellido": last_name,
+            "nombre": nombre,/*
+            "apellido": apellido,
             "rut": rut,
             "telefono": telefono,*/
             "password": password,

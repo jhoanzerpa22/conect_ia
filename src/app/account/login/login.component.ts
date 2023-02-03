@@ -70,10 +70,10 @@ export class LoginComponent implements OnInit {
       if(data.data){
         const user: any = {
         "_id": data.data.user.id,
-        "first_name": data.data.user.nombre,
-        "last_name": data.data.user.apellido,
+        "nombre": data.data.user.nombre,
+        "apellido": data.data.user.apellido,
         "email": data.data.user.email,
-        "phone": data.data.user.telefono,
+        "telefono": data.data.user.telefono,
         "role": "admin"
         };
         localStorage.setItem('toast', 'true');

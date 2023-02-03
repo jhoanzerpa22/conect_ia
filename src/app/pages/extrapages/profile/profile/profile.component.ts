@@ -42,7 +42,7 @@ export class ProfileComponent {
    }
 
   ngOnInit(): void {
-    this.userData =  this.TokenStorageService.getUser();    
+    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();  
     /**
      * Fetches the data
      */
