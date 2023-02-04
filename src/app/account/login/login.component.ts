@@ -53,6 +53,11 @@ export class LoginComponent implements OnInit {
     });
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    if (localStorage.getItem('toast')) {
+      this.toastService.show('Registro exitoso.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      localStorage.removeItem('toast');
+    }
   }
 
   // convenience getter for easy access to form fields

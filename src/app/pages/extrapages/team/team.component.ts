@@ -12,6 +12,7 @@ import {userModel} from './user.model';
 import { Team } from './data';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../toast-service';
 
 @Component({
   selector: 'app-team',
@@ -30,9 +31,9 @@ export class TeamComponent {
   submitted = false;
   teamForm!: UntypedFormGroup;
   term:any;
+  showLoad: boolean = false;
 
-  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService,
-    private router: Router, private TokenStorageService: TokenStorageService) { }
+  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService) { }
 
   ngOnInit(): void {
     /**
@@ -64,10 +65,12 @@ export class TeamComponent {
   // Chat Data Fetch
   private _fetchData() {
 
+    this.showLoad = true;
     //this.Team = Team;
     this.userService.get().pipe().subscribe(
       (obj: any) => {
         this.Team = obj.data;
+        this.showLoad = false;
       }
     )
   }
@@ -119,11 +122,13 @@ export class TeamComponent {
       };
       this.userService.create(data).pipe(first()).subscribe(
         (data: any) => {
+          this.toastService.show('Registro exitoso.', { classname: 'bg-success text-center text-white', delay: 5000 });
           this._fetchData();
           this.modalService.dismissAll()
         },
       (error: any) => {
         console.log(error);
+        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
       });
     }
     this.submitted = true
@@ -150,11 +155,13 @@ export class TeamComponent {
     this.userService.delete(id)
     .subscribe(
       response => {
-        //this._fetchData();
+        this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+        this._fetchData();
         document.getElementById('t_'+id)?.remove();
       },
       error => {
         console.log(error);
+        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
       });
   }
 
