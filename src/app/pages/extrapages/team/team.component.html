@@ -4,6 +4,7 @@
 
 <div class="card">
     <div class="card-body">
+        <app-toastst aria-live="polite" aria-atomic="true"></app-toastst>
         <div class="row g-2">
             <div class="col-sm-4">
                 <div class="search-box">
@@ -115,12 +116,12 @@
                                         <!--end card-->
                                     </div>
                                     <!--end col-->
-                                    <!--<div class="col-lg-12">
-                                        <div class="text-center mb-3">
+                                    <div class="col-lg-12">
+                                        <div class="text-center mb-3" *ngIf="showLoad">
                                             <a href="javascript:void(0);" class="text-success arrow-none"><i
-                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Cargar Mas </a>
+                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Cargando... </a>
                                         </div>
-                                    </div>-->
+                                    </div>
                                 </div>
                                 <!--end row-->
                             </ng-template>
@@ -137,7 +138,7 @@
                                             <div class="team-cover">
                                                 <img src="{{data.backgroundImg}}" alt="" class="img-fluid" />
                                             </div>
-                                            <div class="card-body p-4">
+                                            <div class="card-body p-4">                
                                                 <div class="row align-items-center team-row">
                                                     <div class="col team-settings">
                                                         <div class="row">
@@ -224,12 +225,12 @@
                                         <!--end card-->
                                     </div>
                                     <!--end col-->
-                                    <!--<div class="col-lg-12">
+                                    <div class="col-lg-12" *ngIf="showLoad">
                                         <div class="text-center mb-3">
                                             <a href="javascript:void(0);" class="text-success"><i
-                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Cargar Mas </a>
+                                                    class="mdi mdi-loading mdi-spin fs-20 align-middle me-2"></i> Cargando... </a>
                                         </div>
-                                    </div>-->
+                                    </div>
                                 </div>
                                 <!--end row-->
                             </ng-template>
@@ -253,7 +254,6 @@
         <!--end row-->
     </div>
 </div>
-
 <div class="row">
     <div class="col-lg-12">
         <div>
