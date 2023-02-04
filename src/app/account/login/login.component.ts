@@ -53,6 +53,11 @@ export class LoginComponent implements OnInit {
     });
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    if (localStorage.getItem('toast')) {
+      this.toastService.show('Registro exitoso.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      localStorage.removeItem('toast');
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -70,10 +75,10 @@ export class LoginComponent implements OnInit {
       if(data.data){
         const user: any = {
         "_id": data.data.user.id,
-        "first_name": data.data.user.nombre,
-        "last_name": data.data.user.apellido,
+        "nombre": data.data.user.nombre,
+        "apellido": data.data.user.apellido,
         "email": data.data.user.email,
-        "phone": data.data.user.telefono,
+        "telefono": data.data.user.telefono,
         "role": "admin"
         };
         localStorage.setItem('toast', 'true');

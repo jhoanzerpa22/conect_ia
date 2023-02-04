@@ -47,10 +47,10 @@
                                       </div>
                                   </div>
                                   <div class="mb-3">
-                                      <label for="username" class="form-label">Usuario <span class="text-danger">*</span></label>
-                                      <input type="text" class="form-control" id="username" placeholder="Ingresar usuario" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                      <label for="username" class="form-label">Nombre <span class="text-danger">*</span></label>
+                                      <input type="text" class="form-control" id="username" placeholder="Ingresar Nombre" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
                                       <div class="invalid-feedback">
-                                          Usuario requerido
+                                          Nombre requerido
                                       </div>
                                   </div>
 
@@ -125,3 +125,4 @@
   <!-- end Footer -->
 </div>
 <!-- end auth-page-wrapper -->
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

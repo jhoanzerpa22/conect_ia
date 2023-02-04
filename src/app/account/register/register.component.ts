@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../core/services/auth.service';
 import { UserProfileService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { ToastService } from '../login/toast-service';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +30,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: UntypedFormBuilder, private router: Router,
     private authenticationService: AuthenticationService,
-    private userService: UserProfileService) { }
+    private userService: UserProfileService,public toastService: ToastService) { }
 
   ngOnInit(): void {
     /**
@@ -57,11 +58,16 @@ export class RegisterComponent implements OnInit {
       (data: any) => {
       this.successmsg = true;
       if (this.successmsg) {
+        
+        localStorage.setItem('toast', 'true');
         this.router.navigate(['/auth/login']);
+      }else{
+        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
       }
     },
     (error: any) => {
-      this.error = error ? error : '';
+      //this.error = error ? error : '';
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
 
     // stop here if form is invalid
