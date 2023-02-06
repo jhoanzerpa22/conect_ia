@@ -240,6 +240,8 @@ export class TopbarComponent implements OnInit {
   }
 
   irPerfil(){
+    const dataUser: any = this.userData;
+    dataUser.id = this.userData._id;
     this.TokenStorageService.saveUserProfile(this.userData);
     this.router.navigate(['/pages/profile']);
   }
