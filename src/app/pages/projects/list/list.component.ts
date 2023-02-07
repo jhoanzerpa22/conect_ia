@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -6,6 +6,7 @@ import { projectListWidgets, projectListWidgets1, projectListWidgets2 } from './
 import { projectListModel, projectListModel1, projectListModel2 } from './list.model';
 import { listService } from './list.service';
 import { DecimalPipe } from '@angular/common';
+import { NgxXmlToJsonService } from 'ngx-xml-to-json';
 
 @Component({
   selector: 'app-list',
@@ -27,11 +28,20 @@ export class ListComponent implements OnInit {
   projectmodel!: Observable<projectListModel2[]>;
   total: Observable<number>;
   sellers?: any;
+  xml= `<contact-info><address category = "Profile" type = "Address" ><name color='white'><![CDATA[ Welcome to XML Converter]]>XML Parser</name><company>OpenSource</company><phone>(011) 123-4567</phone></address><address/><personal category = "Name"> XML Parser</personal></contact-info>`;
+  
 
   constructor(private modalService: NgbModal,
-    public service: listService) {
+    public service: listService, private ngxXmlToJsonService: NgxXmlToJsonService) {
     this.projectmodel = service.companies$;
     this.total = service.total$;
+    const options = { // set up the default options 
+      textKey: 'text', // tag name for text nodes
+      attrKey: 'attr', // tag for attr groups
+      cdataKey: 'cdata', // tag for cdata nodes (ignored if mergeCDATA is true)
+    };
+    const jsonObj = this.ngxXmlToJsonService.xmlToJson(this.xml, options);
+    console.log('json:',jsonObj);
   }
 
   ngOnInit(): void {

@@ -84,11 +84,13 @@
     "ngx-nestable": "^0.9.4",
     "ngx-ui-switch": "^14.0.3",
     "ngx-useful-swiper": "^10.0.1",
+    "ngx-xml-to-json": "^1.0.5",
     "prismjs": "^1.29.0",
     "rxjs": "^7.6.0",
     "simplebar-angular": "^2.5.0",
     "sweetalert2": "^11.6.15",
     "tslib": "^2.4.1",
+    "xml2js": "^0.4.23",
     "zone.js": "^0.12.0"
   },
   "devDependencies": {
