@@ -5,8 +5,8 @@
 <div class="row g-4 mb-3">
   <div class="col-sm-auto">
       <div>
-          <a routerLink="/projects/create" class="btn btn-danger"><i
-                  class="ri-add-line align-bottom me-1"></i> Crea un Proyecto</a>
+          <a routerLink="/projects/create" class="btn btn-danger">
+            <!--<i class="ri-add-line align-bottom me-1"></i> -->Crea un Proyecto</a>
       </div>
   </div>
   <div class="col-sm">
@@ -33,7 +33,7 @@
 
 <div class="row">
   <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets" id="pl1_{{data.id}}">
-      <div class="card card-height-100" routerLink="/pages/steps" style="cursor: pointer;">
+      <div class="card card-height-100">
           <div class="card-body">
               <div class="d-flex flex-column h-100">
                   <div class="d-flex">
@@ -62,7 +62,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="d-flex mb-2">
+                  <div class="d-flex mb-2" routerLink="/pages/steps" style="cursor: pointer;">
                       <!--<div class="flex-shrink-0 me-3">
                           <div class="avatar-sm">
                               <span class="avatar-title bg-soft-warning rounded p-2">
@@ -126,14 +126,11 @@
               </div>
 
           </div>
-          <!-- end card footer -->
       </div>
-      <!-- end card -->
   </div>
-  <!-- end col -->
 </div>
-<!-- end row -->
 
+<!-- Inicio card with background
 <div class="row">
   <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets1" id="pl1_{{data.id}}">
       <div class="card">
@@ -214,15 +211,13 @@
               </div>
 
           </div>
-          <!-- end card body -->
       </div>
-      <!-- end card -->
   </div>
-  <!-- end col -->
-</div>
-<!-- end row -->
+</div>-->
+<!-- Fin con header background -->
 
-<div class="row">
+<!-- Inicio con header logo -->
+<!--<div class="row">
   <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets2" id="pl1_{{data.id}}">
       <div class="card">
           <div class="card-body">
@@ -299,32 +294,29 @@
               </div>
 
           </div>
-          <!-- end card body -->
       </div>
-      <!-- end card -->
   </div>
-  <!-- end col -->
-</div>
-<!-- end row -->
+</div>-->
+<!-- Fin with icon header -->
 
 <div class="row g-0 text-center text-sm-start align-items-center mb-4">
   <div class="col-sm-6">
       <div>
-          <p class="mb-sm-0 text-muted">Showing <span class="fw-semibold">1</span> to <span class="fw-semibold">10</span> of <span class="fw-semibold text-decoration-underline">12</span> entries</p>
+          <p class="mb-sm-0 text-muted">Mostrando <span class="fw-semibold">1</span> de <span class="fw-semibold">10</span> de <span class="fw-semibold text-decoration-underline">12</span> entradas</p>
       </div>
   </div>
   <!-- end col -->
   <div class="col-sm-6">
       <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
           <li class="page-item disabled">
-              <a href="javascript:void(0);" class="page-link">Previous</a>
+              <a href="javascript:void(0);" class="page-link">Anterior</a>
           </li>
           <li class="page-item active">
               <a href="javascript:void(0);" class="page-link">1</a>
           </li>
           <li class="page-item ">
               <a href="javascript:void(0);" class="page-link">2</a>
-          </li>
+          </li><!--
           <li class="page-item">
               <a href="javascript:void(0);" class="page-link">3</a>
           </li>
@@ -333,9 +325,9 @@
           </li>
           <li class="page-item">
               <a href="javascript:void(0);" class="page-link">5</a>
-          </li>
+          </li>-->
           <li class="page-item">
-              <a href="javascript:void(0);" class="page-link">Next</a>
+              <a href="javascript:void(0);" class="page-link">Siguiente</a>
           </li>
       </ul>
   </div><!-- end col -->
