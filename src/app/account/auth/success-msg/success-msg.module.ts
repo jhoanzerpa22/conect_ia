@@ -7,11 +7,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SuccessMsgRoutingModule } from "./success-msg-routing.module";
 import { CoverComponent } from './cover/cover.component';
 import { BasicComponent } from './basic/basic.component';
+import { PasswordComponent } from './password/password.component';
 
 @NgModule({
   declarations: [
     CoverComponent,
-    BasicComponent
+    BasicComponent,
+    PasswordComponent
   ],
   imports: [
     CommonModule,

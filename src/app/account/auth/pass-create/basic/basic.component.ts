@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import { AuthenticationService } from '../../../../core/services/auth.service';
+import { ToastService } from '../toast-service';
 
 @Component({
   selector: 'app-basic',
@@ -21,8 +24,10 @@ export class BasicComponent implements OnInit {
    returnUrl!: string;
    // set the current year
    year: number = new Date().getFullYear();
+   token_validate: any = '';
  
-   constructor(private formBuilder: UntypedFormBuilder) { }
+   constructor(private formBuilder: UntypedFormBuilder, private authenticationService: AuthenticationService, 
+    private _router: Router, private route: ActivatedRoute, public toastService: ToastService) { }
  
    ngOnInit(): void {
      /**
@@ -94,6 +99,10 @@ export class BasicComponent implements OnInit {
         }
       };
 
+      this.route.params.subscribe(params => {
+          this.validateToken(params['token']);
+      });
+
    }
  
    // convenience getter for easy access to form fields
@@ -109,6 +118,29 @@ export class BasicComponent implements OnInit {
      if (this.passresetForm.invalid) {
        return;
      }
+
+     //Change Password
+     this.authenticationService.updatePassword(this.f['password'].value,this.f['cpassword'].value, this.token_validate).subscribe(
+      (data: any) => {
+        this._router.navigate(['/auth/success-msg/password']);
+      },
+      (error: any) => {
+        console.log('error',error);
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+
+   }
+
+   validateToken(token: any){
+          //Validate Token
+          this.authenticationService.validToken(token).subscribe(
+            (data: any) => {
+              console.log('listo');
+              this.token_validate = data.token;
+          },
+          (error: any) => {
+            this._router.navigate(['/auth/errors/expire']);
+          });
    }
 
    /**

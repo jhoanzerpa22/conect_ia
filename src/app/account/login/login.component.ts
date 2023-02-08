@@ -32,8 +32,7 @@ export class LoginComponent implements OnInit {
   // set the current year
   year: number = new Date().getFullYear();
 
-  constructor(private formBuilder: UntypedFormBuilder,private authenticationService: AuthenticationService,private router: Router,
-    private authFackservice: AuthfakeauthenticationService,private route: ActivatedRoute,public toastService: ToastService) {
+  constructor(private formBuilder: UntypedFormBuilder,private authenticationService: AuthenticationService,private router: Router, private authFackservice: AuthfakeauthenticationService,private route: ActivatedRoute,public toastService: ToastService) {
       // redirect to home if already logged in
       if (this.authenticationService.currentUserValue) {
         this.router.navigate(['/']);
@@ -68,6 +67,10 @@ export class LoginComponent implements OnInit {
    */
    onSubmit() {
     this.submitted = true;
+
+    if (this.loginForm.invalid) {
+        return;
+    }
 
     // Login Api
     this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data:any) => { 
