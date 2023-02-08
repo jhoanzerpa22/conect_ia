@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';import { AuthenticationService } from '../../../../core/services/auth.service';
+import { ToastService } from '../toast-service';
 
 @Component({
   selector: 'app-basic',
@@ -21,7 +22,7 @@ export class BasicComponent implements OnInit {
   // set the current year
   year: number = new Date().getFullYear();
 
-  constructor(private formBuilder: UntypedFormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder, private authenticationService: AuthenticationService,public toastService: ToastService) { }
 
   ngOnInit(): void {
     /**
@@ -45,6 +46,18 @@ export class BasicComponent implements OnInit {
     if (this.passresetForm.invalid) {
       return;
     }
+
+    //Reset Password
+    this.authenticationService.resetPassword(this.f['email'].value).pipe().subscribe(
+      (data: any) => {
+        this.toastService.show(data, { classname: 'bg-success text-center text-white', delay: 5000 });
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      console.log('error:',error);
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+
   }
 
 }

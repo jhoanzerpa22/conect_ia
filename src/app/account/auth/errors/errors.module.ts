@@ -12,6 +12,7 @@ import { CoverComponent } from './cover/cover.component';
 import { AltComponent } from './alt/alt.component';
 import { Page500Component } from './page500/page500.component';
 import { OfflineComponent } from './offline/offline.component';
+import { TokenComponent } from './token/token.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { OfflineComponent } from './offline/offline.component';
     CoverComponent,
     AltComponent,
     Page500Component,
-    OfflineComponent
+    OfflineComponent,
+    TokenComponent
   ],
   imports: [
     CommonModule,

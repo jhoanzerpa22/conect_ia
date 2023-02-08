@@ -94,10 +94,37 @@ export class AuthenticationService {
      * @param email email
      */
     resetPassword(email: string) {
-        return getFirebaseBackend()!.forgetPassword(email).then((response: any) => {
+        /*return getFirebaseBackend()!.forgetPassword(email).then((response: any) => {
             const message = response.data;
             return message;
-        });
+        });*/
+        return this.http.post(AUTH_API + 'forgot-pass', {
+            "email": email
+          }, httpOptions);
+    }
+
+    /**
+     * Validate Token
+     * @param token token
+     */
+    validToken(token: string) {
+        return this.http.get(AUTH_API + 'check/'+token, httpOptions);
+    }
+
+    /**
+     * Update Password
+     * @param password password
+     * @param cpassword cpassword
+     */
+    updatePassword(password: string, cpassword: string, token: string) {
+        const httpOptionsToken = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` })
+          };
+
+        return this.http.put(AUTH_API + 'update-pass', {
+            "password": password,
+            "confirm_password": cpassword
+        }, httpOptionsToken);
     }
 
 }
