@@ -53,6 +53,10 @@ export class RegisterComponent implements OnInit {
    onSubmit() {
     this.submitted = true;
     
+    if (this.signupForm.invalid) {
+      return;
+    }
+
     //Register Api
     this.authenticationService.register(this.f['email'].value, this.f['name'].value, this.f['password'].value, this.f['confirm_password'].value).pipe(first()).subscribe(
       (data: any) => {
