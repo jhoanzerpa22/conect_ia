@@ -135,9 +135,7 @@ export class BasicComponent implements OnInit {
           //Validate Token
           this.authenticationService.validToken(token).subscribe(
             (data: any) => {
-              console.log('validado:',data);
-              console.log('token_generado:',data.token);
-              this.token_validate = data.token;
+              this.token_validate = data.data.token;
           },
           (error: any) => {
             this._router.navigate(['/auth/errors/expire']);
