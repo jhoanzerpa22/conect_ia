@@ -36,6 +36,10 @@ export class ProjectsComponent implements OnInit {
       { label: 'Projects', active: true }
     ];
 
+    if (localStorage.getItem('toast')) {
+      localStorage.removeItem('toast');
+    }
+
     /**
      * Fetches the data
      */
