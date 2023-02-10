@@ -50,7 +50,7 @@ export class BasicComponent implements OnInit {
     //Reset Password
     this.authenticationService.resetPassword(this.f['email'].value).pipe().subscribe(
       (data: any) => {
-        this.toastService.show(data, { classname: 'bg-success text-center text-white', delay: 5000 });
+        this.toastService.show(data.message, { classname: 'bg-success text-center text-white', delay: 5000 });
     },
     (error: any) => {
       //this.error = error ? error : '';
