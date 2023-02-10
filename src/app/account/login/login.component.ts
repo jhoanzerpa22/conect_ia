@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
         "telefono": data.data.user.telefono,
         "role": "admin"
         };
-        localStorage.setItem('toast', 'true');
+        //localStorage.setItem('toast', 'true');
         localStorage.setItem('currentUser', JSON.stringify(user));
         localStorage.setItem('token', data.data.token);
         this.router.navigate(['/']);
