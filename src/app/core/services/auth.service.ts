@@ -117,7 +117,8 @@ export class AuthenticationService {
      * @param cpassword cpassword
      */
     updatePassword(password: string, cpassword: string, token: string) {
-        const httpOptionsToken = {
+        console.log('enviando_token:',token);
+        var httpOptionsToken = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` })
           };
 
