@@ -1,6 +1,7 @@
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="Crear Proyecto" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
+<ng-container *ngIf="!typeCreate">
 <!-- Vertical alignment (align-items-center) -->
 <div class="row justify-content-center" style="padding-top: 10%;">
     <div class="col-lg-8">
@@ -8,9 +9,11 @@
         <div class="card">
             <div class="card-body">
                   <div class="mb-3">
+                    <form [formGroup]="createForm">
                     <label class="form-label" for="project-title-input">Nombre de Proyecto</label>
                     <input type="text" class="form-control" id="project-title-input"
-                        placeholder="Escribe nombre de Proyecto">
+                        placeholder="Escribe nombre de Proyecto" formControlName="nombre">
+                    </form>
                 </div>
             </div>
         </div>
@@ -20,7 +23,32 @@
 <div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
     <div class="row justify-content-end">
         <div class="col-4">
-            <a mat-raised-button routerLink="/projects/create/type" class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;">Siguiente</a>   
+            <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="siguiente()">Siguiente</button>   <!--routerLink="/projects/create/type"-->
         </div>
     </div>
 </div>
+</ng-container>
+<ng-container *ngIf="typeCreate">
+    <div class="row">
+        
+        <ng-container *ngFor="let t of types;let impar=odd;">
+        <div class="col-xxl-5">
+            <div class="card border card-border-dark" style="border-color: #767676 !important;">
+                <div class="card-header" style="background-color: #dce0e4 !important;">
+                    <h6 class="card-title mb-0">{{t.nombre}}</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{t.descripcion}}</p>
+                    <div class="text-end">
+                        <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" (click)="saveProject(t.id)">Iniciar</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col -->
+        
+        <div class="col-xxl-2" *ngIf="!impar">
+        </div>
+        </ng-container>
+    </div><!-- end row -->
+      
+</ng-container>
