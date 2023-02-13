@@ -12,7 +12,7 @@
   <div class="col-sm">
       <div class="d-flex justify-content-sm-end gap-2">
           <div class="search-box ms-2">
-              <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="service.searchTerm">
+              <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="term"><!--"service.searchTerm"-->
               <i class="ri-search-line search-icon"></i>
           </div>
 
@@ -32,13 +32,13 @@
 </div>
 
 <div class="row">
-  <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets" id="pl1_{{data.id}}">
+  <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets | filter:term" id="pl1_{{data.id}}">
       <div class="card card-height-100">
           <div class="card-body">
               <div class="d-flex flex-column h-100">
                   <div class="d-flex">
                       <div class="flex-grow-1">
-                          <p class="text-muted mb-4">{{data.time}}</p>
+                          <p class="text-muted mb-4">Updated {{ formatDate(data.updatedAt)}}</p>
                       </div>
                       <div class="flex-shrink-0">
                           <div class="d-flex gap-1 align-items-center">
@@ -71,8 +71,8 @@
                           </div>
                       </div>-->
                       <div class="flex-grow-1">
-                          <h5 class="mb-1 fs-15"><label><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.label}}</label></h5>
-                          <p class="text-muted text-truncate-two-lines mb-3">{{data.caption}}</p>
+                          <h5 class="mb-1 fs-15"><label><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.nombre}}</label></h5>
+                          <p class="text-muted text-truncate-two-lines mb-3">{{data.descripcion}}</p>
                       </div>
                   </div>
                   <div class="mt-auto">
@@ -88,11 +88,11 @@
                               <div>Identificación</div>
                           </div>
                           <div class="flex-shrink-0">
-                              <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number}}</div>
+                              <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : 0}}</div>
                           </div>
                       </div>
                       <div class="progress-sm animated-progess">
-                        <ngb-progressbar [value]="data.progressBar" type="success" class="progress-sm"></ngb-progressbar>
+                        <ngb-progressbar [value]="data.progressBar ? data.progressBar : 0" type="success" class="progress-sm"></ngb-progressbar>
                       </div><!-- /.progress -->
                   </div>
               </div>
@@ -119,7 +119,7 @@
                   </div>
                   <div class="flex-shrink-0">
                       <div class="text-muted">
-                          Creado el <i class="ri-calendar-event-fill me-1 align-bottom"></i>{{data.date}}
+                          Creado el <i class="ri-calendar-event-fill me-1 align-bottom"></i>{{formatDate(data.createdAt)}}
                       </div>
                   </div>
 
@@ -302,7 +302,7 @@
 <div class="row g-0 text-center text-sm-start align-items-center mb-4">
   <div class="col-sm-6">
       <div>
-          <p class="mb-sm-0 text-muted">Mostrando <span class="fw-semibold">1</span> de <span class="fw-semibold">10</span> de <span class="fw-semibold text-decoration-underline">12</span> entradas</p>
+          <p class="mb-sm-0 text-muted">Mostrando <span class="fw-semibold">1</span> de <span class="fw-semibold">10</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> entradas</p>
       </div>
   </div>
   <!-- end col -->
@@ -314,9 +314,9 @@
           <li class="page-item active">
               <a href="javascript:void(0);" class="page-link">1</a>
           </li>
-          <li class="page-item ">
+          <!--<li class="page-item ">
               <a href="javascript:void(0);" class="page-link">2</a>
-          </li><!--
+          </li>
           <li class="page-item">
               <a href="javascript:void(0);" class="page-link">3</a>
           </li>
@@ -328,29 +328,28 @@
           </li>-->
           <li class="page-item">
               <a href="javascript:void(0);" class="page-link">Siguiente</a>
-          </li>
-      </ul>
-  </div><!-- end col -->
-</div><!-- end row -->
-
-
-<!-- removeItemModal -->
-<ng-template #deleteModel let-modal>
-    <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
-      </div>
+            </li>
+        </ul>
+    </div><!-- end col -->
+  </div><!-- end row -->
+  
+  <!-- removeItemModal -->
+  <ng-template #deleteModel let-modal>
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
       <div class="modal-body">
           <div class="mt-2 text-center">
             <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
             <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                <h4>Are you sure ?</h4>
-                <p class="text-muted mx-4 mb-0">Are you sure you want to remove this record ?</p>
+                <h4>Esas seguro ?</h4>
+                <p class="text-muted mx-4 mb-0">Estas seguro de remover este proyecto ?</p>
             </div>
           </div>
           <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal" (click)="modal.close('Close click')">Close</button>
-            <button type="button" class="btn w-sm btn-danger" id="delete-product" (click)="deleteData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
+            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal" (click)="modal.close('Close click')">Cerrar</button>
+            <button type="button" class="btn w-sm btn-danger" id="delete-product" (click)="deleteData(deleteId)" (click)="modal.close('Close click')">Si, Remover!</button>
           </div>
       </div>
     </div><!-- /.modal-content -->
