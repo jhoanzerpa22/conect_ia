@@ -2,6 +2,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+// Ng Search 
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
@@ -65,7 +67,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     NgSelectModule,
     ProjectsRoutingModule,
     SharedModule,
-    NgxSliderModule
+    NgxSliderModule,
+    Ng2SearchPipeModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

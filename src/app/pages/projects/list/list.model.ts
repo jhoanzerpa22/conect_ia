@@ -4,9 +4,13 @@ export interface projectListModel {
   img?: string;
   label?: string;
   caption?: string;
+  nombre: string;
+  descripcion: string;
   number?: string;
   progressBar?: any;
   date?: string;
+  createdAt: Date;
+  updatedAt: Date;
   users: Array<{
     name?: string;
     text?: string;

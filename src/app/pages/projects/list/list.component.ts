@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { projectListWidgets, projectListWidgets1, projectListWidgets2 } from './data';
-import { projectListModel, projectListModel1, projectListModel2 } from './list.model';
+import { projectListWidgets/*, projectListWidgets1, projectListWidgets2*/ } from './data';
+import { projectListModel/*, projectListModel1, projectListModel2*/ } from './list.model';
 import { listService } from './list.service';
 import { DecimalPipe } from '@angular/common';
+import { ProjectsService } from '../../../core/services/projects.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -22,15 +24,17 @@ export class ListComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   projectListWidgets!: projectListModel[];
-  projectListWidgets1!: projectListModel1[];
-  projectListWidgets2!: projectListModel2[];
-  projectmodel!: Observable<projectListModel2[]>;
+  //projectListWidgets1!: projectListModel1[];
+  //projectListWidgets2!: projectListModel2[];
+  //projectmodel!: Observable<projectListModel2[]>;
   total: Observable<number>;
   sellers?: any;
+  pagLength?: number = 0;
+  term:any;
 
   constructor(private modalService: NgbModal,
-    public service: listService) {
-    this.projectmodel = service.companies$;
+    public service: listService, private projectsService: ProjectsService) {
+    //this.projectmodel = service.companies$;
     this.total = service.total$;
   }
 
@@ -54,11 +58,20 @@ export class ListComponent implements OnInit {
    */
   private fetchData() {
     // this.projectListWidgets = projectListWidgets;
-    this.projectListWidgets1 = projectListWidgets1;
-    this.projectListWidgets2 = projectListWidgets2;
+    //this.projectListWidgets1 = projectListWidgets1;
+    //this.projectListWidgets2 = projectListWidgets2;
     setTimeout(() => {
-      this.projectmodel.subscribe(x => {
+      /*this.projectmodel.subscribe(x => {
         this.projectListWidgets = Object.assign([], x);
+      });*/
+      this.projectsService.get().pipe().subscribe(
+        (data: any) => {
+          this.projectListWidgets = data.data;
+          this.pagLength = data.data.length;
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     }, 1200);
@@ -83,6 +96,11 @@ export class ListComponent implements OnInit {
    */
   activeMenu(id: any) {
     document.querySelector('.heart_icon_' + id)?.classList.toggle('active');
+  }
+
+  formatDate(fecha_d: Date){
+    const fecha: Date = new Date(fecha_d);
+    return fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
   }
 
 }
