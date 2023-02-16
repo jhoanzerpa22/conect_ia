@@ -32,6 +32,9 @@
 </div>
 
 <div class="row">
+ 
+  <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
+  
   <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets | filter:term" id="pl1_{{data.id}}">
       <div class="card card-height-100">
           <div class="card-body">
@@ -354,3 +357,4 @@
       </div>
     </div><!-- /.modal-content -->
   </ng-template>
+

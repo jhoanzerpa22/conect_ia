@@ -5,6 +5,7 @@ import { ProjectsService } from '../../../core/services/projects.service';
 
 // Ck Editer
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ToastService } from '../toast-service';
 
 @Component({
   selector: 'app-create',
@@ -26,7 +27,7 @@ export class CreateComponent implements OnInit {
 
   public Editor = ClassicEditor;
 
-  constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private projectsService: ProjectsService) { }
+  constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private projectsService: ProjectsService,public toastService: ToastService) { }
 
   ngOnInit(): void {
     /**
@@ -94,7 +95,7 @@ export class CreateComponent implements OnInit {
     },
     (error: any) => {
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
     
    }
