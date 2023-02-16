@@ -8,6 +8,7 @@ import { listService } from './list.service';
 import { DecimalPipe } from '@angular/common';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { first } from 'rxjs/operators';
+import { ToastService } from '../toast-service';
 
 @Component({
   selector: 'app-list',
@@ -33,7 +34,7 @@ export class ListComponent implements OnInit {
   term:any;
 
   constructor(private modalService: NgbModal,
-    public service: listService, private projectsService: ProjectsService) {
+    public service: listService, private projectsService: ProjectsService, public toastService: ToastService) {
     //this.projectmodel = service.companies$;
     this.total = service.total$;
   }
@@ -51,6 +52,11 @@ export class ListComponent implements OnInit {
      * Fetches the data
      */
     this.fetchData();
+
+    if (localStorage.getItem('toast')) {
+      this.toastService.show('Proyecto Creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      localStorage.removeItem('toast');
+    }
   }
 
   /**
