@@ -2,6 +2,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+
 // Ng Search 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
@@ -24,6 +26,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 // Load Icon
 import { defineElement } from 'lord-icon-element';
 import lottie from 'lottie-web';
+
+import { ToastsProjectContainer } from './toasts-container.component';
 
 // Component Pages
 import { ProjectsRoutingModule } from './projects-routing.module';
@@ -48,7 +52,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     OverviewComponent,
     CreateComponent,
     TypeComponent,
-    Step1Component
+    Step1Component,
+    ToastsProjectContainer
   ],
   imports: [
     CommonModule,
@@ -58,6 +63,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     NgbProgressbarModule,
     NgbDropdownModule,
     NgbNavModule,
+    NgbTooltipModule,
     NgbPaginationModule,
     FeatherModule.pick(allIcons),
     SimplebarAngularModule,
