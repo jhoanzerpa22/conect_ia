@@ -50,4 +50,12 @@ export class ProjectsService {
     delete(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'project/'+id, httpOptions);
     }
+
+    getRegiones() {
+        return this.http.get(API_URL_BACK + 'question/regions', httpOptions);
+    }
+
+    getComunas(id: any) {
+        return this.http.get(API_URL_BACK + 'question/communes/'+id, httpOptions);
+    }
 }
