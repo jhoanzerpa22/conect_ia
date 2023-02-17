@@ -17,7 +17,7 @@
                             <select class="form-select" placeholder="Selecciona región" data-choices data-choices-search-false
                                 id="choices-priority-input" formControlName="regionId">
                                 <option value="">Selecciona región</option>
-                                <option *ngFor="let r of regions;" value="{{r.id}}" (click)="getComunes(r.id)">{{r.nombre}}</option>
+                                <option *ngFor="let r of regions;" value="{{r.id}}" (click)="getComunes(r.id)">{{r.nombre_region}}</option>
                             </select>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             <select class="form-select" placeholder="Selecciona comuna" data-choices data-choices-search-false
                                 id="choices-priority-input2" formControlName="comunaId">
                                 <option value="">Selecciona comuna</option>
-                                <option *ngFor="let c of comunes;" value="{{c.id}}">{{c.nombre}}</option>
+                                <option *ngFor="let c of comunes;" value="{{c.id}}">{{c.nombre_comuna}}</option>
                             </select>
                         </div>
                     </div>
