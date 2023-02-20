@@ -23,6 +23,12 @@ export class Step1Component implements OnInit {
   
   regions: any = [];
   comunes: any = [];
+  zones: any = [];
+
+  pregunta: any = {};
+  respuestas: any = [];
+
+  project_id: any = '';
 
   locationForm!: UntypedFormGroup;
   
@@ -33,7 +39,7 @@ export class Step1Component implements OnInit {
     showSelectionBar: true
   };
 
-  constructor(private _router: Router, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService,) { }
+  constructor(private _router: Router, private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService,) { }
 
   ngOnInit(): void {
     /**
@@ -47,10 +53,15 @@ export class Step1Component implements OnInit {
     this.locationForm = this.formBuilder.group({
       regionId: ['', [Validators.required]],
       comunaId: ['', [Validators.required]],
-      zonaId: ['', [Validators.required]]
+      tipoZonaId: ['', [Validators.required]]
+    });
+
+    this.route.params.subscribe(params => {
+      this.project_id = params['id'];
     });
 
     this.getRegions();
+    this.getZones();
   }
   
   // convenience getter for easy access to form fields
@@ -72,10 +83,42 @@ export class Step1Component implements OnInit {
     });
    }
 
-   getComunes(id: any){
-    this.projectsService.getComunas(id).pipe().subscribe(
+   getComunes(e?: any){
+    this.comunes = [];
+    let id: any = e.value;
+    if(id){
+      this.projectsService.getComunas(id).pipe().subscribe(
+        (data: any) => {
+          this.comunes = data.data;
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+    }
+   }
+
+   getZones(){
+    this.projectsService.getZones().pipe().subscribe(
       (data: any) => {
-        this.comunes = data.data;
+        this.zones = data.data;
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+   }
+
+   getQuestion(step: any){
+    this.pregunta = {};
+    this.respuestas = [];
+    
+    this.projectsService.getQuestion(step).pipe().subscribe(
+      (data: any) => {
+        console.log('question',data);
+        const info: any = data.data;
+        this.pregunta = info.pregunta;
+        this.respuestas = info.respuesta; 
     },
     (error: any) => {
       //this.error = error ? error : '';
@@ -94,7 +137,26 @@ export class Step1Component implements OnInit {
         { label: 'Proyectos' },
         { label: 'Variables Específicas', active: true }
       ];
+    }else if(step == 2){
+      
+      const location: any = {        
+          "regionId": this.locationForm.get('regionId')?.value,
+          "comunaId": this.locationForm.get('comunaId')?.value,
+          "tipoZonaId": this.locationForm.get('tipoZonaId')?.value,
+          "proyectoId": this.project_id
+      };
+
+      this.projectsService.saveLocation(location).pipe().subscribe(
+        (data: any) => {
+
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
     }
+
+    this.getQuestion(step - 1);
    }
 
 }
