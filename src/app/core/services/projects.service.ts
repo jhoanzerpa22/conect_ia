@@ -43,6 +43,17 @@ export class ProjectsService {
     
     }
 
+    saveLocation(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'question/location', {
+        "regionId": data.regionId,
+        "comunaId": data.comunaId,
+        "tipoZonaId": data.tipoZonaId,
+        "proyectoId": data.proyectoId        
+      }, httpOptions);
+    
+    }
+
     update(id: any, data: any): Observable<any> {
         return this.http.put(API_URL_BACK + 'project/'+id, data);
     }
@@ -57,5 +68,13 @@ export class ProjectsService {
 
     getComunas(id: any) {
         return this.http.get(API_URL_BACK + 'question/communes/'+id, httpOptions);
+    }
+
+    getZones() {
+        return this.http.get(API_URL_BACK + 'question/zones', httpOptions);
+    }
+
+    getQuestion(step: any){
+        return this.http.get(API_URL_BACK + 'question/main/'+step, httpOptions);
     }
 }

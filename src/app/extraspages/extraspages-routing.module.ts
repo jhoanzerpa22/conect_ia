@@ -15,7 +15,7 @@ const routes: Routes = [
     component:ComingSoonComponent
   },
   {
-    path: "steps",
+    path: ":id/steps",
     component:StepsComponent
   }
 ];
