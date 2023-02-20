@@ -33,7 +33,7 @@ const routes: Routes = [
     component: TypeComponent
   },
   {
-    path: "step1",
+    path: ":id/step",
     component: Step1Component
   }
 ];
