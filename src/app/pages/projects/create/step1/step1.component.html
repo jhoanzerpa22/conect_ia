@@ -1,6 +1,15 @@
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="{{title}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
+ 
+<!--preloader-->
+ <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
 
 <!-- End Breadcrumbs -->
 <!-- Vertical alignment (align-items-center) -->
