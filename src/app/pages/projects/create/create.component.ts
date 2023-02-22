@@ -23,6 +23,7 @@ export class CreateComponent implements OnInit {
   typeCreate: boolean = false;
   createForm!: UntypedFormGroup;
   nombreProyecto: any = '';
+  descripcionProyecto: any = '';
   types: any = [];
 
   public Editor = ClassicEditor;
@@ -39,7 +40,8 @@ export class CreateComponent implements OnInit {
     ];
 
     this.createForm = this.formBuilder.group({
-      nombre: ['', [Validators.required]]
+      nombre: ['', [Validators.required]],
+      descripcion: ['']
     });
 
     this.getTypes();
@@ -60,6 +62,7 @@ export class CreateComponent implements OnInit {
     }
 
     this.nombreProyecto = this.f['nombre'].value;
+    this.descripcionProyecto = this.f['descripcion'].value;
 
     this.breadCrumbItems = [
       { label: 'Proyectos' },
@@ -84,20 +87,44 @@ export class CreateComponent implements OnInit {
 
     const project: any = {
       nombre: this.nombreProyecto,
-      descripcion: "descripcion de proyecto",
+      descripcion: this.descripcionProyecto,
       tipoProyectoId: type
     };
 
+    this.showPreLoader();
+
     this.projectsService.create(project).pipe().subscribe(
       (data: any) => {
+        
+        this.hidePreLoader();
         localStorage.setItem('toast', 'true');
         this._router.navigate(['/projects']);
     },
     (error: any) => {
+      
+      this.hidePreLoader();
       //this.error = error ? error : '';
       this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
     
    }
+
+   // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
+  }
 
 }

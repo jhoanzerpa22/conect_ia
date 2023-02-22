@@ -57,19 +57,27 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.showPreLoader();
+
     //Register Api
     this.authenticationService.register(this.f['email'].value, this.f['name'].value, this.f['password'].value, this.f['confirm_password'].value).pipe(first()).subscribe(
       (data: any) => {
       this.successmsg = true;
       if (this.successmsg) {
         
+        this.hidePreLoader();
+        
         localStorage.setItem('toast', 'true');
         this.router.navigate(['/auth/login']);
       }else{
+        
+        this.hidePreLoader();
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
       }
     },
     (error: any) => {
+      
+      this.hidePreLoader();
       //this.error = error ? error : '';
       this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
@@ -103,6 +111,24 @@ export class RegisterComponent implements OnInit {
     //         });
     //   }
     // }
+  }
+
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }

@@ -2,6 +2,15 @@
 <app-breadcrumbs title="Lista de Proyectos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+</div>
+
 <div class="row g-4 mb-3">
   <div class="col-sm-auto">
       <div>
@@ -41,7 +50,7 @@
               <div class="d-flex flex-column h-100">
                   <div class="d-flex">
                       <div class="flex-grow-1">
-                          <p class="text-muted mb-4">Updated {{ formatDate(data.updatedAt)}}</p>
+                          <p class="text-muted mb-4">Modificado {{ formatDate(data.updatedAt)}}</p>
                       </div>
                       <div class="flex-shrink-0">
                           <div class="d-flex gap-1 align-items-center">
@@ -130,6 +139,14 @@
 
           </div>
       </div>
+  </div>
+  <div *ngIf="!projectListWidgets || projectListWidgets.length == 0">
+    <div style="text-align: center;width: 100%;">
+        <img src="assets/images/file.png" width="300" height="200"/>
+    </div>
+    <div style="text-align: center;width: 100%;font-size: 20px;">
+        No hay datos para mostrar
+    </div>
   </div>
 </div>
 
