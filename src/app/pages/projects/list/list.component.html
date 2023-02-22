@@ -100,11 +100,11 @@
                               <div>Identificación</div>
                           </div>
                           <div class="flex-shrink-0">
-                              <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : 0}}</div>
+                              <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : '1/100'}}</div>
                           </div>
                       </div>
                       <div class="progress-sm animated-progess">
-                        <ngb-progressbar [value]="data.progressBar ? data.progressBar : 0" type="success" class="progress-sm"></ngb-progressbar>
+                        <ngb-progressbar [value]="data.progressBar ? data.progressBar : 10" type="success" class="progress-sm"></ngb-progressbar>
                       </div><!-- /.progress -->
                   </div>
               </div>

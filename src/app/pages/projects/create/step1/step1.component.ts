@@ -110,6 +110,8 @@ export class Step1Component implements OnInit {
    }
 
    getQuestion(step: any){
+    
+    this.showPreLoader();
     this.pregunta = {};
     this.respuestas = [];
     
@@ -118,9 +120,12 @@ export class Step1Component implements OnInit {
         console.log('question',data);
         const info: any = data.data;
         this.pregunta = info.pregunta;
-        this.respuestas = info.respuesta; 
+        this.respuestas = info.respuesta;
+        
+        this.hidePreLoader(); 
     },
     (error: any) => {
+      this.hidePreLoader();
       //this.error = error ? error : '';
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
@@ -129,7 +134,8 @@ export class Step1Component implements OnInit {
    changeStep(step: number){
     this.step = step;
     if(step > this.step_total){
-      this._router.navigate(['/projects/anality']);
+      //this._router.navigate(['/projects/anality']);
+      this._router.navigate(['/']);
     }else if(step == this.step_total){
       this.visibleSelection = 2;
       this.title = 'Paso 2: Define las variables específicas de tu proyecto';
@@ -146,17 +152,35 @@ export class Step1Component implements OnInit {
           "proyectoId": this.project_id
       };
 
-      this.projectsService.saveLocation(location).pipe().subscribe(
+      /*this.projectsService.saveLocation(location).pipe().subscribe(
         (data: any) => {
 
       },
       (error: any) => {
         //this.error = error ? error : '';
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
+      });*/
     }
 
     this.getQuestion(step - 1);
    }
+
+    // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
+  }
 
 }
