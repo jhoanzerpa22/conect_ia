@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    //this.preLoader();
     if(localStorage.getItem('currentUser')) {
       this.router.navigate(['/']);
     }
@@ -72,10 +73,13 @@ export class LoginComponent implements OnInit {
         return;
     }
 
+    this.showPreLoader();
+
     // Login Api
     this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data:any) => { 
       //if(data.status == 'success'){
       if(data.data){
+        this.hidePreLoader();
         const user: any = {
         "_id": data.data.user.id,
         "nombre": data.data.user.nombre,
@@ -89,10 +93,12 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', data.data.token);
         this.router.navigate(['/']);
       } else {
+        this.hidePreLoader();
         this.toastService.show(data.data, { classname: 'bg-danger text-white', delay: 15000 });
       }
     },
     (error: any) => {
+      this.hidePreLoader();
       this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
 
@@ -123,6 +129,24 @@ export class LoginComponent implements OnInit {
    */
    toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
+  }
+
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }

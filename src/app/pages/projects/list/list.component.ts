@@ -63,6 +63,8 @@ export class ListComponent implements OnInit {
    * Fetches the data
    */
   private fetchData() {
+    
+    this.showPreLoader();
     // this.projectListWidgets = projectListWidgets;
     //this.projectListWidgets1 = projectListWidgets1;
     //this.projectListWidgets2 = projectListWidgets2;
@@ -71,11 +73,13 @@ export class ListComponent implements OnInit {
         this.projectListWidgets = Object.assign([], x);
       });*/
       this.projectsService.get().pipe().subscribe(
-        (data: any) => {
+        (data: any) => {        
           this.projectListWidgets = data.data;
           this.pagLength = data.data.length;
+          this.hidePreLoader();
       },
       (error: any) => {
+        this.hidePreLoader();
         //this.error = error ? error : '';
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
@@ -107,6 +111,24 @@ export class ListComponent implements OnInit {
   formatDate(fecha_d: Date){
     const fecha: Date = new Date(fecha_d);
     return fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+  }
+
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }

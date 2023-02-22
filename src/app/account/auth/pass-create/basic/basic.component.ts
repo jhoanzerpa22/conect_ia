@@ -118,13 +118,19 @@ export class BasicComponent implements OnInit {
      if (this.passresetForm.invalid) {
        return;
      }
+     
+    this.showPreLoader();
 
      //Change Password
      this.authenticationService.updatePassword(this.f['password'].value,this.f['cpassword'].value, this.token_validate).subscribe(
       (data: any) => {
+        
+        this.hidePreLoader();
         this._router.navigate(['/auth/success-msg/password']);
       },
       (error: any) => {
+        
+        this.hidePreLoader();
         console.log('error',error);
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
@@ -155,5 +161,23 @@ export class BasicComponent implements OnInit {
     toggleconfirmField() {
       this.confirmField = !this.confirmField;
     }
+
+    // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
+  }
 
 }
