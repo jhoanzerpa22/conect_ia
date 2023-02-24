@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import { ProjectsService } from '../../../core/services/projects.service';
 
 @Component({
   selector: 'app-project-anality',
@@ -24,7 +26,10 @@ export class ProjectAnalityComponent implements OnInit {
   simpleDonutChart: any;
   @ViewChild('scrollRef') scrollRef: any;
 
-  constructor() {
+  project_id: any = '';
+  project: any = {};
+
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
 
   ngOnInit(): void {
@@ -39,6 +44,11 @@ export class ProjectAnalityComponent implements OnInit {
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
     }
+
+    this.route.params.subscribe(params => {
+      this.project_id = params['id'];
+      this.getProject(params['id']);
+    });
 
     /**
      * Fetches the data
@@ -55,6 +65,17 @@ export class ProjectAnalityComponent implements OnInit {
   ngAfterViewInit() {
     this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
   }
+
+  getProject(idProject?: any){
+      this.projectsService.getById(idProject).pipe().subscribe(
+        (data: any) => {
+          this.project = data.data;
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+   }
 
   // Chart Colors Set
   private getChartColorsArray(colors: any) {

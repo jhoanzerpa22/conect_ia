@@ -36,7 +36,7 @@ const routes: Routes = [
     component: JobComponent
   },
   {
-    path: "project-anality",
+    path: ":id/project-anality",
     component: ProjectAnalityComponent
   }
 ];

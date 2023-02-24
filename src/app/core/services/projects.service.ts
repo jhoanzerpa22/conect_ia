@@ -33,6 +33,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'project', httpOptions);
     }
 
+    getById(id: any) {
+        return this.http.get(API_URL_BACK + 'project/'+id, httpOptions);
+    }
+
     create(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'project', {
