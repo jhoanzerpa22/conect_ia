@@ -1,0 +1,316 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Proyecto Analisis" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+ <div class="row project-wrapper">
+    <div class="col-xxl-12">
+        
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="row margin-card">
+                        <div class="col-lg-3">
+                        <button type="button" class="btn btn-primary">Configurar Instalaciones y Procesos</button>
+                        </div>
+                        
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-primary">Conectar Normativas a procesos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">        
+                <div class="row margin-card">
+                <div class="col-lg-3">
+                <!-- Buttons Group -->
+                <div class="btn-group" role="group" aria-label="Filters1">
+                    <button type="button" class="btn btn-primary">Distrito</button>
+                    <button type="button" class="btn btn-primary">Área</button>
+                    <button type="button" class="btn btn-primary">C.Ambiental</button>
+                </div>
+                </div>
+                
+                <div class="col-lg-3">
+                <div class="btn-group" role="group" aria-label="Filters2">
+                    <button type="button" class="btn btn-primary">Faena/suc</button>
+                    <button type="button" class="btn btn-primary">Planta</button>
+                    <button type="button" class="btn btn-primary">Seguridad</button>
+                </div>
+                </div>
+
+                <div class="col-lg-3">
+                <div class="btn-group" role="group" aria-label="Filters3">
+                    <button type="button" class="btn btn-primary">Zona/sec</button>
+                    <button type="button" class="btn btn-primary">Ámbito</button>
+                    <button type="button" class="btn btn-primary">Salud Oc</button>
+                </div>
+                </div>
+
+                <div class="col-lg-3">
+                <div class="btn-group" role="group" aria-label="Filters4">
+                    <button type="button" class="btn btn-primary">Gerencia</button>
+                    <button type="button" class="btn btn-primary">Fase Proy</button>
+                    <button type="button" class="btn btn-primary">Higiene</button>
+                </div>
+                </div>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="row margin-card">
+                        <div class="col-lg-12">
+                            <span class="cant-aplicables">85</span>
+                            <span class="text-aplicables"> CUERPOS LEGALES APLICABLES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="row">
+    <div class="col-xxl-12 col-lg-12">
+        <div class="card card-height-100">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Cuerpo Legal</h4>
+                <div class="flex-shrink-0">
+                    <div class="dropdown card-header-dropdown" ngbDropdown>
+                        <a class="dropdown-btn text-muted arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            AMB <i class="mdi mdi-chevron-down ms-1"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('all')">AMB</a><!--
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('7')">Last 7 Days</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('30')">Last 30 Days</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('90')">Last 90 Days</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <!--<apx-chart class="apex-charts" dir="ltr" [series]="status7.series" [labels]="status7.labels" [chart]="status7.chart" [plotOptions]="status7.plotOptions"
+                 [dataLabels]="status7.dataLabels" [legend]="status7.legend" [stroke]="status7.stroke" [colors]="status7.colors" dir="ltr"></apx-chart>-->
+                 <div class="row">
+                    <div class="col-lg-7">
+                            
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                            <div class="d-flex">
+                            <div class="flex-grow-1">
+                            <h6 class="mb-0"><!--<b class="text-success">60%</b>--> <i class="ri-checkbox-blank-circle-fill text-success align-middle me-2"></i> Medio Ambiente</h6>
+                            </div>
+                            <div class="flex-shrink-0">
+                            <h6 class="mb-0">52</h6>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="progress bg-soft-success rounded-0">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card overflow-hidden">
+    
+                                <div class="card-body">
+                                <div class="d-flex">
+                                <div class="flex-grow-1">
+                                <h6 class="mb-0"><!--<b class="text-secondary">30%</b>--><i class="ri-checkbox-blank-circle-fill text-secondary align-middle me-2"></i> SSO</h6>
+                                </div>
+                                <div class="flex-shrink-0">
+                                <h6 class="mb-0">21</h6>
+                                </div>
+                                </div>
+                                </div>
+
+                                <div class="progress bg-soft-secondary rounded-0">                                
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                        </div>
+                            
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                            <div class="d-flex">
+                            <div class="flex-grow-1">
+                            <h6 class="mb-0"><!--<b class="text-danger">82%</b>--> <i class="ri-checkbox-blank-circle-fill text-primary align-middle me-2"></i> Laboral</h6>
+                            </div>
+                            <div class="flex-shrink-0">
+                            <h6 class="mb-0">80</h6>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="progress bg-soft-primary rounded-0">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+    
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                            <div class="d-flex">
+                            <div class="flex-grow-1">
+                            <h6 class="mb-0"><!--<b class="text-danger">82%</b>--> <i class="ri-checkbox-blank-circle-fill text-warning align-middle me-2"></i> Eficiencia energética</h6>
+                            </div>
+                            <div class="flex-shrink-0">
+                            <h6 class="mb-0">10</h6>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="progress bg-soft-warning rounded-0">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-lg-5">
+                 
+                <apx-chart [series]="simpleDonutChart.series" [labels]="simpleDonutChart.labels"
+                [chart]="simpleDonutChart.chart" [plotOptions]="simpleDonutChart.plotOptions"
+                [dataLabels]="simpleDonutChart.dataLabels" [legend]="simpleDonutChart.legend"
+                [stroke]="simpleDonutChart.stroke" [yaxis]="simpleDonutChart.yaxis"
+                [colors]="simpleDonutChart.colors" dir="ltr"></apx-chart>
+
+                    </div>
+
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div><!-- end row -->
+        
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="row margin-card">
+                        <div class="col-lg-12">
+                            <span class="cant-aplicables">1.500</span>
+                            <span class="text-aplicables"> ARTICULOS APLICABLES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+<div class="row">
+    <div class="col-xxl-12 col-lg-12">
+        <div class="card card-height-100">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Articulos</h4>
+                <div class="flex-shrink-0">
+                    <div class="dropdown card-header-dropdown" ngbDropdown>
+                        <a class="dropdown-btn text-muted arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            AMB <i class="mdi mdi-chevron-down ms-1"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('all')">AMB</a><!--
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('7')">Last 7 Days</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('30')">Last 30 Days</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setstatusvalue('90')">Last 90 Days</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <!--<apx-chart class="apex-charts" dir="ltr" [series]="status7.series" [labels]="status7.labels" [chart]="status7.chart" [plotOptions]="status7.plotOptions"
+                 [dataLabels]="status7.dataLabels" [legend]="status7.legend" [stroke]="status7.stroke" [colors]="status7.colors" dir="ltr"></apx-chart>-->
+                 <div class="row">
+                    <div class="col-lg-7">
+                            
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                            <div class="d-flex">
+                            <div class="flex-grow-1">
+                            <h6 class="mb-0"><!--<b class="text-success">60%</b>--> <i class="ri-checkbox-blank-circle-fill text-success align-middle me-2"></i> Medio Ambiente</h6>
+                            </div>
+                            <div class="flex-shrink-0">
+                            <h6 class="mb-0">52</h6>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="progress bg-soft-success rounded-0">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card overflow-hidden">
+    
+                                <div class="card-body">
+                                <div class="d-flex">
+                                <div class="flex-grow-1">
+                                <h6 class="mb-0"><!--<b class="text-secondary">30%</b>--><i class="ri-checkbox-blank-circle-fill text-secondary align-middle me-2"></i> SSO</h6>
+                                </div>
+                                <div class="flex-shrink-0">
+                                <h6 class="mb-0">21</h6>
+                                </div>
+                                </div>
+                                </div>
+
+                                <div class="progress bg-soft-secondary rounded-0">                                
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                        </div>
+                            
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                            <div class="d-flex">
+                            <div class="flex-grow-1">
+                            <h6 class="mb-0"><!--<b class="text-danger">82%</b>--> <i class="ri-checkbox-blank-circle-fill text-primary align-middle me-2"></i> Laboral</h6>
+                            </div>
+                            <div class="flex-shrink-0">
+                            <h6 class="mb-0">80</h6>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="progress bg-soft-primary rounded-0">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+    
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                            <div class="d-flex">
+                            <div class="flex-grow-1">
+                            <h6 class="mb-0"><!--<b class="text-danger">82%</b>--> <i class="ri-checkbox-blank-circle-fill text-warning align-middle me-2"></i> Eficiencia energética</h6>
+                            </div>
+                            <div class="flex-shrink-0">
+                            <h6 class="mb-0">10</h6>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="progress bg-soft-warning rounded-0">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-lg-5">
+                 
+                <apx-chart [series]="simpleDonutChart.series" [labels]="simpleDonutChart.labels"
+                [chart]="simpleDonutChart.chart" [plotOptions]="simpleDonutChart.plotOptions"
+                [dataLabels]="simpleDonutChart.dataLabels" [legend]="simpleDonutChart.legend"
+                [stroke]="simpleDonutChart.stroke" [yaxis]="simpleDonutChart.yaxis"
+                [colors]="simpleDonutChart.colors" dir="ltr"></apx-chart>
+
+                    </div>
+
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div><!-- end row -->
+    </div><!-- end col -->
+
+</div><!-- end row -->

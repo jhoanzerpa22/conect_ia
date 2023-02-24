@@ -135,7 +135,7 @@ export class Step1Component implements OnInit {
     this.step = step;
     if(step > this.step_total){
       //this._router.navigate(['/projects/anality']);
-      this._router.navigate(['/']);
+      this._router.navigate(['/project-anality']);
     }else if(step == this.step_total){
       this.visibleSelection = 2;
       this.title = 'Paso 2: Define las variables específicas de tu proyecto';
