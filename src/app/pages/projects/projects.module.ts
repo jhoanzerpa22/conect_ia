@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Ng Search 
@@ -37,6 +37,8 @@ import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
 import { TypeComponent } from './create/type/type.component';
 import { Step1Component } from "./create/step1/step1.component";
+import { InstallationsComponent } from "./installations/installations.component";
+
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
@@ -53,7 +55,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     CreateComponent,
     TypeComponent,
     Step1Component,
-    ToastsProjectContainer
+    ToastsProjectContainer,
+    InstallationsComponent
   ],
   imports: [
     CommonModule,
@@ -72,6 +75,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DropzoneModule,
     NgSelectModule,
     ProjectsRoutingModule,
+    NgbTypeaheadModule,
     SharedModule,
     NgxSliderModule,
     Ng2SearchPipeModule
