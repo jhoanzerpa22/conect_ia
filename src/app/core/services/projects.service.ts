@@ -81,4 +81,22 @@ export class ProjectsService {
     getQuestion(step: any){
         return this.http.get(API_URL_BACK + 'question/main/'+step, httpOptions);
     }
+
+    getInstallations(project_id: any){
+        return this.http.get(API_URL_BACK + 'installation/'+project_id, httpOptions);
+    }
+
+    createInstallation(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'installation', {
+        "nombre": data.nombre,
+        "descripcion": data.descripcion,
+        "proyectoId": data.proyectoId
+      }, httpOptions);
+    
+    }
+
+    deleteInstallation(id: any): Observable<any> {
+        return this.http.delete(API_URL_BACK + 'installation/'+id, httpOptions);
+    }
 }

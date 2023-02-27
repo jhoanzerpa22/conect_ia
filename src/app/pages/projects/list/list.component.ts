@@ -68,7 +68,7 @@ export class ListComponent implements OnInit {
     // this.projectListWidgets = projectListWidgets;
     //this.projectListWidgets1 = projectListWidgets1;
     //this.projectListWidgets2 = projectListWidgets2;
-    setTimeout(() => {
+    //setTimeout(() => {
       /*this.projectmodel.subscribe(x => {
         this.projectListWidgets = Object.assign([], x);
       });*/
@@ -84,7 +84,7 @@ export class ListComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
-    }, 1200);
+    //}, 1200);
   }
 
   /**
