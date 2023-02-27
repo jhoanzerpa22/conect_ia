@@ -7,6 +7,7 @@ import { OverviewComponent } from "./overview/overview.component";
 import { CreateComponent } from "./create/create.component";
 import { TypeComponent } from "./create/type/type.component";
 import { Step1Component } from "./create/step1/step1.component";
+import { InstallationsComponent } from "./installations/installations.component";
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: ":id/step",
     component: Step1Component
+  },
+  {
+    path: ":id/installations",
+    component: InstallationsComponent
   }
 ];
 
