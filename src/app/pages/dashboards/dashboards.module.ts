@@ -35,6 +35,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { NftComponent } from './nft/nft.component';
 import { JobComponent } from './job/job.component';
 import { ProjectAnalityComponent } from './project-anality/project-anality.component';
+import { HomeComponent } from "./home/home.component";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ProjectAnalityComponent } from './project-anality/project-anality.compo
     ProjectsComponent,
     NftComponent,
     JobComponent,
-    ProjectAnalityComponent
+    ProjectAnalityComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
