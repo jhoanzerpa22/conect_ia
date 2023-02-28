@@ -38,6 +38,8 @@ export class Step1Component implements OnInit {
     ceil: 10,
     showSelectionBar: true
   };
+  
+  selectValues: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService) { }
 
@@ -130,6 +132,24 @@ export class Step1Component implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
    }
+
+   selectVariable(id: any){
+      const index = this.selectValues.indexOf(id);
+      if(index != -1){
+        this.selectValues.splice(index, 1);
+      }else{
+        this.selectValues.push(id);
+      }
+   }
+ 
+   validateVariable(id: any){
+    const index = this.selectValues.indexOf(id);
+    if(index != -1){
+      return true;
+    }else{
+      return false;
+    }
+ }
 
    changeStep(step: number){
     this.step = step;

@@ -15,7 +15,9 @@
 <!-- Vertical alignment (align-items-center) -->
 <div class="row justify-content-center" style="padding-top: 10%;">
     <div class="col-lg-8" *ngIf="step == 1">
-        <h4 style="text-align: center;">Define la ubicación de tu proyecto</h4>
+        <div class="title-step">
+            <h4 style="text-align: center;">Define la ubicación de tu proyecto</h4>
+        </div>
         <div class="card">
             <div class="card-body">
                 <form [formGroup]="locationForm">
@@ -58,7 +60,9 @@
         </div>
     </div>
     <div class="col-lg-8" *ngIf="step == 2">
-        <h4 style="text-align: center;">{{pregunta.pregunta}}</h4>
+        <div class="title-step">
+            <h4 style="text-align: center;">{{pregunta.pregunta}}</h4>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -78,7 +82,9 @@
     </div>
     
     <div class="col-lg-8" *ngIf="step == 3">
-        <h4 style="text-align: center;">{{pregunta.pregunta}}</h4>
+        <div class="title-step">
+            <h4 style="text-align: center;">{{pregunta.pregunta}}</h4>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -98,13 +104,15 @@
     </div>
     
     <div class="col-lg-8" *ngIf="step == 4">
-        <h4 style="text-align: center;">Variables Generales</h4>
-        <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        <div class="title-step">
+            <h4 style="text-align: center;">Variables Generales</h4>
+            <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        </div>
         <div class="row justify-content-center">
             <ng-container *ngFor="let res of respuestas;">
                 <div class="col-lg-4">
                     <div class="card border" style="background: #fef2df;">
-                        <div class="card-body" style="text-align: center;">
+                        <div class="card-body select-variable" style="text-align: center;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                             <b>{{res.respuesta}}</b>
                         </div>
                     </div>
@@ -157,13 +165,16 @@
     </div>
 
     <div class="col-lg-10" *ngIf="step == 5">
-        <h4 style="text-align: center;">Variables Generales</h4>
-        <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        <div class="title-step">
+            <h4 style="text-align: center;">Variables Generales</h4>
+            <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        </div>
         <div class="row justify-content-center">
             
             <ng-container *ngFor="let res of respuestas;">
+                
                 <div class="col-lg-3" *ngIf="res.respuesta != 'MEDIO AMBIENTE' && res.respuesta != 'SEGURIDAD Y SALUD LABORAL' && res.respuesta != 'LABORAL' && res.respuesta != 'EFICIENCIA ENERGETICA'">
-                    <div class="card border" style="background: #d1eeea;">
+                    <div class="card border select-variable" style="background: #d1eeea;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                         <div class="card-body" style="text-align: center;">
                             <div style="background-color: #d7e8d8;width: 40px;height: 40px; border: 1px solid #d7e8d8;border-radius: 24px;margin: auto;">
                                 <i class="ri-plant-fill" style="font-size: 24px;color: #4a9d4b;"></i>
@@ -176,7 +187,7 @@
                     
                 </div>     
         <div class="col-lg-3" *ngIf="res.respuesta == 'MEDIO AMBIENTE'">
-            <div class="card border" style="background: #d1eeea;">
+            <div class="card border select-variable" style="background: #d1eeea;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                 <div class="card-body" style="text-align: center;">
                     <div style="background-color: #d7e8d8;width: 40px;height: 40px; border: 1px solid #d7e8d8;border-radius: 24px;margin: auto;">
                         <i class="ri-plant-fill" style="font-size: 24px;color: #4a9d4b;"></i>
@@ -189,7 +200,7 @@
             
         </div>
         <div class="col-lg-3" *ngIf="res.respuesta == 'SEGURIDAD Y SALUD LABORAL'">
-            <div class="card border" style="background: #faeedc;">
+            <div class="card border select-variable" style="background: #faeedc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                 <div class="card-body" style="text-align: center;">
                     <div style="background-color: #f4d890;width: 40px;height: 40px; border: 1px solid #f4d890;border-radius: 24px;margin: auto;">
                         <i class="ri-briefcase-fill" style="font-size: 24px;color: #ebaf47;"></i>
@@ -201,7 +212,7 @@
         </div>
 
         <div class="col-lg-3" *ngIf="res.respuesta == 'LABORAL'">
-            <div class="card border" style="background: #fae1dc;">
+            <div class="card border select-variable" style="background: #fae1dc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                 <div class="card-body" style="text-align: center;">
                     <div style="background-color: #ebbdb4;width: 40px;height: 40px; border: 1px solid #ebbdb4;border-radius: 24px;margin: auto;">
                         <i class="ri-shirt-fill" style="font-size: 24px;color: #f25c03;"></i>
@@ -214,7 +225,7 @@
         
 
         <div class="col-lg-3" *ngIf="res.respuesta == 'EFICIENCIA ENERGETICA'">
-            <div class="card border" style="background: #b3ebf6;">
+            <div class="card border select-variable" style="background: #b3ebf6;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                 <div class="card-body" style="text-align: center;">
                     <div style="background-color: #8de1f2;width: 40px;height: 40px; border: 1px solid #8de1f2;border-radius: 24px;margin: auto;">
                         <i class="ri-flashlight-line" style="font-size: 24px;color: #0cc2e7;"></i>
@@ -229,14 +240,16 @@
     </div>
 
     <div class="col-lg-8" *ngIf="step == 6">
-        <h4 style="text-align: center;">Variables Generales</h4>
-        <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        <div class="title-step">
+            <h4 style="text-align: center;">Variables Generales</h4>
+            <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        </div>
         <div class="row justify-content-center">
             
         <ng-container *ngFor="let res of respuestas;">
         <div class="col-lg-4">
                 <div class="card border" style="background: #fef2df;">
-                    <div class="card-body" style="text-align: center;">
+                    <div class="card-body select-variable" style="text-align: center;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                         <b>{{res.respuesta}}</b>
                     </div>
                 </div>
@@ -272,14 +285,18 @@
     </div>
 
     <div class="col-lg-8" *ngIf="step == 7">
-        <h4 style="text-align: center;">Variables Específicas</h4>
-        <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        
+        <div class="title-step">
+            <h4 style="text-align: center;">Variables Específicas</h4>
+            <h5 style="text-align: center;">{{pregunta.pregunta}}</h5>
+        </div>
+        
         <div class="row justify-content-center">
         
             <ng-container *ngFor="let res of respuestas;">    
             <div class="col-lg-4">
-                <div class="card border">
-                    <div class="card-body" style="text-align: center;">
+                <div class="card border" style="min-height: 100px;">
+                    <div class="card-body select-variable" style="text-align: center;display: flex;justify-content: center;align-items: center;" [ngClass]="{'select-variable-check': validateVariable(step+'|'+res.id)}" (click)="selectVariable(step+'|'+res.id)">
                         <b>{{res.respuesta}}</b>
                     </div>
                 </div>
