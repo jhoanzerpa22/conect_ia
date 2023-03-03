@@ -8,6 +8,8 @@ import { CreateComponent } from "./create/create.component";
 import { TypeComponent } from "./create/type/type.component";
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";
+import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
+import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 
 const routes: Routes = [
   {
@@ -30,7 +32,7 @@ const routes: Routes = [
     ]  */
   },
   {
-    path: "create/type",
+    path: ":id/type",
     component: TypeComponent
   },
   {
@@ -40,6 +42,14 @@ const routes: Routes = [
   {
     path: ":id/installations",
     component: InstallationsComponent
+  },
+  {
+    path: ":id/type/installations",
+    component: InstallationsTypeComponent
+  },
+  {
+    path: ":id/type/bodylegal",
+    component: BodyLegalTypeComponent
   }
 ];
 
