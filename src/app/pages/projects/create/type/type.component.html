@@ -1,65 +1,75 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Selecciona el tipo de Proyecto" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Paso 4: Conecta la normativa a tus procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
-<div class="row">
-    <div class="col-xxl-5">
-        <div class="card border card-border-dark" style="border-color: #767676 !important;">
-            <div class="card-header" style="background-color: #dce0e4 !important;">
-                <h6 class="card-title mb-0">Identifica las obligaciones legales y permisos de tu proyecto</h6>
+<h5>Selecciona la forma de vinculación</h5>
+
+<div class="row justify-content-center" style="padding-top: 10%;">    
+<div class="card">
+<div class="card-body">
+<div class="row" style="
+display:flex;
+justify-content: center;
+align-items: center;">
+
+    <div class="col-lg-3">
+        <div class="mb-3 mb-lg-0">        
+            <div class="card border" style="border-color: #767676 !important;min-height: 250px;">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Conexión manual por instalación</h6>
             </div>
             <div class="card-body">
-                <p class="card-text">En tan solo 5 pasos completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto.</p>
+                <p class="card-text">Selecciona la instalación para conectar uno o más cuerpos legales y artículos.</p>
+            </div>
+            
+            <div class="card-footer" style="border-top: 0px;">
                 <div class="text-end">
-                    <a mat-raised-button routerLink="/projects" class="btn btn-danger w-lg waves-effect waves-light">Iniciar</a>
+                    <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" routerLink="/projects/{{project_id}}/type/installations">Iniciar</button>
                 </div>
             </div>
+            </div>
         </div>
-    </div><!-- end col -->
-    
-    <div class="col-xxl-2">
     </div>
-    <div class="col-xxl-5">
-        <div class="card border card-border-dark" style="border-color: #767676 !important;">
-            <div class="card-header" style="background-color: #dce0e4 !important;">
-                <h6 class="card-title mb-0">Identifica las obligaciones legales y permisos de tu proyecto</h6>
-            </div>
-            <div class="card-body">
-                <p class="card-text">En tan solo 5 pasos completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto.</p>
-                <div class="text-end">
-                    <a mat-raised-button href="javascript:void(0);" class="btn btn-danger w-lg waves-effect waves-light">Iniciar</a>
-                </div>
-            </div>
-        </div>
-    </div><!-- end col -->
-    <div class="col-xxl-5">
-        <div class="card border card-border-dark" style="border-color: #767676 !important;">
-            <div class="card-header" style="background-color: #dce0e4 !important;">
-                <h6 class="card-title mb-0">Identifica las obligaciones legales y permisos de tu proyecto</h6>
-            </div>
-            <div class="card-body">
-                <p class="card-text">En tan solo 5 pasos completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto.</p>
-                <div class="text-end">
-                    <a mat-raised-button href="javascript:void(0);" class="btn btn-danger w-lg waves-effect waves-light">Iniciar</a>
-                </div>
-            </div>
-        </div>
-    </div><!-- end col -->
     
-    <div class="col-xxl-2">
-    </div>
-    <div class="col-xxl-5">
-        <div class="card border card-border-dark" style="border-color: #767676 !important;">
-            <div class="card-header" style="background-color: #dce0e4 !important;">
-                <h6 class="card-title mb-0">Identifica las obligaciones legales y permisos de tu proyecto</h6>
+    <div class="col-lg-3">
+        <div class="mb-3 mb-lg-0">        
+        <div class="card border" style="border-color: #767676 !important;min-height: 250px;">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Conexión por cuerpo legal</h6>
             </div>
             <div class="card-body">
-                <p class="card-text">En tan solo 5 pasos completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto.</p>
+                <p class="card-text">Selecciona el cuerpo legal para conectar los artículos a una instalación o mas instalaciones.</p>
+            </div>
+            <div class="card-footer" style="border-top: 0px;">
                 <div class="text-end">
-                    <a mat-raised-button href="javascript:void(0);" class="btn btn-danger w-lg waves-effect waves-light">Iniciar</a>
+                    <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" routerLink="/projects/{{project_id}}/type/bodylegal">Iniciar</button>
                 </div>
             </div>
         </div>
-    </div><!-- end col -->
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="mb-3 mb-lg-0">        
+        <div class="card border" style="border-color: #767676 !important;min-height: 250px;">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Conexión automática</h6>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Ingresa datos específicos y obtén un reporte automático de los artículos aplicables a tu instalación.</p>
+            </div>
+            <div class="card-footer" style="border-top: 0px;">
+                <div class="text-end">
+                    <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light">Iniciar</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
 </div><!-- end row -->
+
+</div>
+</div>
+</div>
   
