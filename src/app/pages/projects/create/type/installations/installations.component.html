@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Instalaciones y Procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Paso 4: Conecta la normativa a tus procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!--preloader-->
@@ -16,11 +16,11 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title mb-0">Instalaciones y procesos</h4>
-            </div><!-- end card header -->
+            </div>
 
             <div class="card-body">
                 <div id="customerList">
-                    <div class="row g-4 mb-3">
+                    <!--<div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1">
                                 <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal"
@@ -39,41 +39,49 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th scope="col" style="width: 50px;">
+                                    <!--<th scope="col" style="width: 50px;">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="checkAll" value="option"
                                                 [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
                                         </div>
-                                    </th>
-                                    <th class="sort" data-sort="nombre">Nombre</th>
-                                    <th class="sort" data-sort="descripcion">Descripcion</th>
+                                    </th>-->
+                                    <th class="sort" data-sort="nombre">Instalación</th>
+                                    <th class="sort" data-sort="cuerpo">Cuerpos legales vinculados</th>
+                                    <th class="sort" data-sort="articulos">Articulos vinculados</th>
+                                    <th class="sort">Estado</th>
                                     <th class="sort">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of InstallationDatas" id="lj_{{data.id}}">
-                                    <th scope="row">
+                                    <!--<th scope="row">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="checkAll"
                                                 value="{{data.id}}" [(ngModel)]="data.state">
                                         </div>
-                                    </th>
+                                    </th>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.descripcion"
+                                    <td><ngb-highlight [result]="data.cuerpo ? data.cuerpo : 0"
                                             [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.articulo ? data.articulo : 0"
+                                            [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td class="status"><span
+                                                class="badge badge-soft-{{data.conectado ? 'success' : 'danger'}} text-uppercase">{{data.conectado ? data.conectado : 'No conectado'}}</span>
+                                    </td>
                                     <td>
+                                        
                                         <div class="d-flex gap-2">
                                             <div class="edit">
                                                 <button class="btn btn-sm btn-success edit-item-btn"
-                                                    data-bs-toggle="modal" data-bs-target="#showModal"
-                                                    (click)="editModal(content,data.id)">Ver</button>
+                                                    data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/type/bodylegal"
+                                                    >Conectar</button>
                                             </div>
                                             <div class="remove">
                                                 <button class="btn btn-sm btn-danger remove-item-btn"
@@ -114,49 +122,6 @@
     <!-- end col -->
 </div>
 <!-- end row -->
-
-<!-- Add ListJs Data -->
-<ng-template #content role="document" let-modal>
-    <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Instalación o proceso</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
-            (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <form (ngSubmit)="saveInstallation()" [formGroup]="installationForm" class="tablelist-form" autocomplete="off">
-        <div class="modal-body">
-
-            <input type="hidden" name="id" value="" formControlName="ids" />
-
-            <div class="mb-3" id="modal-id" style="display: none;">
-                <label for="id-field" class="form-label">ID</label>
-                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
-            </div>
-
-            <div class="mb-3">
-                <label for="customername-field" class="form-label">Nombre</label>
-                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Nombre" required
-                    formControlName="nombre"
-                    [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }" />
-                <div class="invalid-feedback">Por favor ingresa un nombre.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="email-field" class="form-label">Descripción</label>
-                <input type="text" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
-                    formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />
-                <div class="invalid-feedback">Por favor ingresar descripción.</div>
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <div class="hstack gap-2 justify-content-end">
-                <!--<button type="button" class="btn btn-light" data-bs-dismiss="modal"
-                    (click)="modal.close('Close click')">Cerrar</button>-->
-                <button type="submit" class="btn btn-success" id="add-btn">Agregar</button>
-            </div>
-        </div>
-    </form>
-</ng-template>
 
 <!-- removeItemModal -->
 <ng-template #deleteModel let-modal>

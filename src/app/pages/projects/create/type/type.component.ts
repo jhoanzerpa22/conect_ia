@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import { ProjectsService } from '../../../../core/services/projects.service';
 
 @Component({
   selector: 'app-create-type',
@@ -14,7 +16,9 @@ export class TypeComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
-  constructor() { }
+  project_id: any = '';
+
+  constructor(private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     /**
@@ -22,9 +26,12 @@ export class TypeComponent implements OnInit {
     */
      this.breadCrumbItems = [
       { label: 'Proyectos' },
-      { label: 'Crear Proyecto' },
-      { label: 'Tipo', active: true }
+      { label: 'Vinculación', active: true }
     ];
+
+    this.route.params.subscribe(params => {
+      this.project_id = params['id'];
+    });
   }
 
   /**
