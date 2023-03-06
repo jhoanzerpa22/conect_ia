@@ -10,6 +10,7 @@ import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";
 import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
+import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
   {
     path: ":id/type/bodylegal",
     component: BodyLegalTypeComponent
+  },
+  {
+    path: ":idProject/type/bodylegal/:id/Detail",
+    component: BodyLegalDetailComponent
   }
 ];
 

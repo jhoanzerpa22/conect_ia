@@ -1,0 +1,289 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paso 4: Conecta la normativa a tus procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
+                        <h4 class="card-title mb-0">Estanque TK2101</h4>
+                    </div>
+                    
+                    <div class="col-xxl-3 col-lg-3">
+                        <div class="titulo-caja"><b>10 Cuerpos legales</b></div>
+                    </div>
+
+                    <div class="col-xxl-3 col-lg-3">
+                        <div class="titulo-caja"><b>21 Artículos</b></div>
+                    </div>
+
+                    <div class="col-xxl-3 col-lg-3">
+                        <div class="search-box">
+                            <input type="text" class="form-control bg-light border-light" placeholder="Buscar...">
+                            <i class="ri-search-2-line search-icon"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <span class="float-end text-secondary">
+                <span class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+                </span>
+            </span>
+            <h6 class="card-title">DS N°43 Reglamento de almacenamiento de sustancias peligrosas</h6>
+            <p class="card-subtitle text-muted mb-0">Ministerio de Salud</p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xxl-6 col-lg-6">
+                    <p><b>Descripción</b></p>
+                    <p>Establece las condiciones de seguridad para instalaciones de almacenamiento de sustancias peligrosas, tales como bodega, estanques, silos, isotanques y otras.</p>
+                </div>
+                <div class="col-xxl-6 col-lg-6">
+                    <p><b>Características</b></p>
+                    <p>Publicado:</p>
+                    <p>Entrada de vigencia:</p>
+                    <p>Última modificación:</p>
+                    <p>Vigencia:</p>
+                    <p>Ámbito:</p>
+                    <p>Alcance terriotorial:</p>
+                    <p>Cuerpos legales relacionados:</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
+    <div class="file-manager-sidebar">
+        <div class="p-3 d-flex flex-column h-100">
+            <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed">
+                <h5 class="flex-grow-1 fw-semibold mb-0">Menú</h5>
+                <div>
+                    <button type="button" class="btn btn-icon btn-sm fs-16 close-btn-overview">
+                        <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                    </button>
+                </div>
+            </div>
+            
+            <!--<div class="search-box">
+                <input type="text" class="form-control bg-light border-light" placeholder="Search here...">
+                <i class="ri-search-2-line search-icon"></i>
+            </div>-->
+            <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll">
+                <ul class="list-unstyled file-manager-menu">
+                    <li>
+                        <a data-bs-toggle="collapse" href="javascript:void(0);" role="button" aria-expanded="true"
+                            aria-controls="collapseExample" (click)="collapse.toggle()"
+                            [attr.aria-expanded]="!isCollapsed">
+                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">Encabezado</span>
+                        </a>
+                        <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
+                            [(ngbCollapse)]="isCollapsed">
+                            <ul class="sub-menu list-unstyled">
+                                <li>
+                                    <a href="javascript:void(0);">Título I</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Título II</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Título III</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Documents')"><i
+                                class="ri-file-list-2-line align-bottom me-2"></i> <span
+                                class="file-list-link">Párrafo 1°</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Media')"><i
+                            class="ri-file-list-2-line align-bottom me-2"></i> <span
+                                class="file-list-link">Párrafo 2°</span></a>
+                    <li>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Recents')"><i
+                            class="ri-file-list-2-line align-bottom me-2"></i> <span
+                                class="file-list-link">Párrafo 3°</span></a>
+                    </li>
+                </ul>
+            </ngx-simplebar>
+        </div>
+    </div>
+    <div class="file-manager-content w-100 p-3 py-0">
+        <ngx-simplebar class="mx-n3 pt-4 px-4 file-manager-content-scroll">
+            <div>
+
+                <ng-container *ngFor="let data of recentDatas">
+                    
+          <div class="col-xxl-12" id="r-{{data.id}}">
+            <div class="card border card-border-primary" style="border-radius: 24px !important;">
+                <div class="row g-0">
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            
+                            <h5 class="card-title mb-0">Artículo 5</h5>
+                            <p class="card-text mb-2">For that very reason, I went on a quest and spoke to many different professional graphic designers and asked them what graphic design tips they live.</p>
+                            <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="
+                    background-color: #f3f6f9;
+                    border-left: 1px solid #000;
+                    border-top-right-radius: 24px;
+                    border-bottom-right-radius: 24px;
+                    display: flex;
+                    justify-content: center;
+                    justify-items: center;
+                    align-items: center;">
+                        <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
+                        data-bs-target="#createFileModal" (click)="openRecentModal(recentContent)"><!--<i
+                            class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
+                    </div>
+                </div>
+            </div><!-- end card -->
+            </div><!-- end col -->
+                </ng-container>
+
+            </div>
+        </ngx-simplebar>
+    </div>
+    </div>
+
+<!-- Create Folder Model -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header p-3 bg-soft-success">
+        <h5 class="modal-title" id="createFolderModalLabel">Create Folder</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFolderBtn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form autocomplete="off" class="needs-validation createfolder-form" id="createfolder-form" novalidate
+            (ngSubmit)="saveFolder()" [formGroup]="folderForm">
+            <div class="mb-4">
+                <label for="foldername-input" class="form-label">Folder Name</label>
+                <input type="text" class="form-control" id="foldername-input" required placeholder="Enter folder name"
+                    formControlName="title" [ngClass]="{ 'is-invalid': submitted && form['title'].errors }">
+                <div class="invalid-feedback">Please enter a folder name.</div>
+                <input type="hidden" class="form-control" id="folderid-input" value="" placeholder="Enter folder name">
+            </div>
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-ghost-success" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line align-bottom"></i> Close</button>
+                <button type="submit" class="btn btn-primary" id="addNewFolder">Add Folder</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<!-- Delete Folder Model -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#f7b84b,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Are you sure ?</h4>
+                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this folder ?</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                <button type="button" class="btn w-sm btn-danger" id="remove-folderList" (click)="deleteData(deleteId)"
+                    (click)="modal.close('Close click')">Yes, Delete It!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>
+
+<!--== Recent File ==-->
+<!-- Create Recent Model -->
+<ng-template #recentContent role="document" let-modal>
+    <div class="modal-header p-3 bg-soft-success">
+        <h5 class="modal-title" id="createFileModalLabel">Create File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFileBtn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form autocomplete="off" class="needs-validation createfile-form" id="createfile-form" novalidate
+            (ngSubmit)="saveRecent()" [formGroup]="recentForm">
+            <input type="hidden" name="id" value="" formControlName="ids" />
+            <div class="mb-4">
+                <label for="filename-input" class="form-label">File Name</label>
+                <input type="text" class="form-control" id="filename-input" value="" required
+                    placeholder="Enter file name" formControlName="icon_name"
+                    [ngClass]="{ 'is-invalid': submitted && form1['icon_name'].errors }">
+                <div class="invalid-feedback">Please enter a file name.</div>
+                <input type="hidden" class="form-control" id="fileid-input" value="" placeholder="Enter file name">
+            </div>
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-ghost-success" data-bs-dismiss="modal"><i
+                        class="ri-close-line align-bottom"></i> Close</button>
+                <button type="submit" class="btn btn-primary" id="addNewFile">Create</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<!-- Delete Recent Model -->
+<ng-template #deleteRecentModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#f7b84b,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Are you sure ?</h4>
+                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this folder ?</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                <button type="button" class="btn w-sm btn-danger" id="remove-folderList"
+                    (click)="deleteRecentData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>
