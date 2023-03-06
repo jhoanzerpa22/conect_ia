@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTypeaheadModule, NgbAccordionModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Ng Search 
@@ -39,6 +39,7 @@ import { TypeComponent } from './create/type/type.component';
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
+import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -59,7 +60,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ToastsProjectContainer,
     InstallationsComponent,
     InstallationsTypeComponent,
-    BodyLegalTypeComponent
+    BodyLegalTypeComponent,
+    BodyLegalDetailComponent
   ],
   imports: [
     CommonModule,
@@ -79,6 +81,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     NgSelectModule,
     ProjectsRoutingModule,
     NgbTypeaheadModule,
+    NgbAccordionModule, 
+    NgbCollapseModule,
     SharedModule,
     NgxSliderModule,
     Ng2SearchPipeModule
