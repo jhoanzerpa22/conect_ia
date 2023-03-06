@@ -83,12 +83,12 @@ export class ProjectsService {
     }
 
     getInstallations(project_id: any){
-        return this.http.get(API_URL_BACK + 'installation/'+project_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/installation/'+project_id, httpOptions);
     }
 
     createInstallation(data: any): Observable<any> {
         
-        return this.http.post(API_URL_BACK + 'installation', {
+        return this.http.post(API_URL_BACK + 'project/installation', {
         "nombre": data.nombre,
         "descripcion": data.descripcion,
         "proyectoId": data.proyectoId
@@ -97,6 +97,6 @@ export class ProjectsService {
     }
 
     deleteInstallation(id: any): Observable<any> {
-        return this.http.delete(API_URL_BACK + 'installation/'+id, httpOptions);
+        return this.http.delete(API_URL_BACK + 'project/installation/'+id, httpOptions);
     }
 }
