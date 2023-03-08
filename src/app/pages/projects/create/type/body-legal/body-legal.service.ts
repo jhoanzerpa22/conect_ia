@@ -7,7 +7,6 @@ import {BodyLegalTypeModel} from './body-legal.model';
 import {BodyLegal} from './data';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-import { ProjectsService } from '../../../../../core/services/projects.service';
 import {SortColumn, SortDirection} from './body-legal-sortable.directive';
 
 interface SearchResult {
@@ -40,10 +39,8 @@ function sort(bodylegal: BodyLegalTypeModel[], column: SortColumn, direction: st
 }
 
 function matches(installation: BodyLegalTypeModel, term: string, pipe: PipeTransform) {
-  return installation.norma?.toLowerCase().includes(term.toLowerCase())
-  || installation.titulo?.toLowerCase().includes(term.toLowerCase())
-  || installation.subtitulo?.toLowerCase().includes(term.toLowerCase())
-  || installation.descripcion?.toLowerCase().includes(term.toLowerCase());
+  return installation.tituloNorma?.toLowerCase().includes(term.toLowerCase())
+  || installation.encabezado?.texto?.toLowerCase().includes(term.toLowerCase());
 
 }
 
@@ -67,7 +64,7 @@ export class BodyLegalService {
 
   bodylegal_data: any = [];
 
-  constructor(private pipe: DecimalPipe, private projectsService: ProjectsService) {
+  constructor(private pipe: DecimalPipe) {
   
     this._search$.pipe(
       tap(() => this._loading$.next(true)),
@@ -118,7 +115,7 @@ export class BodyLegalService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     let data: any = this.bodylegal_data.length > 0 ? this.bodylegal_data : BodyLegal;
-    let bodylegal = sort(BodyLegal, sortColumn, sortDirection);
+    let bodylegal = sort(data, sortColumn, sortDirection);
     // 2. filter
     bodylegal = bodylegal.filter(installation => matches(installation, searchTerm, this.pipe));
     const total = bodylegal.length;

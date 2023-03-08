@@ -1,15 +1,18 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
+
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
-import { DetailModel, recentModel } from './body-legal-detail.model';
+import { DetailModel, recentModel, ArticulosModel } from './body-legal-detail.model';
 import { folderData } from './data';
 import { RecentService } from './body-legal-detail.service';
 import { NgbdRecentSortableHeader, SortEvent } from './body-legal-detail-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import { ProjectsService } from '../../../../../../core/services/projects.service';
+import { ToastService } from '../../../../toast-service';
 
 @Component({
   selector: 'app-body-legal-detail',
@@ -28,6 +31,7 @@ export class BodyLegalDetailComponent implements OnInit {
 
   project_id: any = '';
   cuerpo_id: any = '';
+  detail: any = [];
 
   folderData!: DetailModel[];
   submitted = false;
@@ -35,15 +39,21 @@ export class BodyLegalDetailComponent implements OnInit {
   folderDatas: any;
   recentForm!: UntypedFormGroup;
   recentDatas: any;
+  articulosDatas: any;
   simpleDonutChart: any;
-  public isCollapsed = false;
+  public isCollapsed: any = [];
+  isCollapseArray: any = ['Encabezado'];
+  showEncabezado: boolean = true;
 
   // Table data
   recentData!: Observable<recentModel[]>;
+  articulosData!: Observable<ArticulosModel[]>;
   total: Observable<number>;
   @ViewChildren(NgbdRecentSortableHeader) headers!: QueryList<NgbdRecentSortableHeader>;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute) {
+  //@ViewChild("collapse") collapse?: ElementRef<any>;
+
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -83,37 +93,10 @@ export class BodyLegalDetailComponent implements OnInit {
 
     // Data Get Function
     this._fetchData();
-
-    this._simpleDonutChart('["--vz-info", "--vz-danger", "--vz-primary", "--vz-success"]');
-  }
-
-  // Chart Colors Set
-  private getChartColorsArray(colors: any) {
-    colors = JSON.parse(colors);
-    return colors.map(function (value: any) {
-      var newValue = value.replace(" ", "");
-      if (newValue.indexOf(",") === -1) {
-        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-        if (color) {
-          color = color.replace(" ", "");
-          return color;
-        }
-        else return newValue;;
-      } else {
-        var val = value.split(',');
-        if (val.length == 2) {
-          var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-          rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-          return rgbaColor;
-        } else {
-          return newValue;
-        }
-      }
-    });
   }
 
   // Chat Data Fetch
-  private _fetchData() {
+  /*private _fetchData() {
     // Folder Data Fetch
     this.folderData = folderData;
     this.folderDatas = Object.assign([], this.folderData);
@@ -122,6 +105,29 @@ export class BodyLegalDetailComponent implements OnInit {
     this.recentData.subscribe(x => {
       this.recentDatas = Object.assign([], x);
     });
+  }*/
+
+  /**
+   * Fetches the data
+   */
+  private _fetchData() {
+    
+    this.showPreLoader();
+      this.projectsService.getBodyLegalByNorma(this.cuerpo_id).pipe().subscribe(
+        (data: any) => {
+          //this.service.bodylegal_data = data.data;
+          this.detail = data.data;
+          this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
+          console.log('detail',this.detail);
+          console.log('detailData',this.articulosDatas);
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
   /**
@@ -140,47 +146,14 @@ export class BodyLegalDetailComponent implements OnInit {
     return this.folderForm.controls;
   }
 
-  /**
-  * Save user
-  */
-  saveFolder() {
-    if (this.folderForm.valid) {
-      const title = this.folderForm.get('title')?.value;
-      const id = 5;
-      const files = '349';
-      const gb = "4.10";
-      this.folderData.push({
-        id,
-        title,
-        files,
-        gb
-      });
-      this.modalService.dismissAll()
-    }
-    setTimeout(() => {
-      this.folderForm.reset();
-    }, 2000);
-    this.submitted = true
-  }
-
-  /**
-   * Confirmation mail model
-  */
-  deleteId: any;
-  confirm(content: any, id: any) {
-    this.deleteId = id;
-    this.modalService.open(content, { centered: true });
-  }
-
-  // Delete Data
-  deleteData(id: any) {
-    document.getElementById('f-' + id)?.remove();
-  }
-
-  // Delete Recent Data
-  deleteRecentData(id: any) {
-    document.getElementById('r-' + id)?.remove();
-  }
+  /*isCollapsed(idParte: any){
+    const index = this.isCollapseArray.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+    return index >= 0;
+    return true;
+  }*/
 
   // Folder Filter
   folderSearch() {
@@ -219,118 +192,41 @@ export class BodyLegalDetailComponent implements OnInit {
   }
 
   /**
-  * Save user
-  */
-  saveRecent() {
-    if (this.recentForm.valid) {
-      if (this.recentForm.get('ids')?.value) {
-        this.recentDatas = this.recentDatas.map((data: { id: any; }) => data.id === this.recentForm.get('ids')?.value ? { ...data, ...this.recentForm.value } : data)
-      } else {
-        const id = 5;
-        const icon = 'ri-file-text-fill';
-        const icon_color = 'secondary';
-        const icon_name = this.recentForm.get('icon_name')?.value;
-        const item = '01';
-        const size = "0.3 KB";
-        const type = "Media";
-        const date = "19 Apr, 2022";
-        this.recentDatas.push({
-          id,
-          icon,
-          icon_color,
-          icon_name,
-          item,
-          size,
-          type,
-          date,
-        });
-        this.modalService.dismissAll();
-      }
-    }
-    this.modalService.dismissAll();
-    setTimeout(() => {
-      this.recentForm.reset();
-    }, 2000);
-    this.submitted = true
-  }
-
-  /**
-   * Open modal
-   * @param content modal content
-   */
-  editModal(recentContent: any, id: any) {
-    this.submitted = false;
-    this.modalService.open(recentContent, { size: 'md', centered: true });
-    var listData = this.recentDatas.filter((data: { id: any; }) => data.id === id);
-    this.recentForm.controls['icon_name'].setValue(listData[0].icon_name);
-    this.recentForm.controls['ids'].setValue(listData[0].id);
-  }
-
-  // OverView Chart
-  /**
- * Simple Donut Chart
- */
-  private _simpleDonutChart(colors: any) {
-    colors = this.getChartColorsArray(colors);
-    this.simpleDonutChart = {
-      series: [27.01, 20.87, 33.54, 37.58],
-      chart: {
-        height: 330,
-        type: 'donut',
-      },
-      legend: {
-        position: 'bottom'
-      },
-      labels: ["Documents", "Media", "Others", "Free Space"],
-      dataLabels: {
-        dropShadow: {
-          enabled: false,
-        }
-      },
-      colors: colors
-    };
-  }
-
-  /**
- * Open modal
- * @param content modal content
- */
-  editdata(id: any) {
-    (document.getElementById("file-overview") as HTMLElement).style.display = "block";
-    (document.getElementById("folder-overview") as HTMLElement).style.display = "none";
-    var data = this.recentDatas.filter((data: { id: any; }) => data.id === id);
-    (document.querySelector('#file-overview .file-icon i') as HTMLImageElement).className = data[0].icon + ' ' + 'text-' + data[0].icon_color;
-    var file_name: any = document.querySelectorAll('#file-overview .file-name');
-    file_name.forEach((name: any) => {
-      name.innerHTML = data[0].icon_name
-    });
-    var file_size: any = document.querySelectorAll('#file-overview .file-size');
-    file_size.forEach((name: any) => {
-      name.innerHTML = data[0].size
-    });
-    var create_date: any = document.querySelectorAll('#file-overview .create-date');
-    create_date.forEach((name: any) => {
-      name.innerHTML = data[0].date
-    });
-    (document.querySelector('#file-overview .file-type') as HTMLImageElement).innerHTML = data[0].type;
-  }
-
-  // Overview Model Close
-  closeModel() {
-    document.body.classList.remove('file-detail-show');
-  }
-
-  /**
   * Product Filtering  
   */
-  changeProducts(e: any, name: any) {
+  changeProducts(e: any, name: any, index?: any) {
 
-    (document.getElementById("folder-list") as HTMLElement).style.display = "none";
+    //this.collapse?.nativeElement.toggle();
+    //this.collapse?.nativeElement.classList.toggle('active');
+
+    this.showEncabezado = name == 'Encabezado';
+
+    this.isCollapseArray = name;
+
+    /*(document.getElementById("folder-list") as HTMLElement).style.display = "none";
     this.recentData.subscribe(x => {
       this.recentDatas = x.filter((product: any) => {
         return product.type === name;
       });
-    });
+    });*/
+  }
+
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }

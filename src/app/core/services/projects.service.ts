@@ -99,4 +99,12 @@ export class ProjectsService {
     deleteInstallation(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'project/installation/'+id, httpOptions);
     }
+    
+    getBodyLegal(project_id: any){
+        return this.http.get(API_URL_BACK + 'norm/home', httpOptions);
+    }
+    
+    getBodyLegalByNorma(id: any){
+        return this.http.get(API_URL_BACK + 'norm/home/'+id, httpOptions);
+    }
 }
