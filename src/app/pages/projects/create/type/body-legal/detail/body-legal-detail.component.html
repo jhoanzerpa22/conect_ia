@@ -105,29 +105,29 @@
             <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll">
                 <ul class="list-unstyled file-manager-menu">
                     <li>
-                        <a href="javascript:void(0);" (click)="changeProducts($event, 'Encabezado', null)">
+                        <a href="javascript:void(0);" (click)="changeProducts($event, 'r-Encabezado', null)">
                             <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">Encabezado</span>
                         </a>
                     </li>
                     <li *ngFor="let est of detail.EstructurasFuncionales; let i = index;">
-                        <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, est.idParte, i)" role="button" aria-expanded="true"
+                        <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" role="button" aria-expanded="true"
                         aria-controls="collapseExample"
                         [attr.aria-expanded]="!isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales"><i
                                 class="ri-file-list-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">{{est.tipoParte}}</span>
+                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : est.texto.split(".")[0] }}</span>
                         </a>
                         
                         <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
                             [(ngbCollapse)]="isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales">
                             <ul class="sub-menu list-unstyled">
                                 <li *ngFor="let est2 of est.EstructurasFuncionales; let i2 = index;">
-                                    <a href="javascript:void(0);">{{est2.tipoParte}}</a>
+                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : est2.texto.split(".")[0]}}</a>
                                 </li>
                             </ul>
                         </div>
 
-                        <a href="javascript:void(0);" (click)="changeProducts($event, est.idParte, i)" *ngIf="!est.EstructurasFuncionales">
-                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tipoParte}}</span>
+                        <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" *ngIf="!est.EstructurasFuncionales">
+                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tituloParte ? est.tituloParte : est.texto.split(".")[0]}}</span>
                         </a>
                     </li>
                 </ul>
@@ -138,28 +138,70 @@
         <ngx-simplebar class="mx-n3 pt-4 px-4 file-manager-content-scroll">
             <div>
 
-                <div class="col-xxl-12" id="r-Encabezado" *ngIf="showEncabezado">
+                <div class="col-xxl-12" id="r-Encabezado"><!--*ngIf="showEncabezado"-->
                     <div class="card border card-border-primary" style="border-radius: 24px !important;">
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    {{detail.encabezado ? detail.encabezado.texto : ''}}  
+                                    <h5 class="card-title mb-0">{{detail.encabezado ? detail.encabezado.texto : ''}}</h5>  
                                 </div>
                             </div>
                         </div>
-                    </div><!-- end card -->
-                    </div><!-- end col -->
+                    </div>
+                </div>
 
-                <ng-container *ngFor="let data of articulosDatas">
-                    
-          <div class="col-xxl-12" id="r-{{data.idParte}}">
+        <ng-container *ngFor="let data of articulosDatas">
+            
+            <div class="col-xxl-12" id="r-{{data.idParte}}" *ngIf="!data.EstructurasFuncionales">
+                <div class="card border card-border-primary" style="border-radius: 24px !important;">
+                    <div class="row g-0">
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                
+                                <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : data.texto.split(".")[0]}}</h5>
+                                <p class="card-text mb-2">{{data.texto}}</p>
+                                <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="
+                        background-color: #f3f6f9;
+                        border-left: 1px solid #000;
+                        border-top-right-radius: 24px;
+                        border-bottom-right-radius: 24px;
+                        display: flex;
+                        justify-content: center;
+                        justify-items: center;
+                        align-items: center;">
+                            <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
+                            data-bs-target="#createFileModal"><!--<i
+                                class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ng-container *ngIf="data.EstructurasFuncionales">
+              
+                <div class="col-xxl-12" id="r-{{data.idParte}}">
+                    <div class="card border card-border-primary" style="border-radius: 24px !important;">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : data.texto.split(".")[0]}}</h5>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="col-xxl-12" *ngFor="let item of data.EstructurasFuncionales; let i3 = index;" id="r-{{item.idParte}}">
             <div class="card border card-border-primary" style="border-radius: 24px !important;">
                 <div class="row g-0">
                     <div class="col-md-10">
                         <div class="card-body">
                             
-                            <h5 class="card-title mb-0">{{data.tipoParte}}</h5>
-                            <p class="card-text mb-2">{{data.texto}}</p>
+                            <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : item.texto.split(".")[0]}}</h5>
+                            <p class="card-text mb-2">{{item.texto}}</p>
                             <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
                         </div>
                     </div>
@@ -179,7 +221,8 @@
                 </div>
             </div><!-- end card -->
             </div><!-- end col -->
-                </ng-container>
+            </ng-container>
+        </ng-container>
 
             </div>
         </ngx-simplebar>
