@@ -199,9 +199,10 @@ export class BodyLegalDetailComponent implements OnInit {
     //this.collapse?.nativeElement.toggle();
     //this.collapse?.nativeElement.classList.toggle('active');
 
-    this.showEncabezado = name == 'Encabezado';
+    this.showEncabezado = name == 'r-Encabezado';
 
     this.isCollapseArray = name;
+    (document.getElementById(name) as HTMLElement).scrollIntoView({behavior: 'smooth'});
 
     /*(document.getElementById("folder-list") as HTMLElement).style.display = "none";
     this.recentData.subscribe(x => {
