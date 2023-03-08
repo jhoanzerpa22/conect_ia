@@ -31,20 +31,20 @@ export class BodyLegalTypeComponent {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   submitted = false;
-  InstallationData!: BodyLegalTypeModel[];
+  BodyLegalData!: BodyLegalTypeModel[];
   checkedList: any;
   masterSelected!: boolean;
-  InstallationDatas: any;
+  BodyLegalDatas: any;
 
   project_id: any = '';
 
   // Table data
-  InstallationList!: Observable<BodyLegalTypeModel[]>;
+  BodyLegalList!: Observable<BodyLegalTypeModel[]>;
   total: Observable<number>;
   @ViewChildren(NgbdBodyLegalTypeSortableHeader) headers!: QueryList<NgbdBodyLegalTypeSortableHeader>;
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
-    this.InstallationList = service.bodylegal$;
+    this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
 
@@ -66,8 +66,8 @@ export class BodyLegalTypeComponent {
     /**
      * fetches data
      */
-    this.InstallationList.subscribe(x => {
-      this.InstallationDatas = Object.assign([], x);
+    this.BodyLegalList.subscribe(x => {
+      this.BodyLegalDatas = Object.assign([], x);
     });
   }
 
@@ -75,15 +75,15 @@ export class BodyLegalTypeComponent {
  * User grid data fetches
  */
   //  private _fetchData() {
-  //   this.InstallationData = Installation;
-  //   this.InstallationDatas = Object.assign([], this.InstallationData);
+  //   this.BodyLegalData = BodyLegal;
+  //   this.BodyLegalDatas = Object.assign([], this.BodyLegalData);
   // }
 
   /**
    * Fetches the data
    */
   private fetchData() {
-    /*
+    
     this.showPreLoader();
       this.projectsService.getBodyLegal(this.project_id).pipe().subscribe(
         (data: any) => {
@@ -95,31 +95,7 @@ export class BodyLegalTypeComponent {
         //this.error = error ? error : '';
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
-      document.getElementById('elmLoader')?.classList.add('d-none')*/
-  }
-
-  /**
-  * Confirmation mail model
-  */
-  deleteId: any;
-  confirm(content: any, id: any) {
-    this.deleteId = id;
-    this.modalService.open(content, { centered: true });
-  }
-
-  // Delete Data
-  deleteData(id: any) {
-      this.projectsService.deleteInstallation(id)
-      .subscribe(
-        response => {
-          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-          this.fetchData();
-          document.getElementById('lj_'+id)?.remove();
-        },
-        error => {
-          console.log(error);
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-        });
+      document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
   // PreLoader

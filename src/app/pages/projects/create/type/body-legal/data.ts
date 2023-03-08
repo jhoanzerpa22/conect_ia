@@ -1,5 +1,5 @@
 const BodyLegal = [
-  {
+  {/*
     id:1,
     norma: 'DS N°43',
     titulo: 'Reglamento de almacenamiento de sustancias peligrosas',
@@ -7,7 +7,7 @@ const BodyLegal = [
     descripcion: 'Establece las condiciones de seguridad para instalaciones de almacenamiento de sustancias peligrosas, tales como bodega, estanques, silos, isotanques y otras.',
     publicado: '29/03/2016',
     vigencia: '29/09/2016',
-    conectado: ''
+    conectado: ''*/
   }
 ];
   

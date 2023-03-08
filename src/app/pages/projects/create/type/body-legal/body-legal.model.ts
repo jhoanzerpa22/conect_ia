@@ -1,10 +1,9 @@
 export interface BodyLegalTypeModel {
-  id: any;
-  norma: string;
-  titulo: string;
-  subtitulo: string;
-  descripcion: string;
-  publicado: string;
-  vigencia: string;
+  normaId: any;
+  tituloNorma?: string;
+  encabezado?: any;
+  organismos?: any;
+  dates?: any;
+  identificador?: any;
   conectado?: string;
 }
