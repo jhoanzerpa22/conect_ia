@@ -2,10 +2,26 @@
  * Detail Model List
  */
 export interface DetailModel {
-  id: any;
-  title: string;
-  files: string;
-  gb: string;
+  normaId: any;
+  tituloNorma?: string;
+  encabezado?: any;
+  organismos?: any;
+  dates?: any;
+  identificador?: any;
+  conectado?: string;
+}
+
+/**
+ * Articulos Model List
+ */
+export interface ArticulosModel {
+  parteId: any;
+  tituloNorma?: string;
+  dates?: any;
+  identificador?: any;
+  conectado?: string;
+  texto?: string;
+  tipoParte?: string;
 }
 
 /**
