@@ -45,12 +45,20 @@ const routes: Routes = [
     component: InstallationsComponent
   },
   {
+    path: ":id/type/installations/:idInstallation/bodylegal",
+    component: BodyLegalTypeComponent
+  },
+  {
     path: ":id/type/installations",
     component: InstallationsTypeComponent
   },
   {
     path: ":id/type/bodylegal",
     component: BodyLegalTypeComponent
+  },
+  {
+    path: ":idProject/type/bodylegal/:id/Detail/:idInstallation",
+    component: BodyLegalDetailComponent
   },
   {
     path: ":idProject/type/bodylegal/:id/Detail",

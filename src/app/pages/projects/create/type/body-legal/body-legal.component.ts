@@ -37,6 +37,7 @@ export class BodyLegalTypeComponent {
   BodyLegalDatas: any;
 
   project_id: any = '';
+  installation_id: any = null;
 
   // Table data
   BodyLegalList!: Observable<BodyLegalTypeModel[]>;
@@ -60,6 +61,7 @@ export class BodyLegalTypeComponent {
 
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
+      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.fetchData();
     });
 
