@@ -31,7 +31,10 @@ export class BodyLegalDetailComponent implements OnInit {
 
   project_id: any = '';
   cuerpo_id: any = '';
+  installation_id: any = null;
+  installation_name: any = null;
   detail: any = [];
+  installations: any = [];
 
   folderData!: DetailModel[];
   submitted = false;
@@ -89,6 +92,11 @@ export class BodyLegalDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
       this.cuerpo_id = params['id'];
+      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
+
+      if(!this.installation_id){
+        this.getInstallations();
+      }
     });
 
     // Data Get Function
@@ -128,6 +136,33 @@ export class BodyLegalDetailComponent implements OnInit {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+  
+  private getInstallations() {
+    
+    this.showPreLoader();
+      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+        (data: any) => {
+          //this.service.bodylegal_data = data.data;
+          this.installations = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  selectInstallation(event: any){
+    console.log('cambio', event.target.value);
+    this.installation_name = event.target.value;
+  }
+
+  saveInstallation(){
+    console.log('save', this.installation_name);
+    this.installation_id = this.installation_name;
   }
 
   /**

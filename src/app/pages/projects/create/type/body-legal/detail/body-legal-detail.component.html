@@ -11,13 +11,13 @@
     </div>
   </div>
 
-<div class="row">
+<div class="row" *ngIf="installation_id">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
-                        <h4 class="card-title mb-0">Estanque TK2101</h4>
+                        <h4 class="card-title mb-0">{{installation_id}}</h4>
                     </div>
                     
                     <div class="col-xxl-3 col-lg-3">
@@ -82,7 +82,35 @@
 </div>
 </div>
 
-<div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
+<div class="row" *ngIf="!installation_id">
+    <div class="col-12">
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <h6 class="card-title">Conexión</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xxl-12 col-lg-12">
+                    <p><b>Instalación o proceso</b></p>
+                    <select class="form-select" placeholder="Selecciona instalación o proceso" data-choices data-choices-search-false
+                                id="choices-priority-input" (change)="selectInstallation($event)">
+                                <option value="">Selecciona instalación o proceso</option>
+                                <option *ngFor="let r of installations;" value="{{r.nombre}}">{{r.nombre}}</option>
+                    </select>
+                </div>
+                
+                <div class="col-xxl-12 col-lg-12" style="margin: 20px !important;">
+                    <button class="btn btn-success createFile-modal float-end text-secondary" style="color: #fff !important;" (click)="saveInstallation()" [disabled]="!installation_name"> Conectar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1" *ngIf="installation_id">
     <div class="file-manager-sidebar">
         <div class="p-3 d-flex flex-column h-100">
             <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed">
@@ -114,20 +142,20 @@
                         aria-controls="collapseExample"
                         [attr.aria-expanded]="!isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales"><i
                                 class="ri-file-list-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : est.texto.split(".")[0] }}</span>
+                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) }}</span>
                         </a>
                         
                         <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
                             [(ngbCollapse)]="isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales">
                             <ul class="sub-menu list-unstyled">
                                 <li *ngFor="let est2 of est.EstructurasFuncionales; let i2 = index;">
-                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : est2.texto.split(".")[0]}}</a>
+                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) }}</a>
                                 </li>
                             </ul>
                         </div>
 
                         <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" *ngIf="!est.EstructurasFuncionales">
-                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tituloParte ? est.tituloParte : est.texto.split(".")[0]}}</span>
+                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tituloParte ? est.tituloParte : (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) }}</span>
                         </a>
                     </li>
                 </ul>
@@ -158,7 +186,7 @@
                         <div class="col-md-10">
                             <div class="card-body">
                                 
-                                <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : data.texto.split(".")[0]}}</h5>
+                                <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) }}</h5>
                                 <p class="card-text mb-2">{{data.texto}}</p>
                                 <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
                             </div>
@@ -187,7 +215,7 @@
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : data.texto.split(".")[0]}}</h5>  
+                                    <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) }}</h5>  
                                 </div>
                             </div>
                         </div>
@@ -200,7 +228,7 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             
-                            <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : item.texto.split(".")[0]}}</h5>
+                            <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : (item.texto.split(".")[0].length > 10 ? item.texto.split(".")[0] : item.tipoParte) }}</h5>
                             <p class="card-text mb-2">{{item.texto}}</p>
                             <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
                         </div>
