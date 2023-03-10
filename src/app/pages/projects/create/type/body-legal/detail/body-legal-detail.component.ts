@@ -14,6 +14,9 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ProjectsService } from '../../../../../../core/services/projects.service';
 import { ToastService } from '../../../../toast-service';
 
+// Sweet Alert
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-body-legal-detail',
   templateUrl: './body-legal-detail.component.html',
@@ -32,9 +35,11 @@ export class BodyLegalDetailComponent implements OnInit {
   project_id: any = '';
   cuerpo_id: any = '';
   installation_id: any = null;
-  installation_name: any = null;
+  installation_id_select: any = null;
+  installation_nombre: any = null;
   detail: any = [];
   installations: any = [];
+  installations_articles: any = [];
 
   folderData!: DetailModel[];
   submitted = false;
@@ -93,9 +98,12 @@ export class BodyLegalDetailComponent implements OnInit {
       this.project_id = params['idProject'];
       this.cuerpo_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
+      this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
       if(!this.installation_id){
         this.getInstallations();
+      }else{
+        this.getArticlesByInstallation(this.installation_id);
       }
     });
 
@@ -137,6 +145,15 @@ export class BodyLegalDetailComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+
+  validateIdparte(idParte: any){
+    const index = this.installations_articles.findIndex(
+      (co: any) =>
+        co.articulo == idParte
+    );
+
+    return index == -1;
+  }
   
   private getInstallations() {
     
@@ -155,14 +172,35 @@ export class BodyLegalDetailComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  private getArticlesByInstallation(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallation(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.installations_articles = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   selectInstallation(event: any){
-    console.log('cambio', event.target.value);
-    this.installation_name = event.target.value;
+    this.installation_id_select = event.target.value;
   }
 
   saveInstallation(){
-    console.log('save', this.installation_name);
-    this.installation_id = this.installation_name;
+    this.installation_id = this.installation_id_select;
+    const index = this.installations.findIndex(
+      (co: any) =>
+        co.id == this.installation_id_select
+    );
+
+    this.installation_nombre = this.installations[index].nombre;
+    this.getArticlesByInstallation(this.installation_id);
   }
 
   /**
@@ -245,6 +283,42 @@ export class BodyLegalDetailComponent implements OnInit {
         return product.type === name;
       });
     });*/
+  }
+
+  conectArticle(article_id?: any){
+    
+    this.showPreLoader();
+
+    const article_installation: any = {
+      articulo: article_id
+    };
+    
+    this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       this.installations_articles.push({articulo: article_id});
+       
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Artículo conectado',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
   }
 
   // PreLoader
