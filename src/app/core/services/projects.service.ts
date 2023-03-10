@@ -86,6 +86,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'project/installation/'+project_id, httpOptions);
     }
 
+    getArticlesByInstallation(installation_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id, httpOptions);
+    }
+
     createInstallation(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'project/installation', {
@@ -106,5 +110,9 @@ export class ProjectsService {
     
     getBodyLegalByNorma(id: any){
         return this.http.get(API_URL_BACK + 'norm/home/'+id, httpOptions);
+    }
+
+    conectArticleInstallation(installation_id: any, article: any){
+        return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, httpOptions);
     }
 }

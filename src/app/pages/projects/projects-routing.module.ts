@@ -45,7 +45,7 @@ const routes: Routes = [
     component: InstallationsComponent
   },
   {
-    path: ":id/type/installations/:idInstallation/bodylegal",
+    path: ":id/type/installations/:idInstallation/:nameInstallation/bodylegal",
     component: BodyLegalTypeComponent
   },
   {
@@ -57,7 +57,7 @@ const routes: Routes = [
     component: BodyLegalTypeComponent
   },
   {
-    path: ":idProject/type/bodylegal/:id/Detail/:idInstallation",
+    path: ":idProject/type/bodylegal/:id/Detail/:idInstallation/:nameInstallation",
     component: BodyLegalDetailComponent
   },
   {
