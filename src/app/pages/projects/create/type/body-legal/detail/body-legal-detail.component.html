@@ -17,7 +17,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
-                        <h4 class="card-title mb-0">{{installation_id}}</h4>
+                        <h4 class="card-title mb-0">{{installation_nombre}}</h4>
                     </div>
                     
                     <div class="col-xxl-3 col-lg-3">
@@ -96,12 +96,12 @@
                     <select class="form-select" placeholder="Selecciona instalación o proceso" data-choices data-choices-search-false
                                 id="choices-priority-input" (change)="selectInstallation($event)">
                                 <option value="">Selecciona instalación o proceso</option>
-                                <option *ngFor="let r of installations;" value="{{r.nombre}}">{{r.nombre}}</option>
+                                <option *ngFor="let r of installations;" value="{{r.id}}">{{r.nombre}}</option>
                     </select>
                 </div>
                 
                 <div class="col-xxl-12 col-lg-12" style="margin: 20px !important;">
-                    <button class="btn btn-success createFile-modal float-end text-secondary" style="color: #fff !important;" (click)="saveInstallation()" [disabled]="!installation_name"> Conectar</button>
+                    <button class="btn btn-success createFile-modal float-end text-secondary" style="color: #fff !important;" (click)="saveInstallation()" [disabled]="!installation_id_select"> Conectar</button>
                 </div>
             </div>
         </div>
@@ -201,8 +201,9 @@
                         justify-items: center;
                         align-items: center;">
                             <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                            data-bs-target="#createFileModal"><!--<i
+                            data-bs-target="#createFileModal" (click)="conectArticle(data.idParte)" *ngIf="validateIdparte(data.idParte)"><!--<i
                                 class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
+                            <span *ngIf="!validateIdparte(data.idParte)">Conectado</span>
                         </div>
                     </div>
                 </div>
@@ -243,8 +244,9 @@
                     justify-items: center;
                     align-items: center;">
                         <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                        data-bs-target="#createFileModal"><!--<i
+                        data-bs-target="#createFileModal" (click)="conectArticle(item.idParte)" *ngIf="validateIdparte(item.idParte)"><!--<i
                             class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
+                            <span *ngIf="!validateIdparte(item.idParte)">Conectado</span>
                     </div>
                 </div>
             </div><!-- end card -->
