@@ -13,6 +13,7 @@ import { NgbdRecentSortableHeader, SortEvent } from './body-legal-detail-sortabl
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../../core/services/projects.service';
 import { ToastService } from '../../../../toast-service';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -59,9 +60,12 @@ export class BodyLegalDetailComponent implements OnInit {
   total: Observable<number>;
   @ViewChildren(NgbdRecentSortableHeader) headers!: QueryList<NgbdRecentSortableHeader>;
 
+  htmlString: any = "";
+  showRow: any = [];
+
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -134,6 +138,9 @@ export class BodyLegalDetailComponent implements OnInit {
           //this.service.bodylegal_data = data.data;
           this.detail = data.data;
           this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
+          
+          this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
+
           console.log('detail',this.detail);
           console.log('detailData',this.articulosDatas);
           this.hidePreLoader();
@@ -227,6 +234,39 @@ export class BodyLegalDetailComponent implements OnInit {
     return index >= 0;
     return true;
   }*/
+
+  formatArticle(texto:any, idParte: any){
+    
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1 ? texto : texto.substr(0,450)+'...';
+  }
+
+  showText(idParte: any){
+    this.showRow.push(idParte);
+  }
+
+  hideText(idParte: any){
+    
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    this.showRow.splice(index, 1);
+  }
+
+  validatShow(idParte: any){
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1;
+  }
 
   // Folder Filter
   folderSearch() {
