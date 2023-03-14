@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-xxl-6 col-lg-6">
                     <p><b>Descripción</b></p>
-                    <p>{{detail.encabezado ? detail.encabezado.texto : ''}}</p>
+                    <div [innerHTML]="htmlString"></div>
                 </div>
                 <div class="col-xxl-6 col-lg-6">
                     <p><b>Características</b></p>
@@ -167,11 +167,11 @@
             <div>
 
                 <div class="col-xxl-12" id="r-Encabezado"><!--*ngIf="showEncabezado"-->
-                    <div class="card border card-border-primary" style="border-radius: 24px !important;">
+                    <div class="card">
                         <div class="row g-0">
                             <div class="col-md-12">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-0">{{detail.encabezado ? detail.encabezado.texto : ''}}</h5>  
+                                <div class="card-body">                    
+                                    <div [innerHTML]="htmlString"></div>
                                 </div>
                             </div>
                         </div>
@@ -187,8 +187,11 @@
                             <div class="card-body">
                                 
                                 <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) }}</h5>
-                                <p class="card-text mb-2">{{data.texto}}</p>
-                                <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
+                                <p class="card-text mb-2" [style]="data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto}}</p>
+                                <p class="card-text">
+                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Ver texto completo</b></small>
+                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-2" style="
@@ -203,7 +206,7 @@
                             <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
                             data-bs-target="#createFileModal" (click)="conectArticle(data.idParte)" *ngIf="validateIdparte(data.idParte)"><!--<i
                                 class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
-                            <span *ngIf="!validateIdparte(data.idParte)">Conectado</span>
+                            <span *ngIf="!validateIdparte(data.idParte)">Aplicable</span>
                         </div>
                     </div>
                 </div>
@@ -224,14 +227,17 @@
                 </div>
             
             <div class="col-xxl-12" *ngFor="let item of data.EstructurasFuncionales; let i3 = index;" id="r-{{item.idParte}}">
-            <div class="card border card-border-primary" style="border-radius: 24px !important;">
+            <div class="card border card-border-primary" style="border-radius: 24px !important;min-height: 140px;">
                 <div class="row g-0">
                     <div class="col-md-10">
                         <div class="card-body">
                             
                             <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : (item.texto.split(".")[0].length > 10 ? item.texto.split(".")[0] : item.tipoParte) }}</h5>
-                            <p class="card-text mb-2">{{item.texto}}</p>
-                            <p class="card-text"><small class="text-danger"><b>Ver texto completo</b></small></p>
+                            <p class="card-text mb-2" [style]="item.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item.texto.length > 450 ? formatArticle(item.texto, item.idParte) : item.texto}}</p>
+                            <p class="card-text">
+                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Ver texto completo</b></small>
+                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto.length > 450 && validatShow(item.idParte)" (click)="hideText(item.idParte)"><b>Ocultar texto completo</b></small>
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-2" style="
@@ -246,7 +252,7 @@
                         <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
                         data-bs-target="#createFileModal" (click)="conectArticle(item.idParte)" *ngIf="validateIdparte(item.idParte)"><!--<i
                             class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
-                            <span *ngIf="!validateIdparte(item.idParte)">Conectado</span>
+                            <span *ngIf="!validateIdparte(item.idParte)">Aplicable</span>
                     </div>
                 </div>
             </div><!-- end card -->
