@@ -41,6 +41,10 @@ const routes: Routes = [
     component: Step1Component
   },
   {
+    path: ":id/installations/:idInstallation/:nameInstallation",
+    component: InstallationsComponent
+  },
+  {
     path: ":id/installations",
     component: InstallationsComponent
   },
