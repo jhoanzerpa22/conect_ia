@@ -38,6 +38,8 @@ export class InstallationsComponent {
   InstallationDatas: any;
 
   project_id: any = '';
+  installation_id: any = '';
+  installation_name: any = ''; 
 
   // Table data
   InstallationList!: Observable<InstallationsModel[]>;
@@ -69,7 +71,31 @@ export class InstallationsComponent {
 
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
-      this.fetchData();
+      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
+      this.installation_name = params['nameInstallation'] ? params['nameInstallation'] : null;
+
+      if(this.installation_id){
+
+        let crumb: any = [{label: 'Proyecto', active: false},{label: 'Instalaciones y Procesos', active: false}];
+        let bread: any = this.installation_name.split('||');
+        
+        bread.forEach((item: any) => {
+          crumb.push({label: item, active: false});
+        });
+
+        crumb[bread.length + 1].active = true;
+
+        this.breadCrumbItems = crumb;
+        /*this.breadCrumbItems = [
+          { label: 'Proyecto' },
+          { label: 'Instalaciones y Procesos' },
+          { label: this.installation_name, active: true }
+        ];*/
+
+        this.fetchDataItems();
+      }else{
+        this.fetchData();
+      }
     });
 
     /**
@@ -98,6 +124,11 @@ export class InstallationsComponent {
     this.modalService.open(content, { size: 'md', centered: true });
   }
 
+  goItems(data: any){
+    let name_format: any = this.installation_id ? this.installation_name+'||'+data.nombre : data.nombre;
+    this._router.navigate(['/projects/'+this.project_id+'/installations/'+data.id+'/'+name_format]);
+  }
+
   /**
    * Form data get
    */
@@ -112,6 +143,23 @@ export class InstallationsComponent {
     
     this.showPreLoader();
       this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+        (data: any) => {
+          this.service.installations_data = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
+  }
+
+  private fetchDataItems() {
+    
+    this.showPreLoader();
+      this.projectsService.getInstallationsItems(this.installation_id).pipe().subscribe(
         (data: any) => {
           this.service.installations_data = data.data;
           this.hidePreLoader();
@@ -145,14 +193,20 @@ export class InstallationsComponent {
         const installation: any = {
           nombre: nombre,
           descripcion: descripcion,
-          proyectoId: this.project_id
+          proyectoId: this.installation_id ? null : this.project_id,
+          installationId: this.installation_id ? this.installation_id : null
         };
         
         this.projectsService.createInstallation(installation).pipe().subscribe(
           (data: any) => {     
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-           this.fetchData();
+
+           if(this.installation_id){
+            this.fetchDataItems();
+           }else{
+            this.fetchData();
+           }
            this.modalService.dismissAll();
         },
         (error: any) => {
@@ -216,7 +270,12 @@ export class InstallationsComponent {
       .subscribe(
         response => {
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-          this.fetchData();
+          
+          if(this.installation_id){
+            this.fetchDataItems();
+          }else{
+            this.fetchData();
+          }
           document.getElementById('lj_'+id)?.remove();
         },
         error => {
@@ -230,7 +289,12 @@ export class InstallationsComponent {
       .subscribe(
         response => {
           //this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-          this.fetchData();
+          if(this.installation_id){
+            this.fetchDataItems();
+          }else{
+            this.fetchData();
+          }
+
           document.getElementById('lj_'+item)?.remove();
         },
         error => {

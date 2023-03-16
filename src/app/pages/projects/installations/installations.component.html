@@ -75,6 +75,12 @@
                                                     data-bs-toggle="modal" data-bs-target="#showModal"
                                                     (click)="editModal(content,data.id)">Ver</button>
                                             </div>
+                                            
+                                            <div class="edit">
+                                                <button class="btn btn-sm btn-primary edit-item-btn"
+                                                    (click)="goItems(data)">Items</button>
+                                            </div>
+                                            
                                             <div class="remove">
                                                 <button class="btn btn-sm btn-danger remove-item-btn"
                                                     data-bs-toggle="modal" data-bs-target="#deleteRecordModal"

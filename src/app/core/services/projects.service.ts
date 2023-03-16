@@ -83,7 +83,11 @@ export class ProjectsService {
     }
 
     getInstallations(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/installation/'+project_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/installation/project/'+project_id, httpOptions);
+    }
+    
+    getInstallationsItems(installation_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/'+installation_id, httpOptions);
     }
 
     getArticlesByInstallation(installation_id: any){
@@ -95,7 +99,8 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'project/installation', {
         "nombre": data.nombre,
         "descripcion": data.descripcion,
-        "proyectoId": data.proyectoId
+        "proyectoId": data.proyectoId,
+        "instalacionId": data.installationId
       }, httpOptions);
     
     }
