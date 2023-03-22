@@ -44,6 +44,40 @@ import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-l
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
+
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
+import {A11yModule} from '@angular/cdk/a11y';
+
+
+import {
+  MatTreeModule,
+} from '@angular/material/tree';
+import {
+  MatTableModule
+} from '@angular/material/table';
+import {
+  MatSelectModule
+} from '@angular/material/select';
+import {
+  MatPaginatorModule
+} from '@angular/material/paginator';
+import {
+  MatExpansionModule
+} from '@angular/material/expansion';
+
+/*
+import {
+  MatExpansionModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatTableModule,
+  MatTreeModule,
+} from '@angular/material';*/
+
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
   maxFilesize: 50,
@@ -85,7 +119,16 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     NgbCollapseModule,
     SharedModule,
     NgxSliderModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    CdkTableModule,
+    CdkTreeModule,
+    DragDropModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatTableModule,
+    MatTreeModule,
+    ScrollingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
