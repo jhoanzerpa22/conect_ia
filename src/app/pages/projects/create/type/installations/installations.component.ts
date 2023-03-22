@@ -15,6 +15,61 @@ import { ProjectsService } from '../../../../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from '../../../toast-service';
 
+import {FlatTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+
+interface FoodNode {
+  id: number;
+  nombre: string;
+  cuerpo?: number;
+  articulo?: number;
+  conectado?: boolean;
+  children?: FoodNode[];
+}
+
+const TREE_DATA: FoodNode[] = [
+  {
+    id: 1,
+    nombre: 'Instalación 1',
+    children: [
+      {id: 12, nombre: 'Instalación 1-1', cuerpo: 10, articulo: 2, conectado: false},
+      {id: 13, nombre: 'Instalación 1-2', cuerpo: 0},
+    ]
+  }, 
+  {
+    id: 2,
+    nombre: 'Instalación 2'
+  }
+  ,
+  {
+    id: 3,
+    nombre: 'Instalacion 3',
+    children: [
+      {
+        id: 31,
+        nombre: 'Instalación 3-1',
+        children: [
+          {id: 311,nombre: 'Instalación 3-1-1'}
+        ]
+      }, {
+        id:32,
+        nombre: 'Instalación 3-2',
+        children: [
+          {id: 321,nombre: 'Instalación 3-2-1'},
+          {id: 322,nombre: 'Instalación 3-2-2'},
+        ]
+      },
+    ]
+  },
+];
+
+interface ExampleFlatNode {
+  expandable: boolean;
+  name: string;
+  count: number;
+  level: number;
+}
+
 @Component({
   selector: 'app-installations-type',
   templateUrl: './installations.component.html',
@@ -43,10 +98,36 @@ export class InstallationsTypeComponent {
   total: Observable<number>;
   @ViewChildren(NgbdInstallationsTypeSortableHeader) headers!: QueryList<NgbdInstallationsTypeSortableHeader>;
 
+  displayedColumns: string[] = ['nombre', 'cuerpo', 'articulos','estado','accion'];
+  
+  private transformer = (node: FoodNode, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      id: node.id,
+      nombre: node.nombre,
+      cuerpo: node.cuerpo,
+      articulo: node.articulo,
+      level: level,
+    };
+  }
+
+  treeControl = new FlatTreeControl<any/*ExampleFlatNode*/>(
+      node => node.level, node => node.expandable);
+
+  treeFlattener = new MatTreeFlattener(
+      this.transformer, node => node.level, 
+      node => node.expandable, node => node.children);
+
+      dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
   constructor(private modalService: NgbModal, public service: InstallationsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.InstallationList = service.installations$;
     this.total = service.total$;
+
+    this.dataSource.data = TREE_DATA;
   }
+  
+  hasChild = (_: number, node: any/*ExampleFlatNode*/) => node.expandable;
 
   ngOnInit(): void {
     /**
