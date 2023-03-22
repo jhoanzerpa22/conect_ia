@@ -36,7 +36,7 @@ export class BodyLegalDetailComponent implements OnInit {
   project_id: any = '';
   cuerpo_id: any = '';
   installation_id: any = null;
-  installation_id_select: any = null;
+  installation_id_select: any = [];
   installation_nombre: any = null;
   detail: any = [];
   installations: any = [];
@@ -63,9 +63,12 @@ export class BodyLegalDetailComponent implements OnInit {
   htmlString: any = "";
   showRow: any = [];
 
+  items: any = [];
+
+  @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -196,17 +199,109 @@ export class BodyLegalDetailComponent implements OnInit {
   }
 
   selectInstallation(event: any){
-    this.installation_id_select = event.target.value;
+
+    if(this.installation_id_select.length > 0){
+    
+    let vacio = event.target.value > 0 ? 1 : 0;
+    
+    this.installation_id_select.splice(0 + vacio, (this.installation_id_select.length-(1+vacio)));
+    
+      if(event.target.value > 0){
+        
+        const index = this.installations.findIndex(
+          (co: any) =>
+            co.id == event.target.value
+        );
+
+        let nombre = this.installations[index].nombre;
+
+        this.installation_id_select[0] = {value: event.target.value, label: nombre};
+      }
+
+    }else{
+      
+      const index2 = this.installations.findIndex(
+        (co: any) =>
+          co.id == event.target.value
+      );
+
+      let nombre2 = this.installations[index2].nombre;
+      this.installation_id_select.push({value: event.target.value, label: nombre2});
+    }
+
+    //this.installation_id_select = event.target.value;
+      this.items = [];
+      this.getChildren(event.target.value);
   }
 
-  saveInstallation(){
-    this.installation_id = this.installation_id_select;
-    const index = this.installations.findIndex(
-      (co: any) =>
-        co.id == this.installation_id_select
-    );
+  selectInstallationChildren(event: any, parent?: any){
+    //this.addElement(parent);
+      let vacio = event.target.value > 0 ? 2 : 1;
+    
+      this.installation_id_select.splice((parent+vacio), (this.installation_id_select.length-(parent+vacio)));
 
-    this.installation_nombre = this.installations[index].nombre;
+      if(event.target.value > 0){
+        
+        const index = this.items[parent].options.findIndex(
+          (co: any) =>
+            co.id == event.target.value
+        );
+
+        let nombre = this.items[parent].options[index].nombre;
+
+        this.installation_id_select[parent+1] = {value: event.target.value, label: nombre};
+      }
+
+    //this.installation_id_select = event.target.value;
+      this.items.splice((parent+1), (this.items.length-(parent+1)));
+      this.items[parent].value = event.target.value;
+      this.getChildren(event.target.value);
+  }
+
+  getChildren(padre_id: any){
+    if(padre_id > 0){
+      this.showPreLoader();
+      this.projectsService.getInstallationsItems(padre_id).pipe().subscribe(
+        (data: any) => {
+          if(data.data.length > 0){
+            this.items.push({value: null, options: data.data});
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    }
+  }
+  
+  addElement(parent?: any) {
+    
+    const select: HTMLParagraphElement = this.renderer.createElement('div');
+    
+    if(this.installation_id_select/*parent > 0*/){
+      let zone: any = document.getElementById('zone-'+(parent+1));
+      if(zone){
+        this.renderer.removeChild(select, zone?.lastElementChild);
+      }
+    }
+
+    select.innerHTML = '<div id="zone-'+(parent+1)+'"> <div class="col-xxl-12 col-lg-12"><p><b>Instalación o proceso</b></p><select class="form-select" placeholder="Selecciona instalación o proceso '+(parent+1)+'" data-choices data-choices-search-false id="choices-priority-input" (change)="selectInstallation($event,'+(parent+1)+')"> <option value="">Selecciona instalación o proceso</option> <option  value="4">Prueba</option></select></div>';
+
+    this.renderer.appendChild(this.zone?.nativeElement, select);
+  }
+
+
+  saveInstallation(){
+    this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
+    /*const index = this.installations.findIndex(
+      (co: any) =>
+        co.id == this.installation_id
+    );*/
+
+    this.installation_nombre = /*this.installations[index].nombre*/this.installation_id_select[this.installation_id_select.length - 1].label;
     this.getArticlesByInstallation(this.installation_id);
   }
 

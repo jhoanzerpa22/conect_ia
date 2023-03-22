@@ -99,9 +99,22 @@
                                 <option *ngFor="let r of installations;" value="{{r.id}}">{{r.nombre}}</option>
                     </select>
                 </div>
+
+                <ng-container *ngFor="let item of items;let i = index;">
+
+                    <div class="col-xxl-12 col-lg-12">
+                        <p><b>Seleccione Sub-Instalación o Sub-proceso</b></p>
+                        <select class="form-select" placeholder="Seleccione Sub-Instalación o Sub-proceso" data-choices data-choices-search-false
+                                    id="choices-priority-input" [value]="item.value" (change)="selectInstallationChildren($event, i)">
+                                    <option value="">Seleccione Sub-Instalación o Sub-proceso</option>
+                                    <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
+                        </select>
+                    </div>
+
+                </ng-container>
                 
                 <div class="col-xxl-12 col-lg-12" style="margin: 20px !important;">
-                    <button class="btn btn-success createFile-modal float-end text-secondary" style="color: #fff !important;" (click)="saveInstallation()" [disabled]="!installation_id_select"> Conectar</button>
+                    <button class="btn btn-success createFile-modal float-end text-secondary" style="color: #fff !important;" (click)="saveInstallation()" [disabled]="installation_id_select.length < 1"> Conectar</button>
                 </div>
             </div>
         </div>
