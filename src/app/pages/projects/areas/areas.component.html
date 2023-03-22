@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Instalaciones y Procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Areas Administrativas" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!--preloader-->
@@ -15,7 +15,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Instalaciones y procesos</h4>
+                <h4 class="card-title mb-0">Areas Administrativas</h4>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -57,7 +57,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of InstallationDatas" id="lj_{{data.id}}">
+                                <tr *ngFor="let data of AreaDatas" id="lj_{{data.id}}">
                                     <th scope="row">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="checkAll"
@@ -124,11 +124,11 @@
 <!-- Add ListJs Data -->
 <ng-template #content role="document" let-modal>
     <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Instalación o proceso</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Area Administrativa</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>
-    <form (ngSubmit)="saveInstallation()" [formGroup]="installationForm" class="tablelist-form" autocomplete="off">
+    <form (ngSubmit)="saveArea()" [formGroup]="areaForm" class="tablelist-form" autocomplete="off">
         <div class="modal-body">
 
             <input type="hidden" name="id" value="" formControlName="ids" />
@@ -152,30 +152,6 @@
                     formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
             </div>
-
-            <div class="mb-3">
-                <label for="area-field" class="form-label">Area Administrativa</label>
-                <select class="form-control form-select" placeholder="Seleccione Area Administrativa" data-choices data-choices-search-false
-                                    id="choices-priority-input" required
-                                    formControlName="area" [ngClass]="{ 'is-invalid': submitted && form['area'].errors }" (change)="selectInstallation($event)">
-                                    <option value="">Seleccione Area Administrativa</option>
-                                    <option *ngFor="let r of installations;" value="{{r.id}}">{{r.nombre}}</option>
-                </select>
-                <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
-            </div>
-
-            
-            <ng-container *ngFor="let item of items;let i = index;">
-                <div class="mb-3">
-                    <label for="area-field" class="form-label">Sub Area Administrativa</label>
-                    <select class="form-control form-select" placeholder="Seleccione Sub Area Administrativa" data-choices data-choices-search-false
-                                        id="choices-priority-input" (change)="selectInstallationChildren($event, i)">
-                                        <option value="">Seleccione Sub Area Administrativa</option>
-                                        <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
-                    </select>
-                    <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
-                </div>
-            </ng-container>
 
         </div>
         <div class="modal-footer">
