@@ -38,6 +38,7 @@ import { CreateComponent } from './create/create.component';
 import { TypeComponent } from './create/type/type.component';
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
+import { AreasComponent } from "./areas/areas.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 
@@ -93,6 +94,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     Step1Component,
     ToastsProjectContainer,
     InstallationsComponent,
+    AreasComponent,
     InstallationsTypeComponent,
     BodyLegalTypeComponent,
     BodyLegalDetailComponent

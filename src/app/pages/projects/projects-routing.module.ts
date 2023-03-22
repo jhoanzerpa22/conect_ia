@@ -8,6 +8,7 @@ import { CreateComponent } from "./create/create.component";
 import { TypeComponent } from "./create/type/type.component";
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";
+import { AreasComponent } from "./areas/areas.component";
 import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
@@ -39,6 +40,14 @@ const routes: Routes = [
   {
     path: ":id/step",
     component: Step1Component
+  },
+  {
+    path: ":id/areas/:idArea/:nameArea",
+    component: AreasComponent
+  },
+  {
+    path: ":id/areas",
+    component: AreasComponent
   },
   {
     path: ":id/installations/:idInstallation/:nameInstallation",

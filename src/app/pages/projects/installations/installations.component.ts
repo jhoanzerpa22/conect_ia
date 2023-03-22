@@ -40,6 +40,10 @@ export class InstallationsComponent {
   project_id: any = '';
   installation_id: any = '';
   installation_name: any = ''; 
+  installations: any = [];
+  installation_id_select: any = [];
+
+  items: any = [];
 
   // Table data
   InstallationList!: Observable<InstallationsModel[]>;
@@ -66,7 +70,8 @@ export class InstallationsComponent {
     this.installationForm = this.formBuilder.group({
       ids: [''],
       nombre: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]]
+      descripcion: ['', [Validators.required]],
+      area: ['', [Validators.required]]
     });
 
     this.route.params.subscribe(params => {
@@ -96,6 +101,7 @@ export class InstallationsComponent {
       }else{
         this.fetchData();
       }
+      this.getInstallations();
     });
 
     /**
@@ -136,6 +142,23 @@ export class InstallationsComponent {
     return this.installationForm.controls;
   }
 
+  private getInstallations() {
+    
+    this.showPreLoader();
+      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+        (data: any) => {
+          //this.service.bodylegal_data = data.data;
+          this.installations = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   /**
    * Fetches the data
    */
@@ -171,6 +194,85 @@ export class InstallationsComponent {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
+  }
+
+  selectInstallation(event: any){
+
+    if(this.installation_id_select.length > 0){
+    
+    let vacio = event.target.value > 0 ? 1 : 0;
+    
+    this.installation_id_select.splice(0 + vacio, (this.installation_id_select.length-(1+vacio)));
+    
+      if(event.target.value > 0){
+        
+        const index = this.installations.findIndex(
+          (co: any) =>
+            co.id == event.target.value
+        );
+
+        let nombre = this.installations[index].nombre;
+
+        this.installation_id_select[0] = {value: event.target.value, label: nombre};
+      }
+
+    }else{
+      
+      const index2 = this.installations.findIndex(
+        (co: any) =>
+          co.id == event.target.value
+      );
+
+      let nombre2 = this.installations[index2].nombre;
+      this.installation_id_select.push({value: event.target.value, label: nombre2});
+    }
+
+    //this.installation_id_select = event.target.value;
+      this.items = [];
+      this.getChildren(event.target.value);
+  }
+
+  selectInstallationChildren(event: any, parent?: any){
+    //this.addElement(parent);
+      let vacio = event.target.value > 0 ? 2 : 1;
+    
+      this.installation_id_select.splice((parent+vacio), (this.installation_id_select.length-(parent+vacio)));
+
+      if(event.target.value > 0){
+        
+        const index = this.items[parent].options.findIndex(
+          (co: any) =>
+            co.id == event.target.value
+        );
+
+        let nombre = this.items[parent].options[index].nombre;
+
+        this.installation_id_select[parent+1] = {value: event.target.value, label: nombre};
+      }
+
+    //this.installation_id_select = event.target.value;
+      this.items.splice((parent+1), (this.items.length-(parent+1)));
+      this.items[parent].value = event.target.value;
+      this.getChildren(event.target.value);
+  }
+
+  getChildren(padre_id: any){
+    if(padre_id > 0){
+      this.showPreLoader();
+      this.projectsService.getInstallationsItems(padre_id).pipe().subscribe(
+        (data: any) => {
+          if(data.data.length > 0){
+            this.items.push({value: null, options: data.data});
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    }
   }
 
   /**
