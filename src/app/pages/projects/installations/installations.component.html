@@ -157,9 +157,9 @@
                 <label for="area-field" class="form-label">Area Administrativa</label>
                 <select class="form-control form-select" placeholder="Seleccione Area Administrativa" data-choices data-choices-search-false
                                     id="choices-priority-input" required
-                                    formControlName="area" [ngClass]="{ 'is-invalid': submitted && form['area'].errors }" (change)="selectInstallation($event)">
+                                    formControlName="area" [ngClass]="{ 'is-invalid': submitted && form['area'].errors }" (change)="selectArea($event)">
                                     <option value="">Seleccione Area Administrativa</option>
-                                    <option *ngFor="let r of installations;" value="{{r.id}}">{{r.nombre}}</option>
+                                    <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
                 </select>
                 <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
             </div>
@@ -169,7 +169,7 @@
                 <div class="mb-3">
                     <label for="area-field" class="form-label">Sub Area Administrativa</label>
                     <select class="form-control form-select" placeholder="Seleccione Sub Area Administrativa" data-choices data-choices-search-false
-                                        id="choices-priority-input" (change)="selectInstallationChildren($event, i)">
+                                        id="choices-priority-input" (change)="selectAreaChildren($event, i)">
                                         <option value="">Seleccione Sub Area Administrativa</option>
                                         <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
                     </select>

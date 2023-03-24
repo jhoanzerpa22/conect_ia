@@ -108,6 +108,7 @@ export class InstallationsTypeComponent {
       cuerpo: node.cuerpo,
       articulo: node.articulo,
       level: level,
+      conectado: node.conectado
     };
   }
 
@@ -123,8 +124,6 @@ export class InstallationsTypeComponent {
   constructor(private modalService: NgbModal, public service: InstallationsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.InstallationList = service.installations$;
     this.total = service.total$;
-
-    this.dataSource.data = TREE_DATA;
   }
   
   hasChild = (_: number, node: any/*ExampleFlatNode*/) => node.expandable;
@@ -160,15 +159,33 @@ export class InstallationsTypeComponent {
   //   this.InstallationDatas = Object.assign([], this.InstallationData);
   // }
 
+  private getHijas(hijos: any){
+    let tree_data: any = [];
+    for (let d in hijos) {
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, cuerpo: 0, articulo: hijos[d].total_articulos, conectado: hijos[d].conectado, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+    }
+    return tree_data;
+  }
+
   /**
    * Fetches the data
    */
   private fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+      this.projectsService.getInstallationsAll(this.project_id).pipe().subscribe(
         (data: any) => {
-          this.service.installations_data = data.data;
+          let obj: any = data.data;
+          let tree_data: any = [];
+          
+          for (let c in obj) {
+            let padre: any = obj[c].padre;
+              tree_data.push({ id: padre.id, nombre: padre.nombre, cuerpo: 0, articulo: padre.total_articulos, conectado: padre.conectado, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+          }
+          this.service.installations_data = tree_data;    
+          this.dataSource.data = tree_data;
+          console.log('data',tree_data);
+
           this.hidePreLoader();
       },
       (error: any) => {

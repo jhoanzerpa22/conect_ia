@@ -142,7 +142,7 @@ export class AreasComponent {
   private fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+      this.projectsService.getAreas(this.project_id).pipe().subscribe(
         (data: any) => {
           this.service.areas_data = data.data;
           this.hidePreLoader();
@@ -159,7 +159,7 @@ export class AreasComponent {
   private fetchDataItems() {
     
     this.showPreLoader();
-      this.projectsService.getInstallationsItems(this.area_id).pipe().subscribe(
+      this.projectsService.getAreasItems(this.area_id).pipe().subscribe(
         (data: any) => {
           this.service.areas_data = data.data;
           this.hidePreLoader();
@@ -197,7 +197,7 @@ export class AreasComponent {
           areaId: this.area_id ? this.area_id : null
         };
         
-        this.projectsService.createInstallation(area).pipe().subscribe(
+        this.projectsService.createArea(area).pipe().subscribe(
           (data: any) => {     
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
@@ -266,7 +266,7 @@ export class AreasComponent {
   // Delete Data
   deleteData(id: any) {
     if (id) {
-      this.projectsService.deleteInstallation(id)
+      this.projectsService.deleteArea(id)
       .subscribe(
         response => {
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
@@ -285,7 +285,7 @@ export class AreasComponent {
     }
     else {
       this.checkedValGet.forEach((item: any) => {
-        this.projectsService.deleteInstallation(id)
+        this.projectsService.deleteArea(id)
       .subscribe(
         response => {
           //this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });

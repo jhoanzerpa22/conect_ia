@@ -40,8 +40,8 @@ export class InstallationsComponent {
   project_id: any = '';
   installation_id: any = '';
   installation_name: any = ''; 
-  installations: any = [];
-  installation_id_select: any = [];
+  areas: any = [];
+  area_id_select: any = [];
 
   items: any = [];
 
@@ -101,7 +101,7 @@ export class InstallationsComponent {
       }else{
         this.fetchData();
       }
-      this.getInstallations();
+      this.getAreas();
     });
 
     /**
@@ -142,13 +142,13 @@ export class InstallationsComponent {
     return this.installationForm.controls;
   }
 
-  private getInstallations() {
+  private getAreas() {
     
     this.showPreLoader();
-      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+      this.projectsService.getAreas(this.project_id).pipe().subscribe(
         (data: any) => {
           //this.service.bodylegal_data = data.data;
-          this.installations = data.data;
+          this.areas = data.data;
           this.hidePreLoader();
       },
       (error: any) => {
@@ -196,47 +196,47 @@ export class InstallationsComponent {
     //}, 1200);
   }
 
-  selectInstallation(event: any){
+  selectArea(event: any){
 
-    if(this.installation_id_select.length > 0){
+    if(this.area_id_select.length > 0){
     
     let vacio = event.target.value > 0 ? 1 : 0;
     
-    this.installation_id_select.splice(0 + vacio, (this.installation_id_select.length-(1+vacio)));
+    this.area_id_select.splice(0 + vacio, (this.area_id_select.length-(1+vacio)));
     
       if(event.target.value > 0){
         
-        const index = this.installations.findIndex(
+        const index = this.areas.findIndex(
           (co: any) =>
             co.id == event.target.value
         );
 
-        let nombre = this.installations[index].nombre;
+        let nombre = this.areas[index].nombre;
 
-        this.installation_id_select[0] = {value: event.target.value, label: nombre};
+        this.area_id_select[0] = {value: event.target.value, label: nombre};
       }
 
     }else{
       
-      const index2 = this.installations.findIndex(
+      const index2 = this.areas.findIndex(
         (co: any) =>
           co.id == event.target.value
       );
 
-      let nombre2 = this.installations[index2].nombre;
-      this.installation_id_select.push({value: event.target.value, label: nombre2});
+      let nombre2 = this.areas[index2].nombre;
+      this.area_id_select.push({value: event.target.value, label: nombre2});
     }
 
-    //this.installation_id_select = event.target.value;
+    //this.area_id_select = event.target.value;
       this.items = [];
       this.getChildren(event.target.value);
   }
 
-  selectInstallationChildren(event: any, parent?: any){
+  selectAreaChildren(event: any, parent?: any){
     //this.addElement(parent);
       let vacio = event.target.value > 0 ? 2 : 1;
     
-      this.installation_id_select.splice((parent+vacio), (this.installation_id_select.length-(parent+vacio)));
+      this.area_id_select.splice((parent+vacio), (this.area_id_select.length-(parent+vacio)));
 
       if(event.target.value > 0){
         
@@ -247,10 +247,10 @@ export class InstallationsComponent {
 
         let nombre = this.items[parent].options[index].nombre;
 
-        this.installation_id_select[parent+1] = {value: event.target.value, label: nombre};
+        this.area_id_select[parent+1] = {value: event.target.value, label: nombre};
       }
 
-    //this.installation_id_select = event.target.value;
+    //this.area_id_select = event.target.value;
       this.items.splice((parent+1), (this.items.length-(parent+1)));
       this.items[parent].value = event.target.value;
       this.getChildren(event.target.value);
@@ -259,7 +259,7 @@ export class InstallationsComponent {
   getChildren(padre_id: any){
     if(padre_id > 0){
       this.showPreLoader();
-      this.projectsService.getInstallationsItems(padre_id).pipe().subscribe(
+      this.projectsService.getAreasItems(padre_id).pipe().subscribe(
         (data: any) => {
           if(data.data.length > 0){
             this.items.push({value: null, options: data.data});
