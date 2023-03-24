@@ -82,6 +82,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'question/main/'+step, httpOptions);
     }
 
+    getInstallationsAll(project_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/all/'+project_id, httpOptions);
+    }
+
     getInstallations(project_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/project/'+project_id, httpOptions);
     }
@@ -107,6 +111,33 @@ export class ProjectsService {
 
     deleteInstallation(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'project/installation/'+id, httpOptions);
+    }
+
+    getAreasAll(project_id: any){
+        return this.http.get(API_URL_BACK + 'project/areas/all/'+project_id, httpOptions);
+    }
+
+    getAreas(project_id: any){
+        return this.http.get(API_URL_BACK + 'project/areas/project/'+project_id, httpOptions);
+    }
+    
+    getAreasItems(area_id: any){
+        return this.http.get(API_URL_BACK + 'project/areas/'+area_id, httpOptions);
+    }
+
+    createArea(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'project/areas', {
+        "nombre": data.nombre,
+        "descripcion": data.descripcion,
+        "proyectoId": data.proyectoId,
+        "areaId": data.areaId
+      }, httpOptions);
+    
+    }
+
+    deleteArea(id: any): Observable<any> {
+        return this.http.delete(API_URL_BACK + 'project/areas/'+id, httpOptions);
     }
     
     getBodyLegal(project_id: any){
