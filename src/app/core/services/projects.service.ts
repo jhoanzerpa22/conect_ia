@@ -82,6 +82,17 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'question/main/'+step, httpOptions);
     }
 
+    getAnswerQuestion(questionId: any){
+        return this.http.get(API_URL_BACK + 'question/answer/'+questionId, httpOptions);
+    }
+
+    saveAnswerQuestion(data: any): Observable<any> {
+        return this.http.post(API_URL_BACK + 'question/answer/save', {
+            "preguntaId": data.preguntaId,
+            "respuestaId": data.respuestaId,
+          }, httpOptions);
+    }
+
     getInstallationsAll(project_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/all/'+project_id, httpOptions);
     }
@@ -104,6 +115,7 @@ export class ProjectsService {
         "nombre": data.nombre,
         "descripcion": data.descripcion,
         "proyectoId": data.proyectoId,
+        "areaId": data.areaId,
         "instalacionId": data.installationId
       }, httpOptions);
     
