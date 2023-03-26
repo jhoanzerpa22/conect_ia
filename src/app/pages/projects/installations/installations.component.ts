@@ -291,12 +291,15 @@ export class InstallationsComponent {
           nombre,
           descripcion
         });
+
+        let area_id = this.area_id_select[this.area_id_select.length - 1].value;
         
         const installation: any = {
           nombre: nombre,
           descripcion: descripcion,
           proyectoId: this.installation_id ? null : this.project_id,
-          installationId: this.installation_id ? this.installation_id : null
+          installationId: this.installation_id ? this.installation_id : null,
+          areaId: area_id ? area_id : null
         };
         
         this.projectsService.createInstallation(installation).pipe().subscribe(
