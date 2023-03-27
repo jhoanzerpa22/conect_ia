@@ -91,6 +91,7 @@ export class LoginComponent implements OnInit {
         //localStorage.setItem('toast', 'true');
         localStorage.setItem('currentUser', JSON.stringify(user));
         localStorage.setItem('token', data.data.token);
+        console.log('token:',data.data.token);
         this.router.navigate(['/']);
       } else {
         this.hidePreLoader();

@@ -30,6 +30,8 @@ export class ProjectsService {
     }
     
     get() {
+        console.log('envio:',httpOptions);
+        console.log('token:',localStorage.getItem('token'));
         return this.http.get(API_URL_BACK + 'project', httpOptions);
     }
 
