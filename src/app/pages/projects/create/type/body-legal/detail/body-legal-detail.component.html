@@ -72,7 +72,7 @@
                     <p>Última modificación: {{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</p>
                     <p>Vigencia:</p>
                     <p>Ámbito:</p>
-                    <p>Alcance terriotorial:</p>
+                    <p>Alcance territorial:</p>
                     <p>Cuerpos legales relacionados:</p>
                 </div>
             </div>
@@ -144,6 +144,7 @@
                 <i class="ri-search-2-line search-icon"></i>
             </div>-->
             <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll">
+                <!-- Menu --->
                 <ul class="list-unstyled file-manager-menu">
                     <li>
                         <a href="javascript:void(0);" (click)="changeProducts($event, 'r-Encabezado', null)">
@@ -151,6 +152,7 @@
                         </a>
                     </li>
                     <li *ngFor="let est of detail.EstructurasFuncionales; let i = index;">
+                        <!-- Si posee items nivel 1--> 
                         <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" role="button" aria-expanded="true"
                         aria-controls="collapseExample"
                         [attr.aria-expanded]="!isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales"><i
@@ -162,14 +164,64 @@
                             [(ngbCollapse)]="isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales">
                             <ul class="sub-menu list-unstyled">
                                 <li *ngFor="let est2 of est.EstructurasFuncionales; let i2 = index;">
-                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</a>
+                                    <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</a>-->
+
+                                    <!-- Si posee items nivel 2--> 
+                                    <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)" role="button" aria-expanded="true"
+                                    aria-controls="collapseExample"
+                                    [attr.aria-expanded]="!isCollapsed[est2.idParte]" *ngIf="est2.EstructurasFuncionales"><i
+                                            class="ri-file-list-2-line align-bottom me-2"></i> <span
+                                            class="file-list-link">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</span>
+                                    </a>
+                                    
+                                    <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
+                                        [(ngbCollapse)]="isCollapsed[est2.idParte]" *ngIf="est2.EstructurasFuncionales">
+                                        <ul class="sub-menu list-unstyled">
+                                            <li *ngFor="let est3 of est2.EstructurasFuncionales; let i3 = index;">
+                                                <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3)">{{ est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</a>-->
+                                                
+                                                <!-- Si posee items nivel 3--> 
+                                                <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3)" role="button" aria-expanded="true"
+                                                aria-controls="collapseExample"
+                                                [attr.aria-expanded]="!isCollapsed[est3.idParte]" *ngIf="est3.EstructurasFuncionales"><i
+                                                        class="ri-file-list-2-line align-bottom me-2"></i> <span
+                                                        class="file-list-link">{{ est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</span>
+                                                </a>
+                                                
+                                                <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
+                                                    [(ngbCollapse)]="isCollapsed[est3.idParte]" *ngIf="est3.EstructurasFuncionales">
+                                                    <ul class="sub-menu list-unstyled">
+                                                        <li *ngFor="let est4 of est3.EstructurasFuncionales; let i4 = index;">
+                                                            <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est4.idParte, i4)">{{ est4.tituloParte ? est4.tituloParte : (est4.texto ? (est4.texto.split(".")[0].length > 10 ? est4.texto.split(".")[0] : est4.tipoParte) : est4.tipoParte) }}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- Si no posee items nivel 3-->
+                                                <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i)" *ngIf="!est3.EstructurasFuncionales">
+                                                    <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</span>
+                                                </a>
+                                                
+                                                <!-- Fin nivel 3-->
+                                                
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Si no posee items nivel 2-->
+                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i)" *ngIf="!est2.EstructurasFuncionales">
+                                        <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</span>
+                                    </a>
+                                    
+                                    <!-- Fin nivel 2-->
+                                    
                                 </li>
                             </ul>
                         </div>
-
+                        <!-- Si no posee items nivel 1-->
                         <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" *ngIf="!est.EstructurasFuncionales">
                             <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }}</span>
                         </a>
+                        
+                        <!-- Fin nivel 1-->
                     </li>
                 </ul>
             </ngx-simplebar>
