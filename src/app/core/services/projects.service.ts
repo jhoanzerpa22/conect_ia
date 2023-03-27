@@ -30,9 +30,11 @@ export class ProjectsService {
     }
     
     get() {
-        console.log('envio:',httpOptions);
-        console.log('token:',localStorage.getItem('token'));
-        return this.http.get(API_URL_BACK + 'project', httpOptions);
+        const httpOptions2 = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }),
+        
+          };
+        return this.http.get(API_URL_BACK + 'project', httpOptions2);
     }
 
     getById(id: any) {
