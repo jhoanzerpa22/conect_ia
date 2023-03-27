@@ -155,20 +155,20 @@
                         aria-controls="collapseExample"
                         [attr.aria-expanded]="!isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales"><i
                                 class="ri-file-list-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) }}</span>
+                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }}</span>
                         </a>
                         
                         <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
                             [(ngbCollapse)]="isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales">
                             <ul class="sub-menu list-unstyled">
                                 <li *ngFor="let est2 of est.EstructurasFuncionales; let i2 = index;">
-                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) }}</a>
+                                    <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</a>
                                 </li>
                             </ul>
                         </div>
 
                         <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" *ngIf="!est.EstructurasFuncionales">
-                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tituloParte ? est.tituloParte : (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) }}</span>
+                            <i class="ri-file-list-2-line align-bottom me-2"></i> <span class="file-list-link">{{est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }}</span>
                         </a>
                     </li>
                 </ul>
@@ -199,11 +199,11 @@
                         <div class="col-md-10">
                             <div class="card-body">
                                 
-                                <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) }}</h5>
-                                <p class="card-text mb-2" [style]="data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto}}</p>
+                                <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto ? (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) : data.tipoParte) }}</h5>
+                                <p class="card-text mb-2" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
                                 <p class="card-text">
-                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Ver texto completo</b></small>
-                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
+                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Ver texto completo</b></small>
+                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
                                 </p>
                             </div>
                         </div>
@@ -232,7 +232,7 @@
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) }}</h5>  
+                                    <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto ? (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) : data.tipoParte) }}</h5>  
                                 </div>
                             </div>
                         </div>
@@ -245,11 +245,11 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             
-                            <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : (item.texto.split(".")[0].length > 10 ? item.texto.split(".")[0] : item.tipoParte) }}</h5>
-                            <p class="card-text mb-2" [style]="item.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item.texto.length > 450 ? formatArticle(item.texto, item.idParte) : item.texto}}</p>
+                            <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : (item.texto ? (item.texto.split(".")[0].length > 10 ? item.texto.split(".")[0] : item.tipoParte) : item.tipoParte) }}</h5>
+                            <p class="card-text mb-2" [style]="item.texto && item.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item.texto ? (item.texto.length > 450 ? formatArticle(item.texto, item.idParte) : item.texto) : item.tipoParte}}</p>
                             <p class="card-text">
-                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Ver texto completo</b></small>
-                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto.length > 450 && validatShow(item.idParte)" (click)="hideText(item.idParte)"><b>Ocultar texto completo</b></small>
+                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Ver texto completo</b></small>
+                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && validatShow(item.idParte)" (click)="hideText(item.idParte)"><b>Ocultar texto completo</b></small>
                             </p>
                         </div>
                     </div>
