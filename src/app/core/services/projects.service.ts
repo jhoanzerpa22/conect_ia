@@ -18,6 +18,14 @@ export class ProjectsService {
     project!: Project;
 
     constructor(private http: HttpClient) { }
+
+    getToken(){
+        const httpOptions3 = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }),
+        
+          };
+          return httpOptions3;
+    }
     /***
      * Get All Project
      */
@@ -26,19 +34,15 @@ export class ProjectsService {
     }
 
     getTypes() {
-        return this.http.get(API_URL_BACK + 'project/types', httpOptions);
+        return this.http.get(API_URL_BACK + 'project/types', /*httpOptions*/this.getToken());
     }
     
     get() {
-        const httpOptions2 = {
-            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }),
-        
-          };
-        return this.http.get(API_URL_BACK + 'project', httpOptions2);
+        return this.http.get(API_URL_BACK + 'project', /*httpOptions*/this.getToken());
     }
 
     getById(id: any) {
-        return this.http.get(API_URL_BACK + 'project/'+id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/'+id, /*httpOptions*/this.getToken());
     }
 
     create(data: any): Observable<any> {
@@ -47,7 +51,7 @@ export class ProjectsService {
         "nombre": data.nombre,
         "descripcion": data.descripcion,
         "tipoProyectoId": data.tipoProyectoId
-      }, httpOptions);
+      }, /*httpOptions*/this.getToken());
     
     }
 
@@ -58,7 +62,7 @@ export class ProjectsService {
         "comunaId": data.comunaId,
         "tipoZonaId": data.tipoZonaId,
         "proyectoId": data.proyectoId        
-      }, httpOptions);
+      }, /*httpOptions*/this.getToken());
     
     }
 
@@ -67,50 +71,50 @@ export class ProjectsService {
     }
 
     delete(id: any): Observable<any> {
-        return this.http.delete(API_URL_BACK + 'project/'+id, httpOptions);
+        return this.http.delete(API_URL_BACK + 'project/'+id, /*httpOptions*/this.getToken());
     }
 
     getRegiones() {
-        return this.http.get(API_URL_BACK + 'question/regions', httpOptions);
+        return this.http.get(API_URL_BACK + 'question/regions', /*httpOptions*/this.getToken());
     }
 
     getComunas(id: any) {
-        return this.http.get(API_URL_BACK + 'question/communes/'+id, httpOptions);
+        return this.http.get(API_URL_BACK + 'question/communes/'+id, /*httpOptions*/this.getToken());
     }
 
     getZones() {
-        return this.http.get(API_URL_BACK + 'question/zones', httpOptions);
+        return this.http.get(API_URL_BACK + 'question/zones', /*httpOptions*/this.getToken());
     }
 
     getQuestion(step: any){
-        return this.http.get(API_URL_BACK + 'question/main/'+step, httpOptions);
+        return this.http.get(API_URL_BACK + 'question/main/'+step, /*httpOptions*/this.getToken());
     }
 
     getAnswerQuestion(questionId: any){
-        return this.http.get(API_URL_BACK + 'question/answer/'+questionId, httpOptions);
+        return this.http.get(API_URL_BACK + 'question/answer/'+questionId, /*httpOptions*/this.getToken());
     }
 
     saveAnswerQuestion(data: any): Observable<any> {
         return this.http.post(API_URL_BACK + 'question/answer/save', {
             "preguntaId": data.preguntaId,
             "respuestaId": data.respuestaId,
-          }, httpOptions);
+          }, /*httpOptions*/this.getToken());
     }
 
     getInstallationsAll(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/installation/all/'+project_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/installation/all/'+project_id, /*httpOptions*/this.getToken());
     }
 
     getInstallations(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/installation/project/'+project_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/installation/project/'+project_id, /*httpOptions*/this.getToken());
     }
     
     getInstallationsItems(installation_id: any){
-        return this.http.get(API_URL_BACK + 'project/installation/'+installation_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/installation/'+installation_id, /*httpOptions*/this.getToken());
     }
 
     getArticlesByInstallation(installation_id: any){
-        return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id, /*httpOptions*/this.getToken());
     }
 
     createInstallation(data: any): Observable<any> {
@@ -121,24 +125,24 @@ export class ProjectsService {
         "proyectoId": data.proyectoId,
         "areaId": data.areaId,
         "instalacionId": data.installationId
-      }, httpOptions);
+      }, /*httpOptions*/this.getToken());
     
     }
 
     deleteInstallation(id: any): Observable<any> {
-        return this.http.delete(API_URL_BACK + 'project/installation/'+id, httpOptions);
+        return this.http.delete(API_URL_BACK + 'project/installation/'+id, /*httpOptions*/this.getToken());
     }
 
     getAreasAll(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/areas/all/'+project_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/areas/all/'+project_id, /*httpOptions*/this.getToken());
     }
 
     getAreas(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/areas/project/'+project_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/areas/project/'+project_id, /*httpOptions*/this.getToken());
     }
     
     getAreasItems(area_id: any){
-        return this.http.get(API_URL_BACK + 'project/areas/'+area_id, httpOptions);
+        return this.http.get(API_URL_BACK + 'project/areas/'+area_id, /*httpOptions*/this.getToken());
     }
 
     createArea(data: any): Observable<any> {
@@ -148,23 +152,23 @@ export class ProjectsService {
         "descripcion": data.descripcion,
         "proyectoId": data.proyectoId,
         "areaId": data.areaId
-      }, httpOptions);
+      }, /*httpOptions*/this.getToken());
     
     }
 
     deleteArea(id: any): Observable<any> {
-        return this.http.delete(API_URL_BACK + 'project/areas/'+id, httpOptions);
+        return this.http.delete(API_URL_BACK + 'project/areas/'+id, /*httpOptions*/this.getToken());
     }
     
     getBodyLegal(project_id: any){
-        return this.http.get(API_URL_BACK + 'norm/home', httpOptions);
+        return this.http.get(API_URL_BACK + 'norm/home', /*httpOptions*/this.getToken());
     }
     
     getBodyLegalByNorma(id: any){
-        return this.http.get(API_URL_BACK + 'norm/home/'+id, httpOptions);
+        return this.http.get(API_URL_BACK + 'norm/home/'+id, /*httpOptions*/this.getToken());
     }
 
     conectArticleInstallation(installation_id: any, article: any){
-        return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, httpOptions);
+        return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
     }
 }

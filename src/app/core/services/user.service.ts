@@ -17,6 +17,15 @@ export class UserProfileService {
     user!: User;
 
     constructor(private http: HttpClient) { }
+
+    getToken(){
+        const httpOptions3 = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` }),
+        
+          };
+          return httpOptions3;
+    }
+
     /***
      * Get All User
      */
@@ -32,7 +41,7 @@ export class UserProfileService {
     }
 
     get() {
-        return this.http.get(API_URL_BACK + 'user/list', httpOptions);
+        return this.http.get(API_URL_BACK + 'user/list', /*httpOptions*/this.getToken());
     }
 
     create(data: any): Observable<any> {
@@ -45,7 +54,7 @@ export class UserProfileService {
         "telefono": data.telefono,
         "password": '12345678',
         "confirm_password": '12345678'
-      }, httpOptions);
+      }, /*httpOptions*/this.getToken());
     
     }
 
@@ -54,6 +63,6 @@ export class UserProfileService {
     }
 
     delete(id: any): Observable<any> {
-        return this.http.delete(API_URL_BACK + 'user/'+id+'/delete', httpOptions);
+        return this.http.delete(API_URL_BACK + 'user/'+id+'/delete', /*httpOptions*/this.getToken());
     }
 }
