@@ -39,7 +39,8 @@ export class AreasComponent {
 
   project_id: any = '';
   area_id: any = '';
-  area_name: any = ''; 
+  area_name: any = '';
+  subtitle: any = 'Areas Administrativas';
 
   // Table data
   AreaList!: Observable<AreasModel[]>;
@@ -84,6 +85,7 @@ export class AreasComponent {
         });
 
         crumb[bread.length + 1].active = true;
+        this.subtitle = crumb[bread.length + 1].label;
 
         this.breadCrumbItems = crumb;
         /*this.breadCrumbItems = [

@@ -29,6 +29,9 @@ export class ProjectAnalityComponent implements OnInit {
   project_id: any = '';
   project: any = {};
 
+  installations_data: any = [];
+  areas_data: any = [];
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
 
@@ -48,6 +51,8 @@ export class ProjectAnalityComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
+      this.getAreas(params['id']);
+      this.getInstallations(params['id']);
     });
 
     /**
@@ -76,6 +81,24 @@ export class ProjectAnalityComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+   getAreas(idProject?: any) {
+    this.projectsService.getAreas(idProject).pipe().subscribe(
+        (data: any) => {
+          this.areas_data = data.data;
+      },
+      (error: any) => {
+      });
+  }
+
+  getInstallations(idProject?: any) {
+    this.projectsService.getInstallations(idProject).pipe().subscribe(
+        (data: any) => {
+          this.installations_data = data.data;
+      },
+      (error: any) => {
+      });
+  }
 
   // Chart Colors Set
   private getChartColorsArray(colors: any) {

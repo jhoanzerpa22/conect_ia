@@ -42,6 +42,7 @@ export class InstallationsComponent {
   installation_name: any = ''; 
   areas: any = [];
   area_id_select: any = [];
+  subtitle: any = 'Instalaciones y procesos';
 
   items: any = [];
 
@@ -89,6 +90,7 @@ export class InstallationsComponent {
         });
 
         crumb[bread.length + 1].active = true;
+        this.subtitle = crumb[bread.length + 1].label;
 
         this.breadCrumbItems = crumb;
         /*this.breadCrumbItems = [
