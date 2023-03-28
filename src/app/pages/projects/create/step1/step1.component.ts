@@ -68,7 +68,7 @@ export class Step1Component implements OnInit {
 
     this.getRegions();
     this.getZones();
-    this.getAnswerQuestion(2);
+    //this.getAnswerQuestion(2);
   }
   
   // convenience getter for easy access to form fields
@@ -160,7 +160,7 @@ export class Step1Component implements OnInit {
         this.pregunta = info.pregunta;
         this.respuestas = info.respuesta;
 
-        this.getAnswerQuestion(step + 1);
+        //this.getAnswerQuestion(step + 1);
         
         this.hidePreLoader(); 
     },

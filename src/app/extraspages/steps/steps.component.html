@@ -1,3 +1,13 @@
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+  
 <!-- auth-page wrapper -->
 <div class="auth-page-wrapper d-flex justify-content-center align-items-center min-vh-100" style="background-image: url(assets/images/fondo-pasos.png);padding-top: 0em !important;padding-bottom: 40em !important;">
 
@@ -25,7 +35,7 @@
                             <p class="text-muted mb-4 fs-3">Paso 3: Configura tu organización y procesos.</p>
                             <p class="text-muted mb-4 fs-3">Paso 4: Conecta la normativa a tus procesos.</p>
                             <p class="text-muted mb-4 fs-3">Paso 5: Sorpréndete con el resultado.</p>
-                            <a routerLink="/projects/{{project_id}}/step" class="btn btn-danger"><!--<i class="mdi mdi-home me-1"></i>-->Comenzar</a>
+                            <a (click)="comenzar()" class="btn btn-danger"><!--<i class="mdi mdi-home me-1"></i>-->Comenzar</a>
                         </div>
                     </div>
                 </div><!-- end col -->
