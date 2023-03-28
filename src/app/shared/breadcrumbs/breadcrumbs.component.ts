@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -22,9 +23,13 @@ export class BreadcrumbsComponent implements OnInit {
     label?: string;
   }>;
 
-  constructor() { }
+  constructor(private _location: Location) { }
 
   ngOnInit(): void {
+  }
+  
+  backClicked() {
+    this._location.back();
   }
 
 }
