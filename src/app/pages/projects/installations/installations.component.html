@@ -15,7 +15,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Instalaciones y procesos</h4>
+                <h4 class="card-title mb-0">{{subtitle}}</h4>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -124,7 +124,7 @@
 <!-- Add ListJs Data -->
 <ng-template #content role="document" let-modal>
     <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Instalación o proceso</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><span *ngIf="installation_id">Sub </span>Instalación o proceso</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>

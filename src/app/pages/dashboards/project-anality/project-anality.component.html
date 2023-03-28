@@ -10,15 +10,17 @@
                 <div class="card">
                     <div class="row margin-card">
                         <div class="col-lg-3">
-                        <button type="button" class="btn btn-primary" routerLink="/projects/{{project_id}}/areas">Configurar Areas Administrativas</button>
+                        <button type="button" class="btn btn-primary" routerLink="/projects/{{project_id}}/areas"><span>1</span> > Configurar Areas Administrativas</button>
                         </div>
 
                         <div class="col-lg-3">
-                        <button type="button" class="btn btn-primary" routerLink="/projects/{{project_id}}/installations">Configurar Instalaciones y Procesos</button>
+                        <button type="button" class="btn btn-primary" routerLink="/projects/{{project_id}}/installations" *ngIf="areas_data.length > 0"><span>2</span> > Configurar Instalaciones y Procesos</button>
+                        <button type="button" class="btn btn-primary" style="background-color: #a8a8a8 !important;cursor: not-allowed;" *ngIf="areas_data.length < 1"><span>2</span> > Configurar Instalaciones y Procesos</button>
                         </div>
                         
                         <div class="col-lg-3">
-                            <button type="button" class="btn btn-primary" routerLink="/projects/{{project_id}}/type">Conectar Normativas a procesos</button>
+                            <button type="button" class="btn btn-primary" routerLink="/projects/{{project_id}}/type"  *ngIf="installations_data.length > 0"><span>3</span> > Conectar Normativas a procesos</button>
+                            <button type="button" class="btn btn-primary"   style="background-color: #a8a8a8 !important;cursor: not-allowed;" *ngIf="installations_data.length < 1"><span>3</span> > Conectar Normativas a procesos</button>
                         </div>
                     </div>
                 </div>
