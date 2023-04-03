@@ -41,17 +41,16 @@ import { InstallationsComponent } from "./installations/installations.component"
 import { AreasComponent } from "./areas/areas.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
+import { ComplianceComponent } from "./create/compliance/compliance.component";
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {A11yModule} from '@angular/cdk/a11y';
-
 
 import {
   MatTreeModule,
@@ -97,7 +96,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     AreasComponent,
     InstallationsTypeComponent,
     BodyLegalTypeComponent,
-    BodyLegalDetailComponent
+    BodyLegalDetailComponent,
+    ComplianceComponent
   ],
   imports: [
     CommonModule,

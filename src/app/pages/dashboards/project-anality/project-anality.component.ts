@@ -41,7 +41,7 @@ export class ProjectAnalityComponent implements OnInit {
      */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Analisis', active: true }
+      { label: 'Identificación', active: true }
     ];
 
     if (localStorage.getItem('toast')) {

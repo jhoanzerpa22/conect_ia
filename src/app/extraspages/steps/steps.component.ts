@@ -24,9 +24,9 @@ export class StepsComponent implements OnInit {
   }
 
   comenzar(){
-      this.showPreLoader();
+      /*this.showPreLoader();
       
-      this.projectsService.getAnswerQuestion(6).pipe().subscribe(
+      this.projectsService.getAnswerQuestion(6, this.project_id).pipe().subscribe(
         (data: any) => {
           const info: any = data.data;
           
@@ -35,13 +35,11 @@ export class StepsComponent implements OnInit {
           this.hidePreLoader(); 
       },
       (error: any) => {
-        
+        */
         this._router.navigate(['/projects/'+this.project_id+'/step']);
-        
+        /*
         this.hidePreLoader();
-        //this.error = error ? error : '';
-        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
+      });*/
   }
 
    // PreLoader
