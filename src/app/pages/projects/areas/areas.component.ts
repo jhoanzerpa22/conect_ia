@@ -232,6 +232,23 @@ export class AreasComponent {
     this.AreaDatas.forEach((x: { state: any; }) => x.state = ev.target.checked)
   }
 
+  isChecked(){
+    var checkboxes: any = document.getElementsByName('checkAll');
+    var result
+    var checkedVal: any[] = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        result = checkboxes[i].value;
+        checkedVal.push(result);
+      }
+    }
+    if (checkedVal.length > 0) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   /**
   * Confirmation mail model
   */
