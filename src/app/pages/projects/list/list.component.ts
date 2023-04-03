@@ -9,6 +9,8 @@ import { DecimalPipe } from '@angular/common';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { first } from 'rxjs/operators';
 import { ToastService } from '../toast-service';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+
 
 @Component({
   selector: 'app-list',
@@ -34,7 +36,7 @@ export class ListComponent implements OnInit {
   term:any;
 
   constructor(private modalService: NgbModal,
-    public service: listService, private projectsService: ProjectsService, public toastService: ToastService) {
+    public service: listService, private projectsService: ProjectsService, public toastService: ToastService,private _router: Router) {
     //this.projectmodel = service.companies$;
     this.total = service.total$;
   }
@@ -112,6 +114,25 @@ export class ListComponent implements OnInit {
     const fecha: Date = new Date(fecha_d);
     return fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
   }
+
+  comenzar(proyecto_id: any){
+    this.showPreLoader();
+    
+    this.projectsService.getAnswerQuestion(6, proyecto_id).pipe().subscribe(
+      (data: any) => {
+        const info: any = data.data;
+        
+            this._router.navigate(['/'+proyecto_id+'/project-anality']);
+          
+        this.hidePreLoader(); 
+    },
+    (error: any) => {
+      
+      this._router.navigate(['/pages/'+proyecto_id+'/steps']);
+      
+      this.hidePreLoader();
+    });
+}
 
   // PreLoader
   showPreLoader() {

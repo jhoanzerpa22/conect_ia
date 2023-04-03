@@ -120,7 +120,7 @@ export class Step1Component implements OnInit {
     
     this.showPreLoader();
     
-    this.projectsService.getAnswerQuestion(step - 1).pipe().subscribe(
+    this.projectsService.getAnswerQuestion(step - 1, this.project_id).pipe().subscribe(
       (data: any) => {
         const info: any = data.data;
         this.step = step + 1;
@@ -226,7 +226,8 @@ export class Step1Component implements OnInit {
 
       const answer: any = {        
         "preguntaId": step - 2,
-        "respuestaId": this.respuesta_id
+        "respuestaId": this.respuesta_id,
+        "proyectoId": this.project_id
       };
 
       this.projectsService.saveAnswerQuestion(answer).pipe().subscribe(
