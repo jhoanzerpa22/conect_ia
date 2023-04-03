@@ -90,14 +90,15 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'question/main/'+step, /*httpOptions*/this.getToken());
     }
 
-    getAnswerQuestion(questionId: any){
-        return this.http.get(API_URL_BACK + 'question/answer/'+questionId, /*httpOptions*/this.getToken());
+    getAnswerQuestion(questionId: any, project_id: any){
+        return this.http.get(API_URL_BACK + 'question/answer/'+project_id+'/'+questionId, /*httpOptions*/this.getToken());
     }
 
     saveAnswerQuestion(data: any): Observable<any> {
         return this.http.post(API_URL_BACK + 'question/answer/save', {
             "preguntaId": data.preguntaId,
             "respuestaId": data.respuestaId,
+            "proyectoId": data.proyectoId
           }, /*httpOptions*/this.getToken());
     }
 
@@ -115,6 +116,10 @@ export class ProjectsService {
 
     getArticlesByInstallation(installation_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id, /*httpOptions*/this.getToken());
+    }
+
+    getArticlesByInstallationBody(installation_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id+'/legalText', /*httpOptions*/this.getToken());
     }
 
     createInstallation(data: any): Observable<any> {
