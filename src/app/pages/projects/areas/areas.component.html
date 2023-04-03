@@ -26,7 +26,7 @@
                                 <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal"
                                     id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
                                         class="ri-add-line align-bottom me-1"></i> Agregar</button>
-                                <button class="btn btn-soft-danger" (click)="deleteMultiple(deleteModel)"><i
+                                <button class="btn btn-soft-danger" (click)="deleteMultiple(deleteModel)" *ngIf="isChecked()"><i
                                         class="ri-delete-bin-2-line"></i></button>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <div class="edit">
+                                            <!--<div class="edit">
                                                 <button class="btn btn-sm btn-success edit-item-btn"
                                                     data-bs-toggle="modal" data-bs-target="#showModal"
                                                     (click)="editModal(content,data.id)">Ver</button>
@@ -85,6 +85,15 @@
                                                 <button class="btn btn-sm btn-danger remove-item-btn"
                                                     data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
                                                     (click)="confirm(deleteModel,data.id)">Remover</button>
+                                            </div>-->
+                                            
+                                            <div class="hstack gap-3 fs-15">
+                                                <a href="javascript:void(0);" class="link-primary" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)"><i class="ri-eye-line"></i></a>
+
+                                                <a href="javascript:void(0);" class="link-primary" data-bs-toggle="modal" data-bs-target="#showModal" (click)="goItems(data)"><i class="ri-bubble-chart-fill"></i></a>
+                                                
+                                                <a href="javascript:void(0);" class="link-danger" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>
                                             </div>
                                         </div>
                                     </td>
