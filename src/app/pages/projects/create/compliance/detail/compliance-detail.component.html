@@ -104,14 +104,6 @@
         <div class="card-header">
             <div class="row">
                 
-                <div class="col-xxl-12 col-lg-12">
-                    
-                    <div class="row">
-                        <div class="col-xxl-1 col-lg-1" *ngFor="let c of detail.data; let i = index;">
-                            {{c.cuerpoLegal}}
-                        </div>
-                    </div>
-                </div>
                 <div class="col-xxl-4 col-lg-4">
                     <select class="form-select" placeholder="Cuerpo Legal" data-choices data-choices-search-false
                                 id="choices-priority-input">
@@ -136,6 +128,19 @@
                 <div class="col-xxl-1 col-lg-1">
                     <button class="btn btn-primary"><i class="ri-equalizer-fill"></i> Filtros</button>
                 </div>
+                
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-xxl-12 col-lg-12">
+                    
+                    <div class="row">
+                        <div class="col-xxl-1 col-lg-1" *ngFor="let c of detail.data; let i = index;">
+                            <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;">
+                                <h5>{{c.cuerpoLegal}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -153,9 +158,9 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let data of articulosDatas" id="lj_{{data.id}}">
-                                <td><ngb-highlight [result]="data.nombre"
+                                <td><ngb-highlight [result]="data.articulo"
                                         [term]="service.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="data.cuerpo ? data.cuerpo : 0"
+                                <td><ngb-highlight [result]="data.descripcion ? data.descripcion : ''"
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                 <td>
                                     <div class="progress">
