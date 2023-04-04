@@ -42,6 +42,7 @@ import { AreasComponent } from "./areas/areas.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 import { ComplianceComponent } from "./create/compliance/compliance.component";
+import { ComplianceDetailComponent } from "./create/compliance/detail/compliance-detail.component";
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -97,7 +98,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     InstallationsTypeComponent,
     BodyLegalTypeComponent,
     BodyLegalDetailComponent,
-    ComplianceComponent
+    ComplianceComponent,
+    ComplianceDetailComponent
   ],
   imports: [
     CommonModule,
