@@ -161,7 +161,7 @@ export class ComplianceDetailComponent implements OnInit {
       this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
         (data: any) => {
           this.detail = data.data;
-          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0] : [];
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
           //this.installations_articles = data.data;
           this.hidePreLoader();
       },
