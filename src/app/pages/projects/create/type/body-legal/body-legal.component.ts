@@ -39,6 +39,7 @@ export class BodyLegalTypeComponent {
   project_id: any = '';
   installation_id: any = null;
   installation_nombre: any = null;
+  installations_articles: any = [];
 
   // Table data
   BodyLegalList!: Observable<BodyLegalTypeModel[]>;
@@ -65,6 +66,10 @@ export class BodyLegalTypeComponent {
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
       this.fetchData();
+
+      if(this.installation_id){
+        this.getArticlesByInstallation(this.installation_id);
+      }
     });
 
     /**
@@ -100,6 +105,16 @@ export class BodyLegalTypeComponent {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getArticlesByInstallation(installation_id: any){
+
+      this.projectsService.getArticlesByInstallation(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.installations_articles = data.data;
+      },
+      (error: any) => {
+      });
   }
 
   // PreLoader

@@ -79,9 +79,9 @@
                                     </th>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.cuerpo ? data.cuerpo : 0"
+                                    <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.articulo ? data.articulo : 0"
+                                    <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="progress">
@@ -108,8 +108,11 @@
                                             </div>-->
                                             
                                             <div class="hstack gap-3 fs-15">
-                                                <a href="javascript:void(0);" class="link-primary" data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Detail"><i class="ri-pencil-fill"></i></a>
-                                                <a href="javascript:void(0);" class="link-danger" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                <a href="javascript:void(0);" class="link-primary"
+                                                title="Editar" 
+                                                data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Detail"><i class="ri-pencil-fill"></i></a>
+                                                <a href="javascript:void(0);" class="link-danger"
+                                                title="Eliminar" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
                                                 (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>
                                             </div>
                                         </div>

@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-xxl-3 col-lg-3">
                     <p><b>CUERPO LEGAL:</b></p>
-                    <p><b>0 Cuerpos legales aplicables</b></p>
+                    <p><b>{{detail.data.length > 0 ? detail.data.length : 0}} {{detail.data.length == 1 ? 'Cuerpo legal aplicable' : 'Cuerpos Legales aplicables'}}</b></p>
                 </div>
                 
                 <div class="col-xxl-3 col-lg-3">
@@ -175,7 +175,10 @@
                                     <div class="d-flex gap-2">
                                         
                                         <div class="hstack gap-3 fs-15">
-                                            <a href="javascript:void(0);" class="link-primary" data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Detail"><i class="ri-pencil-fill"></i></a>
+                                            <a href="javascript:void(0);" class="link-primary" 
+                                            title="Editar"
+                                            data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Detail/{{data.id}}"
+                                            ><i class="ri-pencil-fill"></i></a>
                                         </div>
                                     </div>
                                 </td>
