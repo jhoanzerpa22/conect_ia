@@ -87,11 +87,16 @@
                                                     (click)="confirm(deleteModel,data.id)">Remover</button>
                                             </div>-->
                                             <div class="hstack gap-3 fs-15">
-                                                <a href="javascript:void(0);" class="link-primary" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)"><i class="ri-eye-line"></i></a>
+                                                <a href="javascript:void(0);" class="link-primary"
+                                                title="Ver" 
+                                                data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)"><i class="ri-eye-line"></i></a>
 
-                                                <a href="javascript:void(0);" class="link-primary" data-bs-toggle="modal" data-bs-target="#showModal" (click)="goItems(data)"><i class="ri-bubble-chart-fill"></i></a>
+                                                <a href="javascript:void(0);" class="link-primary"
+                                                title="Sub Items" data-bs-toggle="modal" data-bs-target="#showModal" (click)="goItems(data)"><i class="ri-bubble-chart-fill"></i></a>
                                                 
-                                                <a href="javascript:void(0);" class="link-danger" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                <a href="javascript:void(0);" class="link-danger" 
+                                                title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
                                                 (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>
                                             </div>
                                         </div>
