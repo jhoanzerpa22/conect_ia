@@ -14,6 +14,7 @@ import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.comp
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 import { ComplianceComponent } from "./create/compliance/compliance.component";
 import { ComplianceDetailComponent } from "./create/compliance/detail/compliance-detail.component";
+import { ComplianceFollowComponent } from "./create/compliance/follow/follow.component";
 
 const routes: Routes = [
   {
@@ -86,6 +87,10 @@ const routes: Routes = [
   {
     path: ":idProject/compliance/:id/Detail",
     component: ComplianceDetailComponent
+  },
+  {
+    path: ":idProject/compliance/:idInstallation/Detail/:id",
+    component: ComplianceFollowComponent
   }
 ];
 
