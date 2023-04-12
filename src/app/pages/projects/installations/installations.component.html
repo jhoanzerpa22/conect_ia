@@ -53,6 +53,7 @@
                                     </th>
                                     <th class="sort" data-sort="nombre">Nombre</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
+                                    <th class="sort" data-sort="area">Area</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>
@@ -68,6 +69,8 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.descripcion"
                                             [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.area.nombre"
+                                        [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <!--<div class="edit">

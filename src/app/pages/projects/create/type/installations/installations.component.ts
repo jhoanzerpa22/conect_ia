@@ -21,6 +21,7 @@ import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 interface FoodNode {
   id: number;
   nombre: string;
+  area?: string;
   cuerpo?: number;
   articulo?: number;
   conectado?: boolean;
@@ -98,13 +99,14 @@ export class InstallationsTypeComponent {
   total: Observable<number>;
   @ViewChildren(NgbdInstallationsTypeSortableHeader) headers!: QueryList<NgbdInstallationsTypeSortableHeader>;
 
-  displayedColumns: string[] = ['nombre', 'cuerpo', 'articulos','estado','accion'];
+  displayedColumns: string[] = ['nombre', 'area', 'cuerpo', 'articulos','estado','accion'];
   
   private transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       id: node.id,
       nombre: node.nombre,
+      area: node.area,
       cuerpo: node.cuerpo,
       articulo: node.articulo,
       level: level,
@@ -162,7 +164,7 @@ export class InstallationsTypeComponent {
   private getHijas(hijos: any){
     let tree_data: any = [];
     for (let d in hijos) {
-        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, cuerpo: 0, articulo: hijos[d].total_articulos, conectado: hijos[d].conectado, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', cuerpo: 0, articulo: hijos[d].total_articulos, conectado: hijos[d].conectado, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
     return tree_data;
   }
@@ -180,7 +182,7 @@ export class InstallationsTypeComponent {
           
           for (let c in obj) {
             let padre: any = obj[c].padre;
-              tree_data.push({ id: padre.id, nombre: padre.nombre, cuerpo: 0, articulo: padre.total_articulos, conectado: padre.conectado, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', cuerpo: 0, articulo: padre.total_articulos, conectado: padre.conectado, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }
           this.service.installations_data = tree_data;    
           this.dataSource.data = tree_data;
