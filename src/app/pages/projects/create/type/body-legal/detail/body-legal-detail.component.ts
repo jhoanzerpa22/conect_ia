@@ -427,7 +427,7 @@ export class BodyLegalDetailComponent implements OnInit {
     const article_installation: any = {
       articulo: article_id,
       normaId: this.cuerpo_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.numero : null
+      cuerpoLegal: this.detail.identificador ? this.detail.identificador.tipoNorma+' '+this.detail.identificador.numero : null
     };
     
     this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
