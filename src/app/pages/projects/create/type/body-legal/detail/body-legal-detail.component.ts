@@ -168,7 +168,7 @@ export class BodyLegalDetailComponent implements OnInit {
   private getInstallations() {
     
     this.showPreLoader();
-      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+      this.projectsService.getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
         (data: any) => {
           //this.service.bodylegal_data = data.data;
           this.installations = data.data;
