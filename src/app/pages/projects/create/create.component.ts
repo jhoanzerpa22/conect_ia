@@ -35,6 +35,7 @@ export class CreateComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
+      { label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Crear Proyecto', active: true }
     ];
@@ -65,6 +66,7 @@ export class CreateComponent implements OnInit {
     this.descripcionProyecto = this.f['descripcion'].value;
 
     this.breadCrumbItems = [
+      { label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Crear Proyecto' },
       { label: 'Tipo', active: true }
@@ -98,7 +100,9 @@ export class CreateComponent implements OnInit {
         
         this.hidePreLoader();
         localStorage.setItem('toast', 'true');
-        this._router.navigate(['/projects']);
+        let proyecto: any = data.data;
+        this._router.navigate(['/pages/'+proyecto.id+'/steps']);
+        //this._router.navigate(['/projects']);
     },
     (error: any) => {
       

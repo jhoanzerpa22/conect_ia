@@ -14,6 +14,7 @@ import { NgbdInstallationsSortableHeader, SortEvent } from './installations-sort
 import { ProjectsService } from '../../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from '../toast-service';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 @Component({
   selector: 'app-installations',
@@ -36,6 +37,7 @@ export class InstallationsComponent {
   checkedList: any;
   masterSelected!: boolean;
   InstallationDatas: any;
+  userData: any;
 
   project_id: any = '';
   installation_id: any = '';
@@ -51,7 +53,7 @@ export class InstallationsComponent {
   total: Observable<number>;
   @ViewChildren(NgbdInstallationsSortableHeader) headers!: QueryList<NgbdInstallationsSortableHeader>;
 
-  constructor(private modalService: NgbModal, public service: InstallationsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
+  constructor(private modalService: NgbModal, public service: InstallationsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.InstallationList = service.installations$;
     this.total = service.total$;
   }
@@ -65,6 +67,8 @@ export class InstallationsComponent {
       { label: 'Instalaciones y Procesos', active: true }
     ];
 
+    this.userData = this.TokenStorageService.getUser();
+
     /**
      * Form Validation
      */
@@ -75,9 +79,11 @@ export class InstallationsComponent {
       area: ['', [Validators.required]]
     });
 
+    this.project_id = this.userData._id;
+      
     this.route.params.subscribe(params => {
-      this.project_id = params['id'];
-      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
+    //this.project_id = params['id'];
+    this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_name = params['nameInstallation'] ? params['nameInstallation'] : null;
 
       if(this.installation_id){
@@ -134,7 +140,7 @@ export class InstallationsComponent {
 
   goItems(data: any){
     let name_format: any = this.installation_id ? this.installation_name+'||'+data.nombre : data.nombre;
-    this._router.navigate(['/projects/'+this.project_id+'/installations/'+data.id+'/'+name_format]);
+    this._router.navigate(['/projects/config/'+this.project_id+'/installations/'+data.id+'/'+name_format]);
   }
 
   /**

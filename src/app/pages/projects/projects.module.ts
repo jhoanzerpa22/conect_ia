@@ -1,8 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTypeaheadModule, NgbAccordionModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTypeaheadModule, NgbAccordionModule, NgbCollapseModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Ng Search 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -39,6 +38,8 @@ import { TypeComponent } from './create/type/type.component';
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
 import { AreasComponent } from "./areas/areas.component";
+import { ProjectAnalityComponent } from "./project-anality/project-anality.component";
+import { ConfigComponent } from "./config/config.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 import { ComplianceComponent } from "./create/compliance/compliance.component";
@@ -70,6 +71,15 @@ import {
   MatExpansionModule
 } from '@angular/material/expansion';
 
+import { CountToModule } from 'angular-count-to';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+// Apex Chart Package
+import { NgApexchartsModule } from 'ng-apexcharts';
+// Swiper Slider
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
+
+import { WidgetModule } from '../../shared/widget/widget.module';
+
 /*
 import {
   MatExpansionModule,
@@ -96,24 +106,31 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ToastsProjectContainer,
     InstallationsComponent,
     AreasComponent,
+    ProjectAnalityComponent,
     InstallationsTypeComponent,
     BodyLegalTypeComponent,
     BodyLegalDetailComponent,
     ComplianceComponent,
     ComplianceDetailComponent,
-    ComplianceFollowComponent
+    ComplianceFollowComponent,
+    ConfigComponent
   ],
   imports: [
     CommonModule,
+    NgbToastModule,
     FormsModule,
     ReactiveFormsModule,
     NgbTooltipModule,
     NgbProgressbarModule,
     NgbDropdownModule,
     NgbNavModule,
-    NgbTooltipModule,
     NgbPaginationModule,
     FeatherModule.pick(allIcons),
+    CountToModule,
+    LeafletModule,
+    NgApexchartsModule,
+    NgxUsefulSwiperModule,
+    WidgetModule,
     SimplebarAngularModule,
     CKEditorModule,
     FlatpickrModule,

@@ -40,7 +40,6 @@ import { BlogComponent } from './landing/job/blog/blog.component';
 import { JobcategoriesComponent } from './landing/job/jobcategories/jobcategories.component';
 import { JobFooterComponent } from './landing/job/job-footer/job-footer.component';
 
-
 @NgModule({
   declarations: [
     BreadcrumbsComponent,
@@ -69,7 +68,7 @@ import { JobFooterComponent } from './landing/job/job-footer/job-footer.componen
     CandidatesComponent,
     BlogComponent,
     JobcategoriesComponent,
-    JobFooterComponent,
+    JobFooterComponent
   ],
   imports: [
     CommonModule,

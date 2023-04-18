@@ -14,6 +14,7 @@ import { NgbdAreasSortableHeader, SortEvent } from './areas-sortable.directive';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from '../toast-service';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 @Component({
   selector: 'app-areas',
@@ -36,6 +37,7 @@ export class AreasComponent {
   checkedList: any;
   masterSelected!: boolean;
   AreaDatas: any;
+  userData: any;
 
   project_id: any = '';
   area_id: any = '';
@@ -47,7 +49,7 @@ export class AreasComponent {
   total: Observable<number>;
   @ViewChildren(NgbdAreasSortableHeader) headers!: QueryList<NgbdAreasSortableHeader>;
 
-  constructor(private modalService: NgbModal, public service: AreasService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
+  constructor(private modalService: NgbModal, public service: AreasService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.AreaList = service.areas$;
     this.total = service.total$;
   }
@@ -60,6 +62,8 @@ export class AreasComponent {
       { label: 'Proyecto' },
       { label: 'Areas Administrativas', active: true }
     ];
+    
+    this.userData = this.TokenStorageService.getUser();
 
     /**
      * Form Validation
@@ -69,9 +73,11 @@ export class AreasComponent {
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]]
     });
-
+    
+    this.project_id = this.userData._id;
+      
     this.route.params.subscribe(params => {
-      this.project_id = params['id'];
+      //this.project_id = params['id'];
       this.area_id = params['idArea'] ? params['idArea'] : null;
       this.area_name = params['nameArea'] ? params['nameArea'] : null;
 
@@ -128,7 +134,7 @@ export class AreasComponent {
 
   goItems(data: any){
     let name_format: any = this.area_id ? this.area_name+'||'+data.nombre : data.nombre;
-    this._router.navigate(['/projects/'+this.project_id+'/areas/'+data.id+'/'+name_format]);
+    this._router.navigate(['/projects/config/'+this.project_id+'/areas/'+data.id+'/'+name_format]);
   }
 
   /**
