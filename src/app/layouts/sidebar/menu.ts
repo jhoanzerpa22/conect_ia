@@ -14,29 +14,53 @@ export const MENU: MenuItem[] = [
   },
   {
     id: 3,
+    label: 'MENUITEMS.CONFIG.TEXT',
+    icon: 'ri-settings-2-line',
+    link: '/projects/config'
+  },
+  {
+    id: 4,
     label: 'MENUITEMS.DASHBOARD.LIST.PROJECTS',
+    icon: 'ri-scales-line',
+    link: '/projects'
+  },
+  {
+    id: 5,
+    label: 'MENUITEMS.COMMITMENTS.TEXT',
+    icon: 'ri-auction-line',
+    link: '/projects'
+  },
+  {
+    id: 6,
+    label: 'MENUITEMS.MONITORING.TEXT',
+    icon: 'ri-zoom-in-line',
+    link: '/projects'
+  },
+  {
+    id: 7,
+    label: 'MENUITEMS.AUDITS.TEXT',
     icon: 'ri-clipboard-line',
     link: '/projects'
   },
   {
-    id: 4,
+    id: 8,
     label: 'MENUITEMS.LIBRARY.TEXT',
     icon: 'ri-zoom-in-line',
     link: '/projects'
   },
   {
-    id: 5,
+    id: 9,
     label: 'MENUITEMS.PYS.TEXT',
     icon: 'ri-stack-line',
     subItems: [
       {
-        id: 6,
+        id: 10,
         label: 'MENUITEMS.PYS.LIST.QUOTE',
         link: '/analytics',
         parentId: 5
       },
       {
-        id: 7,
+        id: 11,
         label: 'MENUITEMS.PYS.LIST.REQUEST',
         link: '/crm',
         parentId: 5
@@ -44,7 +68,7 @@ export const MENU: MenuItem[] = [
     ]
   },
   {
-    id: 8,
+    id: 11,
     label: 'MENUITEMS.DASHBOARD.LIST.USERS',
     icon: 'ri-user-3-line',
     link: '/pages/team',

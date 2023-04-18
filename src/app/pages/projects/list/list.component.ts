@@ -46,7 +46,7 @@ export class ListComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Proyectos' },
+      { label: 'Requisitos legales' },
       { label: 'Lista de Proyectos', active: true }
     ];
 
@@ -122,7 +122,7 @@ export class ListComponent implements OnInit {
       (data: any) => {
         const info: any = data.data;
         
-            this._router.navigate(['/'+proyecto_id+'/project-anality']);
+            this._router.navigate(['/projects/'+proyecto_id+'/project-anality']);
           
         this.hidePreLoader(); 
     },

@@ -52,6 +52,7 @@ export class Step1Component implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
+      { label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Variables Generales', active: true }
     ];
@@ -127,11 +128,12 @@ export class Step1Component implements OnInit {
         
           if((step + 1) > this.step_total){
             //this._router.navigate(['/projects/anality']);
-            this._router.navigate(['/'+this.project_id+'/project-anality']);
+            this._router.navigate(['/projects/'+this.project_id+'/project-anality']);
           }else if((step + 1) == this.step_total){
             this.visibleSelection = 2;
             this.title = 'Paso 2: Define las variables específicas de tu proyecto';
             this.breadCrumbItems = [
+              { label: 'Requisitos legales' },
               { label: 'Proyectos' },
               { label: 'Variables Específicas', active: true }
             ];
@@ -237,11 +239,12 @@ export class Step1Component implements OnInit {
         
           if(step > this.step_total){
             //this._router.navigate(['/projects/anality']);
-            this._router.navigate(['/'+this.project_id+'/project-anality']);
+            this._router.navigate(['/projects/'+this.project_id+'/project-anality']);
           }else if(step == this.step_total){
             this.visibleSelection = 2;
             this.title = 'Paso 2: Define las variables específicas de tu proyecto';
             this.breadCrumbItems = [
+              { label: 'Requisitos legales' },
               { label: 'Proyectos' },
               { label: 'Variables Específicas', active: true }
             ];

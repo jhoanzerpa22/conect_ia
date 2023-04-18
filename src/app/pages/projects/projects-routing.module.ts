@@ -9,6 +9,8 @@ import { TypeComponent } from "./create/type/type.component";
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";
 import { AreasComponent } from "./areas/areas.component";
+import { ProjectAnalityComponent } from "./project-anality/project-anality.component";
+import { ConfigComponent } from "./config/config.component";
 import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
@@ -34,7 +36,7 @@ const routes: Routes = [
     component: CreateComponent,
     /*children: [
       { path: 'type', component: TypeComponent },
-    ]  */
+    ]*/
   },
   {
     path: ":id/type",
@@ -45,6 +47,34 @@ const routes: Routes = [
     component: Step1Component
   },
   {
+    path: "config",
+    component: ConfigComponent,
+    children: [
+      { 
+        path: ':id/areas', 
+        component: AreasComponent,
+        /*children: [
+          {
+            path: ':idArea/:nameArea',
+            component: AreasComponent,
+          }
+        ]*/
+      },
+      {
+        path: ':id/areas/:idArea/:nameArea',
+        component: AreasComponent,
+      },
+      {
+        path: ":id/installations",
+        component: InstallationsComponent
+      },
+      {
+        path: ":id/installations/:idInstallation/:nameInstallation",
+        component: InstallationsComponent
+      }
+    ]
+  },
+  /*{
     path: ":id/areas/:idArea/:nameArea",
     component: AreasComponent
   },
@@ -59,6 +89,10 @@ const routes: Routes = [
   {
     path: ":id/installations",
     component: InstallationsComponent
+  },*/
+  {
+    path: ":id/project-anality",
+    component: ProjectAnalityComponent
   },
   {
     path: ":id/type/installations/:idInstallation/:nameInstallation/bodylegal",
