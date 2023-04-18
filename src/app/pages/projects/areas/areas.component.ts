@@ -150,7 +150,7 @@ export class AreasComponent {
   private fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getAreas(this.project_id).pipe().subscribe(
+      this.projectsService.getAreasUser()/*getAreas(this.project_id)*/.pipe().subscribe(
         (data: any) => {
           this.service.areas_data = data.data;
           this.hidePreLoader();

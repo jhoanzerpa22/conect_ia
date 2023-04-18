@@ -86,7 +86,7 @@ export class ProjectAnalityComponent implements OnInit {
    }
 
    getAreas(idProject?: any) {
-    this.projectsService.getAreas(idProject).pipe().subscribe(
+    this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.areas_data = data.data;
       },
@@ -95,7 +95,7 @@ export class ProjectAnalityComponent implements OnInit {
   }
 
   getInstallations(idProject?: any) {
-    this.projectsService.getInstallations(idProject).pipe().subscribe(
+    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.installations_data = data.data;
       },

@@ -153,7 +153,7 @@ export class InstallationsComponent {
   private getAreas() {
     
     this.showPreLoader();
-      this.projectsService.getAreas(this.project_id).pipe().subscribe(
+      this.projectsService.getAreasUser()/*getAreas(this.project_id)*/.pipe().subscribe(
         (data: any) => {
           //this.service.bodylegal_data = data.data;
           this.areas = data.data;
@@ -173,7 +173,7 @@ export class InstallationsComponent {
   private fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+      this.projectsService.getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
         (data: any) => {
           this.service.installations_data = data.data;
           this.hidePreLoader();
