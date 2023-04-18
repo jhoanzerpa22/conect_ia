@@ -109,6 +109,10 @@ export class ProjectsService {
     getInstallations(project_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/project/'+project_id, /*httpOptions*/this.getToken());
     }
+
+    getInstallationsUser(){
+        return this.http.get(API_URL_BACK + 'project/installation/user', /*httpOptions*/this.getToken());
+    }
     
     getInstallationsItems(installation_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/'+installation_id, /*httpOptions*/this.getToken());
@@ -144,6 +148,10 @@ export class ProjectsService {
 
     getAreas(project_id: any){
         return this.http.get(API_URL_BACK + 'project/areas/project/'+project_id, /*httpOptions*/this.getToken());
+    }
+
+    getAreasUser(){
+        return this.http.get(API_URL_BACK + 'project/areas/user', /*httpOptions*/this.getToken());
     }
     
     getAreasItems(area_id: any){

@@ -81,7 +81,7 @@ export class ComplianceComponent {
   private fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getInstallations(this.project_id).pipe().subscribe(
+      this.projectsService.getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
         (data: any) => {
           let obj: any = data.data;
           this.service.installations_data = obj;    
