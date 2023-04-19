@@ -76,7 +76,7 @@ export class InstallationsComponent {
       ids: [''],
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      area: ['', [Validators.required]]
+      area: ['']
     });
 
     this.project_id = this.userData._id;
