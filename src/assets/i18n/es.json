@@ -285,7 +285,11 @@
       }
     },
     "CONFIG": {
-      "TEXT": "Configurar Empresa"
+      "TEXT": "Configuración",
+      "LIST": {
+        "COMPANIES": "Configurar Empresa",
+        "USERS": "Configurar Usuarios"
+      }
     },
     "LIBRARY": {
       "TEXT": "Biblioteca"

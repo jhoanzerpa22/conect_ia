@@ -6,10 +6,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel } from './follow.model';
+import { DetailModel, recentModel, ArticulosModel } from './assess.model';
 import { folderData } from './data';
-import { RecentService } from './follow.service';
-import { NgbdRecentSortableHeader, SortEvent } from './follow-sortable.directive';
+import { RecentService } from './assess.service';
+import { NgbdRecentSortableHeader, SortEvent } from './assess-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
 import { ToastService } from '../../../toast-service';
@@ -21,16 +21,16 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-follow',
-  templateUrl: './follow.component.html',
-  styleUrls: ['./follow.component.scss'],
+  selector: 'app-assess',
+  templateUrl: './assess.component.html',
+  styleUrls: ['./assess.component.scss'],
   providers: [RecentService, DecimalPipe]
 })
 
 /**
- * ComplianceFollowComponent
+ * ComplianceAssessComponent
  */
-export class ComplianceFollowComponent implements OnInit {
+export class ComplianceAssessComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -47,7 +47,6 @@ export class ComplianceFollowComponent implements OnInit {
   folderData!: DetailModel[];
   submitted = false;
   folderForm!: UntypedFormGroup;
-  hallazgoForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
   recentDatas: any;
@@ -65,11 +64,8 @@ export class ComplianceFollowComponent implements OnInit {
 
   htmlString: any = "";
   showRow: any = [];
-  articulo: any = {};
 
   items: any = [];
-  hallazgos: any = [];
-  HallazgosDatas: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -95,7 +91,7 @@ export class ComplianceFollowComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'Proyecto' },
       { label: 'Evaluar Cumplimiento' },
-      { label: 'Registrar cumplimiento', active: true }
+      { label: 'Evaluación', active: true }
     ];
 
     document.body.classList.add('file-detail-show');
@@ -105,11 +101,6 @@ export class ComplianceFollowComponent implements OnInit {
     */
     this.folderForm = this.formBuilder.group({
       title: ['', [Validators.required]]
-    });
-
-    this.hallazgoForm = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      descripcion: ['']
     });
 
     /**
@@ -126,16 +117,15 @@ export class ComplianceFollowComponent implements OnInit {
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      /*if(!this.installation_id){
+      if(!this.installation_id){
         this.getInstallations();
-      }else{*/
-        //this.getArticlesByInstallation(this.installation_id);
-        this.getArticlesByInstallationBody(this.installation_id);
-      //}
+      }else{
+        this.getArticlesByInstallation(this.installation_id);
+      }
     });
 
     // Data Get Function
-    //this._fetchData();
+    this._fetchData();
   }
 
   // Chat Data Fetch
@@ -164,30 +154,8 @@ export class ComplianceFollowComponent implements OnInit {
           
           this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
 
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
-  private getArticlesByInstallationBody(installation_id: any){
-
-    this.showPreLoader();
-      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
-        (data: any) => {
-          this.detail = data.data;
-          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
-          
-          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
-            return data.id === parseInt(this.cuerpo_id);
-          });
-
-          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-
+          console.log('detail',this.detail);
+          console.log('detailData',this.articulosDatas);
           this.hidePreLoader();
       },
       (error: any) => {
@@ -347,24 +315,6 @@ export class ComplianceFollowComponent implements OnInit {
     this.getArticlesByInstallation(this.installation_id);
   }
 
-  saveHallazgo(){
-    
-    if (this.hallazgoForm.valid) {
-      let nombre: any = this.hallazgoForm.get('nombre')?.value;
-      let descripcion: any = this.hallazgoForm.get('descripcion')?.value;
-      //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion});
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Hallazgo agregado',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.hallazgoForm.reset();
-    }
-  }
-
   /**
    * Open modal
    * @param content modal content
@@ -516,40 +466,6 @@ export class ComplianceFollowComponent implements OnInit {
       });
       this.modalService.dismissAll()
     });
-  }
-
-  /**
-  * Confirmation mail model
-  */
-  deleteId: any;
-  confirm(content: any, id: any) {
-    this.deleteId = id;
-    this.modalService.open(content, { centered: true });
-  }
-
-  
-  // Delete Data
-  deleteData(id: any) {
-    if (id) {
-      /*this.projectsService.deleteInstallation(id)
-      .subscribe(
-        response => {*/
-          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-          
-            const index = this.HallazgosDatas.findIndex(
-              (co: any) =>
-                co.id == id
-            );
-
-            this.HallazgosDatas.splice(index, 1);
-
-          //document.getElementById('lj_'+id)?.remove();
-        /*},
-        error => {
-          console.log(error);
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-        });*/
-    }
   }
 
   // PreLoader

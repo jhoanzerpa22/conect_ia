@@ -1,0 +1,145 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paso 5: Evaluar Cumplimiento" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <span class="float-end text-secondary">
+                    <span class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    </span>
+                </span>
+                <h6 class="card-title">DS<!--{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}--></h6>
+                
+                <!--<ng-container *ngFor="let org of detail.organismos">-->
+                    <p class="card-subtitle text-muted mb-0">Ministerio<!--{{org}}--></p>
+                <!--</ng-container>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="col-xxl-12">
+                    <div class="card border card-border-primary" style="border-radius: 24px !important;">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0">Artículo 1</h5>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">      
+                                    Fecha de Evaluación
+                                    
+                                    <div class="form-icon right">
+                                        <input class="form-control form-control-icon flatpickr-input" type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                                        <i class="ri-calendar-todo-fill"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    Adjuntar imagen de respaldo
+                                    <dropzone class="dropzone_sec"></dropzone>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    Comentario
+                                    <ckeditor [editor]="Editor" data=""></ckeditor>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-xxl-9 col-lg-9">
+                                        </div>
+                                        
+                                        <div class="col-xxl-3 col-lg-3">
+                                            <button class="btn btn-sm btn-success edit-item-btn" style="width:100px;margin-left: 10px;"
+                                            >Cumple</button>
+                                        
+                                            <button class="btn btn-sm btn-warning edit-item-btn" style="width:100px;margin-left: 10px;"
+                                            >Parcial</button>
+                                        
+                                            <button class="btn btn-sm btn-danger edit-item-btn" style="width:100px;margin-left: 10px;"
+                                            >No Cumple</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>

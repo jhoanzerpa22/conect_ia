@@ -18,6 +18,8 @@ import { ComplianceComponent } from "./create/compliance/compliance.component";
 import { ComplianceDetailComponent } from "./create/compliance/detail/compliance-detail.component";
 import { ComplianceFollowComponent } from "./create/compliance/follow/follow.component";
 import { ComplianceTaskComponent } from "./create/compliance/task/task.component";
+import { ComplianceAssessComponent } from "./create/compliance/assess/assess.component";
+import { TeamComponent } from "./team/team.component";
 
 const routes: Routes = [
   {
@@ -92,6 +94,10 @@ const routes: Routes = [
     component: InstallationsComponent
   },*/
   {
+    path: "users",
+    component: TeamComponent
+  },
+  {
     path: ":id/project-anality",
     component: ProjectAnalityComponent
   },
@@ -122,6 +128,10 @@ const routes: Routes = [
   {
     path: ":idProject/compliance/:id/Detail",
     component: ComplianceDetailComponent
+  },
+  {
+    path: ":idProject/compliance/:idInstallation/Assess/:id",
+    component: ComplianceAssessComponent
   },
   {
     path: ":idProject/compliance/:idInstallation/Follow/:id",

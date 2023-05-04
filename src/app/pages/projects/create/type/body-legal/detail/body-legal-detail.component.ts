@@ -420,12 +420,18 @@ export class BodyLegalDetailComponent implements OnInit {
     });*/
   }
 
-  conectArticle(article_id?: any){
+  conectArticle(article_id?: any, tituloParte?: any, tipoParte?: any, texto?: any){
     
     this.showPreLoader();
 
+    const article: any = tituloParte ? tituloParte : (texto ? (texto.split(".")[0].length > 10 ? texto.split(".")[0] : tipoParte) : tipoParte);
+    const description: any = texto ? texto : tipoParte;
+
     const article_installation: any = {
-      articulo: article_id,
+      articuloId: article_id,
+      articulo: article,
+      descripcion: description,
+      tipoParte: tipoParte,
       normaId: this.cuerpo_id,
       cuerpoLegal: this.detail.identificador ? this.detail.identificador.tipoNorma+' '+this.detail.identificador.numero : null
     };
