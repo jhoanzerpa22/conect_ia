@@ -32,12 +32,12 @@ export class TeamComponent {
   teamForm!: UntypedFormGroup;
   term:any;
   showLoad: boolean = false;
-  rol: any = 1;
+  rol: any = 2;
 
   areas: any = [];
   area_id_select: any = [];
   projects: any = [];
-  roles: any = [{id:1, nombre: 'Administrador'},{id:2, nombre: 'Evaluador'},{id:3, nombre: 'Encargado Area'},{id:4, nombre: 'Operador'}];
+  roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
   items: any = [];
 
   constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService, private projectsService: ProjectsService) { }
@@ -118,7 +118,7 @@ export class TeamComponent {
   }
 
   selectRol(event: any){
-    this.rol = event.target.value > 0 ? event.target.value : 1; 
+    this.rol = event.target.value > 0 ? event.target.value : 2; 
   }
 
   selectArea(event: any){

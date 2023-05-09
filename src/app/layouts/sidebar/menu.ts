@@ -85,5 +85,11 @@ export const MENU: MenuItem[] = [
     icon: 'ri-user-3-line',
     link: '/pages/team',
     onlyAdmin: true
+  },
+  {
+    id: 14,
+    label: 'MENUITEMS.PROFILE.TEXT',
+    icon: 'ri-user-line',
+    link: '/pages/profile'
   }
 ];

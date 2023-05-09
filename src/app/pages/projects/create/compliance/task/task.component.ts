@@ -69,6 +69,8 @@ export class ComplianceTaskComponent implements OnInit {
   showRow: any = [];
 
   items: any = [];
+  hallazgos: any = [];
+  HallazgosDatas: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -81,6 +83,7 @@ export class ComplianceTaskComponent implements OnInit {
   modelValueAsDate: Date = new Date();
 
   responsables: any = [];
+  articulo: any = {};
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.recentData = service.recents$;
@@ -132,15 +135,13 @@ export class ComplianceTaskComponent implements OnInit {
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      if(!this.installation_id){
-        this.getInstallations();
-      }else{
-        this.getArticlesByInstallation(this.installation_id);
-      }
+        //this.getArticlesByInstallation(this.installation_id);
+        this.getArticlesByInstallationBody(this.installation_id);
+      
     });
 
     // Data Get Function
-    this._fetchData();
+    //this._fetchData();
   }
 
   // Chat Data Fetch
@@ -198,6 +199,30 @@ export class ComplianceTaskComponent implements OnInit {
 
           console.log('detail',this.detail);
           console.log('detailData',this.articulosDatas);
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getArticlesByInstallationBody(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.detail = data.data;
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          
+          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
+            return data.id === parseInt(this.cuerpo_id);
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+
           this.hidePreLoader();
       },
       (error: any) => {

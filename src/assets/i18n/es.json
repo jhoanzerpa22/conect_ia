@@ -309,6 +309,9 @@
         "QUOTE": "Cotizar",
         "REQUEST": "Solicitud"
       }
+    },
+    "PROFILE": {
+      "TEXT": "Perfil"
     }
   }
 }

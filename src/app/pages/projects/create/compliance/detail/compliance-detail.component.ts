@@ -15,6 +15,8 @@ import { ProjectsService } from '../../../../../core/services/projects.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 
+import { TokenStorageService } from '../../../../../core/services/token-storage.service';
+
 // Sweet Alert
 import Swal from 'sweetalert2';
 
@@ -58,13 +60,14 @@ export class ComplianceDetailComponent implements OnInit {
 
   htmlString: any = "";
   showRow: any = [];
+  userData:any;
 
   items: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private TokenStorageService : TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -80,6 +83,10 @@ export class ComplianceDetailComponent implements OnInit {
     ];
 
     document.body.classList.add('file-detail-show');
+
+    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
+    
+    console.log('userData',this.userData);
 
     /**
      * Form Validation

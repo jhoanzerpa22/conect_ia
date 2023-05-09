@@ -4,7 +4,14 @@
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
             
             <h4 class="mb-sm-0">
-            
+                <button type="button" class="btn btn-sm px-2 fs-22"
+                id="topnav-hamburger-icon"  (click)="toggleMobileMenu($event)">
+                <span class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+                </button>
                 <button class="btn btn-sm px-2 fs-22"
                     [style.cursor]="'pointer'" (click)="backClicked()">
                     <i class="ri-arrow-left-s-line"></i>

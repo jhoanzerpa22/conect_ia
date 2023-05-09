@@ -184,4 +184,11 @@ export class ProjectsService {
     conectArticleInstallation(installation_id: any, article: any){
         return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
     }
+    
+    saveEvaluation(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'project/evaluations', data, /*httpOptions*/this.getToken());
+    
+    }
+
 }

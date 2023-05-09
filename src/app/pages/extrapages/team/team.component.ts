@@ -118,7 +118,8 @@ export class TeamComponent {
         apellido: this.teamForm.get('apellido')?.value,
         rut: this.teamForm.get('rut')?.value,
         telefono: this.teamForm.get('telefono')?.value,
-        email: this.teamForm.get('email')?.value
+        email: this.teamForm.get('email')?.value,
+        rol: 2
       };
       this.userService.create(data).pipe(first()).subscribe(
         (data: any) => {

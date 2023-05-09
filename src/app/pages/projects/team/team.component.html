@@ -27,7 +27,7 @@
                                     <div class="col" *ngFor="let data of Team | filter:term" id="t_{{data.id}}">
                                         <div class="card team-box">
                                             <div class="team-cover">
-                                                <img src="{{data.backgroundImg ? data.backgroundImg : 'assets/images/small/img-9.jpg'}}" alt="" class="img-fluid" />
+                                                <img src="{{data.backgroundImg ? data.backgroundImg : 'assets/images/logo_conect_ia.png'}}" alt="" class="img-fluid" />
                                             </div>
                                             <div class="card-body p-4">
                                                 <div class="row align-items-center team-row">
@@ -88,7 +88,7 @@
                                                                     (click)="viewDataGet(data.id)">
                                                                     <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
                                                                 </a>
-                                                                <p class="text-muted mb-0">{{data.jobPosition}}</p>
+                                                                <p class="text-muted mb-0">{{data.user_rol ? data.user_rol.nombre : ''}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -198,6 +198,7 @@
                                                                     <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{data.email}}</p>
+                                                                <p class="text-muted mb-0">{{data.user_rol ? data.user_rol.nombre : ''}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -386,7 +387,7 @@
                                     <div class="invalid-feedback">Por favor ingresar proyectos.</div>
                                 </div>
                                 
-                                <div class="mb-3" *ngIf="rol == 2">
+                                <div class="mb-3" *ngIf="rol == 3">
                                     <label for="teammembersProjects" class="form-label">Proyectos</label>
                                     <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && form['projects'].errors }" multiple>
                                         <option value="" selected>Todos </option>
@@ -395,7 +396,7 @@
                                     <div class="invalid-feedback">Por favor ingresar proyectos.</div>
                                 </div>
                                 
-                                <div class="mb-3" *ngIf="rol != 1">
+                                <div class="mb-3" *ngIf="rol != 2">
                                     <label for="teammembersAreas" class="form-label">Areas Administrativas</label>
                                     <select class="form-control form-select" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
                                     (change)="selectArea($event)" multiple>
@@ -453,7 +454,7 @@
             <ng-template #viewContent let-offcanvas>
                 <div class="offcanvas-body profile-offcanvas p-0">
                     <div class="team-cover">
-                        <img src="assets/images/small/img-9.jpg" alt="" class="img-fluid" />
+                        <img src="assets/images/logo_conect_ia.png" alt="" class="img-fluid" />
                     </div>
                     <div class="p-3">
                         <div class="team-settings">

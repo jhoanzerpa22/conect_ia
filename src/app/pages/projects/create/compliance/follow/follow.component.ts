@@ -48,6 +48,7 @@ export class ComplianceFollowComponent implements OnInit {
   submitted = false;
   folderForm!: UntypedFormGroup;
   hallazgoForm!: UntypedFormGroup;
+  evaluacionForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
   recentDatas: any;
@@ -70,6 +71,20 @@ export class ComplianceFollowComponent implements OnInit {
   items: any = [];
   hallazgos: any = [];
   HallazgosDatas: any = [];
+
+  status: any;
+
+  PlaceInput: any;
+  public imagePath: any;
+  imgURL: any;
+
+  //selectedFile: File;
+  selectedFile: any;
+  pdfURL: any;
+
+  imageChangedEvent: any = '';
+  imgView: any;
+  imgView2: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -110,6 +125,10 @@ export class ComplianceFollowComponent implements OnInit {
     this.hallazgoForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       descripcion: ['']
+    });
+
+    this.evaluacionForm = this.formBuilder.group({
+      fecha_evaluacion: ['', [Validators.required]]
     });
 
     /**
@@ -335,6 +354,10 @@ export class ComplianceFollowComponent implements OnInit {
     this.renderer.appendChild(this.zone?.nativeElement, select);
   }
 
+  changeStatus(status: any){
+    this.status = status;
+  }
+
 
   saveInstallation(){
     this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
@@ -354,6 +377,9 @@ export class ComplianceFollowComponent implements OnInit {
       let descripcion: any = this.hallazgoForm.get('descripcion')?.value;
       //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
       this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion});
+
+      this.imgView2.push(this.imgView);
+      
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -364,6 +390,78 @@ export class ComplianceFollowComponent implements OnInit {
       this.hallazgoForm.reset();
     }
   }
+
+  saveEvaluation(){
+    
+    this.showPreLoader();
+
+    let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let hallazgos: any = this.HallazgosDatas;
+
+    const evaluations: any = {
+      fecha_evaluacion: fecha_evaluacion,
+      hallazgos: hallazgos,
+      estado: this.status,
+      installationArticleId: this.cuerpo_id
+      //articuloId: this.cuerpo_id,
+      //installationId: this.installation_id,
+      //projectId: this.project_id
+    };
+    
+    this.projectsService.saveEvaluation(evaluations).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Evaluación actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+  }
+
+  
+onFileSelected(event: any){
+
+  this.imageChangedEvent = event;
+  this.selectedFile = <File>event.target.files[0];
+  //console.log(this.selectedFile);
+  //console.log(this.selectedFile.name);
+
+var reader = new FileReader();
+  reader.readAsDataURL(this.selectedFile);
+  reader.onload = (_event) => {
+    //console.log(reader.result);
+    this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
+
+imgError(ev: any){
+
+  let source = ev.srcElement;
+  //let imgSrc = 'assets/img/gallery/maintenance.png';
+  let imgSrc = 'assets/img/profile/perfil.png';
+
+  source.src = imgSrc;
+}
 
   /**
    * Open modal

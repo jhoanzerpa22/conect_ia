@@ -70,12 +70,38 @@
                             <div class="col-md-12">
                                 <div class="card-body">      
                                     Fecha de Evaluación
-                                    
-                                    <div class="form-icon right">
-                                        <input class="form-control form-control-icon flatpickr-input" type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
-                                        <i class="ri-calendar-todo-fill"></i>
-                                    </div>
 
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            
+                                    <div class="form-icon right">
+                                        <form [formGroup]="evaluacionForm" class="tablelist-form">
+                                        <input class="form-control form-control-icon flatpickr-input" type="text" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                                        <i class="ri-calendar-todo-fill"></i>
+                                        </form>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                    <div class="btn-group dropdown" ngbDropdown>
+                                        <button type="button" class="btn btn-primary" style="min-width:150px;" *ngIf="!status">Sin estado</button>
+                                        <button type="button" class="btn btn-success" style="min-width:150px;" *ngIf="status == 'Cumple'">Cumple</button>
+                                        <button type="button" class="btn btn-warning" style="min-width:150px;" *ngIf="status == 'Parcial'">Parcial</button>
+                                        <button type="button" class="btn btn-danger" style="min-width:150px;" *ngIf="status == 'No Cumple'">No Cumple</button>
+                                        <button type="button" class="btn btn-{{!status ? 'primary' : (status == 'Cumple' ? 'success' : (status == 'Parcial' ? 'warning' : 'danger')) }} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  ngbDropdownToggle></button>
+                                        <div class="dropdown-menu" ngbDropdownMenu>
+                                            
+                                        <div class="dropdown-header noti-title">
+                                            <h5 class="font-size-13 text-muted text-truncate mn-0">Estado de la evaluación!</h5>
+                                        </div>
+                                        <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('Cumple')">Cumple</a>
+                                        <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('Parcial')">Parcial</a>
+                                        <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('No Cumple')">No Cumple</a><!--
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>-->
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +150,7 @@
     </div>
 </div>-->
 
-<div class="row">
+<div class="row" *ngIf="status == 'No Cumple' || status == 'Parcial'">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -151,8 +177,7 @@
 
                                 <div class="col-sm-3 mb-3">
                                     <label for="fileHallazgo" class="form-label">Respaldo</label>
-                                    <input type="file" class="form-control" id="fileHallazgo" formControlName="fileHallazgo"
-                                        placeholder="Respaldo">
+                                    <input type="file" class="form-control" id="fileHallazgo" formControlName="fileHallazgo" placeholder="Respaldo" #removableInput accept="image/*" (change)="onFileSelected($event)">
                                 </div>
 
                                 <div class="col-sm-2 mb-3">
@@ -170,6 +195,7 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
+                                    <th class="sort">Respaldo</th>
                                     <th class="sort" data-sort="nombre">Hallazgo</th>
                                     <th class="sort" data-sort="descripcion">Descripción</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
@@ -177,6 +203,9 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
+                                    <td><img [src]="imgView2[data.id-1]" (error)="imgError($event)" alt="user img"
+                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
+                                    </td>
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight>
                                     </td>
@@ -225,8 +254,7 @@
     </div>
 </div>
 
-
-<div class="row">
+<div class="row" *ngIf="status == 'Cumple'">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -248,7 +276,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="status == 'Cumple'">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -261,7 +289,7 @@
                                     Comentario
                                     <ckeditor [editor]="Editor" data=""></ckeditor>
                                 </div>
-                                <div class="card-footer">
+                                <!--<div class="card-footer">
                                     <div class="row">
                                         <div class="col-xxl-9 col-lg-9">
                                         </div>
@@ -277,13 +305,20 @@
                                             >No Cumple</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;" (click)="saveEvaluation()"
+        >Guardar</button>
     </div>
 </div>
 
