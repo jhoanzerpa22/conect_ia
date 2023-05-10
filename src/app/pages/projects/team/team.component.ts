@@ -40,6 +40,8 @@ export class TeamComponent {
   roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
   items: any = [];
 
+  pagLength?: number = 0;
+
   constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService, private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
@@ -81,6 +83,7 @@ export class TeamComponent {
     this.userService.get().pipe().subscribe(
       (obj: any) => {
         this.Team = obj.data;
+        this.pagLength = obj.data.length;
         this.showLoad = false;
       }
     )
