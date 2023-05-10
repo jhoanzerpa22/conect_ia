@@ -457,8 +457,7 @@ var reader = new FileReader();
 imgError(ev: any){
 
   let source = ev.srcElement;
-  //let imgSrc = 'assets/img/gallery/maintenance.png';
-  let imgSrc = 'assets/img/profile/perfil.png';
+  let imgSrc = 'assets/images/logo_conect_ia.png';
 
   source.src = imgSrc;
 }

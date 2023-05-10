@@ -72,6 +72,9 @@ export class ComplianceTaskComponent implements OnInit {
   hallazgos: any = [];
   HallazgosDatas: any = [];
 
+  nombreHallazgo: any = '';
+  idHallazgo: any = null;
+
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
@@ -118,7 +121,8 @@ export class ComplianceTaskComponent implements OnInit {
       ids: [''],
       responsable: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      fecha_plazo: ['']
+      fecha_inicio: [''],
+      fecha_termino: ['']
     });
 
     /**
@@ -137,6 +141,7 @@ export class ComplianceTaskComponent implements OnInit {
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
+        this.getFindingsByInstallationArticle();
       
     });
 
@@ -287,20 +292,25 @@ export class ComplianceTaskComponent implements OnInit {
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
-        const fecha_plazo = this.taskForm.get('fecha_plazo')?.value;
+        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         this.TaskDatas.push({
           responsable,
           descripcion,
-          fecha_plazo
+          fecha_inicio,
+          fecha_termino
         });
         
-        const installation: any = {
-          responsable: responsable,
+        const task: any = {
+          responsableId: responsable,
           descripcion: descripcion,
-          fecha_plazo: fecha_plazo
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: this.idHallazgo,
+          estado: 'En Progreso'
         };
         
-        this.projectsService.createInstallation(installation).pipe().subscribe(
+        this.projectsService.createTask(task).pipe().subscribe(
           (data: any) => {     
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
@@ -401,6 +411,24 @@ export class ComplianceTaskComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
     }
   }
+
+  private getFindingsByInstallationArticle(){
+
+    this.showPreLoader();
+      this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+        (data: any) => {
+          this.hallazgos = data.data;
+          this.HallazgosDatas = data.data;
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
   
   addElement(parent?: any) {
     
@@ -428,6 +456,19 @@ export class ComplianceTaskComponent implements OnInit {
 
     this.installation_nombre = /*this.installations[index].nombre*/this.installation_id_select[this.installation_id_select.length - 1].label;
     this.getArticlesByInstallation(this.installation_id);
+  }
+
+  selectTask(id: any, nombre:any){
+    this.nombreHallazgo = nombre;
+    this.idHallazgo = id;
+  }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/images/logo_conect_ia.png';
+
+    source.src = imgSrc;
   }
 
   /**
