@@ -201,4 +201,8 @@ export class ProjectsService {
     
     }
 
+    getTasksByFinding(finding_id: any){
+        return this.http.get(API_URL_BACK + 'project/evaluations/'+finding_id+'/tasks', /*httpOptions*/this.getToken());
+    }
+
 }

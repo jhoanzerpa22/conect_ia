@@ -12,6 +12,7 @@ import { RecentService } from './task.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
+import { UserProfileService } from '../../../../../core/services/user.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
@@ -88,7 +89,7 @@ export class ComplianceTaskComponent implements OnInit {
   responsables: any = [];
   articulo: any = {};
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -142,6 +143,7 @@ export class ComplianceTaskComponent implements OnInit {
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
         this.getFindingsByInstallationArticle();
+        this.getResponsables();
       
     });
 
@@ -279,12 +281,44 @@ export class ComplianceTaskComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  private getTasksByFinding(finding_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getTasksByFinding(finding_id).pipe().subscribe(
+        (data: any) => {
+          this.TaskDatas = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getResponsables() {
+
+    this.showPreLoader();
+      this.userService.get().pipe().subscribe(
+        (data: any) => {
+          this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
 
   /**
   * Save saveTask
   */
   saveTask() {
-    if (this.taskForm.valid && 0 > 1) {
+    if (this.taskForm.valid) {
       
       this.showPreLoader();
       if (this.taskForm.get('ids')?.value) {
@@ -314,6 +348,8 @@ export class ComplianceTaskComponent implements OnInit {
           (data: any) => {     
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getTasksByFinding(this.idHallazgo)
 
            this.modalService.dismissAll();
         },
@@ -461,6 +497,7 @@ export class ComplianceTaskComponent implements OnInit {
   selectTask(id: any, nombre:any){
     this.nombreHallazgo = nombre;
     this.idHallazgo = id;
+    this.getTasksByFinding(this.idHallazgo);
   }
   
   imgError(ev: any){
