@@ -379,7 +379,7 @@ export class ComplianceFollowComponent implements OnInit {
       let nombre: any = this.hallazgoForm.get('nombre')?.value;
       let descripcion: any = this.hallazgoForm.get('descripcion')?.value;
       //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion});
+      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion, hallazgoImg: []});
 
       this.imgView2.push(this.imgView);
       
@@ -399,13 +399,32 @@ export class ComplianceFollowComponent implements OnInit {
     this.showPreLoader();
 
     let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let reportable: any = this.evaluacionForm.get('reportable')?.value;
+    let monitoreo: any = this.evaluacionForm.get('monitoreo')?.value;
+    let permiso: any = this.evaluacionForm.get('permiso')?.value;
     let hallazgos: any = this.HallazgosDatas;
+
+    let tipoArticulo: any = [];
+
+    if(reportable){
+      tipoArticulo.push('reportable');
+    }
+    
+    if(monitoreo){
+      tipoArticulo.push('monitoreo');
+    }
+
+    if(permiso){
+      tipoArticulo.push('permiso');
+    }
 
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
-      hallazgos: hallazgos,
+      hallazgos: JSON.stringify(hallazgos),
       estado: this.status,
-      installationArticleId: this.cuerpo_id
+      installationArticleId: this.cuerpo_id,
+      tipoArticulo: tipoArticulo,
+      hallazgoImg: []
       //articuloId: this.cuerpo_id,
       //installationId: this.installation_id,
       //projectId: this.project_id
