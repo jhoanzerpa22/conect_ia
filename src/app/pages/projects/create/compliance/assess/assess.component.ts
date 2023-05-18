@@ -37,6 +37,7 @@ export class ComplianceAssessComponent implements OnInit {
 
   project_id: any = '';
   cuerpo_id: any = '';
+  tarea_id: any = '';
   installation_id: any = null;
   installation_id_select: any = [];
   installation_nombre: any = null;
@@ -64,8 +65,28 @@ export class ComplianceAssessComponent implements OnInit {
 
   htmlString: any = "";
   showRow: any = [];
+  showRow2: any = [];
+  showRow3: any = [];
+  articulo: any = {};
+  tarea: any = {};
 
   items: any = [];
+  hallazgos: any = [];
+  HallazgosDatas: any = [];
+
+  status: any;
+
+  PlaceInput: any;
+  public imagePath: any;
+  imgURL: any;
+
+  //selectedFile: File;
+  selectedFile: any;
+  pdfURL: any;
+
+  imageChangedEvent: any = '';
+  imgView: any;
+  imgView2: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -91,7 +112,8 @@ export class ComplianceAssessComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'Proyecto' },
       { label: 'Evaluar Cumplimiento' },
-      { label: 'Evaluación', active: true }
+      { label: 'Tareas' },
+      { label: 'Registrar Cumplimiento', active: true }
     ];
 
     document.body.classList.add('file-detail-show');
@@ -113,32 +135,19 @@ export class ComplianceAssessComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
-      this.cuerpo_id = params['id'];
+      this.cuerpo_id = params['idArticle'];
+      this.tarea_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      if(!this.installation_id){
-        this.getInstallations();
-      }else{
-        this.getArticlesByInstallation(this.installation_id);
-      }
+        //this.getArticlesByInstallation(this.installation_id);
+        this.getArticlesByInstallationBody(this.installation_id);
+        this.getTaskById(this.tarea_id);
     });
 
     // Data Get Function
-    this._fetchData();
+    //this._fetchData();
   }
-
-  // Chat Data Fetch
-  /*private _fetchData() {
-    // Folder Data Fetch
-    this.folderData = folderData;
-    this.folderDatas = Object.assign([], this.folderData);
-
-    // Recent Data Fetch
-    this.recentData.subscribe(x => {
-      this.recentDatas = Object.assign([], x);
-    });
-  }*/
 
   /**
    * Fetches the data
@@ -192,6 +201,30 @@ export class ComplianceAssessComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  private getArticlesByInstallationBody(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.detail = data.data;
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          
+          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
+            return data.id === parseInt(this.cuerpo_id);
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   private getArticlesByInstallation(installation_id: any){
 
     this.showPreLoader();
@@ -203,6 +236,23 @@ export class ComplianceAssessComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getTaskById(tarea_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getTaskById(tarea_id).pipe().subscribe(
+        (data: any) => {
+          this.tarea = data.data;
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
@@ -266,6 +316,10 @@ export class ComplianceAssessComponent implements OnInit {
       this.items.splice((parent+1), (this.items.length-(parent+1)));
       this.items[parent].value = event.target.value;
       this.getChildren(event.target.value);
+  }
+
+  changeStatus(status: any){
+    this.status = status;
   }
 
   getChildren(padre_id: any){
@@ -373,6 +427,73 @@ export class ComplianceAssessComponent implements OnInit {
     return index != -1;
   }
 
+  
+  formatTask(texto:any, idParte: any){
+    
+    const index = this.showRow2.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1 ? texto : texto.substr(0,450)+'...';
+  }
+
+  showText2(idParte: any){
+    this.showRow2.push(idParte);
+  }
+
+  hideText2(idParte: any){
+    
+    const index = this.showRow2.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    this.showRow2.splice(index, 1);
+  }
+
+  validatShow2(idParte: any){
+    const index = this.showRow2.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1;
+  }
+
+  formatTask2(texto:any, idParte: any){
+    
+    const index = this.showRow3.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1 ? texto : texto.substr(0,450)+'...';
+  }
+
+  showText3(idParte: any){
+    this.showRow3.push(idParte);
+  }
+
+  hideText3(idParte: any){
+    
+    const index = this.showRow3.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    this.showRow3.splice(index, 1);
+  }
+
+  validatShow3(idParte: any){
+    const index = this.showRow3.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1;
+  }
+
   // Folder Filter
   folderSearch() {
     var type = (document.getElementById("file-type") as HTMLInputElement).value;
@@ -466,6 +587,38 @@ export class ComplianceAssessComponent implements OnInit {
       });
       this.modalService.dismissAll()
     });
+  }
+  
+  editTask(){
+    
+    this.showPreLoader();
+    
+    this.projectsService.updateTaskStatus(this.tarea_id, this.status).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Tarea actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
   }
 
   // PreLoader

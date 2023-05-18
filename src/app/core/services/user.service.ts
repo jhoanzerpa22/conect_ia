@@ -54,7 +54,7 @@ export class UserProfileService {
         "telefono": data.telefono,
         "password": '12345678',
         "confirm_password": '12345678',
-        "rolId": data.rol,
+        "rol": data.rol,
         "projects": data.projects,
         "areas": data.areas
       }, /*httpOptions*/this.getToken());

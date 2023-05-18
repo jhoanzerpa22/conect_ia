@@ -219,6 +219,19 @@ export class TeamComponent {
       return this.teamForm.controls;
     }
 
+    getRol(rol: any){
+      if(rol && rol[0] != 1){
+        const index = this.roles.findIndex(
+          (r: any) =>
+            r.id == rol[0]
+        );
+    
+        return index != -1 ? this.roles[index].nombre : 'Super Admin';
+      }else{
+        return "Super Admin";
+      }
+    }
+
   /**
   * Save Team
   */
@@ -242,7 +255,7 @@ export class TeamComponent {
         taskCount
       });*/
 
-      let area_id = this.area_id_select[this.area_id_select.length - 1].value;
+      let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
         
       const data = {
         nombre: this.teamForm.get('nombre')?.value,
@@ -250,7 +263,7 @@ export class TeamComponent {
         rut: this.teamForm.get('rut')?.value,
         telefono: this.teamForm.get('telefono')?.value,
         email: this.teamForm.get('email')?.value,
-        rol: this.teamForm.get('rol')?.value,
+        rol: [this.teamForm.get('rol')?.value],
         projects: this.teamForm.get('projects')?.value,
         areas: area_id ? area_id : null
       };

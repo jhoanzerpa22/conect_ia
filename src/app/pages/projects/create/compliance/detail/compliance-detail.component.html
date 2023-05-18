@@ -175,12 +175,12 @@
                                     <div class="d-flex gap-2">
                                         
                                         <div class="hstack gap-3 fs-15">
-                                            <div class="edit">
+                                            <div class="edit" *ngIf="validateRol(1) || validateRol(2) || validateRol(3)">
                                                 <button class="btn btn-sm btn-success edit-item-btn"
                                                     data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Follow/{{data.id}}"
                                                     >Evaluar</button>
                                             </div>
-                                            <div class="edit">
+                                            <div class="edit" *ngIf="!validateRol(3)">
                                                 <button class="btn btn-sm btn-primary edit-item-btn" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{data.id}}"
                                                     >Revisar</button>
                                             </div>

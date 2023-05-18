@@ -88,7 +88,7 @@
                                                                     (click)="viewDataGet(data.id)">
                                                                     <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
                                                                 </a>
-                                                                <p class="text-muted mb-0">{{data.user_rol ? data.user_rol.nombre : ''}}</p>
+                                                                <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -198,7 +198,7 @@
                                                                     <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{data.email}}</p>
-                                                                <p class="text-muted mb-0">{{data.user_rol ? data.user_rol.nombre : ''}}</p>
+                                                                <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
                                                             </div>
                                                         </div>
                                                     </div>

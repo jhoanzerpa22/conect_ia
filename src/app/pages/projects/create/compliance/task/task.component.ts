@@ -341,7 +341,7 @@ export class ComplianceTaskComponent implements OnInit {
           fecha_inicio: fecha_inicio,
           fecha_termino: fecha_termino,
           evaluationFindingId: this.idHallazgo,
-          estado: 'En Progreso'
+          estado: 'NO CUMPLE'
         };
         
         this.projectsService.createTask(task).pipe().subscribe(

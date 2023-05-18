@@ -130,7 +130,7 @@ const routes: Routes = [
     component: ComplianceDetailComponent
   },
   {
-    path: ":idProject/compliance/:idInstallation/Assess/:id",
+    path: ":idProject/compliance/:idInstallation/Task/:idArticle/Assess/:id",
     component: ComplianceAssessComponent
   },
   {

@@ -22,7 +22,7 @@
                                             <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
                                         </ng-template>
                                     </li>
-                                    <li [ngbNavItem]="2">
+                                    <li [ngbNavItem]="2" *ngIf="validateRol(1) || validateRol(2)">
                                         <a ngbNavLink class="nav-link" (click)="validateConfig()">
                                             <span class="d-sm-block">Conectar Normativas a procesos</span>
                                         </a>

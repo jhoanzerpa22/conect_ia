@@ -85,8 +85,6 @@ export class ComplianceDetailComponent implements OnInit {
     document.body.classList.add('file-detail-show');
 
     this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
-    
-    console.log('userData',this.userData);
 
     /**
      * Form Validation
@@ -330,6 +328,13 @@ export class ComplianceDetailComponent implements OnInit {
       });
       this.modalService.dismissAll()
     });
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
   }
 
   // PreLoader

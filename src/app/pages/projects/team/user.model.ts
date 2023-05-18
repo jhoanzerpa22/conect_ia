@@ -13,6 +13,7 @@
   loginId?: any;
   user_login?: any;
   user_rol?: any;
+  rol?: any;
   projectCount?: any;
   taskCount?: any;
   isActive?: any;

@@ -179,16 +179,18 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.responsable.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.fecha_inicio"
-                                            [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.fecha_termino"
-                                            [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td>{{ data.fecha_inicio | date: 'd/M/yy' }}
+                                    </td>
+                                    <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
                                                 <a href="javascript:void(0);" class="link-primary"
                                                 title="Ver" 
-                                                data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Follow"><i class="ri-eye-line"></i></a>
+                                                data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>
+
+                                                <a href="javascript:void(0);" class="link-primary"
+                                                title="Editar" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-pencil-fill"></i></a>
                                                 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"

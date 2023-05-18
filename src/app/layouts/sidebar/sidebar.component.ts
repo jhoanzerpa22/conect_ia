@@ -232,4 +232,11 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/auth/login']);
   }
 
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
+
 }

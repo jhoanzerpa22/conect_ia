@@ -128,7 +128,10 @@ export class ComplianceFollowComponent implements OnInit {
     });
 
     this.evaluacionForm = this.formBuilder.group({
-      fecha_evaluacion: ['', [Validators.required]]
+      fecha_evaluacion: ['', [Validators.required]],
+      reportable: [''],
+      monitoreo: [''],
+      permiso: ['']
     });
 
     /**
