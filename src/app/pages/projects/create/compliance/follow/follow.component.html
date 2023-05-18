@@ -59,6 +59,7 @@
     </div>
 </div>
 
+<form [formGroup]="evaluacionForm" class="tablelist-form">
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -70,8 +71,6 @@
                             <div class="col-md-12">
                                 <div class="card-body">      
                                     Fecha de Evaluación
-
-                                    <form [formGroup]="evaluacionForm" class="tablelist-form">
                                     <div class="row">
                                         <div class="col-md-3">
                                             
@@ -125,7 +124,6 @@
                                             </div>
                                     </div>
                                 </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -133,6 +131,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!--<div class="row">
@@ -172,6 +171,67 @@
         </div>
     </div>
 </div>-->
+<div class="row" *ngIf="status == 'CUMPLE'">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    Adjuntar imagen de respaldo
+                                    <dropzone class="dropzone_sec"></dropzone>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="status == 'CUMPLE'">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    Comentario
+                                    <ckeditor [editor]="Editor" data="" formControlName="comentario"></ckeditor>
+                                </div>
+                                <!--<div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-xxl-9 col-lg-9">
+                                        </div>
+                                        
+                                        <div class="col-xxl-3 col-lg-3">
+                                            <button class="btn btn-sm btn-success edit-item-btn" style="width:100px;margin-left: 10px;"
+                                            >Cumple</button>
+                                        
+                                            <button class="btn btn-sm btn-warning edit-item-btn" style="width:100px;margin-left: 10px;"
+                                            >Parcial</button>
+                                        
+                                            <button class="btn btn-sm btn-danger edit-item-btn" style="width:100px;margin-left: 10px;"
+                                            >No Cumple</button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
 
 <div class="row" *ngIf="status == 'NO CUMPLE' || status == 'CUMPLE PARCIALMENTE'">
     <div class="col-lg-12">
@@ -274,67 +334,6 @@
             </div><!-- end card -->
         </div>
         <!-- end col -->
-    </div>
-</div>
-
-<div class="row" *ngIf="status == 'CUMPLE'">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-
-                <div class="col-xxl-12">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-md-12">
-                                <div class="card-body">
-                                    Adjuntar imagen de respaldo
-                                    <dropzone class="dropzone_sec"></dropzone>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row" *ngIf="status == 'CUMPLE'">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-
-                <div class="col-xxl-12">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-md-12">
-                                <div class="card-body">
-                                    Comentario
-                                    <ckeditor [editor]="Editor" data=""></ckeditor>
-                                </div>
-                                <!--<div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-xxl-9 col-lg-9">
-                                        </div>
-                                        
-                                        <div class="col-xxl-3 col-lg-3">
-                                            <button class="btn btn-sm btn-success edit-item-btn" style="width:100px;margin-left: 10px;"
-                                            >Cumple</button>
-                                        
-                                            <button class="btn btn-sm btn-warning edit-item-btn" style="width:100px;margin-left: 10px;"
-                                            >Parcial</button>
-                                        
-                                            <button class="btn btn-sm btn-danger edit-item-btn" style="width:100px;margin-left: 10px;"
-                                            >No Cumple</button>
-                                        </div>
-                                    </div>
-                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

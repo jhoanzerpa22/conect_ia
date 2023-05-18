@@ -129,6 +129,7 @@ export class ComplianceFollowComponent implements OnInit {
 
     this.evaluacionForm = this.formBuilder.group({
       fecha_evaluacion: ['', [Validators.required]],
+      comentario: [''],
       reportable: [''],
       monitoreo: [''],
       permiso: ['']
@@ -399,6 +400,7 @@ export class ComplianceFollowComponent implements OnInit {
     this.showPreLoader();
 
     let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let comentario: any = this.evaluacionForm.get('comentario')?.value;
     let reportable: any = this.evaluacionForm.get('reportable')?.value;
     let monitoreo: any = this.evaluacionForm.get('monitoreo')?.value;
     let permiso: any = this.evaluacionForm.get('permiso')?.value;
@@ -424,6 +426,7 @@ export class ComplianceFollowComponent implements OnInit {
       estado: this.status,
       installationArticleId: this.cuerpo_id,
       tipoArticulo: tipoArticulo,
+      comentario: comentario,
       hallazgoImg: []
       //articuloId: this.cuerpo_id,
       //installationId: this.installation_id,
