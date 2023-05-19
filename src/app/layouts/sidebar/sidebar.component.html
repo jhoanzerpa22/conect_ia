@@ -37,7 +37,7 @@
               <li class="menu-title" *ngIf="item.isTitle"><span data-key="t-menu">{{ item.label | translate }}</span></li>
 
               <li class="nav-item" *ngIf="!item.isTitle && !item.isLayout">
-                <a *ngIf="hasItems(item)" href="javascript:void(0);" class="is-parent nav-link menu-link"
+                <a *ngIf="hasItems(item) && ((!item.onlySuperAdmin && !item.onlyAdmin) || ((item.onlySuperAdmin && validateRol(1)) || (item.onlyAdmin && (validateRol(1) || validateRol(2)))))" href="javascript:void(0);" class="is-parent nav-link menu-link"
                   [ngClass]="{'has-arrow': !item.badge, 'has-dropdown': item.badge}" data-bs-toggle="collapse" aria-expanded="false" (click)="toggleItem($event)">
                   <i class="{{ item.icon }} icon nav-icon" class=""></i>
                   <span class=""> {{ item.label | translate }}</span>
@@ -45,7 +45,7 @@
                     | translate}}</span>
                 </a>
 
-                <a [routerLink]="item.link" *ngIf="!hasItems(item) && !item.onlyAdmin" class="side-nav-link-ref nav-link menu-link" (click)="toggleParentItem($event)">
+                <a [routerLink]="item.link" *ngIf="!hasItems(item) && !item.onlyAdmin && !item.onlySuperAdmin" class="side-nav-link-ref nav-link menu-link" (click)="toggleParentItem($event)">
                   <i class="bx {{ item.icon }} icon nav-icon" *ngIf="item.icon" class=""></i>
                   <span class=""> {{ item.label | translate }}</span>
                   <span class="badge badge-pill {{item.badge.variant}}" *ngIf="item.badge">{{item.badge.text
