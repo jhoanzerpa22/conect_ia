@@ -122,6 +122,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id, /*httpOptions*/this.getToken());
     }
 
+    getArticlesInstallationByProyecto(proyecto_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/article-by-proyecto/'+proyecto_id, /*httpOptions*/this.getToken());
+    }
+
     getArticlesByInstallationBody(installation_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id+'/legalText', /*httpOptions*/this.getToken());
     }

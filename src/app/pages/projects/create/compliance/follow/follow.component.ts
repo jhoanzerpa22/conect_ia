@@ -602,44 +602,6 @@ imgError(ev: any){
     });*/
   }
 
-  conectArticle(article_id?: any){
-    
-    this.showPreLoader();
-
-    const article_installation: any = {
-      articulo: article_id,
-      normaId: this.cuerpo_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.numero : null
-    };
-    
-    this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
-      (data: any) => {     
-       this.hidePreLoader();
-       this.installations_articles.push({articulo: article_id});
-       
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Artículo conectado',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
-  }
-
   /**
   * Confirmation mail model
   */

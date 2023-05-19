@@ -135,8 +135,8 @@
                     
                     <div class="row">
                         <div class="col-xxl-1 col-lg-1" *ngFor="let c of detail.data; let i = index;">
-                            <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;cursor: pointer;">
-                                <h5>{{c.cuerpoLegal}}</h5>
+                            <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;cursor: pointer;" [ngClass]="{'div-texto-check': validateCuerpo(c.cuerpoLegal)}" (click)="selectCuerpo(c.cuerpoLegal)">
+                                <h5 [ngClass]="{'texto-check': validateCuerpo(c.cuerpoLegal)}">{{c.cuerpoLegal}}</h5>
                             </div>
                         </div>
                     </div>

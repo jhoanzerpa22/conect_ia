@@ -63,6 +63,7 @@ export class ComplianceDetailComponent implements OnInit {
   userData:any;
 
   items: any = [];
+  cuerpo_select: any = '';
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -160,6 +161,21 @@ export class ComplianceDetailComponent implements OnInit {
     return index == -1;
   }
 
+  selectCuerpo(cuerpo: any){
+    
+    this.showPreLoader();
+    this.cuerpo_select = cuerpo;
+    this.articulosDatas = this.detail.data.filter((data: any) => {
+      return data.cuerpoLegal === cuerpo;
+    })[0].articulos;
+    
+    this.hidePreLoader();
+  }
+
+  validateCuerpo(cuerpo: any){
+    return this.cuerpo_select == cuerpo;
+ }
+
   private getArticlesByInstallationBody(installation_id: any){
 
     this.showPreLoader();
@@ -167,6 +183,8 @@ export class ComplianceDetailComponent implements OnInit {
         (data: any) => {
           this.detail = data.data;
           this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+
+          this.cuerpo_select = data.data.data.length > 0 ? data.data.data[0].cuerpoLegal : '';
           //this.installations_articles = data.data;
           this.hidePreLoader();
       },
@@ -291,43 +309,6 @@ export class ComplianceDetailComponent implements OnInit {
         return product.type === name;
       });
     });*/
-  }
-
-  conectArticle(article_id?: any){
-    
-    this.showPreLoader();
-
-    const article_installation: any = {
-      articulo: article_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.numero : null
-    };
-    
-    this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
-      (data: any) => {     
-       this.hidePreLoader();
-       this.installations_articles.push({articulo: article_id});
-       
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Artículo conectado',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
   }
 
   validateRol(rol: any){

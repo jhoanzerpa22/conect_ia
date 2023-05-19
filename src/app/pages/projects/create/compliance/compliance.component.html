@@ -79,7 +79,7 @@
                                     </th>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
+                                    <td><ngb-highlight [result]="data.total_cuerpos ? data.total_cuerpos : 0"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
                                             [term]="service.searchTerm"></ngb-highlight></td>
@@ -108,7 +108,7 @@
                                             </div>-->
                                             
                                             <div class="hstack gap-3 fs-15">
-                                                <div class="edit">
+                                                <div class="edit" *ngIf="data.total_articulos > 0">
                                                     <button class="btn btn-sm btn-success edit-item-btn"
                                                         data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Detail"
                                                         >Evaluar</button>
