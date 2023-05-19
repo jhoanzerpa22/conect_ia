@@ -21,3 +21,7 @@
     justify-items: center;
     align-items: center;
 }
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 140px !important;
+}

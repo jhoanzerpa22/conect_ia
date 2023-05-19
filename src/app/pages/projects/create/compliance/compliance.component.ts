@@ -110,12 +110,13 @@ export class ComplianceComponent {
               }
               obj[i].total_articulos = total_articulos.length;
               obj[i].total_cuerpos = total_cuerpos.length;
-            }else{
+            
+              lista.push(obj[i]);
+            }/*else{
               obj[i].total_articulos = 0;
               obj[i].total_cuerpos = 0;
-            }
+            }*/
 
-            lista.push(obj[i]);
           }
 
           this.service.installations_data = lista;
