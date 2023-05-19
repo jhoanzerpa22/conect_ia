@@ -3,6 +3,7 @@ import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -34,8 +35,9 @@ export class ProjectAnalityComponent implements OnInit {
 
   installations_data: any = [];
   areas_data: any = [];
+  userData: any;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -46,6 +48,8 @@ export class ProjectAnalityComponent implements OnInit {
       { label: 'Proyecto' },
       { label: 'Identificación', active: true }
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
@@ -486,6 +490,13 @@ layers = [
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
   }
 
 }

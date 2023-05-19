@@ -6,6 +6,7 @@ import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 
 import { TokenStorageService } from '../../core/services/token-storage.service';
+import { AuthenticationService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,7 +22,7 @@ export class SidebarComponent implements OnInit {
   @Output() mobileMenuButtonClicked = new EventEmitter();
   userData:any;
 
-  constructor(private router: Router, public translate: TranslateService,private TokenStorageService : TokenStorageService) {
+  constructor(private router: Router, public translate: TranslateService,private TokenStorageService : TokenStorageService, private authService: AuthenticationService) {
     translate.setDefaultLang('en');
   }
 
@@ -221,6 +222,21 @@ export class SidebarComponent implements OnInit {
    */
    SidebarHide() {
     document.body.classList.remove('vertical-sidebar-enable');
+  }
+
+  /**
+   * Logout the user
+   */
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
   }
 
 }

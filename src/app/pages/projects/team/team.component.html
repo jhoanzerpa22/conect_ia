@@ -88,7 +88,7 @@
                                                                     (click)="viewDataGet(data.id)">
                                                                     <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
                                                                 </a>
-                                                                <p class="text-muted mb-0">{{data.jobPosition}}</p>
+                                                                <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -198,6 +198,7 @@
                                                                     <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{data.email}}</p>
+                                                                <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -261,22 +262,27 @@
 
             <!-- Modal -->
             <ng-template #content role="document" let-modal>
-                <div class="modal-body">
-                    <form (ngSubmit)="saveTeam()" [formGroup]="teamForm">
+                    <div class="modal-header bg-light p-3">
+                        <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+                            (click)="modal.dismiss('Cross click')"></button>
+                    </div>                
+                    <div class="modal-body">
+                    <form (ngSubmit)="saveTeam()" [formGroup]="teamForm" class="tablelist-form">
                         <div class="row">
                             <div class="col-lg-12">
                                 <input type="hidden" id="memberid-input" class="form-control" value="">
                                 <div class="px-1 pt-1">
                                     <div
                                         class="modal-team-cover position-relative mb-0 mt-n4 mx-n4 rounded-top overflow-hidden">
-                                        <img src="assets/images/logo_conect_ia.png" alt="" id="cover-img"
-                                            class="img-fluid">
+                                        <!--<img src="assets/images/small/img-9.jpg" alt="" id="cover-img"
+                                            class="img-fluid">-->
 
                                         <div class="d-flex position-absolute start-0 end-0 top-0 p-3">
                                             <div class="flex-grow-1">
                                                 <h5 class="modal-title text-white" id="createMemberLabel">Agregar Nuevo Usuario</h5>
                                             </div>
-                                            <div class="flex-shrink-0">
+                                            <!--<div class="flex-shrink-0">
                                                 <div class="d-flex gap-3 align-items-center">
                                                     <div>
                                                         <label for="cover-image-input" class="mb-0"
@@ -299,10 +305,10 @@
                                                         aria-label="Close"
                                                         (click)="modal.dismiss('Cross click')"></button>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
-                                </div>
+                                </div><!--
                                 <div class="text-center mb-4 mt-n5 pt-2">
                                     <div class="position-relative d-inline-block">
                                         <div class="position-absolute bottom-0 end-0">
@@ -326,29 +332,42 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="teammembersName" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="teammembersName"
-                                        placeholder="Ingresar Nombre" formControlName="nombre"
-                                        [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }">
-                                    <div class="invalid-feedback">Ingrese Nombre.</div>
+                                </div>-->
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="teammembersName" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="teammembersName"
+                                            placeholder="Ingresar Nombre" formControlName="nombre"
+                                            [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }">
+                                        <div class="invalid-feedback">Ingrese Nombre.</div>
+                                    </div>
+                                
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="teammembersLastName" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control" id="teammembersLastName"
+                                            placeholder="Ingresar Apellido" formControlName="apellido"
+                                            [ngClass]="{ 'is-invalid': submitted && form['apellido'].errors }">
+                                        <div class="invalid-feedback">Ingrese Apellido.</div>
+                                    </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label for="teammembersLastName" class="form-label">Apellido</label>
-                                    <input type="text" class="form-control" id="teammembersLastName"
-                                        placeholder="Ingresar Apellido" formControlName="apellido"
-                                        [ngClass]="{ 'is-invalid': submitted && form['apellido'].errors }">
-                                    <div class="invalid-feedback">Ingrese Apellido.</div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="teammembersRut" class="form-label">RUT</label>
-                                    <input type="text" class="form-control" id="teammembersRUT"
-                                        placeholder="Ingresar RUT" formControlName="rut"
-                                        [ngClass]="{ 'is-invalid': submitted && form['rut'].errors }">
-                                    <div class="invalid-feedback">Ingrese RUT.</div>
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="teammembersRut" class="form-label">RUT</label>
+                                        <input type="text" class="form-control" id="teammembersRUT"
+                                            placeholder="Ingresar RUT" formControlName="rut"
+                                            [ngClass]="{ 'is-invalid': submitted && form['rut'].errors }">
+                                        <div class="invalid-feedback">Ingrese RUT.</div>
+                                    </div>
+                                
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="teammembersPhone" class="form-label">Teléfono</label>
+                                        <input type="text" class="form-control" id="teammembersPhone"
+                                            placeholder="Ingresar Teléfono" formControlName="telefono"
+                                            [ngClass]="{ 'is-invalid': submitted && form['telefono'].errors }">
+                                        <div class="invalid-feedback">Ingrese Teléfono.</div>
+                                    </div>
+                                    
                                 </div>
                                 
                                 <div class="mb-3">
@@ -358,14 +377,45 @@
                                         [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
                                     <div class="invalid-feedback">Ingrese Correo Electrónico.</div>
                                 </div>
-                                
+
                                 <div class="mb-3">
-                                    <label for="teammembersPhone" class="form-label">Teléfono</label>
-                                    <input type="text" class="form-control" id="teammembersPhone"
-                                        placeholder="Ingresar Teléfono" formControlName="telefono"
-                                        [ngClass]="{ 'is-invalid': submitted && form['telefono'].errors }">
-                                    <div class="invalid-feedback">Ingrese Teléfono.</div>
+                                    <label for="teammembersRol" class="form-label">Rol</label>
+                                    <select class="form-control form-select" aria-label="Rol" formControlName="rol" placeholder="Seleccione Rol" [ngClass]="{ 'is-invalid': submitted && form['rol'].errors }" (change)="selectRol($event)">
+                                        <option value="" selected>Seleccione Rol </option>
+                                        <option *ngFor="let rl of roles;" value="{{rl.id}}">{{rl.nombre}}</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor ingresar proyectos.</div>
                                 </div>
+                                
+                                <div class="mb-3" *ngIf="rol == 3">
+                                    <label for="teammembersProjects" class="form-label">Proyectos</label>
+                                    <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && form['projects'].errors }" multiple>
+                                        <option value="" selected>Todos </option>
+                                        <option *ngFor="let p of projects;" value="{{p.id}}">{{p.nombre}}</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor ingresar proyectos.</div>
+                                </div>
+                                
+                                <div class="mb-3" *ngIf="rol != 2">
+                                    <label for="teammembersAreas" class="form-label">Areas Administrativas</label>
+                                    <select class="form-control form-select" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
+                                    (change)="selectArea($event)" multiple>
+                                        <option value="" selected>Todas</option>
+                                        <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+                                </div>
+
+                                <ng-container *ngFor="let item of items;let i = index;">
+                                    <div class="mb-3">
+                                        <label for="area-field" class="form-label">Sub Area Administrativa</label>
+                                        <select class="form-control form-select mb-3" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
+                                                            <option value="" selected>Seleccione Sub Area Administrativa</option>
+                                                            <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
+                                        </select>
+                                        <div class="invalid-feedback">Por favor ingresar sub-area administrativa.</div>
+                                    </div>
+                                </ng-container>
 
                                 <!--<div class="mb-4">
                                     <label for="designation" class="form-label">Descripción</label>
@@ -574,6 +624,12 @@
 </div>
 <!--end row-->
 
+<div class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 100%;">
+    <div class="col-sm-5">
+        <div>
+            <p class="mb-sm-0 text-muted">Mostrando <span class="fw-semibold">1</span> de <span class="fw-semibold">10</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> entradas</p>
+        </div>
+    </div>
 
 <!-- removeItemModal -->
 <ng-template #deleteModel let-modal>

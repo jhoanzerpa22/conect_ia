@@ -16,7 +16,19 @@ export const MENU: MenuItem[] = [
     id: 3,
     label: 'MENUITEMS.CONFIG.TEXT',
     icon: 'ri-settings-2-line',
-    link: '/projects/config'
+    subItems: [
+      {
+        id: 12,
+        label: 'MENUITEMS.CONFIG.LIST.COMPANIES',
+        link: '/projects/config',
+        parentId: 3
+      },{
+        id: 13,
+        label: 'MENUITEMS.CONFIG.LIST.USERS',
+        link: '/projects/users',
+        parentId: 3
+      }
+    ]
   },
   {
     id: 4,
@@ -73,5 +85,11 @@ export const MENU: MenuItem[] = [
     icon: 'ri-user-3-line',
     link: '/pages/team',
     onlyAdmin: true
+  },
+  {
+    id: 14,
+    label: 'MENUITEMS.PROFILE.TEXT',
+    icon: 'ri-user-line',
+    link: '/pages/profile'
   }
 ];

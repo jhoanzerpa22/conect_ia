@@ -105,10 +105,10 @@
             <div class="row">
                 
                 <div class="col-xxl-4 col-lg-4">
-                    <select class="form-select" placeholder="Cuerpo Legal" data-choices data-choices-search-false
+                    <!--<select class="form-select" placeholder="Cuerpo Legal" data-choices data-choices-search-false
                                 id="choices-priority-input">
                                 <option value="">Cuerpo Legal</option>
-                    </select>
+                    </select>-->
                 </div>
                 
                 <div class="col-xxl-4 col-lg-4">
@@ -135,8 +135,8 @@
                     
                     <div class="row">
                         <div class="col-xxl-1 col-lg-1" *ngFor="let c of detail.data; let i = index;">
-                            <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;">
-                                <h5>{{c.cuerpoLegal}}</h5>
+                            <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;cursor: pointer;" [ngClass]="{'div-texto-check': validateCuerpo(c.cuerpoLegal)}" (click)="selectCuerpo(c.cuerpoLegal)">
+                                <h5 [ngClass]="{'texto-check': validateCuerpo(c.cuerpoLegal)}">{{c.cuerpoLegal}}</h5>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                             <tr class="bg-light text-muted">
                                 <th class="sort" data-sort="articulo">Articulo</th>
                                 <th class="sort" data-sort="descripcion">Descripción</th>
-                                <th class="sort">Avance</th>
+                                <!--<th class="sort">Avance</th>-->
                                 <th class="sort">Estado</th>
                                 <th class="sort">Acción</th>
                             </tr>
@@ -162,11 +162,11 @@
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="data.descripcion ? data.descripcion : ''"
                                         [term]="service.searchTerm"></ngb-highlight></td>
-                                <td>
+                                <!--<td>
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%<!--{{data.avance}}--></div>
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                                     </div>
-                                </td>
+                                </td>-->
                                 <td class="status"><span
                                             class="badge badge-soft-{{data.conectado ? 'success' : 'danger'}} text-uppercase">{{data.conectado ? 'Evaluado' : 'Sin evaluar'}}</span>
                                 </td>
@@ -175,10 +175,19 @@
                                     <div class="d-flex gap-2">
                                         
                                         <div class="hstack gap-3 fs-15">
-                                            <a href="javascript:void(0);" class="link-primary" 
+                                            <div class="edit" *ngIf="validateRol(1) || validateRol(2) || validateRol(3)">
+                                                <button class="btn btn-sm btn-success edit-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Follow/{{data.id}}"
+                                                    >Evaluar</button>
+                                            </div>
+                                            <div class="edit" *ngIf="!validateRol(3)">
+                                                <button class="btn btn-sm btn-primary edit-item-btn" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{data.id}}"
+                                                    >Revisar</button>
+                                            </div>
+                                            <!--<a href="javascript:void(0);" class="link-primary" 
                                             title="Editar"
                                             data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{data.id}}"
-                                            ><i class="ri-pencil-fill"></i></a>
+                                            ><i class="ri-pencil-fill"></i></a>-->
                                         </div>
                                     </div>
                                 </td>

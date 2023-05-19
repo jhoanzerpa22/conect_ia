@@ -22,10 +22,10 @@
                     <span></span>
                     </span>
                 </span>
-                <h6 class="card-title">DS<!--{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}--></h6>
+                <h6 class="card-title">{{detail.nombre}}<!--{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}--></h6>
                 
                 <!--<ng-container *ngFor="let org of detail.organismos">-->
-                    <p class="card-subtitle text-muted mb-0">Ministerio<!--{{org}}--></p>
+                    <p class="card-subtitle text-muted mb-0">{{detail.descripcion}}<!--{{org}}--></p>
                 <!--</ng-container>-->
             </div>
         </div>
@@ -42,7 +42,13 @@
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-0">Artículo 1</h5>  
+                                    <h5 class="card-title mb-0">{{articulo.articulo}}</h5>  
+                                    <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 450 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
+                                    
+                                    <p class="card-text">
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Ver texto completo</b></small>
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
+                                    </p> 
                                 </div>
                             </div>
                         </div>
@@ -57,7 +63,79 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Tareas</h4>
+                <h4 class="card-title mb-0">Hallazgos</h4>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th class="sort">Respaldo</th>
+                                    <th class="sort" data-sort="nombre">Hallazgo</th>
+                                    <th class="sort" data-sort="descripcion">Descripción</th>
+                                    <th class="sort" style="width: 100px;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
+                                    <td><img [src]="data.findings.img" (error)="imgError($event)" alt="user img"
+                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
+                                    </td>
+                                    <td><ngb-highlight [result]="data.findings.nombre"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td><ngb-highlight [result]="data.findings.descripcion"
+                                                    [term]="service.searchTerm">
+                                            </ngb-highlight>
+                                    </td>
+                                    
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <div class="hstack gap-3 fs-15">
+                                                <a href="javascript:void(0);" class="link-primary" 
+                                                title="Tareas"
+                                                (click)="selectTask(data.findings.id,data.findings.nombre)"><i class="ri-todo-line"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Mostrando
+                                {{service.startIndex}} de
+                                {{service.endIndex}} de {{service.totalRecords}}
+                                entradas
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
+                                    [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+
+<div class="row" *ngIf="idHallazgo">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Tareas - {{nombreHallazgo}}</h4>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -85,30 +163,34 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th class="sort" data-sort="tarea">Tarea</th>
+                                    <th class="sort" data-sort="id">Id</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
                                     <th class="sort" data-sort="responsable">Nombre Responsable</th>
-                                    <th class="sort" data-sort="fecha_plazo">Fecha Plazo</th>
+                                    <th class="sort" data-sort="fecha_inicio">Fecha Inicio</th>
+                                    <th class="sort" data-sort="fecha_termino">Fecha Termino</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of TaskDatas" id="lj_{{data.id}}">
-                                    <td><ngb-highlight [result]="data.tarea"
+                                    <td><ngb-highlight [result]="data.id"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.descripcion"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.responsable"
+                                    <td><ngb-highlight [result]="data.responsable.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td>
-                                    <td><ngb-highlight [result]="data.fecha_plazo"
-                                            [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td>{{ data.fecha_inicio | date: 'd/M/yy' }}
+                                    </td>
+                                    <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
                                                 <a href="javascript:void(0);" class="link-primary"
                                                 title="Ver" 
-                                                data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Follow"><i class="ri-eye-line"></i></a>
+                                                data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>
+
+                                                <a href="javascript:void(0);" class="link-primary"
+                                                title="Editar" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-pencil-fill"></i></a>
                                                 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
@@ -146,6 +228,7 @@
         </div>
         <!-- end col -->
     </div>
+</div>
 
 <!-- Add ListJs Data -->
 <ng-template #content role="document" let-modal>
@@ -172,13 +255,23 @@
             </div>
 
             <div class="mb-3">
-                <label for="user-field" class="form-label">Fecha Plazo</label>
+                <label for="user-field" class="form-label">Fecha Inicio</label>
                     <div class="form-icon right">
-                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Plazo" required
-                        formControlName="fecha_plazo" [ngClass]="{ 'is-invalid': submitted && form['fecha_plazo'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Inicio" required
+                        formControlName="fecha_inicio" [ngClass]="{ 'is-invalid': submitted && form['fecha_inicio'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
                         <i class="ri-calendar-todo-fill"></i>
                     </div>
-                <div class="invalid-feedback">Por favor ingresar Fecha plazo.</div>
+                <div class="invalid-feedback">Por favor ingresar Fecha inicio.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="user-field" class="form-label">Fecha Termino</label>
+                    <div class="form-icon right">
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Termino" required
+                        formControlName="fecha_termino" [ngClass]="{ 'is-invalid': submitted && form['fecha_termino'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <i class="ri-calendar-todo-fill"></i>
+                    </div>
+                <div class="invalid-feedback">Por favor ingresar Fecha Termino.</div>
             </div>
 
             <div class="mb-3">

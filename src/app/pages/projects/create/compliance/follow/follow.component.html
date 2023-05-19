@@ -22,10 +22,10 @@
                     <span></span>
                     </span>
                 </span>
-                <h6 class="card-title">DS<!--{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}--></h6>
+                <h6 class="card-title">{{detail.nombre}}<!--{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}--></h6>
                 
                 <!--<ng-container *ngFor="let org of detail.organismos">-->
-                    <p class="card-subtitle text-muted mb-0">Ministerio<!--{{org}}--></p>
+                    <p class="card-subtitle text-muted mb-0">{{detail.descripcion}}<!--{{org}}--></p>
                 <!--</ng-container>-->
             </div>
         </div>
@@ -42,7 +42,13 @@
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-0">Artículo 1</h5>  
+                                    <h5 class="card-title mb-0">{{articulo.articulo}}</h5>  
+                                    <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 450 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
+                                    
+                                    <p class="card-text">
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Ver texto completo</b></small>
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -53,6 +59,7 @@
     </div>
 </div>
 
+<form [formGroup]="evaluacionForm" class="tablelist-form">
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -64,12 +71,58 @@
                             <div class="col-md-12">
                                 <div class="card-body">      
                                     Fecha de Evaluación
-                                    
-                                    <div class="form-icon right">
-                                        <input class="form-control form-control-icon flatpickr-input" type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
-                                        <i class="ri-calendar-todo-fill"></i>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            
+                                            <div class="form-icon right">
+                                                <input class="form-control form-control-icon flatpickr-input" type="text" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                                                <i class="ri-calendar-todo-fill"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            
+                                            <div class="form-check form-switch form-check-right form-switch-success">
+                                                    <input class="form-check-input" type="checkbox" formControlName="reportable" role="switch" id="flexSwitchCheckRightDisabled" checked>
+                                                    <label class="form-check-label" for="flexSwitchCheckRightDisabled">Es Reportable</label>
+                                                        
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            
+                                            <div class="form-check form-switch form-check-right form-switch-success">
+                                                    <input class="form-check-input" type="checkbox" formControlName="monitoreo" role="switch" id="flexSwitchCheckCheckedDisabled" checked>
+                                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Monitoreo</label>    
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            
+                                            <div class="form-check form-switch form-check-right form-switch-success">
+                                                    <input class="form-check-input" type="checkbox" formControlName="permiso" role="switch" id="flexSwitchCheckCheckedDisabled" checked>
+                                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Permiso</label>    
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="btn-group dropdown" ngbDropdown>
+                                                <button type="button" class="btn btn-primary" style="min-width:150px;" *ngIf="!status">Sin estado</button>
+                                                <button type="button" class="btn btn-success" style="min-width:150px;" *ngIf="status == 'CUMPLE'">Cumple</button>
+                                                <button type="button" class="btn btn-warning" style="min-width:150px;" *ngIf="status == 'CUMPLE PARCIALMENTE'">Parcial</button>
+                                                <button type="button" class="btn btn-danger" style="min-width:150px;" *ngIf="status == 'NO CUMPLE'">No Cumple</button>
+                                                <button type="button" class="btn btn-{{!status ? 'primary' : (status == 'CUMPLE' ? 'success' : (status == 'CUMPLE PARCIALMENTE' ? 'warning' : 'danger')) }} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  ngbDropdownToggle></button>
+                                                <div class="dropdown-menu" ngbDropdownMenu>
+                                                    
+                                                <div class="dropdown-header noti-title">
+                                                    <h5 class="font-size-13 text-muted text-truncate mn-0">Estado de la evaluación!</h5>
+                                                </div>
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('CUMPLE')">Cumple</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('CUMPLE PARCIALMENTE')">Parcial</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('NO CUMPLE')">No Cumple</a><!--
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Separated link</a>-->
+                                                </div>
+                                            </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -79,9 +132,46 @@
         </div>
     </div>
 </div>
+</div>
 
+<!--<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
 
-<div class="row">
+                <div class="col-xxl-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">      
+                                    <h5>Agregar Hallazgos</h5>
+                                    
+                                <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form">
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="nombreHallazgo" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombreHallazgo" formControlName="nombre"
+                                            placeholder="Hallazgo">
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <button class="btn btn-sm btn-success edit-item-btn" style="margin-top: 35px;"
+                                                        data-bs-toggle="modal" data-bs-target="#showModal"(click)="saveHallazgo()"
+                                                        ><i class="ri-add-fill me-1 align-bottom"></i>Agregar Hallazgo
+                                        </button>
+                                    </div>
+                                </div>
+                                </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="row" *ngIf="status == 'CUMPLE'">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -103,7 +193,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="status == 'CUMPLE'">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -114,9 +204,9 @@
                             <div class="col-md-12">
                                 <div class="card-body">
                                     Comentario
-                                    <ckeditor [editor]="Editor" data=""></ckeditor>
+                                    <ckeditor [editor]="Editor" data="" formControlName="comentario"></ckeditor>
                                 </div>
-                                <div class="card-footer">
+                                <!--<div class="card-footer">
                                     <div class="row">
                                         <div class="col-xxl-9 col-lg-9">
                                         </div>
@@ -132,7 +222,7 @@
                                             >No Cumple</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -141,5 +231,144 @@
         </div>
     </div>
 </div>
+</form>
+
+<div class="row" *ngIf="status == 'NO CUMPLE' || status == 'CUMPLE PARCIALMENTE'">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Hallazgos</h4>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div id="customerList">                    
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form">
+                            <div class="row">
+                                <div class="col-sm-2 mb-3">
+                                    <label for="nombreHallazgo" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombreHallazgo" formControlName="nombre"
+                                        placeholder="Hallazgo">
+                                </div>
+                                
+                                <div class="col-sm-5 mb-3">
+                                    <label for="descripcionHallazgo" class="form-label">Descripción</label>
+                                    <input type="text" class="form-control" id="descripcionHallazgo" formControlName="descripcion"
+                                        placeholder="Descripción">
+                                </div>
+
+                                <div class="col-sm-3 mb-3">
+                                    <label for="fileHallazgo" class="form-label">Respaldo</label>
+                                    <input type="file" class="form-control" id="fileHallazgo" formControlName="fileHallazgo" placeholder="Respaldo" #removableInput accept="image/*" (change)="onFileSelected($event)">
+                                </div>
+
+                                <div class="col-sm-2 mb-3">
+                                    <button class="btn btn-sm btn-success edit-item-btn" style="margin-top: 35px;"
+                                                    data-bs-toggle="modal" data-bs-target="#showModal"(click)="saveHallazgo()"
+                                                    ><i class="ri-add-fill me-1 align-bottom"></i>Agregar Hallazgo
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th class="sort">Respaldo</th>
+                                    <th class="sort" data-sort="nombre">Hallazgo</th>
+                                    <th class="sort" data-sort="descripcion">Descripción</th>
+                                    <th class="sort" style="width: 100px;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
+                                    <td><img [src]="imgView2[data.id-1]" (error)="imgError($event)" alt="user img"
+                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
+                                    </td>
+                                    <td><ngb-highlight [result]="data.nombre"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td><ngb-highlight [result]="data.descripcion"
+                                                    [term]="service.searchTerm">
+                                            </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <div class="hstack gap-3 fs-15">
+                                                <a href="javascript:void(0);" class="link-danger" 
+                                                title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Mostrando
+                                {{service.startIndex}} de
+                                {{service.endIndex}} de {{service.totalRecords}}
+                                entradas
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
+                                    [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;" (click)="saveEvaluation()"
+        >Guardar</button>
+    </div>
+</div>
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Está a punto de eliminar este registro?</h4>
+                    <p class="text-muted mx-4 mb-0">Eliminar su registro eliminará toda su información de nuestro
+sistema.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Cerrar</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                    (click)="modal.close('Close click')">Si, Remover!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>
 
 <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>

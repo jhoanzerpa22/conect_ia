@@ -292,7 +292,7 @@
                         justify-items: center;
                         align-items: center;">
                             <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                            data-bs-target="#createFileModal" (click)="conectArticle(data.idParte)" *ngIf="validateIdparte(data.idParte)"><!--<i
+                            data-bs-target="#createFileModal" (click)="conectArticle(data.idParte, data.tituloParte, data.tipoParte, data.texto)" *ngIf="validateIdparte(data.idParte)"><!--<i
                                 class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
                             <span *ngIf="!validateIdparte(data.idParte)">Aplicable</span>
                         </div>
@@ -369,7 +369,7 @@
                                 justify-items: center;
                                 align-items: center;">
                                     <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                                    data-bs-target="#createFileModal" (click)="conectArticle(item.idParte)" *ngIf="validateIdparte(item.idParte)"><!--<i
+                                    data-bs-target="#createFileModal" (click)="conectArticle(item.idParte, item.tituloParte, item.tipoParte, item.texto)" *ngIf="validateIdparte(item.idParte)"><!--<i
                                         class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
                                     <span *ngIf="!validateIdparte(item.idParte)">Aplicable</span>
                                 </div>
@@ -445,7 +445,7 @@
                                                 justify-items: center;
                                                 align-items: center;">
                                                     <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                                                    data-bs-target="#createFileModal" (click)="conectArticle(item2.idParte)" *ngIf="validateIdparte(item2.idParte)"><!--<i
+                                                    data-bs-target="#createFileModal" (click)="conectArticle(item2.idParte, item2.tituloParte, item2.tipoParte, item2.texto)" *ngIf="validateIdparte(item2.idParte)"><!--<i
                                                         class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
                                                     <span *ngIf="!validateIdparte(item2.idParte)">Aplicable</span>
                                                 </div>
@@ -522,7 +522,7 @@
                                                         justify-items: center;
                                                         align-items: center;">
                                                             <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                                                            data-bs-target="#createFileModal" (click)="conectArticle(item3.idParte)" *ngIf="validateIdparte(item3.idParte)"><!--<i
+                                                            data-bs-target="#createFileModal" (click)="conectArticle(item3.idParte, item3.tituloParte, item3.tipoParte, item3.texto)" *ngIf="validateIdparte(item3.idParte)"><!--<i
                                                                 class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
                                                             <span *ngIf="!validateIdparte(item3.idParte)">Aplicable</span>
                                                         </div>
@@ -568,7 +568,7 @@
                                                     justify-items: center;
                                                     align-items: center;">
                                                         <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                                                        data-bs-target="#createFileModal" (click)="conectArticle(item4.idParte)" *ngIf="validateIdparte(item4.idParte)"><!--<i
+                                                        data-bs-target="#createFileModal" (click)="conectArticle(item4.idParte, item4.tituloParte, item4.tipoParte, item4.texto)" *ngIf="validateIdparte(item4.idParte)"><!--<i
                                                             class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
                                                             <span *ngIf="!validateIdparte(item4.idParte)">Aplicable</span>
                                                     </div>

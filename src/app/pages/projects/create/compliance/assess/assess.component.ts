@@ -6,35 +6,38 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel } from './body-legal-detail.model';
+import { DetailModel, recentModel, ArticulosModel } from './assess.model';
 import { folderData } from './data';
-import { RecentService } from './body-legal-detail.service';
-import { NgbdRecentSortableHeader, SortEvent } from './body-legal-detail-sortable.directive';
+import { RecentService } from './assess.service';
+import { NgbdRecentSortableHeader, SortEvent } from './assess-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
-import { ProjectsService } from '../../../../../../core/services/projects.service';
-import { ToastService } from '../../../../toast-service';
+import { ProjectsService } from '../../../../../core/services/projects.service';
+import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+// Ck Editer
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-body-legal-detail',
-  templateUrl: './body-legal-detail.component.html',
-  styleUrls: ['./body-legal-detail.component.scss'],
+  selector: 'app-assess',
+  templateUrl: './assess.component.html',
+  styleUrls: ['./assess.component.scss'],
   providers: [RecentService, DecimalPipe]
 })
 
 /**
- * BodyLegalDetail Component
+ * ComplianceAssessComponent
  */
-export class BodyLegalDetailComponent implements OnInit {
+export class ComplianceAssessComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
   project_id: any = '';
   cuerpo_id: any = '';
+  tarea_id: any = '';
   installation_id: any = null;
   installation_id_select: any = [];
   installation_nombre: any = null;
@@ -62,16 +65,45 @@ export class BodyLegalDetailComponent implements OnInit {
 
   htmlString: any = "";
   showRow: any = [];
+  showRow2: any = [];
+  showRow3: any = [];
+  articulo: any = {};
+  tarea: any = {};
 
   items: any = [];
+  hallazgos: any = [];
+  HallazgosDatas: any = [];
+
+  status: any;
+
+  PlaceInput: any;
+  public imagePath: any;
+  imgURL: any;
+
+  //selectedFile: File;
+  selectedFile: any;
+  pdfURL: any;
+
+  imageChangedEvent: any = '';
+  imgView: any;
+  imgView2: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
+
+  public Editor = ClassicEditor;
+
+  monolith!: string;
+  nano!: string;
+
+  modelValueAsDate: Date = new Date();
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
+
+  inlineDatePicker: Date = new Date();
 
   ngOnInit(): void {
     /**
@@ -79,9 +111,9 @@ export class BodyLegalDetailComponent implements OnInit {
     */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Vinculación'},
-      { label: 'Cuerpos Legales' },
-      { label: 'Detalle', active: true }
+      { label: 'Evaluar Cumplimiento' },
+      { label: 'Tareas' },
+      { label: 'Registrar Cumplimiento', active: true }
     ];
 
     document.body.classList.add('file-detail-show');
@@ -103,32 +135,19 @@ export class BodyLegalDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
-      this.cuerpo_id = params['id'];
+      this.cuerpo_id = params['idArticle'];
+      this.tarea_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      if(!this.installation_id){
-        this.getInstallations();
-      }else{
-        this.getArticlesByInstallation(this.installation_id);
-      }
+        //this.getArticlesByInstallation(this.installation_id);
+        this.getArticlesByInstallationBody(this.installation_id);
+        this.getTaskById(this.tarea_id);
     });
 
     // Data Get Function
-    this._fetchData();
+    //this._fetchData();
   }
-
-  // Chat Data Fetch
-  /*private _fetchData() {
-    // Folder Data Fetch
-    this.folderData = folderData;
-    this.folderDatas = Object.assign([], this.folderData);
-
-    // Recent Data Fetch
-    this.recentData.subscribe(x => {
-      this.recentDatas = Object.assign([], x);
-    });
-  }*/
 
   /**
    * Fetches the data
@@ -182,6 +201,30 @@ export class BodyLegalDetailComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  private getArticlesByInstallationBody(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.detail = data.data;
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          
+          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
+            return data.id === parseInt(this.cuerpo_id);
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   private getArticlesByInstallation(installation_id: any){
 
     this.showPreLoader();
@@ -193,6 +236,23 @@ export class BodyLegalDetailComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getTaskById(tarea_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getTaskById(tarea_id).pipe().subscribe(
+        (data: any) => {
+          this.tarea = data.data;
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
@@ -256,6 +316,10 @@ export class BodyLegalDetailComponent implements OnInit {
       this.items.splice((parent+1), (this.items.length-(parent+1)));
       this.items[parent].value = event.target.value;
       this.getChildren(event.target.value);
+  }
+
+  changeStatus(status: any){
+    this.status = status;
   }
 
   getChildren(padre_id: any){
@@ -363,6 +427,73 @@ export class BodyLegalDetailComponent implements OnInit {
     return index != -1;
   }
 
+  
+  formatTask(texto:any, idParte: any){
+    
+    const index = this.showRow2.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1 ? texto : texto.substr(0,450)+'...';
+  }
+
+  showText2(idParte: any){
+    this.showRow2.push(idParte);
+  }
+
+  hideText2(idParte: any){
+    
+    const index = this.showRow2.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    this.showRow2.splice(index, 1);
+  }
+
+  validatShow2(idParte: any){
+    const index = this.showRow2.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1;
+  }
+
+  formatTask2(texto:any, idParte: any){
+    
+    const index = this.showRow3.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1 ? texto : texto.substr(0,450)+'...';
+  }
+
+  showText3(idParte: any){
+    this.showRow3.push(idParte);
+  }
+
+  hideText3(idParte: any){
+    
+    const index = this.showRow3.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    this.showRow3.splice(index, 1);
+  }
+
+  validatShow3(idParte: any){
+    const index = this.showRow3.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+
+    return index != -1;
+  }
+
   // Folder Filter
   folderSearch() {
     var type = (document.getElementById("file-type") as HTMLInputElement).value;
@@ -419,33 +550,19 @@ export class BodyLegalDetailComponent implements OnInit {
       });
     });*/
   }
-
-  conectArticle(article_id?: any, tituloParte?: any, tipoParte?: any, texto?: any){
+  
+  editTask(){
     
     this.showPreLoader();
-
-    const article: any = tituloParte ? tituloParte : (texto ? (texto.split(".")[0].length > 10 ? texto.split(".")[0] : tipoParte) : tipoParte);
-    const description: any = texto ? texto : tipoParte;
-
-    const article_installation: any = {
-      articuloId: article_id,
-      articulo: article,
-      descripcion: description,
-      tipoParte: tipoParte,
-      normaId: this.cuerpo_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.tipoNorma+' '+this.detail.identificador.numero : null,
-      proyectoId: this.project_id
-    };
     
-    this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
+    this.projectsService.updateTaskStatus(this.tarea_id, this.status).pipe().subscribe(
       (data: any) => {     
        this.hidePreLoader();
-       this.installations_articles.push({articulo: article_id});
        
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Artículo conectado',
+          title: 'Tarea actualizada',
           showConfirmButton: true,
           timer: 5000,
         });
@@ -463,6 +580,7 @@ export class BodyLegalDetailComponent implements OnInit {
       });
       this.modalService.dismissAll()
     });
+
   }
 
   // PreLoader
