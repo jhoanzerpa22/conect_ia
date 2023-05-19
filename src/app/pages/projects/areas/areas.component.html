@@ -14,20 +14,16 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">
+            <!--<div class="card-header">
                 <h4 class="card-title mb-0">{{subtitle}}</h4>
-            </div><!-- end card header -->
+            </div>-->
 
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1">
-                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal"
-                                    id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
-                                        class="ri-add-line align-bottom me-1"></i> Agregar</button>
-                                <button class="btn btn-soft-danger" (click)="deleteMultiple(deleteModel)" *ngIf="isChecked()"><i
-                                        class="ri-delete-bin-2-line"></i></button>
+                                <h4 class="card-title mb-0">{{subtitle}}</h4>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -37,6 +33,12 @@
                                         [(ngModel)]="service.searchTerm">
                                     <i class="ri-search-line search-icon"></i>
                                 </div>
+                                
+                                <button type="button" style="margin-left:20px;" class="btn btn-success add-btn" data-bs-toggle="modal"
+                                    id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
+                                        class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                                <button class="btn btn-soft-danger" (click)="deleteMultiple(deleteModel)" *ngIf="isChecked()"><i
+                                        class="ri-delete-bin-2-line"></i></button>
                             </div>
                         </div>
                     </div>
