@@ -122,6 +122,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id, /*httpOptions*/this.getToken());
     }
 
+    getArticlesInstallationByProyecto(proyecto_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/article-by-proyecto/'+proyecto_id, /*httpOptions*/this.getToken());
+    }
+
     getArticlesByInstallationBody(installation_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/article/'+installation_id+'/legalText', /*httpOptions*/this.getToken());
     }
@@ -184,4 +188,33 @@ export class ProjectsService {
     conectArticleInstallation(installation_id: any, article: any){
         return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
     }
+    
+    saveEvaluation(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'evaluation', data, /*httpOptions*/this.getToken());
+    
+    }
+
+    getFindingsByInstallationArticle(installation_article_id: any){
+        return this.http.get(API_URL_BACK + 'evaluation/'+installation_article_id+'/findings', /*httpOptions*/this.getToken());
+    }
+
+    createTask(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'evaluation/task', data, /*httpOptions*/this.getToken());
+    
+    }
+
+    getTasksByFinding(finding_id: any){
+        return this.http.get(API_URL_BACK + 'evaluation/'+finding_id+'/tasks', /*httpOptions*/this.getToken());
+    }
+
+    getTaskById(task_id: any){
+        return this.http.get(API_URL_BACK + 'evaluation/'+task_id+'/task', this.getToken());
+    }
+
+    updateTaskStatus(task_id: any, estado: any): Observable<any> {
+        return this.http.put(API_URL_BACK + 'evaluation/tasks/state/'+task_id, {estado: estado}, this.getToken());
+    }
+
 }

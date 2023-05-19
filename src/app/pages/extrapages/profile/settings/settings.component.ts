@@ -19,6 +19,8 @@ export class SettingsComponent implements OnInit {
   userForm!: UntypedFormGroup;
   successmsg = false;
   error = '';
+  
+  roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
 
   constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router) { }
 
@@ -68,6 +70,19 @@ export class SettingsComponent implements OnInit {
       });
     }
     this.submitted = true
+  }
+
+  getRol(rol: any){
+    if(rol && rol[0] != 1){
+      const index = this.roles.findIndex(
+        (r: any) =>
+          r.id == rol[0]
+      );
+  
+      return index != -1 ? this.roles[index].nombre : 'Super Admin';
+    }else{
+      return "Super Admin";
+    }
   }
 
 }

@@ -52,7 +52,7 @@
                     | translate}}</span>
                 </a>
                 
-                <a [routerLink]="item.link" *ngIf="!hasItems(item) && item.onlyAdmin && userData.role == 'admin'" class="side-nav-link-ref nav-link menu-link" (click)="toggleParentItem($event)">
+                <a [routerLink]="item.link" *ngIf="!hasItems(item) && item.onlyAdmin && validateRol(1)" class="side-nav-link-ref nav-link menu-link" (click)="toggleParentItem($event)"><!--&& userData.role == 'admin'-->
                   <i class="bx {{ item.icon }} icon nav-icon" *ngIf="item.icon" class=""></i>
                   <span class=""> {{ item.label | translate }}</span>
                   <span class="badge badge-pill {{item.badge.variant}}" *ngIf="item.badge">{{item.badge.text
@@ -112,6 +112,15 @@
                 </div>
               </li>
             </ng-container>
+
+            <!--Agregardo por JZ-->
+            <li class="nav-item">
+              <a class="side-nav-link-ref nav-link menu-link" style="cursor: pointer;" (click)="logout()">
+                <i class="bx icon nav-icon ri-logout-box-line"></i>
+                <span class=""> Salir</span>
+              </a>
+            </li>
+            <!-- Fin agregado por JZ-->
           </ul>
           </ngx-simplebar>
       </div>

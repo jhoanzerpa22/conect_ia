@@ -50,7 +50,8 @@ export class AuthenticationService {
             "rut": rut,
             "telefono": telefono,*/
             "password": password,
-            "confirm_password": confirm_password
+            "confirm_password": confirm_password,
+            "rol": [1]
           }, httpOptions);
     }
 

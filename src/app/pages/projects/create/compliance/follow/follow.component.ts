@@ -47,6 +47,8 @@ export class ComplianceFollowComponent implements OnInit {
   folderData!: DetailModel[];
   submitted = false;
   folderForm!: UntypedFormGroup;
+  hallazgoForm!: UntypedFormGroup;
+  evaluacionForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
   recentDatas: any;
@@ -64,8 +66,25 @@ export class ComplianceFollowComponent implements OnInit {
 
   htmlString: any = "";
   showRow: any = [];
+  articulo: any = {};
 
   items: any = [];
+  hallazgos: any = [];
+  HallazgosDatas: any = [];
+
+  status: any;
+
+  PlaceInput: any;
+  public imagePath: any;
+  imgURL: any;
+
+  //selectedFile: File;
+  selectedFile: any;
+  pdfURL: any;
+
+  imageChangedEvent: any = '';
+  imgView: any;
+  imgView2: any = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -103,6 +122,19 @@ export class ComplianceFollowComponent implements OnInit {
       title: ['', [Validators.required]]
     });
 
+    this.hallazgoForm = this.formBuilder.group({
+      nombre: ['', [Validators.required]],
+      descripcion: ['']
+    });
+
+    this.evaluacionForm = this.formBuilder.group({
+      fecha_evaluacion: ['', [Validators.required]],
+      comentario: [''],
+      reportable: [''],
+      monitoreo: [''],
+      permiso: ['']
+    });
+
     /**
      * Recent Validation
     */
@@ -117,15 +149,16 @@ export class ComplianceFollowComponent implements OnInit {
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      if(!this.installation_id){
+      /*if(!this.installation_id){
         this.getInstallations();
-      }else{
-        this.getArticlesByInstallation(this.installation_id);
-      }
+      }else{*/
+        //this.getArticlesByInstallation(this.installation_id);
+        this.getArticlesByInstallationBody(this.installation_id);
+      //}
     });
 
     // Data Get Function
-    this._fetchData();
+    //this._fetchData();
   }
 
   // Chat Data Fetch
@@ -154,8 +187,30 @@ export class ComplianceFollowComponent implements OnInit {
           
           this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
 
-          console.log('detail',this.detail);
-          console.log('detailData',this.articulosDatas);
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getArticlesByInstallationBody(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.detail = data.data;
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          
+          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
+            return data.id === parseInt(this.cuerpo_id);
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+
           this.hidePreLoader();
       },
       (error: any) => {
@@ -303,6 +358,10 @@ export class ComplianceFollowComponent implements OnInit {
     this.renderer.appendChild(this.zone?.nativeElement, select);
   }
 
+  changeStatus(status: any){
+    this.status = status;
+  }
+
 
   saveInstallation(){
     this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
@@ -314,6 +373,119 @@ export class ComplianceFollowComponent implements OnInit {
     this.installation_nombre = /*this.installations[index].nombre*/this.installation_id_select[this.installation_id_select.length - 1].label;
     this.getArticlesByInstallation(this.installation_id);
   }
+
+  saveHallazgo(){
+    
+    if (this.hallazgoForm.valid) {
+      let nombre: any = this.hallazgoForm.get('nombre')?.value;
+      let descripcion: any = this.hallazgoForm.get('descripcion')?.value;
+      //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
+      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion, hallazgoImg: []});
+
+      this.imgView2.push(this.imgView);
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Hallazgo agregado',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.hallazgoForm.reset();
+    }
+  }
+
+  saveEvaluation(){
+    
+    this.showPreLoader();
+
+    let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let comentario: any = this.evaluacionForm.get('comentario')?.value;
+    let reportable: any = this.evaluacionForm.get('reportable')?.value;
+    let monitoreo: any = this.evaluacionForm.get('monitoreo')?.value;
+    let permiso: any = this.evaluacionForm.get('permiso')?.value;
+    let hallazgos: any = this.HallazgosDatas;
+
+    let tipoArticulo: any = [];
+
+    if(reportable){
+      tipoArticulo.push('reportable');
+    }
+    
+    if(monitoreo){
+      tipoArticulo.push('monitoreo');
+    }
+
+    if(permiso){
+      tipoArticulo.push('permiso');
+    }
+
+    const evaluations: any = {
+      fecha_evaluacion: fecha_evaluacion,
+      hallazgos: JSON.stringify(hallazgos),
+      estado: this.status,
+      installationArticleId: this.cuerpo_id,
+      tipoArticulo: tipoArticulo,
+      comentario: comentario,
+      hallazgoImg: []
+      //articuloId: this.cuerpo_id,
+      //installationId: this.installation_id,
+      //projectId: this.project_id
+    };
+    
+    this.projectsService.saveEvaluation(evaluations).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Evaluación actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+  }
+
+  
+onFileSelected(event: any){
+
+  this.imageChangedEvent = event;
+  this.selectedFile = <File>event.target.files[0];
+  //console.log(this.selectedFile);
+  //console.log(this.selectedFile.name);
+
+var reader = new FileReader();
+  reader.readAsDataURL(this.selectedFile);
+  reader.onload = (_event) => {
+    //console.log(reader.result);
+    this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
+
+imgError(ev: any){
+
+  let source = ev.srcElement;
+  let imgSrc = 'assets/images/logo_conect_ia.png';
+
+  source.src = imgSrc;
+}
 
   /**
    * Open modal
@@ -430,42 +602,38 @@ export class ComplianceFollowComponent implements OnInit {
     });*/
   }
 
-  conectArticle(article_id?: any){
-    
-    this.showPreLoader();
+  /**
+  * Confirmation mail model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
 
-    const article_installation: any = {
-      articulo: article_id,
-      normaId: this.cuerpo_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.numero : null
-    };
-    
-    this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
-      (data: any) => {     
-       this.hidePreLoader();
-       this.installations_articles.push({articulo: article_id});
-       
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Artículo conectado',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
+  
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      /*this.projectsService.deleteInstallation(id)
+      .subscribe(
+        response => {*/
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+            const index = this.HallazgosDatas.findIndex(
+              (co: any) =>
+                co.id == id
+            );
+
+            this.HallazgosDatas.splice(index, 1);
+
+          //document.getElementById('lj_'+id)?.remove();
+        /*},
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        });*/
+    }
   }
 
   // PreLoader

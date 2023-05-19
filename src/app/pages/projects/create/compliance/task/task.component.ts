@@ -12,6 +12,7 @@ import { RecentService } from './task.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
+import { UserProfileService } from '../../../../../core/services/user.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
@@ -69,6 +70,11 @@ export class ComplianceTaskComponent implements OnInit {
   showRow: any = [];
 
   items: any = [];
+  hallazgos: any = [];
+  HallazgosDatas: any = [];
+
+  nombreHallazgo: any = '';
+  idHallazgo: any = null;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -81,8 +87,9 @@ export class ComplianceTaskComponent implements OnInit {
   modelValueAsDate: Date = new Date();
 
   responsables: any = [];
+  articulo: any = {};
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -115,7 +122,8 @@ export class ComplianceTaskComponent implements OnInit {
       ids: [''],
       responsable: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      fecha_plazo: ['']
+      fecha_inicio: [''],
+      fecha_termino: ['']
     });
 
     /**
@@ -132,15 +140,15 @@ export class ComplianceTaskComponent implements OnInit {
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      if(!this.installation_id){
-        this.getInstallations();
-      }else{
-        this.getArticlesByInstallation(this.installation_id);
-      }
+        //this.getArticlesByInstallation(this.installation_id);
+        this.getArticlesByInstallationBody(this.installation_id);
+        this.getFindingsByInstallationArticle();
+        this.getResponsables();
+      
     });
 
     // Data Get Function
-    this._fetchData();
+    //this._fetchData();
   }
 
   // Chat Data Fetch
@@ -208,6 +216,30 @@ export class ComplianceTaskComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  private getArticlesByInstallationBody(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.detail = data.data;
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          
+          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
+            return data.id === parseInt(this.cuerpo_id);
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   validateIdparte(idParte: any){
     const index = this.installations_articles.findIndex(
       (co: any) =>
@@ -249,12 +281,44 @@ export class ComplianceTaskComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  private getTasksByFinding(finding_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getTasksByFinding(finding_id).pipe().subscribe(
+        (data: any) => {
+          this.TaskDatas = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getResponsables() {
+
+    this.showPreLoader();
+      this.userService.get().pipe().subscribe(
+        (data: any) => {
+          this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
 
   /**
   * Save saveTask
   */
   saveTask() {
-    if (this.taskForm.valid && 0 > 1) {
+    if (this.taskForm.valid) {
       
       this.showPreLoader();
       if (this.taskForm.get('ids')?.value) {
@@ -262,23 +326,30 @@ export class ComplianceTaskComponent implements OnInit {
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
-        const fecha_plazo = this.taskForm.get('fecha_plazo')?.value;
+        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         this.TaskDatas.push({
           responsable,
           descripcion,
-          fecha_plazo
+          fecha_inicio,
+          fecha_termino
         });
         
-        const installation: any = {
-          responsable: responsable,
+        const task: any = {
+          responsableId: responsable,
           descripcion: descripcion,
-          fecha_plazo: fecha_plazo
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: this.idHallazgo,
+          estado: 'NO CUMPLE'
         };
         
-        this.projectsService.createInstallation(installation).pipe().subscribe(
+        this.projectsService.createTask(task).pipe().subscribe(
           (data: any) => {     
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getTasksByFinding(this.idHallazgo)
 
            this.modalService.dismissAll();
         },
@@ -376,6 +447,24 @@ export class ComplianceTaskComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
     }
   }
+
+  private getFindingsByInstallationArticle(){
+
+    this.showPreLoader();
+      this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+        (data: any) => {
+          this.hallazgos = data.data;
+          this.HallazgosDatas = data.data;
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
   
   addElement(parent?: any) {
     
@@ -403,6 +492,20 @@ export class ComplianceTaskComponent implements OnInit {
 
     this.installation_nombre = /*this.installations[index].nombre*/this.installation_id_select[this.installation_id_select.length - 1].label;
     this.getArticlesByInstallation(this.installation_id);
+  }
+
+  selectTask(id: any, nombre:any){
+    this.nombreHallazgo = nombre;
+    this.idHallazgo = id;
+    this.getTasksByFinding(this.idHallazgo);
+  }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/images/logo_conect_ia.png';
+
+    source.src = imgSrc;
   }
 
   /**
@@ -518,44 +621,6 @@ export class ComplianceTaskComponent implements OnInit {
         return product.type === name;
       });
     });*/
-  }
-
-  conectArticle(article_id?: any){
-    
-    this.showPreLoader();
-
-    const article_installation: any = {
-      articulo: article_id,
-      normaId: this.cuerpo_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.numero : null
-    };
-    
-    this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
-      (data: any) => {     
-       this.hidePreLoader();
-       this.installations_articles.push({articulo: article_id});
-       
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Artículo conectado',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
   }
 
   // PreLoader

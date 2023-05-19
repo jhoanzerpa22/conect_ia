@@ -31,6 +31,7 @@ export class ProjectAnalityComponent implements OnInit {
 
   installations_data: any = [];
   areas_data: any = [];
+  userData: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
