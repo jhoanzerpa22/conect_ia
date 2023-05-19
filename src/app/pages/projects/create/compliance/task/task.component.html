@@ -62,18 +62,19 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">
+            <!--<div class="card-header">
                 <h4 class="card-title mb-0">Hallazgos</h4>
-            </div><!-- end card header -->
+            </div>-->
 
             <div class="card-body">
+                <h4 class="card-title mb-0">Hallazgos</h4>
                 <div id="customerList">
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th class="sort">Respaldo</th>
-                                    <th class="sort" data-sort="nombre">Hallazgo</th>
+                                    <th class="sort" style="width: 150px;">Respaldo</th>
+                                    <th class="sort" data-sort="nombre" style="width: 300px;">Hallazgo</th>
                                     <th class="sort" data-sort="descripcion">Descripción</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
@@ -134,18 +135,16 @@
 <div class="row" *ngIf="idHallazgo">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">
+            <!--<div class="card-header">
                 <h4 class="card-title mb-0">Tareas - {{nombreHallazgo}}</h4>
-            </div><!-- end card header -->
+            </div>-->
 
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1">
-                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal"
-                                    id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
-                                        class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                                <h4 class="card-title mb-0">Tareas - {{nombreHallazgo}}</h4>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -155,6 +154,10 @@
                                         [(ngModel)]="service.searchTerm">
                                     <i class="ri-search-line search-icon"></i>
                                 </div>
+                                
+                                <button type="button" style="margin-left:20px;" class="btn btn-success add-btn" data-bs-toggle="modal"
+                                    id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
+                                        class="ri-add-line align-bottom me-1"></i> Agregar</button>
                             </div>
                         </div>
                     </div>
@@ -163,11 +166,11 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th class="sort" data-sort="id">Id</th>
+                                    <th class="sort" data-sort="id" style="width: 100px;">Id</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
-                                    <th class="sort" data-sort="responsable">Nombre Responsable</th>
-                                    <th class="sort" data-sort="fecha_inicio">Fecha Inicio</th>
-                                    <th class="sort" data-sort="fecha_termino">Fecha Termino</th>
+                                    <th class="sort" data-sort="responsable" style="width: 300px;">Nombre Responsable</th>
+                                    <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Inicio</th>
+                                    <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Termino</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>

@@ -422,7 +422,7 @@ export class ComplianceFollowComponent implements OnInit {
 
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
-      hallazgos: JSON.stringify(hallazgos),
+      hallazgos: this.status == 'CUMPLE' ? JSON.stringify([]) : JSON.stringify(hallazgos),
       estado: this.status,
       installationArticleId: this.cuerpo_id,
       tipoArticulo: tipoArticulo,

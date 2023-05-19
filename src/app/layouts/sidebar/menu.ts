@@ -16,6 +16,7 @@ export const MENU: MenuItem[] = [
     id: 3,
     label: 'MENUITEMS.CONFIG.TEXT',
     icon: 'ri-settings-2-line',
+    onlyAdmin: true,
     subItems: [
       {
         id: 12,
@@ -84,7 +85,7 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.DASHBOARD.LIST.USERS',
     icon: 'ri-user-3-line',
     link: '/pages/team',
-    onlyAdmin: true
+    onlySuperAdmin: true
   },
   {
     id: 14,
