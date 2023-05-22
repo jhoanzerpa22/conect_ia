@@ -63,21 +63,33 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
+                Detalle de Hallazgo
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12" style="margin-bottom: 20px;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img [src]="tarea.evaluationFinding.img" (error)="imgError($event)" alt="user img"
+                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
+                            </div>
+                            
+                            <div class="col-md-8">
 
-                <div class="col-xxl-12">
-                    <div class="card border card-border-primary" style="border-radius: 24px !important;">
-                        <div class="row g-0">
-                            <div class="col-md-12">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-0">{{tarea.evaluationFinding ? tarea.evaluationFinding.nombre : '' }}
-                                    </h5>  
-                                    <p class="card-text mb-2" [style]="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.evaluationFinding && tarea.evaluationFinding.descripcion?.length > 450 ? formatTask(tarea.evaluationFinding?.descripcion, tarea.evaluationFinding?.id) : tarea.evaluationFinding?.descripcion }}</p>
-                                    
-                                    <p class="card-text">
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && !validatShow2(tarea.evaluationFinding.id)" (click)="showText2(tarea.evaluationFinding.id)"><b>Ver texto completo</b></small>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && validatShow2(tarea.evaluationFinding.id)" (click)="hideText2(tarea.evaluationFinding.id)"><b>Ocultar texto completo</b></small>
-                                    </p> 
-                                </div>
+                                <h5 class="card-title mb-0">{{tarea.evaluationFinding ? tarea.evaluationFinding.nombre : '' }}
+                                </h5>  
+                                <div class="col-xxl-12">
+                                        <div class="row g-0">
+                                            <div class="col-md-12">
+                                                    <p class="mb-2" [style]="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.evaluationFinding && tarea.evaluationFinding.descripcion?.length > 450 ? formatTask(tarea.evaluationFinding?.descripcion, tarea.evaluationFinding?.id) : tarea.evaluationFinding?.descripcion }}</p>
+                                                    
+                                                    <p>
+                                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && !validatShow2(tarea.evaluationFinding.id)" (click)="showText2(tarea.evaluationFinding.id)"><b>Ver texto completo</b></small>
+                                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && validatShow2(tarea.evaluationFinding.id)" (click)="hideText2(tarea.evaluationFinding.id)"><b>Ocultar texto completo</b></small>
+                                                    </p> 
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -91,25 +103,28 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
+                
+                <span class="float-end">
+                    Fecha Inicio: {{tarea.fecha_inicio | date: 'd/M/yy'}} - Fecha Termino: {{ tarea.fecha_termino | date: 'd/M/yy'}}
+                </span>
 
+                    Detalle de Tarea
+            </div>
+            <div class="card-body">
+                <h5 class="card-title mb-0">Tarea
+                </h5>  
                 <div class="col-xxl-12">
-                    <div class="card border card-border-primary" style="border-radius: 24px !important;">
                         <div class="row g-0">
                             <div class="col-md-12">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-0">Tarea
-                                    </h5>  
-                                    <p class="card-text mb-2" [style]="tarea.descripcion && tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.descripcion && tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion }}</p>
+                                    <p class="mb-2" [style]="tarea.descripcion && tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.descripcion && tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion }}</p>
                                     
-                                    <p class="card-text">
+                                    <p>
                                         <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && !validatShow3(tarea.id)" (click)="showText3(tarea.id)"><b>Ver texto completo</b></small>
                                         <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && validatShow3(tarea.id)" (click)="hideText3(tarea.id)"><b>Ocultar texto completo</b></small>
                                     </p> 
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -125,7 +140,7 @@
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    Adjuntar imagen de respaldo
+                                    Adjuntar imagen o archivo de respaldo
                                     <dropzone class="dropzone_sec"></dropzone>
                                 </div>
                             </div>
@@ -162,26 +177,26 @@
 <div class="row">
     <div class="col-12">
         
-        <div class="col-md-3" style="float:left;">
+        <!--<div class="col-md-3" style="float:left;">
             <div class="btn-group dropdown" ngbDropdown>
                 <button type="button" class="btn btn-primary" style="min-width:150px;" *ngIf="!status">Sin estado</button>
-                <button type="button" class="btn btn-success" style="min-width:150px;" *ngIf="status == 'CUMPLE'">Cumple</button>
-                <button type="button" class="btn btn-warning" style="min-width:150px;" *ngIf="status == 'CUMPLE PARCIALMENTE'">Parcial</button>
-                <button type="button" class="btn btn-danger" style="min-width:150px;" *ngIf="status == 'NO CUMPLE'">No Cumple</button>
-                <button type="button" class="btn btn-{{!status ? 'primary' : (status == 'CUMPLE' ? 'success' : (status == 'CUMPLE PARCIALMENTE' ? 'warning' : 'danger')) }} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  ngbDropdownToggle></button>
+                <button type="button" class="btn btn-success" style="min-width:150px;" *ngIf="status == 'COMPLETADA'">Completada</button>
+                <button type="button" class="btn btn-warning" style="min-width:150px;" *ngIf="status == 'INICIADA'">Iniciada</button>
+                <button type="button" class="btn btn-danger" style="min-width:150px;" *ngIf="status == 'CREADA'">Creada</button>
+                <button type="button" class="btn btn-{{!status ? 'primary' : (status == 'COMPLETADA' ? 'success' : (status == 'INICIADA' ? 'warning' : 'danger')) }} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  ngbDropdownToggle></button>
                 <div class="dropdown-menu" ngbDropdownMenu>
                     
                 <div class="dropdown-header noti-title">
                     <h5 class="font-size-13 text-muted text-truncate mn-0">Estado de la Tarea!</h5>
                 </div>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('CUMPLE')">Cumple</a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('CUMPLE PARCIALMENTE')">Parcial</a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('NO CUMPLE')">No Cumple</a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('COMPLETADA')">Completada</a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('INICIADA')">Iniciada</a>
+                <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('CREADA')">Creada</a>
                 </div>
             </div>
-            </div>
+            </div>-->
             
-            <div class="col-md-9" style="float:left;">
+            <div class="col-md-12" style="float:left;">
                 <button class="btn btn-primary edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;"  (click)="editTask()"
                 >Guardar</button>
             </div>

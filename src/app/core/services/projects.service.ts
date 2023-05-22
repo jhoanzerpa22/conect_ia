@@ -209,6 +209,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluation/'+finding_id+'/tasks', /*httpOptions*/this.getToken());
     }
 
+    getTasksByProyect(project_id: any){
+        return this.http.get(API_URL_BACK + 'evaluation/'+project_id+'/proyect/tasks', /*httpOptions*/this.getToken());
+    }
+
     getTaskById(task_id: any){
         return this.http.get(API_URL_BACK + 'evaluation/'+task_id+'/task', this.getToken());
     }

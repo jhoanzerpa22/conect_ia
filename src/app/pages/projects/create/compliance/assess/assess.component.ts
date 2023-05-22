@@ -74,7 +74,7 @@ export class ComplianceAssessComponent implements OnInit {
   hallazgos: any = [];
   HallazgosDatas: any = [];
 
-  status: any;
+  status: any = 'COMPLETADA';//'CREADA', 'INICIADA', 'COMPLETADA';
 
   PlaceInput: any;
   public imagePath: any;
@@ -339,6 +339,14 @@ export class ComplianceAssessComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     }
+  }
+
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/images/logo_conect_ia.png';
+
+    source.src = imgSrc;
   }
   
   addElement(parent?: any) {

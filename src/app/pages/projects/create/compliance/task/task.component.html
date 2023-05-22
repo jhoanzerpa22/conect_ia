@@ -62,14 +62,39 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <!--<div class="card-header">
+            <div class="card-header">
                 <h4 class="card-title mb-0">Hallazgos</h4>
-            </div>-->
+            </div>
 
             <div class="card-body">
-                <h4 class="card-title mb-0">Hallazgos</h4>
                 <div id="customerList">
-                    <div class="table-responsive table-card mt-3 mb-1">
+                    <ng-container *ngFor="let data of HallazgosDatas">
+                        <div class="row" id="lj_{{data.id}}">
+                            <div class="col-lg-12" style="margin-bottom: 20px;">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img [src]="data.findings.img" (error)="imgError($event)" alt="user img"
+                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h5>Fecha Creación:</h5>
+                                        <p>{{data.findings.createdAt | date: 'd/M/yy' }}</p>
+                                    </div>
+                                    
+                                    <div class="col-md-2">
+                                        <h5>Nombre:</h5>
+                                        <p>{{data.findings.nombre}}</p>
+                                    </div>
+                                    
+                                    <div class="col-md-7">
+                                        <h5>Descripción:</h5> 
+                                        <p>{{data.findings.descripcion}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </ng-container>
+                    <!--<div class="table-responsive table-card mt-3 mb-1">
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
@@ -115,7 +140,6 @@
                                 entradas
                             </div>
                         </div>
-                        <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
                                 <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
@@ -123,8 +147,7 @@
                                 </ngb-pagination>
                             </div>
                         </div>
-                        <!-- End Pagination -->
-                    </div>
+                    </div>-->
                 </div>
             </div><!-- end card -->
         </div>
@@ -132,7 +155,7 @@
     </div>
 </div>
 
-<div class="row" *ngIf="idHallazgo">
+<div class="row"><!-- *ngIf="idHallazgo"-->
     <div class="col-lg-12">
         <div class="card">
             <!--<div class="card-header">
@@ -144,7 +167,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1">
-                                <h4 class="card-title mb-0">Tareas - {{nombreHallazgo}}</h4>
+                                <h4 class="card-title mb-0">Tareas</h4><!-- {{nombreHallazgo}}-->
                             </div>
                         </div>
                         <div class="col-sm">
@@ -166,17 +189,21 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th class="sort" data-sort="id" style="width: 100px;">Id</th>
+                                    <th class="sort" data-sort="id" style="width: 60px;">Id</th>
+                                    <th class="sort" data-sort="nombre" style="width: 200px;">Titulo</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
                                     <th class="sort" data-sort="responsable" style="width: 300px;">Nombre Responsable</th>
                                     <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Inicio</th>
                                     <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Termino</th>
+                                    <th class="sort" data-sort="hallazgo" style="width: 300px;">Hallazgo</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of TaskDatas" id="lj_{{data.id}}">
                                     <td><ngb-highlight [result]="data.id"
+                                            [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.descripcion"
                                             [term]="service.searchTerm"></ngb-highlight></td>
@@ -185,6 +212,8 @@
                                     <td>{{ data.fecha_inicio | date: 'd/M/yy' }}
                                     </td>
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
+                                    <td><ngb-highlight [result]="data.evaluationFinding.nombre"
+                                        [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
@@ -244,21 +273,25 @@
         <div class="modal-body">
 
             <input type="hidden" name="id" value="" formControlName="ids" />
-
+            <div class="row">
+            <div class="col-12">    
             <div class="mb-3" id="modal-id" style="display: none;">
                 <label for="id-field" class="form-label">ID</label>
                 <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
             </div>
-
+            </div> 
+            <div class="col-12">    
             <div class="mb-3">
-                <label for="email-field" class="form-label">Descripción</label>
-                <input type="text" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
-                    formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />
-                <div class="invalid-feedback">Por favor ingresar descripción.</div>
+                <label for="nombre-field" class="form-label">Titulo</label>
+                <input type="text" id="nombre-field" class="form-control" placeholder="Ingresar Titulo" required
+                    formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }" />
+                <div class="invalid-feedback">Por favor ingresar titulo.</div>
             </div>
-
+            </div>
+            
+            <div class="col-6">
             <div class="mb-3">
-                <label for="user-field" class="form-label">Fecha Inicio</label>
+                <label for="inicio-field" class="form-label">Fecha Inicio</label>
                     <div class="form-icon right">
                         <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Inicio" required
                         formControlName="fecha_inicio" [ngClass]="{ 'is-invalid': submitted && form['fecha_inicio'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
@@ -266,9 +299,11 @@
                     </div>
                 <div class="invalid-feedback">Por favor ingresar Fecha inicio.</div>
             </div>
+            </div>
 
+            <div class="col-6">
             <div class="mb-3">
-                <label for="user-field" class="form-label">Fecha Termino</label>
+                <label for="termino-field" class="form-label">Fecha Termino</label>
                     <div class="form-icon right">
                         <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Termino" required
                         formControlName="fecha_termino" [ngClass]="{ 'is-invalid': submitted && form['fecha_termino'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
@@ -276,7 +311,9 @@
                     </div>
                 <div class="invalid-feedback">Por favor ingresar Fecha Termino.</div>
             </div>
+            </div>
 
+            <div class="col-12">    
             <div class="mb-3">
                 <label for="user-field" class="form-label">Responsable</label>
                 <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
@@ -284,6 +321,56 @@
                     <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}}</option>
                 </select>
             <div class="invalid-feedback">Por favor ingresar responsable.</div>
+            </div>
+            </div>
+
+            <div class="col-12">    
+            <div class="mb-3">
+                <label for="hallazgo-field" class="form-label">Hallazgo</label>
+                <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
+                    <option selected>Seleccione Hallazgo </option>
+                    <option *ngFor="let h of hallazgos;" value="{{h.id}}">{{h.findings.nombre}}</option>
+                </select>
+            <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
+            </div>
+            </div> 
+
+            <div class="col-12">    
+            <div class="mb-3">
+                <label for="descripcion-field" class="form-label">Descripción</label>
+                <ckeditor [editor]="Editor" data="" formControlName="descripcion"></ckeditor>
+                <!--<input type="text" id="descripcion-field" class="form-control" placeholder="Ingresar Descripción" required
+                    formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />-->
+                <div class="invalid-feedback">Por favor ingresar descripción.</div>
+            </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="criterio-field" class="form-label">Selecciona si para el cumplimiento de esta tarea es necesario subir un archivo o imagen</label>
+                    
+                    <div class="row">
+                        <div class="col-3">    
+                            <div class="mb-3">
+                                <div class="form-check form-switch form-check-right form-switch-success">
+                                    <input class="form-check-input" type="checkbox" formControlName="is_image" role="switch" id="flexSwitchCheckRightDisabled" checked>
+                                    <label class="form-check-label" for="flexSwitchCheckRightDisabled">Subir Imagen</label>
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-3">    
+                            <div class="mb-3">
+                                <div class="form-check form-switch form-check-right form-switch-success">
+                                    <input class="form-check-input" type="checkbox" formControlName="is_file" role="switch" id="flexSwitchCheckRightDisabled" checked>
+                                    <label class="form-check-label" for="flexSwitchCheckRightDisabled">Subir Archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
             </div>
 
         </div>
