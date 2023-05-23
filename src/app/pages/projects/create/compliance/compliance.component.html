@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%<!--{{data.avance}}--></div>
+                            <div class="progress-bar" role="progressbar" [style]="avance_evaluacion > 0 ? 'width:'+avance_evaluacion+'%;':'width: 1%;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{avance_evaluacion}}</div>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%<!--{{data.avance}}--></div>
+                                            <div class="progress-bar" role="progressbar" [style]="data.avance > 0 ? 'width:'+data.avance+'%;':'width: 1%;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data.avance}}%</div>
                                         </div>
                                     </td>
                                     <!--<td class="status"><span
