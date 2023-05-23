@@ -1,19 +1,39 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
 import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
+
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
+
+import { DetailModel, recentModel, ArticulosModel } from '../create/task/task.model';
+import { RecentService } from '../create/task/task.service';
+import { NgbdRecentSortableHeader, SortEvent } from '../create/task/task-sortable.directive';
+import { UserProfileService } from '../../../core/services/user.service';
+import { ToastService } from '../toast-service';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+// Ck Editer
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+// Sweet Alert
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-project-anality',
-  templateUrl: './project-anality.component.html',
-  styleUrls: ['./project-anality.component.scss']
+  selector: 'app-plans-work-anality',
+  templateUrl: './plans-work-anality.component.html',
+  styleUrls: ['./plans-work-anality.component.scss'],
+  providers: [RecentService, DecimalPipe]
 })
 
 /**
  * Projects Component
  */
-export class ProjectAnalityComponent implements OnInit {
+export class PlansWorkAnalityComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -33,7 +53,22 @@ export class ProjectAnalityComponent implements OnInit {
   areas_data: any = [];
   userData: any;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
+  submitted = false;
+  taskForm!: UntypedFormGroup;
+  TaskData!: DetailModel[];
+  recentDatas: any;
+  articulosDatas: any;
+  TaskDatas: any;
+  @ViewChildren(NgbdRecentSortableHeader) headers!: QueryList<NgbdRecentSortableHeader>;
+
+  responsables: any = [];
+  @ViewChild('zone') zone?: ElementRef<any>;
+
+  public Editor = ClassicEditor;
+  total: Observable<number>;
+
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+    this.total = service.total$;
   }
 
   ngOnInit(): void {
@@ -41,9 +76,11 @@ export class ProjectAnalityComponent implements OnInit {
      * BreadCrumb
      */
     this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Identificación', active: true }
+      { label: 'Planes de trabajo' },
+      { label: 'Plan de Trabajo', active: true }
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
@@ -52,14 +89,28 @@ export class ProjectAnalityComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
-      this.getAreas(params['id']);
-      this.getInstallations(params['id']);
+    });
+    
+    /**
+     * Form Validation
+     */
+    this.taskForm = this.formBuilder.group({
+      ids: [''],
+      responsable: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      fecha_inicio: [''],
+      fecha_termino: [''],
+      evaluationFindingId: [''],
+      is_image: [''],
+      is_file: ['']
     });
 
     /**
      * Fetches the data
      */
     this.fetchData();
+    this.getResponsables();
 
     // Chart Color Data Get Function
     this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
@@ -71,6 +122,147 @@ export class ProjectAnalityComponent implements OnInit {
   ngAfterViewInit() {
     //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
   }
+  
+  /**
+  * Confirmation mail model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      /*this.projectsService.deleteInstallation(id)
+      .subscribe(
+        response => {*/
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+          document.getElementById('lj_'+id)?.remove();
+        /*},
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        });*/
+    }
+  }
+
+  
+  /**
+  * Save saveTask
+  */
+  saveTask() {
+    if (this.taskForm.valid) {
+      
+      this.showPreLoader();
+      if (this.taskForm.get('ids')?.value) {
+        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
+      } else {
+        const responsable = this.taskForm.get('responsable')?.value;
+        const nombre = this.taskForm.get('nombre')?.value;
+        const descripcion = this.taskForm.get('descripcion')?.value;
+        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        const fecha_termino = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
+        const is_image = this.taskForm.get('is_image')?.value;
+        const is_file = this.taskForm.get('is_file')?.value;
+        
+
+        this.TaskDatas.push({
+          responsable,
+          nombre,
+          descripcion,
+          fecha_inicio,
+          fecha_termino,
+          evaluationFindingId
+        });
+        
+        const task: any = {
+          responsableId: responsable,
+          nombre: nombre,
+          descripcion: descripcion,
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+          estado: 'CREADA',
+          is_image: is_image,
+          is_file: is_file
+        };
+        
+        this.projectsService.createTask(task).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+
+      }
+    }
+    this.modalService.dismissAll();
+    setTimeout(() => {
+      this.taskForm.reset();
+    }, 1000);
+    this.submitted = true
+  }
+
+  private getResponsables() {
+
+    this.showPreLoader();
+      this.userService.get().pipe().subscribe(
+        (data: any) => {
+          this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  /**
+   * Open modal
+   * @param content modal content
+   */
+  openModal(content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'lg', centered: true });
+  }
+
+  /**
+   * Open Recent modal
+   * @param content modal content
+   */
+  openRecentModal(recentContent: any) {
+    this.submitted = false;
+    this.modalService.open(recentContent, { size: 'md', centered: true });
+  }
+
+  addElement(parent?: any) {
+    
+    const select: HTMLParagraphElement = this.renderer.createElement('div');
+    
+      let zone: any = document.getElementById('zone-'+(parent+1));
+      if(zone){
+        this.renderer.removeChild(select, zone?.lastElementChild);
+      }
+
+    select.innerHTML = '<div id="zone-'+(parent+1)+'"> <div class="col-xxl-12 col-lg-12"><p><b>Instalación o proceso</b></p><select class="form-select" placeholder="Selecciona instalación o proceso '+(parent+1)+'" data-choices data-choices-search-false id="choices-priority-input" (change)="selectInstallation($event,'+(parent+1)+')"> <option value="">Selecciona instalación o proceso</option> <option  value="4">Prueba</option></select></div>';
+
+    this.renderer.appendChild(this.zone?.nativeElement, select);
+  }
+
 
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
@@ -82,24 +274,6 @@ export class ProjectAnalityComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
-
-   getAreas(idProject?: any) {
-    this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
-        (data: any) => {
-          this.areas_data = data.data;
-      },
-      (error: any) => {
-      });
-  }
-
-  getInstallations(idProject?: any) {
-    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
-        (data: any) => {
-          this.installations_data = data.data;
-      },
-      (error: any) => {
-      });
-  }
 
   // Chart Colors Set
   private getChartColorsArray(colors: any) {
@@ -450,6 +624,63 @@ layers = [
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
+
+  /**
+  * Form data get
+  */
+   get form() {
+    return this.taskForm.controls;
+  }
+
+  checkedValGet: any[] = [];
+  onCheckboxChange(e: any) {
+    //const checkArray: UntypedFormArray = this.taskForm.get('responsable') as UntypedFormArray;
+    //checkArray.push(new UntypedFormControl(e.target.value));
+    this.taskForm.get('responsable')?.setValue(e.target.value);
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.responsables.length; i++) {
+     // if (this.responsables[i].state == true) {
+        result = this.responsables[i];
+        checkedVal.push(result);
+     // }
+    }
+    var checkboxes: any = document.getElementsByName('checkAll');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        checkboxes[j].checked = false;
+      }
+    }
+
+    //this.checkedValGet = checkedVal
+    //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+
+  }
+  
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }

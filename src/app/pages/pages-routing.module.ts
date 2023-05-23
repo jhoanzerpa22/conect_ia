@@ -27,6 +27,9 @@ const routes: Routes = [
       path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule)
     },
     {
+      path: 'plans-work', loadChildren: () => import('./plans-work/plans-work.module').then(m => m.PlansWorkModule)
+    },
+    {
       path: 'tasks', loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
     },
     {

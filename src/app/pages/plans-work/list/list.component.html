@@ -1,0 +1,208 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Lista de Planes de Trabajo" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-3">
+  <div class="col-sm-auto">
+      <div>
+          <a routerLink="/plans-work/create" class="btn btn-success">
+            <!--<i class="ri-add-line align-bottom me-1"></i> -->Crea un Plan de Trabajo</a>
+      </div>
+  </div>
+  <div class="col-sm">
+      <div class="d-flex justify-content-sm-end gap-2">
+          <div class="search-box ms-2">
+              <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="term"><!--"service.searchTerm"-->
+              <i class="ri-search-line search-icon"></i>
+          </div>
+
+		<div class="w-md">
+          <select class="form-control" data-choices data-choices-search-false>
+            <option value="All">Todos</option>
+            <option value="Today">Hoy</option>
+            <option value="Yesterday" selected>Ayer</option>
+            <option value="Last 7 Days">Ultimos 7 días</option>
+            <option value="Last 30 Days">Ultimos 30 días</option>
+            <option value="This Month">Este Mes</option>
+            <option value="Last Year">Ultimo Año</option>
+          </select>
+		</div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+ 
+  <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
+  
+  <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets | filter:term" id="pl1_{{data.id}}">
+      <div class="card card-height-100">
+          <div class="card-body">
+              <div class="d-flex flex-column h-100">
+                  <div class="d-flex">
+                      <div class="flex-grow-1">
+                          <p class="text-muted mb-4">Modificado {{ formatDate(data.updatedAt)}}</p>
+                      </div>
+                      <div class="flex-shrink-0">
+                          <div class="d-flex gap-1 align-items-center">
+                              <!--<button type="button" class="btn avatar-xs mt-n1 p-0 favourite-btn heart_icon_{{data.id}}" [ngClass]="{'active': data.isIcon !== true}" (click)="activeMenu(data.id)">
+                                  <span class="avatar-title bg-transparent fs-15">
+                                      <i class="ri-star-fill"></i>
+                                  </span>
+                              </button>-->
+                              <div class="dropdown" ngbDropdown>
+                                  <button class="btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 arrow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ngbDropdownToggle>
+                                      <i-feather name="more-horizontal" class="icon-sm"></i-feather>
+                                  </button>
+
+                                  <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                      <a class="dropdown-item" routerLink="/plans-work/overview"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Ver</a>
+                                      <a class="dropdown-item" routerLink="/plans-work/create"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Editar</a>
+                                      <div class="dropdown-divider"></div>
+                                      <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#removeProjectModal" (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Quitar</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="d-flex mb-2" style="cursor: pointer;" (click)="comenzar(data.id)"><!--routerLink="/pages/{{data.id}}/steps"-->
+                      <!--<div class="flex-shrink-0 me-3">
+                          <div class="avatar-sm">
+                              <span class="avatar-title bg-soft-warning rounded p-2">
+                                  <img src="{{data.img}}" alt="" class="img-fluid p-1">
+                              </span>
+                          </div>
+                      </div>-->
+                      <div class="flex-grow-1">
+                          <h5 class="mb-1 fs-15"><label><!--<a routerLink="/plans-work/overview" class="text-dark">{{data.label}}</a>-->{{data.nombre}}</label></h5>
+                          <p class="text-muted text-truncate-two-lines mb-3">{{data.descripcion}}</p>
+                      </div>
+                  </div>
+                  <div class="mt-auto">
+                      <div class="d-flex mb-2">
+                          <div class="flex-grow-1">
+                              <!--<div>Creado por: Jhoan Zerpa</div>-->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="mt-auto">
+                      <div class="d-flex mb-2">
+                          <div class="flex-grow-1">
+                              <div>Identificación</div>
+                          </div>
+                          <div class="flex-shrink-0">
+                              <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : '1/100'}}</div>
+                          </div>
+                      </div>
+                      <div class="progress-sm animated-progess">
+                        <ngb-progressbar [value]="data.progressBar ? data.progressBar : 10" type="success" class="progress-sm"></ngb-progressbar>
+                      </div><!-- /.progress -->
+                  </div>
+              </div>
+
+          </div>
+          <!-- end card body -->
+          <div class="card-footer bg-transparent border-top-dashed py-2">
+              <div class="d-flex align-items-center">
+                  <div class="flex-grow-1">
+                      <!--<div class="avatar-group">
+                        <div class="avatar-group-item" *ngFor="let user of data.users">
+                          <a href="javascript: void(0);" class="d-block" ngbTooltip="{{user.name}}" placement="top" *ngIf="!user.profile">
+                            <div class="avatar-xxs">
+                                <span class="avatar-title rounded-circle {{user.variant}}">
+                                    {{user.text}}
+                                </span>
+                            </div>
+                          </a>
+                          <a href="javascript: void(0);" class="d-block" ngbTooltip="{{user.name}}" placement="top" *ngIf="user.profile">
+                              <img :src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
+                          </a>
+                        </div>
+                      </div>-->
+                  </div>
+                  <div class="flex-shrink-0">
+                      <div class="text-muted">
+                          Creado el <i class="ri-calendar-event-fill me-1 align-bottom"></i>{{formatDate(data.createdAt)}}
+                      </div>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+  </div>
+  <div *ngIf="!projectListWidgets || projectListWidgets.length == 0">
+    <div style="text-align: center;width: 100%;">
+        <img src="assets/images/file.png" width="300" height="200"/>
+    </div>
+    <div style="text-align: center;width: 100%;font-size: 20px;">
+        No hay datos para mostrar
+    </div>
+  </div>
+</div>
+
+<div class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 100%;">
+  <div class="col-sm-5">
+      <div>
+          <p class="mb-sm-0 text-muted">Mostrando <span class="fw-semibold">1</span> de <span class="fw-semibold">10</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> entradas</p>
+      </div>
+  </div>
+  <!-- end col -->
+  <div class="col-sm-5">
+      <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
+          <li class="page-item disabled">
+              <a href="javascript:void(0);" class="page-link">Anterior</a>
+          </li>
+          <li class="page-item active">
+              <a href="javascript:void(0);" class="page-link">1</a>
+          </li>
+          <!--<li class="page-item ">
+              <a href="javascript:void(0);" class="page-link">2</a>
+          </li>
+          <li class="page-item">
+              <a href="javascript:void(0);" class="page-link">3</a>
+          </li>
+          <li class="page-item">
+              <a href="javascript:void(0);" class="page-link">4</a>
+          </li>
+          <li class="page-item">
+              <a href="javascript:void(0);" class="page-link">5</a>
+          </li>-->
+          <li class="page-item">
+              <a href="javascript:void(0);" class="page-link">Siguiente</a>
+            </li>
+        </ul>
+    </div><!-- end col -->
+  </div><!-- end row -->
+  
+  <!-- removeItemModal -->
+  <ng-template #deleteModel let-modal>
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+      <div class="modal-body">
+          <div class="mt-2 text-center">
+            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                <h4>Esas seguro ?</h4>
+                <p class="text-muted mx-4 mb-0">Estas seguro de remover este plan de trabajo ?</p>
+            </div>
+          </div>
+          <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal" (click)="modal.close('Close click')">Cerrar</button>
+            <button type="button" class="btn w-sm btn-danger" id="delete-product" (click)="deleteData(deleteId)" (click)="modal.close('Close click')">Si, Remover!</button>
+          </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </ng-template>
+

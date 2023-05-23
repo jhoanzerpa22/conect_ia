@@ -4,7 +4,7 @@ import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
 import { DetailModel, recentModel, ArticulosModel } from './task.model';
 import { folderData } from './data';
@@ -126,8 +126,8 @@ export class ComplianceTaskComponent implements OnInit {
       fecha_inicio: [''],
       fecha_termino: [''],
       evaluationFindingId: [''],
-      is_image: [''],
-      is_file: ['']
+      image: [''],
+      file: ['']
     });
 
     /**
@@ -523,47 +523,6 @@ export class ComplianceTaskComponent implements OnInit {
     this.renderer.appendChild(this.zone?.nativeElement, select);
   }
 
-  checkedValGet: any[] = [];
-  onCheckboxChange(e: any) {
-    //const checkArray: UntypedFormArray = this.taskForm.get('responsable') as UntypedFormArray;
-    //checkArray.push(new UntypedFormControl(e.target.value));
-    this.taskForm.get('responsable')?.setValue(e.target.value);
-    var checkedVal: any[] = [];
-    var result
-    for (var i = 0; i < this.responsables.length; i++) {
-     // if (this.responsables[i].state == true) {
-        result = this.responsables[i];
-        checkedVal.push(result);
-     // }
-    }
-    var checkboxes: any = document.getElementsByName('checkAll');
-    for (var j = 0; j < checkboxes.length; j++) {
-      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
-        checkboxes[j].checked = false;
-      }
-    }
-
-    //this.checkedValGet = checkedVal
-    //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
-
-  }
-
-  checkedValGet2: any[] = [];
-  onCheckboxChange2(e: any) {
-    this.taskForm.get('evaluationFindingId')?.setValue(e.target.value);
-    var checkedVal: any[] = [];
-    var result
-    for (var i = 0; i < this.hallazgos.length; i++) {
-        result = this.hallazgos[i];
-        checkedVal.push(result);
-    }
-    var checkboxes: any = document.getElementsByName('checkAll2');
-    for (var j = 0; j < checkboxes.length; j++) {
-      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
-        checkboxes[j].checked = false;
-      }
-    }
-  }
 
   saveInstallation(){
     this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
