@@ -192,9 +192,9 @@
                                     <th class="sort" data-sort="id" style="width: 60px;">Id</th>
                                     <th class="sort" data-sort="nombre" style="width: 200px;">Titulo</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
-                                    <th class="sort" data-sort="responsable" style="width: 300px;">Responsable</th>
-                                    <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>
-                                    <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Vencimiento</th>
+                                    <th class="sort" data-sort="responsable" style="width: 300px;">Nombre Responsable</th>
+                                    <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Inicio</th>
+                                    <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Termino</th>
                                     <th class="sort" data-sort="hallazgo" style="width: 300px;">Hallazgo</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
@@ -303,68 +303,34 @@
 
             <div class="col-6">
             <div class="mb-3">
-                <label for="termino-field" class="form-label">Fecha Vencimiento</label>
+                <label for="termino-field" class="form-label">Fecha Termino</label>
                     <div class="form-icon right">
-                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Vencimiento" required
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Termino" required
                         formControlName="fecha_termino" [ngClass]="{ 'is-invalid': submitted && form['fecha_termino'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
                         <i class="ri-calendar-todo-fill"></i>
                     </div>
-                <div class="invalid-feedback">Por favor ingresar Fecha Vencimiento.</div>
+                <div class="invalid-feedback">Por favor ingresar Fecha Termino.</div>
             </div>
             </div>
 
-            <div class="col-6">    
+            <div class="col-12">    
             <div class="mb-3">
                 <label for="user-field" class="form-label">Responsable</label>
-                <!--<select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
+                <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
                     <option selected>Seleccione Responsable </option>
-                    <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{ r.apellido ? r.apellido : ''}}</option>
-                </select>-->
-                <ngx-simplebar style="height: 80px;">
-                    <ul class="list-unstyled vstack gap-2 mb-0">
-                        <li *ngFor="let responsable of responsables">
-                            <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input me-3" type="checkbox" name="checkAll" value="{{responsable.id}}"
-                                    id="{{responsable.id}}" (change)="onCheckboxChange($event)">
-                                <label class="form-check-label d-flex align-items-center" for="{{responsable.id}}">
-                                    <!--<span class="flex-shrink-0">
-                                        <img src="assets/images/users/{{responsable.img}}" alt=""
-                                            class="avatar-xxs rounded-circle">
-                                    </span>-->
-                                    <span class="flex-grow-1 ms-2">
-                                        {{responsable.nombre}} {{responsable.apellido ? responsable.apellido : ''}}
-                                    </span>
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                </ngx-simplebar>
+                    <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}}</option>
+                </select>
             <div class="invalid-feedback">Por favor ingresar responsable.</div>
             </div>
             </div>
 
-            <div class="col-6">    
+            <div class="col-12">    
             <div class="mb-3">
                 <label for="hallazgo-field" class="form-label">Hallazgo</label>
-                <!--<select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
+                <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
                     <option selected>Seleccione Hallazgo </option>
-                    <option *ngFor="let h of hallazgos;" value="{{h.findings.id}}">{{h.findings.nombre}}</option>
-                </select>-->
-                <ngx-simplebar style="height: 80px;">
-                    <ul class="list-unstyled vstack gap-2 mb-0">
-                        <li *ngFor="let h of hallazgos">
-                            <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input me-3" type="checkbox" name="checkAll2" value="{{h.findings.id}}"
-                                    id="{{h.findings.id}}" (change)="onCheckboxChange2($event)">
-                                <label class="form-check-label d-flex align-items-center" for="{{h.findings.id}}">
-                                    <span class="flex-grow-1 ms-2">
-                                        {{h.findings.nombre}}
-                                    </span>
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                </ngx-simplebar>
+                    <option *ngFor="let h of hallazgos;" value="{{h.id}}">{{h.findings.nombre}}</option>
+                </select>
             <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
             </div>
             </div> 

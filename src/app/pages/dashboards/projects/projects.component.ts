@@ -52,7 +52,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+    //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
   }
 
   // Chart Colors Set

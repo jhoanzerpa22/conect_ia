@@ -312,6 +312,9 @@
     },
     "PROFILE": {
       "TEXT": "Perfil"
+    },
+    "PLANS": {
+      "TEXT": "Plan de Trabajo"
     }
   }
 }

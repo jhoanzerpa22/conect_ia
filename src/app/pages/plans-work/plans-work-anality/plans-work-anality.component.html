@@ -1,173 +1,61 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Paso 5: Evaluar Cumplimiento" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Plan de Trabajo - {{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
-<!--preloader-->
-<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
-    <div id="status">
-      <div class="spinner-border text-primary avatar-sm" role="status">
-          <span class="visually-hidden">Cargando...</span>
-      </div>
-    </div>
-  </div>
+ <div class="row project-wrapper">
+    <div class="col-xxl-12">
+        
+        <div class="row">
+            <div class="col-xl-12">
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <span class="float-end text-secondary">
-                    <span class="hamburger-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    </span>
-                </span>
-                <h6 class="card-title">{{detail.nombre}}<!--{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}--></h6>
-                
-                <!--<ng-container *ngFor="let org of detail.organismos">-->
-                    <p class="card-subtitle text-muted mb-0">{{detail.descripcion}}<!--{{org}}--></p>
-                <!--</ng-container>-->
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-
-                <div class="col-xxl-12">
-                    <div class="card border card-border-primary" style="border-radius: 24px !important;">
-                        <div class="row g-0">
-                            <div class="col-md-12">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-0">{{articulo.articulo}}</h5>  
-                                    <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 450 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
-                                    
-                                    <p class="card-text">
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Ver texto completo</b></small>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
-                                    </p> 
+                <!--<div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">-->
+                                <!-- Nav tabs -->
+                                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger mb-3"><!--nav nav-tabs-->
+                                    <li [ngbNavItem]="1">
+                                        <a ngbNavLink class="nav-link">
+                                            <span class="d-sm-block">Plan de Trabajo</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <a ngbNavLink class="nav-link">
+                                            <span class="d-sm-block">Dashboard</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content  text-muted">
+                                    <div [ngbNavOutlet]="nav"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                </div>
 
+<ng-template #TabContent>
+    <!--<app-compliance></app-compliance>-->
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Hallazgos</h4>
+                <h4 class="card-title mb-0">Plan de Trabajo - {{project.nombre}}</h4>
+                <p>{{project.descripcion}}</p>
             </div>
-
-            <div class="card-body">
-                <div id="customerList">
-                    <ng-container *ngFor="let data of HallazgosDatas">
-                        <div class="row" id="lj_{{data.id}}">
-                            <div class="col-lg-12" style="margin-bottom: 20px;">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <img [src]="data.findings.img" (error)="imgError($event)" alt="user img"
-                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <h5>Fecha Creación:</h5>
-                                        <p>{{data.findings.createdAt | date: 'd/M/yy' }}</p>
-                                    </div>
-                                    
-                                    <div class="col-md-2">
-                                        <h5>Nombre:</h5>
-                                        <p>{{data.findings.nombre}}</p>
-                                    </div>
-                                    
-                                    <div class="col-md-7">
-                                        <h5>Descripción:</h5> 
-                                        <p>{{data.findings.descripcion}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                        
-                    </ng-container>
-                    <!--<div class="table-responsive table-card mt-3 mb-1">
-                        <table class="table">
-                            <thead>
-                                <tr class="bg-light text-muted">
-                                    <th class="sort" style="width: 150px;">Respaldo</th>
-                                    <th class="sort" data-sort="nombre" style="width: 300px;">Hallazgo</th>
-                                    <th class="sort" data-sort="descripcion">Descripción</th>
-                                    <th class="sort" style="width: 100px;">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
-                                    <td><img [src]="data.findings.img" (error)="imgError($event)" alt="user img"
-                                        class="users-avatar-shadow avatar mr-3 rounded-circle" height="64" width="64">
-                                    </td>
-                                    <td><ngb-highlight [result]="data.findings.nombre"
-                                            [term]="service.searchTerm"></ngb-highlight>
-                                    </td>
-                                    <td><ngb-highlight [result]="data.findings.descripcion"
-                                                    [term]="service.searchTerm">
-                                            </ngb-highlight>
-                                    </td>
-                                    
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <div class="hstack gap-3 fs-15">
-                                                <a href="javascript:void(0);" class="link-primary" 
-                                                title="Tareas"
-                                                (click)="selectTask(data.findings.id,data.findings.nombre)"><i class="ri-todo-line"></i></a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="row justify-content-md-between align-items-md-center">
-                        <div class="col col-sm-6">
-                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
-                                Mostrando
-                                {{service.startIndex}} de
-                                {{service.endIndex}} de {{service.totalRecords}}
-                                entradas
-                            </div>
-                        </div>
-                        <div class="col col-sm-6">
-                            <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
-                                    [pageSize]="service.pageSize">
-                                </ngb-pagination>
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
-            </div><!-- end card -->
-        </div>
-        <!-- end col -->
-    </div>
-</div>
-
-<div class="row"><!-- *ngIf="idHallazgo"-->
-    <div class="col-lg-12">
-        <div class="card">
-            <!--<div class="card-header">
-                <h4 class="card-title mb-0">Tareas - {{nombreHallazgo}}</h4>
-            </div>-->
 
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1">
-                                <h4 class="card-title mb-0">Tareas</h4><!-- {{nombreHallazgo}}-->
+                                <h4 class="card-title mb-0">Tareas</h4>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -180,7 +68,7 @@
                                 
                                 <button type="button" style="margin-left:20px;" class="btn btn-success add-btn" data-bs-toggle="modal"
                                     id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
-                                        class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                                        class="ri-add-line align-bottom me-1"></i> Nueva Tarea</button>
                             </div>
                         </div>
                     </div>
@@ -190,12 +78,10 @@
                             <thead>
                                 <tr class="bg-light text-muted">
                                     <th class="sort" data-sort="id" style="width: 60px;">Id</th>
-                                    <th class="sort" data-sort="nombre" style="width: 200px;">Titulo</th>
-                                    <th class="sort" data-sort="descripcion">Descripcion</th>
+                                    <th class="sort" data-sort="nombre" style="width: 200px;">Nombre</th>
                                     <th class="sort" data-sort="responsable" style="width: 300px;">Responsable</th>
                                     <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>
                                     <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Vencimiento</th>
-                                    <th class="sort" data-sort="hallazgo" style="width: 300px;">Hallazgo</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>
@@ -221,9 +107,6 @@
                                                 title="Ver" 
                                                 data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>
 
-                                                <a href="javascript:void(0);" class="link-primary"
-                                                title="Editar" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-pencil-fill"></i></a>
-                                                
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
                                                 data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
@@ -303,22 +186,22 @@
 
             <div class="col-6">
             <div class="mb-3">
-                <label for="termino-field" class="form-label">Fecha Vencimiento</label>
+                <label for="termino-field" class="form-label">Fecha Termino</label>
                     <div class="form-icon right">
-                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Vencimiento" required
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Termino" required
                         formControlName="fecha_termino" [ngClass]="{ 'is-invalid': submitted && form['fecha_termino'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
                         <i class="ri-calendar-todo-fill"></i>
                     </div>
-                <div class="invalid-feedback">Por favor ingresar Fecha Vencimiento.</div>
+                <div class="invalid-feedback">Por favor ingresar Fecha Termino.</div>
             </div>
             </div>
 
-            <div class="col-6">    
+            <div class="col-12">    
             <div class="mb-3">
                 <label for="user-field" class="form-label">Responsable</label>
                 <!--<select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
                     <option selected>Seleccione Responsable </option>
-                    <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{ r.apellido ? r.apellido : ''}}</option>
+                    <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{r.apellido ? r.apellido : ''}}</option>
                 </select>-->
                 <ngx-simplebar style="height: 80px;">
                     <ul class="list-unstyled vstack gap-2 mb-0">
@@ -343,31 +226,16 @@
             </div>
             </div>
 
-            <div class="col-6">    
+            <!--<div class="col-12">    
             <div class="mb-3">
                 <label for="hallazgo-field" class="form-label">Hallazgo</label>
-                <!--<select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
+                <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
                     <option selected>Seleccione Hallazgo </option>
-                    <option *ngFor="let h of hallazgos;" value="{{h.findings.id}}">{{h.findings.nombre}}</option>
-                </select>-->
-                <ngx-simplebar style="height: 80px;">
-                    <ul class="list-unstyled vstack gap-2 mb-0">
-                        <li *ngFor="let h of hallazgos">
-                            <div class="form-check d-flex align-items-center">
-                                <input class="form-check-input me-3" type="checkbox" name="checkAll2" value="{{h.findings.id}}"
-                                    id="{{h.findings.id}}" (change)="onCheckboxChange2($event)">
-                                <label class="form-check-label d-flex align-items-center" for="{{h.findings.id}}">
-                                    <span class="flex-grow-1 ms-2">
-                                        {{h.findings.nombre}}
-                                    </span>
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                </ngx-simplebar>
+                    <option *ngFor="let h of hallazgos;" value="{{h.id}}">{{h.findings.nombre}}</option>
+                </select>
             <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
             </div>
-            </div> 
+            </div>--> 
 
             <div class="col-12">    
             <div class="mb-3">
@@ -446,4 +314,9 @@ sistema.</p>
 </ng-template>
 
 
-<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
+<app-toastspl aria-live="polite" aria-atomic="true"></app-toastspl>
+
+</ng-template>
+
+<ng-template #TabContent2>
+</ng-template>

@@ -19,12 +19,12 @@ export const MENU: MenuItem[] = [
     onlyAdmin: true,
     subItems: [
       {
-        id: 12,
+        id: 15,
         label: 'MENUITEMS.CONFIG.LIST.COMPANIES',
         link: '/projects/config',
         parentId: 3
       },{
-        id: 13,
+        id: 16,
         label: 'MENUITEMS.CONFIG.LIST.USERS',
         link: '/projects/users',
         parentId: 3
@@ -39,49 +39,55 @@ export const MENU: MenuItem[] = [
   },
   {
     id: 5,
-    label: 'MENUITEMS.COMMITMENTS.TEXT',
-    icon: 'ri-auction-line',
-    link: '/projects'
+    label: 'MENUITEMS.PLANS.TEXT',
+    icon: 'ri-building-line',
+    link: '/plans-work'
   },
   {
     id: 6,
-    label: 'MENUITEMS.MONITORING.TEXT',
-    icon: 'ri-zoom-in-line',
-    link: '/projects'
+    label: 'MENUITEMS.COMMITMENTS.TEXT',
+    icon: 'ri-auction-line',
+    link: '/pages/coming-soon'
   },
   {
     id: 7,
-    label: 'MENUITEMS.AUDITS.TEXT',
-    icon: 'ri-clipboard-line',
-    link: '/projects'
+    label: 'MENUITEMS.MONITORING.TEXT',
+    icon: 'ri-zoom-in-line',
+    link: '/pages/coming-soon'
   },
   {
     id: 8,
-    label: 'MENUITEMS.LIBRARY.TEXT',
-    icon: 'ri-zoom-in-line',
-    link: '/projects'
+    label: 'MENUITEMS.AUDITS.TEXT',
+    icon: 'ri-clipboard-line',
+    link: '/pages/coming-soon'
   },
   {
     id: 9,
+    label: 'MENUITEMS.LIBRARY.TEXT',
+    icon: 'ri-zoom-in-line',
+    link: '/pages/coming-soon'
+  },
+  {
+    id: 10,
     label: 'MENUITEMS.PYS.TEXT',
     icon: 'ri-stack-line',
     subItems: [
       {
-        id: 10,
+        id: 11,
         label: 'MENUITEMS.PYS.LIST.QUOTE',
-        link: '/analytics',
+        link: '/pages/coming-soon',//'/analytics',
         parentId: 5
       },
       {
-        id: 11,
+        id: 12,
         label: 'MENUITEMS.PYS.LIST.REQUEST',
-        link: '/crm',
+        link: '/pages/coming-soon',//'/crm',
         parentId: 5
       }
     ]
   },
   {
-    id: 11,
+    id: 13,
     label: 'MENUITEMS.DASHBOARD.LIST.USERS',
     icon: 'ri-user-3-line',
     link: '/pages/team',
