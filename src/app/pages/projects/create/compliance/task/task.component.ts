@@ -4,7 +4,7 @@ import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
 
 import { DetailModel, recentModel, ArticulosModel } from './task.model';
 import { folderData } from './data';
@@ -121,9 +121,13 @@ export class ComplianceTaskComponent implements OnInit {
     this.taskForm = this.formBuilder.group({
       ids: [''],
       responsable: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       fecha_inicio: [''],
-      fecha_termino: ['']
+      fecha_termino: [''],
+      evaluationFindingId: [''],
+      is_image: [''],
+      is_file: ['']
     });
 
     /**
@@ -143,6 +147,7 @@ export class ComplianceTaskComponent implements OnInit {
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
         this.getFindingsByInstallationArticle();
+        //this.getTasksByProyect();
         this.getResponsables();
       
     });
@@ -297,6 +302,21 @@ export class ComplianceTaskComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  private getTasksByProyect(){
+    this.showPreLoader();
+      this.projectsService.getTasksByProyect(this.project_id).pipe().subscribe(
+        (data: any) => {
+          this.TaskDatas = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
 
   private getResponsables() {
 
@@ -325,23 +345,34 @@ export class ComplianceTaskComponent implements OnInit {
         this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
+        const nombre = this.taskForm.get('nombre')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
         const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
+        const is_image = this.taskForm.get('is_image')?.value;
+        const is_file = this.taskForm.get('is_file')?.value;
+        
+
         this.TaskDatas.push({
           responsable,
+          nombre,
           descripcion,
           fecha_inicio,
-          fecha_termino
+          fecha_termino,
+          evaluationFindingId
         });
         
         const task: any = {
           responsableId: responsable,
+          nombre: nombre,
           descripcion: descripcion,
           fecha_inicio: fecha_inicio,
           fecha_termino: fecha_termino,
-          evaluationFindingId: this.idHallazgo,
-          estado: 'NO CUMPLE'
+          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+          estado: 'CREADA',
+          is_image: is_image,
+          is_file: is_file
         };
         
         this.projectsService.createTask(task).pipe().subscribe(
@@ -349,7 +380,8 @@ export class ComplianceTaskComponent implements OnInit {
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
 
-           this.getTasksByFinding(this.idHallazgo)
+           //this.getTasksByFinding(this.idHallazgo);
+           this.getFindingsByInstallationArticle();
 
            this.modalService.dismissAll();
         },
@@ -455,6 +487,15 @@ export class ComplianceTaskComponent implements OnInit {
         (data: any) => {
           this.hallazgos = data.data;
           this.HallazgosDatas = data.data;
+
+          let tareas: any = [];
+          for (var i = 0; i < this.hallazgos.length; i++) {
+                if(this.hallazgos[i].findings.tasks.id != null){
+                    tareas.push(this.hallazgos[i].findings.tasks);
+                }
+          }
+
+          this.TaskDatas = tareas;
           
           this.hidePreLoader();
       },
@@ -482,6 +523,47 @@ export class ComplianceTaskComponent implements OnInit {
     this.renderer.appendChild(this.zone?.nativeElement, select);
   }
 
+  checkedValGet: any[] = [];
+  onCheckboxChange(e: any) {
+    //const checkArray: UntypedFormArray = this.taskForm.get('responsable') as UntypedFormArray;
+    //checkArray.push(new UntypedFormControl(e.target.value));
+    this.taskForm.get('responsable')?.setValue(e.target.value);
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.responsables.length; i++) {
+     // if (this.responsables[i].state == true) {
+        result = this.responsables[i];
+        checkedVal.push(result);
+     // }
+    }
+    var checkboxes: any = document.getElementsByName('checkAll');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        checkboxes[j].checked = false;
+      }
+    }
+
+    //this.checkedValGet = checkedVal
+    //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+
+  }
+
+  checkedValGet2: any[] = [];
+  onCheckboxChange2(e: any) {
+    this.taskForm.get('evaluationFindingId')?.setValue(e.target.value);
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.hallazgos.length; i++) {
+        result = this.hallazgos[i];
+        checkedVal.push(result);
+    }
+    var checkboxes: any = document.getElementsByName('checkAll2');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        checkboxes[j].checked = false;
+      }
+    }
+  }
 
   saveInstallation(){
     this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
@@ -514,7 +596,7 @@ export class ComplianceTaskComponent implements OnInit {
    */
   openModal(content: any) {
     this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
   }
 
   /**

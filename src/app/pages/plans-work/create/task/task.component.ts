@@ -6,12 +6,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel } from './assess.model';
+import { DetailModel, recentModel, ArticulosModel } from './task.model';
 import { folderData } from './data';
-import { RecentService } from './assess.service';
-import { NgbdRecentSortableHeader, SortEvent } from './assess-sortable.directive';
+import { RecentService } from './task.service';
+import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
+import { UserProfileService } from '../../../../../core/services/user.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
@@ -21,23 +22,22 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-assess',
-  templateUrl: './assess.component.html',
-  styleUrls: ['./assess.component.scss'],
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.scss'],
   providers: [RecentService, DecimalPipe]
 })
 
 /**
- * ComplianceAssessComponent
+ * ComplianceTaskComponent
  */
-export class ComplianceAssessComponent implements OnInit {
+export class ComplianceTaskComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
   project_id: any = '';
   cuerpo_id: any = '';
-  tarea_id: any = '';
   installation_id: any = null;
   installation_id_select: any = [];
   installation_nombre: any = null;
@@ -50,8 +50,11 @@ export class ComplianceAssessComponent implements OnInit {
   folderForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
+  taskForm!: UntypedFormGroup;
+  TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
+  TaskDatas: any;
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -65,28 +68,13 @@ export class ComplianceAssessComponent implements OnInit {
 
   htmlString: any = "";
   showRow: any = [];
-  showRow2: any = [];
-  showRow3: any = [];
-  articulo: any = {};
-  tarea: any = {};
 
   items: any = [];
   hallazgos: any = [];
   HallazgosDatas: any = [];
 
-  status: any = 'COMPLETADA';//'CREADA', 'INICIADA', 'COMPLETADA';
-
-  PlaceInput: any;
-  public imagePath: any;
-  imgURL: any;
-
-  //selectedFile: File;
-  selectedFile: any;
-  pdfURL: any;
-
-  imageChangedEvent: any = '';
-  imgView: any;
-  imgView2: any = [];
+  nombreHallazgo: any = '';
+  idHallazgo: any = null;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -98,7 +86,10 @@ export class ComplianceAssessComponent implements OnInit {
 
   modelValueAsDate: Date = new Date();
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  responsables: any = [];
+  articulo: any = {};
+
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -112,8 +103,7 @@ export class ComplianceAssessComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'Proyecto' },
       { label: 'Evaluar Cumplimiento' },
-      { label: 'Tareas' },
-      { label: 'Registrar Cumplimiento', active: true }
+      { label: 'Tareas', active: true }
     ];
 
     document.body.classList.add('file-detail-show');
@@ -126,6 +116,21 @@ export class ComplianceAssessComponent implements OnInit {
     });
 
     /**
+     * Form Validation
+     */
+    this.taskForm = this.formBuilder.group({
+      ids: [''],
+      responsable: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      fecha_inicio: [''],
+      fecha_termino: [''],
+      evaluationFindingId: [''],
+      image: [''],
+      file: ['']
+    });
+
+    /**
      * Recent Validation
     */
     this.recentForm = this.formBuilder.group({
@@ -135,18 +140,59 @@ export class ComplianceAssessComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
-      this.cuerpo_id = params['idArticle'];
-      this.tarea_id = params['id'];
+      this.cuerpo_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
-        this.getTaskById(this.tarea_id);
+        this.getFindingsByInstallationArticle();
+        //this.getTasksByProyect();
+        this.getResponsables();
+      
     });
 
     // Data Get Function
     //this._fetchData();
+  }
+
+  // Chat Data Fetch
+  /*private _fetchData() {
+    // Folder Data Fetch
+    this.folderData = folderData;
+    this.folderDatas = Object.assign([], this.folderData);
+
+    // Recent Data Fetch
+    this.recentData.subscribe(x => {
+      this.recentDatas = Object.assign([], x);
+    });
+  }*/
+
+  /**
+  * Confirmation mail model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      /*this.projectsService.deleteInstallation(id)
+      .subscribe(
+        response => {*/
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+          document.getElementById('lj_'+id)?.remove();
+        /*},
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        });*/
+    }
   }
 
   /**
@@ -165,6 +211,30 @@ export class ComplianceAssessComponent implements OnInit {
 
           console.log('detail',this.detail);
           console.log('detailData',this.articulosDatas);
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getArticlesByInstallationBody(installation_id: any){
+
+    this.showPreLoader();
+      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
+        (data: any) => {
+          this.detail = data.data;
+          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          
+          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
+            return data.id === parseInt(this.cuerpo_id);
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+
           this.hidePreLoader();
       },
       (error: any) => {
@@ -201,30 +271,6 @@ export class ComplianceAssessComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
-  private getArticlesByInstallationBody(installation_id: any){
-
-    this.showPreLoader();
-      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
-        (data: any) => {
-          this.detail = data.data;
-          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
-          
-          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
-            return data.id === parseInt(this.cuerpo_id);
-          });
-
-          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
   private getArticlesByInstallation(installation_id: any){
 
     this.showPreLoader();
@@ -240,22 +286,119 @@ export class ComplianceAssessComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
-
-  private getTaskById(tarea_id: any){
+  
+  private getTasksByFinding(finding_id: any){
 
     this.showPreLoader();
-      this.projectsService.getTaskById(tarea_id).pipe().subscribe(
+      this.projectsService.getTasksByFinding(finding_id).pipe().subscribe(
         (data: any) => {
-          this.tarea = data.data;
-          
+          this.TaskDatas = data.data;
           this.hidePreLoader();
       },
       (error: any) => {
         this.hidePreLoader();
-        
+        //this.error = error ? error : '';
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+  
+  private getTasksByProyect(){
+    this.showPreLoader();
+      this.projectsService.getTasksByProyect(this.project_id).pipe().subscribe(
+        (data: any) => {
+          this.TaskDatas = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getResponsables() {
+
+    this.showPreLoader();
+      this.userService.get().pipe().subscribe(
+        (data: any) => {
+          this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  /**
+  * Save saveTask
+  */
+  saveTask() {
+    if (this.taskForm.valid) {
+      
+      this.showPreLoader();
+      if (this.taskForm.get('ids')?.value) {
+        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
+      } else {
+        const responsable = this.taskForm.get('responsable')?.value;
+        const nombre = this.taskForm.get('nombre')?.value;
+        const descripcion = this.taskForm.get('descripcion')?.value;
+        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        const fecha_termino = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
+        const is_image = this.taskForm.get('is_image')?.value;
+        const is_file = this.taskForm.get('is_file')?.value;
+        
+
+        this.TaskDatas.push({
+          responsable,
+          nombre,
+          descripcion,
+          fecha_inicio,
+          fecha_termino,
+          evaluationFindingId
+        });
+        
+        const task: any = {
+          responsableId: responsable,
+          nombre: nombre,
+          descripcion: descripcion,
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+          estado: 'CREADA',
+          is_image: is_image,
+          is_file: is_file
+        };
+        
+        this.projectsService.createTask(task).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           //this.getTasksByFinding(this.idHallazgo);
+           this.getFindingsByInstallationArticle();
+
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+
+      }
+    }
+    this.modalService.dismissAll();
+    setTimeout(() => {
+      this.taskForm.reset();
+    }, 1000);
+    this.submitted = true
   }
 
   selectInstallation(event: any){
@@ -318,10 +461,6 @@ export class ComplianceAssessComponent implements OnInit {
       this.getChildren(event.target.value);
   }
 
-  changeStatus(status: any){
-    this.status = status;
-  }
-
   getChildren(padre_id: any){
     if(padre_id > 0){
       this.showPreLoader();
@@ -341,12 +480,31 @@ export class ComplianceAssessComponent implements OnInit {
     }
   }
 
-  imgError(ev: any){
+  private getFindingsByInstallationArticle(){
 
-    let source = ev.srcElement;
-    let imgSrc = 'assets/images/logo_conect_ia.png';
+    this.showPreLoader();
+      this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+        (data: any) => {
+          this.hallazgos = data.data;
+          this.HallazgosDatas = data.data;
 
-    source.src = imgSrc;
+          let tareas: any = [];
+          for (var i = 0; i < this.hallazgos.length; i++) {
+                if(this.hallazgos[i].findings.tasks.id != null){
+                    tareas.push(this.hallazgos[i].findings.tasks);
+                }
+          }
+
+          this.TaskDatas = tareas;
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
   }
   
   addElement(parent?: any) {
@@ -377,13 +535,27 @@ export class ComplianceAssessComponent implements OnInit {
     this.getArticlesByInstallation(this.installation_id);
   }
 
+  selectTask(id: any, nombre:any){
+    this.nombreHallazgo = nombre;
+    this.idHallazgo = id;
+    this.getTasksByFinding(this.idHallazgo);
+  }
+  
+  imgError(ev: any){
+
+    let source = ev.srcElement;
+    let imgSrc = 'assets/images/logo_conect_ia.png';
+
+    source.src = imgSrc;
+  }
+
   /**
    * Open modal
    * @param content modal content
    */
   openModal(content: any) {
     this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
   }
 
   /**
@@ -428,73 +600,6 @@ export class ComplianceAssessComponent implements OnInit {
 
   validatShow(idParte: any){
     const index = this.showRow.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    return index != -1;
-  }
-
-  
-  formatTask(texto:any, idParte: any){
-    
-    const index = this.showRow2.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    return index != -1 ? texto : texto.substr(0,450)+'...';
-  }
-
-  showText2(idParte: any){
-    this.showRow2.push(idParte);
-  }
-
-  hideText2(idParte: any){
-    
-    const index = this.showRow2.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    this.showRow2.splice(index, 1);
-  }
-
-  validatShow2(idParte: any){
-    const index = this.showRow2.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    return index != -1;
-  }
-
-  formatTask2(texto:any, idParte: any){
-    
-    const index = this.showRow3.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    return index != -1 ? texto : texto.substr(0,450)+'...';
-  }
-
-  showText3(idParte: any){
-    this.showRow3.push(idParte);
-  }
-
-  hideText3(idParte: any){
-    
-    const index = this.showRow3.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    this.showRow3.splice(index, 1);
-  }
-
-  validatShow3(idParte: any){
-    const index = this.showRow3.findIndex(
       (co: any) =>
         co == idParte
     );
@@ -557,38 +662,6 @@ export class ComplianceAssessComponent implements OnInit {
         return product.type === name;
       });
     });*/
-  }
-  
-  editTask(){
-    
-    this.showPreLoader();
-    
-    this.projectsService.updateTaskStatus(this.tarea_id, this.status).pipe().subscribe(
-      (data: any) => {     
-       this.hidePreLoader();
-       
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Tarea actualizada',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
-
   }
 
   // PreLoader

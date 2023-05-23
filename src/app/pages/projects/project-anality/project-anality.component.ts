@@ -75,7 +75,7 @@ export class ProjectAnalityComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+    //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
   }
 
   getProject(idProject?: any){
