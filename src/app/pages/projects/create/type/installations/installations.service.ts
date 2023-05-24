@@ -9,6 +9,7 @@ import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import { ProjectsService } from '../../../../../core/services/projects.service';
 import {SortColumn, SortDirection} from './installations-sortable.directive';
+import { round } from 'lodash';
 
 interface SearchResult {
   installations: InstallationsTypeModel[];
@@ -24,6 +25,7 @@ interface State {
   startIndex: number;
   endIndex: number;
   totalRecords: number;
+  pageTotal: number;
 }
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
@@ -37,6 +39,11 @@ function sort(installations: InstallationsTypeModel[], column: SortColumn, direc
       return direction === 'asc' ? res : -res;
     });
   }
+}
+
+function pageTotal(totalRecords: any){
+  let tp: number = round((totalRecords / 10),0);
+  return (tp * 10) > totalRecords ? tp : (tp + 1);
 }
 
 function matches(installation: InstallationsTypeModel, term: string, pipe: PipeTransform) {
@@ -61,7 +68,8 @@ export class InstallationsService {
     sortDirection: '',
     startIndex: 0,
     endIndex: 9,
-    totalRecords: 0
+    totalRecords: 0,
+    pageTotal: 0
   };
 
   installations_data: any = [];
@@ -97,6 +105,7 @@ export class InstallationsService {
   get startIndex() { return this._state.startIndex; }
   get endIndex() { return this._state.endIndex; }
   get totalRecords() { return this._state.totalRecords; }
+  get pageTotal() { return this._state.pageTotal; }
 
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
@@ -107,6 +116,7 @@ export class InstallationsService {
   set endIndex(endIndex: number) { this._set({ endIndex }); }
   set totalRecords(totalRecords: number) { this._set({ totalRecords }); }
   set dataInstallations(data: any) { this.initialSearch(data); }
+  set pageTotal(pageTotal: number) { this._set({ pageTotal }); }
 
   private _set(patch: Partial<State>) {
     Object.assign(this._state, patch);
@@ -128,6 +138,7 @@ export class InstallationsService {
     this._state.endIndex = (page - 1) * this.pageSize + this.pageSize;
     if (this.endIndex > this.totalRecords) {
         this.endIndex = this.totalRecords;
+        this.pageTotal = pageTotal(this.totalRecords);
     }
     installations = installations.slice(this._state.startIndex - 1, this._state.endIndex);
     return of({installations, total});

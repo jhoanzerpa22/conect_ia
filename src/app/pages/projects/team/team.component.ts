@@ -13,6 +13,7 @@ import { TokenStorageService } from '../../../core/services/token-storage.servic
 import { Router } from '@angular/router';
 import { ToastService } from '../toast-service';
 import { ProjectsService } from '../../../core/services/projects.service';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-team-projects',
@@ -210,6 +211,11 @@ export class TeamComponent {
    openModal(content: any) {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
+  }
+
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
    /**

@@ -137,7 +137,7 @@
                                 Mostrando
                                 {{service.startIndex}} de
                                 {{service.endIndex}} de {{service.totalRecords}}
-                                entradas
+                                registros
                             </div>
                         </div>
                         <div class="col col-sm-6">
@@ -217,12 +217,12 @@
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
-                                                <a href="javascript:void(0);" class="link-primary"
+                                                <!--<a href="javascript:void(0);" class="link-primary"
                                                 title="Ver" 
-                                                data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>
+                                                data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>-->
 
                                                 <a href="javascript:void(0);" class="link-primary"
-                                                title="Editar" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-pencil-fill"></i></a>
+                                                title="Dar Cumplimiento" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-shield-user-fill"></i></a>
                                                 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
@@ -239,16 +239,15 @@
                     <div class="row justify-content-md-between align-items-md-center">
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
-                                Mostrando
-                                {{service.startIndex}} de
-                                {{service.endIndex}} de {{service.totalRecords}}
-                                entradas
+                                Mostrando página 1 de
+                                {{pageTotal((TaskDatas ? TaskDatas.length : 0))}} de {{TaskDatas ? TaskDatas.length : 0}}
+                                registros
                             </div>
                         </div>
                         <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
+                                <ngb-pagination [collectionSize]="TaskDatas ? TaskDatas.length : 0" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
                                 </ngb-pagination>
                             </div>

@@ -11,6 +11,7 @@ import { first } from 'rxjs/operators';
 import { ToastService } from '../toast-service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-list',
@@ -87,6 +88,11 @@ export class ListComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
+  }
+
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
   /**
