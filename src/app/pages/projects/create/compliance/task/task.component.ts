@@ -20,6 +20,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-task',
@@ -332,6 +333,11 @@ export class ComplianceTaskComponent implements OnInit {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
   /**

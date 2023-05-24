@@ -22,6 +22,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-plans-work-anality',
@@ -681,6 +682,11 @@ layers = [
         (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
         (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
     }
+  }
+
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
 }

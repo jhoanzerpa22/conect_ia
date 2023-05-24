@@ -304,6 +304,11 @@ export class ComplianceDetailComponent implements OnInit {
 
     return index != -1;
   }
+  
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
 
   // Folder Filter
   folderSearch() {

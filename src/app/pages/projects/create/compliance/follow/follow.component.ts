@@ -19,6 +19,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-follow',
@@ -229,7 +230,12 @@ export class ComplianceFollowComponent implements OnInit {
 
     return index == -1;
   }
-  
+
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
+
   private getInstallations() {
     
     this.showPreLoader();
