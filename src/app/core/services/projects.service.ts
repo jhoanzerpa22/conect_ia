@@ -103,7 +103,7 @@ export class ProjectsService {
     }
 
     getInstallationsAll(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/installation/all/'+project_id, /*httpOptions*/this.getToken());
+        return this.http.get(API_URL_BACK + 'project/installation/all'/*+project_id*/, /*httpOptions*/this.getToken());
     }
 
     getInstallations(project_id: any){
@@ -219,6 +219,10 @@ export class ProjectsService {
 
     updateTaskStatus(task_id: any, estado: any): Observable<any> {
         return this.http.put(API_URL_BACK + 'evaluation/tasks/state/'+task_id, {estado: estado}, this.getToken());
+    }
+
+    getTasks(){
+        return this.http.get(API_URL_BACK + 'work-plan/task', this.getToken());
     }
 
 }

@@ -76,9 +76,18 @@ export class ListComponent implements OnInit {
         this.projectListWidgets = Object.assign([], x);
       });*/
       this.projectsService.get().pipe().subscribe(
-        (data: any) => {        
-          this.projectListWidgets = data.data;
-          this.pagLength = data.data.length;
+        (data: any) => {
+          let resp: any = data.data;
+          let proyectos: any = [];
+
+          for (var j = 0; j < resp.length; j++) {
+            if(!resp[j].tipoProyectoId || resp[j].tipoProyectoId == '' || resp[j].tipoProyectoId == null){
+              proyectos.push(resp[j]);
+            }
+          }
+
+          this.projectListWidgets = proyectos;
+          this.pagLength = proyectos.length;
           this.hidePreLoader();
       },
       (error: any) => {

@@ -91,15 +91,11 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.descripcion"
-                                            [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.responsable.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>{{ data.fecha_inicio | date: 'd/M/yy' }}
                                     </td>
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
-                                    <td><ngb-highlight [result]="data.evaluationFinding.nombre"
-                                        [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
