@@ -114,10 +114,10 @@
                     <div class="row justify-content-md-between align-items-md-center">
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
-                                Mostrando
+                                Mostrando página
                                 {{service.startIndex}} de
-                                {{service.endIndex}} de {{service.totalRecords}}
-                                entradas
+                                <!--{{service.endIndex}}-->{{(service.totalRecords > 0 ? service.pageTotal : 1)}} de {{service.totalRecords}}
+                                registros
                             </div>
                         </div>
                         <!-- Pagination -->

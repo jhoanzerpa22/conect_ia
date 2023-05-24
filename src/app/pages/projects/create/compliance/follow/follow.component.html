@@ -297,16 +297,16 @@
                     <div class="row justify-content-md-between align-items-md-center">
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
-                                Mostrando
-                                {{service.startIndex}} de
-                                {{service.endIndex}} de {{service.totalRecords}}
-                                entradas
+                                Mostrando página 1
+                                de
+                                {{pageTotal(HallazgosDatas.length)}} de {{HallazgosDatas.length}}
+                                registros
                             </div>
                         </div>
                         <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
+                                <ngb-pagination [collectionSize]="HallazgosDatas.length" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
                                 </ngb-pagination>
                             </div>

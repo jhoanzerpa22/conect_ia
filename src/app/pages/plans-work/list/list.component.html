@@ -94,7 +94,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="mt-auto">
+                  <!--<div class="mt-auto">
                       <div class="d-flex mb-2">
                           <div class="flex-grow-1">
                               <div>Identificación</div>
@@ -105,8 +105,8 @@
                       </div>
                       <div class="progress-sm animated-progess">
                         <ngb-progressbar [value]="data.progressBar ? data.progressBar : 10" type="success" class="progress-sm"></ngb-progressbar>
-                      </div><!-- /.progress -->
-                  </div>
+                      </div>
+                  </div>-->
               </div>
 
           </div>
@@ -153,7 +153,7 @@
 <div class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 100%;">
   <div class="col-sm-5">
       <div>
-          <p class="mb-sm-0 text-muted">Mostrando <span class="fw-semibold">1</span> de <span class="fw-semibold">10</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> entradas</p>
+          <p class="mb-sm-0 text-muted">Mostrando página<span class="fw-semibold">1</span> de <span class="fw-semibold">{{pageTotal(pagLength)}}</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> registros</p>
       </div>
   </div>
   <!-- end col -->

@@ -14,6 +14,7 @@ import { NgbdComplianceSortableHeader, SortEvent } from './compliance-sortable.d
 import { ProjectsService } from '../../../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from '../../toast-service';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-compliance',
@@ -37,6 +38,7 @@ export class ComplianceComponent {
   InstallationDatas: any;
 
   project_id: any = '';
+  avance_evaluacion: number = 0;
 
   // Table data
   InstallationList!: Observable<ComplianceModel[]>;
@@ -85,6 +87,7 @@ export class ComplianceComponent {
         (data: any) => {
           let obj: any = data.data;
           let lista: any = [];
+          let avance_total: any = [];
 
           for (var i = 0; i < obj.length; i++) {
             
@@ -92,7 +95,10 @@ export class ComplianceComponent {
 
               let total_articulos: any = [];
               let total_cuerpos: any = [];
-          
+              let cumple: number = 0;
+              let nocumple: number = 0;
+              let parcial: number = 0;
+
               for (var j = 0; j < obj[i].installations_articles.length; j++) {
                 if(obj[i].installations_articles[j].proyectoId == this.project_id){
                   total_articulos.push(obj[i].installations_articles[j]);
@@ -105,19 +111,49 @@ export class ComplianceComponent {
                   if(index == -1){
                     total_cuerpos.push(obj[i].installations_articles[j].cuerpoLegal);
                   }
-                  
+
+                  for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
+                      if(obj[i].installations_articles[j].evaluations[v].estado){
+                        switch (obj[i].installations_articles[j].evaluations[v].estado) {
+                          case 'CUMPLE':
+                            cumple ++;
+                            break;
+      
+                          case 'NO CUMPLE':
+                              nocumple ++;
+                            break;
+                          
+                          case 'CUMPLE PARCIALMENTE':
+                            parcial ++;
+                            break;
+                        
+                          default:
+                            break;
+                        }
+                        
+                      }
+                    }
                 }
               }
               obj[i].total_articulos = total_articulos.length;
               obj[i].total_cuerpos = total_cuerpos.length;
-            
-              lista.push(obj[i]);
+              let avance: any = total_articulos.length > 0 ? ((((cumple * 100) + (nocumple * 0) + (parcial * 50)) * 100) / (total_articulos.length * 100)) : 0;
+              obj[i].avance = round(avance, 0);
+              
+              if(total_articulos.length > 0){
+                avance_total += round(avance, 0);
+                lista.push(obj[i]);
+              }
             }/*else{
               obj[i].total_articulos = 0;
               obj[i].total_cuerpos = 0;
             }*/
 
           }
+
+          let total: any = lista.length;
+
+          this.avance_evaluacion = lista.length > 0 ? (avance_total / total) : 0;
 
           this.service.installations_data = lista;
 

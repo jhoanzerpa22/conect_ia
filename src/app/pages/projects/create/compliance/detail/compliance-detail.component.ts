@@ -19,6 +19,7 @@ import { TokenStorageService } from '../../../../../core/services/token-storage.
 
 // Sweet Alert
 import Swal from 'sweetalert2';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-compliance-detail',
@@ -64,6 +65,12 @@ export class ComplianceDetailComponent implements OnInit {
 
   items: any = [];
   cuerpo_select: any = '';
+
+  cumple: number = 0;
+  nocumple: number = 0;
+  parcial: number = 0;
+  avance: number = 0;
+  total_articulos: number = 0;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -182,10 +189,54 @@ export class ComplianceDetailComponent implements OnInit {
       this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
         (data: any) => {
           this.detail = data.data;
-          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
+          let articulos: any = data.data.data.length > 0 ? data.data.data : [];
+          this.articulosDatas = articulos.length > 0 ? articulos[0].articulos : [];
 
           this.cuerpo_select = data.data.data.length > 0 ? data.data.data[0].cuerpoLegal : '';
           //this.installations_articles = data.data;
+
+          let cumple: number = 0;
+          let nocumple: number = 0;
+          let parcial: number = 0;
+          let avance: number = 0;
+          let total: number = 0;
+
+          for (var i = 0; i < articulos.length; i++) {
+            if(articulos[i].articulos.length > 0){
+              total += articulos[i].articulos.length;
+              for (var j = 0; j < articulos[i].articulos.length; j++) {
+                if(articulos[i].articulos[j].evaluations.estado){
+                  switch (articulos[i].articulos[j].evaluations.estado) {
+                    case 'CUMPLE':
+                      cumple ++;
+                      break;
+
+                    case 'NO CUMPLE':
+                        nocumple ++;
+                      break;
+                    
+                    case 'CUMPLE PARCIALMENTE':
+                      parcial ++;
+                      break;
+                  
+                    default:
+                      break;
+                  }
+                  
+                }
+              }
+            }
+          }
+
+          avance = total > 0 ? ((((cumple * 100) + (nocumple * 0) + (parcial * 50)) * 100) / (total * 100)) : 0;
+
+          this.avance = round(avance, 0);
+          this.total_articulos = total;
+
+          this.cumple = cumple;
+          this.nocumple = nocumple;
+          this.parcial = parcial;
+
           this.hidePreLoader();
       },
       (error: any) => {
@@ -252,6 +303,11 @@ export class ComplianceDetailComponent implements OnInit {
     );
 
     return index != -1;
+  }
+  
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
   // Folder Filter
