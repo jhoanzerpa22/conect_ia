@@ -112,7 +112,7 @@ export class ProjectAnalityComponent implements OnInit {
     let timerInterval: any;
     Swal.fire({
       title: 'No posee Instalaciones y procesos!',
-      html: 'Por favor espere! En <b></b> milisegundos sera redirigido a la configuración de la empresa.',
+      html: 'Por favor espere! En <b></b> segundos sera redirigido a la configuración de la empresa.',
       timer: 5000,
       timerProgressBar: true,
       didOpen: () => {
