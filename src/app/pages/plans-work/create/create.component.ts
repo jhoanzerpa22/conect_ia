@@ -65,7 +65,7 @@ export class CreateComponent implements OnInit {
     const project: any = {
       nombre: this.nombreProyecto,
       descripcion: this.descripcionProyecto,
-      tipoProyectoId: 'PlanTrabajo'
+      tipoProyectoId: null
     };
 
     this.showPreLoader();

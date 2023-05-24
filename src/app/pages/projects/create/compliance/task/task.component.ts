@@ -12,7 +12,7 @@ import { RecentService } from './task.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
-import { UserProfileService } from '../../../../../core/services/user.service';
+import { UserProfileService } from '../../../../../core/services/user.service';import { TokenStorageService } from '../../../../../core/services/token-storage.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
@@ -89,8 +89,9 @@ export class ComplianceTaskComponent implements OnInit {
 
   responsables: any = [];
   articulo: any = {};
+  userData: any;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -108,6 +109,8 @@ export class ComplianceTaskComponent implements OnInit {
     ];
 
     document.body.classList.add('file-detail-show');
+
+    this.userData = this.TokenStorageService.getUser();
 
     /**
      * Form Validation
@@ -322,7 +325,7 @@ export class ComplianceTaskComponent implements OnInit {
   private getResponsables() {
 
     this.showPreLoader();
-      this.userService.get().pipe().subscribe(
+      this.userService.getCoworkers().pipe().subscribe(
         (data: any) => {
           this.responsables = data.data;
           this.hidePreLoader();
@@ -377,8 +380,12 @@ export class ComplianceTaskComponent implements OnInit {
           fecha_termino: fecha_termino,
           evaluationFindingId: evaluationFindingId,//this.idHallazgo,
           estado: 'CREADA',
+          type: 'findingTaks',
           is_image: is_image,
-          is_file: is_file
+          is_file: is_file,
+          installationId: this.installation_id,
+          proyectoId: this.project_id,
+          empresaId: this.userData.empresaId
         };
         
         this.projectsService.createTask(task).pipe().subscribe(

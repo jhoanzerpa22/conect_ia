@@ -102,7 +102,6 @@ export class PlansWorkAnalityComponent implements OnInit {
       descripcion: ['', [Validators.required]],
       fecha_inicio: [''],
       fecha_termino: [''],
-      evaluationFindingId: [''],
       is_image: [''],
       is_file: ['']
     });
@@ -112,6 +111,7 @@ export class PlansWorkAnalityComponent implements OnInit {
      */
     this.fetchData();
     this.getResponsables();
+    this.getTasks();
 
     // Chart Color Data Get Function
     this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
@@ -167,7 +167,6 @@ export class PlansWorkAnalityComponent implements OnInit {
         const descripcion = this.taskForm.get('descripcion')?.value;
         const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
-        const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
         const is_image = this.taskForm.get('is_image')?.value;
         const is_file = this.taskForm.get('is_file')?.value;
         
@@ -177,8 +176,7 @@ export class PlansWorkAnalityComponent implements OnInit {
           nombre,
           descripcion,
           fecha_inicio,
-          fecha_termino,
-          evaluationFindingId
+          fecha_termino
         });
         
         const task: any = {
@@ -187,16 +185,20 @@ export class PlansWorkAnalityComponent implements OnInit {
           descripcion: descripcion,
           fecha_inicio: fecha_inicio,
           fecha_termino: fecha_termino,
-          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
           estado: 'CREADA',
+          type: 'workPlanTask',
           is_image: is_image,
-          is_file: is_file
+          is_file: is_file,
+          proyectoId: this.project_id,
+          empresaId: this.userData.empresaId
         };
         
         this.projectsService.createTask(task).pipe().subscribe(
           (data: any) => {     
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getTasks();
 
            this.modalService.dismissAll();
         },
@@ -219,9 +221,35 @@ export class PlansWorkAnalityComponent implements OnInit {
   private getResponsables() {
 
     this.showPreLoader();
-      this.userService.get().pipe().subscribe(
+      this.userService.getCoworkers().pipe().subscribe(
         (data: any) => {
           this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+  
+  private getTasks() {
+
+    this.showPreLoader();
+      this.projectsService.getTasks().pipe().subscribe(
+        (data: any) => {
+          let resp: any = data.data;
+          let tasks: any = [];
+
+          for (var j = 0; j < resp.length; j++) {
+            if(resp[j].proyectoId == this.project_id){
+              tasks.push(resp[j]);
+            }
+          }
+
+          this.TaskDatas = tasks;
+
           this.hidePreLoader();
       },
       (error: any) => {

@@ -44,6 +44,10 @@ export class UserProfileService {
         return this.http.get(API_URL_BACK + 'user/list', /*httpOptions*/this.getToken());
     }
 
+    getCoworkers(){
+        return this.http.get(API_URL_BACK + 'user/coworkers', /*httpOptions*/this.getToken());
+    }
+
     create(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'user/create', {
