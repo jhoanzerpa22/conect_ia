@@ -32,6 +32,7 @@ export class TeamComponent {
   teamForm!: UntypedFormGroup;
   term:any;
   showLoad: boolean = false;
+  userData: any;
 
   constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService) { }
 
@@ -43,6 +44,8 @@ export class TeamComponent {
       { label: 'Usuarios', active: true }/*,
       { label: 'Team', active: true }*/
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     /**
      * Form Validation
@@ -119,7 +122,8 @@ export class TeamComponent {
         rut: this.teamForm.get('rut')?.value,
         telefono: this.teamForm.get('telefono')?.value,
         email: this.teamForm.get('email')?.value,
-        rol: [2]
+        rol: [2],
+        empresaId: this.userData.empresaId
       };
       this.userService.create(data).pipe(first()).subscribe(
         (data: any) => {

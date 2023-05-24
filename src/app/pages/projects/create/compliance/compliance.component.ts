@@ -87,7 +87,7 @@ export class ComplianceComponent {
         (data: any) => {
           let obj: any = data.data;
           let lista: any = [];
-          let avance_total: any = [];
+          let avance_total: number = 0;
 
           for (var i = 0; i < obj.length; i++) {
             
@@ -141,7 +141,7 @@ export class ComplianceComponent {
               obj[i].avance = round(avance, 0);
               
               if(total_articulos.length > 0){
-                avance_total += round(avance, 0);
+                avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);
               }
             }/*else{
@@ -152,8 +152,7 @@ export class ComplianceComponent {
           }
 
           let total: any = lista.length;
-
-          this.avance_evaluacion = lista.length > 0 ? (avance_total / total) : 0;
+          this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
 
           this.service.installations_data = lista;
 

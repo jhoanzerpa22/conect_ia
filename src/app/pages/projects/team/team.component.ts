@@ -42,6 +42,7 @@ export class TeamComponent {
   items: any = [];
 
   pagLength?: number = 0;
+  userData: any;
 
   constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService, private projectsService: ProjectsService) { }
 
@@ -53,6 +54,8 @@ export class TeamComponent {
       { label: 'Usuarios', active: true }/*,
       { label: 'Team', active: true }*/
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     /**
      * Form Validation
@@ -81,7 +84,7 @@ export class TeamComponent {
 
     this.showLoad = true;
     //this.Team = Team;
-    this.userService.get().pipe().subscribe(
+    this.userService.getCoworkers().pipe().subscribe(
       (obj: any) => {
         this.Team = obj.data;
         this.pagLength = obj.data.length;
@@ -271,7 +274,8 @@ export class TeamComponent {
         email: this.teamForm.get('email')?.value,
         rol: [this.teamForm.get('rol')?.value],
         projects: this.teamForm.get('projects')?.value,
-        areas: area_id ? area_id : null
+        areas: area_id ? area_id : null,
+        empresaId: this.userData.empresaId
       };
 
       this.userService.create(data).pipe(first()).subscribe(
