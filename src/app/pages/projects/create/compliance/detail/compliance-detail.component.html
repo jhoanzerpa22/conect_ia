@@ -230,8 +230,14 @@
                             <tr *ngFor="let data of articulosDatas" id="lj_{{data.id}}">
                                 <td><ngb-highlight [result]="data.articulo"
                                         [term]="service.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="data.descripcion ? data.descripcion : ''"
-                                        [term]="service.searchTerm"></ngb-highlight></td>
+                                <td>
+                                    <p class="card-text mb-2" [style]="data.descripcion && data.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ data.descripcion && data.descripcion.length > 450 ? formatArticle(data.descripcion, data.id) : data.descripcion }}</p>
+                                    
+                                    <p class="card-text">
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="data.descripcion && data.descripcion.length > 450 && !validatShow(data.id)" (click)="showText(data.id)"><b>Ver texto completo</b></small>
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="data.descripcion && data.descripcion.length > 450 && validatShow(data.id)" (click)="hideText(data.id)"><b>Ocultar texto completo</b></small>
+                                    </p>
+                                </td>
                                 <!--<td>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
@@ -245,7 +251,7 @@
                                     <div class="d-flex gap-2">
                                         
                                         <div class="hstack gap-3 fs-15">
-                                            <div class="edit" *ngIf="validateRol(1) || validateRol(2) || validateRol(3)">
+                                            <div class="edit" *ngIf="(validateRol(1) || validateRol(2) || validateRol(3)) && (!data.evaluations || !data.evaluations.estado || !data.evaluations.estado == null)">
                                                 <button class="btn btn-sm btn-success edit-item-btn"
                                                     data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Follow/{{data.id}}"
                                                     >Evaluar</button>

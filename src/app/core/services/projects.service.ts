@@ -191,7 +191,11 @@ export class ProjectsService {
     
     saveEvaluation(data: any): Observable<any> {
         
-        return this.http.post(API_URL_BACK + 'evaluation', data, /*httpOptions*/this.getToken());
+        const httpOptions4 = {
+            headers: new HttpHeaders({ /*'Content-Type': 'multipart/form-data',*/'Authorization': `Bearer ${localStorage.getItem('token')}`, "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.post(API_URL_BACK + 'evaluation', data, httpOptions4);
     
     }
 
