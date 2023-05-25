@@ -25,6 +25,7 @@
                             <div class="d-flex gap-1">
                                 <h4 class="card-title mb-0">{{subtitle}}</h4>
                             </div>
+                            <p>Agrega instalaciones y procesos para gestionar su cumplimiento y vincularlas con tus actividades</p>
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
@@ -47,12 +48,12 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th scope="col" style="width: 50px;">
+                                    <!--<th scope="col" style="width: 50px;">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="checkAll" value="option"
                                                 [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
                                         </div>
-                                    </th>
+                                    </th>-->
                                     <th class="sort" data-sort="nombre">Nombre</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
                                     <th class="sort" data-sort="area">Area</th>
@@ -61,12 +62,12 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of InstallationDatas" id="lj_{{data.id}}">
-                                    <th scope="row">
+                                    <!--<th scope="row">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="checkAll"
                                                 value="{{data.id}}" [(ngModel)]="data.state">
                                         </div>
-                                    </th>
+                                    </th>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.descripcion"
@@ -166,8 +167,10 @@
 
             <div class="mb-3">
                 <label for="email-field" class="form-label">Descripción</label>
-                <input type="text" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
-                    formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />
+                <!--<input type="text" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
+                    formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />-->
+                <textarea rows="3" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
+                formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }"></textarea>
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
             </div>
 

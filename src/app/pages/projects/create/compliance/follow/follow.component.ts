@@ -81,11 +81,13 @@ export class ComplianceFollowComponent implements OnInit {
 
   //selectedFile: File;
   selectedFile: any;
+  selectedFileEvaluation: any;
   pdfURL: any;
 
   imageChangedEvent: any = '';
   imgView: any;
   imgView2: any = [];
+  myFiles:string [] = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -125,7 +127,8 @@ export class ComplianceFollowComponent implements OnInit {
 
     this.hallazgoForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
-      descripcion: ['']
+      descripcion: [''],
+      fileHallazgo: ['']
     });
 
     this.evaluacionForm = this.formBuilder.group({
@@ -386,7 +389,9 @@ export class ComplianceFollowComponent implements OnInit {
       let nombre: any = this.hallazgoForm.get('nombre')?.value;
       let descripcion: any = this.hallazgoForm.get('descripcion')?.value;
       //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion, hallazgoImg: []});
+      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion});
+
+      this.myFiles.push(this.selectedFile);
 
       this.imgView2.push(this.imgView);
       
@@ -402,6 +407,28 @@ export class ComplianceFollowComponent implements OnInit {
   }
 
   saveEvaluation(){
+    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE') || (this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
+
+      if(this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Debe asignar hallazgos a la evaluación.',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }else{
+
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Debe asignar un estado a la evaluación y cargar una imagen o comentario.',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }
+
+  } else{
     
     this.showPreLoader();
 
@@ -410,6 +437,7 @@ export class ComplianceFollowComponent implements OnInit {
     let reportable: any = this.evaluacionForm.get('reportable')?.value;
     let monitoreo: any = this.evaluacionForm.get('monitoreo')?.value;
     let permiso: any = this.evaluacionForm.get('permiso')?.value;
+    let hallazgoImg: any = this.myFiles;
     let hallazgos: any = this.HallazgosDatas;
 
     let tipoArticulo: any = [];
@@ -426,20 +454,34 @@ export class ComplianceFollowComponent implements OnInit {
       tipoArticulo.push('permiso');
     }
 
+    const formData = new FormData();
+ 
+
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
-      hallazgos: this.status == 'CUMPLE' ? JSON.stringify([]) : JSON.stringify(hallazgos),
+      hallazgos: this.status == 'CUMPLE' ? /*JSON.stringify(*/[]/*)*/ : /*JSON.stringify(*/hallazgos/*)*/,
       estado: this.status,
       installationArticleId: this.cuerpo_id,
       tipoArticulo: tipoArticulo,
       comentario: comentario,
-      hallazgoImg: []
+      //hallazgoImg: hallazgoImg
       //articuloId: this.cuerpo_id,
       //installationId: this.installation_id,
       //projectId: this.project_id
-    };
+    }; 
+
+    if(this.status == 'CUMPLE'){
+      formData.append('evaluacionImg', this.selectedFileEvaluation);
+    }else{
+      formData.append('hallazgoImg', this.myFiles[0]);
+    }
+    formData.append('data', JSON.stringify(evaluations));
+ 
+    /*for (var i = 0; i < this.myFiles.length; i++) { 
+      //formData.append("hallazgoImg[]", this.myFiles[i]);
+    }*/
     
-    this.projectsService.saveEvaluation(evaluations).pipe().subscribe(
+    this.projectsService.saveEvaluation(formData).pipe().subscribe(
       (data: any) => {     
        this.hidePreLoader();
        
@@ -463,11 +505,10 @@ export class ComplianceFollowComponent implements OnInit {
         timer: 5000,
       });
       this.modalService.dismissAll()
-    });
-
+    })
+  }
   }
 
-  
 onFileSelected(event: any){
 
   this.imageChangedEvent = event;
@@ -480,6 +521,19 @@ var reader = new FileReader();
   reader.onload = (_event) => {
     //console.log(reader.result);
     this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
+  
+onFileSelectedEvaluation(event: any){
+  this.selectedFileEvaluation = <File>event[0];
+
+var reader = new FileReader();
+  reader.readAsDataURL(this.selectedFileEvaluation);
+  reader.onload = (_event) => {
+    console.log(reader.result);
+    //this.imgView = reader.result;
     //this.pdfURL = this.selectedFile.name;
     //this.formUsuario.controls['img'].setValue(this.selectedFile);
     }
