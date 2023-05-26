@@ -21,11 +21,11 @@
                 </div>
                 
                 <div class="col-xxl-3 col-lg-3">
-                    <div class="titulo-caja"><b>{{installations_articles.length > 0 ? installations_articles.length : 0}} {{installations_articles.length == 1 ? 'Cuerpo legal' : 'Cuerpos legales'}}</b></div>
+                    <div class="titulo-caja"><b>{{total_cuerpos > 0 ? total_cuerpos : 0}} {{total_cuerpos == 1 ? 'Cuerpo legal' : 'Cuerpos legales'}}</b></div>
                 </div>
 
                 <div class="col-xxl-3 col-lg-3">
-                    <div class="titulo-caja"><b>{{installations_articles.length > 0 ? installations_articles.length : 0}} {{installations_articles.length == 1 ? 'Artículo' : 'Artículos'}}</b></div>
+                    <div class="titulo-caja"><b>{{total_articulos > 0 ? total_articulos : 0}} {{total_articulos == 1 ? 'Artículo' : 'Artículos'}}</b></div>
                 </div>
 
                 <div class="col-xxl-3 col-lg-3">
@@ -133,7 +133,7 @@
                         <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
+                                <ngb-pagination [collectionSize]="1" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
                                 </ngb-pagination>
                             </div>

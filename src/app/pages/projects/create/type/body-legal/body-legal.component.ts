@@ -40,6 +40,8 @@ export class BodyLegalTypeComponent {
   installation_id: any = null;
   installation_nombre: any = null;
   installations_articles: any = [];
+  total_cuerpos: number = 0;
+  total_articulos: number = 0;
 
   // Table data
   BodyLegalList!: Observable<BodyLegalTypeModel[]>;
@@ -112,6 +114,27 @@ export class BodyLegalTypeComponent {
       this.projectsService.getArticlesByInstallation(installation_id).pipe().subscribe(
         (data: any) => {
           this.installations_articles = data.data;
+          let total_articulos: any = [];
+          let total_cuerpos: any = [];
+
+          
+          for (var j = 0; j < this.installations_articles.length; j++) {
+            if(this.installations_articles[j].proyectoId == this.project_id){
+              total_articulos.push(this.installations_articles[j]);
+              
+              const index = total_cuerpos.findIndex(
+                (cu: any) =>
+                  cu == this.installations_articles[j].cuerpoLegal
+              );
+
+              if(index == -1){
+                total_cuerpos.push(this.installations_articles[j].cuerpoLegal);
+              }
+
+            }
+          }
+          this.total_articulos = total_articulos.length;
+          this.total_cuerpos = total_cuerpos.length;
       },
       (error: any) => {
       });
