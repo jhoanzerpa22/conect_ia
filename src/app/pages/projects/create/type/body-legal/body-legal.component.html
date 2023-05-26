@@ -101,7 +101,7 @@
                                         Vigencia: {{data.dates ? data.dates.fechaVencimientoNorma : ''}}
                                     </td>
                                     <td class="status"><span
-                                                class="badge badge-soft-{{data.conectado ? 'success' : 'danger'}} text-uppercase">{{data.conectado ? data.conectado : 'No conectado'}}</span>
+                                                class="badge badge-soft-{{!validateIdparte(data.normaId) ? 'success' : 'danger'}} text-uppercase">{{!validateIdparte(data.normaId) ? 'Conectado' : 'No conectado'}}</span>
                                     </td>
                                     <td>
                                         
