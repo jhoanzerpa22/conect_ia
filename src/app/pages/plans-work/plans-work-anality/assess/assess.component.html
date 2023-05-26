@@ -28,7 +28,7 @@
                 <div class="col-xxl-12">
                         <div class="row g-0">
                             <div class="col-md-12">
-                                    <p class="mb-2" [style]="tarea.descripcion && tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.descripcion && tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion }}</p>
+                                    <p class="mb-2" [style]="tarea.descripcion && tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.descripcion && tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion.replace('<', '').replace("/", '').replace('p>', '').replace('<', '').replace('p>', '') }}</p>
                                     
                                     <p>
                                         <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && !validatShow3(tarea.id)" (click)="showText3(tarea.id)"><b>Ver texto completo</b></small>
