@@ -45,8 +45,8 @@
 </div>
 </ng-container>
 <ng-container *ngIf="typeCreate">
-    <div class="row">
-        
+    <!--<div class="row">-->
+    <div class="row justify-content-center" style="padding-top: 10%;">
         <!--<ng-container *ngFor="let t of types;let impar=odd;">
         <div class="col-xxl-5">
             <div class="card border card-border-dark" style="border-color: #767676 !important;min-height: 250px;">
@@ -67,24 +67,27 @@
         <div class="col-xxl-2" *ngIf="!impar">
         </div>
         </ng-container>-->
+        <div class="col-12">
+        <h4 style="text-align: center;">Define el tipo de proyecto</h4>
+        </div>
         <div class="col-xxl-4 col-lg-6">
-            <div class="card card-body">
+            <div class="card card-body" style="min-height: 250px;">
                 <div class="avatar-sm mb-3">
-                    <div class="avatar-title bg-soft-success text-success fs-17 rounded">
+                    <div class="avatar-title fs-17 rounded" style="background-color: #767676;">
                         <i class="ri-add-line"></i>
                     </div>
                 </div>
                 <h4 class="card-title">Identifica las obligaciones legales y permisos de tu proyecto</h4>
-                <p class="card-text text-muted">En tan solo 5 pasos, completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto.</p>
+                <p class="card-text text-muted">Completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto.</p>
                 <a href="javascript:void(0);" class="btn btn-success" style="
                 background: #767676;
                 border-color: #767676;
                 cursor: no-drop;
-            " (click)="saveProject(1)">Iniciar</a>
+            ">Iniciar</a>
             </div>
         </div>
         <div class="col-xxl-4 col-lg-6">
-            <div class="card card-body">
+            <div class="card card-body" style="min-height: 250px;">
                 <div class="avatar-sm mb-3">
                     <div class="avatar-title bg-soft-success text-success fs-17 rounded">
                         <i class="ri-add-line"></i>
