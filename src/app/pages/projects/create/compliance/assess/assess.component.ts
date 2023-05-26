@@ -348,6 +348,19 @@ export class ComplianceAssessComponent implements OnInit {
 
     source.src = imgSrc;
   }
+   
+onFileSelectedEvaluation(event: any){
+  this.selectedFile = <File>event[0];
+
+var reader = new FileReader();
+  reader.readAsDataURL(this.selectedFile);
+  reader.onload = (_event) => {
+    console.log(reader.result);
+    //this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
   
   addElement(parent?: any) {
     

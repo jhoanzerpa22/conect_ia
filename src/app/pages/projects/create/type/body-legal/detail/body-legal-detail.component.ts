@@ -64,6 +64,8 @@ export class BodyLegalDetailComponent implements OnInit {
   showRow: any = [];
 
   items: any = [];
+  total_cuerpos: number = 0;
+  total_articulos: number = 0;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -159,7 +161,7 @@ export class BodyLegalDetailComponent implements OnInit {
   validateIdparte(idParte: any){
     const index = this.installations_articles.findIndex(
       (co: any) =>
-        co.articulo == idParte
+        co.articuloId == idParte
     );
 
     return index == -1;
@@ -188,6 +190,29 @@ export class BodyLegalDetailComponent implements OnInit {
       this.projectsService.getArticlesByInstallation(installation_id).pipe().subscribe(
         (data: any) => {
           this.installations_articles = data.data;
+
+          let total_articulos: any = [];
+          let total_cuerpos: any = [];
+
+          
+          for (var j = 0; j < this.installations_articles.length; j++) {
+            if(this.installations_articles[j].proyectoId == this.project_id){
+              total_articulos.push(this.installations_articles[j]);
+              
+              const index = total_cuerpos.findIndex(
+                (cu: any) =>
+                  cu == this.installations_articles[j].cuerpoLegal
+              );
+
+              if(index == -1){
+                total_cuerpos.push(this.installations_articles[j].cuerpoLegal);
+              }
+
+            }
+          }
+          this.total_articulos = total_articulos.length;
+          this.total_cuerpos = total_cuerpos.length;
+
           this.hidePreLoader();
       },
       (error: any) => {
@@ -440,7 +465,8 @@ export class BodyLegalDetailComponent implements OnInit {
     this.projectsService.conectArticleInstallation(this.installation_id,article_installation).pipe().subscribe(
       (data: any) => {     
        this.hidePreLoader();
-       this.installations_articles.push({articulo: article_id});
+       this.installations_articles.push({articuloId: article_id});
+       this.getArticlesByInstallation(this.installation_id);
        
         Swal.fire({
           position: 'center',
