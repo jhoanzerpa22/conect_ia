@@ -52,6 +52,7 @@ export class PlansWorkAnalityComponent implements OnInit {
 
   installations_data: any = [];
   areas_data: any = [];
+  hallazgos: any = [];
   userData: any;
 
   submitted = false;
@@ -102,6 +103,7 @@ export class PlansWorkAnalityComponent implements OnInit {
       descripcion: ['', [Validators.required]],
       fecha_inicio: [''],
       fecha_termino: [''],
+      evaluationFindingId: [''],
       is_image: [''],
       is_file: ['']
     });
@@ -112,6 +114,7 @@ export class PlansWorkAnalityComponent implements OnInit {
     this.fetchData();
     this.getResponsables();
     this.getTasks();
+    this.getFindings();
 
     // Chart Color Data Get Function
     this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
@@ -167,16 +170,17 @@ export class PlansWorkAnalityComponent implements OnInit {
         const descripcion = this.taskForm.get('descripcion')?.value;
         const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
         const is_image = this.taskForm.get('is_image')?.value;
         const is_file = this.taskForm.get('is_file')?.value;
-        
 
         this.TaskDatas.push({
           responsable,
           nombre,
           descripcion,
           fecha_inicio,
-          fecha_termino
+          fecha_termino,
+          evaluationFindingId
         });
         
         const task: any = {
@@ -185,6 +189,7 @@ export class PlansWorkAnalityComponent implements OnInit {
           descripcion: descripcion,
           fecha_inicio: fecha_inicio,
           fecha_termino: fecha_termino,
+          evaluationFindingId: evaluationFindingId,
           estado: 'CREADA',
           type: 'workPlanTask',
           is_image: is_image,
@@ -249,6 +254,23 @@ export class PlansWorkAnalityComponent implements OnInit {
           }
 
           this.TaskDatas = tasks;
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getFindings() {
+
+    this.showPreLoader();
+      this.projectsService.getFindings().pipe().subscribe(
+        (data: any) => {
+          this.hallazgos = data.data;
 
           this.hidePreLoader();
       },
@@ -692,6 +714,23 @@ layers = [
     //this.checkedValGet = checkedVal
     //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
 
+  }
+
+  checkedValGet2: any[] = [];
+  onCheckboxChange2(e: any) {
+    this.taskForm.get('evaluationFindingId')?.setValue(e.target.value);
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.hallazgos.length; i++) {
+        result = this.hallazgos[i];
+        checkedVal.push(result);
+    }
+    var checkboxes: any = document.getElementsByName('checkAll2');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        checkboxes[j].checked = false;
+      }
+    }
   }
   
   // PreLoader

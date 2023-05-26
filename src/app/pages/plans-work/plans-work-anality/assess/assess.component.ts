@@ -11,8 +11,8 @@ import { folderData } from './data';
 import { RecentService } from './assess.service';
 import { NgbdRecentSortableHeader, SortEvent } from './assess-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
-import { ProjectsService } from '../../../../../core/services/projects.service';
-import { ToastService } from '../../../toast-service';
+import { ProjectsService } from '../../../../core/services/projects.service';
+import { ToastService } from '../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -21,29 +21,23 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-assess',
+  selector: 'app-plans-assess',
   templateUrl: './assess.component.html',
   styleUrls: ['./assess.component.scss'],
   providers: [RecentService, DecimalPipe]
 })
 
 /**
- * ComplianceAssessComponent
+ * PlansAssessComponent
  */
-export class ComplianceAssessComponent implements OnInit {
+export class PlansAssessComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
   project_id: any = '';
-  cuerpo_id: any = '';
   tarea_id: any = '';
-  installation_id: any = null;
-  installation_id_select: any = [];
-  installation_nombre: any = null;
   detail: any = [];
-  installations: any = [];
-  installations_articles: any = [];
 
   folderData!: DetailModel[];
   submitted = false;
@@ -51,7 +45,6 @@ export class ComplianceAssessComponent implements OnInit {
   folderDatas: any;
   recentForm!: UntypedFormGroup;
   recentDatas: any;
-  articulosDatas: any;
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -59,7 +52,6 @@ export class ComplianceAssessComponent implements OnInit {
 
   // Table data
   recentData!: Observable<recentModel[]>;
-  articulosData!: Observable<ArticulosModel[]>;
   total: Observable<number>;
   @ViewChildren(NgbdRecentSortableHeader) headers!: QueryList<NgbdRecentSortableHeader>;
 
@@ -67,12 +59,9 @@ export class ComplianceAssessComponent implements OnInit {
   showRow: any = [];
   showRow2: any = [];
   showRow3: any = [];
-  articulo: any = {};
   tarea: any = {};
 
   items: any = [];
-  hallazgos: any = [];
-  HallazgosDatas: any = [];
 
   status: any = 'COMPLETADA';//'CREADA', 'INICIADA', 'COMPLETADA';
 
@@ -110,8 +99,8 @@ export class ComplianceAssessComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento' },
+      { label: 'Planes de trabajo' },
+      { label: 'Plan de Trabajo' },
       { label: 'Tareas' },
       { label: 'Registrar Cumplimiento', active: true }
     ];
@@ -135,112 +124,13 @@ export class ComplianceAssessComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
-      this.cuerpo_id = params['idArticle'];
       this.tarea_id = params['id'];
-      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
-      this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
-
-        //this.getArticlesByInstallation(this.installation_id);
-        this.getArticlesByInstallationBody(this.installation_id);
         this.getTaskById(this.tarea_id);
     });
 
     // Data Get Function
     //this._fetchData();
   }
-
-  /**
-   * Fetches the data
-   */
-  private _fetchData() {
-    
-    this.showPreLoader();
-      this.projectsService.getBodyLegalByNorma(this.cuerpo_id).pipe().subscribe(
-        (data: any) => {
-          //this.service.bodylegal_data = data.data;
-          this.detail = data.data;
-          this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
-          
-          this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
-
-          console.log('detail',this.detail);
-          console.log('detailData',this.articulosDatas);
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
-  validateIdparte(idParte: any){
-    const index = this.installations_articles.findIndex(
-      (co: any) =>
-        co.articulo == idParte
-    );
-
-    return index == -1;
-  }
-  
-  private getInstallations() {
-    
-    this.showPreLoader();
-      this.projectsService.getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
-        (data: any) => {
-          //this.service.bodylegal_data = data.data;
-          this.installations = data.data;
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
-  private getArticlesByInstallationBody(installation_id: any){
-
-    this.showPreLoader();
-      this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
-        (data: any) => {
-          this.detail = data.data;
-          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
-          
-          let articulo_filter: any = this.articulosDatas.filter((data: any) => {
-            return data.id === parseInt(this.cuerpo_id);
-          });
-
-          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
-  private getArticlesByInstallation(installation_id: any){
-
-    this.showPreLoader();
-      this.projectsService.getArticlesByInstallation(installation_id).pipe().subscribe(
-        (data: any) => {
-          this.installations_articles = data.data;
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
   private getTaskById(tarea_id: any){
 
     this.showPreLoader();
@@ -256,66 +146,6 @@ export class ComplianceAssessComponent implements OnInit {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
-  selectInstallation(event: any){
-
-    if(this.installation_id_select.length > 0){
-    
-    let vacio = event.target.value > 0 ? 1 : 0;
-    
-    this.installation_id_select.splice(0 + vacio, (this.installation_id_select.length-(1+vacio)));
-    
-      if(event.target.value > 0){
-        
-        const index = this.installations.findIndex(
-          (co: any) =>
-            co.id == event.target.value
-        );
-
-        let nombre = this.installations[index].nombre;
-
-        this.installation_id_select[0] = {value: event.target.value, label: nombre};
-      }
-
-    }else{
-      
-      const index2 = this.installations.findIndex(
-        (co: any) =>
-          co.id == event.target.value
-      );
-
-      let nombre2 = this.installations[index2].nombre;
-      this.installation_id_select.push({value: event.target.value, label: nombre2});
-    }
-
-    //this.installation_id_select = event.target.value;
-      this.items = [];
-      this.getChildren(event.target.value);
-  }
-
-  selectInstallationChildren(event: any, parent?: any){
-    //this.addElement(parent);
-      let vacio = event.target.value > 0 ? 2 : 1;
-    
-      this.installation_id_select.splice((parent+vacio), (this.installation_id_select.length-(parent+vacio)));
-
-      if(event.target.value > 0){
-        
-        const index = this.items[parent].options.findIndex(
-          (co: any) =>
-            co.id == event.target.value
-        );
-
-        let nombre = this.items[parent].options[index].nombre;
-
-        this.installation_id_select[parent+1] = {value: event.target.value, label: nombre};
-      }
-
-    //this.installation_id_select = event.target.value;
-      this.items.splice((parent+1), (this.items.length-(parent+1)));
-      this.items[parent].value = event.target.value;
-      this.getChildren(event.target.value);
   }
 
   changeStatus(status: any){
@@ -362,34 +192,6 @@ var reader = new FileReader();
     }
 }
   
-  addElement(parent?: any) {
-    
-    const select: HTMLParagraphElement = this.renderer.createElement('div');
-    
-    if(this.installation_id_select/*parent > 0*/){
-      let zone: any = document.getElementById('zone-'+(parent+1));
-      if(zone){
-        this.renderer.removeChild(select, zone?.lastElementChild);
-      }
-    }
-
-    select.innerHTML = '<div id="zone-'+(parent+1)+'"> <div class="col-xxl-12 col-lg-12"><p><b>Instalación o proceso</b></p><select class="form-select" placeholder="Selecciona instalación o proceso '+(parent+1)+'" data-choices data-choices-search-false id="choices-priority-input" (change)="selectInstallation($event,'+(parent+1)+')"> <option value="">Selecciona instalación o proceso</option> <option  value="4">Prueba</option></select></div>';
-
-    this.renderer.appendChild(this.zone?.nativeElement, select);
-  }
-
-
-  saveInstallation(){
-    this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
-    /*const index = this.installations.findIndex(
-      (co: any) =>
-        co.id == this.installation_id
-    );*/
-
-    this.installation_nombre = /*this.installations[index].nombre*/this.installation_id_select[this.installation_id_select.length - 1].label;
-    this.getArticlesByInstallation(this.installation_id);
-  }
-
   /**
    * Open modal
    * @param content modal content
@@ -404,25 +206,6 @@ var reader = new FileReader();
   */
   get form() {
     return this.folderForm.controls;
-  }
-
-  /*isCollapsed(idParte: any){
-    const index = this.isCollapseArray.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-    return index >= 0;
-    return true;
-  }*/
-
-  formatArticle(texto:any, idParte: any){
-    
-    const index = this.showRow.findIndex(
-      (co: any) =>
-        co == idParte
-    );
-
-    return index != -1 ? texto : texto.substr(0,450)+'...';
   }
 
   showText(idParte: any){
