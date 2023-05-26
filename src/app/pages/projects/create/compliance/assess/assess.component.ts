@@ -489,7 +489,7 @@ var reader = new FileReader();
         co == idParte
     );
 
-    return index != -1 ? texto : texto.substr(0,450)+'...';
+    return index != -1 ? texto.replace('<', '').replace("/", '').replace('p>', '').replace('<', '').replace('p>', '') : texto.substr(0,450).replace('<', '').replace("/", '').replace('p>', '').replace('<', '').replace('p>', '')+'...';
   }
 
   showText3(idParte: any){
