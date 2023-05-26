@@ -247,7 +247,7 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.descripcion"
+                                    <td><ngb-highlight [result]="data.descripcion.replace('<p>', '').replace('</p>', '')"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.responsable.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
