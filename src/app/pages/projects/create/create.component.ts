@@ -101,7 +101,8 @@ export class CreateComponent implements OnInit {
         this.hidePreLoader();
         localStorage.setItem('toast', 'true');
         let proyecto: any = data.data;
-        this._router.navigate(['/pages/'+proyecto.id+'/steps']);
+        //this._router.navigate(['/pages/'+proyecto.id+'/steps']);
+        this._router.navigate(['/projects/'+proyecto.id+'/project-anality']);
         //this._router.navigate(['/projects']);
     },
     (error: any) => {

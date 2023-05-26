@@ -132,8 +132,10 @@ export class ListComponent implements OnInit {
 
   comenzar(proyecto_id: any){
     this.showPreLoader();
+
+    this._router.navigate(['/projects/'+proyecto_id+'/project-anality']);
     
-    this.projectsService.getAnswerQuestion(6, proyecto_id).pipe().subscribe(
+    /*this.projectsService.getAnswerQuestion(6, proyecto_id).pipe().subscribe(
       (data: any) => {
         const info: any = data.data;
         
@@ -146,7 +148,7 @@ export class ListComponent implements OnInit {
       this._router.navigate(['/pages/'+proyecto_id+'/steps']);
       
       this.hidePreLoader();
-    });
+    });*/
 }
 
   // PreLoader

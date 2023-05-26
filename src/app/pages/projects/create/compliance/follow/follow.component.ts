@@ -438,7 +438,11 @@ export class ComplianceFollowComponent implements OnInit {
     let monitoreo: any = this.evaluacionForm.get('monitoreo')?.value;
     let permiso: any = this.evaluacionForm.get('permiso')?.value;
     let hallazgoImg: any = this.myFiles;
-    let hallazgos: any = this.HallazgosDatas;
+    let hallazgos: any = [];
+
+    for (var h = 0; h < this.HallazgosDatas.length; h++) { 
+      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion});
+    }
 
     let tipoArticulo: any = [];
 
@@ -454,9 +458,6 @@ export class ComplianceFollowComponent implements OnInit {
       tipoArticulo.push('permiso');
     }
 
-    const formData = new FormData();
- 
-
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
       hallazgos: this.status == 'CUMPLE' ? /*JSON.stringify(*/[]/*)*/ : /*JSON.stringify(*/hallazgos/*)*/,
@@ -468,8 +469,9 @@ export class ComplianceFollowComponent implements OnInit {
       //articuloId: this.cuerpo_id,
       //installationId: this.installation_id,
       //projectId: this.project_id
-    }; 
+    };
 
+    const formData = new FormData();
     if(this.status == 'CUMPLE'){
       formData.append('evaluacionImg', this.selectedFileEvaluation);
     }else{
@@ -686,6 +688,7 @@ imgError(ev: any){
             );
 
             this.HallazgosDatas.splice(index, 1);
+            this.myFiles.splice(index, 1);
 
           //document.getElementById('lj_'+id)?.remove();
         /*},

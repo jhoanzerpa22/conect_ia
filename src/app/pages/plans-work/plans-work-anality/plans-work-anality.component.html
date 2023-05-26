@@ -100,8 +100,8 @@
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
                                                 <a href="javascript:void(0);" class="link-primary"
-                                                title="Ver" 
-                                                data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>
+                                                title="Dar cumplimiento"
+                                                routerLink="/plans-work/{{project_id}}/Assess/{{data.id}}"><i class="ri-eye-line"></i></a>
 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
@@ -191,7 +191,7 @@
             </div>
             </div>
 
-            <div class="col-12">    
+            <div class="col-6">    
             <div class="mb-3">
                 <label for="user-field" class="form-label">Responsable</label>
                 <!--<select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
@@ -221,16 +221,31 @@
             </div>
             </div>
 
-            <!--<div class="col-12">    
+            <div class="col-6">    
             <div class="mb-3">
                 <label for="hallazgo-field" class="form-label">Hallazgo</label>
-                <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
+                <!--<select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
                     <option selected>Seleccione Hallazgo </option>
                     <option *ngFor="let h of hallazgos;" value="{{h.id}}">{{h.findings.nombre}}</option>
-                </select>
+                </select>-->
+                <ngx-simplebar style="height: 80px;">
+                    <ul class="list-unstyled vstack gap-2 mb-0">
+                        <li *ngFor="let h of hallazgos">
+                            <div class="form-check d-flex align-items-center">
+                                <input class="form-check-input me-3" type="checkbox" name="checkAll2" value="{{h.id}}"
+                                    id="{{h.id}}" (change)="onCheckboxChange2($event)">
+                                <label class="form-check-label d-flex align-items-center" for="{{h.id}}">
+                                    <span class="flex-grow-1 ms-2">
+                                        {{h.nombre}}
+                                    </span>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </ngx-simplebar>
             <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
             </div>
-            </div>--> 
+            </div>
 
             <div class="col-12">    
             <div class="mb-3">

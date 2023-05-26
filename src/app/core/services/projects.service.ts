@@ -221,12 +221,20 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluation/'+task_id+'/task', this.getToken());
     }
 
-    updateTaskStatus(task_id: any, estado: any): Observable<any> {
-        return this.http.put(API_URL_BACK + 'evaluation/tasks/state/'+task_id, {estado: estado}, this.getToken());
+    updateTaskStatus(task_id: any, data: any): Observable<any> {
+        const httpOptions5 = {
+            headers: new HttpHeaders({ /*'Content-Type': 'multipart/form-data',*/'Authorization': `Bearer ${localStorage.getItem('token')}`, "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.put(API_URL_BACK + 'evaluation/tasks/state/'+task_id, data, httpOptions5);
     }
 
     getTasks(){
         return this.http.get(API_URL_BACK + 'work-plan/task', this.getToken());
+    }
+
+    getFindings(){
+        return this.http.get(API_URL_BACK + 'evaluation/findings', this.getToken());
     }
 
 }

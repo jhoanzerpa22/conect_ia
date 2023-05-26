@@ -34,6 +34,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { PlansWorkAnalityComponent } from "./plans-work-anality/plans-work-anality.component";
+import { PlansAssessComponent } from "./plans-work-anality/assess/assess.component";
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -80,7 +81,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ListComponent,
     CreateComponent,
     ToastsPlansWorkContainer,
-    PlansWorkAnalityComponent
+    PlansWorkAnalityComponent,
+    PlansAssessComponent
   ],
   imports: [
     CommonModule,
