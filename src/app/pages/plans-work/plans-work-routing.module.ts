@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from "./list/list.component";
 import { CreateComponent } from "./create/create.component";
 import { PlansWorkAnalityComponent } from "./plans-work-anality/plans-work-anality.component";
+import { PlansAssessComponent } from "./plans-work-anality/assess/assess.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: ":id/plans-work-anality",
     component: PlansWorkAnalityComponent
+  },
+  {
+    path: ":idProject/Assess/:id",
+    component: PlansAssessComponent
   }
 ];
 
