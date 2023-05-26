@@ -237,6 +237,7 @@
                                     <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>
                                     <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Vencimiento</th>
                                     <th class="sort" data-sort="hallazgo" style="width: 300px;">Hallazgo</th>
+                                    <th class="sort" style="width: 100px;">Estado</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>
@@ -255,6 +256,9 @@
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
                                     <td><ngb-highlight [result]="data.evaluationFinding.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
+                                    <td class="status"><span
+                                            class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger')}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada')) : 'Creada'}}</span>
+                                    </td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">

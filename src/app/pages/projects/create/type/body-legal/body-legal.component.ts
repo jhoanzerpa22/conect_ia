@@ -140,6 +140,15 @@ export class BodyLegalTypeComponent {
       });
   }
 
+  validateIdparte(idNorma: any){
+    const index = this.installations_articles.findIndex(
+      (co: any) =>
+        co.normaId == idNorma
+    );
+
+    return index == -1;
+  }
+
   // PreLoader
   showPreLoader() {
     var preloader = document.getElementById("preloader");
