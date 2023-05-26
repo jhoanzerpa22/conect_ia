@@ -107,7 +107,7 @@ export class ProjectAnalityComponent implements OnInit {
       });
   }
 
-  validateConfig(){
+  validateConfig(){/*
     if(this.areas_data.length < 1 || this.installations_data.length < 1){
     let timerInterval: any;
     Swal.fire({
@@ -133,12 +133,11 @@ export class ProjectAnalityComponent implements OnInit {
         clearInterval(timerInterval);
       },
     }).then((result) => {
-      /* Read more about handling dismissals below */
       if (result.dismiss === Swal.DismissReason.timer) {
         this._router.navigate(['/projects/config']);
       }
     });
-    }
+    }*/
   }
 
   // Chart Colors Set
