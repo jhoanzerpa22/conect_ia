@@ -83,7 +83,7 @@
                                             
                                             <div class="form-check form-switch form-check-right form-switch-success form-switch-lg" style="padding-left: 0px !important;">
                                                     <input class="form-check-input" type="checkbox" formControlName="reportable" role="switch" id="flexSwitchCheckRightDisabled" checked style="width: 80px;">
-                                                    <label class="form-check-label" for="flexSwitchCheckRightDisabled" style="width: 150px;">Es Reportable</label>
+                                                    <label class="form-check-label" for="flexSwitchCheckRightDisabled" style="width: 150px;">Reportable</label>
                                             </div>
                                         </div>
                                         
@@ -91,7 +91,7 @@
                                             
                                             <div class="form-check form-switch form-check-right form-switch-success form-switch-lg" style="padding-left: 0px !important;">
                                                     <input class="form-check-input" type="checkbox" formControlName="monitoreo" role="switch" id="flexSwitchCheckCheckedDisabled" checked style="width: 80px;">
-                                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled" style="width: 150px;">Es Monitoreo</label>    
+                                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled" style="width: 150px;">Monitoreo</label>    
                                             </div>
                                         </div>
                                         
@@ -99,14 +99,14 @@
                                             
                                             <div class="form-check form-switch form-check-right form-switch-success form-switch-lg" style="padding-left: 0px !important;">
                                                     <input class="form-check-input" type="checkbox" formControlName="permiso" role="switch" id="flexSwitchCheckCheckedDisabled" checked style="width: 80px;">
-                                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled" style="width: 150px;">Es Permiso</label>    
+                                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled" style="width: 150px;">Permiso</label>    
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="btn-group dropdown" ngbDropdown>
                                                 <button type="button" class="btn btn-primary" style="min-width:100px;" *ngIf="!status">Sin estado</button>
                                                 <button type="button" class="btn btn-success" style="min-width:100px;" *ngIf="status == 'CUMPLE'">Cumple</button>
-                                                <button type="button" class="btn btn-warning" style="min-width:100px;" *ngIf="status == 'CUMPLE PARCIALMENTE'">CumpleParcial</button>
+                                                <button type="button" class="btn btn-warning" style="min-width:100px;" *ngIf="status == 'CUMPLE PARCIALMENTE'">Cumple Parcial</button>
                                                 <button type="button" class="btn btn-danger" style="min-width:100px;" *ngIf="status == 'NO CUMPLE'">No Cumple</button>
                                                 <button type="button" class="btn btn-{{!status ? 'primary' : (status == 'CUMPLE' ? 'success' : (status == 'CUMPLE PARCIALMENTE' ? 'warning' : 'danger')) }} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  ngbDropdownToggle></button>
                                                 <div class="dropdown-menu" ngbDropdownMenu>

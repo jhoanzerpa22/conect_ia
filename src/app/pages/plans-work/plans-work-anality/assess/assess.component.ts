@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
 
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -44,6 +44,7 @@ export class PlansAssessComponent implements OnInit {
   folderForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
+  taskForm!: UntypedFormGroup;
   recentDatas: any;
   simpleDonutChart: any;
   public isCollapsed: any = [];
@@ -87,7 +88,7 @@ export class PlansAssessComponent implements OnInit {
 
   modelValueAsDate: Date = new Date();
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -120,6 +121,10 @@ export class PlansAssessComponent implements OnInit {
     this.recentForm = this.formBuilder.group({
       ids: [''],
       icon_name: ['', [Validators.required]]
+    });
+
+    this.taskForm = this.formBuilder.group({
+      comentario: ['']
     });
 
     this.route.params.subscribe(params => {
@@ -359,9 +364,10 @@ var reader = new FileReader();
     
     this.showPreLoader();
 
-    this.status
+    let comentario: any = this.taskForm.get('comentario')?.value;
     const task: any = {
-      estado: this.status
+      estado: this.status,
+      comentario: comentario
     };
 
     const formData = new FormData();
@@ -381,6 +387,8 @@ var reader = new FileReader();
           showConfirmButton: true,
           timer: 5000,
         });
+        
+        this._location.back();
     },
     (error: any) => {
       

@@ -36,6 +36,7 @@ export class ProjectAnalityComponent implements OnInit {
   installations_data: any = [];
   areas_data: any = [];
   userData: any;
+  installations_articles: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
   }
@@ -60,6 +61,7 @@ export class ProjectAnalityComponent implements OnInit {
       this.getProject(params['id']);
       this.getAreas(params['id']);
       this.getInstallations(params['id']);
+      this.getArticlesInstallation();
     });
 
     /**
@@ -490,6 +492,41 @@ layers = [
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
   }
+
+  private getArticlesInstallation() {
+
+      this.projectsService./*getArticlesInstallationByProyecto(this.project_id)*/getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
+        (data: any) => {
+          let obj: any = data.data;
+          let lista: any = [];
+
+          for (var i = 0; i < obj.length; i++) {
+            
+            if(obj[i].installations_articles.length > 0){
+
+              let total_articulos: any = [];
+
+              for (var j = 0; j < obj[i].installations_articles.length; j++) {
+                if(obj[i].installations_articles[j].proyectoId == this.project_id){
+                  total_articulos.push(obj[i].installations_articles[j]);
+                }
+              }
+              
+              if(total_articulos.length > 0){
+                lista.push(obj[i]);
+              }
+            }
+          }
+          
+          this.installations_articles = lista;
+
+      },
+      (error: any) => {
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
+  }
+
 
   validateRol(rol: any){
     return this.userData.rol.findIndex(

@@ -183,7 +183,7 @@ export class InstallationsTypeComponent {
           }
         }*/
 
-        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', cuerpo: hijos[d].total_articulos, articulo: hijos[d].total_articulos, conectado: hijos[d].conectado, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', cuerpo: 0/*hijos[d].total_articulos*/, articulo: 0/*hijos[d].total_articulos*/, conectado: hijos[d].conectado, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
     return tree_data;
   }
@@ -221,7 +221,7 @@ export class InstallationsTypeComponent {
             }
           }
 
-              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', cuerpo: total_cuerpos.length, articulo: padre.total_articulos, conectado: padre.conectado, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', cuerpo: /*total_cuerpos.length*/0, articulo: /*padre.total_articulos*/0, conectado: padre.conectado, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }
           this.service.installations_data = tree_data;    
           this.dataSource.data = tree_data;
