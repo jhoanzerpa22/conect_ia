@@ -366,6 +366,14 @@
                                         [ngClass]="{ 'is-invalid': submitted && form['telefono'].errors }">
                                     <div class="invalid-feedback">Ingrese Teléfono.</div>
                                 </div>
+                                
+                                <div class="mb-3">
+                                    <label for="teammembersCargo" class="form-label">Cargo</label>
+                                    <input type="text" class="form-control" id="teammembersCargo"
+                                        placeholder="Ingresar Cargo" formControlName="cargo"
+                                        [ngClass]="{ 'is-invalid': submitted && form['cargo'].errors }">
+                                    <div class="invalid-feedback">Ingrese Cargo.</div>
+                                </div>
 
                                 <!--<div class="mb-4">
                                     <label for="designation" class="form-label">Descripción</label>

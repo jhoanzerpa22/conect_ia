@@ -9,6 +9,7 @@
   apellido?: string;
   rut?: string;
   telefono?: string;
+  cargo?: string;
   email: string;
   loginId?: any;
   user_login?: any;

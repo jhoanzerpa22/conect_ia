@@ -370,12 +370,23 @@
                                     
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label for="teammembersEmail" class="form-label">Correo Electrónico</label>
-                                    <input type="text" class="form-control" id="teammembersEmail"
-                                        placeholder="Ingresar Correo Electrónico" formControlName="email"
-                                        [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
-                                    <div class="invalid-feedback">Ingrese Correo Electrónico.</div>
+                                <div class="row">
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="teammembersEmail" class="form-label">Correo Electrónico</label>
+                                        <input type="text" class="form-control" id="teammembersEmail"
+                                            placeholder="Ingresar Correo Electrónico" formControlName="email"
+                                            [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
+                                        <div class="invalid-feedback">Ingrese Correo Electrónico.</div>
+                                    </div>
+                                
+                                    <div class="col-sm-6 mb-3">
+                                        <label for="teammembersCargo" class="form-label">Cargo</label>
+                                        <input type="text" class="form-control" id="teammembersCargo"
+                                            placeholder="Ingresar Cargo" formControlName="cargo"
+                                            [ngClass]="{ 'is-invalid': submitted && form['cargo'].errors }">
+                                        <div class="invalid-feedback">Ingrese Cargo.</div>
+                                    </div>
+                                    
                                 </div>
 
                                 <div class="mb-3">
@@ -624,7 +635,7 @@
 </div>
 <!--end row-->
 
-<div class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 100%;">
+<div class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0"><!--class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: initial;bottom: 75px;width: 100%;"-->
     <div class="col-sm-5">
         <div>
             <p class="mb-sm-0 text-muted">Mostrando página<span class="fw-semibold">1</span> de <span class="fw-semibold">{{pageTotal(pagLength)}}</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> registros</p>

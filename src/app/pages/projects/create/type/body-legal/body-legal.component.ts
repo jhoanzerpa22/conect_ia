@@ -143,7 +143,7 @@ export class BodyLegalTypeComponent {
   validateIdparte(idNorma: any){
     const index = this.installations_articles.findIndex(
       (co: any) =>
-        co.normaId == idNorma
+        co.normaId == idNorma && co.proyectoId == this.project_id
     );
 
     return index == -1;

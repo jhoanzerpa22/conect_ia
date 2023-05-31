@@ -161,7 +161,7 @@ export class BodyLegalDetailComponent implements OnInit {
   validateIdparte(idParte: any){
     const index = this.installations_articles.findIndex(
       (co: any) =>
-        co.articuloId == idParte
+        co.articuloId == idParte && co.proyectoId == this.project_id
     );
 
     return index == -1;

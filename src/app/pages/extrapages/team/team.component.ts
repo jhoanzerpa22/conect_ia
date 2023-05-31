@@ -55,6 +55,7 @@ export class TeamComponent {
       apellido: ['', [Validators.required]],
       rut: ['', [Validators.required]],
       telefono: [''],
+      cargo: [''],
       email: ['', [,Validators.required, Validators.email]],/*
       designation: ['', [Validators.required]],
       projects: ['', [Validators.required]],
@@ -121,6 +122,7 @@ export class TeamComponent {
         apellido: this.teamForm.get('apellido')?.value,
         rut: this.teamForm.get('rut')?.value,
         telefono: this.teamForm.get('telefono')?.value,
+        cargo: this.teamForm.get('cargo')?.value,
         email: this.teamForm.get('email')?.value,
         rol: [2],
         empresaId: this.userData.empresaId
