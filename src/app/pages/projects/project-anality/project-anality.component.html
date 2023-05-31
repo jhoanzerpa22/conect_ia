@@ -30,7 +30,7 @@
                                             <ng-template [ngTemplateOutlet]="TabContent1"></ng-template>
                                         </ng-template>
                                     </li>
-                                    <li [ngbNavItem]="3">
+                                    <li [ngbNavItem]="3" *ngIf="installations_articles.length > 0">
                                         <a ngbNavLink class="nav-link" (click)="validateConfig()">
                                             <span class="d-sm-block">Evaluar Cumplimiento</span>
                                         </a>

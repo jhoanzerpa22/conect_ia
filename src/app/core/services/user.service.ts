@@ -60,7 +60,8 @@ export class UserProfileService {
         "confirm_password": '12345678',
         "rol": data.rol,
         "projects": data.projects,
-        "areas": data.areas
+        "areas": data.areas,
+        "cargo": data.cargo
       }, /*httpOptions*/this.getToken());
     
     }

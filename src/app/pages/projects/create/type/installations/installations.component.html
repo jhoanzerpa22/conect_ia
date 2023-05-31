@@ -147,9 +147,12 @@
                               
                             <ng-container matColumnDef="estado">
                                 <th mat-header-cell *matHeaderCellDef> Estado </th>
-                                <td class="status" mat-cell *matCellDef="let data">
+                                <td class="status" mat-cell *matCellDef="let data"><!--
                                     <span
-                                                class="badge badge-soft-{{data.conectado ? 'success' : 'danger'}} text-uppercase">{{data.conectado == true ? 'Conectado': 'No conectado'}}</span>
+                                                class="badge badge-soft-{{data.conectado ? 'success' : 'danger'}} text-uppercase">{{data.conectado == true ? 'Conectado': 'No conectado'}}</span>-->
+                                                
+                                    <span
+                                    class="badge badge-soft-danger text-uppercase">No conectado</span>
                                 </td>
                               </ng-container>
 
