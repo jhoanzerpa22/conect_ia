@@ -360,21 +360,17 @@
             <div class="col-6">    
             <div class="mb-3">
                 <label for="user-field" class="form-label">Responsable</label>
-                <!--<select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
+                <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
                     <option selected>Seleccione Responsable </option>
                     <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{ r.apellido ? r.apellido : ''}}</option>
-                </select>-->
-                <ngx-simplebar style="height: 80px;">
+                </select>
+                <!--<ngx-simplebar style="height: 80px;">
                     <ul class="list-unstyled vstack gap-2 mb-0">
                         <li *ngFor="let responsable of responsables">
                             <div class="form-check d-flex align-items-center">
                                 <input class="form-check-input me-3" type="checkbox" name="checkAll" value="{{responsable.id}}"
                                     id="{{responsable.id}}" (change)="onCheckboxChange($event)">
                                 <label class="form-check-label d-flex align-items-center" for="{{responsable.id}}">
-                                    <!--<span class="flex-shrink-0">
-                                        <img src="assets/images/users/{{responsable.img}}" alt=""
-                                            class="avatar-xxs rounded-circle">
-                                    </span>-->
                                     <span class="flex-grow-1 ms-2">
                                         {{responsable.nombre}} {{responsable.apellido ? responsable.apellido : ''}}
                                     </span>
@@ -382,7 +378,7 @@
                             </div>
                         </li>
                     </ul>
-                </ngx-simplebar>
+                </ngx-simplebar>-->
             <div class="invalid-feedback">Por favor ingresar responsable.</div>
             </div>
             </div>
@@ -390,11 +386,11 @@
             <div class="col-6">    
             <div class="mb-3">
                 <label for="hallazgo-field" class="form-label">Hallazgo</label>
-                <!--<select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
+                <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
                     <option selected>Seleccione Hallazgo </option>
                     <option *ngFor="let h of hallazgos;" value="{{h.findings.id}}">{{h.findings.nombre}}</option>
-                </select>-->
-                <ngx-simplebar style="height: 80px;">
+                </select>
+                <!--<ngx-simplebar style="height: 80px;">
                     <ul class="list-unstyled vstack gap-2 mb-0">
                         <li *ngFor="let h of hallazgos">
                             <div class="form-check d-flex align-items-center">
@@ -408,7 +404,7 @@
                             </div>
                         </li>
                     </ul>
-                </ngx-simplebar>
+                </ngx-simplebar>-->
             <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
             </div>
             </div> 
