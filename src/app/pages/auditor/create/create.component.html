@@ -1,0 +1,409 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Crear Auditoria" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+  <!--preloader-->
+  <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row project-wrapper">
+    <div class="col-xxl-12">
+      <div class="card">
+       <div class="card-body">
+        <div class="row">
+            <div class="col-xl-12">
+
+                <!--<div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">-->
+                                <!-- Nav tabs -->
+                                <ul ngbNav #nav="ngbNav" [activeId]="activeTab" class="nav nav-tabs mb-3 nav-justified"><!--nav nav-tabs-->
+                                    <li [ngbNavItem]="1">
+                                        <a ngbNavLink (click)="changeTab(1)">
+                                            <span class="d-sm-block">Crear Auditoría</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="2" [disabled]="auditoriaForm.invalid">
+                                        <a ngbNavLink (click)="changeTab(2)">
+                                            <span class="d-sm-block">Vincular Instalaciones</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent1"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="3" [disabled]="installations_select < 1">
+                                        <a ngbNavLink (click)="changeTab(3)">
+                                            <span class="d-sm-block">Vincular Articulos legales</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content text-muted">
+                                    <div [ngbNavOutlet]="nav"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+</div>
+
+<ng-template #TabContent>
+    <form [formGroup]="auditoriaForm" class="tablelist-form">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        Datos Generales
+                    </div>
+                    <div class="card-body">
+                        <div class="row">    
+                            
+                            <div class="col-md-12">
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-nombre-input">Nombre Auditoria</label>
+                                <input class="form-control" id="auditor-nombre-input" type="text" formControlName="nombre" >
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-descripcion-input">Descripción</label>
+                                <textarea rows="3" class="form-control" id="auditor-descripcion-input"
+                                placeholder="Escribe descripción de la Auditoria" formControlName="descripcion"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-tipo-input">Tipo</label>
+                                <select class="form-select" placeholder="Seleccione tipo" data-choices data-choices-search-false
+                                id="auditor-tipo-input" formControlName="tipo">
+                                <option value="">Seleccione tipo</option>
+                                <option *ngFor="let r of types;" value="{{r.id}}">{{r.nombre}}</option>
+                            </select>
+                            </div>
+                            
+                            <div class="col-md-4">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-inicio-input">Fecha Inicio</label>
+                                
+                                <div class="form-icon right">
+                                    <input class="form-control form-control-icon flatpickr-input" id="auditor-inicio-input" type="text" formControlName="fecha_inicio" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                                    <i class="ri-calendar-todo-fill"></i>
+                                </div>
+                            </div> 
+                            
+                            <div class="col-md-4">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-temrino-input">Fecha Termino</label>
+                                
+                                <div class="form-icon right">
+                                    <input class="form-control form-control-icon flatpickr-input" id="auditor-termino-input" type="text" formControlName="fecha_termino" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                                    <i class="ri-calendar-todo-fill"></i>
+                                </div>
+                            </div> 
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        Responsabilidad
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row">
+                            <div class="col-md-4">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-entidad-input">Entidad Fiscalizadora</label>
+                                <input class="form-control" id="auditor-entidad-input" type="text" formControlName="entidad" >
+                            </div>
+
+                            <div class="col-md-4">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-auditor-input">Nombre Auditor</label>
+                                <input class="form-control" id="auditor-auditor-input" type="text" formControlName="auditor" >
+                            </div>
+                            
+                            <div class="col-md-4">   
+                                <label class="form-label" style="margin-top: 20px !important;" for="auditor-ambito-input">Ambito</label>
+                                <input class="form-control" id="auditor-ambito-input" type="text" formControlName="ambito" >
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12"> 
+                <div style="float:right;"><!--class="row justify-content-end"-->
+                    <button type="button" class="btn btn-success btn-label waves-effect right waves-light" (click)="siguiente()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </form>                                        
+</ng-template>
+<ng-template #TabContent1>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="float-end text-secondary">    
+                        <button type="button" class="btn btn-primary custom-toggle active" data-bs-toggle="button" data-bs-toggle="modal"
+                        id="create-btn" data-bs-target="#showModal" (click)="openModal(content)">
+                            <span class="icon-on"><i class="ri-add-line align-bottom"></i></span>
+                            <span class="icon-off"><i class="ri-add-line align-bottom"></i></span>
+                        </button>
+                    </span>
+                    <h6 class="card-title">Instalaciones</h6>
+                </div>
+                <div class="card-body">
+
+                    <div *ngIf="installations_select.length < 1">
+                        <div style="text-align: center;width: 100%;">
+                            <img src="assets/images/file.png" width="300" height="200"/>
+                        </div>
+                        <div style="text-align: center;width: 100%;font-size: 20px;">
+                            Aún no se han vinculado instalaciones
+                        </div>
+                    </div>
+
+                    <div *ngIf="installations_select.length > 0">            
+                            <div class="list-group">
+                                
+                                <ng-container *ngFor="let s of installations_select;">
+                                    <label class="list-group-item">
+                                        <i style="color: green;" class="ri-checkbox-circle-fill"></i> {{s.nombre}}
+                                    </label>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12"> 
+            <div style="float:right;"><!--class="row justify-content-end"-->
+                <button type="button" class="btn btn-success btn-label waves-effect right waves-light" (click)="siguiente()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+            </div>
+        </div>
+    </div>
+    
+<!-- Add ListJs Data -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Instalaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveInstallation()" [formGroup]="installationForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label for="area-field" class="form-label">Area Administrativa</label>
+                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
+                (change)="selectArea($event)">
+                    <option selected>Seleccione Area Administrativa </option>
+                    <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
+                </select>
+                <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+            </div>
+
+            
+            <ng-container *ngFor="let item of items;let i = index;">
+                <div class="mb-3">
+                    <label for="area-field" class="form-label">Sub Area Administrativa</label>
+                    <select class="form-select mb-3" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
+                        <option selected>Seleccione Sub Area Administrativa</option>
+                        <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+                </div>
+            </ng-container>
+
+            <div class="mb-3">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Buscar instalación..."><!--"service.searchTerm"-->
+                    <i class="ri-search-line search-icon"></i>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="list-group">
+                    
+                    <ng-container *ngFor="let o of installations;">
+                        <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll"
+                        id="{{o.id}}" (change)="onCheckboxChange($event)"><!--checked-->
+                        {{o.nombre}}
+                        </label>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <!--<button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Cerrar</button>-->
+                <button type="submit" class="btn btn-success" id="add-btn">Agregar</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+</ng-template>
+<ng-template #TabContent2>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                
+            <div class="card-body">
+                <div id="customerList">
+                    <!--<div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <div class="d-flex gap-1">
+                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal"
+                                    id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
+                                        class="ri-add-line align-bottom me-1"></i> Agregar</button>
+                                <button class="btn btn-soft-danger" (click)="deleteMultiple(deleteModel)"><i
+                                        class="ri-delete-bin-2-line"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div class="search-box ms-2">
+                                    <input type="text" class="form-control search" placeholder="Buscar..."
+                                        [(ngModel)]="service.searchTerm">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    
+                    <div class="table-responsive table-card mt-3 mb-1">                    
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th class="sort" data-sort="nombre">Instalación</th>
+                                    <th class="sort" data-sort="cuerpo">Cuerpos legales vinculados</th>
+                                    <th class="sort" data-sort="articulos">Articulos vinculados</th>
+                                    <th class="sort">Estado</th>
+                                    <th class="sort">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of installations_select" id="lj_{{data.id}}">
+                                    <td><ngb-highlight [result]="data.nombre"
+                                            ></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.total_cuerpos ? data.total_cuerpos : 0"
+                                            ></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
+                                            ></ngb-highlight></td>        
+                                    <td class="status"><span
+                                                class="badge badge-soft-warning text-uppercase">No vinculado</span>
+                                    </td>
+                                    <td>
+                                        
+                                        <div class="d-flex gap-2">
+                                            <!--<div class="edit">
+                                                <button class="btn btn-sm btn-success edit-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/type/installations/{{data.id}}/{{data.nombre}}/bodylegal"
+                                                    >Ver</button>
+                                            </div>
+                                            
+                                            
+                                            <div class="remove">
+                                                <button class="btn btn-sm btn-danger remove-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                    (click)="confirm(deleteModel,data.id)">Remover</button>
+                                            </div>-->
+                                            
+                                            <div class="hstack gap-3 fs-15">
+                                                <div class="edit">
+                                                    <button class="btn btn-sm btn-success edit-item-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#showModal"
+                                                        >Vincular</button>
+                                                </div>
+                                                <!--<a href="javascript:void(0);" class="link-primary"
+                                                title="Editar" 
+                                                data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Detail"><i class="ri-pencil-fill"></i></a>
+                                                <a href="javascript:void(0);" class="link-danger"
+                                                title="Eliminar" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>-->
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Mostrando página
+                                1 de
+                                <!--{{service.endIndex}}-->1 de {{installations_select.length}}
+                                registros
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <!--<ngb-pagination [collectionSize]="this.installations_select.length" [(page)]="1"
+                                    [pageSize]="1">
+                                </ngb-pagination>-->
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div><!-- end card -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12"> 
+            <div style="float:right;"><!--class="row justify-content-end"-->
+                <button type="button" class="btn btn-success btn-label waves-effect right waves-light" (click)="finalizar()"><i class="ri-checkbox-circle-fill label-icon align-middle fs-16 ms-2"></i> Finalizar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!--<div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
+    <div class="row justify-content-end">
+        <div class="col-4">
+            <button mat-raised-button class="btn btn-success w-lg waves-effect waves-light" style="margin-bottom: 10px;">Siguiente</button>
+        </div>
+    </div>
+</div>-->
+<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
