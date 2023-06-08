@@ -47,11 +47,11 @@ export class ProjectsService {
 
     create(data: any): Observable<any> {
         
-        return this.http.post(API_URL_BACK + 'project', {
+        return this.http.post(API_URL_BACK + 'project', data/*{
         "nombre": data.nombre,
         "descripcion": data.descripcion,
         "tipoProyectoId": data.tipoProyectoId
-      }, /*httpOptions*/this.getToken());
+      }*/, /*httpOptions*/this.getToken());
     
     }
 
@@ -124,6 +124,10 @@ export class ProjectsService {
 
     getArticlesInstallationByProyecto(proyecto_id: any){
         return this.http.get(API_URL_BACK + 'project/installation/article-by-proyecto/'+proyecto_id, /*httpOptions*/this.getToken());
+    }
+
+    getInstallationByAreaId(area_id: any){
+        return this.http.get(API_URL_BACK + 'project/installation/byArea/'+area_id, /*httpOptions*/this.getToken());
     }
 
     getArticlesByInstallationBody(installation_id: any){
