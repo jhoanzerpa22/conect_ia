@@ -62,9 +62,7 @@ export class BodyLegalTypeComponent {
   
       this.fetchData();
 
-      if(this.installation_id){
         this.getArticlesByInstallation(this.installation_id);
-      }
 
     /**
      * fetches data
@@ -109,7 +107,6 @@ export class BodyLegalTypeComponent {
           let total_articulos: any = [];
           let total_cuerpos: any = [];
 
-          
           for (var j = 0; j < this.installations_articles.length; j++) {
             if(this.installations_articles[j].proyectoId == this.project_id){
               total_articulos.push(this.installations_articles[j]);

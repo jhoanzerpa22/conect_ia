@@ -133,7 +133,7 @@ export class ListComponent implements OnInit {
   comenzar(proyecto_id: any){
     this.showPreLoader();
 
-    this._router.navigate(['/projects/'+proyecto_id+'/project-anality']);
+    this._router.navigate(['/auditor/'+proyecto_id+'/vincular']);
     
     /*this.projectsService.getAnswerQuestion(6, proyecto_id).pipe().subscribe(
       (data: any) => {
