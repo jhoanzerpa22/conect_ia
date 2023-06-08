@@ -33,6 +33,8 @@ import { AuditorRoutingModule } from './auditor-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
+import { BodyLegalTypeComponent } from './create/body-legal/body-legal.component';
+import { BodyLegalDetailComponent } from './create/body-legal/detail/body-legal-detail.component';
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -88,7 +90,13 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   declarations: [
     ListComponent,
     CreateComponent,
+    BodyLegalTypeComponent,
+    BodyLegalDetailComponent,
     ToastsAuditorContainer
+  ],
+  entryComponents:[
+    BodyLegalTypeComponent,
+    BodyLegalDetailComponent
   ],
   imports: [
     CommonModule,

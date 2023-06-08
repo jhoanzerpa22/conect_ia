@@ -41,6 +41,13 @@ export class CreateComponent implements OnInit {
   selectChecked: any = [];
   installations_select: any = [];
   installations_select_group: any = [];
+  showBodyLegal: boolean = false;
+  showBodyLegalDetail: boolean = false;
+
+  project_id: any = null;
+  installation_id: any = '';
+  installation_nombre: any = '';
+  cuerpo_id: any = '';
 
   public Editor = ClassicEditor;
 
@@ -51,9 +58,8 @@ export class CreateComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
-      { label: 'Proyectos' },
-      { label: 'Crear Proyecto', active: true }
+      { label: 'Auditoria' },
+      { label: 'Crear Auditoria', active: true }
     ];
 
     this.createForm = this.formBuilder.group({
@@ -83,7 +89,7 @@ export class CreateComponent implements OnInit {
   }
   
    // convenience getter for easy access to form fields
-   get f() { return this.createForm.controls; }
+   get f() { return this.auditoriaForm.controls; }
 
   /**
   * Multiple Default Select2
@@ -212,6 +218,68 @@ export class CreateComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  saveAuditoria(){
+
+    if(!this.project_id){
+
+    // stop here if form is invalid
+    if (this.auditoriaForm.invalid) {
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Rellene todos los campos..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+
+      return;
+    }else{
+      let nombreAuditoria: any = this.f['nombre'].value;
+      let descripcionAuditoria: any = this.f['descripcion'].value;
+      let tipoAuditoriaId: any = this.f['tipo'].value;
+      let fecha_inicio: any = this.f['fecha_inicio'].value;
+      let fecha_termino: any = this.f['fecha_termino'].value;
+      let entidad: any = this.f['entidad'].value;
+      let auditor: any = this.f['auditor'].value;
+      let ambito: any = this.f['ambito'].value;
+      
+      const auditoria: any = {
+        nombre: nombreAuditoria,
+        descripcion: descripcionAuditoria,
+        tipoAuditoriaId: tipoAuditoriaId,
+        fecha_inicio: fecha_inicio,
+        fecha_termino: fecha_termino,
+        entidad: entidad,
+        auditor: auditor,
+        ambito: ambito,
+        tipoProyectoId: 3
+      };
+
+      this.showPreLoader();
+
+      this.projectsService.create(auditoria).pipe().subscribe(
+        (data: any) => {
+          
+          this.hidePreLoader();
+          localStorage.setItem('toast', 'true');
+          let proyecto: any = data.data;
+
+          this.project_id = proyecto.id;
+          this.activeTab = this.activeTab + 1;
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+    }
+    }else{
+      this.activeTab = this.activeTab + 1;
+    }
+  }
+
   finalizar(){
     this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
     Swal.fire({
@@ -257,22 +325,7 @@ export class CreateComponent implements OnInit {
   }
 
    siguiente(){
-    // stop here if form is invalid
-    if (this.auditoriaForm.invalid) {
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Rellene todos los campos..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-
-      return;
-    }else{
-      //this.nombreProyecto = this.f['nombre'].value;
-      //this.descripcionProyecto = this.f['descripcion'].value;
-      if(this.activeTab == 2 && this.installations_select < 1){
+    if(/*this.activeTab == 2 && */this.installations_select < 1){
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -286,8 +339,6 @@ export class CreateComponent implements OnInit {
 
         this.activeTab = this.activeTab + 1;
       }
-
-    }
    }
 
    getTypes(){
@@ -397,33 +448,28 @@ export class CreateComponent implements OnInit {
     }
   }
 
-   saveProject(type: any){
+   vincular(data: any){
+    this.installation_id = data.id;
+    this.installation_nombre = data.nombre;
 
-    const project: any = {
-      nombre: this.nombreProyecto,
-      descripcion: this.descripcionProyecto,
-      tipoProyectoId: type
-    };
+    this.showBodyLegal = true;
+    this.showBodyLegalDetail = false;
+   }
 
-    this.showPreLoader();
+   backEvent(data: any){
+    this.showBodyLegal = false;
+    this.showBodyLegalDetail = false;
+   }
 
-    this.projectsService.create(project).pipe().subscribe(
-      (data: any) => {
-        
-        this.hidePreLoader();
-        localStorage.setItem('toast', 'true');
-        let proyecto: any = data.data;
-        //this._router.navigate(['/pages/'+proyecto.id+'/steps']);
-        this._router.navigate(['/projects/'+proyecto.id+'/project-anality']);
-        //this._router.navigate(['/projects']);
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      //this.error = error ? error : '';
-      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-    });
-    
+   backEvent2(data: any){
+    this.showBodyLegal = true;
+    this.showBodyLegalDetail = false;
+   }
+
+   conectarEvent(data: any){
+    this.cuerpo_id = data;
+    this.showBodyLegal = false;
+    this.showBodyLegalDetail = true;
    }
 
    /**
@@ -435,7 +481,7 @@ export class CreateComponent implements OnInit {
     
     this.installations = [];
     this.selectChecked = [];
-    
+
     this.installationForm.reset();
     this.modalService.open(content, { size: 'md', centered: true });
   }

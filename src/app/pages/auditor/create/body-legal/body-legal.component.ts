@@ -1,4 +1,5 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import {Component, QueryList, ViewChildren, ViewChild, OnInit, Input, NgZone, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
+
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +17,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ToastService } from '../../toast-service';
 
 @Component({
-  selector: 'app-body-legal-type',
+  selector: 'app-body-legal-auditor',
   templateUrl: './body-legal.component.html',
   styleUrls: ['./body-legal.component.scss'],
   providers: [BodyLegalService, DecimalPipe]
@@ -36,9 +37,6 @@ export class BodyLegalTypeComponent {
   masterSelected!: boolean;
   BodyLegalDatas: any;
 
-  project_id: any = '';
-  installation_id: any = null;
-  installation_nombre: any = null;
   installations_articles: any = [];
   total_cuerpos: number = 0;
   total_articulos: number = 0;
@@ -48,31 +46,25 @@ export class BodyLegalTypeComponent {
   total: Observable<number>;
   @ViewChildren(NgbdBodyLegalTypeSortableHeader) headers!: QueryList<NgbdBodyLegalTypeSortableHeader>;
 
+  @Input('project_id') project_id: any;
+  @Input('installation_id') installation_id: any;
+  @Input('installation_nombre') installation_nombre: any;
+
+  @Output() backFunction = new EventEmitter();
+  @Output() conectarFunction = new EventEmitter();
+
   constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
 
   ngOnInit(): void {
-    /**
-    * BreadCrumb
-    */
-    this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Vinculación'},
-      { label: 'Cuerpos Legales', active: true }
-    ];
-
-    this.route.params.subscribe(params => {
-      this.project_id = params['id'];
-      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
-      this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
+  
       this.fetchData();
 
       if(this.installation_id){
         this.getArticlesByInstallation(this.installation_id);
       }
-    });
 
     /**
      * fetches data
@@ -147,6 +139,14 @@ export class BodyLegalTypeComponent {
     );
 
     return index == -1;
+  }
+
+  backClicked(){
+    this.backFunction.emit();
+  }
+
+  conectarBody(id: any){
+    this.conectarFunction.emit(id);
   }
 
   // PreLoader

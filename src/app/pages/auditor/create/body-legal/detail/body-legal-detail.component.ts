@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2, NgZone } from '@angular/core';
 
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-body-legal-detail',
+  selector: 'app-body-legal-auditor-detail',
   templateUrl: './body-legal-detail.component.html',
   styleUrls: ['./body-legal-detail.component.scss'],
   providers: [RecentService, DecimalPipe]
@@ -33,14 +33,17 @@ export class BodyLegalDetailComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
-  project_id: any = '';
-  cuerpo_id: any = '';
-  installation_id: any = null;
   installation_id_select: any = [];
-  installation_nombre: any = null;
   detail: any = [];
   installations: any = [];
   installations_articles: any = [];
+
+  @Input('project_id') project_id: any;
+  @Input('cuerpo_id') cuerpo_id: any;
+  @Input('installation_id') installation_id: any;
+  @Input('installation_nombre') installation_nombre: any;
+
+  @Output() backFunction = new EventEmitter();
 
   folderData!: DetailModel[];
   submitted = false;
@@ -76,16 +79,6 @@ export class BodyLegalDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /**
-    * BreadCrumb
-    */
-    this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Vinculación'},
-      { label: 'Cuerpos Legales' },
-      { label: 'Detalle', active: true }
-    ];
-
     document.body.classList.add('file-detail-show');
 
     /**
@@ -102,35 +95,12 @@ export class BodyLegalDetailComponent implements OnInit {
       ids: [''],
       icon_name: ['', [Validators.required]]
     });
-
-    this.route.params.subscribe(params => {
-      this.project_id = params['idProject'];
-      this.cuerpo_id = params['id'];
-      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
-      this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
-
-      if(!this.installation_id){
-        this.getInstallations();
-      }else{
-        this.getArticlesByInstallation(this.installation_id);
-      }
-    });
+    
+    this.getArticlesByInstallation(this.installation_id);
 
     // Data Get Function
     this._fetchData();
   }
-
-  // Chat Data Fetch
-  /*private _fetchData() {
-    // Folder Data Fetch
-    this.folderData = folderData;
-    this.folderDatas = Object.assign([], this.folderData);
-
-    // Recent Data Fetch
-    this.recentData.subscribe(x => {
-      this.recentDatas = Object.assign([], x);
-    });
-  }*/
 
   /**
    * Fetches the data
@@ -165,23 +135,6 @@ export class BodyLegalDetailComponent implements OnInit {
     );
 
     return index == -1;
-  }
-  
-  private getInstallations() {
-    
-    this.showPreLoader();
-      this.projectsService.getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
-        (data: any) => {
-          //this.service.bodylegal_data = data.data;
-          this.installations = data.data;
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
   private getArticlesByInstallation(installation_id: any){
@@ -489,6 +442,10 @@ export class BodyLegalDetailComponent implements OnInit {
       });
       this.modalService.dismissAll()
     });
+  }
+
+  backClicked(){
+    this.backFunction.emit();
   }
 
   // PreLoader

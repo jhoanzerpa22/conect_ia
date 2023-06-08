@@ -47,11 +47,11 @@ export class ProjectsService {
 
     create(data: any): Observable<any> {
         
-        return this.http.post(API_URL_BACK + 'project', {
+        return this.http.post(API_URL_BACK + 'project', data/*{
         "nombre": data.nombre,
         "descripcion": data.descripcion,
         "tipoProyectoId": data.tipoProyectoId
-      }, /*httpOptions*/this.getToken());
+      }*/, /*httpOptions*/this.getToken());
     
     }
 
