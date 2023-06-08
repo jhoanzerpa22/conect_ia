@@ -14,8 +14,6 @@
 <div class="row g-4 mb-3">
   <div class="col-sm-auto">
       <div>
-          <!--<a routerLink="/auditor/create" class="btn btn-danger">-->
-            <!--<i class="ri-add-line align-bottom me-1"></i> --><!--Crear Auditoría</a>-->
            <button type="button" class="btn btn-danger btn-label waves-effect right waves-light" routerLink="/auditor/create"><i class="ri-add-line label-icon align-middle fs-16 ms-2"></i> Crear Auditoria</button>
       </div>
   </div>
@@ -71,8 +69,8 @@
                                   </button>
 
                                   <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                      <a class="dropdown-item" routerLink="/projects/overview"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Ver</a>
-                                      <a class="dropdown-item" routerLink="/projects/create"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Editar</a>
+                                      <a class="dropdown-item" routerLink="/auditor/{{data.id}}/vincular"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Ver</a>
+                                      <a class="dropdown-item" routerLink="/auditor/{{data.id}}/vincular"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Editar</a>
                                       <div class="dropdown-divider"></div>
                                       <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#removeProjectModal" (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Quitar</a>
                                   </div>
