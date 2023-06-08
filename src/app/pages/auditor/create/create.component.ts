@@ -40,6 +40,7 @@ export class CreateComponent implements OnInit {
   activeTab: number = 1;
   selectChecked: any = [];
   installations_select: any = [];
+  installations_select_group: any = [];
 
   public Editor = ClassicEditor;
 
@@ -62,10 +63,10 @@ export class CreateComponent implements OnInit {
 
     this.auditoriaForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
-      descripcion: [''],
-      tipo: [''],
-      fecha_inicio: [''],
-      fecha_termino: [''],
+      descripcion: ['', [Validators.required]],
+      tipo: ['', [Validators.required]],
+      fecha_inicio: ['', [Validators.required]],
+      fecha_termino: ['', [Validators.required]],
       entidad: [''],
       auditor: [''],
       ambito: ['']
@@ -196,6 +197,11 @@ export class CreateComponent implements OnInit {
       this.projectsService.getInstallationByAreaId(area_id)/*getInstallationsUser()*/.pipe().subscribe(
         (data: any) => {
           this.installations = data.data ? data.data : [];
+
+          setTimeout(() => {
+            this.validChecked();
+          }, 1400);
+
           this.hidePreLoader();
       },
       (error: any) => {
@@ -296,13 +302,54 @@ export class CreateComponent implements OnInit {
    }
 
    saveInstallation(){
-    this.installations_select = this.selectChecked;
+   
+      this.selectChecked.forEach((x: any) => {
+        const index2 = this.installations_select.findIndex(
+          (co2: any) =>
+          co2.id == x.id
+        );
+
+        if(index2 == -1){
+          this.installations_select.push(x);
+        }
+      })
+
+      this.installations_select_group = [];
+      this.installations_select.forEach((x: any) => {
+        /*if(!this.installations_select_group.hasOwnProperty(x.area.nombre)){
+          this.installations_select_group[x.area.nombre] = {
+            installations: []
+          }
+        }
+        
+        //Agregamos los datos de profesionales. 
+        this.installations_select_group[x.area.nombre].installations.push({x});*/
+        
+        const index = this.installations_select_group.findIndex(
+          (co: any) =>
+            co.areaId == x.areaId
+        );
+
+        if(index == -1){
+          this.installations_select_group.push({
+            areaId: x.areaId, areaNombre: x.area.nombre, installations: [x]
+          });
+        }else{
+          this.installations_select_group[index].installations.push(x);
+        }
+      })
+
+      console.log('installationGroup',this.installations_select_group);
+      console.log('installationSelect',this.installations_select);
+
+    this.installations = [];
+    this.selectChecked = [];
+
     this.modalService.dismissAll();
    }
 
   checkedValGet: any[] = [];
   onCheckboxChange(e: any) {
-    //const checkArray: UntypedFormArray = this.taskForm.get('responsable') as UntypedFormArray;
     //checkArray.push(new UntypedFormControl(e.target.value));
     var checkedVal: any[] = [];
     var result
@@ -310,7 +357,16 @@ export class CreateComponent implements OnInit {
         result = this.installations[i];
         checkedVal.push(result);
         if(this.installations[i].id == e.target.value){
-          this.selectChecked.push(this.installations[i]);
+          const index = this.selectChecked.findIndex(
+            (ch: any) =>
+              ch.id == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectChecked.splice(index, 1);
+          }else{
+            this.selectChecked.push(this.installations[i]);
+          }
         }
     }
     var checkboxes: any = document.getElementsByName('checkAll');
@@ -322,6 +378,23 @@ export class CreateComponent implements OnInit {
 
     //this.checkedValGet = checkedVal
     //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+  }
+
+  validChecked(){
+    var checkboxes: any = document.getElementsByName('checkAll');
+    for (var j = 0; j < checkboxes.length; j++) {
+      const index = this.installations_select.findIndex(
+        (ins: any) =>
+          ins.id == checkboxes[j].id
+      );
+
+      if(index != - 1){
+        checkboxes[j].checked = true;
+        this.selectChecked.push(this.installations_select[index]);
+      }/*else{
+        checkboxes[j].checked = false;
+      }*/
+    }
   }
 
    saveProject(type: any){
@@ -359,6 +432,10 @@ export class CreateComponent implements OnInit {
    */
   openModal(content: any) {
     this.submitted = false;
+    
+    this.installations = [];
+    this.selectChecked = [];
+    
     this.installationForm.reset();
     this.modalService.open(content, { size: 'md', centered: true });
   }
