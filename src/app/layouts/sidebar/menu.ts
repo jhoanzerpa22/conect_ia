@@ -59,7 +59,7 @@ export const MENU: MenuItem[] = [
     id: 8,
     label: 'MENUITEMS.AUDITS.TEXT',
     icon: 'ri-clipboard-line',
-    link: '/pages/coming-soon'
+    link: '/auditor'
   },
   {
     id: 9,
