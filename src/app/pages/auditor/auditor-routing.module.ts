@@ -16,6 +16,10 @@ const routes: Routes = [
     /*children: [
       { path: 'type', component: TypeComponent },
     ]*/
+  },
+  {
+    path: ":id/vincular",
+    component: CreateComponent
   }
 ];
 

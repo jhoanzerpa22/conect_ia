@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
 
 // Ck Editer
@@ -35,6 +35,7 @@ export class CreateComponent implements OnInit {
   installations: any = [];
   areas: any = [];
   area_id_select: any = [];
+  project: any = {};
   
   items: any = [];
   activeTab: number = 1;
@@ -51,7 +52,7 @@ export class CreateComponent implements OnInit {
 
   public Editor = ClassicEditor;
 
-  constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private projectsService: ProjectsService,public toastService: ToastService, private modalService: NgbModal) { }
+  constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private projectsService: ProjectsService,public toastService: ToastService, private modalService: NgbModal, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     /**
@@ -83,6 +84,14 @@ export class CreateComponent implements OnInit {
       area: ['']
     });
 
+    this.route.params.subscribe(params => {
+      this.project_id = params['id'];
+      
+      if(this.project_id > 0){
+        this.getProject(params['id']);
+      }
+    });
+
     //this.getTypes();
     this.getAreas();
     //this.getInstallations();
@@ -95,6 +104,29 @@ export class CreateComponent implements OnInit {
   * Multiple Default Select2
   */
    selectValue = ['Choice 1', 'Choice 2', 'Choice 3'];
+
+   setValue(data:any){
+    this.auditoriaForm.controls['nombre'].setValue(data.nombre);
+    this.auditoriaForm.controls['descripcion'].setValue(data.descripcion);
+    this.auditoriaForm.controls['tipo'].setValue(data.tipoAuditoriaId);
+    this.auditoriaForm.controls['fecha_inicio'].setValue(data.fecha_inicio);
+    this.auditoriaForm.controls['fecha_termino'].setValue(data.fecha_termino);
+    this.auditoriaForm.controls['entidad'].setValue(data.entidad);
+    this.auditoriaForm.controls['auditor'].setValue(data.auditor);
+    this.auditoriaForm.controls['ambito'].setValue(data.ambito);
+   }
+
+   getProject(idProject?: any){
+    this.projectsService.getById(idProject).pipe().subscribe(
+      (data: any) => {
+        this.project = data.data;
+        this.setValue(data.data);
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+  }
 
    private getAreas() {
     
