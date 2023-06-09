@@ -94,6 +94,7 @@ export class ComplianceTaskComponent implements OnInit {
   userData: any;
   
   @Output() backFunction = new EventEmitter();
+  @Output() completarFunction = new EventEmitter();
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
@@ -189,6 +190,10 @@ export class ComplianceTaskComponent implements OnInit {
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
         });*/
     }
+  }
+  
+  completarClicked(id: any){
+    this.completarFunction.emit(id);
   }
 
   /**

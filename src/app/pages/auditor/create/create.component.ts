@@ -48,6 +48,7 @@ export class CreateComponent implements OnInit {
   showComplianceDetail: boolean = false;
   showComplianceFollow: boolean = false;
   showComplianceTask: boolean = false;
+  showComplianceAssess: boolean = false;
 
   project_id: any = null;
   installation_id: any = '';
@@ -57,6 +58,7 @@ export class CreateComponent implements OnInit {
   compliance_nombre: any = '';
   articulo_id: any = '';
   articulo_task_id: any = '';
+  tarea_id: any = '';
 
   public Editor = ClassicEditor;
 
@@ -612,6 +614,7 @@ export class CreateComponent implements OnInit {
     this.showComplianceDetail = false;
     this.showComplianceFollow = true;
     this.showComplianceTask = false;
+    this.showComplianceAssess = false;
    }
 
    tareasEvent(data: any){
@@ -620,6 +623,7 @@ export class CreateComponent implements OnInit {
     this.showComplianceDetail = false;
     this.showComplianceFollow = false;
     this.showComplianceTask = true;
+    this.showComplianceAssess = false;
    }
    
    backEvent3(data: any){
@@ -627,6 +631,7 @@ export class CreateComponent implements OnInit {
     this.showComplianceDetail = false;
     this.showComplianceFollow = false;
     this.showComplianceTask = false;
+    this.showComplianceAssess = false;
    }
 
    backEvent4(data: any){
@@ -634,6 +639,24 @@ export class CreateComponent implements OnInit {
     this.showComplianceDetail = true;
     this.showComplianceFollow = false;
     this.showComplianceTask = false;
+    this.showComplianceAssess = false;
+   }
+
+   backEvent5(data: any){
+    this.showCompliance = false;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = true;
+    this.showComplianceAssess = false;
+   }
+   
+   completarEvent(data: any){
+    this.tarea_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = false;
+    this.showComplianceAssess = true;
    }
 
    /**

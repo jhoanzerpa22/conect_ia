@@ -443,16 +443,20 @@
     </div>
 </ng-container>
 
-<ng-container *ngIf="!showCompliance && showComplianceDetail && !showComplianceFollow && !showComplianceTask">
+<ng-container *ngIf="!showCompliance && showComplianceDetail && !showComplianceFollow && !showComplianceTask && !showComplianceAssess">
     <app-compliance-auditor-detail [project_id]="project_id" [installation_id]="compliance_id" (backFunction) = 'backEvent3($event)' (evaluarFunction) = 'evaluarEvent($event)' (tareasFunction) = 'tareasEvent($event)'></app-compliance-auditor-detail>
 </ng-container>
 
-<ng-container *ngIf="!showCompliance && !showComplianceDetail && showComplianceFollow && !showComplianceTask">
+<ng-container *ngIf="!showCompliance && !showComplianceDetail && showComplianceFollow && !showComplianceTask && !showComplianceAssess">
     <app-auditor-follow [project_id]="project_id" [installation_id]="compliance_id" [installation_nombre]="compliance_nombre" [cuerpo_id]="articulo_id" (backFunction) = 'backEvent4($event)'></app-auditor-follow>
 </ng-container>
 
-<ng-container *ngIf="!showCompliance && !showComplianceDetail && !showComplianceFollow && showComplianceTask">
-    <app-auditor-task [project_id]="project_id" [installation_id]="compliance_id" [installation_nombre]="compliance_nombre" [cuerpo_id]="articulo_task_id" (backFunction) = 'backEvent4($event)'></app-auditor-task>
+<ng-container *ngIf="!showCompliance && !showComplianceDetail && !showComplianceFollow && showComplianceTask && !showComplianceAssess">
+    <app-auditor-task [project_id]="project_id" [installation_id]="compliance_id" [installation_nombre]="compliance_nombre" [cuerpo_id]="articulo_task_id" (completarFunction) = 'completarEvent($event)' (backFunction) = 'backEvent4($event)'></app-auditor-task>
+</ng-container>
+
+<ng-container *ngIf="!showCompliance && !showComplianceDetail && !showComplianceFollow && !showComplianceTask && showComplianceAssess">
+    <app-auditor-assess [project_id]="project_id" [installation_id]="compliance_id" [installation_nombre]="compliance_nombre" [cuerpo_id]="articulo_task_id" [tarea_id]="tarea_id" (backFunction) = 'backEvent5($event)'></app-auditor-assess>
 </ng-container>
 
 </ng-template>

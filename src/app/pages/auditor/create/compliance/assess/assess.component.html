@@ -1,7 +1,3 @@
-<!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Paso 5: Evaluar Cumplimiento" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
-<!-- End Breadcrumbs -->
-
 <!--preloader-->
 <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
     <div id="status">
@@ -22,7 +18,13 @@
                     <span></span>
                     </span>
                 </span>
-                <h6 class="card-title">{{detail.nombre}}</h6>
+                <h6 class="card-title">
+                    <button class="btn btn-sm px-2 fs-22"
+                            [style.cursor]="'pointer'" (click)="backClicked()">
+                            <i class="ri-arrow-left-s-line"></i>
+                    </button>
+                {{detail.nombre}}
+                </h6>
                 
                 <!--<ng-container *ngFor="let org of detail.organismos">-->
                     <p class="card-subtitle text-muted mb-0">{{detail.descripcion}}</p>
