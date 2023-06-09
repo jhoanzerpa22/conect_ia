@@ -81,7 +81,7 @@ export class ListComponent implements OnInit {
           let proyectos: any = [];
 
           for (var j = 0; j < resp.length; j++) {
-            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null){
+            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3){
               proyectos.push(resp[j]);
             }
           }

@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-xxl-3 col-lg-3">
                     <p><b>CUERPO LEGAL:</b></p>
-                    <p><b>{{detail.data ? (detail.data.length > 0 ? detail.data.length : 0) : 0}} {{detail.data ? (detail.data.length == 1 ? 'Cuerpo legal aplicable' : 'Cuerpos Legales aplicables') : 'Cuerpos Legales aplicables'}}</b></p>
+                    <p><b>{{cuerpos_articulos ? (cuerpos_articulos.length > 0 ? cuerpos_articulos.length : 0) : 0}} {{cuerpos_articulos ? (cuerpos_articulos.length == 1 ? 'Cuerpo legal aplicable' : 'Cuerpos Legales aplicables') : 'Cuerpos Legales aplicables'}}</b></p><!--{{detail.data ? (detail.data.length > 0 ? detail.data.length : 0) : 0}} {{detail.data ? (detail.data.length == 1-->
                 </div>
                 
                 <div class="col-xxl-3 col-lg-3">
@@ -192,7 +192,7 @@
                 <div class="col-xxl-12 col-lg-12">
                     
                     <div class="row">
-                        <div class="col-xxl-2 col-lg-2" *ngFor="let c of detail.data; let i = index;">
+                        <div class="col-xxl-2 col-lg-2" *ngFor="let c of cuerpos_articulos; let i = index;"><!--detail.data-->
                             <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;
                             cursor: pointer;
                             border-radius: 24px;
