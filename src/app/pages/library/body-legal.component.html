@@ -22,7 +22,7 @@
 
                 <div class="col-xxl-3 col-lg-3">
                     <div class="search-box">
-                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar...">
+                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." [(ngModel)]="term">
                         <i class="ri-search-2-line search-icon"></i>
                     </div>
                 </div>
@@ -109,15 +109,15 @@
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
                                 Mostrando página
-                                1 de
-                                1 de 10
+                                {{page}} de
+                                {{pageTotal(total_paginate)}} de {{total_body}}
                                 registros
                             </div>
                         </div>
                         <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="1" [(page)]="service.page"
+                                <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
                                 </ngb-pagination>
                             </div>
