@@ -22,7 +22,7 @@ import Swal from 'sweetalert2';
 import { round } from 'lodash';
 
 @Component({
-  selector: 'app-follow',
+  selector: 'app-auditor-follow',
   templateUrl: './follow.component.html',
   styleUrls: ['./follow.component.scss'],
   providers: [RecentService, DecimalPipe]
@@ -36,11 +36,12 @@ export class ComplianceFollowComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
-  project_id: any = '';
-  cuerpo_id: any = '';
-  installation_id: any = null;
+  @Input('project_id') project_id: any;
+  @Input('installation_id') installation_id: any;
+  @Input('installation_nombre') installation_nombre: any;
+  @Input('cuerpo_id') cuerpo_id: any;
+  
   installation_id_select: any = [];
-  installation_nombre: any = null;
   detail: any = [];
   installations: any = [];
   installations_articles: any = [];
@@ -91,6 +92,8 @@ export class ComplianceFollowComponent implements OnInit {
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
+  
+  @Output() backFunction = new EventEmitter();
 
   public Editor = ClassicEditor;
 
@@ -107,15 +110,6 @@ export class ComplianceFollowComponent implements OnInit {
   inlineDatePicker: Date = new Date();
 
   ngOnInit(): void {
-    /**
-    * BreadCrumb
-    */
-    this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento' },
-      { label: 'Registrar cumplimiento', active: true }
-    ];
-
     document.body.classList.add('file-detail-show');
 
     /**
@@ -146,20 +140,8 @@ export class ComplianceFollowComponent implements OnInit {
       ids: [''],
       icon_name: ['', [Validators.required]]
     });
-
-    this.route.params.subscribe(params => {
-      this.project_id = params['idProject'];
-      this.cuerpo_id = params['id'];
-      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
-      this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
-
-      /*if(!this.installation_id){
-        this.getInstallations();
-      }else{*/
-        //this.getArticlesByInstallation(this.installation_id);
-        this.getArticlesByInstallationBody(this.installation_id);
-      //}
-    });
+    
+    this.getArticlesByInstallationBody(this.installation_id);
 
     // Data Get Function
     //this._fetchData();
@@ -176,6 +158,10 @@ export class ComplianceFollowComponent implements OnInit {
       this.recentDatas = Object.assign([], x);
     });
   }*/
+
+  backClicked(){
+    this.backFunction.emit();
+  }
 
   /**
    * Fetches the data

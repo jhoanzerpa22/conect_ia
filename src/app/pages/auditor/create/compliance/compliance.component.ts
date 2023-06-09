@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import {Component, QueryList, ViewChildren, ViewChild, OnInit, Input, NgZone, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +17,7 @@ import { ToastService } from '../../toast-service';
 import { round } from 'lodash';
 
 @Component({
-  selector: 'app-compliance',
+  selector: 'app-compliance-auditor',
   templateUrl: './compliance.component.html',
   styleUrls: ['./compliance.component.scss'],
   providers: [ComplianceService, DecimalPipe]
@@ -37,7 +37,7 @@ export class ComplianceComponent {
   masterSelected!: boolean;
   InstallationDatas: any;
 
-  project_id: any = '';
+  @Input('project_id') project_id: any;
   avance_evaluacion: number = 0;
 
   // Table data
@@ -47,6 +47,7 @@ export class ComplianceComponent {
 
   displayedColumns: string[] = ['nombre', 'cuerpo', 'articulos', 'avance','estado','accion'];
   
+  @Output() gestionarFunction = new EventEmitter();
 
   constructor(private modalService: NgbModal, public service: ComplianceService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.InstallationList = service.installations$;
@@ -56,18 +57,8 @@ export class ComplianceComponent {
   hasChild = (_: number, node: any/*ExampleFlatNode*/) => node.expandable;
 
   ngOnInit(): void {
-    /**
-    * BreadCrumb
-    */
-    this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento', active: true }
-    ];
 
-    this.route.params.subscribe(params => {
-      this.project_id = params['id'];
-      this.fetchData();
-    });
+    this.fetchData();
 
     /**
      * fetches data
@@ -189,6 +180,10 @@ export class ComplianceComponent {
           console.log(error);
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
         });
+  }
+
+  gestionar(id: any){
+    this.gestionarFunction.emit(id);
   }
 
   // PreLoader

@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Crear Auditoria" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{!project_id ? 'Crear' : 'Detalle'}} Auditoria" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
   <!--preloader-->
@@ -26,7 +26,7 @@
                                 <ul ngbNav #nav="ngbNav" [activeId]="activeTab" class="nav nav-tabs mb-3 nav-justified"><!--nav nav-tabs-->
                                     <li [ngbNavItem]="1">
                                         <a ngbNavLink (click)="changeTab(1)">
-                                            <span class="d-sm-block">Crear Auditoría</span>
+                                            <span class="d-sm-block">{{!project_id ? 'Crear' : 'Detalle'}} Auditoría</span>
                                         </a>
                                         <ng-template ngbNavContent>
                                             <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
@@ -46,6 +46,15 @@
                                         </a>
                                         <ng-template ngbNavContent>
                                             <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                    
+                                    <li [ngbNavItem]="4" [disabled]="installations_select < 1 || !project_id">
+                                        <a ngbNavLink (click)="changeTab(4)">
+                                            <span class="d-sm-block">Gestionar Hallazgos</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent3"></ng-template>
                                         </ng-template>
                                     </li>
                                 </ul>
@@ -409,6 +418,33 @@
 <ng-container *ngIf="!showBodyLegal && showBodyLegalDetail">
     <app-body-legal-auditor-detail [project_id]="project_id" [installation_id]="installation_id" [installation_nombre]="installation_nombre" [cuerpo_id]="cuerpo_id" 
     (backFunction) = 'backEvent2($event)'></app-body-legal-auditor-detail>
+</ng-container>
+
+<div class="row">
+    <div class="col-lg-12"> 
+        <div style="float:right;"><!--class="row justify-content-end"-->
+            <button type="button" class="btn btn-success btn-label waves-effect right waves-light" (click)="finalizar()"><i class="ri-checkbox-circle-fill label-icon align-middle fs-16 ms-2"></i> Finalizar</button>
+        </div>
+    </div>
+</div>
+
+</ng-template>
+
+<ng-template #TabContent3>
+<ng-container *ngIf="showCompliance && !showComplianceDetail && !showComplianceFollow && !showComplianceTask">
+    <app-compliance-auditor [project_id]="project_id" (gestionarFunction) = 'gestionarEvent($event)'></app-compliance-auditor>
+</ng-container>
+
+<ng-container *ngIf="!showCompliance && showComplianceDetail && !showComplianceFollow && !showComplianceTask">
+    <app-compliance-auditor-detail [project_id]="project_id" [installation_id]="compliance_id" (backFunction) = 'backEvent3($event)' (evaluarFunction) = 'evaluarEvent($event)' (tareasFunction) = 'tareasEvent($event)'></app-compliance-auditor-detail>
+</ng-container>
+
+<ng-container *ngIf="!showCompliance && !showComplianceDetail && showComplianceFollow && !showComplianceTask">
+    <app-auditor-follow [project_id]="project_id" [installation_id]="installation_id" [installation_nombre]="installation_nombre" [cuerpo_id]="articulo_id" (backFunction) = 'backEvent4($event)'></app-auditor-follow>
+</ng-container>
+
+<ng-container *ngIf="!showCompliance && !showComplianceDetail && !showComplianceFollow && showComplianceTask">
+    <app-auditor-task [project_id]="project_id" [installation_id]="installation_id" [installation_nombre]="installation_nombre" [cuerpo_id]="articulo_task_id" (backFunction) = 'backEvent4($event)'></app-auditor-task>
 </ng-container>
 
 <div class="row">

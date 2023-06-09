@@ -96,7 +96,7 @@ export class BodyLegalTypeComponent {
   private fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getBodyLegal(this.project_id).pipe().subscribe(
+      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*/getBodyLegal(this.project_id).pipe().subscribe(
         (data: any) => {
           this.service.bodylegal_data = data.data;
           this.hidePreLoader();
