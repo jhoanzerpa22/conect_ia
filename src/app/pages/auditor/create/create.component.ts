@@ -89,6 +89,7 @@ export class CreateComponent implements OnInit {
       
       if(this.project_id > 0){
         this.getProject(params['id']);
+        this.getInstallationsUser();
       }
     });
 
@@ -126,6 +127,70 @@ export class CreateComponent implements OnInit {
       //this.error = error ? error : '';
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
+  }
+
+  getInstallationsUser(){
+    this.showPreLoader();
+      this.projectsService.getInstallationsUser().pipe().subscribe(
+        (data: any) => {
+          let obj: any = data.data;
+          let lista: any = [];
+
+          for (var i = 0; i < obj.length; i++) {
+            
+            if(obj[i].installations_articles.length > 0){
+              
+              let total_articulos: any = [];
+
+              for (var j = 0; j < obj[i].installations_articles.length; j++) {
+                if(obj[i].installations_articles[j].proyectoId == this.project_id){
+                  total_articulos.push(obj[i].installations_articles[j]);
+                }
+              }
+              
+              if(total_articulos.length > 0){
+                lista.push(obj[i]);
+              }
+            }
+          }
+
+          lista.forEach((x: any) => {
+            const index2 = this.installations_select.findIndex(
+              (co2: any) =>
+              co2.id == x.id
+            );
+    
+            if(index2 == -1){
+              this.installations_select.push(x);
+            }
+          })
+    
+          this.installations_select_group = [];
+          this.installations_select.forEach((x: any) => {
+            
+            const index = this.installations_select_group.findIndex(
+              (co: any) =>
+                co.areaId == x.areaId
+            );
+    
+            if(index == -1){
+              this.installations_select_group.push({
+                areaId: x.areaId, areaNombre: x.area.nombre, installations: [x]
+              });
+            }else{
+              this.installations_select_group[index].installations.push(x);
+            }
+          })
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
   }
 
    private getAreas() {
@@ -232,7 +297,7 @@ export class CreateComponent implements OnInit {
     this.showPreLoader();
     this.installations = [];
 
-      this.projectsService.getInstallationByAreaId(area_id)/*getInstallationsUser()*/.pipe().subscribe(
+      this.projectsService.getInstallationByAreaId(area_id).pipe().subscribe(
         (data: any) => {
           this.installations = data.data ? data.data : [];
 
