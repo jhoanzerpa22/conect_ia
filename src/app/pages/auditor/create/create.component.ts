@@ -44,11 +44,18 @@ export class CreateComponent implements OnInit {
   installations_select_group: any = [];
   showBodyLegal: boolean = false;
   showBodyLegalDetail: boolean = false;
+  showCompliance: boolean = true;
+  showComplianceDetail: boolean = false;
+  showComplianceFollow: boolean = false;
+  showComplianceTask: boolean = false;
 
   project_id: any = null;
   installation_id: any = '';
   installation_nombre: any = '';
   cuerpo_id: any = '';
+  compliance_id: any = '';
+  articulo_id: any = '';
+  articulo_task_id: any = '';
 
   public Editor = ClassicEditor;
 
@@ -74,9 +81,9 @@ export class CreateComponent implements OnInit {
       tipo: ['', [Validators.required]],
       fecha_inicio: ['', [Validators.required]],
       fecha_termino: ['', [Validators.required]],
-      entidad: [''],
-      auditor: [''],
-      ambito: ['']
+      entidad: ['', [Validators.required]],
+      auditor: ['', [Validators.required]],
+      ambito: ['', [Validators.required]]
     });
 
     this.installationForm = this.formBuilder.group({
@@ -88,6 +95,12 @@ export class CreateComponent implements OnInit {
       this.project_id = params['id'];
       
       if(this.project_id > 0){
+        
+        this.breadCrumbItems = [
+          { label: 'Auditoria' },
+          { label: 'Detalle Auditoria', active: true }
+        ];
+
         this.getProject(params['id']);
         this.getInstallationsUser();
       }
@@ -363,6 +376,20 @@ export class CreateComponent implements OnInit {
           let proyecto: any = data.data;
 
           this.project_id = proyecto.id;
+          
+          this.breadCrumbItems = [
+            { label: 'Auditoria' },
+            { label: 'Detalle Auditoria', active: true }
+          ];
+
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Auditoria creada',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+
           this.activeTab = this.activeTab + 1;
       },
       (error: any) => {
@@ -382,10 +409,12 @@ export class CreateComponent implements OnInit {
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: 'Auditoria creada',
+      title: 'Auditoria Gestionada',
       showConfirmButton: true,
       timer: 5000,
     });
+    
+    this._router.navigate(['/auditor']);
   }
 
   changeTab(active: number){
@@ -567,6 +596,42 @@ export class CreateComponent implements OnInit {
     this.cuerpo_id = data;
     this.showBodyLegal = false;
     this.showBodyLegalDetail = true;
+   }
+
+   gestionarEvent(data: any){
+    this.compliance_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = true;
+   }
+
+   evaluarEvent(data: any){
+    this.articulo_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = true;
+    this.showComplianceTask = false;
+   }
+
+   tareasEvent(data: any){
+    this.articulo_task_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = true;
+   }
+   
+   backEvent3(data: any){
+    this.showCompliance = true;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = false;
+   }
+
+   backEvent4(data: any){
+    this.showCompliance = false;
+    this.showComplianceDetail = true;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = false;
    }
 
    /**
