@@ -39,6 +39,7 @@ export class ComplianceDetailComponent implements OnInit {
   project_id: any = '';
   installation_id: any = null;
   detail: any = [];
+  cuerpos_articulos: any = [];
   installations: any = [];
   installations_articles: any = [];
 
@@ -190,9 +191,7 @@ export class ComplianceDetailComponent implements OnInit {
         (data: any) => {
           this.detail = data.data;
           let articulos: any = data.data.data.length > 0 ? data.data.data : [];
-          this.articulosDatas = articulos.length > 0 ? articulos[0].articulos : [];
-
-          this.cuerpo_select = data.data.data.length > 0 ? data.data.data[0].cuerpoLegal : '';
+          let cuerpo_articulos: any = [];
           //this.installations_articles = data.data;
 
           let cumple: number = 0;
@@ -203,27 +202,35 @@ export class ComplianceDetailComponent implements OnInit {
 
           for (var i = 0; i < articulos.length; i++) {
             if(articulos[i].articulos.length > 0){
-              total += articulos[i].articulos.length;
+              //total += articulos[i].articulos.length;
+              let procede: boolean = false;
               for (var j = 0; j < articulos[i].articulos.length; j++) {
-                if(articulos[i].articulos[j].evaluations.estado){
-                  switch (articulos[i].articulos[j].evaluations.estado) {
-                    case 'CUMPLE':
-                      cumple ++;
-                      break;
+                if(articulos[i].articulos[j].proyectoId == this.project_id){
+                  total += 1;
+                  procede = true;
+                  if(articulos[i].articulos[j].evaluations.estado){
+                    switch (articulos[i].articulos[j].evaluations.estado) {
+                      case 'CUMPLE':
+                        cumple ++;
+                        break;
 
-                    case 'NO CUMPLE':
-                        nocumple ++;
-                      break;
+                      case 'NO CUMPLE':
+                          nocumple ++;
+                        break;
+                      
+                      case 'CUMPLE PARCIALMENTE':
+                        parcial ++;
+                        break;
                     
-                    case 'CUMPLE PARCIALMENTE':
-                      parcial ++;
-                      break;
-                  
-                    default:
-                      break;
+                      default:
+                        break;
+                    }
+                    
                   }
-                  
                 }
+              }
+              if(procede){
+                cuerpo_articulos.push(articulos[i]);
               }
             }
           }
@@ -236,6 +243,13 @@ export class ComplianceDetailComponent implements OnInit {
           this.cumple = cumple;
           this.nocumple = nocumple;
           this.parcial = parcial;
+
+          //this.articulosDatas = articulos.length > 0 ? articulos[0].articulos : [];
+          this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];
+
+          //this.cuerpo_select = articulos.length > 0 ? articulos[0].cuerpoLegal : '';
+          this.cuerpo_select = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].cuerpoLegal : '';
+          this.cuerpos_articulos = cuerpo_articulos;
 
           this.hidePreLoader();
       },
