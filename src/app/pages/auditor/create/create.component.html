@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Crear Auditoria" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{!project_id ? 'Crear' : 'Detalle'}} Auditoria" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
   <!--preloader-->
@@ -26,7 +26,7 @@
                                 <ul ngbNav #nav="ngbNav" [activeId]="activeTab" class="nav nav-tabs mb-3 nav-justified"><!--nav nav-tabs-->
                                     <li [ngbNavItem]="1">
                                         <a ngbNavLink (click)="changeTab(1)">
-                                            <span class="d-sm-block">Crear Auditoría</span>
+                                            <span class="d-sm-block">{{!project_id ? 'Crear' : 'Detalle'}} Auditoría</span>
                                         </a>
                                         <ng-template ngbNavContent>
                                             <ng-template [ngTemplateOutlet]="TabContent"></ng-template>

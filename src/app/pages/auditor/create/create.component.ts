@@ -74,9 +74,9 @@ export class CreateComponent implements OnInit {
       tipo: ['', [Validators.required]],
       fecha_inicio: ['', [Validators.required]],
       fecha_termino: ['', [Validators.required]],
-      entidad: [''],
-      auditor: [''],
-      ambito: ['']
+      entidad: ['', [Validators.required]],
+      auditor: ['', [Validators.required]],
+      ambito: ['', [Validators.required]]
     });
 
     this.installationForm = this.formBuilder.group({
@@ -88,6 +88,12 @@ export class CreateComponent implements OnInit {
       this.project_id = params['id'];
       
       if(this.project_id > 0){
+        
+        this.breadCrumbItems = [
+          { label: 'Auditoria' },
+          { label: 'Detalle Auditoria', active: true }
+        ];
+
         this.getProject(params['id']);
         this.getInstallationsUser();
       }
@@ -363,6 +369,20 @@ export class CreateComponent implements OnInit {
           let proyecto: any = data.data;
 
           this.project_id = proyecto.id;
+          
+          this.breadCrumbItems = [
+            { label: 'Auditoria' },
+            { label: 'Detalle Auditoria', active: true }
+          ];
+
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Auditoria creada',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+
           this.activeTab = this.activeTab + 1;
       },
       (error: any) => {
@@ -382,10 +402,12 @@ export class CreateComponent implements OnInit {
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: 'Auditoria creada',
+      title: 'Auditoria Gestionada',
       showConfirmButton: true,
       timer: 5000,
     });
+    
+    this._router.navigate(['/auditor']);
   }
 
   changeTab(active: number){
