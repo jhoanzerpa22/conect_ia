@@ -231,8 +231,24 @@ export class ComplianceTaskComponent implements OnInit {
       this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
         (data: any) => {
           this.detail = data.data;
-          this.articulosDatas = data.data.data.length > 0 ? data.data.data[0].articulos : [];
-          
+          let articulos: any = data.data.data.length > 0 ? data.data.data : [];
+          let cuerpo_articulos: any = [];
+
+          for (var i = 0; i < articulos.length; i++) {
+            if(articulos[i].articulos.length > 0){
+              let procede: boolean = false;
+              for (var j = 0; j < articulos[i].articulos.length; j++) {
+                if(articulos[i].articulos[j].proyectoId == this.project_id){
+                  procede = true;                
+                }
+              }
+              if(procede){
+                cuerpo_articulos.push(articulos[i]);
+              }
+            }
+          }
+
+          this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];/*data.data.data.length > 0 ? data.data.data[0].articulos : [];*/
           let articulo_filter: any = this.articulosDatas.filter((data: any) => {
             return data.id === parseInt(this.cuerpo_id);
           });

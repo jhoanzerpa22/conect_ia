@@ -65,7 +65,7 @@ export const MENU: MenuItem[] = [
     id: 9,
     label: 'MENUITEMS.LIBRARY.TEXT',
     icon: 'ri-zoom-in-line',
-    link: '/pages/coming-soon'
+    link: '/library'
   },
   {
     id: 10,
