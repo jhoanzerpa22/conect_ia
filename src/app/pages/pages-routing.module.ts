@@ -33,6 +33,9 @@ const routes: Routes = [
       path: 'auditor', loadChildren: () => import('./auditor/auditor.module').then(m => m.AuditorModule)
     },
     {
+      path: 'library', loadChildren: () => import('./library/library.module').then(m => m.LibraryModule)
+    },
+    {
       path: 'tasks', loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
     },
     {
