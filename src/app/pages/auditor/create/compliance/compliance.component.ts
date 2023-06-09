@@ -182,8 +182,8 @@ export class ComplianceComponent {
         });
   }
 
-  gestionar(id: any){
-    this.gestionarFunction.emit(id);
+  gestionar(id: any, nombre: any){
+    this.gestionarFunction.emit({id: id, nombre: nombre});
   }
 
   // PreLoader

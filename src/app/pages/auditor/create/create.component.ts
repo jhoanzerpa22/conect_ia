@@ -54,6 +54,7 @@ export class CreateComponent implements OnInit {
   installation_nombre: any = '';
   cuerpo_id: any = '';
   compliance_id: any = '';
+  compliance_nombre: any = '';
   articulo_id: any = '';
   articulo_task_id: any = '';
 
@@ -599,7 +600,8 @@ export class CreateComponent implements OnInit {
    }
 
    gestionarEvent(data: any){
-    this.compliance_id = data;
+    this.compliance_id = data.id;
+    this.compliance_nombre = data.nombre;
     this.showCompliance = false;
     this.showComplianceDetail = true;
    }
