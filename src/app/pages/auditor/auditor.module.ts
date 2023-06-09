@@ -35,6 +35,10 @@ import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { BodyLegalTypeComponent } from './create/body-legal/body-legal.component';
 import { BodyLegalDetailComponent } from './create/body-legal/detail/body-legal-detail.component';
+import { ComplianceComponent } from './create/compliance/compliance.component';
+import { ComplianceDetailComponent } from './create/compliance/detail/compliance-detail.component';
+import { ComplianceFollowComponent } from './create/compliance/follow/follow.component';
+import { ComplianceTaskComponent } from './create/compliance/task/task.component';
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -92,11 +96,19 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     CreateComponent,
     BodyLegalTypeComponent,
     BodyLegalDetailComponent,
+    ComplianceComponent,
+    ComplianceDetailComponent,
+    ComplianceFollowComponent,
+    ComplianceTaskComponent,
     ToastsAuditorContainer
   ],
   entryComponents:[
     BodyLegalTypeComponent,
-    BodyLegalDetailComponent
+    BodyLegalDetailComponent,
+    ComplianceComponent,
+    ComplianceDetailComponent,
+    ComplianceFollowComponent,
+    ComplianceTaskComponent
   ],
   imports: [
     CommonModule,

@@ -22,7 +22,7 @@ import Swal from 'sweetalert2';
 import { round } from 'lodash';
 
 @Component({
-  selector: 'app-compliance-detail',
+  selector: 'app-compliance-auditor-detail',
   templateUrl: './compliance-detail.component.html',
   styleUrls: ['./compliance-detail.component.scss'],
   providers: [RecentService, DecimalPipe]
@@ -36,9 +36,11 @@ export class ComplianceDetailComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
-  project_id: any = '';
-  installation_id: any = null;
+  @Input('project_id') project_id: any;
+  @Input('installation_id') installation_id: any;
+
   detail: any = [];
+  cuerpos_articulos: any = [];
   installations: any = [];
   installations_articles: any = [];
 
@@ -74,6 +76,10 @@ export class ComplianceDetailComponent implements OnInit {
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
+  
+  @Output() backFunction = new EventEmitter();
+  @Output() evaluarFunction = new EventEmitter();
+  @Output() tareasFunction = new EventEmitter();
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private TokenStorageService : TokenStorageService) {
     this.recentData = service.recents$;
@@ -81,15 +87,6 @@ export class ComplianceDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /**
-    * BreadCrumb
-    */
-    this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento' },
-      { label: 'Detalle', active: true }
-    ];
-
     document.body.classList.add('file-detail-show');
 
     this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
@@ -109,14 +106,7 @@ export class ComplianceDetailComponent implements OnInit {
       icon_name: ['', [Validators.required]]
     });
 
-    this.route.params.subscribe(params => {
-      this.project_id = params['idProject'];
-      this.installation_id = params['id'];
-
-        this.getArticlesByInstallationBody(this.installation_id);
-      
-    });
-
+    this.getArticlesByInstallationBody(this.installation_id);
     // Data Get Function
     //this._fetchData();
   }
@@ -132,6 +122,18 @@ export class ComplianceDetailComponent implements OnInit {
       this.recentDatas = Object.assign([], x);
     });
   }*/
+
+  backClicked(){
+    this.backFunction.emit();
+  }
+  
+  evaluarClicked(id: any){
+    this.evaluarFunction.emit(id);
+  }
+  
+  tareasClicked(id: any){
+    this.tareasFunction.emit(id);
+  }
 
   /**
    * Fetches the data
@@ -190,9 +192,7 @@ export class ComplianceDetailComponent implements OnInit {
         (data: any) => {
           this.detail = data.data;
           let articulos: any = data.data.data.length > 0 ? data.data.data : [];
-          this.articulosDatas = articulos.length > 0 ? articulos[0].articulos : [];
-
-          this.cuerpo_select = data.data.data.length > 0 ? data.data.data[0].cuerpoLegal : '';
+          let cuerpo_articulos: any = [];
           //this.installations_articles = data.data;
 
           let cumple: number = 0;
@@ -203,8 +203,12 @@ export class ComplianceDetailComponent implements OnInit {
 
           for (var i = 0; i < articulos.length; i++) {
             if(articulos[i].articulos.length > 0){
-              total += articulos[i].articulos.length;
+              //total += articulos[i].articulos.length;
+              let procede: boolean = false;
               for (var j = 0; j < articulos[i].articulos.length; j++) {
+                if(articulos[i].articulos[j].proyectoId == this.project_id){
+                  total += 1;
+                  procede = true;
                 if(articulos[i].articulos[j].evaluations.estado){
                   switch (articulos[i].articulos[j].evaluations.estado) {
                     case 'CUMPLE':
@@ -224,6 +228,11 @@ export class ComplianceDetailComponent implements OnInit {
                   }
                   
                 }
+                }
+              }
+              
+              if(procede){
+                cuerpo_articulos.push(articulos[i]);
               }
             }
           }
@@ -236,6 +245,13 @@ export class ComplianceDetailComponent implements OnInit {
           this.cumple = cumple;
           this.nocumple = nocumple;
           this.parcial = parcial;
+
+         //this.articulosDatas = articulos.length > 0 ? articulos[0].articulos : [];
+          this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];
+
+          //this.cuerpo_select = articulos.length > 0 ? articulos[0].cuerpoLegal : '';
+          this.cuerpo_select = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].cuerpoLegal : '';
+          this.cuerpos_articulos = cuerpo_articulos;
 
           this.hidePreLoader();
       },

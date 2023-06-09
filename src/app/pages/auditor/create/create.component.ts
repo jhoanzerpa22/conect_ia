@@ -44,11 +44,18 @@ export class CreateComponent implements OnInit {
   installations_select_group: any = [];
   showBodyLegal: boolean = false;
   showBodyLegalDetail: boolean = false;
+  showCompliance: boolean = true;
+  showComplianceDetail: boolean = false;
+  showComplianceFollow: boolean = false;
+  showComplianceTask: boolean = false;
 
   project_id: any = null;
   installation_id: any = '';
   installation_nombre: any = '';
   cuerpo_id: any = '';
+  compliance_id: any = '';
+  articulo_id: any = '';
+  articulo_task_id: any = '';
 
   public Editor = ClassicEditor;
 
@@ -589,6 +596,42 @@ export class CreateComponent implements OnInit {
     this.cuerpo_id = data;
     this.showBodyLegal = false;
     this.showBodyLegalDetail = true;
+   }
+
+   gestionarEvent(data: any){
+    this.compliance_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = true;
+   }
+
+   evaluarEvent(data: any){
+    this.articulo_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = true;
+    this.showComplianceTask = false;
+   }
+
+   tareasEvent(data: any){
+    this.articulo_task_id = data;
+    this.showCompliance = false;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = true;
+   }
+   
+   backEvent3(data: any){
+    this.showCompliance = true;
+    this.showComplianceDetail = false;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = false;
+   }
+
+   backEvent4(data: any){
+    this.showCompliance = false;
+    this.showComplianceDetail = true;
+    this.showComplianceFollow = false;
+    this.showComplianceTask = false;
    }
 
    /**

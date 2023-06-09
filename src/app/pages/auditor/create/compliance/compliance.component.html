@@ -1,7 +1,3 @@
-<!-- Start Breadcrumbs -->
-<!--<app-breadcrumbs title="Paso 5: Evaluar Cumplimiento" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>-->
-<!-- End Breadcrumbs -->
-
 <!--preloader-->
 <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
     <div id="status">
@@ -14,18 +10,6 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-lg-2">
-                        <h4 class="card-title mb-0">Evaluación</h4>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" [style]="avance_evaluacion > 0 ? 'width:'+avance_evaluacion+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{avance_evaluacion}}%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="card-body">
                 <div id="customerList">
@@ -64,7 +48,6 @@
                                     <th class="sort" data-sort="nombre">Instalación</th>
                                     <th class="sort" data-sort="cuerpo">Cuerpos legales vinculados</th>
                                     <th class="sort" data-sort="articulos">Articulos vinculados</th>
-                                    <th class="sort">Avance</th>
                                     <!--<th class="sort">Estado</th>-->
                                     <th class="sort">Acción</th>
                                 </tr>
@@ -83,11 +66,6 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" [style]="data.avance > 0 ? 'width:'+data.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data.avance}}%</div>
-                                        </div>
-                                    </td>
                                     <!--<td class="status"><span
                                                 class="badge badge-soft-{{data.conectado ? 'success' : 'danger'}} text-uppercase">{{data.conectado ? 'Evaluado' : 'Sin evaluar'}}</span>
                                     </td>-->
@@ -110,8 +88,8 @@
                                             <div class="hstack gap-3 fs-15">
                                                 <div class="edit" *ngIf="data.total_articulos > 0">
                                                     <button class="btn btn-sm btn-success edit-item-btn"
-                                                        data-bs-toggle="modal" data-bs-target="#showModal" routerLink="/projects/{{project_id}}/compliance/{{data.id}}/Detail"
-                                                        >Evaluar</button>
+                                                    (click)="gestionar(data.id)"
+                                                        >Gestionar</button>
                                                 </div>
                                                 <!--<a href="javascript:void(0);" class="link-primary"
                                                 title="Editar" 
