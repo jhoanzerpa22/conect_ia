@@ -499,7 +499,7 @@ export class ComplianceFollowComponent implements OnInit {
           timer: 5000,
         });
         
-        this._location.back();
+        this.backClicked();
     },
     (error: any) => {
       

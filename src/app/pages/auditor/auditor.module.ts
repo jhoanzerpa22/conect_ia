@@ -39,6 +39,7 @@ import { ComplianceComponent } from './create/compliance/compliance.component';
 import { ComplianceDetailComponent } from './create/compliance/detail/compliance-detail.component';
 import { ComplianceFollowComponent } from './create/compliance/follow/follow.component';
 import { ComplianceTaskComponent } from './create/compliance/task/task.component';
+import { ComplianceAssessComponent } from './create/compliance/assess/assess.component';
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -100,6 +101,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ComplianceDetailComponent,
     ComplianceFollowComponent,
     ComplianceTaskComponent,
+    ComplianceAssessComponent,
     ToastsAuditorContainer
   ],
   entryComponents:[
@@ -108,7 +110,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ComplianceComponent,
     ComplianceDetailComponent,
     ComplianceFollowComponent,
-    ComplianceTaskComponent
+    ComplianceTaskComponent,
+    ComplianceAssessComponent
   ],
   imports: [
     CommonModule,

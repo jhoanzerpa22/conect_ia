@@ -21,7 +21,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-assess',
+  selector: 'app-auditor-assess',
   templateUrl: './assess.component.html',
   styleUrls: ['./assess.component.scss'],
   providers: [RecentService, DecimalPipe]
@@ -35,15 +35,16 @@ export class ComplianceAssessComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
-  project_id: any = '';
-  cuerpo_id: any = '';
-  tarea_id: any = '';
-  installation_id: any = null;
   installation_id_select: any = [];
-  installation_nombre: any = null;
   detail: any = [];
   installations: any = [];
   installations_articles: any = [];
+
+  @Input('project_id') project_id: any;
+  @Input('installation_id') installation_id: any;
+  @Input('installation_nombre') installation_nombre: any;
+  @Input('cuerpo_id') cuerpo_id: any;
+  @Input('tarea_id') tarea_id: any;
 
   folderData!: DetailModel[];
   submitted = false;
@@ -99,6 +100,8 @@ export class ComplianceAssessComponent implements OnInit {
 
   modelValueAsDate: Date = new Date();
 
+  @Output() backFunction = new EventEmitter();
+
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location) {
     this.recentData = service.recents$;
     this.total = service.total$;
@@ -107,15 +110,6 @@ export class ComplianceAssessComponent implements OnInit {
   inlineDatePicker: Date = new Date();
 
   ngOnInit(): void {
-    /**
-    * BreadCrumb
-    */
-    this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento' },
-      { label: 'Tareas' },
-      { label: 'Registrar Cumplimiento', active: true }
-    ];
 
     document.body.classList.add('file-detail-show');
 
@@ -138,18 +132,13 @@ export class ComplianceAssessComponent implements OnInit {
       comentario: ['']
     });
 
-    this.route.params.subscribe(params => {
-      this.project_id = params['idProject'];
-      this.cuerpo_id = params['idArticle'];
-      this.tarea_id = params['id'];
-      this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
-      this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
+    //this.cuerpo_id = params['idArticle'];
+    //this.tarea_id = params['id'];
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
         this.getTaskById(this.tarea_id);
-    });
-
+    
     // Data Get Function
     //this._fetchData();
   }
@@ -189,6 +178,10 @@ export class ComplianceAssessComponent implements OnInit {
     return index == -1;
   }
   
+  backClicked(){
+    this.backFunction.emit();
+  }
+
   private getInstallations() {
     
     this.showPreLoader();
@@ -620,8 +613,7 @@ var reader = new FileReader();
           showConfirmButton: true,
           timer: 5000,
         });
-        
-        this._location.back();
+        this.backClicked();
     },
     (error: any) => {
       
