@@ -72,8 +72,6 @@ export class ComplianceAssessComponent implements OnInit {
   tarea: any = {};
 
   items: any = [];
-  hallazgos: any = [];
-  HallazgosDatas: any = [];
 
   status: any = 'COMPLETADA';//'CREADA', 'INICIADA', 'COMPLETADA';
 
