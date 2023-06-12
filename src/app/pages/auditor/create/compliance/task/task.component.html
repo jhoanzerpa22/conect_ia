@@ -120,6 +120,10 @@
                                         class="users-avatar-shadow avatar mr-3" height="64" width="64"><!--rounded-circle-->
                                     </div>
                                     <div class="col-md-2">
+                                        <h5>Identificador:</h5>
+                                        <p>{{data.findings ? data.findings.id.toString().padStart(6,"H-000") : '' }}</p>
+                                    </div>
+                                    <div class="col-md-2">
                                         <h5>Fecha Creación:</h5>
                                         <p>{{data.findings.createdAt | date: 'd/M/yy' }}</p>
                                     </div>
@@ -129,7 +133,7 @@
                                         <p>{{data.findings.nombre}}</p>
                                     </div>
                                     
-                                    <div class="col-md-7">
+                                    <div class="col-md-5">
                                         <h5>Descripción:</h5> 
                                         <p>{{data.findings.descripcion}}</p>
                                     </div>
@@ -390,7 +394,7 @@
                 <label for="hallazgo-field" class="form-label">Hallazgo</label>
                 <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
                     <option selected>Seleccione Hallazgo </option>
-                    <option *ngFor="let h of hallazgos;" value="{{h.findings.id}}">{{h.findings.nombre}}</option>
+                    <option *ngFor="let h of hallazgos;" value="{{h.findings.id}}">{{'('+h.findings.id.toString().padStart(6,"H-000")+')'+h.findings.nombre}}</option>
                 </select>
                 <!--<ngx-simplebar style="height: 80px;">
                     <ul class="list-unstyled vstack gap-2 mb-0">

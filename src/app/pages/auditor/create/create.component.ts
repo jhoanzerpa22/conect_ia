@@ -435,7 +435,7 @@ export class CreateComponent implements OnInit {
       });
 
       return;
-    }else{
+    }/*else{
       //this.nombreProyecto = this.f['nombre'].value;
       //this.descripcionProyecto = this.f['descripcion'].value;
       if(this.activeTab == 3 && this.installations_select < 1){
@@ -450,7 +450,7 @@ export class CreateComponent implements OnInit {
         return;
       }
 
-    }
+    }*/
   }
 
    siguiente(){
