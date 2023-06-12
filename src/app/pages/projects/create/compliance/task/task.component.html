@@ -241,6 +241,7 @@
                                     <th class="sort" data-sort="responsable" style="width: 300px;">Responsable</th>
                                     <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>
                                     <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Vencimiento</th>
+                                    <th class="sort">Dias Retraso</th>
                                     <th class="sort" data-sort="hallazgo" style="width: 300px;">Hallazgo</th>
                                     <th class="sort" style="width: 100px;">Estado</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
@@ -259,6 +260,7 @@
                                     <td>{{ data.fecha_inicio | date: 'd/M/yy' }}
                                     </td>
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
+                                    <td>{{getRetraso(data.fecha_termino)}}</td>
                                     <td><ngb-highlight [result]="data.evaluationFinding.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                     <td class="status"><span

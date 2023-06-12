@@ -21,6 +21,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { round } from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-auditor-task',
@@ -607,6 +608,13 @@ export class ComplianceTaskComponent implements OnInit {
     this.nombreHallazgo = nombre;
     this.idHallazgo = id;
     this.getTasksByFinding(this.idHallazgo);
+  }
+
+  getRetraso(fecha_vencimiento: any){
+    var fecha1 = moment(fecha_vencimiento);
+    var fecha2 = moment(Date.now());
+
+    return fecha2.diff(fecha1, 'days') > 0 ? fecha2.diff(fecha1, 'days') : 0;
   }
   
   imgError(ev: any){
