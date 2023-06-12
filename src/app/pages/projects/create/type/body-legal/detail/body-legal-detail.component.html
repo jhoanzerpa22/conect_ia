@@ -153,57 +153,57 @@
                     </li>
                     <li *ngFor="let est of detail.EstructurasFuncionales; let i = index;">
                         <!-- Si posee items nivel 1--> 
-                        <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i)" role="button" aria-expanded="true"
+                        <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est.idParte, i, 1)" role="button" aria-expanded="true"
                         aria-controls="collapseExample"
-                        [attr.aria-expanded]="!isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales"><i
+                        [attr.aria-expanded]="isCollapsed == 'r-'+est.idParte" *ngIf="est.EstructurasFuncionales"><i
                                 class="ri-file-list-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }}</span>
+                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }} - JJ</span>
                         </a>
                         
                         <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                            [(ngbCollapse)]="isCollapsed[est.idParte]" *ngIf="est.EstructurasFuncionales">
+                            [(ngbCollapse)]="isCollapsed != 'r-'+est.idParte" *ngIf="est.EstructurasFuncionales">
                             <ul class="sub-menu list-unstyled">
                                 <li *ngFor="let est2 of est.EstructurasFuncionales; let i2 = index;">
                                     <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</a>-->
 
                                     <!-- Si posee items nivel 2--> 
-                                    <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2)" role="button" aria-expanded="true"
+                                    <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2, 2)" role="button" aria-expanded="true"
                                     aria-controls="collapseExample"
-                                    [attr.aria-expanded]="!isCollapsed[est2.idParte]" *ngIf="est2.EstructurasFuncionales"><i
+                                    [attr.aria-expanded]="isCollapsed2 == 'r-'+est2.idParte" *ngIf="est2.EstructurasFuncionales"><i
                                             class="ri-file-list-2-line align-bottom me-2"></i> <span
                                             class="file-list-link">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</span>
                                     </a>
                                     
                                     <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                                        [(ngbCollapse)]="isCollapsed[est2.idParte]" *ngIf="est2.EstructurasFuncionales">
+                                        [(ngbCollapse)]="isCollapsed2 != 'r-'+est2.idParte" *ngIf="est2.EstructurasFuncionales">
                                         <ul class="sub-menu list-unstyled">
                                             <li *ngFor="let est3 of est2.EstructurasFuncionales; let i3 = index;">
                                                 <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3)">{{ est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</a>-->
                                                 
                                                 <!-- Si posee items nivel 3--> 
-                                                <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3)" role="button" aria-expanded="true"
+                                                <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3, 3)" role="button" aria-expanded="true"
                                                 aria-controls="collapseExample"
-                                                [attr.aria-expanded]="!isCollapsed[est3.idParte]" *ngIf="est3.EstructurasFuncionales"><i
+                                                [attr.aria-expanded]="isCollapsed3 == 'r-'+est3.idParte" *ngIf="est3.EstructurasFuncionales"><i
                                                         class="ri-file-list-2-line align-bottom me-2"></i> <span
                                                         class="file-list-link">{{ est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</span>
                                                 </a>
                                                 
                                                 <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                                                    [(ngbCollapse)]="isCollapsed[est3.idParte]" *ngIf="est3.EstructurasFuncionales">
+                                                    [(ngbCollapse)]="isCollapsed3 != 'r-'+est3.idParte" *ngIf="est3.EstructurasFuncionales">
                                                     <ul class="sub-menu list-unstyled">
                                                         <li *ngFor="let est4 of est3.EstructurasFuncionales; let i4 = index;">
                                                             <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est4.idParte, i4)">{{ est4.tituloParte ? est4.tituloParte : (est4.texto ? (est4.texto.split(".")[0].length > 10 ? est4.texto.split(".")[0] : est4.tipoParte) : est4.tipoParte) }}</a>-->
 
                                                             <!-- Si posee items nivel 4--> 
-                                                            <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est4.idParte, i4)" role="button" aria-expanded="true"
+                                                            <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est4.idParte, i4, 4)" role="button" aria-expanded="true"
                                                             aria-controls="collapseExample"
-                                                            [attr.aria-expanded]="!isCollapsed[est4.idParte]" *ngIf="est4.EstructurasFuncionales"><i
+                                                            [attr.aria-expanded]="isCollapsed4 == 'r-'+est4.idParte" *ngIf="est4.EstructurasFuncionales"><i
                                                                     class="ri-file-list-2-line align-bottom me-2"></i> <span
                                                                     class="file-list-link">{{ est4.tituloParte ? est4.tituloParte : (est4.texto ? (est4.texto.split(".")[0].length > 10 ? est4.texto.split(".")[0] : est4.tipoParte) : est4.tipoParte) }}</span>
                                                             </a>
                                                             
                                                             <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                                                                [(ngbCollapse)]="isCollapsed[est4.idParte]" *ngIf="est4.EstructurasFuncionales">
+                                                                [(ngbCollapse)]="isCollapsed4 != 'r-'+est4.idParte" *ngIf="est4.EstructurasFuncionales">
                                                                 <ul class="sub-menu list-unstyled">
                                                                     <li *ngFor="let est5 of est4.EstructurasFuncionales; let i5 = index;">
                                                                         <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est5.idParte, i5)">{{ est5.tituloParte ? est5.tituloParte : (est5.texto ? (est5.texto.split(".")[0].length > 10 ? est5.texto.split(".")[0] : est5.tipoParte) : est5.tipoParte) }}</a>
