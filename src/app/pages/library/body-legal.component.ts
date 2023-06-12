@@ -43,7 +43,7 @@ export class BodyLegalTypeComponent {
   total_body: number = 0;
   total_paginate: number = 0;
   @ViewChildren(NgbdBodyLegalTypeSortableHeader) headers!: QueryList<NgbdBodyLegalTypeSortableHeader>;
-  page: number = 1;
+  page: number = 120;
   term:any;
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
