@@ -14,20 +14,41 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
+        <form [formGroup]="busquedaForm">
          <div class="card-header">
             <div class="row">
-                <div class="col-xxl-9 col-lg-9" style="padding: 10px;">
+                <div class="col-xxl-5 col-lg-5" style="padding: 10px;">
                     <h4 class="card-title mb-0">Cuerpos Legales</h4>
+                </div>
+
+                <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
+                    <div class="form-check form-check-inline mb-2">
+                        <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_id" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                        Por id Norma
+                        </label>
+                    </div>
+                        
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_texto" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                        Por texto Norma
+                        </label>
+                    </div>
                 </div>
 
                 <div class="col-xxl-3 col-lg-3">
                     <div class="search-box">
-                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." [(ngModel)]="term">
+                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." formControlName="busqueda">
                         <i class="ri-search-2-line search-icon"></i>
                     </div>
                 </div>
+                <div class="col-xxl-1 col-lg-1">
+                    <button type="button" class="btn btn-primary btn-label waves-effect right waves-light" (click)="busquedaNorma()"><i class="ri-search-2-line label-icon align-middle fs-16 ms-2"></i> Buscar</button>
+                </div>
             </div>
          </div>
+        </form>
 
             <div class="card-body">
                 <div id="customerList">
@@ -56,46 +77,26 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <!--<th scope="col" style="width: 50px;">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option"
-                                                [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
-                                        </div>
-                                    </th>-->
-                                    <th class="sort" data-sort="nombre">Cuerpos Legales</th>
-                                    <th class="sort" data-sort="descripcion">Descripción</th>
+                                    <th class="sort" data-sort="nombre">Cuerpo Legal</th>
                                     <th class="sort" data-sort="carecteristicas">Características</th>
                                     <th class="sort">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of BodyLegalDatas" id="lj_{{data.normaId}}">
-                                    <!--<th scope="row">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="checkAll"
-                                                value="{{data.id}}" [(ngModel)]="data.state">
-                                        </div>
-                                    </th>-->
+                                <tr *ngFor="let data of body_legal_data" id="lj_{{data.normaId}}"><!--BodyLegalDatas-->
                                     <td>
-                                        <h4>{{data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : ''}}</h4>
-                                        <h5>{{data.tituloNorma ? data.tituloNorma : ''}}</h5>
-                                        <ng-container *ngFor="let org of data.organismos">
-                                            {{org}}
-                                        </ng-container>
+                                        <h4>{{data.TipoNumero ? data.TipoNumero.Compuesto : ''}}</h4>
+                                        <h5>{{data.TituloNorma ? data.TituloNorma : ''}}</h5>
                                     </td>
                                     <td>
-                                        <ngb-highlight [result]="data.encabezado ? data.encabezado.texto.substr(0,400)+'...' : ''"
-                                            [term]="service.searchTerm">
-                                        </ngb-highlight></td>
-                                    <td>
-                                        Publicado el {{data.dates ? data.dates.fechaPublicacionNorma : ''}}<br>
-                                        Vigencia: {{data.dates ? data.dates.fechaVencimientoNorma : ''}}
+                                        Publicado el {{data ? data.FechaPublicacion : ''}}<br>
+                                        Vigencia: {{data ? data.InicioDeVigencia : ''}}
                                     </td>
                                     <td>
                                         
                                         <div class="d-flex gap-2">
                                             <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" routerLink="/library/{{data.normaId}}/Detail"
+                                                <button class="btn btn-sm btn-success edit-item-btn" routerLink="/library/{{data.idNorma}}/Detail"
                                                     >Ver</button>
                                             </div>
                                         </div>

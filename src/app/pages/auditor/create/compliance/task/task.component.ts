@@ -21,6 +21,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { round } from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-auditor-task',
@@ -376,7 +377,80 @@ export class ComplianceTaskComponent implements OnInit {
         const is_image = this.taskForm.get('is_image')?.value;
         const is_file = this.taskForm.get('is_file')?.value;
         
+        //console.log('taskDatas',this.TaskDatas);
+        /*const index = this.TaskDatas.findIndex(
+          (t: any) =>
+            (fecha_inicio > t.fecha_inicio && fecha_inicio < t.fecha_termino) || (fecha_termino > t.fecha_inicio && fecha_termino < t.fecha_termino)
+        );
 
+        console.log('fecha_inicio:', fecha_inicio);
+        console.log('fecha_termino:', fecha_termino);
+        console.log('index:',index);;
+        
+        if(index != -1){
+          
+          Swal.fire({
+            title: 'Existe otra tarea creada en el rango de fecha ingresado. Desea continuar?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            denyButtonText: 'No',
+            customClass: {
+              actions: 'my-actions',
+              //cancelButton: 'order-1 right-gap',
+              confirmButton: 'order-2',
+              denyButton: 'order-3',
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+              this.TaskDatas.push({
+                responsable,
+                nombre,
+                descripcion,
+                fecha_inicio,
+                fecha_termino,
+                evaluationFindingId
+              });
+              
+              const task: any = {
+                responsableId: responsable,
+                nombre: nombre,
+                descripcion: descripcion,
+                fecha_inicio: fecha_inicio,
+                fecha_termino: fecha_termino,
+                evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+                estado: 'CREADA',
+                type: 'findingTaks',
+                is_image: is_image,
+                is_file: is_file,
+                installationId: this.installation_id,
+                proyectoId: this.project_id,
+                empresaId: this.userData.empresaId
+              };
+              
+              this.projectsService.createTask(task).pipe().subscribe(
+                (data: any) => {     
+                 this.hidePreLoader();
+                 this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      
+                 //this.getTasksByFinding(this.idHallazgo);
+                 this.getFindingsByInstallationArticle();
+      
+                 this.modalService.dismissAll();
+              },
+              (error: any) => {
+                
+                this.hidePreLoader();
+                this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+                this.modalService.dismissAll()
+              });
+            } else if (result.isDenied) {
+              
+            }
+          });
+        }else{
+          */
         this.TaskDatas.push({
           responsable,
           nombre,
@@ -418,6 +492,7 @@ export class ComplianceTaskComponent implements OnInit {
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
           this.modalService.dismissAll()
         });
+        //}
 
       }
     }
@@ -607,6 +682,13 @@ export class ComplianceTaskComponent implements OnInit {
     this.nombreHallazgo = nombre;
     this.idHallazgo = id;
     this.getTasksByFinding(this.idHallazgo);
+  }
+
+  getRetraso(fecha_vencimiento: any){
+    var fecha1 = moment(fecha_vencimiento);
+    var fecha2 = moment(Date.now());
+
+    return fecha2.diff(fecha1, 'days') > 0 ? fecha2.diff(fecha1, 'days') : 0;
   }
   
   imgError(ev: any){
