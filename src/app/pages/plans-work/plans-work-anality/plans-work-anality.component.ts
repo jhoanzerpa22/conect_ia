@@ -23,6 +23,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { round } from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-plans-work-anality',
@@ -731,6 +732,13 @@ layers = [
         checkboxes[j].checked = false;
       }
     }
+  }
+
+  getRetraso(fecha_vencimiento: any){
+    var fecha1 = moment(fecha_vencimiento);
+    var fecha2 = moment(Date.now());
+
+    return fecha2.diff(fecha1, 'days') > 0 ? fecha2.diff(fecha1, 'days') : 0;
   }
   
   // PreLoader

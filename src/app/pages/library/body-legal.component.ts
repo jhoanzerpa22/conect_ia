@@ -36,6 +36,7 @@ export class BodyLegalTypeComponent {
   checkedList: any;
   masterSelected!: boolean;
   BodyLegalDatas: any;
+  body_legal_data: any = [];
 
   // Table data
   BodyLegalList!: Observable<BodyLegalTypeModel[]>;
@@ -43,8 +44,9 @@ export class BodyLegalTypeComponent {
   total_body: number = 0;
   total_paginate: number = 0;
   @ViewChildren(NgbdBodyLegalTypeSortableHeader) headers!: QueryList<NgbdBodyLegalTypeSortableHeader>;
-  page: number = 120;
+  page: number = 1;
   term:any;
+  busquedaForm!: UntypedFormGroup;
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.BodyLegalList = service.bodylegal$;
@@ -60,7 +62,12 @@ export class BodyLegalTypeComponent {
       { label: 'Cuerpos Legales', active: true }
     ];
 
-    this.fetchData();
+    this.busquedaForm = this.formBuilder.group({
+      busqueda: [''],
+      tipo_busqueda: ['by_texto']
+    });
+
+    //this.fetchData();
 
     /**
      * fetches data
@@ -68,6 +75,31 @@ export class BodyLegalTypeComponent {
     this.BodyLegalList.subscribe(x => {
       this.BodyLegalDatas = Object.assign([], x);
     });
+  }
+
+  busquedaNorma(){
+    
+    this.showPreLoader();
+
+    let busqueda: any = this.busquedaForm.get('busqueda')?.value;
+    let tipo_busqueda: any = this.busquedaForm.get('tipo_busqueda')?.value;
+
+      this.projectsService.getBodyLegalSearch(1, busqueda, 20).pipe().subscribe(
+        (data: any) => {
+          console.log(data.data);
+          this.service.bodylegal_data = data.data;
+          this.body_legal_data = data.data;
+          this.total_body = data.data.length > 0 ? data.data.length : 0;
+          this.total_paginate = data.data.length > 0 ? data.data.length : 0;
+          //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
   /**
