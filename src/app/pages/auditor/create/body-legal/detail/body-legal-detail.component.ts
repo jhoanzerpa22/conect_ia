@@ -53,7 +53,10 @@ export class BodyLegalDetailComponent implements OnInit {
   recentDatas: any;
   articulosDatas: any;
   simpleDonutChart: any;
-  public isCollapsed: any = [];
+  public isCollapsed: any = 'Encabezado';
+  public isCollapsed2: any = '';
+  public isCollapsed3: any = '';
+  public isCollapsed4: any = '';
   isCollapseArray: any = ['Encabezado'];
   showEncabezado: boolean = true;
 
@@ -380,7 +383,7 @@ export class BodyLegalDetailComponent implements OnInit {
   /**
   * Product Filtering  
   */
-  changeProducts(e: any, name: any, index?: any) {
+  changeProducts(e: any, name: any, index?: any, nivel?: number) {
 
     //this.collapse?.nativeElement.toggle();
     //this.collapse?.nativeElement.classList.toggle('active');
@@ -388,6 +391,25 @@ export class BodyLegalDetailComponent implements OnInit {
     this.showEncabezado = name == 'r-Encabezado';
 
     this.isCollapseArray = name;
+    switch (nivel) {
+      case 1:
+        this.isCollapsed = this.isCollapsed == name ? '' : name;
+        break;
+        case 2:
+          this.isCollapsed2 = this.isCollapsed2 == name ? '' : name;
+          break;
+          case 3:
+            this.isCollapsed3 = this.isCollapsed3 == name ? '' : name;
+            break;
+            case 4:
+              this.isCollapsed4 = this.isCollapsed4 == name ? '' : name;
+              break;
+    
+      default:
+        //this.isCollapsed = this.isCollapsed == name ? '' : name;
+        break;
+    }
+    
     (document.getElementById(name) as HTMLElement).scrollIntoView({behavior: 'smooth'});
 
     /*(document.getElementById("folder-list") as HTMLElement).style.display = "none";
