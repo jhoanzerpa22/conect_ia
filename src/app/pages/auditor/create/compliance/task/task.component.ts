@@ -366,6 +366,7 @@ export class ComplianceTaskComponent implements OnInit {
       
       this.showPreLoader();
       if (this.taskForm.get('ids')?.value) {
+        this.hidePreLoader();
         this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
@@ -377,22 +378,18 @@ export class ComplianceTaskComponent implements OnInit {
         const is_image = this.taskForm.get('is_image')?.value;
         const is_file = this.taskForm.get('is_file')?.value;
         
-        //console.log('taskDatas',this.TaskDatas);
-        /*const index = this.TaskDatas.findIndex(
+        const index = this.TaskDatas.findIndex(
           (t: any) =>
-            (fecha_inicio > t.fecha_inicio && fecha_inicio < t.fecha_termino) || (fecha_termino > t.fecha_inicio && fecha_termino < t.fecha_termino)
+            (moment(fecha_inicio).format() > t.fecha_inicio && moment(fecha_inicio).format() < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (moment(fecha_inicio).format() < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
         );
 
-        console.log('fecha_inicio:', fecha_inicio);
-        console.log('fecha_termino:', fecha_termino);
-        console.log('index:',index);;
-        
         if(index != -1){
           
+          this.hidePreLoader();
           Swal.fire({
             title: 'Existe otra tarea creada en el rango de fecha ingresado. Desea continuar?',
             showDenyButton: true,
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonText: 'Si',
             denyButtonText: 'No',
             customClass: {
@@ -404,14 +401,15 @@ export class ComplianceTaskComponent implements OnInit {
           }).then((result) => {
             if (result.isConfirmed) {
 
-              this.TaskDatas.push({
+              this.showPreLoader();
+              /*this.TaskDatas.push({
                 responsable,
                 nombre,
                 descripcion,
                 fecha_inicio,
                 fecha_termino,
                 evaluationFindingId
-              });
+              });*/
               
               const task: any = {
                 responsableId: responsable,
@@ -445,20 +443,26 @@ export class ComplianceTaskComponent implements OnInit {
                 this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
                 this.modalService.dismissAll()
               });
+
+              this.modalService.dismissAll();
+              setTimeout(() => {
+                this.taskForm.reset();
+              }, 1000);
+              this.submitted = true
             } else if (result.isDenied) {
               
             }
           });
         }else{
-          */
-        this.TaskDatas.push({
+        
+        /*this.TaskDatas.push({
           responsable,
           nombre,
           descripcion,
           fecha_inicio,
           fecha_termino,
           evaluationFindingId
-        });
+        });*/
         
         const task: any = {
           responsableId: responsable,
@@ -492,15 +496,17 @@ export class ComplianceTaskComponent implements OnInit {
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
           this.modalService.dismissAll()
         });
-        //}
+
+        this.modalService.dismissAll();
+        setTimeout(() => {
+          this.taskForm.reset();
+        }, 1000);
+        this.submitted = true
+        }
 
       }
     }
-    this.modalService.dismissAll();
-    setTimeout(() => {
-      this.taskForm.reset();
-    }, 1000);
-    this.submitted = true
+    
   }
 
   selectInstallation(event: any){
@@ -712,7 +718,8 @@ export class ComplianceTaskComponent implements OnInit {
   * Form data get
   */
   get form() {
-    return this.folderForm.controls;
+    //return this.folderForm.controls;
+    return this.taskForm.controls;
   }
 
   /*isCollapsed(idParte: any){
