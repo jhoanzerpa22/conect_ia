@@ -151,7 +151,7 @@ export class ProjectsService {
     }
 
     getAreasAll(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/areas/all/'+project_id, /*httpOptions*/this.getToken());
+        return this.http.get(API_URL_BACK + 'project/areas/all', /*httpOptions*/this.getToken());
     }
 
     getAreas(project_id: any){

@@ -45,15 +45,9 @@
                     </div>
 
                     <div class="table-responsive table-card mt-3 mb-1">
-                        <table class="table">
+                        <!--<table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <!--<th scope="col" style="width: 50px;">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option"
-                                                [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
-                                        </div>
-                                    </th>-->
                                     <th class="sort" data-sort="nombre">Nombre</th>
                                     <th class="sort" data-sort="descripcion">Descripcion</th>
                                     <th class="sort" data-sort="area">Area</th>
@@ -62,12 +56,6 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of InstallationDatas" id="lj_{{data.id}}">
-                                    <!--<th scope="row">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="checkAll"
-                                                value="{{data.id}}" [(ngModel)]="data.state">
-                                        </div>
-                                    </th>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.descripcion"
@@ -76,22 +64,6 @@
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <!--<div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn"
-                                                    data-bs-toggle="modal" data-bs-target="#showModal"
-                                                    (click)="editModal(content,data.id)">Ver</button>
-                                            </div>
-                                            
-                                            <div class="edit">
-                                                <button class="btn btn-sm btn-primary edit-item-btn"
-                                                    (click)="goItems(data)">Items</button>
-                                            </div>
-                                            
-                                            <div class="remove">
-                                                <button class="btn btn-sm btn-danger remove-item-btn"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
-                                                    (click)="confirm(deleteModel,data.id)">Remover</button>
-                                            </div>-->
                                             <div class="hstack gap-3 fs-15">
                                                 <a href="javascript:void(0);" class="link-primary"
                                                 title="Ver" 
@@ -109,7 +81,78 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table>-->
+                        <table mat-table [dataSource]="dataSource" class="table" style="border: gainsboro !important;"><!--class="mat-elevation-z8"-->
+                            <ng-container matColumnDef="nombre">
+                                
+                              <th mat-header-cell *matHeaderCellDef> 
+                                <span [style.paddingLeft.px]="40"> Nombre </span>
+                              </th>
+                            
+                              <td mat-cell *matCellDef="let data"> 
+                                <span 
+                                        [style.visibility]="!data.expandable ? 'hidden' : ''"
+                                        [style.marginLeft.px]="data.level * 32"
+                                        [style.cursor]="'pointer'"
+                                        (click)="treeControl.toggle(data)">
+                                  <!--<mat-icon class="mat-icon-rtl-mirror">
+                                    {{treeControl.isExpanded(data) ? 'expand_more' : 'chevron_right'}}
+                                  </mat-icon>-->
+                                  <i class="{{treeControl.isExpanded(data) ? 'ri-arrow-down-s-line' : 'ri-arrow-right-s-line'}}"></i>
+                                </span>
+                                <ngb-highlight [result]="data.nombre"></ngb-highlight>
+                              </td>
+                              
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="area">
+                                
+                                <th mat-header-cell *matHeaderCellDef> 
+                                  <span [style.paddingLeft.px]="40"> Area </span>
+                                </th>
+                              
+                                <td mat-cell *matCellDef="let data">
+                                  <ngb-highlight [result]="data.area"></ngb-highlight>
+                                </td>
+                                
+                            </ng-container> 
+                          
+                            <ng-container matColumnDef="descripcion">
+                              <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                              <td mat-cell *matCellDef="let data">
+                                <ngb-highlight [result]="data.descripcion"></ngb-highlight>
+                              </td>
+                            </ng-container> 
+
+                            <ng-container matColumnDef="accion">
+                                <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Acción </th>
+                                <td mat-cell *matCellDef="let data">
+  
+                                      <div class="d-flex gap-2">
+                                          <div class="edit">
+                                            <div class="hstack gap-3 fs-15">
+                                                <a href="javascript:void(0);" class="link-primary" 
+                                                title="Ver"
+                                                data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)"><i class="ri-eye-line"></i></a>
+                                                
+                                                <a href="javascript:void(0);" class="link-danger" 
+                                                title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>
+                                            </div>
+
+                                          </div>
+                                      </div>
+                                  </td>
+                              </ng-container> 
+                          
+                            <thead>
+                            <tr class="bg-light text-muted" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            </thead>
+                            <tbody>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </tbody>
+                          </table>
                     </div>
 
                     <div class="row justify-content-md-between align-items-md-center">
