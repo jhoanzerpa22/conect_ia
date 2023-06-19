@@ -16,6 +16,38 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ToastService } from '../toast-service';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 
+import {FlatTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+
+interface FoodNode {
+  id: number;
+  nombre: string;
+  //area?: string;
+  descripcion?: string;
+  children?: FoodNode[];
+}
+
+const TREE_DATA: FoodNode[] = [
+  {
+    id: 1,
+    nombre: 'Area 1',
+    descripcion: ''
+  }/*,
+  {
+    id: 2,
+    nombre: 'Area 2',
+    children: [
+      {
+        id: 21,
+        nombre: 'Area 2-1',
+        children: [
+          {id: 211,nombre: 'Area 2-1-1'}
+        ]
+      }
+    ]
+  }*/
+];
+
 @Component({
   selector: 'app-areas',
   templateUrl: './areas.component.html',
@@ -49,10 +81,34 @@ export class AreasComponent {
   total: Observable<number>;
   @ViewChildren(NgbdAreasSortableHeader) headers!: QueryList<NgbdAreasSortableHeader>;
 
+  displayedColumns: string[] = ['nombre'/*, 'area'*/, 'descripcion', 'accion'];
+
+  private transformer = (node: FoodNode, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      id: node.id,
+      nombre: node.nombre,
+      //area: node.area,
+      descripcion: node.descripcion,
+      level: level
+    };
+  }
+
+  treeControl = new FlatTreeControl<any/*ExampleFlatNode*/>(
+      node => node.level, node => node.expandable);
+
+  treeFlattener = new MatTreeFlattener(
+      this.transformer, node => node.level, 
+      node => node.expandable, node => node.children);
+
+      dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
   constructor(private modalService: NgbModal, public service: AreasService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.AreaList = service.areas$;
     this.total = service.total$;
   }
+  
+  hasChild = (_: number, node: any/*ExampleFlatNode*/) => node.expandable;
 
   ngOnInit(): void {
     /**
@@ -100,9 +156,11 @@ export class AreasComponent {
           { label: this.area_name, active: true }
         ];*/
 
-        this.fetchDataItems();
+        //this.fetchDataItems();
+        this.getAreas();
       }else{
-        this.fetchData();
+        //this.fetchData();
+        this.getAreas();
       }
     });
 
@@ -179,6 +237,42 @@ export class AreasComponent {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
+  }
+
+  private getAreas(){
+    this.showPreLoader();
+      this.projectsService.getAreasAll(this.project_id).pipe().subscribe(
+        (data: any) => {
+          let obj: any = data.data;
+          let tree_data: any = [];
+          
+          for (let c in obj) {
+            let padre: any = obj[c].padre;
+
+              tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+          }
+          this.service.areas_data = tree_data;    
+          this.dataSource.data = tree_data;
+          console.log('data',tree_data);
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
+  }
+  
+  private getHijas(hijos: any){
+    let tree_data: any = [];
+    for (let d in hijos) {
+
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+    }
+    return tree_data;
   }
 
   /**
@@ -340,6 +434,8 @@ export class AreasComponent {
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
     //updateBtn.innerHTML = "Editar";
     updateBtn.style.visibility = "hidden";
+    console.log('AreaDatas:', this.AreaDatas);
+    console.log('Id:', id);
     var listData = this.AreaDatas.filter((data: { id: any; }) => data.id === id);
     this.areaForm.controls['nombre'].setValue(listData[0].nombre);
     this.areaForm.controls['descripcion'].setValue(listData[0].descripcion);
