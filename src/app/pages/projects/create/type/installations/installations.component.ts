@@ -167,21 +167,21 @@ export class InstallationsTypeComponent {
       let total_articulos: any = [];
       let total_cuerpos: any = [];
     
-        /*for (var j = 0; j < padre.installations_articles.length; j++) {
-          if(padre.installations_articles[j].proyectoId == this.project_id){
-            total_articulos.push(padre.installations_articles[j]);
-            
-            const index = total_cuerpos.findIndex(
-              (cu: any) =>
-                cu == padre.installations_articles[j].cuerpoLegal
-            );
+      for (var j = 0; j < hijos[d].installations_articles.length; j++) {
+        if(hijos[d].installations_articles[j].proyectoId == this.project_id){
+          total_articulos.push(hijos[d].installations_articles[j]);
+          
+          const index = total_cuerpos.findIndex(
+            (cu: any) =>
+              cu == hijos[d].installations_articles[j].cuerpoLegal
+          );
 
-            if(index == -1){
-              total_cuerpos.push(padre.installations_articles[j].cuerpoLegal);
-            }
-
+          if(index == -1){
+            total_cuerpos.push(hijos[d].installations_articles[j].cuerpoLegal);
           }
-        }*/
+
+        }
+      }
 
         tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', cuerpo: total_cuerpos.length, articulo: total_articulos.length, conectado: hijos[d].conectado, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
@@ -205,21 +205,21 @@ export class InstallationsTypeComponent {
             let total_articulos: any = [];
             let total_cuerpos: any = [];
           
-          //for (var j = 0; j < padre.installations_articles.length; j++) {
-            if(padre.installations_articles/*[j]*/.proyectoId == this.project_id){
-              total_articulos.push(padre.installations_articles/*[j]*/);
+          for (var j = 0; j < padre.installations_articles.length; j++) {
+            if(padre.installations_articles[j].proyectoId == this.project_id){
+              total_articulos.push(padre.installations_articles[j]);
               
               const index = total_cuerpos.findIndex(
                 (cu: any) =>
-                  cu == padre.installations_articles/*[j]*/.cuerpoLegal
+                  cu == padre.installations_articles[j].cuerpoLegal
               );
 
               if(index == -1){
-                total_cuerpos.push(padre.installations_articles/*[j]*/.cuerpoLegal);
+                total_cuerpos.push(padre.installations_articles[j].cuerpoLegal);
               }
 
             }
-          //}
+          }
 
               tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', cuerpo: total_cuerpos.length, articulo: total_articulos.length, conectado: padre.conectado, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }

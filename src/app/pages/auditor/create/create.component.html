@@ -339,9 +339,9 @@
                                 <tr *ngFor="let data of g.installations" id="lj_{{data.id}}">
                                     <td><ngb-highlight [result]="data.nombre"
                                             ></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.total_cuerpos ? data.total_cuerpos : 0"
+                                    <td><ngb-highlight [result]="data.cuerpo ? data.cuerpo : 0"
                                             ></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.total_articulos ? data.total_articulos : 0"
+                                    <td><ngb-highlight [result]="data.articulo ? data.articulo : 0"
                                             ></ngb-highlight></td>        
                                     <td class="status"><span
                                                 class="badge badge-soft-warning text-uppercase">No vinculado</span>
