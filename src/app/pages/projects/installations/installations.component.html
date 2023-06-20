@@ -219,8 +219,7 @@
 
             <div class="mb-3">
                 <label for="area-field" class="form-label">Area Administrativa</label>
-                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
-                (change)="selectArea($event)">
+                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa" formControlName="area" (change)="selectArea($event)">
                     <option selected>Seleccione Area Administrativa </option>
                     <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
                 </select>

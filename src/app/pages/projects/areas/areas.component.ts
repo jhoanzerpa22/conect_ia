@@ -70,6 +70,7 @@ export class AreasComponent {
   masterSelected!: boolean;
   AreaDatas: any;
   userData: any;
+  areas_all: any = [];
 
   project_id: any = '';
   area_id: any = '';
@@ -249,6 +250,8 @@ export class AreasComponent {
           for (let c in obj) {
             let padre: any = obj[c].padre;
 
+              this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion });
+              
               tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }
           this.service.areas_data = tree_data;    
@@ -269,6 +272,7 @@ export class AreasComponent {
   private getHijas(hijos: any){
     let tree_data: any = [];
     for (let d in hijos) {
+        this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion });
 
         tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
@@ -304,11 +308,12 @@ export class AreasComponent {
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
 
-           if(this.area_id){
+           /*if(this.area_id){
             this.fetchDataItems();
            }else{
             this.fetchData();
-           }
+           }*/
+           this.getAreas();
            this.modalService.dismissAll();
         },
         (error: any) => {
@@ -390,11 +395,12 @@ export class AreasComponent {
         response => {
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
           
-          if(this.area_id){
+          /*if(this.area_id){
             this.fetchDataItems();
           }else{
             this.fetchData();
-          }
+          }*/
+          this.getAreas();
           document.getElementById('lj_'+id)?.remove();
         },
         error => {
@@ -408,11 +414,12 @@ export class AreasComponent {
       .subscribe(
         response => {
           //this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-          if(this.area_id){
+          /*if(this.area_id){
             this.fetchDataItems();
           }else{
             this.fetchData();
-          }
+          }*/
+          this.getAreas();
 
           document.getElementById('lj_'+item)?.remove();
         },
@@ -434,9 +441,8 @@ export class AreasComponent {
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
     //updateBtn.innerHTML = "Editar";
     updateBtn.style.visibility = "hidden";
-    console.log('AreaDatas:', this.AreaDatas);
-    console.log('Id:', id);
-    var listData = this.AreaDatas.filter((data: { id: any; }) => data.id === id);
+    
+    var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
     this.areaForm.controls['nombre'].setValue(listData[0].nombre);
     this.areaForm.controls['descripcion'].setValue(listData[0].descripcion);
     this.areaForm.controls['ids'].setValue(listData[0].id);

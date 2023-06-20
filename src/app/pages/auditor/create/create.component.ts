@@ -157,14 +157,27 @@ export class CreateComponent implements OnInit {
             if(obj[i].installations_articles.length > 0){
               
               let total_articulos: any = [];
+              let total_cuerpos: any = [];
 
               for (var j = 0; j < obj[i].installations_articles.length; j++) {
                 if(obj[i].installations_articles[j].proyectoId == this.project_id){
                   total_articulos.push(obj[i].installations_articles[j]);
+
+                  const index = total_cuerpos.findIndex(
+                    (cu: any) =>
+                      cu == obj[i].installations_articles[j].cuerpoLegal
+                  );
+
+                  if(index == -1){
+                    total_cuerpos.push(obj[i].installations_articles[j].cuerpoLegal);
+                  }
+
                 }
               }
               
               if(total_articulos.length > 0){
+                obj[i].cuerpo =  total_cuerpos.length;
+                obj[i].articulo =  total_articulos.length;
                 lista.push(obj[i]);
               }
             }

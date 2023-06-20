@@ -69,6 +69,7 @@ export class InstallationsComponent {
   masterSelected!: boolean;
   InstallationDatas: any;
   userData: any;
+  installations_all: any = [];
 
   project_id: any = '';
   installation_id: any = '';
@@ -233,8 +234,10 @@ export class InstallationsComponent {
           
           for (let c in obj) {
             let padre: any = obj[c].padre;
-
-              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+            
+              this.installations_all.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', descripcion: padre.descripcion });
+              
+              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }
           this.service.installations_data = tree_data;    
           this.dataSource.data = tree_data;
@@ -255,7 +258,9 @@ export class InstallationsComponent {
     let tree_data: any = [];
     for (let d in hijos) {
 
-        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+        this.installations_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', descripcion: hijos[d].descripcion });
+
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
     return tree_data;
   }
@@ -408,11 +413,12 @@ export class InstallationsComponent {
            this.hidePreLoader();
            this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
 
-           if(this.installation_id){
+           /*if(this.installation_id){
             this.fetchDataItems();
            }else{
             this.fetchData();
-           }
+           }*/         
+           this.getInstallations();
            this.modalService.dismissAll();
         },
         (error: any) => {
@@ -494,11 +500,12 @@ export class InstallationsComponent {
         response => {
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
           
-          if(this.installation_id){
+          /*if(this.installation_id){
             this.fetchDataItems();
           }else{
             this.fetchData();
-          }
+          }*/
+          this.getInstallations();
           document.getElementById('lj_'+id)?.remove();
         },
         error => {
@@ -512,11 +519,12 @@ export class InstallationsComponent {
       .subscribe(
         response => {
           //this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-          if(this.installation_id){
+          /*if(this.installation_id){
             this.fetchDataItems();
           }else{
             this.fetchData();
-          }
+          }*/
+          this.getInstallations();
 
           document.getElementById('lj_'+item)?.remove();
         },
@@ -538,9 +546,10 @@ export class InstallationsComponent {
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
     //updateBtn.innerHTML = "Editar";
     updateBtn.style.visibility = "hidden";
-    var listData = this.InstallationDatas.filter((data: { id: any; }) => data.id === id);
+    var listData = this.installations_all.filter((data: { id: any; }) => data.id === id);
     this.installationForm.controls['nombre'].setValue(listData[0].nombre);
     this.installationForm.controls['descripcion'].setValue(listData[0].descripcion);
+    this.installationForm.controls['area'].setValue(listData[0].area_id);
     this.installationForm.controls['ids'].setValue(listData[0].id);
   }
 
