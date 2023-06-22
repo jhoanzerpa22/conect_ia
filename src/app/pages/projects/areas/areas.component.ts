@@ -246,6 +246,7 @@ export class AreasComponent {
         (data: any) => {
           let obj: any = data.data;
           let tree_data: any = [];
+          this.areas_all = [];
           
           for (let c in obj) {
             let padre: any = obj[c].padre;
@@ -286,22 +287,41 @@ export class AreasComponent {
     if (this.areaForm.valid) {
       
       this.showPreLoader();
+      
+      const nombre = this.areaForm.get('nombre')?.value;
+      const descripcion = this.areaForm.get('descripcion')?.value;
+        
+      const area: any = {
+        nombre: nombre,
+        descripcion: descripcion,
+        proyectoId: this.area_id ? null : this.project_id,
+        areaId: this.area_id ? this.area_id : null
+      };
+
       if (this.areaForm.get('ids')?.value) {
-        this.AreaDatas = this.AreaDatas.map((data: { id: any; }) => data.id === this.areaForm.get('ids')?.value ? { ...data, ...this.areaForm.value } : data)
+        const idArea = this.areaForm.get('ids')?.value;
+        this.AreaDatas = this.AreaDatas.map((data: { id: any; }) => data.id === this.areaForm.get('ids')?.value ? { ...data, ...this.areaForm.value } : data);
+
+        this.projectsService.updateArea(area, idArea).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido editado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getAreas();
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+
       } else {
-        const nombre = this.areaForm.get('nombre')?.value;
-        const descripcion = this.areaForm.get('descripcion')?.value;
         this.AreaDatas.push({
           nombre,
           descripcion
         });
-        
-        const area: any = {
-          nombre: nombre,
-          descripcion: descripcion,
-          proyectoId: this.area_id ? null : this.project_id,
-          areaId: this.area_id ? this.area_id : null
-        };
         
         this.projectsService.createArea(area).pipe().subscribe(
           (data: any) => {     
@@ -439,8 +459,8 @@ export class AreasComponent {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
-    //updateBtn.innerHTML = "Editar";
-    updateBtn.style.visibility = "hidden";
+    updateBtn.innerHTML = "Editar";
+    //updateBtn.style.visibility = "hidden";
     
     var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
     this.areaForm.controls['nombre'].setValue(listData[0].nombre);

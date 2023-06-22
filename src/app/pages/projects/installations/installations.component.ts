@@ -231,7 +231,7 @@ export class InstallationsComponent {
         (data: any) => {
           let obj: any = data.data;
           let tree_data: any = [];
-          
+          this.installations_all = [];
           for (let c in obj) {
             let padre: any = obj[c].padre;
             
@@ -388,17 +388,11 @@ export class InstallationsComponent {
     if (this.installationForm.valid) {
       
       this.showPreLoader();
-      if (this.installationForm.get('ids')?.value) {
-        this.InstallationDatas = this.InstallationDatas.map((data: { id: any; }) => data.id === this.installationForm.get('ids')?.value ? { ...data, ...this.installationForm.value } : data)
-      } else {
-        const nombre = this.installationForm.get('nombre')?.value;
-        const descripcion = this.installationForm.get('descripcion')?.value;
-        this.InstallationDatas.push({
-          nombre,
-          descripcion
-        });
-
-        let area_id = this.area_id_select[this.area_id_select.length - 1].value;
+      
+      const nombre = this.installationForm.get('nombre')?.value;
+      const descripcion = this.installationForm.get('descripcion')?.value;
+        
+      let area_id = this.area_id_select[this.area_id_select.length - 1].value;
         
         const installation: any = {
           nombre: nombre,
@@ -408,6 +402,32 @@ export class InstallationsComponent {
           areaId: area_id ? area_id : null
         };
         
+      if (this.installationForm.get('ids')?.value) {
+        
+        const idInstallation = this.installationForm.get('ids')?.value;
+        this.InstallationDatas = this.InstallationDatas.map((data: { id: any; }) => data.id === this.installationForm.get('ids')?.value ? { ...data, ...this.installationForm.value } : data)
+
+        this.projectsService.updateInstallation(installation, idInstallation).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getInstallations();
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+
+      } else {
+        this.InstallationDatas.push({
+          nombre,
+          descripcion
+        });
+
         this.projectsService.createInstallation(installation).pipe().subscribe(
           (data: any) => {     
            this.hidePreLoader();
@@ -544,13 +564,21 @@ export class InstallationsComponent {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
-    //updateBtn.innerHTML = "Editar";
-    updateBtn.style.visibility = "hidden";
+    updateBtn.innerHTML = "Editar";
+    //updateBtn.style.visibility = "hidden";
     var listData = this.installations_all.filter((data: { id: any; }) => data.id === id);
     this.installationForm.controls['nombre'].setValue(listData[0].nombre);
     this.installationForm.controls['descripcion'].setValue(listData[0].descripcion);
     this.installationForm.controls['area'].setValue(listData[0].area_id);
     this.installationForm.controls['ids'].setValue(listData[0].id);
+    
+    const index2 = this.areas.findIndex(
+      (co: any) =>
+        co.id == listData[0].area_id
+    );
+
+    let nombre2 = this.areas[index2].nombre;
+    this.area_id_select.push({value: listData[0].area_id, label: nombre2});
   }
 
   // PreLoader
