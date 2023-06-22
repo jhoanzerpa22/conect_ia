@@ -146,6 +146,18 @@ export class ProjectsService {
     
     }
 
+    updateInstallation(data: any, id: any): Observable<any> {
+    
+        return this.http.put(API_URL_BACK + 'project/installation/'+id, {
+            "nombre": data.nombre,
+            "descripcion": data.descripcion,
+            "proyectoId": data.proyectoId,
+            "areaId": data.areaId,
+            "instalacionId": data.installationId
+          }, /*httpOptions*/this.getToken());
+    
+    }
+
     deleteInstallation(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'project/installation/'+id, /*httpOptions*/this.getToken());
     }
@@ -172,6 +184,16 @@ export class ProjectsService {
         "nombre": data.nombre,
         "descripcion": data.descripcion,
         "proyectoId": data.proyectoId,
+        "areaId": data.areaId
+      }, /*httpOptions*/this.getToken());
+    
+    }
+
+    updateArea(data: any, id: any): Observable<any> {
+    
+        return this.http.put(API_URL_BACK + 'project/areas/'+id, {
+        "nombre": data.nombre,
+        "descripcion": data.descripcion,
         "areaId": data.areaId
       }, /*httpOptions*/this.getToken());
     
