@@ -15,6 +15,7 @@ import { ProjectsService } from '../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from './toast-service';
 import { round } from 'lodash';
+//import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-library',
@@ -47,6 +48,7 @@ export class BodyLegalTypeComponent {
   page: number = 1;
   term:any;
   busquedaForm!: UntypedFormGroup;
+  search: any = '';
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.BodyLegalList = service.bodylegal$;
@@ -75,14 +77,22 @@ export class BodyLegalTypeComponent {
     this.BodyLegalList.subscribe(x => {
       this.BodyLegalDatas = Object.assign([], x);
     });
+    
+    const search: any = this.route.snapshot.queryParams['search'];
+    if(search && search != '' && search != undefined ? search : ''){
+      this.search = search;
+      this.busquedaNorma(search);
+    }
+    
   }
 
-  busquedaNorma(){
-    
-    this.showPreLoader();
-
-    let busqueda: any = this.busquedaForm.get('busqueda')?.value;
+  busquedaNorma(search?:any){    
+    let busqueda: any = search ? search : this.busquedaForm.get('busqueda')?.value;
     let tipo_busqueda: any = this.busquedaForm.get('tipo_busqueda')?.value;
+    if(busqueda && busqueda != '' && busqueda != undefined && busqueda != null){
+      this.showPreLoader();
+      
+      this._router.navigate(['/library'], { queryParams: { search: busqueda } });
 
       this.projectsService.getBodyLegalSearch(1, busqueda, 20).pipe().subscribe(
         (data: any) => {
@@ -100,6 +110,7 @@ export class BodyLegalTypeComponent {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+    }
   }
 
   /**

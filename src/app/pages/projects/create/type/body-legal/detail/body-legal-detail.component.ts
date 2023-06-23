@@ -70,6 +70,9 @@ export class BodyLegalDetailComponent implements OnInit {
   total_cuerpos: number = 0;
   total_articulos: number = 0;
 
+  showMenu: boolean = true;
+  showDetail: boolean = true;
+
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
@@ -170,6 +173,14 @@ export class BodyLegalDetailComponent implements OnInit {
     return index == -1;
   }
   
+  clickMenu(){
+    this.showMenu = !this.showMenu;
+  }
+
+  clickDetail(){
+    this.showDetail = !this.showDetail;
+  }
+
   private getInstallations() {
     
     this.showPreLoader();
