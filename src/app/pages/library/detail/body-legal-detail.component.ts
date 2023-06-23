@@ -61,6 +61,9 @@ export class BodyLegalDetailComponent implements OnInit {
   showRow: any = [];
 
   items: any = [];
+
+  showMenu: boolean = true;
+  showDetail: boolean = true;
   
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -199,6 +202,14 @@ export class BodyLegalDetailComponent implements OnInit {
     );
 
     return index != -1;
+  }
+  
+  clickMenu(){
+    this.showMenu = !this.showMenu;
+  }
+
+  clickDetail(){
+    this.showDetail = !this.showDetail;
   }
 
   // Folder Filter
