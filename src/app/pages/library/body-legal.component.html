@@ -83,7 +83,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of body_legal_data" id="lj_{{data.normaId}}"><!--BodyLegalDatas-->
+                                <tr *ngFor="let data of BodyLegalList | async" id="lj_{{data.normaId}}"><!--BodyLegalDatas-->
                                     <td>
                                         <h4>{{data.TipoNumero ? data.TipoNumero.Compuesto : ''}}</h4>
                                         <h5>{{data.TituloNorma ? data.TituloNorma : ''}}</h5>
