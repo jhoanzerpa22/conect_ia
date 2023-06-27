@@ -94,7 +94,7 @@ export class BodyLegalTypeComponent {
       
       this._router.navigate(['/library'], { queryParams: { search: busqueda } });
 
-      this.projectsService.getBodyLegalSearch(1, busqueda, 20).pipe().subscribe(
+      this.projectsService.getBodyLegalSearch(1, busqueda, 100).pipe().subscribe(
         (data: any) => {
           console.log(data.data);
           this.service.bodylegal_data = data.data;

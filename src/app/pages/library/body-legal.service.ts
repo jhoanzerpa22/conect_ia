@@ -39,7 +39,7 @@ function sort(bodylegal: BodyLegalTypeModel[], column: SortColumn, direction: st
 }
 
 function matches(installation: BodyLegalTypeModel, term: string, pipe: PipeTransform) {
-  return installation.tituloNorma?.toLowerCase().includes(term.toLowerCase())
+  return installation.TituloNorma?.toLowerCase().includes(term.toLowerCase())
   || installation.encabezado?.texto?.toLowerCase().includes(term.toLowerCase());
 
 }
