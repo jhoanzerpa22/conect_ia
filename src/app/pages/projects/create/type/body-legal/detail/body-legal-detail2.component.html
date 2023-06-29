@@ -1,3 +1,7 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paso 4: Conecta la normativa a tus procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
 <!--preloader-->
 <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
     <div id="status">
@@ -13,13 +17,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
-                        <h4 class="card-title mb-0">
-                            <button class="btn btn-sm px-2 fs-22"
-                            [style.cursor]="'pointer'" (click)="backClicked()">
-                            <i class="ri-arrow-left-s-line"></i>
-                            </button>
-                        {{installation_nombre}}
-                        </h4>
+                        <h4 class="card-title mb-0">{{installation_nombre}}</h4>
                     </div>
                     
                     <div class="col-xxl-3 col-lg-3">
@@ -55,7 +53,7 @@
                 <span></span>
                 </span>
             </span>
-            <h6 class="card-title">{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}</h6>
+            <h6 class="card-title" style="color: #405189;">{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}</h6>
             
             <ng-container *ngFor="let org of detail.organismos">
                 <p class="card-subtitle text-muted mb-0">{{org}}</p>
@@ -63,19 +61,35 @@
         </div>
         <div class="card-body" *ngIf="showDetail">
             <div class="row">
-                <div class="col-xxl-6 col-lg-6">
-                    <p><b>Descripción</b></p>
+                <div class="col-xxl-12 col-lg-12">
+                    <p style="color: #405189;"><b>DESCRIPCIÓN</b></p>
                     <div [innerHTML]="htmlString"></div>
                 </div>
-                <div class="col-xxl-6 col-lg-6">
-                    <p><b>Características</b></p>
-                    <p>Publicado: {{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</p>
-                    <p>Entrada de vigencia: {{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</p>
-                    <p>Última modificación: {{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</p>
-                    <p>Vigencia:</p>
-                    <p>Ámbito:</p>
-                    <p>Alcance territorial:</p>
-                    <p>Cuerpos legales relacionados:</p>
+                <div class="col-xxl-12 col-lg-12">
+                    <div class="row justify-content-center">
+                        <!--<p><b>Características</b></p>-->
+                        <div class="col-xxl-3 col-lg-3">
+                            <div style="font-size: 14px;">PUBLICADO:</div> <h5>{{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</h5>
+                        </div>
+                        <div class="col-xxl-3 col-lg-3">
+                        <div style="font-size: 14px;">ENTRADA EN VIGENCIA:</div><h5> {{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</h5>
+                        </div>
+                        <div class="col-xxl-3 col-lg-3">
+                        <div style="font-size: 14px;">ÚLTIMA MODIFICACIÓN: </div><h5>{{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</h5>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-xxl-3 col-lg-3">
+                        <div style="font-size: 14px;">VIGENCIA:</div>
+                        </div>
+                        <div class="col-xxl-3 col-lg-3">
+                        <div style="font-size: 14px;">ÁMBITO:</div>
+                        </div>
+                        <div class="col-xxl-3 col-lg-3">
+                        <div style="font-size: 14px;">ALCANCE TERRITORIAL:</div><!--
+                        <p>Cuerpos legales relacionados:</p>-->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,7 +159,7 @@
                 <input type="text" class="form-control bg-light border-light" placeholder="Search here...">
                 <i class="ri-search-2-line search-icon"></i>
             </div>-->
-            <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll" *ngIf="showMenu">
+            <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll"  *ngIf="showMenu">
                 <!-- Menu --->
                 <ul class="list-unstyled file-manager-menu">
                     <li>
@@ -159,7 +173,7 @@
                         aria-controls="collapseExample"
                         [attr.aria-expanded]="isCollapsed == 'r-'+est.idParte" *ngIf="est.EstructurasFuncionales"><i
                                 class="ri-file-list-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }}</span>
+                                class="file-list-link">{{ est.tituloParte ? est.tituloParte : (est.texto ? (est.texto.split(".")[0].length > 10 ? est.texto.split(".")[0] : est.tipoParte) : est.tipoParte) }} - JJ</span>
                         </a>
                         
                         <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
@@ -171,13 +185,13 @@
                                     <!-- Si posee items nivel 2--> 
                                     <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est2.idParte, i2, 2)" role="button" aria-expanded="true"
                                     aria-controls="collapseExample"
-                                    [attr.aria-expanded]="isCollapsed == 'r-'+est2.idParte" *ngIf="est2.EstructurasFuncionales"><i
+                                    [attr.aria-expanded]="isCollapsed2 == 'r-'+est2.idParte" *ngIf="est2.EstructurasFuncionales"><i
                                             class="ri-file-list-2-line align-bottom me-2"></i> <span
                                             class="file-list-link">{{ est2.tituloParte ? est2.tituloParte : (est2.texto ? (est2.texto.split(".")[0].length > 10 ? est2.texto.split(".")[0] : est2.tipoParte) : est2.tipoParte) }}</span>
                                     </a>
                                     
                                     <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                                        [(ngbCollapse)]="isCollapsed != 'r-'+est2.idParte" *ngIf="est2.EstructurasFuncionales">
+                                        [(ngbCollapse)]="isCollapsed2 != 'r-'+est2.idParte" *ngIf="est2.EstructurasFuncionales">
                                         <ul class="sub-menu list-unstyled">
                                             <li *ngFor="let est3 of est2.EstructurasFuncionales; let i3 = index;">
                                                 <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3)">{{ est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</a>-->
@@ -185,13 +199,13 @@
                                                 <!-- Si posee items nivel 3--> 
                                                 <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est3.idParte, i3, 3)" role="button" aria-expanded="true"
                                                 aria-controls="collapseExample"
-                                                [attr.aria-expanded]="isCollapsed == 'r-'+est3.idParte" *ngIf="est3.EstructurasFuncionales"><i
+                                                [attr.aria-expanded]="isCollapsed3 == 'r-'+est3.idParte" *ngIf="est3.EstructurasFuncionales"><i
                                                         class="ri-file-list-2-line align-bottom me-2"></i> <span
                                                         class="file-list-link">{{ est3.tituloParte ? est3.tituloParte : (est3.texto ? (est3.texto.split(".")[0].length > 10 ? est3.texto.split(".")[0] : est3.tipoParte) : est3.tipoParte) }}</span>
                                                 </a>
                                                 
                                                 <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                                                    [(ngbCollapse)]="isCollapsed != 'r-'+est3.idParte" *ngIf="est3.EstructurasFuncionales">
+                                                    [(ngbCollapse)]="isCollapsed3 != 'r-'+est3.idParte" *ngIf="est3.EstructurasFuncionales">
                                                     <ul class="sub-menu list-unstyled">
                                                         <li *ngFor="let est4 of est3.EstructurasFuncionales; let i4 = index;">
                                                             <!--<a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est4.idParte, i4)">{{ est4.tituloParte ? est4.tituloParte : (est4.texto ? (est4.texto.split(".")[0].length > 10 ? est4.texto.split(".")[0] : est4.tipoParte) : est4.tipoParte) }}</a>-->
@@ -199,13 +213,13 @@
                                                             <!-- Si posee items nivel 4--> 
                                                             <a data-bs-toggle="collapse" href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est4.idParte, i4, 4)" role="button" aria-expanded="true"
                                                             aria-controls="collapseExample"
-                                                            [attr.aria-expanded]="isCollapsed == 'r-'+est4.idParte" *ngIf="est4.EstructurasFuncionales"><i
+                                                            [attr.aria-expanded]="isCollapsed4 == 'r-'+est4.idParte" *ngIf="est4.EstructurasFuncionales"><i
                                                                     class="ri-file-list-2-line align-bottom me-2"></i> <span
                                                                     class="file-list-link">{{ est4.tituloParte ? est4.tituloParte : (est4.texto ? (est4.texto.split(".")[0].length > 10 ? est4.texto.split(".")[0] : est4.tipoParte) : est4.tipoParte) }}</span>
                                                             </a>
                                                             
                                                             <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                                                                [(ngbCollapse)]="isCollapsed != 'r-'+est4.idParte" *ngIf="est4.EstructurasFuncionales">
+                                                                [(ngbCollapse)]="isCollapsed4 != 'r-'+est4.idParte" *ngIf="est4.EstructurasFuncionales">
                                                                 <ul class="sub-menu list-unstyled">
                                                                     <li *ngFor="let est5 of est4.EstructurasFuncionales; let i5 = index;">
                                                                         <a href="javascript:void(0);" (click)="changeProducts($event, 'r-'+est5.idParte, i5)">{{ est5.tituloParte ? est5.tituloParte : (est5.texto ? (est5.texto.split(".")[0].length > 10 ? est5.texto.split(".")[0] : est5.tipoParte) : est5.tipoParte) }}</a>
