@@ -54,6 +54,9 @@ export class BodyLegalDetailComponent implements OnInit {
   public isCollapsed2: any = '';
   public isCollapsed3: any = '';
   public isCollapsed4: any = '';
+  public isCollapsed5: any = '';
+  public isCollapsed6: any = '';
+  public isCollapsed7: any = '';
   isCollapseArray: any = ['Encabezado'];
   showEncabezado: boolean = true;
 
@@ -179,6 +182,10 @@ export class BodyLegalDetailComponent implements OnInit {
 
   clickDetail(){
     this.showDetail = !this.showDetail;
+  }
+
+  clickEncabezado(){
+    this.showEncabezado = !this.showEncabezado;
   }
 
   private getInstallations() {
@@ -445,6 +452,38 @@ export class BodyLegalDetailComponent implements OnInit {
     return this.recentForm.controls;
   }
 
+  /** Get is Expanded */
+  isExpanded(id?: any, nivel?: number) {
+
+    switch (nivel) {
+      case 1:
+        return this.isCollapsed == 'r-'+id;
+        break;
+        case 2:
+          return this.isCollapsed2 == 'r-'+id;
+          break;
+          case 3:
+            return this.isCollapsed3 == 'r-'+id;
+            break;
+            case 4:      
+              return this.isCollapsed4 == 'r-'+id;  
+              break;
+              case 5:      
+                return this.isCollapsed5 == 'r-'+id;  
+                break;
+                case 6:      
+                  return this.isCollapsed6 == 'r-'+id;  
+                  break;
+                  case 7:      
+                    return this.isCollapsed7 == 'r-'+id;  
+                    break;
+    
+      default:
+        return this.isCollapsed == 'r-'+id;
+        break;
+    }
+  }
+
   /**
   * Product Filtering  
   */
@@ -453,7 +492,7 @@ export class BodyLegalDetailComponent implements OnInit {
     //this.collapse?.nativeElement.toggle();
     //this.collapse?.nativeElement.classList.toggle('active');
 
-    this.showEncabezado = name == 'r-Encabezado';
+    //this.showEncabezado = name == 'r-Encabezado';
 
     this.isCollapseArray.push(name);
 
@@ -470,6 +509,15 @@ export class BodyLegalDetailComponent implements OnInit {
             case 4:
               this.isCollapsed4 = this.isCollapsed4 == name ? '' : name;
               break;
+              case 5:
+                this.isCollapsed5 = this.isCollapsed5 == name ? '' : name;
+                break;
+                case 6:
+                  this.isCollapsed6 = this.isCollapsed6 == name ? '' : name;
+                  break;
+                  case 7:
+                    this.isCollapsed7 = this.isCollapsed7 == name ? '' : name;
+                    break;
     
       default:
         //this.isCollapsed = this.isCollapsed == name ? '' : name;
