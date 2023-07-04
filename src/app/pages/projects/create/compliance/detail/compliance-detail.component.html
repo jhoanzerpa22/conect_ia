@@ -234,8 +234,8 @@
                                     <p class="card-text mb-2" [style]="data.descripcion && data.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ data.descripcion && data.descripcion.length > 450 ? formatArticle(data.descripcion, data.id) : data.descripcion }}</p>
                                     
                                     <p class="card-text">
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="data.descripcion && data.descripcion.length > 450 && !validatShow(data.id)" (click)="showText(data.id)"><b>Ver texto completo</b></small>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="data.descripcion && data.descripcion.length > 450 && validatShow(data.id)" (click)="hideText(data.id)"><b>Ocultar texto completo</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="data.descripcion && data.descripcion.length > 450 && !validatShow(data.id)" (click)="showText(data.id)"><b>Leer más</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="data.descripcion && data.descripcion.length > 450 && validatShow(data.id)" (click)="hideText(data.id)"><b>Ocultar texto completo</b></small>
                                     </p>
                                 </td>
                                 <!--<td>

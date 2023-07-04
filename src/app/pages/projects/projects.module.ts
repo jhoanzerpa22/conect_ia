@@ -36,12 +36,14 @@ import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
 import { TypeComponent } from './create/type/type.component';
 import { Step1Component } from "./create/step1/step1.component";
-import { InstallationsComponent } from "./installations/installations.component";import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
+import { InstallationsComponent } from "./installations/installations.component";
+import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
 import { AreasComponent } from "./areas/areas.component";
-import { ProjectAnalityComponent } from "./project-anality/project-anality.component";
+import { IdentificationComponent } from "./identification/identification.component";
 import { ConfigComponent } from "./config/config.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
+import { BodyLegalDetailIdComponent } from "./identification/detail/body-legal-detail.component";
 import { ComplianceComponent } from "./create/compliance/compliance.component";
 import { ComplianceDetailComponent } from "./create/compliance/detail/compliance-detail.component";
 import { ComplianceFollowComponent } from "./create/compliance/follow/follow.component";
@@ -109,10 +111,11 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ToastsProjectContainer,
     InstallationsComponent,
     AreasComponent,
-    ProjectAnalityComponent,
+    IdentificationComponent,
     InstallationsTypeComponent,
     BodyLegalTypeComponent,
     BodyLegalDetailComponent,
+    BodyLegalDetailIdComponent,
     ComplianceComponent,
     ComplianceDetailComponent,
     ComplianceFollowComponent,

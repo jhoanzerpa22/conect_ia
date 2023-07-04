@@ -279,8 +279,8 @@
                                 <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.texto ? (data.texto.split(".")[0].length > 10 ? data.texto.split(".")[0] : data.tipoParte) : data.tipoParte) }}</h5>
                                 <p class="card-text mb-2" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
                                 <p class="card-text">
-                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Ver texto completo</b></small>
-                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
+                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Leer más</b></small>
+                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
                                 </p>
                             </div>
                         </div>
@@ -325,7 +325,7 @@
                             <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : (item.texto ? (item.texto.split(".")[0].length > 10 ? item.texto.split(".")[0] : item.tipoParte) : item.tipoParte) }}</h5>
                             <p class="card-text mb-2" [style]="item.texto && item.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item.texto ? (item.texto.length > 450 ? formatArticle(item.texto, item.idParte) : item.texto) : item.tipoParte}}</p>
                             <p class="card-text">
-                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Ver texto completo</b></small>
+                                <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Leer más</b></small>
                                 <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && validatShow(item.idParte)" (click)="hideText(item.idParte)"><b>Ocultar texto completo</b></small>
                             </p>
                         </div>
@@ -356,8 +356,8 @@
                                         <h5 class="card-title mb-0">{{item.tituloParte ? item.tituloParte : (item.texto ? (item.texto.split(".")[0].length > 10 ? item.texto.split(".")[0] : item.tipoParte) : item.tipoParte) }}</h5>
                                         <p class="card-text mb-2" [style]="item.texto && item.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item.texto ? (item.texto.length > 450 ? formatArticle(item.texto, item.idParte) : item.texto) : item.tipoParte}}</p>
                                         <p class="card-text">
-                                            <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Ver texto completo</b></small>
-                                            <small class="text-danger" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && validatShow(item.idParte)" (click)="hideText(item.idParte)"><b>Ocultar texto completo</b></small>
+                                            <small class="text-success" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && !validatShow(item.idParte)" (click)="showText(item.idParte)"><b>Leer más</b></small>
+                                            <small class="text-success" style="cursor: pointer;" *ngIf="item.texto && item.texto.length > 450 && validatShow(item.idParte)" (click)="hideText(item.idParte)"><b>Ocultar texto completo</b></small>
                                         </p>
                                     </div>
                                 </div>
@@ -402,7 +402,7 @@
                                     <h5 class="card-title mb-0">{{item2.tituloParte ? item2.tituloParte : (item2.texto ? (item2.texto.split(".")[0].length > 10 ? item2.texto.split(".")[0] : item2.tipoParte) : item2.tipoParte) }}</h5>
                                     <p class="card-text mb-2" [style]="item2.texto && item2.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item2.texto ? (item2.texto.length > 450 ? formatArticle(item2.texto, item2.idParte) : item2.texto) : item2.tipoParte}}</p>
                                     <p class="card-text">
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && !validatShow(item2.idParte)" (click)="showText(item2.idParte)"><b>Ver texto completo</b></small>
+                                        <small class="text-danger" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && !validatShow(item2.idParte)" (click)="showText(item2.idParte)"><b>Leer más</b></small>
                                         <small class="text-danger" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && validatShow(item2.idParte)" (click)="hideText(item2.idParte)"><b>Ocultar texto completo</b></small>
                                     </p>
                                 </div>
@@ -432,8 +432,8 @@
                                                         <h5 class="card-title mb-0">{{item2.tituloParte ? item2.tituloParte : (item2.texto ? (item2.texto.split(".")[0].length > 10 ? item2.texto.split(".")[0] : item2.tipoParte) : item2.tipoParte) }}</h5>
                                                         <p class="card-text mb-2" [style]="item2.texto && item2.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item2.texto ? (item2.texto.length > 450 ? formatArticle(item2.texto, item2.idParte) : item2.texto) : item2.tipoParte}}</p>
                                                         <p class="card-text">
-                                                            <small class="text-danger" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && !validatShow(item2.idParte)" (click)="showText(item2.idParte)"><b>Ver texto completo</b></small>
-                                                            <small class="text-danger" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && validatShow(item2.idParte)" (click)="hideText(item2.idParte)"><b>Ocultar texto completo</b></small>
+                                                            <small class="text-success" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && !validatShow(item2.idParte)" (click)="showText(item2.idParte)"><b>Leer más</b></small>
+                                                            <small class="text-success" style="cursor: pointer;" *ngIf="item2.texto && item2.texto.length > 450 && validatShow(item2.idParte)" (click)="hideText(item2.idParte)"><b>Ocultar texto completo</b></small>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -478,7 +478,7 @@
                                                     <h5 class="card-title mb-0">{{item3.tituloParte ? item3.tituloParte : (item3.texto ? (item3.texto.split(".")[0].length > 10 ? item3.texto.split(".")[0] : item3.tipoParte) : item3.tipoParte) }}</h5>
                                                     <p class="card-text mb-2" [style]="item3.texto && item3.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item3.texto ? (item3.texto.length > 450 ? formatArticle(item3.texto, item3.idParte) : item3.texto) : item3.tipoParte}}</p>
                                                     <p class="card-text">
-                                                        <small class="text-danger" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && !validatShow(item3.idParte)" (click)="showText(item3.idParte)"><b>Ver texto completo</b></small>
+                                                        <small class="text-danger" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && !validatShow(item3.idParte)" (click)="showText(item3.idParte)"><b>Leer más</b></small>
                                                         <small class="text-danger" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && validatShow(item3.idParte)" (click)="hideText(item3.idParte)"><b>Ocultar texto completo</b></small>
                                                     </p>
                                                 </div>
@@ -509,8 +509,8 @@
                                                                 <h5 class="card-title mb-0">{{item3.tituloParte ? item3.tituloParte : (item3.texto ? (item3.texto.split(".")[0].length > 10 ? item3.texto.split(".")[0] : item3.tipoParte) : item3.tipoParte) }}</h5>
                                                                 <p class="card-text mb-2" [style]="item3.texto && item3.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item3.texto ? (item3.texto.length > 450 ? formatArticle(item3.texto, item3.idParte) : item3.texto) : item3.tipoParte}}</p>
                                                                 <p class="card-text">
-                                                                    <small class="text-danger" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && !validatShow(item3.idParte)" (click)="showText(item3.idParte)"><b>Ver texto completo</b></small>
-                                                                    <small class="text-danger" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && validatShow(item3.idParte)" (click)="hideText(item3.idParte)"><b>Ocultar texto completo</b></small>
+                                                                    <small class="text-success" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && !validatShow(item3.idParte)" (click)="showText(item3.idParte)"><b>Leer más</b></small>
+                                                                    <small class="text-success" style="cursor: pointer;" *ngIf="item3.texto && item3.texto.length > 450 && validatShow(item3.idParte)" (click)="hideText(item3.idParte)"><b>Ocultar texto completo</b></small>
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -555,8 +555,8 @@
                                                             <h5 class="card-title mb-0">{{item4.tituloParte ? item4.tituloParte : (item4.texto ? (item4.texto.split(".")[0].length > 10 ? item4.texto.split(".")[0] : item4.tipoParte) : item4.tipoParte) }}</h5>
                                                             <p class="card-text mb-2" [style]="item4.texto && item4.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{item4.texto ? (item4.texto.length > 450 ? formatArticle(item4.texto, item4.idParte) : item4.texto) : item4.tipoParte}}</p>
                                                             <p class="card-text">
-                                                                <small class="text-danger" style="cursor: pointer;" *ngIf="item4.texto && item4.texto.length > 450 && !validatShow(item4.idParte)" (click)="showText(item4.idParte)"><b>Ver texto completo</b></small>
-                                                                <small class="text-danger" style="cursor: pointer;" *ngIf="item4.texto && item4.texto.length > 450 && validatShow(item4.idParte)" (click)="hideText(item4.idParte)"><b>Ocultar texto completo</b></small>
+                                                                <small class="text-success" style="cursor: pointer;" *ngIf="item4.texto && item4.texto.length > 450 && !validatShow(item4.idParte)" (click)="showText(item4.idParte)"><b>Leer más</b></small>
+                                                                <small class="text-success" style="cursor: pointer;" *ngIf="item4.texto && item4.texto.length > 450 && validatShow(item4.idParte)" (click)="hideText(item4.idParte)"><b>Ocultar texto completo</b></small>
                                                             </p>
                                                         </div>
                                                     </div>

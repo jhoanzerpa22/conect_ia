@@ -128,7 +128,7 @@ export class Step1Component implements OnInit {
         
           if((step + 1) > this.step_total){
             //this._router.navigate(['/projects/anality']);
-            this._router.navigate(['/projects/'+this.project_id+'/project-anality']);
+            this._router.navigate(['/projects/'+this.project_id+'/identification']);
           }else if((step + 1) == this.step_total){
             this.visibleSelection = 2;
             this.title = 'Paso 2: Define las variables específicas de tu proyecto';
@@ -239,7 +239,7 @@ export class Step1Component implements OnInit {
         
           if(step > this.step_total){
             //this._router.navigate(['/projects/anality']);
-            this._router.navigate(['/projects/'+this.project_id+'/project-anality']);
+            this._router.navigate(['/projects/'+this.project_id+'/identification']);
           }else if(step == this.step_total){
             this.visibleSelection = 2;
             this.title = 'Paso 2: Define las variables específicas de tu proyecto';
