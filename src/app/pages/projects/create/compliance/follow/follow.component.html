@@ -46,8 +46,8 @@
                                     <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 450 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
                                     
                                     <p class="card-text">
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Ver texto completo</b></small>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Leer más</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
                                     </p>
                                 </div>
                             </div>
