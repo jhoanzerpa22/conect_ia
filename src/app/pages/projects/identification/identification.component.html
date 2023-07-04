@@ -1,0 +1,222 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Paso 3: Identificación - {{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+ <div class="row project-wrapper">
+    <div class="col-xxl-12">
+        
+        <div class="row">
+            <div class="col-xl-12">
+
+                <!--<div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">-->
+                                <!-- Nav tabs -->
+                                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills nav-conect nav-justified"><!-- mb-3 nav-tabs    nav nav-tabs-->
+                                    <li [ngbNavItem]="1" class="nav-item waves-effect waves-light">
+                                        <a ngbNavLink>
+                                            <span class="d-sm-block">
+                                                <i class="ri-user-2-line align-middle me-2" style="
+                                                border: 1px #c4cadc solid;
+                                                border-radius: 24px;
+                                                padding: 10px;
+                                                background: #c4cadc;
+                                            "></i> Identifica</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="2" class="nav-item waves-effect waves-light">
+                                        <a ngbNavLink>
+                                            <!--<div class="avatar-sm">
+                                                <span class="avatar-title text-primary rounded-4 fs-6 bg-soft-primary">
+                                                <i class="ri-truck-fill"></i>
+                                                </span>
+                                            </div>-->
+                                            <span class="d-sm-block">
+                                                <i class="ri-truck-fill align-middle me-2" style="
+                                                border: 1px #c4cadc solid;
+                                                border-radius: 24px;
+                                                padding: 10px;
+                                                background: #c4cadc;
+                                            "></i>
+                                                Vincula
+                                            </span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent1"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="3" class="nav-item waves-effect waves-light">
+                                        <a ngbNavLink>
+                                            <span class="d-sm-block">
+                                                <i class="ri-bank-card-line align-middle me-2" style="
+                                                border: 1px #c4cadc solid;
+                                                border-radius: 24px;
+                                                padding: 10px;
+                                                background: #c4cadc;
+                                            "></i>
+                                            Finaliza</span>
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content  text-muted">
+                                    <div [ngbNavOutlet]="nav"></div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </div>
+
+<ng-template #TabContent>
+<div class="card">  
+<div class="card-body">  
+  <div class="row g-4 mb-3">
+    <div class="col-sm-auto">
+        
+    </div>
+    <div class="col-sm">
+        <div class="d-flex justify-content-sm-end gap-2">
+            <div class="search-box ms-2">
+                <input type="text" class="form-control" placeholder="Buscar el cuerpo legal" [(ngModel)]="term"><!--"service.searchTerm"-->
+                <i class="ri-search-line search-icon"></i>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <div style="min-height: 600px;">
+  <div class="row">
+   
+    <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
+    
+    <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of normasListWidgets | filter:term" id="pl1_{{data.id}}">
+        <div class="card card-height-100">
+            <div class="card-body text-center">
+                <div class="d-flex flex-column h-100">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="d-flex gap-1 align-items-center">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-2"><!--routerLink="/pages/{{data.id}}/steps"-->
+                        <!--<div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-soft-warning rounded p-2">
+                                    <img src="{{data.img}}" alt="" class="img-fluid p-1">
+                                </span>
+                            </div>
+                        </div>-->
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 fs-15"><label style="color: #405189;"><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : ''}}</label></h5>
+                            <!--<p class="text-muted text-truncate-two-lines mb-3">{{data.tituloNorma ? data.tituloNorma : ''}}</p>-->
+                            <ng-container *ngFor="let org of data.organismos">
+                                <p class="card-subtitle text-muted mb-0">{{org}}</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="d-flex mb-2">
+                            <div class="flex-grow-1">
+                                <!--<div>Creado por: Jhoan Zerpa</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="d-flex mb-2">
+                            <div class="flex-grow-1">
+                                <div><i style="font-size: 30px;" class="ri-zoom-in-line"></i></div>
+                                <div>Monitoreo</div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div><i style="font-size: 30px;" class="ri-git-repository-line"></i></div>
+                                <div>Reporte</div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div><i style="font-size: 30px;" class="ri-file-list-3-line"></i></div>
+                                <div>Permiso</div>
+                            </div>
+                            <!--<div class="flex-shrink-0">
+                                <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : '1/100'}}</div>
+                            </div>-->
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex mb-2">
+                            <div class="flex-grow-1">
+                                <div><h4>0</h4></div>
+                                <div>Artículos Aplicables</div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div><h4>0</h4></div>
+                                <div>Vinculaciones</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <a _ngcontent-mpd-c393="" href="javascript:void(0);" routerLink="/projects/{{project_id}}/identification/bodylegal/{{data.normaId}}/Detail" class="btn btn-light" style="width: 100%;">Ver detalle</a>
+                    </div>
+                </div>
+  
+            </div>
+            <!-- end card body -->
+        </div>
+    </div>
+    <div *ngIf="!normasListWidgets || normasListWidgets.length == 0">
+      <div style="text-align: center;width: 100%;">
+          <img src="assets/images/file.png" width="300" height="200"/>
+      </div>
+      <div style="text-align: center;width: 100%;font-size: 20px;">
+          No hay datos para mostrar
+      </div>
+    </div>
+  </div>
+  </div>
+  
+<div class="pagination justify-content-start mb-0"><!-- class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 100%;"-->
+    <div class="col-sm-7">
+        <div>
+            <p class="mb-sm-0 text-muted">Mostrando página <span class="fw-semibold">1</span> de <span class="fw-semibold">{{pageTotal(pagLength)}}</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> registros</p>
+        </div>
+    </div>
+    <!-- end col -->
+    <div class="col-sm-5">
+        <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
+            <li class="page-item disabled">
+                <a href="javascript:void(0);" class="page-link">Anterior</a>
+            </li>
+            <li class="page-item active">
+                <a href="javascript:void(0);" class="page-link">1</a>
+            </li>
+            <!--<li class="page-item ">
+                <a href="javascript:void(0);" class="page-link">2</a>
+            </li>-->
+            <li class="page-item">
+                <a href="javascript:void(0);" class="page-link">Siguiente</a>
+              </li>
+          </ul>
+      </div><!-- end col -->
+    </div><!-- end row -->
+</div>
+</div>
+</ng-template>
+
+<ng-template #TabContent1>
+    <app-create-type></app-create-type>
+</ng-template>
+
+<ng-template #TabContent2>
+    <app-compliance></app-compliance>
+</ng-template>

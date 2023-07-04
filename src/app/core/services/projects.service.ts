@@ -222,6 +222,14 @@ export class ProjectsService {
     conectArticleInstallation(installation_id: any, article: any){
         return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
     }
+
+    conectArticleProyect(article: any){
+        return this.http.post(API_URL_BACK + 'project/article', article, this.getToken());
+    }
+
+    getArticleProyect(project_id: any){
+        return this.http.get(API_URL_BACK + 'project/article/'+project_id, this.getToken());
+    }
     
     saveEvaluation(data: any): Observable<any> {
         

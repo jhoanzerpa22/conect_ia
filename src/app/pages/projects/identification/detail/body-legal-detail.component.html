@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Paso 4: Conecta la normativa a tus procesos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Identificación" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!--preloader-->
@@ -10,36 +10,6 @@
       </div>
     </div>
   </div>
-
-<div class="row" *ngIf="installation_id">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
-                        <h4 class="card-title mb-0">{{installation_nombre}}</h4>
-                    </div>
-                    
-                    <div class="col-xxl-3 col-lg-3">
-                        <div class="titulo-caja"><b>{{total_cuerpos > 0 ? total_cuerpos : 0}} {{total_cuerpos == 1 ? 'Cuerpo legal' : 'Cuerpos legales'}} </b></div>
-                    </div>
-
-                    <div class="col-xxl-3 col-lg-3">
-                        <div class="titulo-caja"><b>{{total_articulos > 0 ? total_articulos : 0}} {{total_articulos == 1 ? 'Artículo' : 'Artículos'}}</b></div>
-                    </div>
-
-                    <div class="col-xxl-3 col-lg-3">
-                        <div class="search-box">
-                            <input type="text" class="form-control bg-light border-light" placeholder="Buscar...">
-                            <i class="ri-search-2-line search-icon"></i>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-12">
@@ -98,48 +68,7 @@
 </div>
 </div>
 
-<div class="row" *ngIf="!installation_id">
-    <div class="col-12">
-<div class="col-xl-12">
-    <div class="card">
-        <div class="card-header">
-            <h6 class="card-title">Conexión</h6>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-xxl-12 col-lg-12">
-                    <p><b>Instalación o proceso</b></p>
-                    <select class="form-select" placeholder="Selecciona instalación o proceso" data-choices data-choices-search-false
-                                id="choices-priority-input" (change)="selectInstallation($event)">
-                                <option value="">Selecciona instalación o proceso</option>
-                                <option *ngFor="let r of installations;" value="{{r.id}}">{{r.nombre}}</option>
-                    </select>
-                </div>
-
-                <ng-container *ngFor="let item of items;let i = index;">
-
-                    <div class="col-xxl-12 col-lg-12">
-                        <p><b>Seleccione Sub-Instalación o Sub-proceso</b></p>
-                        <select class="form-select" placeholder="Seleccione Sub-Instalación o Sub-proceso" data-choices data-choices-search-false
-                                    id="choices-priority-input" [value]="item.value" (change)="selectInstallationChildren($event, i)">
-                                    <option value="">Seleccione Sub-Instalación o Sub-proceso</option>
-                                    <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
-                        </select>
-                    </div>
-
-                </ng-container>
-                
-                <div class="col-xxl-12 col-lg-12" style="margin: 20px !important;">
-                    <button class="btn btn-success createFile-modal float-end text-secondary" style="color: #fff !important;" (click)="saveInstallation()" [disabled]="installation_id_select.length < 1"> Conectar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-<div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1" *ngIf="installation_id">
+<div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
     <div class="file-manager-sidebar" [ngClass]="showMenu ? 'showMenu' : 'hideMenu'">
         <div class="p-3 d-flex flex-column h-100">
             <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed">
@@ -258,20 +187,42 @@
         <!--Template Articulos-->
         <ng-template #myArticles let-data="data">
             <div class="col-xxl-12" id="r-{{data.idParte}}" *ngIf="!data.EstructurasFuncionales">
-                <div class="card"><!-- border card-border-primary style="border-radius: 24px !important;"-->
+                <div [ngClass]="!validateIdparte(data.idParte) ? 'card ribbon-box border card-border-success right' : 'card'"><!--'card border card-border-success' border card-border-primary style="border-radius: 24px !important;"-->
                     <div class="row g-0">
-                        <div class="col-md-10">
-                            <div class="card-body">
+                        <div class="col-md-12">
+                            <div class="card-body" style="cursor:pointer;" (click)="conectArticle(data.idParte, data.tituloParte, data.tipoParte, data.texto)">
+                                
+                                <div class="ribbon ribbon-success round-shape" *ngIf="!validateIdparte(data.idParte)">Seleccionado</div>
                                 
                                 <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>
+                                
+                                <div class="ribbon-content mt-4 text-muted">
                                 <p class="card-text mb-2" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
                                 <p class="card-text">
-                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Leer más</b></small>
-                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
+                                    <small [ngClass]="!validateIdparte(data.idParte) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Leer más</b></small>
+                                    <small [ngClass]="!validateIdparte(data.idParte) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
                                 </p>
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <ng-container *ngIf="!validateIdparte(data.idParte)">
+                                    ¿Debes gestionar algo más? 
+                                    <div class="form-check form-check-inline form-radio-success mb-3">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true" [ngModel]=" isValidMonitoreo(data.idParte)" (change)="monitoreoArticle($event, data.idParte)">
+                                    <label class="form-check-label" for="inlineCheckbox1">Monitoreo</label>
+                                    </div>
+                                    <div class="form-check form-check-inline form-radio-success mb-3">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="true" [ngModel]=" isValidReporte(data.idParte)" (change)="reporteArticle($event, data.idParte)">
+                                    <label class="form-check-label" for="inlineCheckbox2">Reporte</label>
+                                    </div>
+                                    <div class="form-check form-check-inline form-radio-success mb-3">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="true" [ngModel]=" isValidPermiso(data.idParte)" (change)="permisoArticle($event, data.idParte)">
+                                    <label class="form-check-label" for="inlineCheckbox3">Permiso</label>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
-                        <div class="col-md-2" style="
+                        <!--<div class="col-md-2" style="
                         background-color: #f3f6f9;
                         border-left: 1px solid #000;
                         border-top-right-radius: 24px;
@@ -281,10 +232,9 @@
                         justify-items: center;
                         align-items: center;">
                             <button class="btn btn-success createFile-modal" data-bs-toggle="modal"
-                            data-bs-target="#createFileModal" (click)="conectArticle(data.idParte, data.tituloParte, data.tipoParte, data.texto)" *ngIf="validateIdparte(data.idParte)"><!--<i
-                                class="ri-add-line align-bottom me-1"></i>--> Conectar</button>
+                            data-bs-target="#createFileModal" (click)="conectArticle(data.idParte, data.tituloParte, data.tipoParte, data.texto)" *ngIf="validateIdparte(data.idParte)"> Conectar</button>
                             <span *ngIf="!validateIdparte(data.idParte)">Aplicable</span>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -331,6 +281,13 @@
         </ngx-simplebar>
     </div>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-success edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;margin-left: 20px;" (click)="saveArticles()">Guardar</button>
+        <button class="btn btn-danger edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;" (click)="cancelar()">Cancelar</button>
     </div>
+</div>
 
 <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>

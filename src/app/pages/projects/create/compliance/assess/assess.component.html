@@ -46,8 +46,8 @@
                                     <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 450 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
                                     
                                     <p class="card-text">
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Ver texto completo</b></small>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Leer más</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 450 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
                                     </p> 
                                 </div>
                             </div>
@@ -84,8 +84,8 @@
                                                     <p class="mb-2" [style]="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.evaluationFinding && tarea.evaluationFinding.descripcion?.length > 450 ? formatTask(tarea.evaluationFinding?.descripcion, tarea.evaluationFinding?.id) : tarea.evaluationFinding?.descripcion }}</p>
                                                     
                                                     <p>
-                                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && !validatShow2(tarea.evaluationFinding.id)" (click)="showText2(tarea.evaluationFinding.id)"><b>Ver texto completo</b></small>
-                                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && validatShow2(tarea.evaluationFinding.id)" (click)="hideText2(tarea.evaluationFinding.id)"><b>Ocultar texto completo</b></small>
+                                                        <small class="text-success" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && !validatShow2(tarea.evaluationFinding.id)" (click)="showText2(tarea.evaluationFinding.id)"><b>Leer más</b></small>
+                                                        <small class="text-success" style="cursor: pointer;" *ngIf="tarea.evaluationFinding && tarea.evaluationFinding.descripcion.length > 450 && validatShow2(tarea.evaluationFinding.id)" (click)="hideText2(tarea.evaluationFinding.id)"><b>Ocultar texto completo</b></small>
                                                     </p> 
                                             </div>
                                         </div>
@@ -119,8 +119,8 @@
                                     <p class="mb-2" [style]="tarea.descripcion && tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.descripcion ? tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion.replace('<', '').replace("/", '').replace('p>', '').replace('<', '').replace('p>', '') : '' }}</p>
                                     
                                     <p>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && !validatShow3(tarea.id)" (click)="showText3(tarea.id)"><b>Ver texto completo</b></small>
-                                        <small class="text-danger" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && validatShow3(tarea.id)" (click)="hideText3(tarea.id)"><b>Ocultar texto completo</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && !validatShow3(tarea.id)" (click)="showText3(tarea.id)"><b>Leer más</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && validatShow3(tarea.id)" (click)="hideText3(tarea.id)"><b>Ocultar texto completo</b></small>
                                     </p> 
                                 </div>
                             </div>

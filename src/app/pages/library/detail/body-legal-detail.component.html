@@ -184,7 +184,7 @@
         <!--Template Articulos-->
         <ng-template #myArticles let-data="data">
             <div class="col-xxl-12" id="r-{{data.idParte}}" *ngIf="!data.EstructurasFuncionales">
-                <div class="card border card-border-primary"><!-- style="border-radius: 24px !important;"-->
+                <div class="card"><!--border card-border-primary style="border-radius: 24px !important;"-->
                     <div class="row g-0">
                         <div class="col-md-12">
                             <div class="card-body">
@@ -192,8 +192,8 @@
                                 <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>
                                 <p class="card-text mb-2" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
                                 <p class="card-text">
-                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Ver texto completo</b></small>
-                                    <small class="text-danger" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
+                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Leer más</b></small>
+                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
                                 </p>
                             </div>
                         </div>
