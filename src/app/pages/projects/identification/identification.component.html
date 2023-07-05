@@ -211,12 +211,351 @@
     </div><!-- end row -->
 </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+    </div>
+</div>
+
 </ng-template>
 
 <ng-template #TabContent1>
-    <app-create-type></app-create-type>
+    <div class="card">  
+        <div class="card-body">  
+          <div class="row g-4 mb-3">
+            <div class="col-sm-auto">
+                
+            </div>
+            <div class="col-sm">
+                <div class="d-flex justify-content-sm-end gap-2">
+                    <div class="search-box ms-2">
+                        <input type="text" class="form-control" placeholder="Buscar el cuerpo legal" [(ngModel)]="term"><!--"service.searchTerm"-->
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-xxl-12 col-lg-12">
+                
+                <div class="row">
+                    <div class="col-xxl-2 col-lg-2" >
+                        <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;
+                        cursor: pointer;
+                        border-radius: 24px;
+                        align-items: center;
+                        word-wrap: break-word;
+                        word-break: break-all;
+                        min-height: 30px;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;" [ngClass]="{'div-texto-check texto-check': validateCuerpo('Cuerpo Legal')}" (click)="selectCuerpo('Cuerpo Legal')">Cuerpo Legal
+                        </div>
+                    </div>
+                    
+                    <div class="col-xxl-2 col-lg-2" >
+                        <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;
+                        cursor: pointer;
+                        border-radius: 24px;
+                        align-items: center;
+                        word-wrap: break-word;
+                        word-break: break-all;
+                        min-height: 30px;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;" [ngClass]="{'div-texto-check texto-check': validateCuerpo('Instalación')}" (click)="selectCuerpo('Instalación')">Instalación
+                        </div>
+                    </div>
+                    
+                    <div class="col-xxl-2 col-lg-2" >
+                        <div style="border: 1px solid #c0c0c0;background-color: #f3f6f9;
+                        cursor: pointer;
+                        border-radius: 24px;
+                        align-items: center;
+                        word-wrap: break-word;
+                        word-break: break-all;
+                        min-height: 30px;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;">Vincular Selección
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row" *ngIf="validateCuerpo('Cuerpo Legal')">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="articles_proyects.length < 1">
+                        <div style="text-align: center;width: 100%;">
+                            <img src="assets/images/file.png" width="300" height="200"/>
+                        </div>
+                        <div style="text-align: center;width: 100%;font-size: 20px;">
+                            Aún no tiene articulos aplicables
+                        </div>
+                    </div>
+
+                    <div *ngIf="articles_proyects.length > 0">            
+                            <div class="list-group">
+                                <ng-container *ngFor="let g of articles_proyects_group;">
+                                    <h4 style="color: #405189;">{{g.cuerpoLegal}}</h4>
+
+                                    <ng-container *ngFor="let s of g.articulos;">
+
+                                    <div class="team-list list-view-filter row">
+                                        <div class="col">
+                                            <div class="card team-box">
+                                                <div class="team-cover">
+                                                    
+                                                </div>
+                                                <div class="card-body p-4">                
+                                                    <div class="row align-items-center team-row">
+                                                        <div class="col team-settings">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col">
+                                                            <div class="team-profile-img">
+                                                                
+                                                                <div class="form-check form-check-inline form-radio-success mb-3">
+                                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
+                                                                    
+                                                                    <label class="form-check-label" for="inlineCheckbox1">
+                                                                        <h5 class="fs-16 mb-1" style="color: #405189;">{{s.articulo}}</h5>
+                                                                    </label>
+                                                                </div>
+                                                                <!--<div class="team-content">
+                                                                    <a data-bs-toggle="offcanvas"
+                                                                        aria-controls="offcanvasExample">
+                                                                    </a>
+                                                                </div>-->
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-lg-5 col">
+                                                        <p class="card-text mb-2" [style]="s.descripcion && s.descripcion.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 250 ? formatArticle(s.descripcion, s.id) : s.descripcion) : s.tipoParte}}</p>
+                                                        <p class="card-text">
+                                                            <small [ngClass]="!validateIdparte(s.id) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && !validatShow(s.id)" (click)="showText(s.id)"><b>Leer más</b></small>
+                                                            <small [ngClass]="!validateIdparte(s.id) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && validatShow(s.id)" (click)="hideText(s.id)"><b>Ocultar texto completo</b></small>
+                                                        </p>
+                                                        </div>
+                                                        
+                                                        <div class="col-lg-1 col">
+                                                            <i style="font-size: 30px;" class="ri-zoom-in-line"></i>
+                                                        </div>
+                                                        
+                                                        <div class="col-lg-1 col">
+                                                            <i style="font-size: 30px;" class="ri-git-repository-line"></i>
+                                                        </div>
+                                                        
+                                                        <div class="col-lg-1 col">
+                                                            <i style="font-size: 30px;" class="ri-file-list-3-line"></i>
+                                                        </div>
+
+                                                        <!--<div class="col-lg-4 col">
+                                                            <div class="row text-muted text-center">
+                                                                <div class="col-6 border-end border-end-dashed">
+                                                                    <h5 class="mb-1">0</h5>
+                                                                    <p class="text-muted mb-0">Proyectos</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <h5 class="mb-1">0</h5>
+                                                                    <p class="text-muted mb-0">Tareas</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>-->
+                                                        <div class="col-lg-2 col">
+                                                                <button
+                                                                    class="btn btn-light view-btn" style="width: 100%;"  data-bs-target="#showModal" (click)="openModal(content)">Vincular</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end card-->
+                                        </div>
+                                    </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="validateCuerpo('Instalación')">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="installations_data.length < 1">
+                        <div style="text-align: center;width: 100%;">
+                            <img src="assets/images/file.png" width="300" height="200"/>
+                        </div>
+                        <div style="text-align: center;width: 100%;font-size: 20px;">
+                            Aún no tiene instalaciones
+                        </div>
+                    </div>
+
+                    <div *ngIf="installations_data.length > 0">            
+                            <div class="list-group">
+                                <ng-container *ngFor="let ig of installations_group;">
+                                    <h4 style="color: #405189;">{{ig.area}}</h4>
+
+                                    <ng-container *ngFor="let v of ig.instalaciones;">
+
+                                    <div class="team-list list-view-filter row">
+                                        <div class="col">
+                                            <div class="card team-box">
+                                                <div class="team-cover">
+                                                    
+                                                </div>
+                                                <div class="card-body p-4">                
+                                                    <div class="row align-items-center team-row">
+                                                        <div class="col team-settings">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col">
+                                                            <div class="team-profile-img">
+                                                                
+                                                                <div class="form-check form-check-inline form-radio-success mb-3">
+                                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
+                                                                    
+                                                                    <label class="form-check-label" for="inlineCheckbox1">
+                                                                        <h5 class="fs-16 mb-1" style="color: #405189;">{{v.nombre}}</h5>
+                                                                    </label>
+                                                                </div>
+                                                                <!--<div class="team-content">
+                                                                    <a data-bs-toggle="offcanvas"
+                                                                        aria-controls="offcanvasExample">
+                                                                    </a>
+                                                                </div>-->
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-lg-5 col">
+                                                        <p>{{v.descripcion}}</p>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col">
+                                                            <div class="row text-muted text-center">
+                                                                <div class="col-6 border-end border-end-dashed">
+                                                                    <h5 class="mb-1">0</h5>
+                                                                    <p class="text-muted mb-0">Vinculaciones</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col">
+                                                                <button
+                                                                    class="btn btn-light view-btn" style="width: 100%;">Vincular</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end card-->
+                                        </div>
+                                    </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <div class="row">
+        <div class="col-lg-12"> 
+            <div style="float:right;"><!--class="row justify-content-end"-->
+                <button type="button" class="btn btn-primary btn-label waves-effect right waves-light"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+            </div>
+        </div>
+    </div>
+    
+<!-- Add Instalaciones -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Vincular Instalaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveInstallation()" [formGroup]="installationForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label for="area-field" class="form-label">Area Administrativa</label>
+                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
+                (change)="selectArea($event)">
+                    <option selected>Seleccione Area Administrativa </option>
+                    <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
+                </select>
+                <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+            </div>
+
+            
+            <ng-container *ngFor="let item of items;let i = index;">
+                <div class="mb-3">
+                    <label for="area-field" class="form-label">Sub Area Administrativa</label>
+                    <select class="form-select mb-3" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
+                        <option selected>Seleccione Sub Area Administrativa</option>
+                        <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+                </div>
+            </ng-container>
+
+            <div class="mb-3">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Buscar instalación..."><!--"service.searchTerm"-->
+                    <i class="ri-search-line search-icon"></i>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="list-group">
+                    
+                    <ng-container *ngFor="let o of installations;">
+                        <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll"
+                        id="{{o.id}}" (change)="onCheckboxChange($event)"><!--checked-->
+                        {{o.nombre}}
+                        </label>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-success" id="add-btn">Vincular</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
 </ng-template>
 
 <ng-template #TabContent2>
-    <app-compliance></app-compliance>
+    <!--<app-compliance></app-compliance>-->
 </ng-template>
