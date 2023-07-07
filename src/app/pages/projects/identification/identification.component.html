@@ -460,7 +460,8 @@
                                                         </div>
                                                         <div class="col-lg-2 col">
                                                                 <button
-                                                                    class="btn btn-light view-btn" style="width: 100%;">Vincular</button>
+                                                                    class="btn btn-light view-btn" style="width: 100%;"
+                                                                    data-bs-target="#showModal" (click)="openModal2(content2)">Vincular</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -512,7 +513,6 @@
                 </select>
                 <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
             </div>
-
             
             <ng-container *ngFor="let item of items;let i = index;">
                 <div class="mb-3">
@@ -540,6 +540,63 @@
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll"
                         id="{{o.id}}" (change)="onCheckboxChange($event)"><!--checked-->
                         {{o.nombre}}
+                        </label>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-success" id="add-btn">Vincular</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<!-- Add Cuerpos -->
+<ng-template #content2 role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Vincular Cuerpos Legales</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveInstallation()" [formGroup]="cuerpoForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+            </div>
+            
+
+            <div class="mb-3">
+                <label for="area-field" class="form-label">Cuerpo Legal</label>
+                <select class="form-select mb-3" aria-label="Cuerpo Legal" placeholder="Seleccione Cuerpo Legal"
+                (change)="selectCuerpoLegal($event)">
+                    <option selected>Seleccione Cuerpo Legal </option>
+                    <option *ngFor="let pg of articles_proyects_group;" value="{{pg.cuerpoLegal}}">{{pg.cuerpoLegal}}</option>
+                </select>
+                <div class="invalid-feedback">Por favor ingresar Cuerpo Legal.</div>
+            </div>
+
+            <div class="mb-3">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Buscar Articulo..."><!--"service.searchTerm"-->
+                    <i class="ri-search-line search-icon"></i>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="list-group">
+                    
+                    <ng-container *ngFor="let a of articulos;">
+                        <label class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="{{a.id}}" name="checkAll"
+                        id="{{a.id}}" (change)="onCheckboxChange2($event)"><!--checked-->
+                        {{a.articulo}}
                         </label>
                     </ng-container>
                 </div>

@@ -70,8 +70,13 @@ export class IdentificationComponent implements OnInit {
   areas: any = [];
   area_id_select: any = [];
   
+  cuerpoForm!: UntypedFormGroup; 
+  articulos: any = [];
+  cuerpo_id_select: any = [];
+  
   items: any = [];
   selectChecked: any = [];
+  selectChecked2: any = [];
   
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal) {
     this.total = service.total$;
@@ -95,6 +100,11 @@ export class IdentificationComponent implements OnInit {
     this.installationForm = this.formBuilder.group({
       ids: [''],
       area: ['']
+    });
+    
+    this.cuerpoForm = this.formBuilder.group({
+      ids: [''],
+      cuerpo: ['']
     });
 
     this.route.params.subscribe(params => {
@@ -282,7 +292,15 @@ validateIdparte(idParte: any){
     this.installationForm.reset();
     this.modalService.open(content, { size: 'md', centered: true });
   }
+  
+  openModal2(content: any) {
+    this.submitted = false;
+    
+    this.selectChecked2 = [];
 
+    this.cuerpoForm.reset();
+    this.modalService.open(content, { size: 'md', centered: true });
+  }
   
   saveInstallation(){
 
@@ -389,6 +407,40 @@ validateIdparte(idParte: any){
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+
+  selectCuerpoLegal(event: any){
+
+    if(this.cuerpo_id_select.length > 0){
+    
+    let vacio = event.target.value != '' && event.target.value != null && event.target.value != undefined ? 1 : 0;
+    
+    this.cuerpo_id_select.splice(0 + vacio, (this.cuerpo_id_select.length-(1+vacio)));
+    
+      if(event.target.value != '' && event.target.value != null && event.target.value != undefined){
+        
+        const index = this.articles_proyects_group.findIndex(
+          (co: any) =>
+            co.cuerpoLegal == event.target.value
+        );
+
+        let nombre = this.articles_proyects_group[index].cuerpoLegal;
+        console.log('CuerpoLegal', nombre);
+        this.cuerpo_id_select[0] = {value: event.target.value, label: nombre};
+        this.articulos = this.articles_proyects_group[index].articulos;
+      }
+
+    }else{
+      
+      const index2 = this.articles_proyects_group.findIndex(
+        (co: any) =>
+          co.cuerpoLegal == event.target.value
+      );
+
+      let nombre2 = this.articles_proyects_group[index2].cuerpoLegal;
+      this.cuerpo_id_select.push({value: event.target.value, label: nombre2});
+      this.articulos = this.articles_proyects_group[index2].articulos;
+    }
+  }
   
   validChecked(){
     var checkboxes: any = document.getElementsByName('checkAll');
@@ -437,6 +489,34 @@ validateIdparte(idParte: any){
 
     //this.checkedValGet = checkedVal
     //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+  }
+
+  checkedValGet2: any[] = [];
+  onCheckboxChange2(e: any) {
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.installations.length; i++) {
+        result = this.installations[i];
+        checkedVal.push(result);
+        if(this.installations[i].id == e.target.value){
+          const index = this.selectChecked.findIndex(
+            (ch: any) =>
+              ch.id == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectChecked2.splice(index, 1);
+          }else{
+            this.selectChecked2.push(this.installations[i]);
+          }
+        }
+    }
+    var checkboxes: any = document.getElementsByName('checkAll');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        //checkboxes[j].checked = false;
+      }
+    }
   }
 
   // PreLoader
