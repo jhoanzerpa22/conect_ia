@@ -283,26 +283,33 @@ validateIdparte(idParte: any){
    * Open modal
    * @param content modal content
    */
-   openModal(content: any) {
+   openModal(content: any, id: any) {
     this.submitted = false;
     
     this.installations = [];
     this.selectChecked = [];
 
-    this.installationForm.reset();
     this.modalService.open(content, { size: 'md', centered: true });
+    
+    //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
+    this.installationForm.controls['ids'].setValue(/*listData[0].*/id);
   }
   
-  openModal2(content: any) {
+  openModal2(content: any, id: any) {
     this.submitted = false;
     
     this.selectChecked2 = [];
 
-    this.cuerpoForm.reset();
+    //this.cuerpoForm.reset();
     this.modalService.open(content, { size: 'md', centered: true });
+    this.cuerpoForm.controls['ids'].setValue(id);
   }
   
   saveInstallation(){
+
+  }
+  
+  saveCuerpo(){
 
   }
 
@@ -424,7 +431,6 @@ validateIdparte(idParte: any){
         );
 
         let nombre = this.articles_proyects_group[index].cuerpoLegal;
-        console.log('CuerpoLegal', nombre);
         this.cuerpo_id_select[0] = {value: event.target.value, label: nombre};
         this.articulos = this.articles_proyects_group[index].articulos;
       }
