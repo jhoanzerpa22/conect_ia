@@ -190,9 +190,10 @@ export class InstallationsComponent {
    * Open modal
    * @param content modal content
    */
-  openModal(content: any) {
+  openModal(content: any, instalationID?: any) {
     this.submitted = false;
     this.installationForm.reset();
+    this.installation_id = instalationID;
     this.modalService.open(content, { size: 'md', centered: true });
   }
 
@@ -569,7 +570,6 @@ export class InstallationsComponent {
     var listData = this.installations_all.filter((data: { id: any; }) => data.id === id);
     this.installationForm.controls['nombre'].setValue(listData[0].nombre);
     this.installationForm.controls['descripcion'].setValue(listData[0].descripcion);
-    this.installationForm.controls['area'].setValue(listData[0].area_id);
     this.installationForm.controls['ids'].setValue(listData[0].id);
     
     const index2 = this.areas.findIndex(
@@ -577,8 +577,15 @@ export class InstallationsComponent {
         co.id == listData[0].area_id
     );
 
-    let nombre2 = this.areas[index2].nombre;
-    this.area_id_select.push({value: listData[0].area_id, label: nombre2});
+    if(index2 != -1){
+      this.installationForm.controls['area'].setValue(listData[0].area_id);
+
+      let nombre2 = this.areas[index2].nombre;
+      this.area_id_select.push({value: listData[0].area_id, label: nombre2});
+    }else{
+      
+    }
+
   }
 
   // PreLoader
