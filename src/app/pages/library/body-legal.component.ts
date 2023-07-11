@@ -49,6 +49,7 @@ export class BodyLegalTypeComponent {
   term:any;
   busquedaForm!: UntypedFormGroup;
   search: any = '';
+  type_search: any = 'by_texto';
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService) {
     this.BodyLegalList = service.bodylegal$;
@@ -80,28 +81,48 @@ export class BodyLegalTypeComponent {
     
     const search: any = this.route.snapshot.queryParams['search'];
     if(search && search != '' && search != undefined ? search : ''){
+      const type_search: any = this.route.snapshot.queryParams['type_search'];
       this.search = search;
-      this.busquedaNorma(search);
+      this.type_search = type_search;
+      this.busquedaNorma(search, type_search);
     }
     
   }
 
-  busquedaNorma(search?:any){    
+  busquedaNorma(search?:any, type_search?: any){    
     let busqueda: any = search ? search : this.busquedaForm.get('busqueda')?.value;
-    let tipo_busqueda: any = this.busquedaForm.get('tipo_busqueda')?.value;
+    let tipo_busqueda: any = type_search ? type_search : this.busquedaForm.get('tipo_busqueda')?.value;
     if(busqueda && busqueda != '' && busqueda != undefined && busqueda != null){
       this.showPreLoader();
       
-      this._router.navigate(['/library'], { queryParams: { search: busqueda } });
+      this._router.navigate(['/library'], { queryParams: { search: busqueda, type_search: tipo_busqueda} });
 
+      if(tipo_busqueda == 'by_texto'){
       this.projectsService.getBodyLegalSearch(1, busqueda, 100).pipe().subscribe(
         (data: any) => {
           console.log(data.data);
-          this.service.bodylegal_data = data.data;
-          this.body_legal_data = data.data;
-          this.total_body = data.data.length > 0 ? data.data.length : 0;
-          this.total_paginate = data.data.length > 0 ? data.data.length : 0;
-          //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
+          if(data && data.data){
+            this.service.bodylegal_data = data.data;
+            this.body_legal_data = data.data;
+            this.total_body = data.data.length > 0 ? data.data.length : 0;
+            this.total_paginate = data.data.length > 0 ? data.data.length : 0;
+            //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
+          }else{
+            this.service.bodylegal_data = [];
+            this.body_legal_data = [];
+            this.total_body = 0;
+            this.total_paginate = 0;
+            
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'No se encontraron registros',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            
+          }
+          
           this.hidePreLoader();
       },
       (error: any) => {
@@ -109,6 +130,44 @@ export class BodyLegalTypeComponent {
         //this.error = error ? error : '';
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
+      }else{
+        this.projectsService.getBodyLegalByNorma(busqueda).pipe().subscribe(
+          (data: any) => {
+            console.log(data.data);
+            if(data && data.data){
+              const detail: any = data.data;
+              const info: any = data.data ? [{FechaPublicacion: detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '', InicioDeVigencia: detail.dates.fechaVigenciaNorma ? detail.dates.fechaVigenciaNorma : '', idNorma: detail.normaId, TipoNumero: {Compuesto: detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''} , TituloNorma: detail.tituloNorma }] : [];
+
+              this.service.bodylegal_data = info;
+              this.body_legal_data = info;
+              this.total_body = data.data ? 1 : 0;
+              this.total_paginate = data.data > 0 ? 1 : 0;
+              //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
+            }else{
+              this.service.bodylegal_data = [];
+              this.body_legal_data = [];
+              this.total_body = 0;
+              this.total_paginate = 0;
+              
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'No se encontraron registros',
+                showConfirmButton: true,
+                timer: 5000,
+              });
+              
+            }
+            
+            this.hidePreLoader();
+        },
+        (error: any) => {
+          this.hidePreLoader();
+          //this.error = error ? error : '';
+          this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+      }
+
       document.getElementById('elmLoader')?.classList.add('d-none')
     }
   }
