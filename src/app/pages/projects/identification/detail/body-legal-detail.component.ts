@@ -21,7 +21,8 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-body-legal-detail-id',
-  templateUrl: './body-legal-detail.component.html',
+  //templateUrl: './body-legal-detail.component.html',
+  templateUrl: '../../../library/detail/body-legal-detail.component.html',
   styleUrls: ['./body-legal-detail.component.scss'],
   providers: [RecentService, DecimalPipe]
 })
