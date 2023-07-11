@@ -14,6 +14,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ProjectsService } from '../../../core/services/projects.service';
 import { ToastService } from '../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+import {Location} from '@angular/common';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -71,7 +72,7 @@ export class BodyLegalDetailComponent implements OnInit {
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -332,6 +333,10 @@ export class BodyLegalDetailComponent implements OnInit {
         return product.type === name;
       });
     });*/
+  }
+
+  cancelar() {
+    this._location.back();
   }
 
   // PreLoader
