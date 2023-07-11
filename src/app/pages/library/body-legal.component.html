@@ -23,14 +23,14 @@
 
                 <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
                     <div class="form-check form-check-inline mb-2">
-                        <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_id" id="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_id" id="flexRadioDefault1" [(ngModel)]="type_search">
                         <label class="form-check-label" for="flexRadioDefault1">
                         Por id Norma
                         </label>
                     </div>
                         
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_texto" id="flexRadioDefault2" checked>
+                        <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_texto" id="flexRadioDefault2" checked [(ngModel)]="type_search">
                         <label class="form-check-label" for="flexRadioDefault2">
                         Por texto Norma
                         </label>
@@ -83,7 +83,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of BodyLegalList | async" id="lj_{{data.normaId}}"><!--BodyLegalDatas-->
+                                <tr *ngFor="let data of BodyLegalList | async" id="lj_{{data.idNorma}}"><!--BodyLegalDatas-->
                                     <td>
                                         <h4>{{data.TipoNumero ? data.TipoNumero.Compuesto : ''}}</h4>
                                         <h5>{{data.TituloNorma ? data.TituloNorma : ''}}</h5>
