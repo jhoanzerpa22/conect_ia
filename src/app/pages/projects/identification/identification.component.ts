@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
@@ -77,8 +77,10 @@ export class IdentificationComponent implements OnInit {
   items: any = [];
   selectChecked: any = [];
   selectChecked2: any = [];
+  selectList: boolean = true;
+  activeTab: number = 1;
   
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.total = service.total$;
   }
 
@@ -140,6 +142,11 @@ export class IdentificationComponent implements OnInit {
 
   validateCuerpo(cuerpo: any){
     return this.cuerpo_select == cuerpo;
+ }
+
+ onChangeList(e: any){
+    this.selectList = !this.selectList;
+    this.ref.detectChanges();
  }
 
  formatArticle(texto:any, idParte: any){
@@ -216,7 +223,7 @@ validateIdparte(idParte: any){
     this.showPreLoader();
       this.projectsService.getArticleProyect(project_id).pipe().subscribe(
         (data: any) => {
-          this.articles_proyects = data.data;        
+          this.articles_proyects = data.data;
 
           this.articles_proyects_group = [];
           this.articles_proyects.forEach((x: any) => {
@@ -228,7 +235,7 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, articulos: [x]
               });
             }else{
               this.articles_proyects_group[index].articulos.push(x);
@@ -598,6 +605,115 @@ validateIdparte(idParte: any){
       (r: any) =>
         r == rol
     ) != -1;
+  }
+
+  changeTab(active: number){
+    this.activeTab = active;
+    if (this.articles_proyects < 1) {
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Rellene todos los campos..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+
+      return;
+    }
+  }
+
+  conectCuerpo(cuerpo_id?: any, data?: any){
+    
+    const index = this.articles_proyects.findIndex(
+      (co: any) =>
+        co.normaId == cuerpo_id && co.proyectoId == this.project_id
+    );
+
+    if(index != -1){
+      this.articles_proyects.splice(index, 1);
+    }else{
+
+    const cuerpo_proyect: any = {
+      normaId: cuerpo_id,
+      cuerpoLegal: data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : null,
+      organismo: data.organismos.length > 0 ? data.organismos[0] : '',
+      encabezado: data.encabezado ? data.encabezado.texto : '',
+      proyectoId: this.project_id,
+      monitoreo: false,
+      reporte: false,
+      permiso: false,
+      articulos: JSON.stringify(data.EstructurasFuncionales)
+    };
+
+    this.articles_proyects.push(cuerpo_proyect);
+    }
+  }
+
+  validateIdNorma(idNorma: any){
+    const index = this.articles_proyects.findIndex(
+      (co: any) =>
+        co.normaId == idNorma && co.proyectoId == this.project_id
+    );
+
+    return index == -1;
+  }
+  
+  saveCuerpos(){
+    
+    this.showPreLoader();
+    if(this.articles_proyects.length > 0){
+
+    for (var j = 0; j < this.articles_proyects.length; j++) {
+    
+    this.projectsService.conectArticleProyect(this.articles_proyects[j]).pipe().subscribe(
+      (data: any) => {     
+       
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+    }
+
+    this.hidePreLoader();
+
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Cuerpos Legales guardados',
+      showConfirmButton: true,
+      timer: 5000,
+    });
+
+    setTimeout(() => {
+      this.getArticleProyect(this.project_id);
+      this.activeTab = this.activeTab + 1;
+    }, 5000);
+
+    }else{
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
+    
   }
 
 }
