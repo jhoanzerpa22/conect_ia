@@ -526,33 +526,21 @@
                 <label for="id-field" class="form-label">ID</label>
                 <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
             </div>
-            
-
-            <div class="mb-3">
-                <label for="area-field" class="form-label">Cuerpo Legal</label>
-                <select class="form-select mb-3" aria-label="Cuerpo Legal" placeholder="Seleccione Cuerpo Legal"
-                (change)="selectCuerpoLegal($event)">
-                    <option selected>Seleccione Cuerpo Legal </option>
-                    <option *ngFor="let pg of articles_proyects_group;" value="{{pg.cuerpoLegal}}">{{pg.cuerpoLegal}}</option>
-                </select>
-                <div class="invalid-feedback">Por favor ingresar Cuerpo Legal.</div>
-            </div>
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar Articulo..."><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" placeholder="Buscar Cuerpo Legal..."><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
 
             <div class="mb-3">
                 <div class="list-group">
-                    
-                    <ng-container *ngFor="let a of articulos;">
+                    <ng-container *ngFor="let pg of articles_proyects_group;">
                         <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="{{a.id}}" name="checkAll"
-                        id="{{a.id}}" (change)="onCheckboxChange2($event)"><!--checked-->
-                        {{a.articulo}}
+                        <input class="form-check-input me-1" type="checkbox" value="{{pg.normaId}}" name="checkAll"
+                        id="{{pg.normaId}}" (change)="onCheckboxChange2($event)"><!--checked-->
+                        {{pg.cuerpoLegal}} | {{pg.tituloNorma}}
                         </label>
                     </ng-container>
                 </div>
@@ -673,12 +661,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-1 col">
+                                                        <div class="col-sm-auto col">
                                                             <div class="form-check form-check-inline form-radio-success mb-3">
                                                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col">
+                                                        <div class="col-lg-5 col">
                                                             <div ><!--class="team-profile-img"-->
                                                                 <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
@@ -692,16 +680,40 @@
                                                         </div>
                                                         
                                                         
-                                                        <div class="col-lg-1 col">
-                                                            <i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>
+                                                        <div class="col-xs-1 col">
+                                                            <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
+                                                            <button
+                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Permiso</button>
+                                                                    
+                                                            <button
+                                                            class="btn btn-light view-btn mb-2" style="width: 100%;"  >Reporte</button>
+                                                            
+                                                            <button
+                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Monitoreo</button>
                                                         </div>
                                                         
-                                                        <div class="col-lg-1 col">
-                                                            <i [ngClass]="{'icon-check': s.reporte}" style="font-size: 30px;" class="ri-git-repository-line"></i>
+                                                        <div class="col-xs-1 col">
+                                                            <!--<i [ngClass]="{'icon-check': s.reporte}" style="font-size: 30px;" class="ri-git-repository-line"></i>-->
+                                                            <select class="form-select mb-2" name="componente">
+                                                            <option value="bg-soft-success">Componente</option>
+                                                            </select>
+
+                                                            <select class="form-select mb-2" name="subcomponente">
+                                                                <option value="bg-soft-success">Sub Componente</option>
+                                                                </select>
                                                         </div>
                                                         
-                                                        <div class="col-lg-1 col">
-                                                            <i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>
+                                                        <div class="col-xs-1 col">
+                                                            <!--<i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>-->
+                                                            
+                                                            <button
+                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Construcción</button>
+                                                                    
+                                                            <button
+                                                            class="btn btn-light view-btn mb-2" style="width: 100%;"  >Operación</button>
+                                                            
+                                                            <button
+                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Cierre</button>
                                                         </div>
 
                                                         <!--<div class="col-lg-4 col">

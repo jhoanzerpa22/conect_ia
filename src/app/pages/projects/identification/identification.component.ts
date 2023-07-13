@@ -235,7 +235,7 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, articulos: [x]
               });
             }else{
               this.articles_proyects_group[index].articulos.push(x);
@@ -639,6 +639,7 @@ validateIdparte(idParte: any){
       cuerpoLegal: data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : null,
       organismo: data.organismos.length > 0 ? data.organismos[0] : '',
       encabezado: data.encabezado ? data.encabezado.texto : '',
+      tituloNorma: data.tituloNorma,
       proyectoId: this.project_id,
       monitoreo: false,
       reporte: false,
