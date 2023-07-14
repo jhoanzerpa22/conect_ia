@@ -79,7 +79,10 @@ export class IdentificationComponent implements OnInit {
   selectChecked2: any = [];
   selectList: boolean = true;
   activeTab: number = 1;
-  
+
+  vinculacionForm!: UntypedFormGroup;
+  selectChecked3: any = [];
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.total = service.total$;
   }
@@ -107,6 +110,11 @@ export class IdentificationComponent implements OnInit {
     this.cuerpoForm = this.formBuilder.group({
       ids: [''],
       cuerpo: ['']
+    });
+
+    this.vinculacionForm = this.formBuilder.group({
+      ids: [''],
+      area: ['']
     });
 
     this.route.params.subscribe(params => {
@@ -312,12 +320,28 @@ validateIdparte(idParte: any){
     this.cuerpoForm.controls['ids'].setValue(id);
   }
   
+  openModal3(content: any, id: any) {
+    this.submitted = false;
+    
+    this.installations = [];
+    this.selectChecked3 = [];
+
+    this.modalService.open(content, { size: 'md', centered: true });
+    
+    //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
+    this.vinculacionForm.controls['ids'].setValue(/*listData[0].*/id);
+  }
+  
   saveInstallation(){
 
   }
   
   saveCuerpo(){
 
+  }
+
+  saveVinculacion(){
+    console.log('checked',this.selectChecked3);
   }
 
   selectArea(event: any){
@@ -530,6 +554,38 @@ validateIdparte(idParte: any){
         //checkboxes[j].checked = false;
       }
     }
+  }
+
+  checkedValGet3: any[] = [];
+  onCheckboxChange3(e: any) {
+    //checkArray.push(new UntypedFormControl(e.target.value));
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.installations.length; i++) {
+        result = this.installations[i];
+        checkedVal.push(result);
+        if(this.installations[i].id == e.target.value){
+          const index = this.selectChecked3.findIndex(
+            (ch: any) =>
+              ch.id == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectChecked3.splice(index, 1);
+          }else{
+            this.selectChecked3.push(this.installations[i]);
+          }
+        }
+    }
+    var checkboxes: any = document.getElementsByName('checkAll');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        //checkboxes[j].checked = false;
+      }
+    }
+
+    //this.checkedValGet = checkedVal
+    //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
   }
 
   // PreLoader

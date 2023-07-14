@@ -644,8 +644,7 @@
                                     <h4 style="color: #405189;">{{g.cuerpoLegal}}</h4>
                                     <p>{{g.organismo}}</p>
 
-                                    <ng-container *ngFor="let s of g.articulos;">
-
+                                    <ng-template #myArticles let-s="s">
                                     <div class="team-list list-view-filter row" *ngIf="s.tipoParte == 'Artículo'">
                                         <div class="col">
                                             <div class="card team-box">
@@ -738,7 +737,33 @@
                                             <!--end card-->
                                         </div>
                                     </div>
+                                    
+                                    <div *ngIf="s.tipoParte != 'Artículo'">
+                                       <h5 style="color: #405189;"> {{s.articulo ? s.articulo : s.tipoParte}} </h5> 
+                                    </div>
+
+                                    
+                                        <ng-container *ngIf="s.hijas">
+            
+                                            <div class="col-xxl-12" *ngFor="let item of s.hijas;">
+
+                                                <ng-container [ngTemplateOutlet]="myArticles" 
+                                                [ngTemplateOutletContext] ="{s: item }">
+                                            </ng-container>
+                                            
+                                            </div>
+                                        </ng-container>
+
+                                    </ng-template>
+                                    
+                                    <ng-container *ngFor="let s of g.articulos;">
+            
+                                        <ng-container [ngTemplateOutlet]="myArticles" 
+                                        [ngTemplateOutletContext] ="{s:s }">
+                                        </ng-container>
+                            
                                     </ng-container>
+
                                 </ng-container>
                             </div>
                         </div>
@@ -763,7 +788,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>
-    <form (ngSubmit)="saveInstallation()" [formGroup]="installationForm" class="tablelist-form" autocomplete="off">
+    <form (ngSubmit)="saveVinculacion()" [formGroup]="vinculacionForm" class="tablelist-form" autocomplete="off">
         <div class="modal-body">
 
             <input type="hidden" name="id" value="" formControlName="ids" />
@@ -807,7 +832,7 @@
                     <ng-container *ngFor="let o of installations;">
                         <label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll"
-                        id="{{o.id}}" (change)="onCheckboxChange($event)"><!--checked-->
+                        id="{{o.id}}" (change)="onCheckboxChange3($event)"><!--checked-->
                         {{o.nombre}}
                         </label>
                     </ng-container>
