@@ -172,12 +172,12 @@
                     <div class="mt-auto">
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1">
-                                <div><h4>0</h4></div>
-                                <div>Artículos Aplicables</div>
+                                <div><h4>{{byCuerpoVinculacion(data.normaId)}}</h4></div>
+                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Artículo Aplicable' : 'Artículos Aplicables'}}</div>
                             </div>
                             <div class="flex-grow-1">
-                                <div><h4>0</h4></div>
-                                <div>Vinculaciones</div>
+                                <div><h4>{{byCuerpoVinculacion(data.normaId)}}</h4></div>
+                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Vinculación' : 'Vinculaciones'}}</div>
                             </div>
                         </div>
                     </div>
@@ -250,7 +250,7 @@
                         <input type="text" class="form-control" placeholder="{{selectList ? 'Buscar el cuerpo legal' : 'Buscar la instalación'}}" [(ngModel)]="term"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
-                    <div class="form-check form-switch form-check-right" style="margin-right: 30px;">
+                    <div class="form-check form-switch form-check-right" style="margin-right: 50px;font-size: 20px;">
                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled" value="true" (change)="onChangeList($event)">
                         <label class="form-check-label" for="flexSwitchCheckRightDisabled">{{selectList ? 'Cuerpos Legales' : 'Instalaciones'}}</label>
                     </div>
@@ -280,7 +280,8 @@
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
-                                            <div class="card team-box">
+                                            <div [ngClass]="byCuerpo(s.normaId) > 0 ? 'card team-box border card-border-success' : 'card team-box'">
+
                                                 <div class="team-cover">
                                                     
                                                 </div>
@@ -296,10 +297,10 @@
                                                         <div class="col-lg-2 col">
                                                             <div class="team-profile-img">
                                                                 
-                                                                <div class="form-check form-check-inline form-radio-success mb-3">
-                                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
+                                                                <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                                    <input class="form-check-input" type="checkbox" id="{{s.normaId}}" value="{{s.normaId}}" name="checkAllCuerpos" (change)="onCheckboxChangeCuerpos($event)">
                                                                     
-                                                                    <label class="form-check-label" for="inlineCheckbox1">
+                                                                    <label class="form-check-label" for="{{s.normaId}}">
                                                                         <h5 class="fs-16 mb-1" style="color: #405189;">{{s.cuerpoLegal}}</h5>
                                                                     </label>
                                                                 </div>
@@ -323,15 +324,16 @@
                                                             <div class="row text-muted text-center">
                                                                 
                                                                 <div class="col-12">
-                                                                    <h5 class="mb-1">0</h5>
+                                                                    <h5 class="mb-1">{{byCuerpo(s.normaId)}}</h5>
                                                                     <p class="text-muted mb-0">Instalaciones</p>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-lg-2 col">
-                                                                <button
-                                                                    class="btn btn-light view-btn" style="width: 100%;"  data-bs-target="#showModal" (click)="openModal(content, s.id)">Vincular</button>
+                                                                <button 
+                                                                    [ngClass]="byCuerpo(s.normaId) > 0 ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'"
+                                                                    style="width: 100%;"  data-bs-target="#showModal" (click)="openModal(content, 'single', s)">{{byCuerpo(s.normaId) > 0 ? 'Modificar Vinculación' : 'Vincular'}}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -370,7 +372,7 @@
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
-                                            <div class="card team-box">
+                                            <div [ngClass]="byInstallation(v.id) > 0 ? 'card team-box border card-border-success' : 'card team-box'">
                                                 <div class="team-cover">
                                                     
                                                 </div>
@@ -386,8 +388,8 @@
                                                         <div class="col-lg-2 col">
                                                             <div class="team-profile-img">
                                                                 
-                                                                <div class="form-check form-check-inline form-radio-success mb-3">
-                                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
+                                                                <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                                    <input class="form-check-input" type="checkbox" id="{{v.id}}" value="{{v.id}}" name="checkAllInstalaciones" (change)="onCheckboxChangeInstalaciones($event)">
                                                                     
                                                                     <label class="form-check-label" for="inlineCheckbox1">
                                                                         <h5 class="fs-16 mb-1" style="color: #405189;">{{v.nombre}}</h5>
@@ -408,16 +410,16 @@
                                                         <div class="col-lg-3 col">
                                                             <div class="row text-muted text-center">
                                                                 <div class="col-6 border-end border-end-dashed">
-                                                                    <h5 class="mb-1">{{v.installations_articles ? v.installations_articles.length : 0
-                                                                    }}</h5>
+                                                                    <h5 class="mb-1">{{byInstallation(v.id)}}</h5>
                                                                     <p class="text-muted mb-0">Vinculaciones</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-2 col">
                                                                 <button
-                                                                    class="btn btn-light view-btn" style="width: 100%;"
-                                                                    data-bs-target="#showModal" (click)="openModal2(content2, v.id)">Vincular</button>
+                                                                    [ngClass]="byInstallation(v.id) > 0 ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'" 
+                                                                    style="width: 100%;"
+                                                                    data-bs-target="#showModal" (click)="openModal2(content2, 'single', v)">{{byInstallation(v.id) > 0 ? 'Modificar Vinculación' : 'Vincular'}}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -435,13 +437,66 @@
     </div>
 </div>
 </div>
+
     <div class="row">
-        <div class="col-lg-12"> 
+        <div class="col-lg-12">
+           <!-- <div class="row align-items-center">
+            <div class="col-lg-8 text-center">
+                <div style="width: 40%; height: 10%; position: fixed; background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden">
+                    <div style="width: 246px; padding-top: 6.40px; padding-bottom: 10px; left: 369px; top: 13px; position: absolute; background: white; border-radius: 2.84px; border: 0.36px #F3F6F9 solid; justify-content: center; align-items: center; display: inline-flex">
+                    <div style="text-align: center; color: #634A1F; font-size: 9.24px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word">Vincular selección</div>
+                    </div>
+                    <div style="left: 79px; top: 19px; position: absolute; text-align: center; color: white; font-size: 12px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word">Instalación seleccionada</div>
+                    <div style="left: 55px; top: 19px; position: absolute; text-align: center; color: white; font-size: 12px; font-family: Poppins; font-weight: 700; line-height: 13.86px; word-wrap: break-word">1</div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">-->
             <div style="float:right;"><!--class="row justify-content-end"-->
-                <button type="button" class="btn btn-primary btn-label waves-effect right waves-light"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+                <button type="button" class="btn btn-primary btn-label waves-effect right waves-light" (click)="siguiente()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+            </div>
+            <!--</div>
+            </div>-->
+        </div>
+    </div>
+    
+<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 60%;" *ngIf="selectCheckedCuerpos.length > 0 && selectList">
+    <div class="col-sm-7">
+        <div style="background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden; width: 100%; height: 100%;">
+            <div class="col-sm-12">
+                <div class="row mb-3 mt-3">
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-7" style="color: white; font-size: 12px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word">
+                        {{selectCheckedCuerpos.length}} {{selectCheckedCuerpos.length > 1 ? 'Cuerpos Legales Seleccionados' : 'Cuerpo Legal Seleccionado'}}
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal(content, 'multiple')">Vincular Selección</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 60%;" *ngIf="!selectList && selectCheckedInstalaciones.length > 0">
+    <div class="col-sm-7">
+        <div style="background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden; width: 100%; height: 100%;">
+            <div class="col-sm-12">
+                <div class="row mb-3 mt-3">
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-7" style="color: white; font-size: 12px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word">
+                        {{selectCheckedInstalaciones.length}} {{selectCheckedInstalaciones.length > 1 ? 'Instalaciones Seleccionadas' : 'Instalación Seleccionada'}}
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal2(content, 'multiple')">Vincular Selección</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 <!-- Add Instalaciones -->
 <ng-template #content role="document" let-modal>
@@ -538,7 +593,7 @@
                 <div class="list-group">
                     <ng-container *ngFor="let pg of articles_proyects_group;">
                         <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="{{pg.normaId}}" name="checkAll"
+                        <input class="form-check-input me-1" type="checkbox" value="{{pg.normaId}}" name="checkAll2"
                         id="{{pg.normaId}}" (change)="onCheckboxChange2($event)"><!--checked-->
                         {{pg.cuerpoLegal}} | {{pg.tituloNorma}}
                         </label>
@@ -661,8 +716,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-auto col">
-                                                            <div class="form-check form-check-inline form-radio-success mb-3">
-                                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="true">
+                                                            <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="{{s.articuloId}}" value="{{s.articuloId}}" name="checkAllVincular" (change)="onCheckboxChangeVincular($event, s)">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-5 col">
@@ -670,10 +725,10 @@
                                                                 <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
                                                                 </div>
-                                                                <p class="card-text mb-2" [style]="s.descripcion && s.descripcion.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 250 ? formatArticle(s.descripcion, s.id) : s.descripcion) : s.tipoParte}}</p>
+                                                                <p class="card-text mb-2" [style]="s.descripcion && s.descripcion.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 250 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}}</p>
                                                                 <p class="card-text">
-                                                                            <small [ngClass]="!validateIdparte(s.id) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && !validatShow(s.id)" (click)="showText(s.id)"><b>Leer más</b></small>
-                                                                            <small [ngClass]="!validateIdparte(s.id) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && validatShow(s.id)" (click)="hideText(s.id)"><b>Ocultar texto completo</b></small>
+                                                                            <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && !validatShow(s.articuloId)" (click)="showText(s.articuloId)"><b>Leer más</b></small>
+                                                                            <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && validatShow(s.articuloId)" (click)="hideText(s.articuloId)"><b>Ocultar texto completo</b></small>
                                                                 </p>        
                                                             </div>
                                                         </div>
@@ -729,7 +784,7 @@
                                                         </div>-->
                                                         <div class="col-lg-2 col">
                                                                 <button
-                                                                    class="btn btn-light view-btn" style="width: 100%;"  data-bs-target="#showModal" (click)="openModal(content, s.id)">Configurar instalaciones</button>
+                                                                    class="btn btn-light view-btn" style="width: 100%;"  data-bs-target="#showModal" (click)="openModal3(content3, 'single', s)">Configurar instalaciones</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -776,13 +831,67 @@
     <div class="row">
         <div class="col-lg-12"> 
             <div style="float:right;"><!--class="row justify-content-end"-->
-                <button type="button" class="btn btn-primary btn-label waves-effect right waves-light"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+                <button type="button" class="btn btn-primary btn-label waves-effect right waves-light" (click)="siguiente()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
             </div>
         </div>
     </div>
+
+<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 84%;" *ngIf="selectCheckedVincular.length > 0">
+    <div class="col-sm-12">
+        <div style="background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden; width: 100%; height: 100%;">
+            <div class="col-sm-12">
+                <div class="row mb-3 mt-3">
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-2" style="color: white; font-size: 14px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word; margin: auto;">
+                        {{selectCheckedVincular.length}} {{selectCheckedVincular.length > 1 ? 'Artículos Seleccionados' : 'Artículo Seleccionado'}}
+                    </div>
+                    
+                    <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
+                        <button
+                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Permiso</button>
+                                
+                        <button
+                        class="btn btn-light view-btn mb-2" style="width: 100%;"  >Reporte</button>
+                        
+                        <button
+                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Monitoreo</button>
+                    </div>
+                    
+                    <div class="col-xs-1 col" style="margin: auto;border-left: 3px solid #fff;padding-top: 20px;padding-bottom: 20px;">
+                        <select class="form-select mb-2" name="componente">
+                        <option value="bg-soft-success">Componente</option>
+                        </select>
+
+                        <select class="form-select mb-2" name="subcomponente">
+                            <option value="bg-soft-success">Sub Componente</option>
+                            </select>
+                    </div>
+                    
+                    <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
+                        <button
+                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Construcción</button>
+                                
+                        <button
+                        class="btn btn-light view-btn mb-2" style="width: 100%;"  >Operación</button>
+                        
+                        <button
+                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Cierre</button>
+                    </div>
+                    <div class="col-sm-2" style="margin: auto;border-left: 3px solid #fff;padding-top: 50px;padding-bottom: 50px;">
+                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Configurar Instalaciones</button>
+                    </div>
+                    <div class="col-sm-2" style="margin: auto;border-left: 3px solid #fff;padding-top: 50px;padding-bottom: 50px;">
+                        <button type="button" class="btn btn-success waves-effect waves-light" style="font-family: Poppins;border-radius: 24px;" >Aplicar a todos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 <!-- Add Instalaciones -->
-<ng-template #content role="document" let-modal>
+<ng-template #content3 role="document" let-modal>
     <div class="modal-header bg-light p-3">
         <h5 class="modal-title" id="exampleModalLabel">Vincular Instalaciones</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
@@ -799,27 +908,6 @@
             </div>
 
             <div class="mb-3">
-                <label for="area-field" class="form-label">Area Administrativa</label>
-                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
-                (change)="selectArea($event)">
-                    <option selected>Seleccione Area Administrativa </option>
-                    <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
-                </select>
-                <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
-            </div>
-            
-            <ng-container *ngFor="let item of items;let i = index;">
-                <div class="mb-3">
-                    <label for="area-field" class="form-label">Sub Area Administrativa</label>
-                    <select class="form-select mb-3" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
-                        <option selected>Seleccione Sub Area Administrativa</option>
-                        <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
-                    </select>
-                    <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
-                </div>
-            </ng-container>
-
-            <div class="mb-3">
                 <div class="search-box">
                     <input type="text" class="form-control" placeholder="Buscar instalación..."><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
@@ -829,9 +917,9 @@
             <div class="mb-3">
                 <div class="list-group">
                     
-                    <ng-container *ngFor="let o of installations;">
+                    <ng-container *ngFor="let o of installations_filter;">
                         <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll"
+                        <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll3"
                         id="{{o.id}}" (change)="onCheckboxChange3($event)"><!--checked-->
                         {{o.nombre}}
                         </label>
@@ -851,5 +939,135 @@
 </ng-template>
 
 <ng-template #TabContent3>
-    <!--<app-compliance></app-compliance>-->
+    <div class="card">  
+        <div class="card-body">  
+          <div class="row g-4 mb-3">
+            <div class="col-sm-auto">
+                
+            </div>
+            <div class="col-sm">
+                <div class="d-flex justify-content-sm-end gap-2">
+                    <div class="search-box ms-2">
+                        <input type="text" class="form-control" placeholder="Buscar el cuerpo legal" [(ngModel)]="term2"><!--"service.searchTerm"-->
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div style="min-height: 600px;">
+          <div class="row">
+           
+            <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
+            
+            <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let s of articles_proyects_group | filter:term2" id="pl1_{{s.normaId}}">
+                <div [ngClass]="!validateIdCuerpo(s.normaId) ? 'card card-height-100 ribbon-box border card-border-success right' : 'card card-height-100'">
+                    <div class="card-body">
+                        <div class="ribbon ribbon-success round-shape" style="font-size: 14px;" *ngIf="!validateIdCuerpo(s.normaId)">Aplica</div>
+
+                        <div class="d-flex flex-column h-100 text-center">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex gap-1 align-items-center">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1 fs-15"><label style="color: #405189;">{{s.cuerpoLegal}}</label></h5>
+                                        <p class="card-subtitle text-muted mb-0">{{s.organismo}}</p>
+                                </div>
+                            </div>
+                            <div class="mt-auto">
+                                <div class="d-flex mb-2">
+                                    <div class="flex-grow-1">
+                                        <!--<div>Creado por: Jhoan Zerpa</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-auto">
+                                <div class="d-flex mb-2">
+                                    <div class="flex-grow-1">
+                                        <div><i style="font-size: 30px;" class="ri-zoom-in-line"></i></div>
+                                        <div>Monitoreo</div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div><i style="font-size: 30px;" class="ri-git-repository-line"></i></div>
+                                        <div>Reporte</div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div><i style="font-size: 30px;" class="ri-file-list-3-line"></i></div>
+                                        <div>Permiso</div>
+                                    </div>
+                                    <!--<div class="flex-shrink-0">
+                                        <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : '1/100'}}</div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <div class="d-flex mb-2">
+                                    <div class="flex-grow-1">
+                                        <div><h4>0</h4></div>
+                                        <div>Artículos Aplicables</div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div><h4>0</h4></div>
+                                        <div>Vinculaciones</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-auto">
+                                <a _ngcontent-mpd-c393="" href="javascript:void(0);" routerLink="/projects/{{project_id}}/identification/bodylegal/{{s.normaId}}/Detail" class="btn btn-light" style="width: 100%;">Ver detalle</a>
+                            </div>
+                        </div>
+          
+                    </div>
+                    <!-- end card body -->
+                </div>
+            </div>
+            <div *ngIf="!articles_proyects_group || articles_proyects_group.length == 0">
+              <!--<div style="text-align: center;width: 100%;">
+                  <img src="assets/images/file.png" width="300" height="200"/>
+              </div>-->
+              <div style="text-align: center;width: 100%;font-size: 20px;">
+                  No hay datos para mostrar
+              </div>
+            </div>
+          </div>
+          </div>
+          
+        <div class="pagination justify-content-start mb-0"><!-- class="row g-0 text-center text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 100%;"-->
+            <div class="col-sm-7">
+                <div>
+                    <p class="mb-sm-0 text-muted">Mostrando página <span class="fw-semibold">1</span> de <span class="fw-semibold">{{pageTotal(pagLength)}}</span> de <span class="fw-semibold text-decoration-underline">{{pagLength}}</span> registros</p>
+                </div>
+            </div>
+            
+            <div class="col-sm-5">
+                <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
+                    <li class="page-item disabled">
+                        <a href="javascript:void(0);" class="page-link">Anterior</a>
+                    </li>
+                    <li class="page-item active">
+                        <a href="javascript:void(0);" class="page-link">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="javascript:void(0);" class="page-link">Siguiente</a>
+                      </li>
+                  </ul>
+              </div>
+            </div>
+        </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-success btn-label waves-effect right waves-light" style="float:right;"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Terminar</button>
+            </div>
+        </div>
+        
 </ng-template>
