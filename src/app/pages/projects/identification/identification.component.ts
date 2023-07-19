@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
@@ -58,15 +58,19 @@ export class IdentificationComponent implements OnInit {
   sellers?: any;
   pagLength?: number = 0;
   term:any;
+  term2:any;
   articles_proyects: any = [];
   articles_proyects_group: any = [];
 
   cuerpo_select: any = 'Cuerpo Legal';
   showRow: any = [];
+  showContainerArticles: any = [];
 
   submitted = false;
   installationForm!: UntypedFormGroup; 
   installations: any = [];
+  cuerpo_installations: any = [];
+  installations_filter: any = [];
   areas: any = [];
   area_id_select: any = [];
   
@@ -77,8 +81,22 @@ export class IdentificationComponent implements OnInit {
   items: any = [];
   selectChecked: any = [];
   selectChecked2: any = [];
-  
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal) {
+  selectList: boolean = true;
+  activeTab: number = 1;
+
+  vinculacionForm!: UntypedFormGroup;
+  selectChecked3: any = [];
+  normaIdSelect: any = '';
+  installationSelect: any = '';
+  normaIdSelect2: any = '';
+  articuloSelect: any = [];
+  selectCheckedCuerpos: any = [];
+  selectCheckedInstalaciones: any = [];
+  selectCheckedVincular: any = [];
+
+  attributes: any = [];
+
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.total = service.total$;
   }
 
@@ -107,13 +125,18 @@ export class IdentificationComponent implements OnInit {
       cuerpo: ['']
     });
 
+    this.vinculacionForm = this.formBuilder.group({
+      ids: ['']
+    });
+
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
       this.getAreas(params['id']);
-      this.getInstallations(params['id']);
+      //this.getInstallations(params['id']);
       this.getArticlesInstallation();
       this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
       this.getNormas();
     });
 
@@ -142,6 +165,18 @@ export class IdentificationComponent implements OnInit {
     return this.cuerpo_select == cuerpo;
  }
 
+ onChangeList(e: any){
+    this.selectList = !this.selectList;
+
+    if(!this.selectList){
+      this.selectCheckedInstalaciones = [];
+    }else{
+      this.selectCheckedCuerpos = [];
+    }
+
+    this.ref.detectChanges();
+ }
+
  formatArticle(texto:any, idParte: any){
     
   const index = this.showRow.findIndex(
@@ -164,6 +199,29 @@ hideText(idParte: any){
   );
 
   this.showRow.splice(index, 1);
+}
+
+showArticles(normaId: any){
+  this.showContainerArticles.push(normaId);
+}
+
+hideArticles(normaId: any){
+  
+  const index = this.showContainerArticles.findIndex(
+    (co: any) =>
+      co == normaId
+  );
+
+  this.showContainerArticles.splice(index, 1);
+}
+
+validateShowArticles(normaId: any){
+  const index = this.showContainerArticles.findIndex(
+    (co: any) =>
+      co == normaId
+  );
+
+  return index != -1;
 }
 
 validatShow(idParte: any){
@@ -216,7 +274,7 @@ validateIdparte(idParte: any){
     this.showPreLoader();
       this.projectsService.getArticleProyect(project_id).pipe().subscribe(
         (data: any) => {
-          this.articles_proyects = data.data;        
+          this.articles_proyects = data.data;
 
           this.articles_proyects_group = [];
           this.articles_proyects.forEach((x: any) => {
@@ -228,7 +286,7 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, articulos: [x]
               });
             }else{
               this.articles_proyects_group[index].articulos.push(x);
@@ -283,34 +341,341 @@ validateIdparte(idParte: any){
    * Open modal
    * @param content modal content
    */
-   openModal(content: any, id: any) {
+   openModal(content: any, type: any, data?: any) {
     this.submitted = false;
     
     this.installations = [];
     this.selectChecked = [];
 
     this.modalService.open(content, { size: 'md', centered: true });
-    
+
+    let ids: any = [];
+    if(type == 'multiple'){
+      for (var j = 0; j < this.selectCheckedCuerpos.length; j++) {
+        ids.push(this.selectCheckedCuerpos[j].normaId);
+      }
+    }else{
+      ids.push(data.normaId);
+    }
+
+    this.normaIdSelect = ids;
+
     //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
-    this.installationForm.controls['ids'].setValue(/*listData[0].*/id);
-  }
-  
-  openModal2(content: any, id: any) {
+    this.installationForm.controls['ids'].setValue(ids);
+   }
+
+  openModal2(content: any, type: any, data?: any) {
     this.submitted = false;
     
     this.selectChecked2 = [];
 
     //this.cuerpoForm.reset();
     this.modalService.open(content, { size: 'md', centered: true });
-    this.cuerpoForm.controls['ids'].setValue(id);
+
+    let ids: any = [];
+    if(type == 'multiple'){
+      for (var j = 0; j < this.selectCheckedInstalaciones.length; j++) {
+        ids.push(this.selectCheckedInstalaciones[j].id);
+      }
+    }else{
+      ids.push(data.id);
+    }
+
+    this.installationSelect = ids;
+    this.validChecked2();
+    this.cuerpoForm.controls['ids'].setValue(ids);
   }
   
-  saveInstallation(){
+  openModal3(content: any, type: any, data?: any) {
+    this.submitted = false;
+    
+    this.installations_filter = [];
+    this.selectChecked3 = [];
+    this.articuloSelect = [];
 
+    this.modalService.open(content, { size: 'md', centered: true });
+    
+    let ids: any = [];
+    if(type == 'multiple'){
+      for (var j = 0; j < this.selectCheckedVincular.length; j++) {
+        ids.push(this.selectCheckedVincular[j].articuloId);    
+        this.articuloSelect.push(data);
+      }
+    }else{
+      ids.push(data.articuloId);
+      this.articuloSelect.push(data);
+    }
+
+    this.normaIdSelect2 = ids;
+
+    this.validInstallations();
+
+    //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
+    this.vinculacionForm.controls['ids'].setValue(/*listData[0].*/ids);
+  }
+  
+  saveInstallation(){ 
+    this.showPreLoader();
+    if(this.selectChecked.length > 0){
+
+    for (var c = 0; c < this.normaIdSelect.length; c++){
+
+      const index = this.articles_proyects_group.findIndex(
+        (co: any) =>
+          co.normaId == this.normaIdSelect[c]
+      );
+
+      let cuerpoLegal: any = this.articles_proyects_group[index].cuerpoLegal;
+
+    for (var j = 0; j < this.selectChecked.length; j++) {
+
+      const data: any = {
+        proyectoId: this.project_id,
+        installationId: this.selectChecked[j].id,
+        cuerpoLegal: cuerpoLegal,
+        normaId: this.normaIdSelect[c]
+      };
+    
+    this.projectsService.conectCuerpoInstallation(data).pipe().subscribe(
+      (data: any) => {     
+       
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+    }
+    }
+
+    this.modalService.dismissAll();
+    this.hidePreLoader();
+
+      this.getArticlesInstallation();
+      this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
+      
+
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Instalaciones guardadas',
+      showConfirmButton: true,
+      timer: 5000,
+    });
+
+    }else{
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No ha seleccionado instalaciones..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
   }
   
   saveCuerpo(){
+    this.showPreLoader();
+    if(this.selectChecked2.length > 0){
 
+    for (var i = 0; i < this.installationSelect.length; i++){
+
+    for (var j = 0; j < this.selectChecked2.length; j++) {
+
+      const data: any = {
+        proyectoId: this.project_id,
+        cuerpoLegal: this.selectChecked2[j].cuerpoLegal,
+        normaId: this.selectChecked2[j].normaId,
+        installationId: this.installationSelect[i]
+      };
+    
+    this.projectsService.conectCuerpoInstallation(data).pipe().subscribe(
+      (data: any) => {     
+       
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+    }
+    }
+
+    this.modalService.dismissAll();
+    this.hidePreLoader();
+
+    this.getArticlesInstallation();
+    this.getArticleProyect(this.project_id);
+    this.getCuerpoInstallationsByProyect();
+    
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Cuerpos Legales guardados',
+      showConfirmButton: true,
+      timer: 5000,
+    });
+
+    }else{
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No ha seleccionado cuerpos legales..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
+  }
+
+  setAttribute(type: any, id: any){
+    const index = this.attributes.findIndex(
+      (p: any) =>
+        p == type+'-'+id
+    );
+
+    if(index != -1){
+      this.attributes.splice(index, 1);
+      this.setAttributeArticle(id, type, false);
+    }else{
+      this.attributes.push(type+'-'+id);
+      this.setAttributeArticle(id, type, true);
+    }
+
+  }
+
+  validateAttribute(type: any, id: any){
+    const index = this.attributes.findIndex(
+          (p: any) =>
+            p == type+'-'+id
+        );
+
+      return index != -1;
+  }
+
+  setAttributeArticle(id: any, type: any, valor: any){
+    const article_attribute: any = {      
+      attr: type,
+      value: valor
+    };
+    
+    this.projectsService.setAttributesArticle(id, article_attribute).pipe().subscribe(
+      (data: any) => {     
+       
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Atributo guardado',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+  }
+
+  saveVinculacion(){
+    this.showPreLoader();
+    if(this.selectChecked3.length > 0){
+
+    for (var c = 0; c < this.normaIdSelect2.length; c++){
+
+    for (var j = 0; j < this.selectChecked3.length; j++) {
+      
+    const article_installation: any = {
+      articuloId: this.articuloSelect[c].articuloId,
+      articulo: this.articuloSelect[c].tipoParte +' '+ this.articuloSelect[c].articulo,
+      descripcion: this.articuloSelect[c].descripcion ? this.articuloSelect[c].descripcion : this.articuloSelect[c].tipoParte,
+      tipoParte: this.articuloSelect[c].tipoParte,
+      instalacionId: this.selectChecked3[j].id,
+      normaId: this.articuloSelect[c].normaId,
+      cuerpoLegal: this.articuloSelect[c].cuerpoLegal,
+      proyectoId: this.project_id
+    };
+    
+    this.projectsService.conectArticleInstallation(this.selectChecked3[j].id, article_installation).pipe().subscribe(
+      (data: any) => {     
+       
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+    }
+    }
+
+      this.getArticlesInstallation();
+      this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
+      
+    this.modalService.dismissAll();
+    this.hidePreLoader();
+
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Instalaciones guardadas',
+      showConfirmButton: true,
+      timer: 5000,
+    });
+
+    }else{
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No ha seleccionado instalaciones..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
   }
 
   selectArea(event: any){
@@ -393,6 +758,19 @@ validateIdparte(idParte: any){
     }
   }
   
+  private getCuerpoInstallationsByProyect() {
+    
+    this.cuerpo_installations = [];
+
+      this.projectsService.getCuerpoInstallationProyect(this.project_id).pipe().subscribe(
+        (data: any) => {
+          this.cuerpo_installations = data.data ? data.data : [];
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+      });
+  }
+  
   private getInstallationsByAreaId(area_id: any) {
     
     this.showPreLoader();
@@ -448,17 +826,119 @@ validateIdparte(idParte: any){
     }
   }
   
-  validChecked(){
-    var checkboxes: any = document.getElementsByName('checkAll');
-    for (var j = 0; j < checkboxes.length; j++) {
-      const index = this.installations_data.findIndex(
+  byInstallation(id: any){
+      const filter: any = this.cuerpo_installations.filter(
         (ins: any) =>
-          ins.id == checkboxes[j].id
+          ins.installationId == id
+      );
+      return filter.length;
+  }
+ 
+  byCuerpo(id: any){
+    const filter: any = this.cuerpo_installations.filter(
+      (ins: any) =>
+        ins.normaId == id
+    );
+    return filter.length;
+  }
+  
+  byCuerpoVinculacion(id: any){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.normaId == id
+    );
+    return filter.length;
+  }
+
+  byArticuloVinculacion(id: any){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.articuloId == id
+    );
+    return filter.length;
+  }
+
+  validInstallations(){
+    this.installations_filter = [];
+    for (var j = 0; j < this.installations_data.length; j++) {
+      const index = this.cuerpo_installations.findIndex(
+        (ins: any) =>
+          ins.installationId == this.installations_data[j].id && parseInt(ins.normaId) == parseInt(this.articuloSelect[0].normaId)
       );
 
       if(index != - 1){
+        this.installations_filter.push(this.installations_data[j]);
+      }
+    }
+    this.validChecked3();
+  }
+
+  validChecked(){
+    var checkboxes: any = document.getElementsByName('checkAll');
+    for (var j = 0; j < checkboxes.length; j++) {
+      const index = this.cuerpo_installations.findIndex(
+        (ins: any) =>
+          ins.installationId == checkboxes[j].id && parseInt(ins.normaId) == this.normaIdSelect[0]
+      );
+
+      if(index != - 1){
+        const index2 = this.installations_data.findIndex(
+          (ins: any) =>
+            ins.id == checkboxes[j].id
+        );
         checkboxes[j].checked = true;
-        this.selectChecked.push(this.installations_data[index]);
+
+        if(index2 != -1){
+          this.selectChecked.push(this.installations_data[index2]);
+        }
+      }/*else{
+        checkboxes[j].checked = false;
+      }*/
+    }
+  }
+  
+  validChecked2(){
+    var checkboxes: any = document.getElementsByName('checkAll2');
+    for (var j = 0; j < checkboxes.length; j++) {
+      const index = this.cuerpo_installations.findIndex(
+        (ins: any) =>
+          ins.installationId == this.installationSelect[0] && parseInt(ins.normaId) == checkboxes[j].id
+      );
+
+      if(index != - 1){
+
+        const index2 = this.articles_proyects_group.findIndex(
+          (cu: any) =>
+            cu.normaId == checkboxes[j].id
+        );
+        checkboxes[j].checked = true;
+
+        if(index2 != -1){
+          this.selectChecked2.push(this.articles_proyects_group[index2]);
+        }
+      }
+    }
+  }
+
+  validChecked3(){
+    var checkboxes: any = document.getElementsByName('checkAll3');
+    for (var j = 0; j < checkboxes.length; j++) {
+      const index = this.installations_articles.findIndex(
+        (ins: any) =>
+          ins.instalacionId == checkboxes[j].id && ins.articuloId == this.normaIdSelect2[0]
+      );
+
+      if(index != - 1){
+        const index2 = this.installations.findIndex(
+          (ins: any) =>
+            ins.id == checkboxes[j].id
+        );
+
+        checkboxes[j].checked = true;
+
+        if(index2 != -1){
+          this.selectChecked3.push(this.installations[index2]);
+        }
       }/*else{
         checkboxes[j].checked = false;
       }*/
@@ -501,23 +981,139 @@ validateIdparte(idParte: any){
   onCheckboxChange2(e: any) {
     var checkedVal: any[] = [];
     var result
-    for (var i = 0; i < this.installations.length; i++) {
-        result = this.installations[i];
+    for (var i = 0; i < this.articles_proyects_group.length; i++) {
+        result = this.articles_proyects_group[i];
         checkedVal.push(result);
-        if(this.installations[i].id == e.target.value){
-          const index = this.selectChecked.findIndex(
+        if(this.articles_proyects_group[i].normaId == e.target.value){
+          const index = this.selectChecked2.findIndex(
             (ch: any) =>
-              ch.id == e.target.value
+              ch.normaId == e.target.value
           );
 
           if(index != - 1){
             this.selectChecked2.splice(index, 1);
           }else{
-            this.selectChecked2.push(this.installations[i]);
+            this.selectChecked2.push(this.articles_proyects_group[i]);
           }
         }
     }
-    var checkboxes: any = document.getElementsByName('checkAll');
+    var checkboxes: any = document.getElementsByName('checkAll2');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        //checkboxes[j].checked = false;
+      }
+    }
+  }
+
+  checkedValGet3: any[] = [];
+  onCheckboxChange3(e: any) {
+    //checkArray.push(new UntypedFormControl(e.target.value));
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.installations_filter.length; i++) {
+        result = this.installations_filter[i];
+        checkedVal.push(result);
+        if(this.installations_filter[i].id == e.target.value){
+          const index = this.selectChecked3.findIndex(
+            (ch: any) =>
+              ch.id == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectChecked3.splice(index, 1);
+          }else{
+            this.selectChecked3.push(this.installations_filter[i]);
+          }
+        }
+    }
+    var checkboxes: any = document.getElementsByName('checkAll3');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        //checkboxes[j].checked = false;
+      }
+    }
+
+    //this.checkedValGet = checkedVal
+    //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+  }
+  
+  checkedValGetCuerpos: any[] = [];
+  onCheckboxChangeCuerpos(e: any) {
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.articles_proyects_group.length; i++) {
+        result = this.articles_proyects_group[i];
+        checkedVal.push(result);
+        if(this.articles_proyects_group[i].normaId == e.target.value){
+          const index = this.selectCheckedCuerpos.findIndex(
+            (ch: any) =>
+              ch.normaId == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectCheckedCuerpos.splice(index, 1);
+          }else{
+            this.selectCheckedCuerpos.push(this.articles_proyects_group[i]);
+          }
+        }
+    }
+    var checkboxes: any = document.getElementsByName('checkAllCuerpos');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        //checkboxes[j].checked = false;
+      }
+    }
+  }
+  
+
+  checkedValGetInstalaciones: any[] = [];
+  onCheckboxChangeInstalaciones(e: any){
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.installations_data.length; i++) {
+        result = this.installations_data[i];
+        checkedVal.push(result);
+        if(this.installations_data[i].id == e.target.value){
+          const index = this.selectCheckedInstalaciones.findIndex(
+            (ch: any) =>
+              ch.id == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectCheckedInstalaciones.splice(index, 1);
+          }else{
+            this.selectCheckedInstalaciones.push(this.installations_data[i]);
+          }
+        }
+    }
+    var checkboxes: any = document.getElementsByName('checkAllInstalaciones');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
+        //checkboxes[j].checked = false;
+      }
+    }
+  }
+
+  checkedValGetVincular: any[] = [];
+  onCheckboxChangeVincular(e: any, data: any) {
+    var checkedVal: any[] = [];
+    var result
+
+        result = data;
+        checkedVal.push(result);
+          
+          const index = this.selectCheckedVincular.findIndex(
+            (ch: any) =>
+              ch.articuloId == e.target.value
+          );
+
+          if(index != - 1){
+            this.selectCheckedVincular.splice(index, 1);
+          }else{
+            this.selectCheckedVincular.push(data);
+          }
+    
+        var checkboxes: any = document.getElementsByName('checkAllVincular');
     for (var j = 0; j < checkboxes.length; j++) {
       if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
         //checkboxes[j].checked = false;
@@ -562,6 +1158,26 @@ validateIdparte(idParte: any){
 
       this.projectsService./*getArticlesInstallationByProyecto(this.project_id)*/getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
         (data: any) => {
+          
+          this.installations_data = data.data;
+
+          this.installations_group = [];
+          this.installations_data.forEach((x: any) => {
+            
+            const index = this.installations_group.findIndex(
+              (co: any) =>
+                co.area == x.area.nombre
+            );
+
+            if(index == -1){
+              this.installations_group.push({
+                area: x.area.nombre, instalaciones: [x]
+              });
+            }else{
+              this.installations_group[index].instalaciones.push(x);
+            }
+          })
+
           let obj: any = data.data;
           let lista: any = [];
 
@@ -574,17 +1190,14 @@ validateIdparte(idParte: any){
               for (var j = 0; j < obj[i].installations_articles.length; j++) {
                 if(obj[i].installations_articles[j].proyectoId == this.project_id){
                   total_articulos.push(obj[i].installations_articles[j]);
+                  lista.push(obj[i].installations_articles[j]);
                 }
               }
               
-              if(total_articulos.length > 0){
-                lista.push(obj[i]);
-              }
             }
           }
           
           this.installations_articles = lista;
-
       },
       (error: any) => {
       });
@@ -598,6 +1211,132 @@ validateIdparte(idParte: any){
       (r: any) =>
         r == rol
     ) != -1;
+  }
+
+  changeTab(active: number){
+    this.activeTab = active;
+    if (this.articles_proyects < 1) {
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Rellene todos los campos..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+
+      return;
+    }
+  }
+
+  conectCuerpo(cuerpo_id?: any, data?: any){
+    
+    const index = this.articles_proyects.findIndex(
+      (co: any) =>
+        co.normaId == cuerpo_id && co.proyectoId == this.project_id
+    );
+
+    if(index != -1){
+      this.articles_proyects.splice(index, 1);
+    }else{
+
+    const cuerpo_proyect: any = {
+      normaId: cuerpo_id,
+      cuerpoLegal: data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : null,
+      organismo: data.organismos.length > 0 ? data.organismos[0] : '',
+      encabezado: data.encabezado ? data.encabezado.texto : '',
+      tituloNorma: data.tituloNorma,
+      proyectoId: this.project_id,
+      monitoreo: false,
+      reporte: false,
+      permiso: false,
+      articulos: JSON.stringify(data.EstructurasFuncionales)
+    };
+
+    this.articles_proyects.push(cuerpo_proyect);
+    }
+  }
+
+  validateIdNorma(idNorma: any){
+    const index = this.articles_proyects.findIndex(
+      (co: any) =>
+        co.normaId == idNorma && co.proyectoId == this.project_id
+    );
+
+    return index == -1;
+  }
+
+  validateIdCuerpo(idNorma: any){
+    const index = this.installations_articles.findIndex(
+      (co: any) =>
+        co.normaId == idNorma && co.proyectoId == this.project_id
+    );
+
+    return index == -1;
+  }
+  
+  saveCuerpos(){
+    
+    this.showPreLoader();
+    if(this.articles_proyects.length > 0){
+
+    for (var j = 0; j < this.articles_proyects.length; j++) {
+    
+    this.projectsService.conectArticleProyect(this.articles_proyects[j]).pipe().subscribe(
+      (data: any) => {     
+       
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+
+    }
+
+    this.hidePreLoader();
+
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Cuerpos Legales guardados',
+      showConfirmButton: true,
+      timer: 5000,
+    });
+
+    setTimeout(() => {
+      this.getArticlesInstallation();
+      this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
+      
+      this.activeTab = this.activeTab + 1;
+    }, 5000);
+
+    }else{
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
+    
+  }
+
+  siguiente(){
+    this.activeTab = this.activeTab + 1;
   }
 
 }

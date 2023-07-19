@@ -223,8 +223,16 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
     }
 
+    conectCuerpoInstallation(data: any){
+        return this.http.post(API_URL_BACK + 'project/cuerpoLegal/instalacion', data, /*httpOptions*/this.getToken());
+    }
+
     conectArticleProyect(article: any){
         return this.http.post(API_URL_BACK + 'project/article', article, this.getToken());
+    }
+
+    getCuerpoInstallationProyect(project_id: any){
+        return this.http.get(API_URL_BACK + 'project/cuerpoLegal/instalacion/'+project_id, this.getToken());
     }
 
     getArticleProyect(project_id: any){
@@ -277,6 +285,10 @@ export class ProjectsService {
 
     getFindings(){
         return this.http.get(API_URL_BACK + 'evaluation/findings', this.getToken());
+    }
+
+    setAttributesArticle(id: any, attribute: any){
+        return this.http.post(API_URL_BACK + 'project/article/'+id, attribute, this.getToken());
     }
 
 }
