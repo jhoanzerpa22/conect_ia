@@ -260,8 +260,8 @@
 
     <div class="row" *ngIf="selectList">
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
+            <!--<div class="card">
+                <div class="card-body">-->
 
                     <div *ngIf="articles_proyects.length < 1">
                         <!--<div style="text-align: center;width: 100%;">
@@ -344,15 +344,15 @@
                                     </ng-container>
                             </div>
                         </div>
-                    </div>
-            </div>
+                    <!--</div>
+            </div>-->
         </div>
     </div>
 
     <div class="row" *ngIf="!selectList">
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
+            <!--<div class="card">
+                <div class="card-body">-->
 
                     <div *ngIf="installations_data.length < 1">
                         <!--<div style="text-align: center;width: 100%;">
@@ -431,8 +431,8 @@
                                 </ng-container>
                             </div>
                         </div>
-                    </div>
-            </div>
+                    <!--</div>
+            </div>-->
         </div>
     </div>
 </div>
@@ -680,9 +680,9 @@
         </div>-->
 
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12"><!--
             <div class="card">
-                <div class="card-body">
+                <div class="card-body">-->
 
                     <div *ngIf="articles_proyects.length < 1">
                         <!--<div style="text-align: center;width: 100%;">
@@ -693,13 +693,10 @@
                         </div>
                     </div>
 
-                    <div *ngIf="articles_proyects.length > 0">            
-                            <div class="list-group">
-                                <ng-container *ngFor="let g of articles_proyects_group;">
-                                    <h4 style="color: #405189;">{{g.cuerpoLegal}}</h4>
-                                    <p>{{g.organismo}}</p>
+                    <div *ngIf="articles_proyects.length > 0">
+                        <div class="list-group">
 
-                                    <ng-template #myArticles let-s="s">
+                                <ng-template #myArticles let-s="s">
                                     <div class="team-list list-view-filter row" *ngIf="s.tipoParte == 'Artículo'">
                                         <div class="col">
                                             <div [ngClass]="byArticuloVinculacion(s.articuloId) > 0 ? 'card team-box border card-border-success' : 'card team-box'">
@@ -799,7 +796,6 @@
                                     <div *ngIf="s.tipoParte != 'Artículo'">
                                        <h5 style="color: #405189;"> {{s.articulo ? s.articulo : s.tipoParte}} </h5> 
                                     </div>
-
                                     
                                         <ng-container *ngIf="s.hijas">
             
@@ -813,7 +809,33 @@
                                         </ng-container>
 
                                     </ng-template>
+
+                                <ng-container *ngFor="let g of articles_proyects_group;">
                                     
+                                <div class="card">
+                                    <!--<div class="card-header">
+                                        <div class="p-3 d-flex flex-column h-100">
+                                            <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed">-->
+
+
+                                                    <!--<button type="button" class="btn btn-icon btn-sm fs-16 close-btn-overview" style="cursor: pointer;float: right;">
+                                                        <span class="hamburger-icon">
+                                                        <span></span>
+                                                        <span></span>
+                                                        <span></span>
+                                                    </span>
+                                                    </button>-->
+                                            <!--</div>
+                                        </div>
+                                    </div>-->
+                                    <div class="card-body">
+                                        
+                                        <h4 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}}
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-down-s-line" (click)="showArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="hideArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-up-s-line"></i></span>
+                                        </h4>
+                                        <p>{{g.organismo}}</p>
+                                    <ng-container *ngIf="!validateShowArticles(g.normaId)">
                                     <ng-container *ngFor="let s of g.articulos;">
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
@@ -821,12 +843,14 @@
                                         </ng-container>
                             
                                     </ng-container>
-
+                                    </ng-container>
+                                    </div>
+                                </div>
                                 </ng-container>
                             </div>
                         </div>
-                    </div>
-            </div>
+                    <!--</div>
+            </div>-->
         </div>
     </div>
 </div>

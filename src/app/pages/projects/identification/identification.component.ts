@@ -64,6 +64,7 @@ export class IdentificationComponent implements OnInit {
 
   cuerpo_select: any = 'Cuerpo Legal';
   showRow: any = [];
+  showContainerArticles: any = [];
 
   submitted = false;
   installationForm!: UntypedFormGroup; 
@@ -198,6 +199,29 @@ hideText(idParte: any){
   );
 
   this.showRow.splice(index, 1);
+}
+
+showArticles(normaId: any){
+  this.showContainerArticles.push(normaId);
+}
+
+hideArticles(normaId: any){
+  
+  const index = this.showContainerArticles.findIndex(
+    (co: any) =>
+      co == normaId
+  );
+
+  this.showContainerArticles.splice(index, 1);
+}
+
+validateShowArticles(normaId: any){
+  const index = this.showContainerArticles.findIndex(
+    (co: any) =>
+      co == normaId
+  );
+
+  return index != -1;
 }
 
 validatShow(idParte: any){
