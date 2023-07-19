@@ -533,7 +533,7 @@ validateIdparte(idParte: any){
       proyectoId: this.project_id
     };
     
-    this.projectsService.conectArticleProyect(article_installation).pipe().subscribe(
+    this.projectsService.conectArticleInstallation(this.selectChecked3[j].id, article_installation).pipe().subscribe(
       (data: any) => {     
        
     },
@@ -751,6 +751,14 @@ validateIdparte(idParte: any){
     return filter.length;
   }
 
+  byArticuloVinculacion(id: any){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.articuloId == id
+    );
+    return filter.length;
+  }
+
   validInstallations(){
     this.installations_filter = [];
     for (var j = 0; j < this.installations_data.length; j++) {
@@ -903,10 +911,10 @@ validateIdparte(idParte: any){
     //checkArray.push(new UntypedFormControl(e.target.value));
     var checkedVal: any[] = [];
     var result
-    for (var i = 0; i < this.installations.length; i++) {
-        result = this.installations[i];
+    for (var i = 0; i < this.installations_filter.length; i++) {
+        result = this.installations_filter[i];
         checkedVal.push(result);
-        if(this.installations[i].id == e.target.value){
+        if(this.installations_filter[i].id == e.target.value){
           const index = this.selectChecked3.findIndex(
             (ch: any) =>
               ch.id == e.target.value
@@ -915,7 +923,7 @@ validateIdparte(idParte: any){
           if(index != - 1){
             this.selectChecked3.splice(index, 1);
           }else{
-            this.selectChecked3.push(this.installations[i]);
+            this.selectChecked3.push(this.installations_filter[i]);
           }
         }
     }
@@ -1083,17 +1091,14 @@ validateIdparte(idParte: any){
               for (var j = 0; j < obj[i].installations_articles.length; j++) {
                 if(obj[i].installations_articles[j].proyectoId == this.project_id){
                   total_articulos.push(obj[i].installations_articles[j]);
+                  lista.push(obj[i].installations_articles[j]);
                 }
               }
               
-              if(total_articulos.length > 0){
-                lista.push(obj[i]);
-              }
             }
           }
           
           this.installations_articles = lista;
-
       },
       (error: any) => {
       });
@@ -1163,7 +1168,7 @@ validateIdparte(idParte: any){
   }
 
   validateIdCuerpo(idNorma: any){
-    const index = this.articles_proyects.findIndex(
+    const index = this.installations_articles.findIndex(
       (co: any) =>
         co.normaId == idNorma && co.proyectoId == this.project_id
     );
