@@ -287,4 +287,8 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluation/findings', this.getToken());
     }
 
+    setAttributesArticle(id: any, attribute: any){
+        return this.http.post(API_URL_BACK + 'project/article/'+id, attribute, this.getToken());
+    }
+
 }

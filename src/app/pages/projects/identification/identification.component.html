@@ -490,7 +490,7 @@
                         {{selectCheckedInstalaciones.length}} {{selectCheckedInstalaciones.length > 1 ? 'Instalaciones Seleccionadas' : 'Instalación Seleccionada'}}
                     </div>
                     <div class="col-sm-4">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal2(content, 'multiple')">Vincular Selección</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal2(content2, 'multiple')">Vincular Selección</button>
                     </div>
                 </div>
             </div>
@@ -737,13 +737,16 @@
                                                         <div class="col-xs-1 col">
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
-                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Permiso</button>
+                                                                    [ngClass]="validateAttribute('permiso',s.id) ? 'btn-success' :'btn-light'"
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('permiso',s.id)">Permiso</button>
                                                                     
                                                             <button
-                                                            class="btn btn-light view-btn mb-2" style="width: 100%;"  >Reporte</button>
+                                                            [ngClass]="validateAttribute('reporte',s.id) ? 'btn-success' :'btn-light'"
+                                                            class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('reporte',s.id)"  >Reporte</button>
                                                             
                                                             <button
-                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Monitoreo</button>
+                                                                    [ngClass]="validateAttribute('monitoreo',s.id) ? 'btn-success' :'btn-light'"
+                                                                    class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('monitoreo',s.id)"  >Monitoreo</button>
                                                         </div>
                                                         
                                                         <div class="col-xs-1 col">

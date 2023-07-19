@@ -93,6 +93,8 @@ export class IdentificationComponent implements OnInit {
   selectCheckedInstalaciones: any = [];
   selectCheckedVincular: any = [];
 
+  attributes: any = [];
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.total = service.total$;
   }
@@ -164,6 +166,13 @@ export class IdentificationComponent implements OnInit {
 
  onChangeList(e: any){
     this.selectList = !this.selectList;
+
+    if(!this.selectList){
+      this.selectCheckedInstalaciones = [];
+    }else{
+      this.selectCheckedCuerpos = [];
+    }
+
     this.ref.detectChanges();
  }
 
@@ -427,7 +436,10 @@ validateIdparte(idParte: any){
     this.modalService.dismissAll();
     this.hidePreLoader();
 
-    this.getCuerpoInstallationsByProyect();
+      this.getArticlesInstallation();
+      this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
+      
 
     Swal.fire({
       position: 'center',
@@ -490,8 +502,10 @@ validateIdparte(idParte: any){
     this.modalService.dismissAll();
     this.hidePreLoader();
 
+    this.getArticlesInstallation();
+    this.getArticleProyect(this.project_id);
     this.getCuerpoInstallationsByProyect();
-
+    
     Swal.fire({
       position: 'center',
       icon: 'success',
@@ -512,6 +526,63 @@ validateIdparte(idParte: any){
         timer: 5000,
       });
     }
+  }
+
+  setAttribute(type: any, id: any){
+    const index = this.attributes.findIndex(
+      (p: any) =>
+        p == type+'-'+id
+    );
+
+    if(index != -1){
+      this.attributes.splice(index, 1);
+      this.setAttributeArticle(id, type, false);
+    }else{
+      this.attributes.push(type+'-'+id);
+      this.setAttributeArticle(id, type, true);
+    }
+
+  }
+
+  validateAttribute(type: any, id: any){
+    const index = this.attributes.findIndex(
+          (p: any) =>
+            p == type+'-'+id
+        );
+
+      return index != -1;
+  }
+
+  setAttributeArticle(id: any, type: any, valor: any){
+    const article_attribute: any = {      
+      attr: type,
+      value: valor
+    };
+    
+    this.projectsService.setAttributesArticle(id, article_attribute).pipe().subscribe(
+      (data: any) => {     
+       
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Atributo guardado',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
   }
 
   saveVinculacion(){
@@ -554,6 +625,10 @@ validateIdparte(idParte: any){
     }
     }
 
+      this.getArticlesInstallation();
+      this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
+      
     this.modalService.dismissAll();
     this.hidePreLoader();
 
@@ -1214,7 +1289,10 @@ validateIdparte(idParte: any){
     });
 
     setTimeout(() => {
+      this.getArticlesInstallation();
       this.getArticleProyect(this.project_id);
+      this.getCuerpoInstallationsByProyect();
+      
       this.activeTab = this.activeTab + 1;
     }, 5000);
 
