@@ -560,29 +560,39 @@ validateIdparte(idParte: any){
     }
   }
 
-  setAttribute(type: any, id: any){
+  setAttribute(type: any, id: any, valor?: any){
     const index = this.attributes.findIndex(
       (p: any) =>
-        p == type+'-'+id
+        p.type == type && p.id == id
     );
 
     if(index != -1){
-      this.attributes.splice(index, 1);
-      this.setAttributeArticle(id, type, false);
+      if(type == 'fase' && this.attributes[index].valor != valor){
+        this.attributes[index].valor = valor;
+      }else{
+
+        this.attributes.splice(index, 1);
+        this.setAttributeArticle(id, type, type == 'fase' ? null : false);
+      }
+      
     }else{
-      this.attributes.push(type+'-'+id);
-      this.setAttributeArticle(id, type, true);
+      this.attributes.push({type: type, id: id, valor: type == 'fase' ? valor : null});
+      this.setAttributeArticle(id, type, type == 'fase' ? valor : true);
     }
 
   }
 
-  validateAttribute(type: any, id: any){
+  validateAttribute(type: any, id: any, valor_old?: any, valor?: any){
     const index = this.attributes.findIndex(
           (p: any) =>
-            p == type+'-'+id
+            p.type == type && id == id
         );
 
-      return index != -1;
+      if(index != -1){
+        return type == 'fase' ? valor == this.attributes[index].valor : true;
+      }else{
+        return type == 'fase' ? valor_old == valor : valor_old;
+      }
   }
 
   setAttributeArticle(id: any, type: any, valor: any){

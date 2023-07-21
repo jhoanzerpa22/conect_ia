@@ -734,16 +734,16 @@
                                                         <div class="col-xs-1 col">
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
-                                                                    [ngClass]="validateAttribute('permiso',s.id) ? 'btn-success' :'btn-light'"
+                                                                    [ngClass]="validateAttribute('permiso',s.id, s.permiso) ? 'btn-success' :'btn-light'"
                                                                     class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('permiso',s.id)">Permiso</button>
                                                                     
                                                             <button
-                                                            [ngClass]="validateAttribute('reporte',s.id) ? 'btn-success' :'btn-light'"
+                                                            [ngClass]="validateAttribute('reporte',s.id, s.reporte) ? 'btn-success' :'btn-light'"
                                                             class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('reporte',s.id)"  >Reporte</button>
                                                             
                                                             <button
-                                                                    [ngClass]="validateAttribute('monitoreo',s.id) ? 'btn-success' :'btn-light'"
-                                                                    class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('monitoreo',s.id)"  >Monitoreo</button>
+                                                                [ngClass]="validateAttribute('monitoreo',s.id, s.monitoreo) ? 'btn-success' :'btn-light'"
+                                                                class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('monitoreo',s.id)"  >Monitoreo</button>
                                                         </div>
                                                         
                                                         <div class="col-xs-1 col">
@@ -761,13 +761,16 @@
                                                             <!--<i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>-->
                                                             
                                                             <button
-                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Construcción</button>
+                                                                    [ngClass]="validateAttribute('fase',s.id, s.fase, 'construccion') ? 'btn-success' :'btn-light'"
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'construccion')"  >Construcción</button>
                                                                     
                                                             <button
-                                                            class="btn btn-light view-btn mb-2" style="width: 100%;"  >Operación</button>
+                                                            [ngClass]="validateAttribute('fase',s.id, s.fase, 'operacion') ? 'btn-success' :'btn-light'"
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'operacion')">Operación</button>
                                                             
                                                             <button
-                                                                    class="btn btn-light view-btn mb-2" style="width: 100%;"  >Cierre</button>
+                                                            [ngClass]="validateAttribute('fase',s.id, s.fase, 'cierre') ? 'btn-success' :'btn-light'"
+                                                            class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'cierre')">Cierre</button>
                                                         </div>
 
                                                         <!--<div class="col-lg-4 col">
