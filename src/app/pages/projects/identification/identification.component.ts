@@ -347,7 +347,7 @@ validateIdparte(idParte: any){
     this.installations = [];
     this.selectChecked = [];
 
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
 
     let ids: any = [];
     if(type == 'multiple'){
@@ -370,7 +370,7 @@ validateIdparte(idParte: any){
     this.selectChecked2 = [];
 
     //this.cuerpoForm.reset();
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
 
     let ids: any = [];
     if(type == 'multiple'){
@@ -393,7 +393,7 @@ validateIdparte(idParte: any){
     this.selectChecked3 = [];
     this.articuloSelect = [];
 
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
     
     let ids: any = [];
     if(type == 'multiple'){
@@ -414,65 +414,69 @@ validateIdparte(idParte: any){
     this.vinculacionForm.controls['ids'].setValue(/*listData[0].*/ids);
   }
   
-  saveInstallation(){ 
+  async saveInstallation(){ 
     this.showPreLoader();
     if(this.selectChecked.length > 0){
 
-    for (var c = 0; c < this.normaIdSelect.length; c++){
-
-      const index = this.articles_proyects_group.findIndex(
-        (co: any) =>
-          co.normaId == this.normaIdSelect[c]
-      );
-
-      let cuerpoLegal: any = this.articles_proyects_group[index].cuerpoLegal;
-
-    for (var j = 0; j < this.selectChecked.length; j++) {
-
-      const data: any = {
-        proyectoId: this.project_id,
-        installationId: this.selectChecked[j].id,
-        cuerpoLegal: cuerpoLegal,
-        normaId: this.normaIdSelect[c]
-      };
+      const normas = await this.normaIdSelect;
     
-    this.projectsService.conectCuerpoInstallation(data).pipe().subscribe(
-      (data: any) => {     
-       
-    },
-    (error: any) => {
+      const services = await Promise.all(normas.map(async (c: any) => {
+          const index = this.articles_proyects_group.findIndex(
+            (co: any) =>
+              co.normaId == c
+          );
+
+          let cuerpoLegal: any = this.articles_proyects_group[index].cuerpoLegal;
+        
+          const service = await Promise.all(this.selectChecked.map(async (j: any) => {
+
+            const data: any = {
+              proyectoId: this.project_id,
+              installationId: j.id,
+              cuerpoLegal: cuerpoLegal,
+              normaId: c
+            };
+    
+            this.projectsService.conectCuerpoInstallation(data).pipe().subscribe(
+              (data: any) => {     
+              
+            },
+            (error: any) => {
+              
+              this.hidePreLoader();
+              
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Ha ocurrido un error..',
+                showConfirmButton: true,
+                timer: 5000,
+              });
+              this.modalService.dismissAll()
+            });
+
+          }));
+        }));
+
+          setTimeout(() => {
+             
+          this.modalService.dismissAll();
+          this.hidePreLoader();
+
+            this.getArticlesInstallation();
+            this.getArticleProyect(this.project_id);
+            this.getCuerpoInstallationsByProyect();
+            
+
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Instalaciones guardadas',
+            showConfirmButton: true,
+            timer: 5000,
+          });   
+        }, 1000);
       
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
-
-    }
-    }
-
-    this.modalService.dismissAll();
-    this.hidePreLoader();
-
-      this.getArticlesInstallation();
-      this.getArticleProyect(this.project_id);
-      this.getCuerpoInstallationsByProyect();
-      
-
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Instalaciones guardadas',
-      showConfirmButton: true,
-      timer: 5000,
-    });
-
     }else{
       
       this.hidePreLoader();
@@ -487,56 +491,60 @@ validateIdparte(idParte: any){
     }
   }
   
-  saveCuerpo(){
+  async saveCuerpo(){
     this.showPreLoader();
     if(this.selectChecked2.length > 0){
 
-    for (var i = 0; i < this.installationSelect.length; i++){
-
-    for (var j = 0; j < this.selectChecked2.length; j++) {
-
-      const data: any = {
-        proyectoId: this.project_id,
-        cuerpoLegal: this.selectChecked2[j].cuerpoLegal,
-        normaId: this.selectChecked2[j].normaId,
-        installationId: this.installationSelect[i]
-      };
+      const instalaciones = await this.installationSelect;
     
-    this.projectsService.conectCuerpoInstallation(data).pipe().subscribe(
-      (data: any) => {     
-       
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
+      const services = await Promise.all(instalaciones.map(async (i: any) => {
+        const service = await Promise.all(this.selectChecked2.map(async (j: any) => {
 
-    }
-    }
-
-    this.modalService.dismissAll();
-    this.hidePreLoader();
-
-    this.getArticlesInstallation();
-    this.getArticleProyect(this.project_id);
-    this.getCuerpoInstallationsByProyect();
+          const data: any = {
+            proyectoId: this.project_id,
+            cuerpoLegal: j.cuerpoLegal,
+            normaId: j.normaId,
+            installationId: i
+          };
     
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Cuerpos Legales guardados',
-      showConfirmButton: true,
-      timer: 5000,
-    });
+          this.projectsService.conectCuerpoInstallation(data).pipe().subscribe(
+            (data: any) => {     
+            
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
+          });
+
+        }));
+      }));
+
+      setTimeout(() => {
+        
+        this.modalService.dismissAll();
+        this.hidePreLoader();
+
+        this.getArticlesInstallation();
+        this.getArticleProyect(this.project_id);
+        this.getCuerpoInstallationsByProyect();
+        
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cuerpos Legales guardados',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }, 1000);
 
     }else{
       
@@ -609,63 +617,72 @@ validateIdparte(idParte: any){
     });
   }
 
-  saveVinculacion(){
+  async saveVinculacion () {
+    
     this.showPreLoader();
     if(this.selectChecked3.length > 0){
-
-    for (var c = 0; c < this.normaIdSelect2.length; c++){
-
-    for (var j = 0; j < this.selectChecked3.length; j++) {
-      
-    const article_installation: any = {
-      articuloId: this.articuloSelect[c].articuloId,
-      articulo: this.articuloSelect[c].tipoParte +' '+ this.articuloSelect[c].articulo,
-      descripcion: this.articuloSelect[c].descripcion ? this.articuloSelect[c].descripcion : this.articuloSelect[c].tipoParte,
-      tipoParte: this.articuloSelect[c].tipoParte,
-      instalacionId: this.selectChecked3[j].id,
-      normaId: this.articuloSelect[c].normaId,
-      cuerpoLegal: this.articuloSelect[c].cuerpoLegal,
-      proyectoId: this.project_id
-    };
+      const normas = await this.normaIdSelect2;
     
-    this.projectsService.conectArticleInstallation(this.selectChecked3[j].id, article_installation).pipe().subscribe(
-      (data: any) => {     
-       
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this.modalService.dismissAll()
-    });
+      const services = await Promise.all(normas.map(async (c: any) => {
+        const service = await Promise.all(this.selectChecked3.map(async (j: any) => {
+          const index = this.articuloSelect.findIndex(
+            (co: any) =>
+              co.articuloId == c
+          );
+          
+          const article_installation: any = {
+            articuloId: this.articuloSelect[index].articuloId,
+            articulo: this.articuloSelect[index].tipoParte +' '+ this.articuloSelect[index].articulo,
+            descripcion: this.articuloSelect[index].descripcion ? this.articuloSelect[index].descripcion : this.articuloSelect[index].tipoParte,
+            tipoParte: this.articuloSelect[index].tipoParte,
+            instalacionId: j.id,
+            normaId: this.articuloSelect[index].normaId,
+            cuerpoLegal: this.articuloSelect[index].cuerpoLegal,
+            proyectoId: this.project_id
+          };
+          
+          this.projectsService.conectArticleInstallation(j.id, article_installation).pipe().subscribe(
+            (data: any) => {     
+            
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
+          });
+    
+          
+        }));
 
-    }
-    }
+      }));
 
-      this.getArticlesInstallation();
-      this.getArticleProyect(this.project_id);
-      this.getCuerpoInstallationsByProyect();
-      
-    this.modalService.dismissAll();
-    this.hidePreLoader();
+        setTimeout(() => {        
+          this.getArticlesInstallation();
+          this.getArticleProyect(this.project_id);
+          this.getCuerpoInstallationsByProyect();
+          
+          this.modalService.dismissAll();
+          this.hidePreLoader();
 
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Instalaciones guardadas',
-      showConfirmButton: true,
-      timer: 5000,
-    });
-
-    }else{
-      
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Instalaciones guardadas',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+    
+        }, 1000);
+      }else{
+        
       this.hidePreLoader();
       
       Swal.fire({
