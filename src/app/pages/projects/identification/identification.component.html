@@ -1191,16 +1191,21 @@
             </div>
 
             <div class="mb-3">
-                <div class="list-group">
-                    
+                <!--<div class="list-group">-->
+                <ul class="list-group">
                     <ng-container *ngFor="let o of installations_filter;">
-                        <label class="list-group-item">
+                        <!--<label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll3"
-                        id="{{o.id}}" (change)="onCheckboxChange3($event)"><!--checked-->
+                        id="{{o.id}}" (change)="onCheckboxChange3($event)">checked
                         {{o.nombre}}
-                        </label>
+                        </label>-->
+                            
+                            <!--<li class="list-group-item mb-3 border card-border-success"><i class="mdi mdi-check-circle align-middle lh-1 me-2 text-success"></i> {{o.nombre}}</li>
+                            <li class="list-group-item mb-3"><i class="mdi mdi-alert-circle align-middle lh-1 me-2 text-warning"></i> {{o.nombre}}</li>-->
+                            <li class="list-group-item mb-3 border" style="cursor: pointer;" [ngClass]="{'card-border-success': validChecked4(o.id) == 1, 'card-border-warning': validChecked4(o.id) == 2 }" (click)="onCheckboxChange4(o.id)"><i class="mdi align-middle lh-1 me-2"  [ngClass]="{'mdi-check-circle text-success': validChecked4(o.id) == 1, 'mdi-alert-circle text-warning': validChecked4(o.id) == 2,'mdi-checkbox-blank-circle text-gray': validChecked4(o.id) == null }"></i> {{o.nombre}}</li>
+                            
                     </ng-container>
-                </div>
+                </ul>
             </div>
 
         </div>
