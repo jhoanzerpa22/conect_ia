@@ -295,7 +295,7 @@ export class AreasComponent {
       const area: any = {
         nombre: nombre,
         descripcion: descripcion,
-        proyectoId: this.area_id ? null : this.project_id,
+        //proyectoId: this.area_id ? null : this.project_id,
         areaId: this.area_id ? this.area_id : null
       };
 

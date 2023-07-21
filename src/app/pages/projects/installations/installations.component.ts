@@ -398,7 +398,7 @@ export class InstallationsComponent {
         const installation: any = {
           nombre: nombre,
           descripcion: descripcion,
-          proyectoId: this.installation_id ? null : this.project_id,
+          //proyectoId: this.installation_id ? null : this.project_id,
           installationId: this.installation_id ? this.installation_id : null,
           areaId: area_id ? area_id : null
         };
