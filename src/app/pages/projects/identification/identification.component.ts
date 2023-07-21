@@ -271,7 +271,7 @@ validateIdparte(idParte: any){
   
   private getArticleProyect(project_id: any){
 
-    this.showPreLoader();
+    //this.showPreLoader();
       this.projectsService.getArticleProyect(project_id).pipe().subscribe(
         (data: any) => {
           this.articles_proyects = data.data;
@@ -293,13 +293,13 @@ validateIdparte(idParte: any){
             }
           })
 
-          this.hidePreLoader();
+          //this.hidePreLoader();
       },
       (error: any) => {
-        this.hidePreLoader();
+        //this.hidePreLoader();
         //this.error = error ? error : '';
       });
-      document.getElementById('elmLoader')?.classList.add('d-none')
+      //document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
    getAreas(idProject?: any) {
@@ -467,7 +467,6 @@ validateIdparte(idParte: any){
             this.getArticleProyect(this.project_id);
             this.getCuerpoInstallationsByProyect();
             
-
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -652,7 +651,7 @@ validateIdparte(idParte: any){
             proyectoId: this.project_id
           };
           
-          this.projectsService.conectArticleInstallation(j.id, article_installation).pipe().subscribe(
+          this.projectsService.conectArticleInstallation(j.data.id, article_installation).pipe().subscribe(
             (data: any) => {     
             
           },
@@ -994,13 +993,13 @@ validateIdparte(idParte: any){
     );
 
     if(index != - 1){
-      const index2 = this.installations.findIndex(
+      const index2 = this.installations_filter.findIndex(
         (ins: any) =>
           ins.id == this.installations_articles[index].instalacionId
       );
 
       if(index2 != -1){
-        this.selectChecked3.push({data: this.installations[index2], estado: this.installations[index2].estado});
+        this.selectChecked3.push({data: this.installations_filter[index2], estado: this.installations_articles[index].estado});
       }
     }
 }
@@ -1364,50 +1363,54 @@ validateIdparte(idParte: any){
     return index == -1;
   }
   
-  saveCuerpos(){
+  async saveCuerpos(){
     
     this.showPreLoader();
     if(this.articles_proyects.length > 0){
-
-    for (var j = 0; j < this.articles_proyects.length; j++) {
     
-    this.projectsService.conectArticleProyect(this.articles_proyects[j]).pipe().subscribe(
-      (data: any) => {     
-       
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
+    const normas = await this.articles_proyects;
+
+    const services = await Promise.all(normas.map(async (j: any) => {
+    
+      this.projectsService.conectArticleProyect(j).pipe().subscribe(
+        (data: any) => {     
+        
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();
+        
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Ha ocurrido un error..',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+        this.modalService.dismissAll()
       });
-      this.modalService.dismissAll()
-    });
 
-    }
-
-    this.hidePreLoader();
-
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Cuerpos Legales guardados',
-      showConfirmButton: true,
-      timer: 5000,
-    });
+    }));
 
     setTimeout(() => {
+      
       this.getArticlesInstallation();
       this.getArticleProyect(this.project_id);
       this.getCuerpoInstallationsByProyect();
-      
+
+      this.hidePreLoader();
+
       this.activeTab = this.activeTab + 1;
-    }, 5000);
+
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Cuerpos Legales guardados',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      
+    }, 1000);
 
     }else{
       
