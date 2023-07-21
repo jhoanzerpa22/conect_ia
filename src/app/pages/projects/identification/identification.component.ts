@@ -645,7 +645,8 @@ validateIdparte(idParte: any){
             articulo: this.articuloSelect[index].tipoParte +' '+ this.articuloSelect[index].articulo,
             descripcion: this.articuloSelect[index].descripcion ? this.articuloSelect[index].descripcion : this.articuloSelect[index].tipoParte,
             tipoParte: this.articuloSelect[index].tipoParte,
-            instalacionId: j.id,
+            instalacionId: j.data.id,
+            estado: j.estado,
             normaId: this.articuloSelect[index].normaId,
             cuerpoLegal: this.articuloSelect[index].cuerpoLegal,
             proyectoId: this.project_id
@@ -897,7 +898,8 @@ validateIdparte(idParte: any){
         this.installations_filter.push(this.installations_data[j]);
       }
     }
-    this.validChecked3();
+    //this.validChecked3();
+    this.validCheckedInitial();
   }
 
   validChecked(){
@@ -971,6 +973,37 @@ validateIdparte(idParte: any){
       }*/
     }
   }
+
+  validChecked4(id: any){
+      const index = this.selectChecked3.findIndex(
+        (ins: any) =>
+          ins.data.id == id
+      );
+
+      if(index != - 1){
+        return this.selectChecked3[index].estado;
+      }else{
+        return null;
+      }
+  }
+
+  validCheckedInitial(){
+    const index = this.installations_articles.findIndex(
+      (ins: any) =>
+        ins.articuloId == this.normaIdSelect2[0]
+    );
+
+    if(index != - 1){
+      const index2 = this.installations.findIndex(
+        (ins: any) =>
+          ins.id == this.installations_articles[index].instalacionId
+      );
+
+      if(index2 != -1){
+        this.selectChecked3.push({data: this.installations[index2], estado: this.installations[index2].estado});
+      }
+    }
+}
 
   checkedValGet: any[] = [];
   onCheckboxChange(e: any) {
@@ -1062,6 +1095,35 @@ validateIdparte(idParte: any){
 
     //this.checkedValGet = checkedVal
     //checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+  }
+  
+  onCheckboxChange4(id: any) {
+    var result
+    for (var i = 0; i < this.installations_filter.length; i++) {
+        result = this.installations_filter[i];
+        if(this.installations_filter[i].id == id){
+          const index = this.selectChecked3.findIndex(
+            (ch: any) =>
+              ch.data.id == id
+          );
+
+          if(index != - 1){
+            if(this.selectChecked3[index].estado == 1){
+              this.selectChecked3[index].estado = 2;
+            }else{
+              this.selectChecked3.splice(index, 1);
+            }
+          }else{
+            this.selectChecked3.push({estado: 1, data: this.installations_filter[i]});
+          }
+        }
+    }
+    /*var checkboxes: any = document.getElementsByName('checkAll3');
+    for (var j = 0; j < checkboxes.length; j++) {
+      if (checkboxes[j].checked && checkboxes[j].id != id) {
+        //checkboxes[j].checked = false;
+      }
+    }*/
   }
   
   checkedValGetCuerpos: any[] = [];
