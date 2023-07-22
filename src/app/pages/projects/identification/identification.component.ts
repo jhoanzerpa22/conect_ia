@@ -59,6 +59,11 @@ export class IdentificationComponent implements OnInit {
   pagLength?: number = 0;
   term:any;
   term2:any;
+  term3:any;
+  term4:any;
+  term5:any;
+  term6:any;
+  term7:any;
   articles_proyects: any = [];
   articles_proyects_group: any = [];
 
@@ -117,16 +122,24 @@ export class IdentificationComponent implements OnInit {
     
     this.installationForm = this.formBuilder.group({
       ids: [''],
-      area: ['']
+      id: [''],
+      area: [''],
+      sub_area: [''],
+      search: [''],
+      checkAll: ['']
     });
     
     this.cuerpoForm = this.formBuilder.group({
       ids: [''],
-      cuerpo: ['']
+      id: [''],
+      search: [''],
+      checkAll2: ['']
     });
 
     this.vinculacionForm = this.formBuilder.group({
-      ids: ['']
+      ids: [''],
+      id: [''],
+      search: ['']
     });
 
     this.route.params.subscribe(params => {
@@ -262,11 +275,12 @@ validateIdparte(idParte: any){
           this.normasListWidgets = data.data;
           this.pagLength = data.data.length;
           this.hidePreLoader();
+          document.getElementById('elmLoader')?.classList.add('d-none')
       },
       (error: any) => {
         this.hidePreLoader();
+        document.getElementById('elmLoader')?.classList.add('d-none')
       });
-      document.getElementById('elmLoader')?.classList.add('d-none')
   }
   
   private getArticleProyect(project_id: any){
@@ -1289,8 +1303,7 @@ validateIdparte(idParte: any){
       },
       (error: any) => {
       });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-    //}, 1200);
+      //document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
 
@@ -1371,7 +1384,14 @@ validateIdparte(idParte: any){
     const normas = await this.articles_proyects;
 
     const services = await Promise.all(normas.map(async (j: any) => {
-    
+      
+      const index = this.articles_proyects_group.findIndex(
+        (co: any) =>
+          co.cuerpoLegal == j.cuerpoLegal
+      );
+
+      if(index == -1){
+
       this.projectsService.conectArticleProyect(j).pipe().subscribe(
         (data: any) => {     
         
@@ -1389,6 +1409,8 @@ validateIdparte(idParte: any){
         });
         this.modalService.dismissAll()
       });
+      
+      }
 
     }));
 
