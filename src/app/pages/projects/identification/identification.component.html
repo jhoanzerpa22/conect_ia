@@ -329,7 +329,7 @@
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="{{selectList ? 'Buscar el cuerpo legal' : 'Buscar la instalación'}}" [(ngModel)]="term"><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="{{selectList ? 'Buscar el cuerpo legal' : 'Buscar la instalación'}}" [(ngModel)]="term2"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     <div class="form-check form-switch form-check-right" style="margin-right: 50px;font-size: 20px;min-width: 180px;">
@@ -439,7 +439,7 @@
                             <div class="list-group">
                                     <h5 style="color: #405189;">CUERPOS LEGALES SELECCIONADOS</h5>
 
-                                    <ng-container *ngFor="let s of articles_proyects_group;">
+                                    <ng-container *ngFor="let s of articles_proyects_group | filter:term2">
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
@@ -528,7 +528,7 @@
 
                     <div *ngIf="installations_data.length > 0">            
                             <div class="list-group">
-                                <ng-container *ngFor="let ig of installations_group;">
+                                <ng-container *ngFor="let ig of installations_group | filter:term2">
                                     <h4 style="color: #405189;">{{ig.area}}</h4>
 
                                     <ng-container *ngFor="let v of ig.instalaciones;">
@@ -675,12 +675,12 @@
 
             <div class="mb-3" id="modal-id" style="display: none;">
                 <label for="id-field" class="form-label">ID</label>
-                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+                <input type="text" id="id-field" class="form-control" placeholder="ID" formControlName="id" readonly />
             </div>
 
             <div class="mb-3">
                 <label for="area-field" class="form-label">Area Administrativa</label>
-                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
+                <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa" formControlName="area"
                 (change)="selectArea($event)">
                     <option selected>Seleccione Area Administrativa </option>
                     <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
@@ -691,7 +691,7 @@
             <ng-container *ngFor="let item of items;let i = index;">
                 <div class="mb-3">
                     <label for="area-field" class="form-label">Sub Area Administrativa</label>
-                    <select class="form-select mb-3" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
+                    <select class="form-select mb-3" formControlName="sub_area" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
                         <option selected>Seleccione Sub Area Administrativa</option>
                         <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
                     </select>
@@ -701,7 +701,7 @@
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar instalación..."><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" placeholder="Buscar instalación..." formControlName="search" [(ngModel)]="term5"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -709,9 +709,9 @@
             <div class="mb-3">
                 <div class="list-group">
                     
-                    <ng-container *ngFor="let o of installations;">
+                    <ng-container *ngFor="let o of installations | filter:term5">
                         <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll"
+                        <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll" formControlName="checkAll"
                         id="{{o.id}}" (change)="onCheckboxChange($event)"><!--checked-->
                         {{o.nombre}}
                         </label>
@@ -742,21 +742,21 @@
 
             <div class="mb-3" id="modal-id" style="display: none;">
                 <label for="id-field" class="form-label">ID</label>
-                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+                <input type="text" id="id-field" class="form-control" placeholder="ID" formControlName="id" readonly />
             </div>
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar Cuerpo Legal..."><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" formControlName="search" placeholder="Buscar Cuerpo Legal..." [(ngModel)]="term6"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
 
             <div class="mb-3">
                 <div class="list-group">
-                    <ng-container *ngFor="let pg of articles_proyects_group;">
+                    <ng-container *ngFor="let pg of articles_proyects_group | filter:term6">
                         <label class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="{{pg.normaId}}" name="checkAll2"
+                        <input class="form-check-input me-1" type="checkbox" value="{{pg.normaId}}" name="checkAll2" formControlName="checkAll2"
                         id="{{pg.normaId}}" (change)="onCheckboxChange2($event)"><!--checked-->
                         {{pg.cuerpoLegal}} | {{pg.tituloNorma}}
                         </label>
@@ -786,7 +786,7 @@
             <div class="col-sm">
                 <div class="d-flex justify-content-sm-end gap-2">
                     <div class="search-box ms-2">
-                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="term"><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="term3"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                 </div>
@@ -1047,7 +1047,7 @@
                                     
                                         <ng-container *ngIf="s.hijas">
             
-                                            <div class="col-xxl-12" *ngFor="let item of s.hijas;">
+                                            <div class="col-xxl-12" *ngFor="let item of s.hijas | filter:term3">
 
                                                 <ng-container [ngTemplateOutlet]="myArticles" 
                                                 [ngTemplateOutletContext] ="{s: item }">
@@ -1084,7 +1084,7 @@
                                         </h4>
                                         <p>{{g.organismo}}</p>
                                     <ng-container *ngIf="!validateShowArticles(g.normaId)">
-                                    <ng-container *ngFor="let s of g.articulos;">
+                                    <ng-container *ngFor="let s of g.articulos | filter:term3">
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
                                         [ngTemplateOutletContext] ="{s:s }">
@@ -1180,12 +1180,12 @@
 
             <div class="mb-3" id="modal-id" style="display: none;">
                 <label for="id-field" class="form-label">ID</label>
-                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+                <input type="text" id="id-field" formControlName="id" class="form-control" placeholder="ID" readonly />
             </div>
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar instalación..."><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" placeholder="Buscar instalación..." formControlName="search" [(ngModel)]="term7"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -1193,7 +1193,7 @@
             <div class="mb-3">
                 <!--<div class="list-group">-->
                 <ul class="list-group">
-                    <ng-container *ngFor="let o of installations_filter;">
+                    <ng-container *ngFor="let o of installations_filter | filter:term7">
                         <!--<label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll3"
                         id="{{o.id}}" (change)="onCheckboxChange3($event)">checked
@@ -1229,7 +1229,7 @@
             <div class="col-sm">
                 <div class="d-flex justify-content-sm-end gap-2">
                     <div class="search-box ms-2">
-                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="term2"><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="term4"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                 </div>
@@ -1324,7 +1324,7 @@
            
             <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
             
-            <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let s of articles_proyects_group | filter:term2" id="pl1_{{s.normaId}}">
+            <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let s of articles_proyects_group | filter:term4" id="pl1_{{s.normaId}}">
                 <div [ngClass]="!validateIdCuerpo(s.normaId) ? 'card card-height-100 ribbon-box border card-border-success right' : 'card card-height-100'">
                     <div class="card-body">
                         <div class="ribbon ribbon-success round-shape" style="font-size: 14px;" *ngIf="!validateIdCuerpo(s.normaId)">Aplica</div>
