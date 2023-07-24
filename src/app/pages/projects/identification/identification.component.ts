@@ -379,7 +379,9 @@ validateIdparte(idParte: any){
     this.installationForm.controls['area'].setValue('');
     this.installationForm.controls['ids'].setValue(ids);
     
-    this.validChecked();
+    setTimeout(() => {
+      this.validChecked();
+    }, 1400);
    }
 
   openModal2(content: any, type: any, data?: any) {
