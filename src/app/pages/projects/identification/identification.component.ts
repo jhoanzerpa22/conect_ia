@@ -632,7 +632,7 @@ validateIdparte(idParte: any){
   validateAttribute(type: any, id: any, valor_old?: any, valor?: any){
     const index = this.attributes.findIndex(
           (p: any) =>
-            p.type == type && id == id
+            p.type == type && p.id == id
         );
 
       if(index != -1){
@@ -678,7 +678,6 @@ validateIdparte(idParte: any){
 
     this.showPreLoader();
 
-    
     const normas = await this.selectCheckedVincular;
     
     const services = await Promise.all(normas.map(async (j: any) => {
