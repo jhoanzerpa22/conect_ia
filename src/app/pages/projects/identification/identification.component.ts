@@ -712,6 +712,15 @@ validateIdparte(idParte: any){
   
   }));
     
+  
+  setTimeout(() => {
+    this.attributes_all = [];
+    this.selectCheckedVincular = [];
+
+    this.getArticlesInstallation();
+    this.getArticleProyect(this.project_id);
+    this.getCuerpoInstallationsByProyect();
+
     Swal.fire({
       position: 'center',
       icon: 'success',
@@ -720,6 +729,7 @@ validateIdparte(idParte: any){
       timer: 5000,
     });
     this.hidePreLoader();
+  }, 3000);
 
   }
 
@@ -1515,7 +1525,7 @@ validateIdparte(idParte: any){
         timer: 5000,
       });
       
-    }, 1000);
+    }, 3000);
 
     }else{
       
