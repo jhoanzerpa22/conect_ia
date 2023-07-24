@@ -100,6 +100,7 @@ export class IdentificationComponent implements OnInit {
   selectCheckedVincular: any = [];
 
   attributes: any = [];
+  attributes_all: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.total = service.total$;
@@ -595,6 +596,39 @@ validateIdparte(idParte: any){
 
   }
 
+  setAttributeAll(type: any, valor?: any){
+    const index = this.attributes_all.findIndex(
+      (p: any) =>
+        p.type == type
+    );
+
+    if(index != -1){
+      if(type == 'fase' && this.attributes_all[index].valor != valor){
+        this.attributes_all[index].valor = valor;
+      }else{
+
+        this.attributes_all.splice(index, 1);
+      }
+      
+    }else{
+      this.attributes_all.push({type: type, valor: type == 'fase' ? valor : true});
+    }
+
+  }
+
+  validateAttributeAll(type: any, valor?: any){
+    const index = this.attributes_all.findIndex(
+          (p: any) =>
+            p.type == type
+        );
+
+      if(index != -1){
+        return type == 'fase' ? valor == this.attributes_all[index].valor : true;
+      }else{
+        return false;
+      }
+  }
+
   validateAttribute(type: any, id: any, valor_old?: any, valor?: any){
     const index = this.attributes.findIndex(
           (p: any) =>
@@ -638,6 +672,56 @@ validateIdparte(idParte: any){
       });
       this.modalService.dismissAll()
     });
+  }
+  
+  async setAttributeArticleAll(){
+
+    this.showPreLoader();
+
+    
+    const normas = await this.selectCheckedVincular;
+    
+    const services = await Promise.all(normas.map(async (j: any) => {
+    
+    const id = j.id;
+    
+    const service = await Promise.all(this.attributes_all.map(async (a: any) => {
+
+    const article_attribute: any = {      
+      attr: a.type,
+      value: a.valor
+    };
+    
+    this.projectsService.setAttributesArticle(id, article_attribute).pipe().subscribe(
+      (data: any) => {     
+       
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+
+    });
+    }));
+  
+  }));
+    
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Atributos guardados',
+      showConfirmButton: true,
+      timer: 5000,
+    });
+    this.hidePreLoader();
+
   }
 
   async saveVinculacion () {

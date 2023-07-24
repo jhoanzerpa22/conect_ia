@@ -1124,13 +1124,13 @@
                     
                     <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
                         <button
-                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Permiso</button>
+                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('permiso') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('permiso')">Permiso</button>
                                 
                         <button
-                        class="btn btn-light view-btn mb-2" style="width: 100%;"  >Reporte</button>
+                        class="btn view-btn mb-2" [ngClass]="validateAttributeAll('reporte') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('reporte')">Reporte</button>
                         
                         <button
-                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Monitoreo</button>
+                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('monitoreo') ? 'btn-success' :'btn-light'" style="width: 100%;"  (click)="setAttributeAll('monitoreo')"  >Monitoreo</button>
                     </div>
                     
                     <div class="col-xs-1 col" style="margin: auto;border-left: 3px solid #fff;padding-top: 20px;padding-bottom: 20px;">
@@ -1145,19 +1145,19 @@
                     
                     <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
                         <button
-                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Construcción</button>
+                                class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'construccion') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'construccion')">Construcción</button>
                                 
                         <button
-                        class="btn btn-light view-btn mb-2" style="width: 100%;"  >Operación</button>
+                        class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'operacion') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'operacion')" >Operación</button>
                         
                         <button
-                                class="btn btn-light view-btn mb-2" style="width: 100%;"  >Cierre</button>
+                                class="btn btn-light view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'cierre') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'cierre')">Cierre</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
                         <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;margin:auto;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Configurar Instalaciones</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
-                        <button type="button" class="btn btn-success waves-effect waves-light" style="font-family: Poppins;border-radius: 24px;margin: auto;" >Aplicar a todos</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light" style="font-family: Poppins;border-radius: 24px;margin: auto;" (click)="setAttributeArticleAll()">Aplicar a todos</button>
                     </div>
                 </div>
             </div>
@@ -1325,9 +1325,11 @@
             <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
             
             <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let s of articles_proyects_group | filter:term4" id="pl1_{{s.normaId}}">
-                <div [ngClass]="!validateIdCuerpo(s.normaId) ? 'card card-height-100 ribbon-box border card-border-success right' : 'card card-height-100'">
+                <div [ngClass]="!validateIdCuerpo(s.normaId) ? 'card card-height-100 ribbon-box border card-border-success right' : 'card card-height-100 ribbon-box border card-border-danger right'">
                     <div class="card-body">
                         <div class="ribbon ribbon-success round-shape" style="font-size: 14px;" *ngIf="!validateIdCuerpo(s.normaId)">Aplica</div>
+                        
+                        <div class="ribbon ribbon-danger round-shape" style="font-size: 14px;" *ngIf="validateIdCuerpo(s.normaId)">No Aplica</div>
 
                         <div class="d-flex flex-column h-100 text-center">
                             <div class="d-flex">
