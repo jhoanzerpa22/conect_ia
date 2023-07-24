@@ -86,7 +86,6 @@
                                 <option value="Almacenamiento de sustancias peligrosas">Almacenamiento de sustancias peligrosas</option>
                                 <option value="Almacenamiento de combustibles">Almacenamiento de combustibles</option>
                                 <option value="Transporte de sustancias peligrosas">Transporte de sustancias peligrosas</option>
-                                <option value="Almacenamiento de sustancias peligrosas">Almacenamiento de sustancias peligrosas</option>
                                 <option value="Tratamiento de residuos líquidos">Tratamiento de residuos líquidos</option>
                             </select>
                     </form>
@@ -254,7 +253,7 @@
                 <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="regresar()">Regresar</button>
             </div>
             <div class="col-2" style="text-align: center;">
-                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="siguiente2()">Siguiente</button>
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="saveProject(1)">Guardar</button>
             </div>
         </div>
     </div>
@@ -298,7 +297,7 @@
                 <h4 class="card-title">Identificación/Vinculación</h4>
                 <p class="card-text text-muted">Completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto y vinculalos a tus instalaciones para gestionar su cumplimiento.</p>
                 </div>
-                <a href="javascript:void(0);" class="btn btn-success"  (click)="saveProject(1)">Iniciar</a>
+                <a href="javascript:void(0);" class="btn btn-success" (click)="saveProject(1)">Iniciar</a>
             </div>
         </div>
         
