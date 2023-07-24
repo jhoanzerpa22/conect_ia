@@ -197,10 +197,10 @@ export class CreateComponent implements OnInit {
       nombre: this.nombreProyecto,
       descripcion: this.descripcionProyecto,
       tipoProyectoId: type,
-      regionId: this.regionProyecto,
-      comunaId: this.comunaProyecto,
-      tipoZonaId: this.tipoZonaProyecto,
-      sector: this.sectorProyecto,
+      //regionId: this.regionProyecto,
+      //comunaId: this.comunaProyecto,
+      //tipoZonaId: this.tipoZonaProyecto,
+      sectorProductivoId: 1,//this.sectorProyecto,
       actividad: this.actividadProyecto
     };
 
