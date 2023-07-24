@@ -359,7 +359,7 @@ validateIdparte(idParte: any){
    openModal(content: any, type: any, data?: any) {
     this.submitted = false;
     
-    this.installations = [];
+    this.installations = this.installations_data;
     this.selectChecked = [];
 
     this.modalService.open(content, { size: 'lg', centered: true });
@@ -376,7 +376,10 @@ validateIdparte(idParte: any){
     this.normaIdSelect = ids;
 
     //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
+    this.installationForm.controls['area'].setValue('');
     this.installationForm.controls['ids'].setValue(ids);
+    
+    this.validChecked();
    }
 
   openModal2(content: any, type: any, data?: any) {
