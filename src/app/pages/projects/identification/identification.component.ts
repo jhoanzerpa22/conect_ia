@@ -482,6 +482,8 @@ validateIdparte(idParte: any){
              
           this.modalService.dismissAll();
           this.hidePreLoader();
+          
+          this.selectCheckedCuerpos = [];
 
             this.getArticlesInstallation();
             this.getArticleProyect(this.project_id);
@@ -551,6 +553,7 @@ validateIdparte(idParte: any){
         
         this.modalService.dismissAll();
         this.hidePreLoader();
+        this.selectCheckedInstalaciones = [];
 
         this.getArticlesInstallation();
         this.getArticleProyect(this.project_id);
@@ -850,8 +853,15 @@ validateIdparte(idParte: any){
 
     //this.area_id_select = event.target.value;
       this.items = [];
-      this.getInstallationsByAreaId(event.target.value);
-      this.getChildren(event.target.value);
+      if(event.target.value > 0){
+        this.getInstallationsByAreaId(event.target.value);
+        this.getChildren(event.target.value);
+      }else{
+        this.installations = this.installations_data;
+        setTimeout(() => {
+          this.validChecked();
+        }, 1400);
+      }
   }
 
   selectAreaChildren(event: any, parent?: any){
@@ -1429,7 +1439,14 @@ validateIdparte(idParte: any){
   }
 
   conectCuerpo(cuerpo_id?: any, data?: any){
-    
+
+    const index2 = this.articles_proyects_group.findIndex(
+      (co: any) =>
+        co.cuerpoLegal == cuerpo_id
+    );
+
+    if(index2 == -1){
+
     const index = this.articles_proyects.findIndex(
       (co: any) =>
         co.normaId == cuerpo_id && co.proyectoId == this.project_id
@@ -1454,6 +1471,7 @@ validateIdparte(idParte: any){
 
     this.articles_proyects.push(cuerpo_proyect);
     }
+    }
   }
 
   validateIdNorma(idNorma: any){
@@ -1471,7 +1489,26 @@ validateIdparte(idParte: any){
         co.normaId == idNorma && co.proyectoId == this.project_id
     );
 
-    return index == -1;
+    if(index != -1){
+      const index2 = this.installations_articles.findIndex(
+        (co: any) =>
+          co.normaId == idNorma && co.proyectoId == this.project_id && parseInt(co.estado) == 1 
+      );
+
+      if(index2 != -1){
+        return 1;
+      }else{
+        const index3 = this.installations_articles.findIndex(
+          (co: any) =>
+            co.normaId == idNorma && co.proyectoId == this.project_id && parseInt(co.estado) == 2 
+        );
+        return index3 != -1 ? 2 : false;
+      }
+
+    }else{
+      return false;
+    }
+
   }
   
   async saveCuerpos(){
