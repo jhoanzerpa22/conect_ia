@@ -11,11 +11,11 @@
     </div>
   </div>
   
-<ng-container *ngIf="!typeCreate">
+<ng-container *ngIf="step == 1">
 <!-- Vertical alignment (align-items-center) -->
-<div class="row justify-content-center" style="padding-top: 10%;">
+<div class="row justify-content-center" style="padding-top: 5%;">
     <div class="col-lg-8">
-        <h4 style="text-align: center;">Define el nombre del proyecto</h4>
+        <h4 style="text-align: center;">Define el características de tu proyecto</h4>
         <div class="card">
             <div class="card-body">
                   <div class="mb-3">
@@ -24,11 +24,71 @@
                     <input type="text" class="form-control" id="project-title-input"
                         placeholder="Escribe nombre de Proyecto" formControlName="nombre">
                         
-                    <label class="form-label" style="margin-top: 20px !important;" for="project-title-input">Descripción del Proyecto</label>
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-description-input">Descripción del Proyecto</label>
                     <!--<input type="text" class="form-control" id="project-title-input"
                         placeholder="Escribe descripción del Proyecto" formControlName="descripcion">-->
-                        <textarea rows="3" class="form-control" id="project-title-input"
+                        <textarea rows="3" class="form-control" id="project-description-input"
                         placeholder="Escribe descripción del Proyecto" formControlName="descripcion"></textarea>
+                        
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-location-input">Lugar de ejecución del proyecto</label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-select" placeholder="Selecciona región" data-choices data-choices-search-false
+                            id="choices-priority-input" formControlName="regionId" (change)="getComunes($event.target)">
+                            <option value="">Selecciona región</option>
+                            <option *ngFor="let r of regions;" value="{{r.id}}">{{r.nombre_region}}</option>
+                            </select>
+                
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            
+                            <select class="form-select" placeholder="Selecciona comuna" data-choices data-choices-search-false
+                            id="choices-priority-input2" formControlName="comunaId">
+                            <option value="">Selecciona comuna</option>
+                            <option *ngFor="let c of comunes;" value="{{c.id}}">{{c.nombre_comuna}}</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            
+                            <select class="form-select" placeholder="Selecciona tipo de zona" data-choices data-choices-search-false
+                            id="choices-priority-input3" formControlName="tipoZonaId">
+                            <option value="">Selecciona tipo de zona</option>
+                            <option *ngFor="let z of zones;" value="{{z.id}}">{{z.nombre_zona}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-sector-input">Sector Productivo</label>
+                    <select class="form-select" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
+                    id="project-sector-input" formControlName="sector">
+                                <option value="">Selecciona sector productivo</option>
+                                <option value="Energía">Energía</option>
+                                <option value="Minería">Minería</option>
+                                <option value="Portuario">Portuario</option>
+                                <option value="Silvoagropecuario">Silvoagropecuario</option>
+                                <option value="Industria Manufacturera">Industria Manufacturera</option>
+                                <option value="Pesca">Pesca</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Construcción">Construcción</option>
+                                <option value="Transporte y Comunicaciones">Transporte y Comunicaciones</option>
+                                <option value="Comercio">Comercio</option>
+                                <option value="Hoteles y Restoranes">Hoteles y Restoranes</option>
+                    </select>
+                    
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-actividad-input">Actividad</label>
+                    <select class="form-select" placeholder="Selecciona actividad" data-choices data-choices-search-false
+                    id="project-actividad-input" formControlName="actividad">
+                                <option value="">Selecciona actividad</option>
+                                <option value="Almacenamiento de residuos peligrosos">Almacenamiento de residuos peligrosos</option>
+                                <option value="Almacenamiento de sustancias peligrosas">Almacenamiento de sustancias peligrosas</option>
+                                <option value="Almacenamiento de combustibles">Almacenamiento de combustibles</option>
+                                <option value="Transporte de sustancias peligrosas">Transporte de sustancias peligrosas</option>
+                                <option value="Almacenamiento de sustancias peligrosas">Almacenamiento de sustancias peligrosas</option>
+                                <option value="Tratamiento de residuos líquidos">Tratamiento de residuos líquidos</option>
+                            </select>
                     </form>
                 </div>
             </div>
@@ -36,15 +96,165 @@
     </div>
 </div>
 
-<div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;position: fixed;bottom: 60px;">
+<div class="row">
+<div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;"><!--position: fixed;bottom: 60px;-->
     <div class="row justify-content-end">
-        <div class="col-4">
-            <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="siguiente()">Siguiente</button>   <!--routerLink="/projects/create/type"-->
+        <div class="col-12">
+            <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: right;" (click)="siguiente()">Siguiente</button><!--routerLink="/projects/create/type"-->
+        </div>
+    </div>
+</div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="step == 2">
+    <!-- Vertical alignment (align-items-center) -->
+    <div class="row justify-content-center" style="padding-top: 5%;">
+        <div class="col-lg-10">
+            <h4 style="text-align: center;">SELECCIONA LA FASE ACTUAL DE TU PROYECTO</h4>
+            <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
+            
+        <div class="row justify-content-center">
+            <div class="button-card-container">
+                <div class="button-card" (click)="toggleSelected(1)" [class.selected]="selected === 1">Prefactibilidad</div>
+                <div class="button-card" (click)="toggleSelected(2)" [class.selected]="selected === 2">Factibilidad</div>
+                <div class="button-card" (click)="toggleSelected(3)" [class.selected]="selected === 3">Construcción</div>
+                <div class="button-card" (click)="toggleSelected(4)" [class.selected]="selected === 4">Operación</div>
+                <div class="button-card" (click)="toggleSelected(5)" [class.selected]="selected === 5">Cierre</div>
+                <div class="button-card" (click)="toggleSelected(6)" [class.selected]="selected === 6">Post cierre</div>
+              </div>
+        </div>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;">
+        <div class="row justify-content-end">
+            <div class="col-12">                
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: left;" (click)="regresar()">Regresar</button>
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: right;" (click)="siguiente2()">Siguiente</button>
+            </div>
         </div>
     </div>
 </div>
 </ng-container>
-<ng-container *ngIf="typeCreate">
+
+<ng-container *ngIf="step == 3">
+    <!-- Vertical alignment (align-items-center) -->
+    <div class="row justify-content-center" style="padding-top: 5%;">
+        <div class="col-lg-12 mb-4">
+            <h4 style="text-align: center;">SELECCIONA EL TIPO DE OBLIGACIÓN LEGAL QUE PRECISAS IDENTIFICAR</h4>
+            <p style="text-align: center;">Al seleccionar alguno de los tipos de obligaciones, se desplegará el listado de cuerpos legales y árticulos asociados con dicho atributo. Puedes seleccionar más de un tipo de obligación.</p>
+            
+        <div class="row justify-content-center">
+            <div class="button-card-container-flex">
+                <div class="button-card" (click)="toggleSelected2(1)" [class.selected]="selected === 1">Permisos</div>
+                <div class="button-card" (click)="toggleSelected2(2)" [class.disabled]="disabled">Resportes</div>
+                <div class="button-card" (click)="toggleSelected2(3)" [class.disabled]="disabled">Monitoreos</div>
+                <div class="button-card" (click)="toggleSelected2(4)" [class.selected]="selected === 4">Todas</div>
+            </div>
+              <p style="text-align: center;">Si identificas algún permiso, reporte o monitoreo que no esté en el listado que se muestra en las próximas ventanas, contáctate con nosotros y lo agregaremos a la brevedad
+              </p>
+        </div>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;">
+        <div class="row justify-content-end">
+            <div class="col-12">                
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: left;" (click)="regresar()">Regresar</button>
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: right;" (click)="siguiente2()">Siguiente</button>
+            </div>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="step == 4">
+    <!-- Vertical alignment (align-items-center) -->
+    <div class="row justify-content-center" style="padding-top: 5%;">
+        <div class="col-lg-10">
+            <h4 style="text-align: center;">SELECCIONA EL ÁMBITO NORMATIVO A GESTIONAR</h4>
+            <p>Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
+            
+        <div class="row justify-content-center">
+                     
+        <div class="col-lg-3">
+            <div class="card border select-variable" style="background: #d1eeea;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|ambiental')}" (click)="selectVariable(step+'|ambiental')">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #d7e8d8;width: 40px;height: 40px; border: 1px solid #d7e8d8;border-radius: 24px;margin: auto;">
+                        <i class="ri-plant-fill" style="font-size: 24px;color: #4a9d4b;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>Legislación Ambiental</b></p>
+                    <p>Todas aquellas normas que tienen la finalidad de asegurar la protección del medio ambiente.</p>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-3">
+            <div class="card border select-variable" style="background: #faeedc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|seguridad')}" (click)="selectVariable(step+'|seguridad')">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #f4d890;width: 40px;height: 40px; border: 1px solid #f4d890;border-radius: 24px;margin: auto;">
+                        <i class="ri-briefcase-fill" style="font-size: 24px;color: #ebaf47;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>Legislación de seguridad y salud en el trabajo</b></p>
+                    <p>Es un área multidisciplinaria relacionada con la seguridad, salud y la calidad de vida de las personas en la ocupación.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card border select-variable" style="background: #fae1dc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|laboral')}" (click)="selectVariable(step+'|laboral')">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #ebbdb4;width: 40px;height: 40px; border: 1px solid #ebbdb4;border-radius: 24px;margin: auto;">
+                        <i class="ri-shirt-fill" style="font-size: 24px;color: #f25c03;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>Legislación laboral</b></p>
+                    <p>Todas las empresas deben cumplir y hacer cumplir los requisitos contractuales y estatutarios.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3">
+            <div class="card border select-variable" style="background: #b3ebf6;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|energia')}" (click)="selectVariable(step+'|energia')">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #8de1f2;width: 40px;height: 40px; border: 1px solid #8de1f2;border-radius: 24px;margin: auto;">
+                        <i class="ri-flashlight-line" style="font-size: 24px;color: #0cc2e7;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>Legislación de energía</b></p>
+                    <p>Optimización del consumo energético para alcanzar unos niveles determinados de confort y de servicio.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card border select-variable" style="background: #b3ebf6;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|todos')}" (click)="selectVariable(step+'|todos')">
+                <div class="card-body" style="text-align: center;">
+                    <div style="background-color: #8de1f2;width: 40px;height: 40px; border: 1px solid #8de1f2;border-radius: 24px;margin: auto;">
+                        <i class="ri-flashlight-line" style="font-size: 24px;color: #0cc2e7;"></i>
+                    </div>
+                    <p style="margin-top: 10px;"><b>Todos los ámbitos normativos</b></p>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        </div>
+    </div>
+    
+<div class="row">
+    <div class="col-sm-12 justify-content-end" style="display: block;padding: 0px;">
+        <div class="row justify-content-end">
+            <div class="col-12">                
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: left;" (click)="regresar()">Regresar</button>
+                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;float: right;" (click)="siguiente2()">Siguiente</button>
+            </div>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="step == 4">
     <!--<div class="row">-->
     <div class="row justify-content-center" style="padding-top: 10%;">
         <!--<ng-container *ngFor="let t of types;let impar=odd;">

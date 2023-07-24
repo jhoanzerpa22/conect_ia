@@ -24,7 +24,23 @@ export class CreateComponent implements OnInit {
   createForm!: UntypedFormGroup;
   nombreProyecto: any = '';
   descripcionProyecto: any = '';
+  regionProyecto: any = '';
+  comunaProyecto: any = '';
+  tipoZonaProyecto: any = '';
+  sectorProyecto: any = '';
+  actividadProyecto: any = '';
   types: any = [];
+
+  regions: any = [];
+  comunes: any = [];
+  zones: any = [];
+
+  step: number = 1;
+
+  selectValues: any = [];
+  selected: number = 0;
+  selected2: number = 0;
+  disabled: boolean = true;
 
   public Editor = ClassicEditor;
 
@@ -42,10 +58,17 @@ export class CreateComponent implements OnInit {
 
     this.createForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
-      descripcion: ['']
+      descripcion: [''],
+      regionId: ['', [Validators.required]],
+      comunaId: ['', [Validators.required]],
+      tipoZonaId: ['', [Validators.required]],
+      sector: [''],
+      actividad: ['']
     });
 
     this.getTypes();
+    this.getRegions();
+    this.getZones();
   }
   
    // convenience getter for easy access to form fields
@@ -56,6 +79,14 @@ export class CreateComponent implements OnInit {
   */
    selectValue = ['Choice 1', 'Choice 2', 'Choice 3'];
 
+   regresar(){
+    this.step = this.step - 1;
+   }
+
+   siguiente2(){
+    this.step++;
+   }
+
    siguiente(){
     // stop here if form is invalid
     if (this.createForm.invalid) {
@@ -64,6 +95,11 @@ export class CreateComponent implements OnInit {
 
     this.nombreProyecto = this.f['nombre'].value;
     this.descripcionProyecto = this.f['descripcion'].value;
+    this.regionProyecto = this.f['regionId'].value;
+    this.comunaProyecto = this.f['comunaId'].value;
+    this.tipoZonaProyecto = this.f['tipoZonaId'].value;
+    this.sectorProyecto = this.f['sector'].value;
+    this.actividadProyecto = this.f['actividad'].value;
 
     this.breadCrumbItems = [
       { label: 'Requisitos legales' },
@@ -72,7 +108,40 @@ export class CreateComponent implements OnInit {
       { label: 'Tipo', active: true }
     ];
     this.typeCreate = true;
+    this.step++;
    }
+
+  toggleSelected(buttonNumber: number) {
+    this.selected = buttonNumber;
+  }
+  
+  toggleSelected2(fase: number) {
+    if (this.selected === fase) {
+      // Si se hace clic en el botón que ya está seleccionado, deseleccionarlo
+      this.selected = 0;
+    } else {
+      // Si se hace clic en un botón diferente al que está seleccionado, cambiar el estado de selección
+      this.selected = fase;
+    }
+  }
+
+   selectVariable(id: any){
+    const index = this.selectValues.indexOf(id);
+    if(index != -1){
+      this.selectValues.splice(index, 1);
+    }else{
+      this.selectValues.push(id);
+    }
+  }
+ 
+   validateVariable(id: any){
+    const index = this.selectValues.indexOf(id);
+    if(index != -1){
+      return true;
+    }else{
+      return false;
+    }
+ }
 
    getTypes(){
     this.projectsService.getTypes().pipe().subscribe(
@@ -85,12 +154,54 @@ export class CreateComponent implements OnInit {
     });
    }
 
+   getRegions(){
+    this.projectsService.getRegiones().pipe().subscribe(
+      (data: any) => {
+        this.regions = data.data;
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+   }
+
+   getComunes(e?: any){
+    this.comunes = [];
+    let id: any = e.value;
+    if(id){
+      this.projectsService.getComunas(id).pipe().subscribe(
+        (data: any) => {
+          this.comunes = data.data;
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+    }
+   }
+
+   getZones(){
+    this.projectsService.getZones().pipe().subscribe(
+      (data: any) => {
+        this.zones = data.data;
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+   }
+
    saveProject(type: any){
 
     const project: any = {
       nombre: this.nombreProyecto,
       descripcion: this.descripcionProyecto,
-      tipoProyectoId: type
+      tipoProyectoId: type,
+      regionId: this.regionProyecto,
+      comunaId: this.comunaProyecto,
+      tipoZonaId: this.tipoZonaProyecto,
+      sector: this.sectorProyecto,
+      actividad: this.actividadProyecto
     };
 
     this.showPreLoader();
