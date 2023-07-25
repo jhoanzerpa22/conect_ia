@@ -816,6 +816,7 @@
                                                 <div class="team-cover">
                                                     
                                                 </div>
+                                                
                                                 <div class="card-body p-4">                
                                                     <div class="row align-items-center team-row">
                                                         <div class="col team-settings">
@@ -830,7 +831,7 @@
                                                                 <input class="form-check-input" type="checkbox" id="{{s.articuloId}}" value="{{s.articuloId}}" name="checkAllVincular" (change)="onCheckboxChangeVincular($event, s)">
                                                             </div>
                                                         </div>
-                                                        <div class="col" [ngClass]="validateConfig(s.id) ? 'col-lg-5' : 'col-lg-8'">
+                                                        <div class="col" [ngClass]="validateConfig('atributo-'+s.normaId) || validateConfig('componente-'+s.normaId) || validateConfig('fase-'+s.normaId) ? 'col-lg-5' : 'col-lg-8'">
                                                             <div ><!--class="team-profile-img"-->
                                                                 <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
@@ -844,7 +845,7 @@
                                                         </div>
                                                         
                                                         
-                                                        <div class="col-xs-1 col" *ngIf="validateConfig(s.id)">
+                                                        <div class="col-xs-1 col" *ngIf="validateConfig('atributo-'+s.normaId)">
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
                                                                     [ngClass]="validateAttribute('permiso',s.id, s.permiso) ? 'btn-success' :'btn-light'"
@@ -859,7 +860,7 @@
                                                                 class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('monitoreo',s.id)"  >Monitoreo</button>
                                                         </div>
                                                         
-                                                        <div class="col-xs-1 col" *ngIf="validateConfig(s.id)">
+                                                        <div class="col-xs-1 col" *ngIf="validateConfig('componente-'+s.normaId)">
                                                             <!--<i [ngClass]="{'icon-check': s.reporte}" style="font-size: 30px;" class="ri-git-repository-line"></i>-->
                                                             <select class="form-select mb-2" name="componente">
                                                             <option value="bg-soft-success">Componente</option>
@@ -870,7 +871,7 @@
                                                                 </select>
                                                         </div>
                                                         
-                                                        <div class="col-xs-1 col" *ngIf="validateConfig(s.id)">
+                                                        <div class="col-xs-1 col" *ngIf="validateConfig('fase-'+s.normaId)">
                                                             <!--<i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>-->
                                                             
                                                             <button
@@ -884,10 +885,6 @@
                                                             <button
                                                             [ngClass]="validateAttribute('fase',s.id, s.fase, 'cierre') ? 'btn-success' :'btn-light'"
                                                             class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'cierre')">Cierre</button>
-                                                        </div>
-
-                                                        <div class="col-xs-1 col">
-                                                            <i [ngClass]="{'icon-check': validateConfig(s.id)}" style="font-size: 30px;cursor: pointer;float:right;" class="ri-settings-2-line" (click)="setConfig(s.id)"></i>
                                                         </div>
 
                                                         <!--<div class="col-lg-4 col">
@@ -928,7 +925,7 @@
                                             </div>
                                         </ng-container>
 
-                                    </ng-template>
+                                </ng-template>
 
                                 <ng-container *ngFor="let g of articles_proyects_group;">
                                     
@@ -953,6 +950,37 @@
                                         <h4 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}}
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-down-s-line" (click)="showArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="hideArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-up-s-line"></i></span>
+                                            
+                                            <div class="dropdown card-header-dropdown float-end" ngbDropdown>
+                                                <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                                                    <span class="text-muted"><i class="ri-settings-4-line align-middle me-1 fs-15"></i>Gestión avanzada</span>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                                    <div class="form-check form-check-primary mb-3">
+                                                        <input class="form-check-input" type="checkbox" value="true" id="formAtributo" (change)="setConfig('atributo-'+g.normaId, $event)">
+                                                        <label class="form-check-label" for="formAtributo">
+                                                        Atributo
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-primary mb-3">
+                                                        <input class="form-check-input" type="checkbox" value="true" id="formComponente" (change)="setConfig('component-'+g.normaId, $event)">
+                                                        <label class="form-check-label" for="formComponente">
+                                                        Componente
+                                                        </label>
+                                                    </div>
+                                                    
+                                                    <div class="form-check form-check-primary mb-3">
+                                                        <input class="form-check-input" type="checkbox" value="true" id="formFase" (change)="setConfig('fase-'+g.normaId, $event)">
+                                                        <label class="form-check-label" for="formFase">
+                                                        Fase
+                                                        </label>
+                                                    </div>
+                                                    <!--<a class="dropdown-item" [ngClass]="validateConfig('atributo-'+g.normaId) ? 'text-success' : ''" href="javascript:void(0);" (click)="setConfig('atributo-'+g.normaId)">Atributo</a>
+                                                    <a class="dropdown-item" [ngClass]="validateConfig('componente-'+g.normaId) ? 'text-success' : ''" href="javascript:void(0);" (click)="setConfig('componente-'+g.normaId)">Componente</a>
+                                                    <a class="dropdown-item" [ngClass]="validateConfig('fase-'+g.normaId) ? 'text-success' : ''" href="javascript:void(0);" (click)="setConfig('fase-'+g.normaId)">Fase</a>-->
+                                                </div>
+                                            </div>
+                                            
                                         </h4>
                                         <p>{{g.organismo}}</p>
                                     <ng-container *ngIf="!validateShowArticles(g.normaId)">
