@@ -593,7 +593,7 @@ validateIdparte(idParte: any){
       return index != -1;
   }
 
-  setConfig(id: any){
+  setConfig(id: any, e: any){
     const index = this.configs.findIndex(
           (p: any) =>
             p == id
