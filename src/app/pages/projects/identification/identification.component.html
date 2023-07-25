@@ -174,7 +174,7 @@
                         </div>-->
                         <div class="flex-grow-1">
                             <h5 class="mb-1 fs-15"><label style="color: #405189;"><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : ''}}</label></h5>
-                            <p class="text-muted text-truncate-two-lines mb-3">{{data.tituloNorma ? data.tituloNorma : ''}}</p>
+                            <p class="text-muted text-truncate-two-lines mb-3"><b>{{data.tituloNorma ? data.tituloNorma : ''}}</b></p>
                             <ng-container *ngFor="let org of data.organismos">
                                 <p class="card-subtitle text-muted mb-0">{{org}}</p>
                             </ng-container>
@@ -1205,7 +1205,7 @@
                                 <div class="flex-grow-1">
                                     <h5 class="mb-1 fs-15"><label style="color: #405189;">{{s.cuerpoLegal}}</label></h5>
                                     
-                                        <p class="text-muted text-truncate-two-lines mb-3">{{s.tituloNorma ? s.tituloNorma : ''}}</p>
+                                        <p class="text-muted text-truncate-two-lines mb-3"><b>{{s.tituloNorma ? s.tituloNorma : ''}}</b></p>
                                         <p class="card-subtitle text-muted mb-0">{{s.organismo}}</p>
                                 </div>
                             </div>

@@ -227,6 +227,10 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'project/cuerpoLegal/instalacion', data, /*httpOptions*/this.getToken());
     }
 
+    deleteCuerpoInstallation(id: any): Observable<any> {
+        return this.http.delete(API_URL_BACK + 'project/cuerpoLegal/instalacion/'+id, /*httpOptions*/this.getToken());
+    }
+
     conectArticleProyect(article: any){
         return this.http.post(API_URL_BACK + 'project/article', article, this.getToken());
     }
