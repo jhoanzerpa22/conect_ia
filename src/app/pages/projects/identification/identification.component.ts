@@ -102,6 +102,8 @@ export class IdentificationComponent implements OnInit {
   attributes: any = [];
   attributes_all: any = [];
 
+  configs: any = [];
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.total = service.total$;
   }
@@ -582,6 +584,29 @@ validateIdparte(idParte: any){
     }
   }
 
+  validateConfig(id: any){
+    const index = this.configs.findIndex(
+          (p: any) =>
+            p == id
+        );
+
+      return index != -1;
+  }
+
+  setConfig(id: any){
+    const index = this.configs.findIndex(
+          (p: any) =>
+            p == id
+        );
+
+        if(index != -1){
+          this.configs.splice(index, 1);          
+        }else{
+          this.configs.push(id);
+        }
+
+  }
+
   setAttribute(type: any, id: any, valor?: any){
     const index = this.attributes.findIndex(
       (p: any) =>
@@ -659,13 +684,13 @@ validateIdparte(idParte: any){
     this.projectsService.setAttributesArticle(id, article_attribute).pipe().subscribe(
       (data: any) => {     
        
-      Swal.fire({
+      /*Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Atributo guardado',
         showConfirmButton: true,
         timer: 5000,
-      });
+      });*/
     },
     (error: any) => {
       
