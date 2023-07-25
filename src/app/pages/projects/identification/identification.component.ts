@@ -404,8 +404,12 @@ validateIdparte(idParte: any){
     }
 
     this.installationSelect = ids;
-    this.validChecked2();
+
     this.cuerpoForm.controls['ids'].setValue(ids);
+    
+    setTimeout(() => {
+    this.validChecked2();
+    },1400);
   }
   
   openModal3(content: any, type: any, data?: any) {
@@ -450,7 +454,45 @@ validateIdparte(idParte: any){
 
           let cuerpoLegal: any = this.articles_proyects_group[index].cuerpoLegal;
         
+          const deletes = await Promise.all(this.cuerpo_installations.map(async (cu: any) => {
+
+            const index_delete = this.selectChecked.findIndex(
+              (d: any) =>
+                cu.installationId == d.id
+            );
+
+            if(index_delete == -1 && parseInt(cu.normaId) == c){
+
+            this.projectsService.deleteCuerpoInstallation(cu.id).pipe().subscribe(
+              (data: any) => {     
+              
+            },
+            (error: any) => {
+              
+              this.hidePreLoader();
+              
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Ha ocurrido un error..',
+                showConfirmButton: true,
+                timer: 5000,
+              });
+              this.modalService.dismissAll()
+            });
+            
+            }
+
+          }));
+
           const service = await Promise.all(this.selectChecked.map(async (j: any) => {
+            
+            const index_add = this.cuerpo_installations.findIndex(
+              (cu2: any) =>
+                cu2.installationId == j.id && parseInt(cu2.normaId) == c
+            );
+
+            if(index_add == -1){
 
             const data: any = {
               proyectoId: this.project_id,
@@ -476,6 +518,8 @@ validateIdparte(idParte: any){
               });
               this.modalService.dismissAll()
             });
+            
+            }
 
           }));
         }));
@@ -521,7 +565,46 @@ validateIdparte(idParte: any){
       const instalaciones = await this.installationSelect;
     
       const services = await Promise.all(instalaciones.map(async (i: any) => {
+
+        const deletes = await Promise.all(this.cuerpo_installations.map(async (cu: any) => {
+
+          const index_delete = this.selectChecked2.findIndex(
+            (d: any) =>
+              parseInt(cu.normaId) == d.normaId
+          );
+
+          if(index_delete == -1 && cu.installationId == i){
+
+          this.projectsService.deleteCuerpoInstallation(cu.id).pipe().subscribe(
+            (data: any) => {     
+            
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
+          });
+          
+          }
+
+        }));
+
         const service = await Promise.all(this.selectChecked2.map(async (j: any) => {
+
+          const index_add = this.cuerpo_installations.findIndex(
+            (cu2: any) =>
+              cu2.installationId == i && parseInt(cu2.normaId) == j.normaId
+          );
+
+          if(index_add == -1){
 
           const data: any = {
             proyectoId: this.project_id,
@@ -547,6 +630,8 @@ validateIdparte(idParte: any){
             });
             this.modalService.dismissAll()
           });
+          
+          }
 
         }));
       }));
@@ -1050,6 +1135,7 @@ validateIdparte(idParte: any){
 
   validChecked(){
     var checkboxes: any = document.getElementsByName('checkAll');
+    
     for (var j = 0; j < checkboxes.length; j++) {
       const index = this.cuerpo_installations.findIndex(
         (ins: any) =>
@@ -1066,14 +1152,15 @@ validateIdparte(idParte: any){
         if(index2 != -1){
           this.selectChecked.push(this.installations_data[index2]);
         }
-      }/*else{
+      }else{
         checkboxes[j].checked = false;
-      }*/
+      }
     }
   }
   
   validChecked2(){
     var checkboxes: any = document.getElementsByName('checkAll2');
+
     for (var j = 0; j < checkboxes.length; j++) {
       const index = this.cuerpo_installations.findIndex(
         (ins: any) =>
@@ -1091,6 +1178,8 @@ validateIdparte(idParte: any){
         if(index2 != -1){
           this.selectChecked2.push(this.articles_proyects_group[index2]);
         }
+      }else{
+        checkboxes[j].checked = false;
       }
     }
   }
