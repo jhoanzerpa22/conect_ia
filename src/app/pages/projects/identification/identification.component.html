@@ -830,7 +830,7 @@
                                                                 <input class="form-check-input" type="checkbox" id="{{s.articuloId}}" value="{{s.articuloId}}" name="checkAllVincular" (change)="onCheckboxChangeVincular($event, s)">
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-5 col">
+                                                        <div class="col" [ngClass]="validateConfig(s.id) ? 'col-lg-5' : 'col-lg-8'">
                                                             <div ><!--class="team-profile-img"-->
                                                                 <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
@@ -844,7 +844,7 @@
                                                         </div>
                                                         
                                                         
-                                                        <div class="col-xs-1 col">
+                                                        <div class="col-xs-1 col" *ngIf="validateConfig(s.id)">
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
                                                                     [ngClass]="validateAttribute('permiso',s.id, s.permiso) ? 'btn-success' :'btn-light'"
@@ -859,7 +859,7 @@
                                                                 class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('monitoreo',s.id)"  >Monitoreo</button>
                                                         </div>
                                                         
-                                                        <div class="col-xs-1 col">
+                                                        <div class="col-xs-1 col" *ngIf="validateConfig(s.id)">
                                                             <!--<i [ngClass]="{'icon-check': s.reporte}" style="font-size: 30px;" class="ri-git-repository-line"></i>-->
                                                             <select class="form-select mb-2" name="componente">
                                                             <option value="bg-soft-success">Componente</option>
@@ -870,7 +870,7 @@
                                                                 </select>
                                                         </div>
                                                         
-                                                        <div class="col-xs-1 col">
+                                                        <div class="col-xs-1 col" *ngIf="validateConfig(s.id)">
                                                             <!--<i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>-->
                                                             
                                                             <button
@@ -884,6 +884,10 @@
                                                             <button
                                                             [ngClass]="validateAttribute('fase',s.id, s.fase, 'cierre') ? 'btn-success' :'btn-light'"
                                                             class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'cierre')">Cierre</button>
+                                                        </div>
+
+                                                        <div class="col-xs-1 col">
+                                                            <i [ngClass]="{'icon-check': validateConfig(s.id)}" style="font-size: 30px;cursor: pointer;float:right;" class="ri-settings-2-line" (click)="setConfig(s.id)"></i>
                                                         </div>
 
                                                         <!--<div class="col-lg-4 col">
