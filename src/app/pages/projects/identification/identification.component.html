@@ -174,7 +174,7 @@
                         </div>-->
                         <div class="flex-grow-1">
                             <h5 class="mb-1 fs-15"><label style="color: #405189;"><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : ''}}</label></h5>
-                            <!--<p class="text-muted text-truncate-two-lines mb-3">{{data.tituloNorma ? data.tituloNorma : ''}}</p>-->
+                            <p class="text-muted text-truncate-two-lines mb-3">{{data.tituloNorma ? data.tituloNorma : ''}}</p>
                             <ng-container *ngFor="let org of data.organismos">
                                 <p class="card-subtitle text-muted mb-0">{{org}}</p>
                             </ng-container>
@@ -190,15 +190,15 @@
                     <div class="mt-auto">
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1">
-                                <div><i style="font-size: 30px;" class="ri-zoom-in-line"></i></div>
+                                <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
                                 <div>Monitoreo</div>
                             </div>
                             <div class="flex-grow-1">
-                                <div><i style="font-size: 30px;" class="ri-git-repository-line"></i></div>
+                                <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                 <div>Reporte</div>
                             </div>
                             <div class="flex-grow-1">
-                                <div><i style="font-size: 30px;" class="ri-file-list-3-line"></i></div>
+                                <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
                                 <div>Permiso</div>
                             </div>
                             <!--<div class="flex-shrink-0">
@@ -210,11 +210,11 @@
                     <div class="mt-auto">
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1">
-                                <div><h4>{{byCuerpoVinculacion(data.normaId)}}</h4></div>
+                                <div><h5>{{byCuerpoVinculacion(data.normaId)}}</h5></div>
                                 <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Artículo Aplicable' : 'Artículos Aplicables'}}</div>
                             </div>
                             <div class="flex-grow-1">
-                                <div><h4>{{byCuerpoVinculacion(data.normaId)}}</h4></div>
+                                <div><h5>{{byCuerpoVinculacion(data.normaId)}}</h5></div>
                                 <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Vinculación' : 'Vinculaciones'}}</div>
                             </div>
                         </div>
@@ -1204,6 +1204,8 @@
                             <div class="d-flex mb-2">
                                 <div class="flex-grow-1">
                                     <h5 class="mb-1 fs-15"><label style="color: #405189;">{{s.cuerpoLegal}}</label></h5>
+                                    
+                                        <p class="text-muted text-truncate-two-lines mb-3">{{s.tituloNorma ? s.tituloNorma : ''}}</p>
                                         <p class="card-subtitle text-muted mb-0">{{s.organismo}}</p>
                                 </div>
                             </div>
@@ -1217,15 +1219,15 @@
                             <div class="mt-auto">
                                 <div class="d-flex mb-2">
                                     <div class="flex-grow-1">
-                                        <div><i style="font-size: 30px;" class="ri-zoom-in-line"></i></div>
+                                        <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
                                         <div>Monitoreo</div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <div><i style="font-size: 30px;" class="ri-git-repository-line"></i></div>
+                                        <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                         <div>Reporte</div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <div><i style="font-size: 30px;" class="ri-file-list-3-line"></i></div>
+                                        <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
                                         <div>Permiso</div>
                                     </div>
                                     <!--<div class="flex-shrink-0">
@@ -1237,11 +1239,11 @@
                             <div class="mt-auto">
                                 <div class="d-flex mb-2">
                                     <div class="flex-grow-1">
-                                        <div><h4>{{byCuerpoVinculacion(s.normaId)}}</h4></div>
+                                        <div><h5>{{byCuerpoVinculacion(s.normaId)}}</h5></div>
                                         <div>{{byCuerpoVinculacion(s.normaId) == 1 ? 'Artículo Aplicable' : 'Artículos Aplicables'}}</div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <div><h4>{{byCuerpoVinculacion(s.normaId)}}</h4></div>
+                                        <div><h5>{{byCuerpoVinculacion(s.normaId)}}</h5></div>
                                         <div>{{byCuerpoVinculacion(s.normaId) == 1 ? 'Vinculación' : 'Vinculaciones'}}</div>
                                     </div>
                                 </div>
