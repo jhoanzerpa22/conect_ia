@@ -110,6 +110,9 @@ export class IdentificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     /**
      * BreadCrumb
      */
@@ -1303,22 +1306,26 @@ validateIdparte(idParte: any){
       }
   }
 
-  validCheckedInitial(){
-    const index = this.installations_articles.findIndex(
+  async validCheckedInitial(){
+    
+    const instalaciones_filter = this.installations_articles.filter(
       (ins: any) =>
         ins.articuloId == this.normaIdSelect2[0]
     );
+    
+    const instalaciones = await instalaciones_filter;
 
-    if(index != - 1){
+    const services = await Promise.all(instalaciones.map(async (is: any) => {
+      
       const index2 = this.installations_filter.findIndex(
         (ins: any) =>
-          ins.id == this.installations_articles[index].instalacionId
+          ins.id == is.instalacionId
       );
 
       if(index2 != -1){
-        this.selectChecked3.push({data: this.installations_filter[index2], estado: this.installations_articles[index].estado});
+        this.selectChecked3.push({data: this.installations_filter[index2], estado: is.estado});
       }
-    }
+    }));
 }
 
   checkedValGet: any[] = [];
@@ -1709,64 +1716,85 @@ validateIdparte(idParte: any){
     }
 
   }
-  
+
   async saveCuerpos(){
     
     this.showPreLoader();
-    if(this.articles_proyects.length > 0){
-    
-    const normas = await this.articles_proyects;
-
-    const services = await Promise.all(normas.map(async (j: any) => {
+    if(this.articles_proyects.length > 0){      
       
-      const index = this.articles_proyects_group.findIndex(
-        (co: any) =>
-          co.cuerpoLegal == j.cuerpoLegal
-      );
+    // Función para buscar info de Github de un usuario
+    const saveCuerpoProyect = async (j: any) => {
+      
+      let sCuerpo = new Promise((resolve, reject) => {
+        this.projectsService.conectArticleProyect(j).pipe().subscribe(
+          (data: any) => {     
+          resolve('guardado');
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          
+          resolve('error');
 
-      if(index == -1){
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+          this.modalService.dismissAll()
+        });
+  
+      });
+      return await sCuerpo;
+    }
 
-      this.projectsService.conectArticleProyect(j).pipe().subscribe(
-        (data: any) => {     
-        
-      },
-      (error: any) => {
-        
+    // Itera todos los usuarios y regresa su info de Github.
+    const guardarDecretos = async (normas: any) => {
+      const decretos = normas.map(async (j: any) => {
+
+          const index = this.articles_proyects_group.findIndex(
+            (co: any) =>
+              co.cuerpoLegal == j.cuerpoLegal
+          );
+    
+          if(index == -1){
+   
+            return await saveCuerpoProyect(j) // Función asíncrona que busca la info del usuario.
+            .then((a) => {
+              return a // Regresa la info del usuario.
+              })
+
+          }else{
+            return false;
+          }
+   
+      })
+      return await Promise.all(decretos) // Esperando que todas las peticiones se resuelvan.
+    }
+      
+      const normas = await this.articles_proyects;
+      
+      guardarDecretos(normas)
+      .then((a: any) => {
+        this.getArticlesInstallation();
+        this.getArticleProyect(this.project_id);
+        this.getCuerpoInstallationsByProyect();
+  
         this.hidePreLoader();
-        
+  
+        this.activeTab = this.activeTab + 1;
+  
         Swal.fire({
           position: 'center',
-          icon: 'error',
-          title: 'Ha ocurrido un error..',
+          icon: 'success',
+          title: 'Cuerpos Legales guardados',
           showConfirmButton: true,
           timer: 5000,
         });
-        this.modalService.dismissAll()
-      });
-      
-      }
-
-    }));
-
-    setTimeout(() => {
-      
-      this.getArticlesInstallation();
-      this.getArticleProyect(this.project_id);
-      this.getCuerpoInstallationsByProyect();
-
-      this.hidePreLoader();
-
-      this.activeTab = this.activeTab + 1;
-
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Cuerpos Legales guardados',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      
-    }, 3000);
+        }
+      );
 
     }else{
       
