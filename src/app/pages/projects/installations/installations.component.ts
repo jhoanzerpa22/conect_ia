@@ -402,6 +402,8 @@ export class InstallationsComponent {
           installationId: this.installation_id ? this.installation_id : null,
           areaId: area_id ? area_id : null
         };
+
+      if(area_id){
         
       if (this.installationForm.get('ids')?.value) {
         
@@ -449,6 +451,7 @@ export class InstallationsComponent {
           this.modalService.dismissAll()
         });
 
+      }
       }
     }
     this.modalService.dismissAll();
