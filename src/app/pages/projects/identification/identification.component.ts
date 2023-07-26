@@ -69,6 +69,7 @@ export class IdentificationComponent implements OnInit {
 
   cuerpo_select: any = 'Cuerpo Legal';
   showRow: any = [];
+  showRow2: any = [];
   showContainerArticles: any = [];
 
   submitted = false;
@@ -192,6 +193,48 @@ export class IdentificationComponent implements OnInit {
 
     this.ref.detectChanges();
  }
+
+ formatNorma(texto:any, idParte: any){
+    
+  const index = this.showRow2.findIndex(
+    (co: any) =>
+      co == idParte
+  );
+
+  return index != -1 ? texto : texto.substr(0,250)+'...';
+}
+
+validateIdparte2(idParte: any){
+  const index = this.articles_proyects.findIndex(
+    (co: any) =>
+      co.normaId == idParte && co.proyectoId == this.project_id
+  );
+
+  return index == -1;
+}
+
+validatShow2(idParte: any){
+  const index = this.showRow2.findIndex(
+    (co: any) =>
+      co == idParte
+  );
+
+  return index != -1;
+}
+
+showText2(idParte: any){
+  this.showRow2.push(idParte);
+}
+
+hideText2(idParte: any){
+  
+  const index = this.showRow2.findIndex(
+    (co: any) =>
+      co == idParte
+  );
+
+  this.showRow2.splice(index, 1);
+}
 
  formatArticle(texto:any, idParte: any){
     
@@ -1480,6 +1523,10 @@ validateIdparte(idParte: any){
       if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
         //checkboxes[j].checked = false;
       }
+    }
+
+    if(this.selectCheckedVincular.length < 1){
+      this.attributes_all = [];
     }
   }
 
