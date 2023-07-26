@@ -107,8 +107,9 @@ export class IdentificationComponent implements OnInit {
   total_paginate: number = 0;
 
   page: number = 0;
-  list_paginate: any = [];
+  list_paginate: any = [0];
   ambitos: any = [];
+  ambito: any = undefined;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -346,6 +347,7 @@ validateIdparte(idParte: any){
           document.getElementById('elmLoader')?.classList.add('d-none')
       },
       (error: any) => {
+        this.list_paginate = [0];
         this.hidePreLoader();
         document.getElementById('elmLoader')?.classList.add('d-none')
       });
@@ -1582,7 +1584,7 @@ validateIdparte(idParte: any){
   
   setPage(page: number){
     this.page = page;
-    this.getNormas(page);
+    this.getNormas(page, this.ambito);
   }
 
   setFilterAmbito(ambito: any){
@@ -1592,10 +1594,14 @@ validateIdparte(idParte: any){
     );
 
     if(index != -1){
+      this.page = 0;
+      this.ambito = undefined;
       this.ambitos.splice(index, 1);    
       this.getNormas(0);
     }else{
+      this.page = 0;
       this.ambitos = [];
+      this.ambito = ambito;
       this.ambitos.push(ambito);
       this.getNormas(0,ambito);
     }

@@ -867,7 +867,7 @@
                                                                 <input class="form-check-input" type="checkbox" id="{{s.articuloId}}" value="{{s.articuloId}}" name="checkAllVincular" (change)="onCheckboxChangeVincular($event, s)">
                                                             </div>
                                                         </div>
-                                                        <div class="col" [ngClass]="validateConfig('atributo-'+s.normaId) || validateConfig('componente-'+s.normaId) || validateConfig('fase-'+s.normaId) ? 'col-lg-5' : 'col-lg-8'">
+                                                        <div class="col" [ngClass]="validateConfig('atributo') || validateConfig('componente') || validateConfig('fase') ? 'col-lg-5' : 'col-lg-8'">
                                                             <div ><!--class="team-profile-img"-->
                                                                 <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
