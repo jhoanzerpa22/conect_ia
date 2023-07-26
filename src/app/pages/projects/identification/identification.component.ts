@@ -858,12 +858,50 @@ validateIdparte(idParte: any){
       const normas = await this.normaIdSelect2;
     
       const services = await Promise.all(normas.map(async (c: any) => {
+
+        const deletes = await Promise.all(this.installations_articles.map(async (cu: any) => {
+
+          const index_delete = this.selectChecked3.findIndex(
+            (d: any) =>
+              d.data.id == cu.instalacionId
+          );
+
+          if(index_delete == -1 && parseInt(cu.articuloId) == c){
+
+          this.projectsService.deleteArticleInstallation(cu.id).pipe().subscribe(
+            (data: any) => {     
+            
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
+          });
+          
+          }
+
+        }));
+
         const service = await Promise.all(this.selectChecked3.map(async (j: any) => {
           const index = this.articuloSelect.findIndex(
             (co: any) =>
               co.articuloId == c
           );
+
+          const index_add: any = this.installations_articles.findIndex(
+            (ins: any) =>
+              ins.articuloId == this.articuloSelect[index].articuloId && ins.instalacionId == j.data.id
+          );
           
+          if(index_add == -1){
           const article_installation: any = {
             articuloId: this.articuloSelect[index].articuloId,
             articulo: this.articuloSelect[index].tipoParte +' '+ this.articuloSelect[index].articulo,
@@ -893,8 +931,8 @@ validateIdparte(idParte: any){
             });
             this.modalService.dismissAll()
           });
+          }
     
-          
         }));
 
       }));

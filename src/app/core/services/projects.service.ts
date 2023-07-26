@@ -223,6 +223,10 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
     }
 
+    deleteArticleInstallation(id: any){
+        return this.http.delete(API_URL_BACK + 'project/installation/article/'+id, /*httpOptions*/this.getToken());
+    }
+
     conectCuerpoInstallation(data: any){
         return this.http.post(API_URL_BACK + 'project/cuerpoLegal/instalacion', data, /*httpOptions*/this.getToken());
     }
