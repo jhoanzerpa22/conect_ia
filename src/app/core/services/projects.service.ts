@@ -207,6 +207,11 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'norm/home', /*httpOptions*/this.getToken());
     }
     
+    getNormas(page: any, limit: any, ambito?: any){
+        let ambito_url = ambito ? '&ambito='+ambito : '';
+        return this.http.get(API_URL_BACK + 'norm/all?limit='+limit+'&page='+page+ambito_url, /*httpOptions*/this.getToken());
+    }
+    
     getBodyLegalALl(project_id: any, page: number, limit: number){
         return this.http.get(API_URL_BACK + 'norm?page='+page+'&limit='+limit, /*httpOptions*/this.getToken());
     }

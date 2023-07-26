@@ -54,6 +54,8 @@ export class listService {
         category: '',
     };
 
+    normas_data: any = [];
+
     constructor(private pipe: DecimalPipe) {
         this._search$.pipe(
             tap(() => this._loading$.next(true)),
@@ -70,6 +72,12 @@ export class listService {
 
         // fetch Data
         this.products = normasListWidgets
+    }
+
+    initialSearch(data: any){
+      console.log('initialSearch',data);
+      this.normas_data = data;
+      this._search$.next();
     }
 
     get normas$() { return this._normas$.asObservable(); }
@@ -91,6 +99,7 @@ export class listService {
     set endIndex(endIndex: number) { this._set({ endIndex }); }
     set totalRecords(totalRecords: number) { this._set({ totalRecords }); }
     set category(category: any) { this._set({ category }); }
+    set dataNormas(data: any) { this.initialSearch(data); }
 
     private _set(patch: Partial<State>) {
         Object.assign(this._state, patch);

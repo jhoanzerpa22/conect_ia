@@ -53,7 +53,7 @@ export class IdentificationComponent implements OnInit {
   userData: any;
   installations_articles: any = [];
 
-  normasListWidgets!: normaListModel[];
+  normasListWidgets!: Observable<normaListModel[]>;
   total: Observable<number>;
   sellers?: any;
   pagLength?: number = 0;
@@ -104,8 +104,14 @@ export class IdentificationComponent implements OnInit {
   attributes_all: any = [];
 
   configs: any = [];
+  total_paginate: number = 0;
+
+  page: number = 0;
+  list_paginate: any = [];
+  ambitos: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
+    this.normasListWidgets = service.normas$;
     this.total = service.total$;
   }
 
@@ -122,6 +128,10 @@ export class IdentificationComponent implements OnInit {
     ];
 
     this.userData = this.TokenStorageService.getUser();
+
+    this.normasListWidgets.subscribe(x => {
+      //this.BodyLegalDatas = Object.assign([], x);
+    });
 
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
@@ -157,7 +167,7 @@ export class IdentificationComponent implements OnInit {
       this.getArticlesInstallation();
       this.getArticleProyect(this.project_id);
       this.getCuerpoInstallationsByProyect();
-      this.getNormas();
+      this.getNormas(0);
     });
 
     /**
@@ -283,7 +293,7 @@ validateShowArticles(normaId: any){
       co == normaId
   );
 
-  return index != -1;
+  return index == -1;
 }
 
 validatShow(idParte: any){
@@ -315,14 +325,23 @@ validateIdparte(idParte: any){
       });
    }
    
-  private getNormas() {
+  private getNormas(page: number, ambito?: any) {
     
     this.showPreLoader();
-      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*/getBodyLegal(this.project_id).pipe().subscribe(
+    this.list_paginate = [];
+
+      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito).pipe().subscribe(
         (data: any) => {
           
-          this.normasListWidgets = data.data;
-          this.pagLength = data.data.length;
+          this.normasListWidgets = data.data.normas;
+          this.service.normas_data = data.data.normas;
+          this.pagLength = data.data.total;
+          this.total_paginate = data.data.total > 0 ? data.data.total : 0;
+
+          for (let c = 0; c < this.pageTotal(this.total_paginate); c++) {
+            this.list_paginate.push(c);
+          }
+
           this.hidePreLoader();
           document.getElementById('elmLoader')?.classList.add('d-none')
       },
@@ -714,6 +733,7 @@ validateIdparte(idParte: any){
       });
     }
   }
+
 
   validateConfig(id: any){
     const index = this.configs.findIndex(
@@ -1558,6 +1578,37 @@ validateIdparte(idParte: any){
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
+  
+  setPage(page: number){
+    this.page = page;
+    this.getNormas(page);
+  }
+
+  setFilterAmbito(ambito: any){
+    const index = this.ambitos.findIndex(
+      (p: any) =>
+        p == ambito
+    );
+
+    if(index != -1){
+      this.ambitos.splice(index, 1);    
+      this.getNormas(0);
+    }else{
+      this.ambitos = [];
+      this.ambitos.push(ambito);
+      this.getNormas(0,ambito);
+    }
+
+  }
+
+  validateFilter(ambito: any){
+    const index = this.ambitos.findIndex(
+          (p: any) =>
+            p == ambito
+        );
+
+      return index != -1;
   }
 
   /**
