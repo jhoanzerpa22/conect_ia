@@ -258,7 +258,7 @@ export class AreasComponent {
           }
           this.service.areas_data = tree_data;    
           this.dataSource.data = tree_data;
-          console.log('data',tree_data);
+          //console.log('data',tree_data);
 
           this.hidePreLoader();
       },

@@ -193,8 +193,19 @@ export class InstallationsComponent {
   openModal(content: any, instalationID?: any) {
     this.submitted = false;
     this.installationForm.reset();
-    this.installation_id = instalationID;
-    this.modalService.open(content, { size: 'md', centered: true });
+
+    if(this.areas.length < 1){
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No se puede crear una instalacion sin antes haber creado al menos un área administrativa',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }else{
+      this.installation_id = instalationID;
+      this.modalService.open(content, { size: 'md', centered: true });
+    }
   }
 
   goItems(data: any){
@@ -242,7 +253,7 @@ export class InstallationsComponent {
           }
           this.service.installations_data = tree_data;    
           this.dataSource.data = tree_data;
-          console.log('data',tree_data);
+          //console.log('data',tree_data);
 
           this.hidePreLoader();
       },

@@ -571,7 +571,7 @@ export class BodyLegalDetailIdComponent implements OnInit {
       descripcion: description,
       tipoParte: tipoParte,
       normaId: this.cuerpo_id,
-      cuerpoLegal: this.detail.identificador ? this.detail.identificador.tipoNorma+' '+this.detail.identificador.numero : null,
+      cuerpoLegal: this.detail.identificador ? (this.detail.identificador.tipoNorma ? this.detail.identificador.tipoNorma+' '+this.detail.identificador.numero : null) : null,
       proyectoId: this.project_id,
       monitoreo: false,
       reporte: false,
