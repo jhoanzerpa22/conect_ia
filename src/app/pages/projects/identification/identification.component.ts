@@ -1324,12 +1324,12 @@ validateIdparte(idParte: any){
       if(index != - 1){
         return this.selectChecked3[index].estado;
       }else{
-        return null;
+        return 0;
       }
   }
 
-  async validCheckedInitial(){
-    
+  async validCheckedInitial(){ 
+
     const instalaciones_filter = this.installations_articles.filter(
       (ins: any) =>
         ins.articuloId == this.normaIdSelect2[0]
@@ -1347,6 +1347,16 @@ validateIdparte(idParte: any){
       if(index2 != -1){
         this.selectChecked3.push({data: this.installations_filter[index2], estado: is.estado});
       }
+/*
+      var checkboxes: any = document.getElementsByName(is.instalacionId+'-estado');
+      let estado: number = is.estado > 0 ? is.estado : 0;
+
+      for (var j = 0; j < checkboxes.length; j++) {
+        if (checkboxes[j].id == is.instalacionId+'-estado'+estado) {
+          checkboxes[j].checked = true;
+        }
+      }*/
+
     }));
 }
 
@@ -1469,6 +1479,29 @@ validateIdparte(idParte: any){
         //checkboxes[j].checked = false;
       }
     }*/
+  }
+  
+  onCheckboxChange5(id: any, valor?: any) {
+    var result
+    for (var i = 0; i < this.installations_filter.length; i++) {
+        result = this.installations_filter[i];
+        if(this.installations_filter[i].id == id){
+          const index = this.selectChecked3.findIndex(
+            (ch: any) =>
+              ch.data.id == id
+          );
+
+          if(index != - 1){
+            if(valor > 0){
+              this.selectChecked3[index].estado = valor;
+            }else{
+              this.selectChecked3.splice(index, 1);
+            }
+          }else{
+            this.selectChecked3.push({estado: valor, data: this.installations_filter[i]});
+          }
+        }
+    }
   }
   
   checkedValGetCuerpos: any[] = [];
