@@ -173,7 +173,7 @@
                             </div>
                         </div>-->
                         <div class="flex-grow-1">
-                            <h5 class="mb-1 fs-15"><label style="color: #405189;"><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : ''}}</label></h5>
+                            <h5 class="mb-1 fs-15"><label style="color: #405189;"><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma+' '+data.identificador.numero : '') : ''}}</label></h5>
                             <p class="text-muted text-truncate-two-lines mb-3"><b>{{data.tituloNorma ? data.tituloNorma : ''}}</b></p>
                             <ng-container *ngFor="let org of data.organismos">
                                 <p class="card-subtitle text-muted mb-0">{{org}}</p>
@@ -211,11 +211,11 @@
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpoVinculacion(data.normaId)}}</h5></div>
-                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Artículo Aplicable' : 'Artículos Aplicables'}}</div>
+                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Artículo a gestionar' : 'Artículos a gestionar'}}</div>
                             </div>
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpoVinculacion(data.normaId)}}</h5></div>
-                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Vinculación' : 'Vinculaciones'}}</div>
+                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Instalaión' : 'Instalaciones'}}</div>
                             </div>
                         </div>
                     </div>
@@ -712,7 +712,7 @@
                         <a class="text-reset dropdown-btn arrow-none" style="font-family: 'Poppins', sans-serif;font-size:1.21875rem;" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                             <span class="text-muted"><i class="ri-settings-4-line align-middle me-1 fs-15"></i>Gestión avanzada</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                        <div class="dropdown-menu dropdown-menu-end" style="padding: 10px !important;" ngbDropdownMenu>
                             <div class="form-check form-check-primary mb-3">
                                 <input class="form-check-input" type="checkbox" value="true" id="formAtributo" (change)="setConfig('atributo', $event)">
                                 <label class="form-check-label" for="formAtributo">

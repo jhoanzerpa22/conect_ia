@@ -13,6 +13,8 @@ import { Team } from './data';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast-service';
+// Sweet Alert
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-team',
@@ -135,6 +137,13 @@ export class TeamComponent {
         },
       (error: any) => {
         console.log(error);
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: error,
+          showConfirmButton: true,
+          timer: 5000,
+        });
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
       });
     }

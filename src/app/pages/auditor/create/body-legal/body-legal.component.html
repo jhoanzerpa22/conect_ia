@@ -88,7 +88,7 @@
                                         </div>
                                     </th>-->
                                     <td>
-                                        <h4>{{data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : ''}}</h4>
+                                        <h4>{{data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma+' '+data.identificador.numero : '') : ''}}</h4>
                                         <h5>{{data.tituloNorma ? data.tituloNorma : ''}}</h5>
                                         <ng-container *ngFor="let org of data.organismos">
                                             {{org}}
