@@ -1578,8 +1578,8 @@ validateIdparte(idParte: any){
   }
 
   pageTotal(totalRecords: any){
-    let tp: number = round((totalRecords / 10),0);
-    return (tp * 10) > totalRecords ? tp : (tp + 1);
+    let tp: number = round((totalRecords / 12),0);
+    return (tp * 12) > totalRecords ? tp : (tp + 1);
   }
   
   setPage(page: number){
@@ -1721,7 +1721,7 @@ validateIdparte(idParte: any){
 
     const cuerpo_proyect: any = {
       normaId: cuerpo_id,
-      cuerpoLegal: data.identificador ? data.identificador.tipoNorma+' '+data.identificador.numero : null,
+      cuerpoLegal: data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma+' '+data.identificador.numero : null) : null,
       organismo: data.organismos.length > 0 ? data.organismos[0] : '',
       encabezado: data.encabezado ? data.encabezado.texto : '',
       tituloNorma: data.tituloNorma,

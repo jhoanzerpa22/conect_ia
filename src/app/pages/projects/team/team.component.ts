@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 import { ToastService } from '../toast-service';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
+// Sweet Alert
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-team-projects',
@@ -287,7 +289,14 @@ export class TeamComponent {
           this.modalService.dismissAll()
         },
       (error: any) => {
-        console.log(error);
+        //console.log(error);
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: error,
+          showConfirmButton: true,
+          timer: 5000,
+        });
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
       });
     }

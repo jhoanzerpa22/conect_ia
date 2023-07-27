@@ -136,7 +136,7 @@ export class BodyLegalTypeComponent {
             console.log(data.data);
             if(data && data.data){
               const detail: any = data.data;
-              const info: any = data.data ? [{FechaPublicacion: detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '', InicioDeVigencia: detail.dates.fechaVigenciaNorma ? detail.dates.fechaVigenciaNorma : '', idNorma: detail.normaId, TipoNumero: {Compuesto: detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''} , TituloNorma: detail.tituloNorma }] : [];
+              const info: any = data.data ? [{FechaPublicacion: detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '', InicioDeVigencia: detail.dates.fechaVigenciaNorma ? detail.dates.fechaVigenciaNorma : '', idNorma: detail.normaId, TipoNumero: {Compuesto: detail.identificador ? (detail.identificador.tipoNorma ? detail.identificador.tipoNorma+' '+detail.identificador.numero : '') : ''} , TituloNorma: detail.tituloNorma }] : [];
 
               this.service.bodylegal_data = info;
               this.body_legal_data = info;

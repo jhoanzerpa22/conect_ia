@@ -23,7 +23,7 @@
                 <span></span>
                 </span>
             </span>
-            <h6 class="card-title" style="color: #405189;">{{detail.identificador ? detail.identificador.tipoNorma+' '+detail.identificador.numero : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}</h6>
+            <h6 class="card-title" style="color: #405189;">{{detail.identificador ? (detail.identificador.tipoNorma ? detail.identificador.tipoNorma+' '+detail.identificador.numero : '') : ''}} {{detail.tituloNorma ? detail.tituloNorma : ''}}</h6>
             
             <ng-container *ngFor="let org of detail.organismos">
                 <p class="card-subtitle text-muted mb-0">{{org}}</p>

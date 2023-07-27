@@ -8,6 +8,8 @@ import { UserProfileService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { ToastService } from '../login/toast-service';
+// Sweet Alert
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -78,6 +80,13 @@ export class RegisterComponent implements OnInit {
     (error: any) => {
       
       this.hidePreLoader();
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: error,
+        showConfirmButton: true,
+        timer: 5000,
+      });
       //this.error = error ? error : '';
       this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
