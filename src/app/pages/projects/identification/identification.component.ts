@@ -501,7 +501,9 @@ validateIdparte(idParte: any){
 
     this.normaIdSelect2 = ids;
 
-    this.validInstallations();
+    const add: boolean = data ? (this.byArticuloVinculacion(data.articuloId) > 0 ? false : true) : true;
+
+    this.validInstallations(add);
 
     //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
     this.vinculacionForm.controls['ids'].setValue(/*listData[0].*/ids);
@@ -1223,7 +1225,7 @@ validateIdparte(idParte: any){
     return filter.length;
   }
 
-  validInstallations(){
+  validInstallations(add?: boolean){
     this.installations_filter = [];
     for (var j = 0; j < this.installations_data.length; j++) {
       const index = this.cuerpo_installations.findIndex(
@@ -1236,7 +1238,7 @@ validateIdparte(idParte: any){
       }
     }
     //this.validChecked3();
-    this.validCheckedInitial();
+    this.validCheckedInitial(add);
   }
 
   validChecked(){
@@ -1328,8 +1330,17 @@ validateIdparte(idParte: any){
       }
   }
 
-  async validCheckedInitial(){ 
+  async validCheckedInitial(add?: boolean){ 
 
+    if(add){
+      const instalaciones_2 = await this.installations_filter;
+
+      const services2 = await Promise.all(instalaciones_2.map(async (is2: any) => {
+          this.selectChecked3.push({data: is2, estado: 1});
+      }));
+    
+    } else{
+    
     const instalaciones_filter = this.installations_articles.filter(
       (ins: any) =>
         ins.articuloId == this.normaIdSelect2[0]
@@ -1358,6 +1369,7 @@ validateIdparte(idParte: any){
       }*/
 
     }));
+  }
 }
 
   checkedValGet: any[] = [];
