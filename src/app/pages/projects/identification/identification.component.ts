@@ -365,7 +365,7 @@ validateIdparte(idParte: any){
             
             const index = this.articles_proyects_group.findIndex(
               (co: any) =>
-                co.cuerpoLegal == x.cuerpoLegal
+                co.normaId == x.normaId
             );
 
             if(index == -1){
@@ -1160,7 +1160,7 @@ validateIdparte(idParte: any){
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
-  selectCuerpoLegal(event: any){
+  /*selectCuerpoLegal(event: any){
 
     if(this.cuerpo_id_select.length > 0){
     
@@ -1191,7 +1191,7 @@ validateIdparte(idParte: any){
       this.cuerpo_id_select.push({value: event.target.value, label: nombre2});
       this.articulos = this.articles_proyects_group[index2].articulos;
     }
-  }
+  }*/
   
   byInstallation(id: any){
       const filter: any = this.cuerpo_installations.filter(
@@ -1746,18 +1746,22 @@ validateIdparte(idParte: any){
     }
   }
 
-  conectCuerpo(cuerpo_id?: any, data?: any){
+  async conectCuerpo(norma_id?: any, data?: any){
 
-    const index2 = this.articles_proyects_group.findIndex(
+    /*const index2 = await this.articles_proyects_group.findIndex(
       (co: any) =>
-        co.cuerpoLegal == cuerpo_id
+        co.normaId == norma_id
+    );*/
+    
+    const index2 = await this.cuerpo_installations.findIndex(
+      (cu2: any) =>
+        parseInt(cu2.normaId) == norma_id
     );
 
     if(index2 == -1){
-
     const index = this.articles_proyects.findIndex(
       (co: any) =>
-        co.normaId == cuerpo_id && co.proyectoId == this.project_id
+        co.normaId == norma_id && co.proyectoId == this.project_id
     );
 
     if(index != -1){
@@ -1765,7 +1769,7 @@ validateIdparte(idParte: any){
     }else{
 
     const cuerpo_proyect: any = {
-      normaId: cuerpo_id,
+      normaId: norma_id,
       cuerpoLegal: data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma+' '+data.identificador.numero : null) : null,
       organismo: data.organismos.length > 0 ? data.organismos[0] : '',
       encabezado: data.encabezado ? data.encabezado.texto : '',
@@ -1822,9 +1826,70 @@ validateIdparte(idParte: any){
   async saveCuerpos(){
     
     this.showPreLoader();
-    if(this.articles_proyects.length > 0){      
+    
+    if(this.articles_proyects_group.length > 0){
+
+      const deleteCuerpoProyect = async (b: any) => {
       
-    // Función para buscar info de Github de un usuario
+        let bCuerpo = new Promise((resolve, reject) => {
+          this.projectsService.deleteNormaProyect(b.normaId, this.project_id).pipe().subscribe(
+            (data: any) => {     
+            resolve('delete');
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            resolve('error');
+  
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
+          });
+    
+        });
+        return await bCuerpo;
+      }
+
+      const deleteDecretos = async (cuerpos: any) => {
+        const decretos2 = cuerpos.map(async (cu: any) => {
+  
+            const index3 = this.articles_proyects.findIndex(
+              (co: any) =>
+                co.normaId == cu.normaId
+            );
+      
+            if(index3 == -1){
+     
+              return await deleteCuerpoProyect(cu)
+              .then((b) => {
+                return b
+                })
+  
+            }else{
+              return false;
+            }
+     
+        })
+        return await Promise.all(decretos2) // Esperando que todas las peticiones se resuelvan.
+      }
+      
+      const cuerpos = await this.articles_proyects_group;
+      
+      deleteDecretos(cuerpos)
+      .then((a: any) => {
+        console.log('eliminados');
+        }
+      );
+
+    }
+
+    if(this.articles_proyects.length > 0){
     const saveCuerpoProyect = async (j: any) => {
       
       let sCuerpo = new Promise((resolve, reject) => {
@@ -1852,20 +1917,19 @@ validateIdparte(idParte: any){
       return await sCuerpo;
     }
 
-    // Itera todos los usuarios y regresa su info de Github.
     const guardarDecretos = async (normas: any) => {
       const decretos = normas.map(async (j: any) => {
 
           const index = this.articles_proyects_group.findIndex(
             (co: any) =>
-              co.cuerpoLegal == j.cuerpoLegal
+              co.normaId == j.normaId
           );
     
           if(index == -1){
    
-            return await saveCuerpoProyect(j) // Función asíncrona que busca la info del usuario.
+            return await saveCuerpoProyect(j)
             .then((a) => {
-              return a // Regresa la info del usuario.
+              return a
               })
 
           }else{
@@ -1899,7 +1963,23 @@ validateIdparte(idParte: any){
       );
 
     }else{
-      
+      if(this.cuerpo_installations.length > 0){
+        this.getArticlesInstallation();
+        this.getArticleProyect(this.project_id);
+        this.getCuerpoInstallationsByProyect();
+  
+        this.hidePreLoader();
+  
+        this.activeTab = this.activeTab + 1;
+  
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cuerpos Legales guardados',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }else{
       this.hidePreLoader();
       
       Swal.fire({
@@ -1909,6 +1989,7 @@ validateIdparte(idParte: any){
         showConfirmButton: true,
         timer: 5000,
       });
+      }
     }
     
   }
