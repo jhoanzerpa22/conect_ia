@@ -66,6 +66,7 @@ export class IdentificationComponent implements OnInit {
   term7:any;
   articles_proyects: any = [];
   articles_proyects_group: any = [];
+  articles_proyects_all: any = [];
 
   cuerpo_select: any = 'Cuerpo Legal';
   showRow: any = [];
@@ -219,7 +220,7 @@ export class IdentificationComponent implements OnInit {
 }
 
 validateIdparte2(idParte: any){
-  const index = this.articles_proyects.findIndex(
+  const index = this.articles_proyects_group.findIndex(
     (co: any) =>
       co.normaId == idParte && co.proyectoId == this.project_id
   );
@@ -360,6 +361,7 @@ validateIdparte(idParte: any){
         (data: any) => {
           this.articles_proyects = data.data;
 
+          this.articles_proyects_all = [];
           this.articles_proyects_group = [];
           this.articles_proyects.forEach((x: any) => {
             
@@ -370,12 +372,26 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, monitoreo: false, reporte: false, permiso: false, articulos: [x]
               });
+
             }else{
               this.articles_proyects_group[index].articulos.push(x);
             }
-          })
+
+            const index2 = this.articles_proyects_all.findIndex(
+              (co2: any) =>
+                co2.normaId == x.normaId
+            );
+
+            if(index2 == -1){
+              this.articles_proyects_all.push({
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, monitoreo: false, reporte: false, permiso: false, articulos: [x]
+              });
+            }else{
+              this.articles_proyects_all[index2].articulos.push(x);
+            }
+          });
 
           //this.hidePreLoader();
       },
@@ -1159,39 +1175,6 @@ validateIdparte(idParte: any){
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
-
-  /*selectCuerpoLegal(event: any){
-
-    if(this.cuerpo_id_select.length > 0){
-    
-    let vacio = event.target.value != '' && event.target.value != null && event.target.value != undefined ? 1 : 0;
-    
-    this.cuerpo_id_select.splice(0 + vacio, (this.cuerpo_id_select.length-(1+vacio)));
-    
-      if(event.target.value != '' && event.target.value != null && event.target.value != undefined){
-        
-        const index = this.articles_proyects_group.findIndex(
-          (co: any) =>
-            co.cuerpoLegal == event.target.value
-        );
-
-        let nombre = this.articles_proyects_group[index].cuerpoLegal;
-        this.cuerpo_id_select[0] = {value: event.target.value, label: nombre};
-        this.articulos = this.articles_proyects_group[index].articulos;
-      }
-
-    }else{
-      
-      const index2 = this.articles_proyects_group.findIndex(
-        (co: any) =>
-          co.cuerpoLegal == event.target.value
-      );
-
-      let nombre2 = this.articles_proyects_group[index2].cuerpoLegal;
-      this.cuerpo_id_select.push({value: event.target.value, label: nombre2});
-      this.articulos = this.articles_proyects_group[index2].articulos;
-    }
-  }*/
   
   byInstallation(id: any){
       const filter: any = this.cuerpo_installations.filter(
@@ -1732,12 +1715,12 @@ validateIdparte(idParte: any){
 
   changeTab(active: number){
     this.activeTab = active;
-    if (this.articles_proyects < 1) {
+    if (this.articles_proyects_group < 1) {
       
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Rellene todos los campos..',
+        title: 'Seleccione al menos un cuerpo legal..',
         showConfirmButton: true,
         timer: 5000,
       });
@@ -1757,15 +1740,14 @@ validateIdparte(idParte: any){
       (cu2: any) =>
         parseInt(cu2.normaId) == norma_id
     );
-
     if(index2 == -1){
-    const index = this.articles_proyects.findIndex(
+    const index = this.articles_proyects_group.findIndex(
       (co: any) =>
         co.normaId == norma_id && co.proyectoId == this.project_id
     );
 
     if(index != -1){
-      this.articles_proyects.splice(index, 1);
+      this.articles_proyects_group.splice(index, 1);
     }else{
 
     const cuerpo_proyect: any = {
@@ -1781,13 +1763,13 @@ validateIdparte(idParte: any){
       articulos: JSON.stringify(data.EstructurasFuncionales)
     };
 
-    this.articles_proyects.push(cuerpo_proyect);
+    this.articles_proyects_group.push(cuerpo_proyect);
     }
     }
   }
 
   validateIdNorma(idNorma: any){
-    const index = this.articles_proyects.findIndex(
+    const index = this.articles_proyects_group.findIndex(
       (co: any) =>
         co.normaId == idNorma && co.proyectoId == this.project_id
     );
@@ -1827,7 +1809,7 @@ validateIdparte(idParte: any){
     
     this.showPreLoader();
     
-    if(this.articles_proyects_group.length > 0){
+    if(this.articles_proyects_all.length > 0){
 
       const deleteCuerpoProyect = async (b: any) => {
       
@@ -1859,7 +1841,7 @@ validateIdparte(idParte: any){
       const deleteDecretos = async (cuerpos: any) => {
         const decretos2 = cuerpos.map(async (cu: any) => {
   
-            const index3 = this.articles_proyects.findIndex(
+            const index3 = this.articles_proyects_group.findIndex(
               (co: any) =>
                 co.normaId == cu.normaId
             );
@@ -1879,7 +1861,7 @@ validateIdparte(idParte: any){
         return await Promise.all(decretos2) // Esperando que todas las peticiones se resuelvan.
       }
       
-      const cuerpos = await this.articles_proyects_group;
+      const cuerpos = await this.articles_proyects_all;
       
       deleteDecretos(cuerpos)
       .then((a: any) => {
@@ -1889,7 +1871,7 @@ validateIdparte(idParte: any){
 
     }
 
-    if(this.articles_proyects.length > 0){
+    if(this.articles_proyects_group.length > 0){
     const saveCuerpoProyect = async (j: any) => {
       
       let sCuerpo = new Promise((resolve, reject) => {
@@ -1920,7 +1902,7 @@ validateIdparte(idParte: any){
     const guardarDecretos = async (normas: any) => {
       const decretos = normas.map(async (j: any) => {
 
-          const index = this.articles_proyects_group.findIndex(
+          const index = this.articles_proyects_all.findIndex(
             (co: any) =>
               co.normaId == j.normaId
           );
@@ -1940,7 +1922,7 @@ validateIdparte(idParte: any){
       return await Promise.all(decretos) // Esperando que todas las peticiones se resuelvan.
     }
       
-      const normas = await this.articles_proyects;
+      const normas = await this.articles_proyects_group;
       
       guardarDecretos(normas)
       .then((a: any) => {
@@ -1963,7 +1945,7 @@ validateIdparte(idParte: any){
       );
 
     }else{
-      if(this.cuerpo_installations.length > 0){
+      if(this.articles_proyects_all.length > 0){
         this.getArticlesInstallation();
         this.getArticleProyect(this.project_id);
         this.getCuerpoInstallationsByProyect();
