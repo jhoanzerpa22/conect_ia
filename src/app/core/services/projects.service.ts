@@ -244,6 +244,10 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'project/article', article, this.getToken());
     }
 
+    deleteNormaProyect(normaId: any, project_id: any){
+        return this.http.delete(API_URL_BACK + 'project/norma/'+normaId+'/'+project_id, /*httpOptions*/this.getToken());    
+    }
+
     getCuerpoInstallationProyect(project_id: any){
         return this.http.get(API_URL_BACK + 'project/cuerpoLegal/instalacion/'+project_id, this.getToken());
     }
