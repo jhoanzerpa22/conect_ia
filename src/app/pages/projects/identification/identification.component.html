@@ -275,7 +275,7 @@
 
 <div class="row mb-4">
     <div class="col-12">
-        <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="saveCuerpos()" [disabled]="articles_proyects.length < 1"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
+        <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="saveCuerpos()" [disabled]="articles_proyects_group.length < 1"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
     </div>
 </div>
 
@@ -344,7 +344,7 @@
             <!--<div class="card">
                 <div class="card-body">-->
 
-                    <div *ngIf="articles_proyects.length < 1">
+                    <div *ngIf="articles_proyects_group.length < 1">
                         <!--<div style="text-align: center;width: 100%;">
                             <img src="assets/images/file.png" width="300" height="200"/>
                         </div>-->
@@ -353,7 +353,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="articles_proyects.length > 0">            
+                    <div *ngIf="articles_proyects_group.length > 0">            
                             <div class="list-group">
                                     <h5 style="color: #405189;">CUERPOS LEGALES SELECCIONADOS</h5>
 
@@ -397,7 +397,7 @@
                                                         <p class="card-text mb-2" [style]="s.tituloNorma && s.tituloNorma.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.tituloNorma ? (s.tituloNorma.length > 250 ? formatNorma(s.tituloNorma, s.normaId) : s.tituloNorma) : ''}}</p>
                                                         <p class="card-text">
                                                             <small [ngClass]="!validateIdparte2(s.normaId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.tituloNorma && s.tituloNorma.length > 250 && !validatShow2(s.normaId)" (click)="showText2(s.normaId)"><b>Leer más</b></small>
-                                                            <small [ngClass]="!validateIdparte2(s.nomraId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.tituloNorma && s.tituloNorma.length > 250 && validatShow2(s.normaId)" (click)="hideText2(s.normaId)"><b>Ocultar texto completo</b></small>
+                                                            <small [ngClass]="!validateIdparte2(s.normaId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.tituloNorma && s.tituloNorma.length > 250 && validatShow2(s.normaId)" (click)="hideText2(s.normaId)"><b>Ocultar texto completo</b></small>
                                                         </p>
                                                         </div>
                                                         
@@ -833,7 +833,7 @@
             <div class="card">
                 <div class="card-body">-->
 
-                    <div *ngIf="articles_proyects.length < 1">
+                    <div *ngIf="articles_proyects_group.length < 1">
                         <!--<div style="text-align: center;width: 100%;">
                             <img src="assets/images/file.png" width="300" height="200"/>
                         </div>-->
@@ -842,7 +842,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="articles_proyects.length > 0">
+                    <div *ngIf="articles_proyects_group.length > 0">
                         <div class="list-group">
 
                                 <ng-template #myArticles let-s="s">
