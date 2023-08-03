@@ -13,11 +13,14 @@
   
 <ng-container *ngIf="step == 1">
 <!-- Vertical alignment (align-items-center) -->
-<div class="row justify-content-center" style="padding-top: 5%;">
-    <div class="col-lg-8">
-        <h4 style="text-align: center;">Define el características de tu proyecto</h4>
+<div class="row justify-content-center"><!--style="padding-top: 5%;"-->
+    <div class="col-lg-12">
+        <!--<h4 style="text-align: center;">Define el características de tu proyecto</h4>-->
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
+                <h4>Datos Generales</h4>
+            </div>
+            <div class="card-body" style="min-height: 450px;">
                   <div class="mb-3">
                     <form [formGroup]="createForm">
                     <label class="form-label" for="project-title-input">Nombre de Proyecto</label>
@@ -98,8 +101,8 @@
 <div class="row">
     <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
         <div class="row justify-content-center">
-            <div class="col-2" style="text-align: center;">
-                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="siguiente()">Siguiente</button><!--routerLink="/projects/create/type"-->
+            <div class="col-12"><!--style="text-align: center;"-->
+                <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="siguiente()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
             </div>
         </div>
     </div>
@@ -108,31 +111,35 @@
 
 <ng-container *ngIf="step == 2">
     <!-- Vertical alignment (align-items-center) -->
-    <div class="row justify-content-center" style="padding-top: 5%;">
-        <div class="col-lg-10">
-            <h4 style="text-align: center;">SELECCIONA LA FASE ACTUAL DE TU PROYECTO</h4>
-            <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
-            
-        <div class="row justify-content-center">
-            <div class="button-card-container">
-                <div class="button-card" (click)="toggleSelected(1)" [class.selected]="selected === 1">Prefactibilidad</div>
-                <div class="button-card" (click)="toggleSelected(2)" [class.selected]="selected === 2">Factibilidad</div>
-                <div class="button-card" (click)="toggleSelected(3)" [class.selected]="selected === 3">Construcción</div>
-                <div class="button-card" (click)="toggleSelected(4)" [class.selected]="selected === 4">Operación</div>
-                <div class="button-card" (click)="toggleSelected(5)" [class.selected]="selected === 5">Cierre</div>
-                <div class="button-card" (click)="toggleSelected(6)" [class.selected]="selected === 6">Post cierre</div>
-              </div>
+    <div class="row justify-content-center"><!--style="padding-top: 5%;"-->
+        <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">                
+                <h4 style="text-align: center;">SELECCIONA LA FASE ACTUAL DE TU PROYECTO</h4>
+                <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
+            </div>
+            <div class="card-body" style="min-height: 450px;">
+                <div class="row justify-content-center">
+                    <div class="button-card-container">
+                        <div class="button-card" (click)="toggleSelected(1)" [class.selected]="selected === 1">Prefactibilidad</div>
+                        <div class="button-card" (click)="toggleSelected(2)" [class.selected]="selected === 2">Factibilidad</div>
+                        <div class="button-card" (click)="toggleSelected(3)" [class.selected]="selected === 3">Construcción</div>
+                        <div class="button-card" (click)="toggleSelected(4)" [class.selected]="selected === 4">Operación</div>
+                        <div class="button-card" (click)="toggleSelected(5)" [class.selected]="selected === 5">Cierre</div>
+                        <div class="button-card" (click)="toggleSelected(6)" [class.selected]="selected === 6">Post cierre</div>
+                    </div>
+                </div>
+            </div>
         </div>
         </div>
     </div>
         <div class="row">
             <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
                 <div class="row justify-content-center">
-                    <div class="col-2" style="text-align: center;">                
-                        <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="regresar()">Regresar</button>
-                    </div>
-                    <div class="col-2" style="text-align: center;">
-                        <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="siguiente2()">Siguiente</button>
+                    <div class="col-12"><!--style="text-align: center;"-->                
+                        <button class="btn btn-primary btn-label waves-effect left waves-light" style="float:left;" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Regresar</button>
+                        
+                        <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="siguiente2()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
                     </div>
                 </div>
             </div>
@@ -141,32 +148,36 @@
 
 <ng-container *ngIf="step == 3">
     <!-- Vertical alignment (align-items-center) -->
-    <div class="row justify-content-center" style="padding-top: 5%;">
-        <div class="col-lg-12 mb-4">
-            <h4 style="text-align: center;">SELECCIONA EL TIPO DE OBLIGACIÓN LEGAL QUE PRECISAS IDENTIFICAR</h4>
-            <p style="text-align: center;">Al seleccionar alguno de los tipos de obligaciones, se desplegará el listado de cuerpos legales y árticulos asociados con dicho atributo. Puedes seleccionar más de un tipo de obligación.</p>
-            
-        <div class="row justify-content-center">
-            <div class="button-card-container-flex">
-                <div class="button-card" (click)="toggleSelected2(1)" [class.selected]="selected === 1">Permisos</div>
-                <div class="button-card" (click)="toggleSelected2(2)" [class.disabled]="disabled">Resportes</div>
-                <div class="button-card" (click)="toggleSelected2(3)" [class.disabled]="disabled">Monitoreos</div>
-                <div class="button-card" (click)="toggleSelected2(4)" [class.selected]="selected === 4">Todas</div>
+    <div class="row justify-content-center"><!--style="padding-top: 5%;"-->
+        <div class="col-lg-12"><!--mb-4-->
+            <div class="card">
+                <div class="card-header">        
+                    <h4 style="text-align: center;">SELECCIONA EL TIPO DE OBLIGACIÓN LEGAL QUE PRECISAS IDENTIFICAR</h4>
+                    <p style="text-align: center;">Al seleccionar alguno de los tipos de obligaciones, se desplegará el listado de cuerpos legales y árticulos asociados con dicho atributo. Puedes seleccionar más de un tipo de obligación.</p>
+                </div>
+                <div class="card-body" style="min-height: 450px;">
+                    <div class="row justify-content-center">
+                        <div class="button-card-container-flex align-self-center justify-content-center align-items-center" style="min-height: 350px;">
+                            <div class="button-card" (click)="toggleSelected2(1)" [class.selected]="selected === 1">Permisos</div>
+                            <div class="button-card" (click)="toggleSelected2(2)" [class.disabled]="disabled">Resportes</div>
+                            <div class="button-card" (click)="toggleSelected2(3)" [class.disabled]="disabled">Monitoreos</div>
+                            <div class="button-card" (click)="toggleSelected2(4)" [class.selected]="selected === 4">Todas</div>
+                        </div>
+                        <p style="text-align: center;">Si identificas algún permiso, reporte o monitoreo que no esté en el listado que se muestra en las próximas ventanas, contáctate con nosotros y lo agregaremos a la brevedad
+                        </p>
+                    </div>
+                </div>
             </div>
-              <p style="text-align: center;">Si identificas algún permiso, reporte o monitoreo que no esté en el listado que se muestra en las próximas ventanas, contáctate con nosotros y lo agregaremos a la brevedad
-              </p>
-        </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
             <div class="row justify-content-center">
-                <div class="col-2" style="text-align: center;">                
-                    <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="regresar()">Regresar</button>
-                </div>
-                <div class="col-2" style="text-align: center;">
-                    <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="siguiente2()">Siguiente</button>
+                <div class="col-12">         
+                    <button class="btn btn-primary btn-label waves-effect left waves-light" style="float:left;" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Regresar</button>
+                    
+                    <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="siguiente2()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
                 </div>
             </div>
         </div>
@@ -175,10 +186,14 @@
 
 <ng-container *ngIf="step == 4">
     <!-- Vertical alignment (align-items-center) -->
-    <div class="row justify-content-center" style="padding-top: 5%;">
-        <div class="col-lg-10">
-            <h4 style="text-align: center;">SELECCIONA EL ÁMBITO NORMATIVO A GESTIONAR</h4>
-            <p>Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
+    <div class="row justify-content-center"><!--style="padding-top: 5%;"-->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">                
+                    <h4 style="text-align: center;">SELECCIONA EL ÁMBITO NORMATIVO A GESTIONAR</h4>
+                    <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
+                </div>
+                <div class="card-body" style="min-height: 450px;">
             
         <div class="row justify-content-center">
                      
@@ -244,16 +259,18 @@
 
         </div>
         </div>
+        </div>
+        </div>
     </div>
     
 <div class="row">
     <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
         <div class="row justify-content-center">
-            <div class="col-2" style="text-align: center;">                
-                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="regresar()">Regresar</button>
-            </div>
-            <div class="col-2" style="text-align: center;">
-                <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" style="margin-bottom: 10px;" (click)="saveProject(1)">Guardar</button>
+            <div class="col-12">
+                
+                <button class="btn btn-primary btn-label waves-effect left waves-light" style="float:left;" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Regresar</button>
+                        
+                <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="saveProject(1)"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Guardar</button>
             </div>
         </div>
     </div>
@@ -262,7 +279,7 @@
 
 <ng-container *ngIf="step == 5">
     <!--<div class="row">-->
-    <div class="row justify-content-center" style="padding-top: 10%;">
+    <div class="row justify-content-center"><!--style="padding-top: 10%;"-->
         <!--<ng-container *ngFor="let t of types;let impar=odd;">
         <div class="col-xxl-5">
             <div class="card border card-border-dark" style="border-color: #767676 !important;min-height: 250px;">
@@ -283,9 +300,14 @@
         <div class="col-xxl-2" *ngIf="!impar">
         </div>
         </ng-container>-->
-        <div class="col-12">
-        <h4 style="text-align: center;">Define el tipo de proyecto</h4>
-        </div>
+        <div class="col-lg-12">
+            
+        <div class="card">
+            <div class="card-header">                
+                <h4 style="text-align: center;">SELECCIONA EL ÁMBITO NORMATIVO A GESTIONAR</h4>
+                <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
+            </div>
+            <div class="card-body" style="min-height: 450px;">
         <div class="col-xxl-4 col-lg-6">
             <div class="card card-body" style="min-height: 250px;">
                 <div class="avatar-sm mb-3">
@@ -338,6 +360,9 @@
                 cursor: no-drop;
                 ">Iniciar</a>
             </div>
+        </div>
+        </div>
+        </div>
         </div>
     </div>
 </ng-container>
