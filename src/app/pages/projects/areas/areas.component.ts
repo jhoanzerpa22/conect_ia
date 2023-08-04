@@ -189,7 +189,7 @@ export class AreasComponent {
     this.submitted = false;
     this.areaForm.reset();
     this.area_id = areaId;
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
   }
 
   goItems(data: any){
@@ -458,7 +458,7 @@ export class AreasComponent {
   */
   editModal(content: any, id: any) {
     this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
     updateBtn.innerHTML = "Editar";
     //updateBtn.style.visibility = "hidden";
