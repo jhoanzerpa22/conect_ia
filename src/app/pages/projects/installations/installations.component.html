@@ -132,11 +132,11 @@
                                           <div class="edit">
                                             <div class="hstack gap-3 fs-15">
 
-                                                <button type="button" class="btn btn-primary w-xxs" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)">Editar</button>
+                                                <button type="button" class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)">Editar</button>
 
-                                                <button type="button" class="btn btn-info w-lg" data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content, data.id, data.nombre)">Sub Instalación</button>
+                                                <button type="button" class="btn btn-sm btn-success edit-item-btn" style="width: 110px;" data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content, data.id, data.nombre)">Sub Instalación</button>
 
-                                                <button type="button" class="btn btn-danger w-xxs" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                <button type="button" class="btn btn-sm btn-danger remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
                                                 (click)="confirm(deleteModel,data.id)">Eliminar</button>
 
                                                <!--<a href="javascript:void(0);" class="link-primary" 
