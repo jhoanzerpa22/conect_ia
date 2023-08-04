@@ -190,7 +190,7 @@ export class InstallationsComponent {
    * Open modal
    * @param content modal content
    */
-  openModal(content: any, instalationID?: any) {
+  openModal(content: any, instalationID?: any, instalacionName?: any) {
     this.submitted = false;
     this.installationForm.reset();
 
@@ -204,6 +204,7 @@ export class InstallationsComponent {
       });
     }else{
       this.installation_id = instalationID;
+      this.installation_name = instalacionName;
       this.installationForm.controls['area'].setValue('');
       this.modalService.open(content, { size: 'lg', centered: true });
     }
