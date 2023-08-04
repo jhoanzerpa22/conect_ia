@@ -134,7 +134,7 @@
 
                                                 <button type="button" class="btn btn-primary w-xxs" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)">Editar</button>
 
-                                                <button type="button" class="btn btn-info w-lg" data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content, data.id)">Sub Instalación</button>
+                                                <button type="button" class="btn btn-info w-lg" data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content, data.id, data.nombre)">Sub Instalación</button>
 
                                                 <button type="button" class="btn btn-danger w-xxs" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
                                                 (click)="confirm(deleteModel,data.id)">Eliminar</button>
@@ -197,7 +197,7 @@
 <!-- Add ListJs Data -->
 <ng-template #content role="document" let-modal>
     <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel"><span *ngIf="installation_id">Sub </span>Instalación o proceso</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar <span *ngIf="installation_id">Sub </span>Instalación o proceso <span *ngIf="installation_id">a {{installation_name}} </span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>
