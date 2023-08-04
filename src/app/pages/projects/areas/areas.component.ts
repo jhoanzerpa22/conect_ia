@@ -185,10 +185,11 @@ export class AreasComponent {
    * Open modal
    * @param content modal content
    */
-  openModal(content: any, areaId?: any) {
+  openModal(content: any, areaId?: any, areaName?: any) {
     this.submitted = false;
     this.areaForm.reset();
     this.area_id = areaId;
+    this.area_name = areaName;
     this.modalService.open(content, { size: 'lg', centered: true });
   }
 
