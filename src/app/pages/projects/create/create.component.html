@@ -19,6 +19,7 @@
         <div class="card">
             <div class="card-header">
                 <h4>Datos Generales</h4>
+                <p>Ingresa las variables generales de tu proyecto como se solicita a continuación, para continuar a la identificación de cuerpos legales y obligaciones.</p>
             </div>
             <div class="card-body" style="min-height: 450px;">
                   <div class="mb-3">
@@ -36,7 +37,7 @@
                     <label class="form-label" style="margin-top: 20px !important;" for="project-location-input">Lugar de ejecución del proyecto</label>
                     <div class="row">
                         <div class="col-sm-4">
-                            <select class="form-select" placeholder="Selecciona región" data-choices data-choices-search-false
+                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona región" data-choices data-choices-search-false
                             id="choices-priority-input" formControlName="regionId" (change)="getComunes($event.target)">
                             <option value="">Selecciona región</option>
                             <option *ngFor="let r of regions;" value="{{r.id}}">{{r.nombre_region}}</option>
@@ -46,7 +47,7 @@
                         
                         <div class="col-sm-4">
                             
-                            <select class="form-select" placeholder="Selecciona comuna" data-choices data-choices-search-false
+                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona comuna" data-choices data-choices-search-false
                             id="choices-priority-input2" formControlName="comunaId">
                             <option value="">Selecciona comuna</option>
                             <option *ngFor="let c of comunes;" value="{{c.id}}">{{c.nombre_comuna}}</option>
@@ -56,7 +57,7 @@
                         
                         <div class="col-sm-4">
                             
-                            <select class="form-select" placeholder="Selecciona tipo de zona" data-choices data-choices-search-false
+                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona tipo de zona" data-choices data-choices-search-false
                             id="choices-priority-input3" formControlName="tipoZonaId">
                             <option value="">Selecciona tipo de zona</option>
                             <option *ngFor="let z of zones;" value="{{z.id}}">{{z.nombre_zona}}</option>
@@ -65,7 +66,7 @@
                     </div>
                     
                     <label class="form-label" style="margin-top: 20px !important;" for="project-sector-input">Sector Productivo</label>
-                    <select class="form-select" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
                     id="project-sector-input" formControlName="sector">
                                 <option value="">Selecciona sector productivo</option>
                                 <option value="Energía">Energía</option>
@@ -82,7 +83,7 @@
                     </select>
                     
                     <label class="form-label" style="margin-top: 20px !important;" for="project-actividad-input">Actividad</label>
-                    <select class="form-select" placeholder="Selecciona actividad" data-choices data-choices-search-false
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona actividad" data-choices data-choices-search-false
                     id="project-actividad-input" formControlName="actividad">
                                 <option value="">Selecciona actividad</option>
                                 <option value="Almacenamiento de residuos peligrosos">Almacenamiento de residuos peligrosos</option>
@@ -163,7 +164,7 @@
                             <div class="button-card" (click)="toggleSelected2(3)" [class.disabled]="disabled">Monitoreos</div>
                             <div class="button-card" (click)="toggleSelected2(4)" [class.selected]="selected === 4">Todas</div>
                         </div>
-                        <p style="text-align: center;">Si identificas algún permiso, reporte o monitoreo que no esté en el listado que se muestra en las próximas ventanas, contáctate con nosotros y lo agregaremos a la brevedad
+                        <p style="text-align: center;font-style: italic;color: gray;">Si identificas algún permiso, reporte o monitoreo que no esté en el listado que se muestra en las próximas ventanas, contáctate con nosotros y lo agregaremos a la brevedad
                         </p>
                     </div>
                 </div>
@@ -197,62 +198,62 @@
             
         <div class="row justify-content-center">
                      
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <div class="card border select-variable" style="background: #d1eeea;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|ambiental')}" (click)="selectVariable(step+'|ambiental')">
-                <div class="card-body" style="text-align: center;min-height: 230px;">
+                <div class="card-body" style="text-align: center;min-height: 310px;">
                     <div style="background-color: #d7e8d8;width: 40px;height: 40px; border: 1px solid #d7e8d8;border-radius: 24px;margin: auto;">
                         <i class="ri-plant-fill" style="font-size: 24px;color: #4a9d4b;"></i>
                     </div>
-                    <p style="margin-top: 10px;"><b>Legislación Ambiental</b></p>
+                    <p style="margin-top: 10px;height: 40px;"><b>Legislación Ambiental</b></p>
                     <p>Todas aquellas normas que tienen la finalidad de asegurar la protección del medio ambiente.</p>
                     
                 </div>
             </div>
             
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <div class="card border select-variable" style="background: #faeedc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|seguridad')}" (click)="selectVariable(step+'|seguridad')">
-                <div class="card-body" style="text-align: center;min-height: 230px;">
+                <div class="card-body" style="text-align: center;min-height: 310px;">
                     <div style="background-color: #f4d890;width: 40px;height: 40px; border: 1px solid #f4d890;border-radius: 24px;margin: auto;">
                         <i class="ri-briefcase-fill" style="font-size: 24px;color: #ebaf47;"></i>
                     </div>
-                    <p style="margin-top: 10px;"><b>Legislación de seguridad y salud en el trabajo</b></p>
+                    <p style="margin-top: 10px;height: 40px;"><b>Legislación de seguridad y salud en el trabajo</b></p>
                     <p>Es un área multidisciplinaria relacionada con la seguridad, salud y la calidad de vida de las personas en la ocupación.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <div class="card border select-variable" style="background: #fae1dc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|laboral')}" (click)="selectVariable(step+'|laboral')">
-                <div class="card-body" style="text-align: center;min-height: 230px;">
+                <div class="card-body" style="text-align: center;min-height: 310px;">
                     <div style="background-color: #ebbdb4;width: 40px;height: 40px; border: 1px solid #ebbdb4;border-radius: 24px;margin: auto;">
                         <i class="ri-shirt-fill" style="font-size: 24px;color: #f25c03;"></i>
                     </div>
-                    <p style="margin-top: 10px;"><b>Legislación laboral</b></p>
+                    <p style="margin-top: 10px;height: 40px;"><b>Legislación laboral</b></p>
                     <p>Todas las empresas deben cumplir y hacer cumplir los requisitos contractuales y estatutarios.</p>
                 </div>
             </div>
         </div>
         
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <div class="card border select-variable" style="background: #b3ebf6;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|energia')}" (click)="selectVariable(step+'|energia')">
-                <div class="card-body" style="text-align: center;min-height: 230px;">
+                <div class="card-body" style="text-align: center;min-height: 310px;">
                     <div style="background-color: #8de1f2;width: 40px;height: 40px; border: 1px solid #8de1f2;border-radius: 24px;margin: auto;">
                         <i class="ri-flashlight-line" style="font-size: 24px;color: #0cc2e7;"></i>
                     </div>
-                    <p style="margin-top: 10px;"><b>Legislación de energía</b></p>
+                    <p style="margin-top: 10px;height: 40px;"><b>Legislación de energía</b></p>
                     <p>Optimización del consumo energético para alcanzar unos niveles determinados de confort y de servicio.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <div class="card border select-variable" style="background: #d2d2d2;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|todos')}" (click)="selectVariable(step+'|todos')">
-                <div class="card-body" style="text-align: center;">
+                <div class="card-body" style="text-align: center;min-height: 310px;">
                     <div style="background-color: #b1b0b0;width: 40px;height: 40px; border: 1px solid #b1b0b0;border-radius: 24px;margin: auto;">
                         <i class="ri-bookmark-line" style="font-size: 24px;color: #4b4b4b;"></i>
                     </div>
-                    <p style="margin-top: 10px;"><b>Todos los ámbitos normativos</b></p>
+                    <p style="margin-top: 40%;"><b>Todos los ámbitos normativos</b></p>
                 </div>
             </div>
         </div>
