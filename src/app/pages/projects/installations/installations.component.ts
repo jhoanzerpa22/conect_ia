@@ -76,7 +76,7 @@ export class InstallationsComponent {
   installation_name: any = ''; 
   areas: any = [];
   area_id_select: any = [];
-  subtitle: any = 'Instalaciones y procesos';
+  subtitle: any = 'Parte, Obras y Acciones';//'Instalaciones y procesos';
 
   items: any = [];
 
