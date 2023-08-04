@@ -981,11 +981,11 @@
                                             <!--</div>
                                         </div>
                                     </div>-->
-                                    <div class="card-body">
+                                    <div class="card-body" style="background: #f3f3f9;">
                                         
                                         <h4 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}}
-                                            <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-down-s-line" (click)="hideArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
-                                            <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-up-s-line"></i></span>
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-down-s-line"></i></span>
                                         </h4>
                                         <p>{{g.organismo}}</p>
                                     <ng-container *ngIf="!validateShowArticles(g.normaId)">

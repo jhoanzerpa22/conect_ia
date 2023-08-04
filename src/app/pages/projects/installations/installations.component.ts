@@ -204,7 +204,8 @@ export class InstallationsComponent {
       });
     }else{
       this.installation_id = instalationID;
-      this.modalService.open(content, { size: 'md', centered: true });
+      this.installationForm.controls['area'].setValue('');
+      this.modalService.open(content, { size: 'lg', centered: true });
     }
   }
 
@@ -577,7 +578,7 @@ export class InstallationsComponent {
   */
   editModal(content: any, id: any) {
     this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.modalService.open(content, { size: 'lg', centered: true });
     var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
     updateBtn.innerHTML = "Editar";
     //updateBtn.style.visibility = "hidden";
