@@ -778,28 +778,6 @@ validateIdparte(idParte: any){
 
   }
 
-  setAttribute(type: any, id: any, valor?: any){
-    const index = this.attributes.findIndex(
-      (p: any) =>
-        p.type == type && p.id == id
-    );
-
-    if(index != -1){
-      if(type == 'fase' && this.attributes[index].valor != valor){
-        this.attributes[index].valor = valor;
-      }else{
-
-        this.attributes.splice(index, 1);
-        this.setAttributeArticle(id, type, type == 'fase' ? null : false);
-      }
-      
-    }else{
-      this.attributes.push({type: type, id: id, valor: type == 'fase' ? valor : null});
-      this.setAttributeArticle(id, type, type == 'fase' ? valor : true);
-    }
-
-  }
-
   setAttributeAll(type: any, valor?: any){
     const index = this.attributes_all.findIndex(
       (p: any) =>
@@ -807,7 +785,7 @@ validateIdparte(idParte: any){
     );
 
     if(index != -1){
-      if(type == 'fase' && this.attributes_all[index].valor != valor){
+      if(type == 'articuloTipo' && this.attributes_all[index].valor != valor){
         this.attributes_all[index].valor = valor;
       }else{
 
@@ -815,7 +793,7 @@ validateIdparte(idParte: any){
       }
       
     }else{
-      this.attributes_all.push({type: type, valor: type == 'fase' ? valor : true});
+      this.attributes_all.push({type: type, valor: type == 'articuloTipo' ? valor : true});
     }
 
   }
@@ -827,10 +805,33 @@ validateIdparte(idParte: any){
         );
 
       if(index != -1){
-        return type == 'fase' ? valor == this.attributes_all[index].valor : true;
+        return type == 'articuloTipo' ? valor == this.attributes_all[index].valor : true;
       }else{
         return false;
       }
+  }
+
+  setAttribute(type: any, id: any, valor?: any){
+    const index = this.attributes.findIndex(
+      (p: any) =>
+        p.type == type && p.id == id
+    );
+
+    if(index != -1){
+      if(type == 'articuloTipo' && this.attributes[index].valor != valor){
+        this.attributes[index].valor = valor;
+        this.setAttributeArticle(id, type, valor);
+      }else{
+        //this.attributes.splice(index, 1);
+        this.attributes[index].valor = false;
+        this.setAttributeArticle(id, type, type == 'articuloTipo' ? null : false);
+      }
+      
+    }else{
+      this.attributes.push({type: type, id: id, valor: type == 'articuloTipo' ? valor : true});
+      this.setAttributeArticle(id, type, type == 'articuloTipo' ? valor : true);
+    }
+
   }
 
   validateAttribute(type: any, id: any, valor_old?: any, valor?: any){
@@ -840,9 +841,9 @@ validateIdparte(idParte: any){
         );
 
       if(index != -1){
-        return type == 'fase' ? valor == this.attributes[index].valor : true;
+        return type == 'articuloTipo' ? valor == this.attributes[index].valor : this.attributes[index].valor;
       }else{
-        return type == 'fase' ? valor_old == valor : valor_old;
+        return type == 'articuloTipo' ? valor_old == valor : valor_old;
       }
   }
 
