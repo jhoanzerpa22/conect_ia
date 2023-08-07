@@ -22,7 +22,7 @@
                                                 border-radius: 24px;
                                                 padding: 10px;
                                                 background: #c4cadc;
-                                            "></i> Identifica</span>
+                                            "></i> Selecciona</span>
                                         </a>
                                         <ng-template ngbNavContent>
                                             <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
@@ -215,7 +215,7 @@
                             </div>
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpo(data.normaId)}}</h5></div>
-                                <div>{{byCuerpo(data.normaId) == 1 ? 'Instalación' : 'Instalaciones'}}</div>
+                                <div>{{byCuerpo(data.normaId) == 1 ? 'Elemento' : 'Elementos'}}</div>
                             </div>
                         </div>
                     </div>
@@ -291,12 +291,12 @@
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="{{selectList ? 'Buscar el cuerpo legal' : 'Buscar la instalación'}}" [(ngModel)]="term2"><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="{{selectList ? 'Buscar el cuerpo legal' : 'Buscar el Elemento'}}" [(ngModel)]="term2"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     <div class="form-check form-switch form-check-right" style="margin-right: 50px;font-family: 'Poppins', sans-serif;font-size:1.21875rem;min-width: 180px;">
                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled" value="true" (change)="onChangeList($event)">
-                        <label class="form-check-label" for="flexSwitchCheckRightDisabled">{{selectList ? 'Cuerpos Legales' : 'Instalaciones'}}</label>
+                        <label class="form-check-label" for="flexSwitchCheckRightDisabled">{{selectList ? 'Cuerpos Legales' : 'Elementos'}}</label>
                     </div>
                 </div>
             </div>
@@ -394,7 +394,7 @@
                                                         </div>
                                                         
                                                         <div class="col-lg-6 col">
-                                                        <p class="card-text mb-2" [style]="s.tituloNorma && s.tituloNorma.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.tituloNorma ? (s.tituloNorma.length > 250 ? formatNorma(s.tituloNorma, s.normaId) : s.tituloNorma) : ''}}</p>
+                                                        <p class="card-text mb-2 align-self-center"><!--[style]="s.tituloNorma && s.tituloNorma.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'"-->{{s.tituloNorma ? (s.tituloNorma.length > 250 ? formatNorma(s.tituloNorma, s.normaId) : s.tituloNorma) : ''}}</p>
                                                         <p class="card-text">
                                                             <small [ngClass]="!validateIdparte2(s.normaId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.tituloNorma && s.tituloNorma.length > 250 && !validatShow2(s.normaId)" (click)="showText2(s.normaId)"><b>Leer más</b></small>
                                                             <small [ngClass]="!validateIdparte2(s.normaId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.tituloNorma && s.tituloNorma.length > 250 && validatShow2(s.normaId)" (click)="hideText2(s.normaId)"><b>Ocultar texto completo</b></small>
@@ -406,7 +406,7 @@
                                                                 
                                                                 <div class="col-12">
                                                                     <h5 class="mb-1">{{byCuerpo(s.normaId)}}</h5>
-                                                                    <p class="text-muted mb-0">Instalaciones Vinculadas</p>
+                                                                    <p class="text-muted mb-0">Elementos Vinculadas</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -440,7 +440,7 @@
                             <img src="assets/images/file.png" width="300" height="200"/>
                         </div>-->
                         <div style="text-align: center;width: 100%;font-size: 20px;">
-                            Aún no tiene instalaciones
+                            Aún no tiene Elementos o actividades
                         </div>
                     </div>
 
@@ -568,7 +568,7 @@
                     <div class="col-sm-1">
                     </div>
                     <div class="col-sm-7" style="color: white; font-size: 12px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word">
-                        {{selectCheckedInstalaciones.length}} {{selectCheckedInstalaciones.length > 1 ? 'Instalaciones Seleccionadas' : 'Instalación Seleccionada'}}
+                        {{selectCheckedInstalaciones.length}} {{selectCheckedInstalaciones.length > 1 ? 'Elementos Seleccionados' : 'Elemento Seleccionado'}}
                     </div>
                     <div class="col-sm-4">
                         <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal2(content2, 'multiple')">Vincular Selección</button>
@@ -582,7 +582,7 @@
 <!-- Add Instalaciones -->
 <ng-template #content role="document" let-modal>
     <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel">Vincular Instalaciones</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Vincular Elementos</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>
@@ -619,7 +619,7 @@
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar instalación..." formControlName="search" [(ngModel)]="term5"><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" placeholder="Buscar Elemento..." formControlName="search" [(ngModel)]="term5"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -709,9 +709,11 @@
                     </div>
                     
                     <div class="dropdown card-header-dropdown float-end" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" style="font-family: 'Poppins', sans-serif;font-size:1.21875rem;" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                        <!--<a class="text-reset dropdown-btn arrow-none" style="font-family: 'Poppins', sans-serif;font-size:1.21875rem;" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                             <span class="text-muted"><i class="ri-settings-4-line align-middle me-1 fs-15"></i>Gestión avanzada</span>
-                        </a>
+                        </a>-->
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Gestión Avanzada</button>
+
                         <div class="dropdown-menu dropdown-menu-end" style="padding: 10px !important;" ngbDropdownMenu>
                             <div class="form-check form-check-primary mb-3">
                                 <input class="form-check-input" type="checkbox" value="true" id="formAtributo" (change)="setConfig('atributo', $event)">
@@ -872,11 +874,11 @@
                                                                 <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
                                                                 </div>
-                                                                <p class="card-text mb-2" [style]="s.descripcion && s.descripcion.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 250 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}}</p>
-                                                                <p class="card-text">
-                                                                            <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && !validatShow(s.articuloId)" (click)="showText(s.articuloId)"><b>Leer más</b></small>
-                                                                            <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 250 && validatShow(s.articuloId)" (click)="hideText(s.articuloId)"><b>Ocultar texto completo</b></small>
-                                                                </p>        
+                                                                <p class="card-text mb-2" [style]="s.descripcion && s.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 450 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}} 
+                                                                    <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && !validatShow(s.articuloId)" (click)="showText(s.articuloId)"><b>Leer más</b></small>
+                                                                    <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && validatShow(s.articuloId)" (click)="hideText(s.articuloId)"><b>Ocultar texto completo</b></small></p>
+                                                                <!--<p class="card-text">
+                                                                </p>-->
                                                             </div>
                                                         </div>
                                                         
@@ -937,7 +939,7 @@
                                                         </div>-->
                                                         <div class="col-lg-2 col">
                                                                 <button
-                                                                    class="btn btn-light view-btn" style="width: 100%;"  data-bs-target="#showModal" (click)="openModal3(content3, 'single', s)">Configurar instalaciones</button>
+                                                                    class="btn btn-light view-btn" style="width: 100%;"  data-bs-target="#showModal" (click)="openModal3(content3, 'single', s)">Configurar elementos</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1061,7 +1063,7 @@
                                 class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'cierre') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'cierre')">Cierre</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;margin:auto;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Configurar Instalaciones</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;margin:auto;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Configurar Elementos</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
                         <button type="button" class="btn btn-success waves-effect waves-light" style="font-family: Poppins;border-radius: 24px;margin: auto;" (click)="setAttributeArticleAll()">Aplicar a todos</button>
@@ -1075,13 +1077,13 @@
 <!-- Add Instalaciones -->
 <ng-template #content3 role="document" let-modal>
     <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel">Vincular Instalaciones</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Vincular Elementos</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>
     <form (ngSubmit)="saveVinculacion()" [formGroup]="vinculacionForm" class="tablelist-form" autocomplete="off">
         <div class="modal-body">
-            <h4 class="text-center mb-4">Seleccionar las instalaciones a gestionar</h4>
+            <h4 class="text-center mb-4">Seleccionar los elementos a gestionar</h4>
 
             <input type="hidden" name="id" value="" formControlName="ids" />
 
@@ -1092,7 +1094,7 @@
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar instalación..." formControlName="search" [(ngModel)]="term7"><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" placeholder="Buscar elemento..." formControlName="search" [(ngModel)]="term7"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -1280,7 +1282,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <div><h5>{{byCuerpo(s.normaId)}}</h5></div>
-                                        <div>{{byCuerpo(s.normaId) == 1 ? 'Instalación' : 'Instalaciones'}}</div>
+                                        <div>{{byCuerpo(s.normaId) == 1 ? 'Elemento' : 'Elementos'}}</div>
                                     </div>
                                 </div>
                             </div>

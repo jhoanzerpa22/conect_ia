@@ -258,7 +258,7 @@ hideText2(idParte: any){
       co == idParte
   );
 
-  return index != -1 ? texto : texto.substr(0,250)+'...';
+  return index != -1 ? texto : texto.substr(0,450)+'...';
 }
 
 showText(idParte: any){
@@ -623,7 +623,7 @@ validateIdparte(idParte: any){
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Instalaciones guardadas',
+            title: 'Elementos guardados',
             showConfirmButton: true,
             timer: 5000,
           });   
@@ -636,7 +636,7 @@ validateIdparte(idParte: any){
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'No ha seleccionado instalaciones..',
+        title: 'No ha seleccionado elementos..',
         showConfirmButton: true,
         timer: 5000,
       });
@@ -1034,7 +1034,7 @@ validateIdparte(idParte: any){
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Instalaciones guardadas',
+            title: 'Elementos guardados',
             showConfirmButton: true,
             timer: 5000,
           });
@@ -1047,7 +1047,7 @@ validateIdparte(idParte: any){
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'No ha seleccionado instalaciones..',
+        title: 'No ha seleccionado elementos..',
         showConfirmButton: true,
         timer: 5000,
       });
@@ -1715,6 +1715,7 @@ validateIdparte(idParte: any){
 
   changeTab(active: number){
     this.activeTab = active;
+    this.resteblecer();
     if (this.articles_proyects_group < 1) {
       
       Swal.fire({
@@ -1978,6 +1979,14 @@ validateIdparte(idParte: any){
 
   siguiente(){
     this.activeTab = this.activeTab + 1;
+    this.resteblecer();
+  }
+
+  resteblecer(){
+    this.selectCheckedVincular = [];
+    this.selectCheckedInstalaciones = [];
+    this.selectCheckedCuerpos = [];
+    this.configs = [];
   }
 
 }
