@@ -189,15 +189,15 @@
                     </div>
                     <div class="mt-auto">
                         <div class="d-flex mb-2">
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'monitoreo')}">
                                 <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
                                 <div>Monitoreo</div>
                             </div>
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'reporte')}">
                                 <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                 <div>Reporte</div>
                             </div>
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'permiso')}">
                                 <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
                                 <div>Permiso</div>
                             </div>
@@ -1256,15 +1256,15 @@
                             </div>
                             <div class="mt-auto">
                                 <div class="d-flex mb-2">
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'monitoreo')}">
                                         <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
                                         <div>Monitoreo</div>
                                     </div>
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'reporte')}">
                                         <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                         <div>Reporte</div>
                                     </div>
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'permiso')}">
                                         <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
                                         <div>Permiso</div>
                                     </div>

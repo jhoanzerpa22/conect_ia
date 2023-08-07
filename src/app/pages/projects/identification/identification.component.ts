@@ -353,7 +353,20 @@ validateIdparte(idParte: any){
         document.getElementById('elmLoader')?.classList.add('d-none')
       });
   }
-  
+
+  private setArticulos(articulos: any){
+
+    articulos.forEach((x: any) => {
+      
+      this.articulos.push(x);
+      if(x.hijas){
+        this.setArticulos(x.hijas);
+      }
+    
+    });
+
+  }
+
   private getArticleProyect(project_id: any){
 
     //this.showPreLoader();
@@ -363,7 +376,13 @@ validateIdparte(idParte: any){
 
           this.articles_proyects_all = [];
           this.articles_proyects_group = [];
+          this.articulos = [];
           this.articles_proyects.forEach((x: any) => {
+
+            this.articulos.push(x);
+            if(x.hijas){
+              this.setArticulos(x.hijas);
+            }
             
             const index = this.articles_proyects_group.findIndex(
               (co: any) =>
@@ -372,7 +391,7 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, monitoreo: false, reporte: false, permiso: false, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, articulos: [x]
               });
 
             }else{
@@ -386,7 +405,7 @@ validateIdparte(idParte: any){
 
             if(index2 == -1){
               this.articles_proyects_all.push({
-                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, monitoreo: false, reporte: false, permiso: false, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, articulos: [x]
               });
             }else{
               this.articles_proyects_all[index2].articulos.push(x);
@@ -1777,6 +1796,16 @@ validateIdparte(idParte: any){
     );
 
     return index == -1;
+  }
+
+  validateAttributeNorma(idNorma: any,atributo: any){
+    const index = this.articulos.findIndex(
+      (co: any) =>
+        co.normaId == idNorma && co.proyectoId == this.project_id && co.articuloTipo == atributo
+    );
+
+      return index != -1;
+
   }
 
   validateIdCuerpo(idNorma: any){
