@@ -76,7 +76,7 @@ export class InstallationsComponent {
   installation_name: any = ''; 
   areas: any = [];
   area_id_select: any = [];
-  subtitle: any = 'Parte, Obras y Acciones';//'Instalaciones y procesos';
+  subtitle: any = 'Elementos y actividades';//'Instalaciones y procesos';
 
   items: any = [];
 
@@ -120,7 +120,7 @@ export class InstallationsComponent {
     */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Instalaciones y Procesos', active: true }
+      { label: 'Elementos y actividades', active: true }
     ];
 
     this.userData = this.TokenStorageService.getUser();
@@ -144,7 +144,7 @@ export class InstallationsComponent {
 
       if(this.installation_id){
 
-        let crumb: any = [{label: 'Proyecto', active: false},{label: 'Instalaciones y Procesos', active: false}];
+        let crumb: any = [{label: 'Proyecto', active: false},{label: 'Elementos y actividades', active: false}];
         let bread: any = this.installation_name.split('||');
         
         bread.forEach((item: any) => {
@@ -198,7 +198,7 @@ export class InstallationsComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'No se puede crear una instalacion sin antes haber creado al menos un área administrativa',
+        title: 'No se puede crear un elemento o actividad sin antes haber creado al menos un área administrativa',
         showConfirmButton: true,
         timer: 5000,
       });
