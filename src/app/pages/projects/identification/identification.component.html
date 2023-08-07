@@ -189,15 +189,15 @@
                     </div>
                     <div class="mt-auto">
                         <div class="d-flex mb-2">
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'monitoreo')}">
                                 <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
                                 <div>Monitoreo</div>
                             </div>
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'reporte')}">
                                 <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                 <div>Reporte</div>
                             </div>
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'permiso')}">
                                 <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
                                 <div>Permiso</div>
                             </div>
@@ -886,16 +886,16 @@
                                                         <div class="col-xs-1 col" *ngIf="validateConfig('atributo')">
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
-                                                                    [ngClass]="validateAttribute('permiso',s.id, s.permiso) ? 'btn-success' :'btn-light'"
-                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('permiso',s.id)">Permiso</button>
+                                                                    [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'permiso') ? 'btn-success' :'btn-light'"
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('articuloTipo',s.id, 'permiso')">Permiso</button>
                                                                     
                                                             <button
-                                                            [ngClass]="validateAttribute('reporte',s.id, s.reporte) ? 'btn-success' :'btn-light'"
-                                                            class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('reporte',s.id)"  >Reporte</button>
+                                                            [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'reporte') ? 'btn-success' :'btn-light'"
+                                                            class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('articuloTipo',s.id, 'reporte')"  >Reporte</button>
                                                             
                                                             <button
-                                                                [ngClass]="validateAttribute('monitoreo',s.id, s.monitoreo) ? 'btn-success' :'btn-light'"
-                                                                class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('monitoreo',s.id)"  >Monitoreo</button>
+                                                                [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'monitoreo') ? 'btn-success' :'btn-light'"
+                                                                class="btn  view-btn mb-2" style="width: 100%;" (click)="setAttribute('articuloTipo',s.id, 'monitoreo')">Monitoreo</button>
                                                         </div>
                                                         
                                                         <div class="col-xs-1 col" *ngIf="validateConfig('componente')">
@@ -913,16 +913,16 @@
                                                             <!--<i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>-->
                                                             
                                                             <button
-                                                                    [ngClass]="validateAttribute('fase',s.id, s.fase, 'construccion') ? 'btn-success' :'btn-light'"
-                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'construccion')"  >Construcción</button>
+                                                                    [ngClass]="validateAttribute('construccion',s.id, s.construccion, 'construccion') ? 'btn-success' :'btn-light'"
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('construccion',s.id, 'construccion')"  >Construcción</button>
                                                                     
                                                             <button
-                                                            [ngClass]="validateAttribute('fase',s.id, s.fase, 'operacion') ? 'btn-success' :'btn-light'"
-                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'operacion')">Operación</button>
+                                                            [ngClass]="validateAttribute('operacion',s.id, s.operacion, 'operacion') ? 'btn-success' :'btn-light'"
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('operacion',s.id, 'operacion')">Operación</button>
                                                             
                                                             <button
-                                                            [ngClass]="validateAttribute('fase',s.id, s.fase, 'cierre') ? 'btn-success' :'btn-light'"
-                                                            class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('fase',s.id, 'cierre')">Cierre</button>
+                                                            [ngClass]="validateAttribute('cierre',s.id, s.cierre, 'cierre') ? 'btn-success' :'btn-light'"
+                                                            class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('cierre',s.id, 'cierre')">Cierre</button>
                                                         </div>
 
                                                         <!--<div class="col-lg-4 col">
@@ -1033,13 +1033,13 @@
                     
                     <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
                         <button
-                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('permiso') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('permiso')">Permiso</button>
+                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('articuloTipo','permiso') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('articuloTipo','permiso')">Permiso</button>
                                 
                         <button
-                        class="btn view-btn mb-2" [ngClass]="validateAttributeAll('reporte') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('reporte')">Reporte</button>
+                        class="btn view-btn mb-2" [ngClass]="validateAttributeAll('articuloTipo','reporte') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('articuloTipo','reporte')">Reporte</button>
                         
                         <button
-                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('monitoreo') ? 'btn-success' :'btn-light'" style="width: 100%;"  (click)="setAttributeAll('monitoreo')"  >Monitoreo</button>
+                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('articuloTipo','monitoreo') ? 'btn-success' :'btn-light'" style="width: 100%;"  (click)="setAttributeAll('articuloTipo','monitoreo')"  >Monitoreo</button>
                     </div>
                     
                     <div class="col-xs-1 col" style="margin: auto;border-left: 3px solid #fff;padding-top: 20px;padding-bottom: 20px;">
@@ -1054,13 +1054,13 @@
                     
                     <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
                         <button
-                                class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'construccion') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'construccion')">Construcción</button>
+                                class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('construccion', 'construccion') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('construccion', 'construccion')">Construcción</button>
                                 
                         <button
-                        class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'operacion') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'operacion')" >Operación</button>
+                        class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('operacion', 'operacion') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('operacion', 'operacion')" >Operación</button>
                         
                         <button
-                                class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('fase', 'cierre') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('fase', 'cierre')">Cierre</button>
+                                class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('cierre', 'cierre') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('cierre', 'cierre')">Cierre</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
                         <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;margin:auto;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Configurar Elementos</button>
@@ -1256,15 +1256,15 @@
                             </div>
                             <div class="mt-auto">
                                 <div class="d-flex mb-2">
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'monitoreo')}">
                                         <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
                                         <div>Monitoreo</div>
                                     </div>
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'reporte')}">
                                         <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                         <div>Reporte</div>
                                     </div>
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'permiso')}">
                                         <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
                                         <div>Permiso</div>
                                     </div>
