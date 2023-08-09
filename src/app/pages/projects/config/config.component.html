@@ -19,7 +19,7 @@
                 <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills nav-conect nav-justified"><!--nav nav-tabs-->
                     <li [ngbNavItem]="1" class="nav-item waves-effect waves-light">
                         <a ngbNavLink class="nav-link" [routerLink]="'/projects/config/'+userData._id+'/areas'">
-                            <span class="d-sm-block"><span class="badge bg-success rounded-circle">1</span> Areas Administrativas</span>
+                            <span class="d-sm-block"><!--<span class="badge bg-success rounded-circle">1</span>--><span class="step-number">1</span> Areas Administrativas</span>
                         </a>
                         <ng-template ngbNavContent>
                             <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
@@ -27,7 +27,7 @@
                     </li>
                     <li [ngbNavItem]="2" class="nav-item waves-effect waves-light">
                         <a ngbNavLink class="nav-link" [routerLink]="'/projects/config/'+userData._id+'/installations'">
-                            <span class="d-sm-block"><span class="badge bg-success rounded-circle">2</span> Elementos y actividades</span>
+                            <span class="d-sm-block"><!--<span class="badge bg-success rounded-circle">2</span>--><span class="step-number">2</span> Elementos y actividades</span>
                         </a>
                         <ng-template ngbNavContent>
                             <ng-template [ngTemplateOutlet]="TabContent"></ng-template>

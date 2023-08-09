@@ -1,0 +1,131 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+ <div class="row project-wrapper">
+    <div class="col-xxl-12">
+        
+  <div class="row">
+    <div class="col-xxl-12">
+        <!--<h5 class="mb-3">Header Justify Tabs</h5>-->
+        <div class="card">
+            <div class="card-header align-items-xl-center d-xl-flex">
+                <p class="text-muted flex-grow-1 mb-xl-0"><!--Use <code>card-header-pills</code> class to create header justify tab.--></p>
+                <div class="flex-shrink-0">
+                  <ul ngbNav #Header="ngbNav" [activeId]="1" class="nav nav-pills card-header-pills">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink>
+                          Dashboard
+                        </a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-4">
+                                <div class="row mb-3">
+                                    <div class="col-sm-10">
+                                        <p class="mb-3">Cuerpos legales aplicables</p>
+                                        <h4 class="mb-3">28</h4>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="avatar-sm">
+                                            <div class="avatar-title bg-soft-primary text-info rounded-circle fs-24">
+                                                <i class="mdi mdi-account-multiple-outline"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-10">
+                                        <p class="mb-3">Artículos legales aplicables</p>
+                                        <h4 class="mb-3">238</h4>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="avatar-sm">
+                                            <div class="avatar-title bg-soft-primary text-info rounded-circle fs-24">
+                                                <i class="mdi mdi-account-multiple-outline"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="background-color: #405189;color: #fff;">
+                                    <div class="col-sm-10">
+                                        <p class="mb-3">Cumplimiento actual</p>
+                                        <h4 class="mb-3" style="color: #fff;">24%</h4>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        
+                                        <div class="avatar-sm">
+                                            <div class="avatar-title bg-soft-primary text-info rounded-circle fs-24" style="background-color: rgb(221 224 234) !important;">
+                                                <i class="mdi mdi-account-multiple-outline"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <h4>Cuerpos Legales</h4>
+                                <apx-chart [series]="simplePieChart.series" [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [legend]="simplePieChart.legend" [dataLabels]="simplePieChart.dataLabels" [responsive]="simplePieChart.responsive" [colors]="simplePieChart.colors" dir="ltr"></apx-chart>
+                            </div>
+                            
+                            <div class="col-sm-4">
+                                <h4>Artículos Legales</h4>
+                                <apx-chart [series]="simplePieChart.series" [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [legend]="simplePieChart.legend" [dataLabels]="simplePieChart.dataLabels" [responsive]="simplePieChart.responsive" [colors]="simplePieChart.colors" dir="ltr"></apx-chart>
+                            </div>
+                          </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink>
+                          Control
+                        </a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1 fs-14">Luke Brown</h6>
+                                        <p class="mb-0">654 Followers</p>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink>
+                          Evaluaciones
+                        </a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="assets/images/users/avatar-7.jpg" alt="" class="avatar-sm rounded" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1 fs-14">Dominic Charlton</h6>
+                                        <p class="mb-0">784 Followers</p>
+                                    </div>
+                                </div>
+                            </div>
+                          </div><!--end row-->
+                        </ng-template>
+                    </li>
+                  </ul>
+                </div>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <!-- Tab panes -->
+                <div class="tab-content text-muted">
+                  <div [ngbNavOutlet]="Header"></div>
+                </div>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        </div><!--end col-->
+        </div>
+        
+    </div><!-- end col -->
+
+</div><!-- end row -->

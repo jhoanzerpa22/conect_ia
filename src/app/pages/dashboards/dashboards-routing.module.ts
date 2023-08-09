@@ -9,6 +9,7 @@ import { ProjectsComponent } from "./projects/projects.component";
 import { NftComponent } from "./nft/nft.component";
 import { JobComponent } from './job/job.component';
 import { ProjectAnalityComponent } from './project-anality/project-anality.component';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: ":id/project-anality",
     component: ProjectAnalityComponent
+  },
+  {
+    path: ":id/project-dashboard",
+    component: ProjectDashboardComponent
   }
 ];
 
