@@ -20,12 +20,10 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 // Flat Picker
 import { FlatpickrModule } from 'angularx-flatpickr';
 
-
 //Module
 import { DashboardsRoutingModule } from "./dashboards-routing.module";
 import { SharedModule } from '../../shared/shared.module';
 import { WidgetModule } from '../../shared/widget/widget.module';
-
 
 // Component
 import { AnalyticsComponent } from './analytics/analytics.component';
@@ -35,6 +33,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { NftComponent } from './nft/nft.component';
 import { JobComponent } from './job/job.component';
 import { ProjectAnalityComponent } from './project-anality/project-anality.component';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { HomeComponent } from "./home/home.component";
 
 @NgModule({
@@ -46,6 +45,7 @@ import { HomeComponent } from "./home/home.component";
     NftComponent,
     JobComponent,
     ProjectAnalityComponent,
+    ProjectDashboardComponent,
     HomeComponent
   ],
   imports: [

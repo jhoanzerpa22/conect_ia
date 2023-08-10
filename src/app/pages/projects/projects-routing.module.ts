@@ -21,6 +21,8 @@ import { ComplianceFollowComponent } from "./create/compliance/follow/follow.com
 import { ComplianceTaskComponent } from "./create/compliance/task/task.component";
 import { ComplianceAssessComponent } from "./create/compliance/assess/assess.component";
 import { TeamComponent } from "./team/team.component";
+import { EvaluationDetailComponent } from "./create/evaluation/detail/evaluation-detail.component";
+import { EvaluationFollowComponent } from "./create/evaluation/follow/follow.component";
 
 const routes: Routes = [
   {
@@ -145,6 +147,14 @@ const routes: Routes = [
   {
     path: ":idProject/compliance/:idInstallation/Task/:id",
     component: ComplianceTaskComponent
+  },
+  {
+    path: ":idProject/evaluation/:id/Detail",
+    component: EvaluationDetailComponent
+  },
+  {
+    path: ":idProject/evaluation/:idInstallation/Follow/:id",
+    component: EvaluationFollowComponent
   }
 ];
 

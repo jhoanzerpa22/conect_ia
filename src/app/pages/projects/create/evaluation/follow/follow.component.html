@@ -1,0 +1,225 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                                    <h4 class="mb-3" style="color: #405189;">{{cuerpoLegal}}</h4>
+                                    <h6 class="card-title mb-3" style="color: #405189;">{{articulo.articulo}}</h6>  
+                                    <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 850 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 850 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
+                                    
+                                    <p class="card-text">
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 850 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Leer más</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 850 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
+                                    </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form [formGroup]="evaluacionForm" class="tablelist-form">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                
+          <div class="row g-4 mb-3">
+            <div class="col-sm">
+                <h4 style="color: #405189;"><b>EVALUACIÓN</b></h4>
+            </div>
+            <div class="col-sm-auto">
+                <div class="d-md-flex justify-content-sm-end gap-2">
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
+                                id="choices-priority-input2">
+                                <option value="" selected>Seleccione Cuerpo legal</option>
+                                <option value="CUMPLE">Cumple</option>
+                                <option value="CUMPLE PARCIALMENTE">Cumple parcial</option>
+                                <option value="NO CUMPLE">No cumple</option>
+                    </select>
+                    <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
+                        <div class="form-icon right">
+                            <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                            <i class="ri-calendar-todo-fill"></i>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+          </div>
+          
+          <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h6 style="color: #405189;"><b>COMENTARIOS</b></h6>
+                    <ckeditor [editor]="Editor" data="" formControlName="comentario"></ckeditor>
+                </div>
+            </div>
+            </div>
+
+            
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-body">
+                        <h6 style="color: #405189;"><b>ADJUNTAR IMAGEN O ARCHIVO DE RESPALDO</b></h6>
+                        <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" (success)="onFileSelectedEvaluation($event)"></dropzone>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+</form>
+
+<div class="row" *ngIf="status == 'NO CUMPLE' || status == 'CUMPLE PARCIALMENTE'">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Hallazgos</h4>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div id="customerList">                    
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form">
+                            <div class="row">
+                                <div class="col-sm-2 mb-3">
+                                    <label for="nombreHallazgo" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombreHallazgo" formControlName="nombre"
+                                        placeholder="Hallazgo">
+                                </div>
+                                
+                                <div class="col-sm-5 mb-3">
+                                    <label for="descripcionHallazgo" class="form-label">Descripción</label>
+                                    <input type="text" class="form-control" id="descripcionHallazgo" formControlName="descripcion"
+                                        placeholder="Descripción">
+                                </div>
+
+                                <div class="col-sm-3 mb-3">
+                                    <label for="fileHallazgo" class="form-label">Respaldo</label>
+                                    <input type="file" class="form-control" id="fileHallazgo" formControlName="fileHallazgo" placeholder="Respaldo" #removableInput accept="image/*" (change)="onFileSelected($event)">
+                                </div>
+
+                                <div class="col-sm-2 mb-3">
+                                    <button class="btn btn-sm btn-success edit-item-btn" style="margin-top: 35px;"
+                                                    data-bs-toggle="modal" data-bs-target="#showModal"(click)="saveHallazgo()"
+                                                    ><i class="ri-add-fill me-1 align-bottom"></i>Agregar Hallazgo
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th class="sort" style="width: 150px;">Respaldo</th>
+                                    <th class="sort" data-sort="nombre" style="width: 300px;">Hallazgo</th>
+                                    <th class="sort" data-sort="descripcion">Descripción</th>
+                                    <th class="sort" style="width: 100px;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
+                                    <td><img [src]="imgView2[data.id-1]" (error)="imgError($event)" alt="user img"
+                                        class="users-avatar-shadow avatar mr-3" height="64" width="64"><!--rounded-circle-->
+                                    </td>
+                                    <td><ngb-highlight [result]="data.nombre"
+                                            [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td><ngb-highlight [result]="data.descripcion"
+                                                    [term]="service.searchTerm">
+                                            </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <div class="hstack gap-3 fs-15">
+                                                <a href="javascript:void(0);" class="link-danger" 
+                                                title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-5-line"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Mostrando página 1
+                                de
+                                {{pageTotal(HallazgosDatas.length)}} de {{HallazgosDatas.length}}
+                                registros
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="HallazgosDatas.length" [(page)]="service.page"
+                                    [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;" (click)="saveEvaluation()"
+        >Guardar</button>
+    </div>
+</div>
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Está a punto de eliminar este registro</h4>
+                    <p class="text-muted mx-4 mb-0">Eliminar su registro eliminará toda su información de nuestro
+sistema.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Cerrar</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                    (click)="modal.close('Close click')">Si, Remover!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template>
+
+<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
