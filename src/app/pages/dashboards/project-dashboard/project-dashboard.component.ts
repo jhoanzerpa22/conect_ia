@@ -64,10 +64,10 @@ export class ProjectDashboardComponent implements OnInit {
     this.fetchData();
 
     // Chart Color Data Get Function
-    this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
-    this._status7('["--vz-success", "--vz-primary", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChart('["--vz-primary", "--vz-warning", "--vz-info"]');
-    this._simplePieChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    //this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
+    //this._status7('["--vz-success", "--vz-primary", "--vz-warning", "--vz-danger"]');
+    //this._simpleDonutChart('["--vz-primary", "--vz-warning", "--vz-info"]');
+    this._simplePieChart('["--vz-success", "--vz-warning", "--vz-danger"]');
     
   }
 
@@ -188,12 +188,12 @@ export class ProjectDashboardComponent implements OnInit {
   private _simplePieChart(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simplePieChart = {
-      series: [44, 55, 13, 43, 22],
+      series: [44, 55, 13],
       chart: {
         height: 300,
         type: "pie",
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: ["Cumple", "Cumple parcial", "No cumple"],
       legend: {
         position: "bottom",
       },
@@ -234,7 +234,7 @@ export class ProjectDashboardComponent implements OnInit {
   /**
  * Projects Overview
  */
-
+/*
   setprojectvalue(value: any) {
     if (value == 'all') {
       this.OverviewChart.series = [{
@@ -415,11 +415,11 @@ export class ProjectDashboardComponent implements OnInit {
         }]
       }
     };
-  }
+  }*/
 
   /**
  *  Status7
- */
+ *//*
   setstatusvalue(value: any) {
     if (value == 'all') {
       this.status7.series = [125, 42, 58, 89]
@@ -468,11 +468,11 @@ export class ProjectDashboardComponent implements OnInit {
       },
       colors: colors
     };
-  }
+  }*/
 
    /**
  * Simple Donut Chart
- */
+ *//*
    private _simpleDonutChart(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChart = {
@@ -523,8 +523,7 @@ export class ProjectDashboardComponent implements OnInit {
         colors: colors
     };
 }
-
-
+*/
 /**
  * Sale Location Map
  */
