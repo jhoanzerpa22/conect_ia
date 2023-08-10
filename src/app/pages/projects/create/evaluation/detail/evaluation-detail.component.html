@@ -1,0 +1,202 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+    <div class="col-12">
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title mb-3" style="color: #405189;"><b>{{detail.nombre}}</b></h2>
+                <p class="card-subtitle text-muted mb-3">Area</p>
+                <h6 style="color: #405189;"><b>Descripción</b></h6>
+                <p>{{detail.descripcion}}</p>
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center mb-5">
+                <div class="col-xxl-3 col-lg-3 text-center">
+                    <div class="card-subtitle text-muted mb-3">CUERPO LEGALES VINCULADOS</div>
+                    <div style="font-size: 36px;"><b>{{cuerpos_articulos ? (cuerpos_articulos.length > 0 ? cuerpos_articulos.length : 0) : 0}}</b></div>
+                </div>
+                
+                <div class="col-xxl-3 col-lg-3 text-center">
+                    <div class="card-subtitle text-muted mb-3">ARTÍCULOS LEGALES VINCULADOS</div>
+                    <div style="font-size: 36px;"><b>{{total_articulos}}</b></div>
+                </div>
+
+                <div class="col-xxl-3 col-lg-3 text-center">
+                    <p><b>AVANCE:</b></p>                    
+                        <apx-chart [series]="basicRadialbarChart.series" [chart]="basicRadialbarChart.chart"
+                        [plotOptions]="basicRadialbarChart.plotOptions" [labels]="basicRadialbarChart.labels"
+                        [colors]="basicRadialbarChart.colors" dir="ltr"></apx-chart>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-xxl-6 col-lg-6 text-center">
+                    <div class="card-subtitle text-muted mb-3"><b>Cuerpos legales</b></div>
+                    <apx-chart [series]="customAngleChart.series" [chart]="customAngleChart.chart"
+            [plotOptions]="customAngleChart.plotOptions" [labels]="customAngleChart.labels"
+            [legend]="customAngleChart.legend" [colors]="customAngleChart.colors"
+            [responsive]="customAngleChart.responsive" dir="ltr"></apx-chart>
+                </div>
+                
+                <div class="col-xxl-6 col-lg-6 text-center">
+                    <div class="card-subtitle text-muted mb-3"><b>Artículos legales</b></div>
+                    <apx-chart [series]="customAngleChart.series" [chart]="customAngleChart.chart"
+            [plotOptions]="customAngleChart.plotOptions" [labels]="customAngleChart.labels"
+            [legend]="customAngleChart.legend" [colors]="customAngleChart.colors"
+            [responsive]="customAngleChart.responsive" dir="ltr"></apx-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+<div class="col-xl-12">
+    
+    <div class="card">  
+        <div class="card-body">  
+          <div class="row g-4 mb-3">
+            <div class="col-sm">
+                <h4 style="color: #405189;"><b>GESTIÓN DE CUMPLIMIENTO</b></h4>
+            </div>
+            <div class="col-sm-auto">
+                <div class="d-md-flex justify-content-sm-end gap-2">
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cuerpo Legal" data-choices data-choices-search-false
+                                id="choices-priority-input2">
+                                <option value="" selected>Seleccione Cuerpo legal</option>
+                                <option value="{{c.cuerpoLegal}}" *ngFor="let c of cuerpos_articulos; let i = index;">
+                                    {{c.cuerpoLegal}}
+                                </option>
+                    </select>
+                    <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
+                        <input type="text" class="form-control" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;margin-right: 39px;" placeholder="Buscar artículo" ><!--"service.searchTerm"-->
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                    
+                </div>
+            </div>
+          </div>
+
+    <div class="row">
+        <div class="col-lg-12"><!--
+            <div class="card">
+                <div class="card-body">-->
+
+                    <!--<div *ngIf="articles_proyects_group.length < 1">
+                        <div style="text-align: center;width: 100%;font-size: 20px;">
+                            Aún no tiene articulos aplicables
+                        </div>
+                    </div>-->
+
+                    <!--<div *ngIf="articles_proyects_group.length > 0">-->
+                        <div class="list-group">
+
+                                <ng-template #myArticles let-s="s">
+                                    <div class="team-list list-view-filter row" style="cursor: pointer;" (click)="goEvaluation(s.id)">
+                                        <div class="col">
+                                            <div class="card team-box">
+                                                
+                                                <div class="card-body p-4">                
+                                                    <div class="row align-items-center team-row">
+                                                        
+                                                        <div class="col-lg-2 col">
+                                                            <h6 style="color: #405189;">{{s.articulo}}</h6>
+                                                        </div>
+                                                        <div class="col-lg-5 col">
+                                                            <!--class="team-profile-img"-->
+                                                                <p class="card-text mb-2 align-self-center" [style]="s.descripcion && s.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 450 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}} 
+                                                                    <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && !validatShow(s.articuloId)" (click)="showText(s.articuloId)"><b>Leer más</b></small>
+                                                                    <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && validatShow(s.articuloId)" (click)="hideText(s.articuloId)"><b>Ocultar texto completo</b></small></p>
+                                                                <!--<p class="card-text">
+                                                                </p>-->
+                                                        </div>
+
+                                                        <div class="col-lg-4 col">
+                                                            <div class="row text-muted text-center">
+                                                                <div class="col-6 border-end border-end-dashed">
+                                                                    <h5 class="mb-1">08-08-2023</h5>
+                                                                    <p class="text-muted mb-0">Fecha evaluación</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <h5 class="mb-1">10</h5>
+                                                                    <p class="text-muted mb-0">Hallazgos pendiente</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-1 col">
+                                                            <span class="badge text-bg-warning">En proceso</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                </ng-template>
+
+                                <ng-container *ngFor="let g of articles_proyects_group;">
+                                    
+                                <div class="card" style="box-shadow: none !important;">
+                                    <!--<div class="card-header">
+                                        <div class="p-3 d-flex flex-column h-100">
+                                            <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed">-->
+
+
+                                                    <!--<button type="button" class="btn btn-icon btn-sm fs-16 close-btn-overview" style="cursor: pointer;float: right;">
+                                                        <span class="hamburger-icon">
+                                                        <span></span>
+                                                        <span></span>
+                                                        <span></span>
+                                                    </span>
+                                                    </button>-->
+                                            <!--</div>
+                                        </div>
+                                    </div>-->
+                                    <div class="card-body">
+                                        
+                                        <h6 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}}
+                                            <!--<span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-down-s-line"></i></span>-->
+                                        </h6>                              
+                                        <p class="card-subtitle text-muted mb-3">{{g.organismo}}</p>
+                                                                
+                                    <ng-container *ngFor="let s of g.articulos"><!-- | filter:term3-->
+            
+                                        <ng-container [ngTemplateOutlet]="myArticles" 
+                                        [ngTemplateOutletContext] ="{s:s }">
+                                        </ng-container>
+                            
+                                    </ng-container>
+                                    </div>
+                                </div>
+                                </ng-container>
+                            </div>
+                        <!--</div>-->
+                    <!--</div>
+            </div>-->
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>

@@ -3,6 +3,7 @@ import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
+import { round } from 'lodash';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -31,7 +32,7 @@ export class ProjectDashboardComponent implements OnInit {
   project: any = {};
 
   installations_data: any = [];
-  areas_data: any = [];
+  installations_group: any = [];
   userData: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
@@ -43,7 +44,7 @@ export class ProjectDashboardComponent implements OnInit {
      */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Identificación', active: true }
+      { label: 'Dashboard', active: true }
     ];
 
     if (localStorage.getItem('toast')) {
@@ -53,7 +54,6 @@ export class ProjectDashboardComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
-      this.getAreas(params['id']);
       this.getInstallations(params['id']);
     });
 
@@ -74,6 +74,10 @@ export class ProjectDashboardComponent implements OnInit {
     //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
   }
 
+  goDetail(id: any){
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/Detail']);
+  }
+
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
@@ -85,19 +89,93 @@ export class ProjectDashboardComponent implements OnInit {
       });
    }
 
-   getAreas(idProject?: any) {
-    this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
-        (data: any) => {
-          this.areas_data = data.data;
-      },
-      (error: any) => {
-      });
-  }
-
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
-          this.installations_data = data.data;
+          let obj: any = data.data;
+          let lista: any = [];
+          let avance_total: number = 0;
+
+          for (var i = 0; i < obj.length; i++) {
+            
+            if(obj[i].installations_articles.length > 0){
+
+              let total_articulos: any = [];
+              let total_cuerpos: any = [];
+              let cumple: number = 0;
+              let nocumple: number = 0;
+              let parcial: number = 0;
+
+              for (var j = 0; j < obj[i].installations_articles.length; j++) {
+                if(obj[i].installations_articles[j].proyectoId == this.project_id){
+                  total_articulos.push(obj[i].installations_articles[j]);
+                  
+                  const index = total_cuerpos.findIndex(
+                    (cu: any) =>
+                      cu == obj[i].installations_articles[j].cuerpoLegal
+                  );
+
+                  if(index == -1){
+                    total_cuerpos.push(obj[i].installations_articles[j].cuerpoLegal);
+                  }
+
+                  for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
+                      if(obj[i].installations_articles[j].evaluations[v].estado){
+                        switch (obj[i].installations_articles[j].evaluations[v].estado) {
+                          case 'CUMPLE':
+                            cumple ++;
+                            break;
+      
+                          case 'NO CUMPLE':
+                              nocumple ++;
+                            break;
+                          
+                          case 'CUMPLE PARCIALMENTE':
+                            parcial ++;
+                            break;
+                        
+                          default:
+                            break;
+                        }
+                        
+                      }
+                    }
+                }
+              }
+              obj[i].total_articulos = total_articulos.length;
+              obj[i].total_cuerpos = total_cuerpos.length;
+              let avance: any = total_articulos.length > 0 ? ((((cumple * 100) + (nocumple * 0) + (parcial * 50)) * 100) / (total_articulos.length * 100)) : 0;
+              obj[i].avance = round(avance, 0);
+              
+              if(total_articulos.length > 0){
+                //avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
+                lista.push(obj[i]);
+              }
+            }
+
+          }
+
+          let total: any = lista.length;
+          this.installations_data = lista;
+          
+          this.installations_group = [];
+          lista.forEach((x: any) => {
+            
+            const index = this.installations_group.findIndex(
+              (co: any) =>
+                co.area == x.area.nombre
+            );
+
+            if(index == -1){
+              this.installations_group.push({
+                area: x.area.nombre, descripcion: x.area.descripcion, instalaciones: [x]
+              });
+            }else{
+              this.installations_group[index].instalaciones.push(x);
+            }
+          });
+          console.log('lista_data', this.installations_group);
+          //this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
       },
       (error: any) => {
       });
