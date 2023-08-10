@@ -34,6 +34,7 @@ export class ProjectDashboardComponent implements OnInit {
   installations_data: any = [];
   installations_group: any = [];
   userData: any;
+  avance_evaluacion: number = 0;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -175,7 +176,7 @@ export class ProjectDashboardComponent implements OnInit {
             }
           });
           console.log('lista_data', this.installations_group);
-          //this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
+          this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
       },
       (error: any) => {
       });
