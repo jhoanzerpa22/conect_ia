@@ -99,9 +99,8 @@ export class EvaluationDetailComponent implements OnInit {
 
     this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
 
-    this._basicRadialbarChart('["--vz-warning"]');
-    this._customAngleChart('["--vz-success", "--vz-warning", "--vz-danger"]');
-    
+    this._basicRadialbarChart('["--vz-warning"]', 75);
+    this._customAngleChart('["--vz-success", "--vz-warning", "--vz-danger"]');    
 
     /**
      * Form Validation
@@ -223,12 +222,13 @@ export class EvaluationDetailComponent implements OnInit {
   /**
  * Basic Radialbar Chart
  */
-  private _basicRadialbarChart(colors:any) {
+  private _basicRadialbarChart(colors:any, avance: number) {
     colors = this.getChartColorsArray(colors);
     this.basicRadialbarChart = {
       series: [70],
       chart: {
-          height: 120,
+          height: 150,
+          offsetY: 0,
           type: "radialBar",
       },
       plotOptions: {
@@ -236,6 +236,15 @@ export class EvaluationDetailComponent implements OnInit {
               hollow: {
                   size: "70%",
               },
+              dataLabels: {
+                name: {
+                    show: false,
+                },
+                value: {
+                    offsetY: 0,
+                    fontSize: "22px",
+                },
+            },
           },
       },
       labels: [""],
@@ -409,7 +418,9 @@ export class EvaluationDetailComponent implements OnInit {
             }
 
           });*/
-          console.log('group',this.articles_proyects_group);
+          //console.log('group',this.articles_proyects_group);
+
+          //this._basicRadialbarChart('["--vz-warning"]', this.avance);
 
           this.hidePreLoader();
       },
