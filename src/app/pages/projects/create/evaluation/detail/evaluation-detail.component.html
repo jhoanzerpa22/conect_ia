@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-header">
             <h2 class="card-title mb-3" style="color: #405189;"><b>{{detail.nombre}}</b></h2>
-                <p class="card-subtitle text-muted mb-3">Area</p>
+                <p class="card-subtitle text-muted mb-3">{{detail.nombreArea}}</p>
                 <h6 style="color: #405189;"><b>Descripción</b></h6>
                 <p>{{detail.descripcion}}</p>
         </div>
@@ -25,12 +25,12 @@
             <div class="row justify-content-center mb-5">
                 <div class="col-xxl-3 col-lg-3 text-center">
                     <div class="card-subtitle text-muted mb-3">CUERPO LEGALES VINCULADOS</div>
-                    <div style="font-size: 36px;"><b>{{cuerpos_articulos ? (cuerpos_articulos.length > 0 ? cuerpos_articulos.length : 0) : 0}}</b></div>
+                    <div style="font-size: 72px;"><b>{{cuerpos_articulos ? (cuerpos_articulos.length > 0 ? cuerpos_articulos.length : 0) : 0}}</b></div>
                 </div>
                 
                 <div class="col-xxl-3 col-lg-3 text-center">
                     <div class="card-subtitle text-muted mb-3">ARTÍCULOS LEGALES VINCULADOS</div>
-                    <div style="font-size: 36px;"><b>{{total_articulos}}</b></div>
+                    <div style="font-size: 72px;"><b>{{total_articulos}}</b></div>
                 </div>
 
                 <div class="col-xxl-3 col-lg-3 text-center">
