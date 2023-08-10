@@ -546,7 +546,7 @@ validateIdparte(idParte: any){
   
   async saveInstallation(){ 
     this.showPreLoader();
-    if(this.selectChecked.length > 0){
+    if(this.selectChecked.length > 0 || this.cuerpo_installations.length > 0){
 
       const normas = await this.normaIdSelect;
     
@@ -664,7 +664,7 @@ validateIdparte(idParte: any){
   
   async saveCuerpo(){
     this.showPreLoader();
-    if(this.selectChecked2.length > 0){
+    if(this.selectChecked2.length > 0 || this.cuerpo_installations.length > 0){
 
       const instalaciones = await this.installationSelect;
     
@@ -960,7 +960,7 @@ validateIdparte(idParte: any){
   async saveVinculacion () {
     
     this.showPreLoader();
-    if(this.selectChecked3.length > 0){
+    if(this.selectChecked3.length > 0 || this.installations_articles.length > 0){
       const normas = await this.normaIdSelect2;
     
       const services = await Promise.all(normas.map(async (c: any) => {
