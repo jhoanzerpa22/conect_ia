@@ -1114,11 +1114,9 @@
                             <li class="list-group-item mb-3 border" style="cursor: pointer;" [ngClass]="{'card-border-success': validChecked4(o.id) == 1, 'card-border-warning': validChecked4(o.id) == 2 }" >
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
-                                    <div class="d-flex">
-                                    <div class="flex-shrink-0 avatar-xs">
-                                      <div>
+                                    <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0"><!--avatar-xs-->
                                            <i class="mdi align-middle lh-1 me-2"  [ngClass]="{'mdi-check-circle text-success': validChecked4(o.id) == 1, 'mdi-alert-circle text-warning': validChecked4(o.id) == 2,'mdi-checkbox-blank-circle text-gray': validChecked4(o.id) == null }"></i>
-                                      </div>
                                     </div>
                                     <div class="flex-shrink-0 ms-2">
                                         {{o.nombre}}

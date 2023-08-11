@@ -972,9 +972,13 @@ validateIdparte(idParte: any){
               d.data.id == cu.instalacionId
           );
 
-          if(index_delete == -1 && parseInt(cu.articuloId) == c){
+          if(/*(*/index_delete == -1/* || (index_delete != -1 && this.selectChecked3[index_delete].estado != cu.estado))*/ && parseInt(cu.articuloId) == c){
 
-          this.projectsService.deleteArticleInstallation(cu.id).pipe().subscribe(
+          /*this.projectsService.deleteArticleInstallation(cu.id).pipe().subscribe(
+            (data: any) => {     
+            
+          },*/
+          this.projectsService.estadoArticleInstallation(null, cu.id).pipe().subscribe(
             (data: any) => {     
             
           },
@@ -1021,6 +1025,25 @@ validateIdparte(idParte: any){
           };
           
           this.projectsService.conectArticleInstallation(j.data.id, article_installation).pipe().subscribe(
+            (data: any) => {     
+            
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
+          });
+          }else if(this.installations_articles[index_add].estado != j.estado){
+            
+          this.projectsService.estadoArticleInstallation(j.estado, this.installations_articles[index_add].id).pipe().subscribe(
             (data: any) => {     
             
           },
@@ -2017,6 +2040,10 @@ validateIdparte(idParte: any){
     this.selectCheckedInstalaciones = [];
     this.selectCheckedCuerpos = [];
     this.configs = [];
+            
+    this.getArticlesInstallation();
+    this.getArticleProyect(this.project_id);
+    this.getCuerpoInstallationsByProyect();
   }
 
 }

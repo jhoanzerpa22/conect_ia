@@ -232,6 +232,14 @@ export class ProjectsService {
         return this.http.delete(API_URL_BACK + 'project/installation/article/'+id, /*httpOptions*/this.getToken());
     }
 
+    estadoArticleInstallation(estado: any, id: any): Observable<any> {
+    
+        return this.http.put(API_URL_BACK + 'project/installation/article/'+id, {
+        "estado": estado
+      }, /*httpOptions*/this.getToken());
+    
+    }
+
     conectCuerpoInstallation(data: any){
         return this.http.post(API_URL_BACK + 'project/cuerpoLegal/instalacion', data, /*httpOptions*/this.getToken());
     }
