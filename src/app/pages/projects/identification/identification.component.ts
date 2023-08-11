@@ -1071,6 +1071,8 @@ validateIdparte(idParte: any){
           this.getArticleProyect(this.project_id);
           this.getCuerpoInstallationsByProyect();
           
+          this.selectCheckedVincular = [];
+
           this.modalService.dismissAll();
           this.hidePreLoader();
 
