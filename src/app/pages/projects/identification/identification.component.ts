@@ -527,7 +527,7 @@ validateIdparte(idParte: any){
     if(type == 'multiple'){
       for (var j = 0; j < this.selectCheckedVincular.length; j++) {
         ids.push(this.selectCheckedVincular[j].articuloId);    
-        this.articuloSelect.push(data);
+        this.articuloSelect.push(this.selectCheckedVincular[j]);
       }
     }else{
       ids.push(data.articuloId);
@@ -639,13 +639,13 @@ validateIdparte(idParte: any){
             this.getArticleProyect(this.project_id);
             this.getCuerpoInstallationsByProyect();
             
-          Swal.fire({
+          /*Swal.fire({
             position: 'center',
             icon: 'success',
             title: 'Elementos guardados',
             showConfirmButton: true,
             timer: 5000,
-          });   
+          });*/
         }, 1000);
       
     }else{
@@ -750,13 +750,13 @@ validateIdparte(idParte: any){
         this.getArticleProyect(this.project_id);
         this.getCuerpoInstallationsByProyect();
         
-        Swal.fire({
+        /*Swal.fire({
           position: 'center',
           icon: 'success',
           title: 'Cuerpos Legales guardados',
           showConfirmButton: true,
           timer: 5000,
-        });
+        });*/
       }, 1000);
 
     }else{
@@ -945,13 +945,13 @@ validateIdparte(idParte: any){
     this.getArticleProyect(this.project_id);
     this.getCuerpoInstallationsByProyect();
 
-    Swal.fire({
+    /*Swal.fire({
       position: 'center',
       icon: 'success',
       title: 'Atributos guardados',
       showConfirmButton: true,
       timer: 5000,
-    });
+    });*/
     this.hidePreLoader();
   }, 3000);
 
@@ -1074,13 +1074,13 @@ validateIdparte(idParte: any){
           this.modalService.dismissAll();
           this.hidePreLoader();
 
-          Swal.fire({
+          /*Swal.fire({
             position: 'center',
             icon: 'success',
             title: 'Elementos guardados',
             showConfirmButton: true,
             timer: 5000,
-          });
+          });*/
     
         }, 1000);
       }else{
@@ -1240,7 +1240,21 @@ validateIdparte(idParte: any){
       (ins: any) =>
         ins.normaId == id
     );
-    return filter.length;
+
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+            }
+          })
+
+    return articles_group.length;
   }
 
   byArticuloVinculacion(id: any){
@@ -1988,13 +2002,13 @@ validateIdparte(idParte: any){
   
         this.activeTab = this.activeTab + 1;
   
-        Swal.fire({
+        /*Swal.fire({
           position: 'center',
           icon: 'success',
           title: 'Cuerpos Legales guardados',
           showConfirmButton: true,
           timer: 5000,
-        });
+        });*/
         }
       );
 
@@ -2008,13 +2022,13 @@ validateIdparte(idParte: any){
   
         this.activeTab = this.activeTab + 1;
   
-        Swal.fire({
+        /*Swal.fire({
           position: 'center',
           icon: 'success',
           title: 'Cuerpos Legales guardados',
           showConfirmButton: true,
           timer: 5000,
-        });
+        });*/
       }else{
       this.hidePreLoader();
       
