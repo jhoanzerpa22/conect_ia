@@ -527,7 +527,7 @@ validateIdparte(idParte: any){
     if(type == 'multiple'){
       for (var j = 0; j < this.selectCheckedVincular.length; j++) {
         ids.push(this.selectCheckedVincular[j].articuloId);    
-        this.articuloSelect.push(data);
+        this.articuloSelect.push(this.selectCheckedVincular[j]);
       }
     }else{
       ids.push(data.articuloId);
@@ -1240,7 +1240,21 @@ validateIdparte(idParte: any){
       (ins: any) =>
         ins.normaId == id
     );
-    return filter.length;
+
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+            }
+          })
+
+    return articles_group.length;
   }
 
   byArticuloVinculacion(id: any){
