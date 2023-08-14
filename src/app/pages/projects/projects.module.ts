@@ -86,6 +86,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 
 import { WidgetModule } from '../../shared/widget/widget.module';
+// Auto Complate
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 /*
 import {
@@ -164,7 +166,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     MatSelectModule,
     MatTableModule,
     MatTreeModule,
-    ScrollingModule
+    ScrollingModule,
+    AutocompleteLibModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
