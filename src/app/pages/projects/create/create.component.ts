@@ -44,6 +44,9 @@ export class CreateComponent implements OnInit {
 
   public Editor = ClassicEditor;
 
+  keyword = 'name';
+  keyword2 = 'name';
+
   constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private projectsService: ProjectsService,public toastService: ToastService) { }
 
   ngOnInit(): void {
@@ -78,6 +81,78 @@ export class CreateComponent implements OnInit {
   * Multiple Default Select2
   */
    selectValue = ['Choice 1', 'Choice 2', 'Choice 3'];
+
+   // Sectores Data
+  public Sectores = [
+    {
+      id: 1,
+      name: 'Energía',
+    },
+    {
+      id: 2,
+      name: 'Minería',
+    },
+    {
+      id: 3,
+      name: 'Portuario',
+    },
+    {
+      id: 4,
+      name: 'Silvoagropecuario',
+    },
+    {
+      id: 5,
+      name: 'Industria Manufacturera',
+    },
+    {
+      id: 6,
+      name: 'Pesca',
+    },
+    {
+      id: 7,
+      name: 'Retail',
+    },
+    {
+      id: 8,
+      name: 'Construcción',
+    },
+    {
+      id: 9,
+      name: 'Transporte y Comunicaciones',
+    },
+    {
+      id: 10,
+      name: 'Comercio',
+    },
+    {
+      id: 11,
+      name: 'Hoteles y Restoranes',
+    }
+  ];
+
+   // Actividades Data
+   public Actividades = [
+    {
+      id: 1,
+      name: 'Almacenamiento de residuos peligrosos',
+    },
+    {
+      id: 2,
+      name: 'Almacenamiento de sustancias peligrosas',
+    },
+    {
+      id: 3,
+      name: 'Almacenamiento de combustibles',
+    },
+    {
+      id: 4,
+      name: 'Transporte de sustancias peligrosas',
+    },
+    {
+      id: 5,
+      name: 'Tratamiento de residuos líquidos',
+    }
+  ];
 
    regresar(){
     this.step = this.step - 1;
@@ -124,6 +199,14 @@ export class CreateComponent implements OnInit {
       this.selected = fase;
     }
   }
+
+  selectEvent(item: any) {  }
+  onChangeSearch(search: any) {}
+  onFocused(e: any) { }
+  
+  selectEvent2(item: any) {  }
+  onChangeSearch2(search: any) {}
+  onFocused2(e: any) { }
 
    selectVariable(id: any){
     const index = this.selectValues.indexOf(id);

@@ -66,7 +66,7 @@
                     </div>
                     
                     <label class="form-label" style="margin-top: 20px !important;" for="project-sector-input">Sector Productivo</label>
-                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
+                    <!--<select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
                     id="project-sector-input" formControlName="sector">
                                 <option value="">Selecciona sector productivo</option>
                                 <option value="Energía">Energía</option>
@@ -80,10 +80,31 @@
                                 <option value="Transporte y Comunicaciones">Transporte y Comunicaciones</option>
                                 <option value="Comercio">Comercio</option>
                                 <option value="Hoteles y Restoranes">Hoteles y Restoranes</option>
-                    </select>
+                    </select>-->
+                    
+                            <ng-autocomplete
+                            [data]="Sectores"
+                            [searchKeyword]="keyword"
+                            placeholder="Selecciona sector productivo"
+                            (selected)='selectEvent($event)'
+                            (inputChanged)='onChangeSearch($event)'
+                            (inputFocused)='onFocused($event)'
+                            historyIdentifier="Sector"
+                            [itemTemplate]="itemTemplate"
+                            [notFoundTemplate]="notFoundTemplate"
+                            formControlName="sector">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
                     
                     <label class="form-label" style="margin-top: 20px !important;" for="project-actividad-input">Actividad</label>
-                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona actividad" data-choices data-choices-search-false
+                    <!--<select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona actividad" data-choices data-choices-search-false
                     id="project-actividad-input" formControlName="actividad">
                                 <option value="">Selecciona actividad</option>
                                 <option value="Almacenamiento de residuos peligrosos">Almacenamiento de residuos peligrosos</option>
@@ -91,7 +112,28 @@
                                 <option value="Almacenamiento de combustibles">Almacenamiento de combustibles</option>
                                 <option value="Transporte de sustancias peligrosas">Transporte de sustancias peligrosas</option>
                                 <option value="Tratamiento de residuos líquidos">Tratamiento de residuos líquidos</option>
-                            </select>
+                            </select>-->
+                    
+                            <ng-autocomplete
+                            [data]="Actividades"
+                            [searchKeyword]="keyword2"
+                            placeholder="Selecciona actividad"
+                            (selected)='selectEvent2($event)'
+                            (inputChanged)='onChangeSearch2($event)'
+                            (inputFocused)='onFocused2($event)'
+                            historyIdentifier="Actividad"
+                            [itemTemplate]="itemTemplate2"
+                            [notFoundTemplate]="notFoundTemplate2"
+                            formControlName="actividad">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate2 let-item>
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate2 let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
                     </form>
                 </div>
             </div>
