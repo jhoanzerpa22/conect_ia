@@ -62,3 +62,17 @@
 .title-step{
     margin-bottom: 40px;
 }
+
+.ng-autocomplete input {
+  background-color: #F3F6F9 !important;
+  border: 0.621px solid #F3F6F9 !important;
+}
+
+.ng-autocomplete {
+  background-color: #F3F6F9 !important;
+  border: 0.621px solid #F3F6F9 !important;
+}
+::ng-deep .autocomplete-container .input-container input{
+  background-color: #F3F6F9 !important;
+  border: 0.621px solid #F3F6F9 !important;
+}
