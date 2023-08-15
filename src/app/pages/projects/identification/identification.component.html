@@ -361,8 +361,8 @@
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
-                                            <div [ngClass]="byCuerpo(s.normaId) > 0 ? 'card team-box border card-border-success' : 'card team-box'">
-
+                                            <div class="card team-box border" [ngClass]="{ 'card-border-primary': onCheckCuerpos(s.normaId),'card-border-success': byCuerpo(s.normaId) > 0 && !onCheckCuerpos(s.normaId)}" id="{{s.normaId}}">
+                                                <!--[ngClass]="byCuerpo(s.normaId) > 0 ? 'card team-box border card-border-success' : 'card team-box'"-->
                                                 <div class="team-cover">
                                                     
                                                 </div>
@@ -375,16 +375,17 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col pointer" (click)="onCheckboxClickCuerpos(s.normaId)">
                                                             <div class="team-profile-img">
                                                                 
-                                                                <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                                <h5 class="fs-16 mb-1" style="color: #405189;">{{s.cuerpoLegal}}</h5>
+                                                                <!--<div class="form-check form-check-inline form-radio-primary mb-3">
                                                                     <input class="form-check-input" type="checkbox" id="{{s.normaId}}" value="{{s.normaId}}" name="checkAllCuerpos" (change)="onCheckboxChangeCuerpos($event)">
                                                                     
                                                                     <label class="form-check-label" for="{{s.normaId}}">
                                                                         <h5 class="fs-16 mb-1" style="color: #405189;">{{s.cuerpoLegal}}</h5>
                                                                     </label>
-                                                                </div>
+                                                                </div>-->
                                                                 <!--<div class="team-content">
                                                                     <a data-bs-toggle="offcanvas"
                                                                         aria-controls="offcanvasExample">
@@ -393,7 +394,7 @@
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="col-lg-6 col">
+                                                        <div class="col-lg-6 col pointer" (click)="onCheckboxClickCuerpos(s.normaId)">
                                                         <p class="card-text mb-2 align-self-center"><!--[style]="s.tituloNorma && s.tituloNorma.length > 250 ? 'min-height: 60px;' : 'min-height: 80px;'"-->{{s.tituloNorma ? (s.tituloNorma.length > 250 ? formatNorma(s.tituloNorma, s.normaId) : s.tituloNorma) : ''}}</p>
                                                         <p class="card-text">
                                                             <small [ngClass]="!validateIdparte2(s.normaId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.tituloNorma && s.tituloNorma.length > 250 && !validatShow2(s.normaId)" (click)="showText2(s.normaId)"><b>Leer más</b></small>
@@ -401,7 +402,7 @@
                                                         </p>
                                                         </div>
                                                         
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col pointer" (click)="onCheckboxClickCuerpos(s.normaId)">
                                                             <div class="row text-muted text-center">
                                                                 
                                                                 <div class="col-12">
@@ -453,7 +454,7 @@
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
-                                            <div [ngClass]="byInstallation(v.id) > 0 ? 'card team-box border card-border-success' : 'card team-box'">
+                                            <div class="card team-box border" [ngClass]="{ 'card-border-primary': onCheckInstallation(v.id),'card-border-success': byInstallation(v.id) > 0 && !onCheckInstallation(v.id)}" id="{{v.id}}"><!--, 'card team-box pointer': byInstallation(v.id) < 1-->
                                                 <div class="team-cover">
                                                     
                                                 </div>
@@ -466,16 +467,17 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col pointer" (click)="onCheckboxClickInstalaciones(v.id)">
                                                             <div class="team-profile-img">
                                                                 
-                                                                <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                                <h5 class="fs-16 mb-1" style="color: #405189;">{{v.nombre}}</h5>
+                                                                <!--<div class="form-check form-check-inline form-radio-primary mb-3">
                                                                     <input class="form-check-input" type="checkbox" id="{{v.id}}" value="{{v.id}}" name="checkAllInstalaciones" (change)="onCheckboxChangeInstalaciones($event)">
                                                                     
                                                                     <label class="form-check-label" for="inlineCheckbox1">
                                                                         <h5 class="fs-16 mb-1" style="color: #405189;">{{v.nombre}}</h5>
                                                                     </label>
-                                                                </div>
+                                                                </div>-->
                                                                 <!--<div class="team-content">
                                                                     <a data-bs-toggle="offcanvas"
                                                                         aria-controls="offcanvasExample">
@@ -484,11 +486,11 @@
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="col-lg-5 col">
+                                                        <div class="col-lg-5 col pointer" (click)="onCheckboxClickInstalaciones(v.id)">
                                                         <p>{{v.descripcion}}</p>
                                                         </div>
 
-                                                        <div class="col-lg-3 col">
+                                                        <div class="col-lg-3 col pointer" (click)="onCheckboxClickInstalaciones(v.id)">
                                                             <div class="row text-muted text-center">
                                                                 <div class="col-6 border-end border-end-dashed">
                                                                     <h5 class="mb-1">{{byInstallation(v.id)}}</h5>
@@ -850,7 +852,8 @@
                                 <ng-template #myArticles let-s="s">
                                     <div class="team-list list-view-filter row" *ngIf="s.tipoParte == 'Artículo'">
                                         <div class="col">
-                                            <div [ngClass]="byArticuloVinculacion(s.articuloId) > 0 ? 'card team-box border card-border-success' : 'card team-box'">
+                                            <div class="card team-box border" [ngClass]="{'card-border-primary': onCheckVincular(s.articuloId),'card-border-success': byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId)}" id="{{s.articuloId}}">
+                                                <!--[ngClass]="byArticuloVinculacion(s.articuloId) > 0 ? 'card team-box border card-border-success' : 'card team-box'"-->
                                                 <div class="team-cover">
                                                     
                                                 </div>
@@ -864,22 +867,23 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-auto col">
-                                                            <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                        <div class="col-sm-auto col pointer" (click)="onCheckboxClickVincular(s.articuloId, s)">
+                                                            <!--<div class="form-check form-check-inline form-radio-primary mb-3">
                                                                 <input class="form-check-input" type="checkbox" id="{{s.articuloId}}" value="{{s.articuloId}}" name="checkAllVincular" (change)="onCheckboxChangeVincular($event, s)">
                                                             </div>
-                                                        </div>
-                                                        <div class="col" [ngClass]="validateConfig('atributo') || validateConfig('componente') || validateConfig('fase') ? 'col-lg-5' : 'col-lg-8'">
-                                                            <div ><!--class="team-profile-img"-->
-                                                                <div>
+                                                            -->
+                                                            <div>
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
-                                                                </div>
-                                                                <p class="card-text mb-2" [style]="s.descripcion && s.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{s.descripcion ? (s.descripcion.length > 450 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}} 
+                                                            </div>
+                                                        </div>
+                                                        <div class="col pointer" [ngClass]="validateConfig('atributo') || validateConfig('componente') || validateConfig('fase') ? 'col-lg-5' : 'col-lg-8'" (click)="onCheckboxClickVincular(s.articuloId, s)">
+                                                            <!--class="team-profile-img"-->
+                                                                <p class="card-text mb-2 align-self-center"><!-- [style]="s.descripcion && s.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'"-->
+                                                                    {{s.descripcion ? (s.descripcion.length > 450 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}} 
                                                                     <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && !validatShow(s.articuloId)" (click)="showText(s.articuloId)"><b>Leer más</b></small>
                                                                     <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && validatShow(s.articuloId)" (click)="hideText(s.articuloId)"><b>Ocultar texto completo</b></small></p>
                                                                 <!--<p class="card-text">
                                                                 </p>-->
-                                                            </div>
                                                         </div>
                                                         
                                                         
@@ -965,8 +969,8 @@
 
                                 </ng-template>
 
-                                <ng-container *ngFor="let g of articles_proyects_group;">
-                                    
+                                <ng-container *ngFor="let g of articles_proyects_group;let impar = odd;let par = even;">
+
                                 <div class="card" style="box-shadow: none !important;">
                                     <!--<div class="card-header">
                                         <div class="p-3 d-flex flex-column h-100">
@@ -983,7 +987,7 @@
                                             <!--</div>
                                         </div>
                                     </div>-->
-                                    <div class="card-body" style="background: #f3f3f9;">
+                                    <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
                                         
                                         <h4 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}}
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>

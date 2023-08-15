@@ -502,6 +502,8 @@ validateIdparte(idParte: any){
         ids.push(this.selectCheckedInstalaciones[j].id);
       }
     }else{
+      this.selectCheckedInstalaciones = [];
+      console.log('selectCheckedInstalaciones', this.selectCheckedInstalaciones);
       ids.push(data.id);
     }
 
@@ -1585,8 +1587,37 @@ validateIdparte(idParte: any){
       }
     }
   }
-  
 
+  onCheckboxClickCuerpos(value: any) {
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.articles_proyects_group.length; i++) {
+        result = this.articles_proyects_group[i];
+        checkedVal.push(result);
+        if(this.articles_proyects_group[i].normaId == value){
+          const index = this.selectCheckedCuerpos.findIndex(
+            (ch: any) =>
+              ch.normaId == value
+          );
+
+          if(index != - 1){
+            this.selectCheckedCuerpos.splice(index, 1);
+          }else{
+            this.selectCheckedCuerpos.push(this.articles_proyects_group[i]);
+          }
+        }
+    }
+  }
+
+  onCheckCuerpos(id: any){
+    const index = this.selectCheckedCuerpos.findIndex(
+      (ch: any) =>
+        ch.normaId == id
+    );
+
+    return index != -1;
+  }
+  
   checkedValGetInstalaciones: any[] = [];
   onCheckboxChangeInstalaciones(e: any){
     var checkedVal: any[] = [];
@@ -1607,12 +1638,42 @@ validateIdparte(idParte: any){
           }
         }
     }
-    var checkboxes: any = document.getElementsByName('checkAllInstalaciones');
+    /*var checkboxes: any = document.getElementsByName('checkAllInstalaciones');
     for (var j = 0; j < checkboxes.length; j++) {
       if (checkboxes[j].checked && checkboxes[j].id != e.target.value) {
         //checkboxes[j].checked = false;
       }
+    }*/
+  }
+
+  onCheckboxClickInstalaciones(value: any){
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.installations_data.length; i++) {
+        result = this.installations_data[i];
+        checkedVal.push(result);
+        if(this.installations_data[i].id == value){
+          const index = this.selectCheckedInstalaciones.findIndex(
+            (ch: any) =>
+              ch.id == value
+          );
+
+          if(index != - 1){
+            this.selectCheckedInstalaciones.splice(index, 1);
+          }else{
+            this.selectCheckedInstalaciones.push(this.installations_data[i]);
+          }
+        }
     }
+  }
+
+  onCheckInstallation(id: any){
+    const index = this.selectCheckedInstalaciones.findIndex(
+      (ch: any) =>
+        ch.id == id
+    );
+
+    return index != -1;
   }
 
   checkedValGetVincular: any[] = [];
@@ -1644,6 +1705,38 @@ validateIdparte(idParte: any){
     if(this.selectCheckedVincular.length < 1){
       this.attributes_all = [];
     }
+  }
+
+  onCheckboxClickVincular(value: any, data: any) {
+    var checkedVal: any[] = [];
+    var result
+
+        result = data;
+        checkedVal.push(result);
+          
+          const index = this.selectCheckedVincular.findIndex(
+            (ch: any) =>
+              ch.articuloId == value
+          );
+
+          if(index != - 1){
+            this.selectCheckedVincular.splice(index, 1);
+          }else{
+            this.selectCheckedVincular.push(data);
+          }
+
+    if(this.selectCheckedVincular.length < 1){
+      this.attributes_all = [];
+    }
+  }
+
+  onCheckVincular(id: any){
+    const index = this.selectCheckedVincular.findIndex(
+      (ch: any) =>
+        ch.articuloId == id
+    );
+
+    return index != -1;
   }
 
   // PreLoader
