@@ -162,7 +162,7 @@ export class EvaluationDetailComponent implements OnInit {
     this.customAngleChart = {
       series: [76, 67, 61],
       chart: {
-          height: 350,
+          height: 300,
           type: "radialBar",
       },
       plotOptions: {
@@ -193,7 +193,7 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "16px",
           position: "left",
-          offsetX: 160,
+          offsetX: 60,
           offsetY: 15,
           labels: {
               useSeriesColors: true,

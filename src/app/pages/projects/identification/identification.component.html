@@ -1163,6 +1163,8 @@
 
 <ng-template #TabContent3>
 
+    <div class="card">  
+        <div class="card-body">  
     <ul ngbNav #Pills="ngbNav" [activeId]="1" class="nav nav-pills nav-primary mb-3">
         
         <li [ngbNavItem]="1" class="nav-item waves-effect waves-light">
@@ -1299,8 +1301,6 @@
             </a>
             <ng-template ngbNavContent>
 
-    <div class="card">  
-        <div class="card-body">  
           <div class="row g-4 mb-3">
             <div class="col-sm-auto">
                 
@@ -1466,8 +1466,6 @@
                   </ul>
               </div>
             </div>
-        </div>
-        </div>
         </ng-template>
         </li>
         </ul>
@@ -1476,6 +1474,8 @@
             <div [ngbNavOutlet]="Pills"></div>
         </div>
         
+    </div>
+</div>
         <div class="row mb-4">
             <div class="col-12">
                 <button class="btn btn-success btn-label waves-effect right waves-light" style="float:right;" routerLink="/{{project_id}}/project-dashboard"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Terminar</button>
