@@ -1162,6 +1162,143 @@
 </ng-template>
 
 <ng-template #TabContent3>
+
+    <ul ngbNav #Pills="ngbNav" [activeId]="1" class="nav nav-pills nav-primary mb-3">
+        
+        <li [ngbNavItem]="1" class="nav-item waves-effect waves-light">
+            <a ngbNavLink>
+                <span class="d-sm-block">Dashboard</span>
+            </a>
+            <ng-template ngbNavContent>
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row mb-3">
+                            
+                            <div class="col-md-4">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Cuerpos legales identificados</p>
+                                                <h2 class="mt-4 ff-secondary fw-semibold">
+                                                    <span [CountTo]="articles_proyects_group.length" class="counter-value" [from]="0" [duration]="1"></span>
+                                                </h2>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
+                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Cuerpos legales aplicables</p>
+                                                <h2 class="mt-4 ff-secondary fw-semibold">
+                                                    <span [CountTo]="countCuerposLegales()" class="counter-value" [from]="0" [duration]="1"></span>
+                                                </h2>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
+                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+                <div class="row mb-3">
+                    
+                    <div class="col-sm-8">
+                        <h4>Cuerpos Legales</h4>
+                        <apx-chart [series]="basicBarChart.series" [chart]="basicBarChart.chart" [dataLabels]="basicBarChart.dataLabels" [plotOptions]="basicBarChart.plotOptions" [xaxis]="basicBarChart.xaxis" [colors]="basicBarChart.colors" dir="ltr"></apx-chart>
+                    </div>
+
+                </div>
+
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row mb-3">
+                            
+                            <div class="col-md-4">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Artículos identificados</p>
+                                                <h2 class="mt-4 ff-secondary fw-semibold">
+                                                    <span [CountTo]="articles_proyects.length" class="counter-value" [from]="0" [duration]="1"></span>
+                                                </h2>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
+                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-medium text-muted mb-0">Artículos aplicables</p>
+                                                <h2 class="mt-4 ff-secondary fw-semibold">
+                                                    <span [CountTo]="countArticulos()" class="counter-value" [from]="0" [duration]="1"></span>
+                                                </h2>
+                                            </div>
+                                            <div>
+                                                <div class="avatar-sm flex-shrink-0">
+                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
+                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+                <div class="row mb-3">
+                    
+                    <div class="col-sm-8">
+                        <h4>Artículos</h4>
+                        <apx-chart [series]="basicBarChart.series" [chart]="basicBarChart.chart" [dataLabels]="basicBarChart.dataLabels" [plotOptions]="basicBarChart.plotOptions" [xaxis]="basicBarChart.xaxis" [colors]="basicBarChart.colors" dir="ltr"></apx-chart>
+                    </div>
+
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="nav-item waves-effect waves-light">
+            <a ngbNavLink>
+                Resumen
+            </a>
+            <ng-template ngbNavContent>
+
     <div class="card">  
         <div class="card-body">  
           <div class="row g-4 mb-3">
@@ -1330,6 +1467,13 @@
               </div>
             </div>
         </div>
+        </div>
+        </ng-template>
+        </li>
+        </ul>
+        
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="Pills"></div>
         </div>
         
         <div class="row mb-4">

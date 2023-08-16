@@ -42,6 +42,8 @@ export class IdentificationComponent implements OnInit {
   TeamMembers: any;
   status7: any;
   simpleDonutChart: any;
+  basicBarChart: any;
+
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
@@ -172,6 +174,8 @@ export class IdentificationComponent implements OnInit {
       this.getNormas(0);
     });
 
+    this._basicBarChart('["--vz-success", "--vz-warning", "--vz-danger"]');
+
     /**
      * Fetches the data
      */
@@ -180,6 +184,70 @@ export class IdentificationComponent implements OnInit {
 
   ngAfterViewInit() {
     //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+  }
+
+  // Chart Colors Set
+  private getChartColorsArray(colors:any) {
+    colors = JSON.parse(colors);
+    return colors.map(function (value:any) {
+      var newValue = value.replace(" ", "");
+      if (newValue.indexOf(",") === -1) {
+        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+            if (color) {
+            color = color.replace(" ", "");
+            return color;
+            }
+            else return newValue;;
+        } else {
+            var val = value.split(',');
+            if (val.length == 2) {
+                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+                rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+                return rgbaColor;
+            } else {
+                return newValue;
+            }
+        }
+    });
+  }
+
+  /**
+   * Basic Bar Chart
+   */
+  private _basicBarChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChart = {
+      series: [{
+        data: [380, 430, 450],
+      }, ],
+      chart: {
+        height: 350,
+        type: "bar",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          distributed: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: colors,
+      grid: {
+        borderColor: "#f1f1f1",
+      },
+      xaxis: {
+        categories: [
+          "Medio Ambiente",
+          "SSO",
+          "Energía"
+        ],
+      },
+    };
   }
 
   selectCuerpo(cuerpo: any){
@@ -1242,9 +1310,51 @@ validateIdparte(idParte: any){
   byCuerpoVinculacion(id: any){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.normaId == id
+        ins.normaId == id && ins.proyectoId == this.project_id
     );
 
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+            }
+          })
+
+    return articles_group.length;
+  }
+
+  countCuerposLegales(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id
+    );
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.normaId
+            );
+
+            if(index == -1){
+              articles_group.push(x.normaId);
+            }
+          })
+
+    return articles_group.length;
+  }
+  
+  countArticulos(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id
+    );
     let articles_group: any = [];
           filter.forEach((x: any) => {
             
