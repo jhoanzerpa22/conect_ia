@@ -221,7 +221,7 @@ export class IdentificationComponent implements OnInit {
         data: [380, 430, 450],
       }, ],
       chart: {
-        height: 350,
+        height: 170,
         type: "bar",
         toolbar: {
           show: false,
