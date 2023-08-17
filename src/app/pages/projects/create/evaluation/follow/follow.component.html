@@ -84,17 +84,29 @@
 
 </form>
 
-<div class="row" *ngIf="status == 'NO CUMPLE' || status == 'CUMPLE PARCIALMENTE'">
+<div class="row"><!-- *ngIf="status == 'NO CUMPLE' || status == 'CUMPLE PARCIALMENTE'"-->
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Hallazgos</h4>
+                <h4 class="card-title mb-0" style="color: #405189;"><b>HALLAZGOS</b></h4>
             </div><!-- end card header -->
 
             <div class="card-body">
                 <div id="customerList">                    
                     <div class="row g-0">
-                        <div class="col-md-12">
+                        <div class="col-md-10">
+                                <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
+                                    <input type="text" class="form-control" style="width: 100%;" placeholder="Buscar un Hallazgo">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-md btn-primary edit-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content)"
+                                                    ><i class="ri-add-fill me-1 align-bottom"></i>Crear Hallazgo
+                            </button>
+                        </div>
+                        <!--<div class="col-md-12">
                             <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form">
                             <div class="row">
                                 <div class="col-sm-2 mb-3">
@@ -122,11 +134,28 @@
                                 </div>
                             </div>
                             </form>
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="table-responsive table-card mt-3 mb-1">
-                        <table class="table">
+                        <table class="table table-sm table-nowrap">
+                            <thead>
+                            <tr>
+                            <th scope="col" style="width: 70%;">Hallazgo</th>
+                            <th scope="col">Fecha Hallazgo</th>
+                            <th scope="col">Estado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            <td>H1</td>
+                            <td>08-08-2023</td>
+                            <td><span class="badge badge-soft-warning">Pendiente</span></td>
+                            </tr>
+                            </tbody>
+                            </table>
+
+                        <!--<table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
                                     <th class="sort" style="width: 150px;">Respaldo</th>
@@ -138,7 +167,7 @@
                             <tbody>
                                 <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
                                     <td><img [src]="imgView2[data.id-1]" (error)="imgError($event)" alt="user img"
-                                        class="users-avatar-shadow avatar mr-3" height="64" width="64"><!--rounded-circle-->
+                                        class="users-avatar-shadow avatar mr-3" height="64" width="64">
                                     </td>
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight>
@@ -159,7 +188,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table>-->
                     </div>
 
                     <div class="row justify-content-md-between align-items-md-center">
@@ -187,6 +216,38 @@
         <!-- end col -->
     </div>
 </div>
+
+<!-- Add Hallazgo -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Hallazgo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" formControlName="id" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label for="area-field" class="form-label">Descripción</label>
+                <textarea class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                <div class="invalid-feedback">Por favor ingresar descripción.</div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-primary" id="add-btn">Guardar</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
 
 <div class="row">
     <div class="col-12">
