@@ -32,7 +32,7 @@
                                                     <div>
                                                         <p class="fw-medium text-muted mb-0">Cuerpos legales aplicables</p>
                                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                                            <span [CountTo]="28" class="counter-value" [from]="0" [duration]="1"></span>
+                                                            <span [CountTo]="countCuerposLegales()" class="counter-value" [from]="0" [duration]="1"></span>
                                                         </h2>
                                                         <!--<p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0">[ngClass]=" { 'text-danger': profit === 'down'}"
                                                                 <i class="align-middle ri-arrow-up-line"></i>
@@ -59,9 +59,9 @@
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between">
                                                     <div>
-                                                        <p class="fw-medium text-muted mb-0">Artículos legales aplicables</p>
+                                                        <p class="fw-medium text-muted mb-0">Artículos aplicables</p>
                                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                                            <span [CountTo]="238" class="counter-value" [from]="0" [duration]="1"></span>
+                                                            <span [CountTo]="countArticulos()" class="counter-value" [from]="0" [duration]="1"></span>
                                                         </h2>
                                                     </div>
                                                     <div>
@@ -110,7 +110,7 @@
                             </div>
                             
                             <div class="col-sm-4">
-                                <h4>Artículos Legales</h4>
+                                <h4>Artículos</h4>
                                 <apx-chart [series]="simplePieChart.series" [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [legend]="simplePieChart.legend" [dataLabels]="simplePieChart.dataLabels" [responsive]="simplePieChart.responsive" [colors]="simplePieChart.colors" dir="ltr"></apx-chart>
                             </div>
                           </div>
