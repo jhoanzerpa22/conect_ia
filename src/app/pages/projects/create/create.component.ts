@@ -283,8 +283,8 @@ export class CreateComponent implements OnInit {
       //regionId: this.regionProyecto,
       //comunaId: this.comunaProyecto,
       //tipoZonaId: this.tipoZonaProyecto,
-      sectorProductivoId: 1,//this.sectorProyecto,
-      actividad: this.actividadProyecto
+      sectorProductivoId: typeof this.sectorProyecto === 'string' ? 1/*this.sectorProyecto*/ : this.sectorProyecto.id,
+      actividad: typeof this.actividadProyecto === 'string' ? this.actividadProyecto : this.actividadProyecto.name
     };
 
     this.showPreLoader();

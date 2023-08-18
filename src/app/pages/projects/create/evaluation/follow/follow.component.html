@@ -41,11 +41,11 @@
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
-                                id="choices-priority-input2">
+                                id="choices-priority-input2" (change)="changeStatus($event)">
                                 <option value="" selected>Seleccione Cumplimiento</option>
-                                <option value="CUMPLE" (click)="changeStatus('CUMPLE')">Cumple</option>
-                                <option value="CUMPLE PARCIALMENTE" (click)="changeStatus('CUMPLE PARCIALMENTE')">Cumple parcial</option>
-                                <option value="NO CUMPLE" (click)="changeStatus('NO CUMPLE')">No cumple</option>
+                                <option value="CUMPLE">Cumple</option>
+                                <option value="CUMPLE PARCIALMENTE">Cumple parcial</option>
+                                <option value="NO CUMPLE">No cumple</option>
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
                         <div class="form-icon right">

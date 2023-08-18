@@ -246,8 +246,8 @@ export class EvaluationFollowComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
   
-  changeStatus(status: any){
-    this.status = status;
+  changeStatus(e: any){
+    this.status = e.target.value;
   }
 
   changeStatusHallazgo(id: number, estado: number){
@@ -299,7 +299,6 @@ export class EvaluationFollowComponent implements OnInit {
           timer: 5000,
         });
       }else{
-
         Swal.fire({
           position: 'center',
           icon: 'error',
