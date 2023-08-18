@@ -32,6 +32,7 @@ export class ProjectDashboardComponent implements OnInit {
   project: any = {};
 
   installations_data: any = [];
+  installations_articles: any = [];
   installations_group: any = [];
   userData: any;
   avance_evaluacion: number = 0;
@@ -142,6 +143,11 @@ export class ProjectDashboardComponent implements OnInit {
                       }
                     }
                 }
+
+                
+              if(total_articulos.length > 0){
+                this.installations_articles.push(obj[i].installations_articles[j]);
+              }
               }
               obj[i].total_articulos = total_articulos.length;
               obj[i].total_cuerpos = total_cuerpos.length;
@@ -175,12 +181,55 @@ export class ProjectDashboardComponent implements OnInit {
               this.installations_group[index].instalaciones.push(x);
             }
           });
-          console.log('lista_data', this.installations_group);
+          //console.log('lista_data', this.installations_group);
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
       },
       (error: any) => {
       });
   }
+
+  countCuerposLegales(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id
+    );
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.normaId
+            );
+
+            if(index == -1){
+              articles_group.push(x.normaId);
+            }
+          })
+
+    return articles_group.length;
+  }
+  
+  countArticulos(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id
+    );
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+            }
+          })
+
+    return articles_group.length;
+  }
+
 
   /**
  * Simple Pie Chart

@@ -43,9 +43,9 @@
                     <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
                                 id="choices-priority-input2">
                                 <option value="" selected>Seleccione Cumplimiento</option>
-                                <option value="CUMPLE">Cumple</option>
-                                <option value="CUMPLE PARCIALMENTE">Cumple parcial</option>
-                                <option value="NO CUMPLE">No cumple</option>
+                                <option value="CUMPLE" (click)="changeStatus('CUMPLE')">Cumple</option>
+                                <option value="CUMPLE PARCIALMENTE" (click)="changeStatus('CUMPLE PARCIALMENTE')">Cumple parcial</option>
+                                <option value="NO CUMPLE" (click)="changeStatus('NO CUMPLE')">No cumple</option>
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
                         <div class="form-icon right">
@@ -147,11 +147,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                            <td>H1</td>
-                            <td>08-08-2023</td>
-                            <td><span class="badge badge-soft-warning">Pendiente</span></td>
-                            </tr>
+                                
+                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
+                                    <td><ngb-highlight [result]="data.nombre"
+                                        [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>{{ data.fecha}}</td>
+                                    <td><span style="cursor: pointer;" class="badge" [ngClass]="{'badge-soft-warning': data.estado == 2,'badge-soft-success': data.estado == 1, 'badge-soft-danger': data.estado == 3}" (click)="changeStatusHallazgo(data.id, data.estado)">{{data.estado == 2 ? 'Pendiente' : (data.estado == 1 ? 'Completada' : 'No Completada') }}</span></td>
+                                </tr>
                             </tbody>
                             </table>
 
@@ -227,8 +230,6 @@
     <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form" autocomplete="off">
         <div class="modal-body">
 
-            <input type="hidden" name="id" value="" formControlName="ids" />
-
             <div class="mb-3" id="modal-id" style="display: none;">
                 <label for="id-field" class="form-label">ID</label>
                 <input type="text" id="id-field" class="form-control" placeholder="ID" formControlName="id" readonly />
@@ -236,7 +237,7 @@
 
             <div class="mb-3">
                 <label for="area-field" class="form-label">Descripción</label>
-                <textarea class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                <textarea class="form-control" id="nombreHallazgo" formControlName="nombre" placeholder="Descripción del Hallazgo" rows="3"></textarea>
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
             </div>
 

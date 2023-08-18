@@ -128,18 +128,19 @@ export class EvaluationFollowComponent implements OnInit {
     });
 
     this.hallazgoForm = this.formBuilder.group({
+      id: [''],
       nombre: ['', [Validators.required]],
-      descripcion: [''],
-      fileHallazgo: ['']
+      //descripcion: [''],
+      //fileHallazgo: ['']
     });
 
     this.evaluacionForm = this.formBuilder.group({
       fecha_evaluacion: ['', [Validators.required]],
-      fecha_termino: [''],
+      //fecha_termino: [''],
       comentario: [''],
-      reportable: [''],
-      monitoreo: [''],
-      permiso: ['']
+      //reportable: [''],
+      //monitoreo: [''],
+      //permiso: ['']
     });
 
     /**
@@ -156,30 +157,11 @@ export class EvaluationFollowComponent implements OnInit {
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
-      /*if(!this.installation_id){
-        this.getInstallations();
-      }else{*/
-        //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
         this.getProject();
-      //}
+      
     });
-
-    // Data Get Function
-    //this._fetchData();
   }
-
-  // Chat Data Fetch
-  /*private _fetchData() {
-    // Folder Data Fetch
-    this.folderData = folderData;
-    this.folderDatas = Object.assign([], this.folderData);
-
-    // Recent Data Fetch
-    this.recentData.subscribe(x => {
-      this.recentDatas = Object.assign([], x);
-    });
-  }*/
 
   getProject(){
     this.projectsService.getById(this.project_id).pipe().subscribe(
@@ -191,30 +173,6 @@ export class EvaluationFollowComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
-
-  /**
-   * Fetches the data
-   */
-  private _fetchData() {
-    
-    this.showPreLoader();
-      this.projectsService.getBodyLegalByNorma(this.cuerpo_id).pipe().subscribe(
-        (data: any) => {
-          //this.service.bodylegal_data = data.data;
-          this.detail = data.data;
-          this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
-          
-          this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
-
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
 
   private getArticlesByInstallationBody(installation_id: any){
 
@@ -272,23 +230,6 @@ export class EvaluationFollowComponent implements OnInit {
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
-  private getInstallations() {
-    
-    this.showPreLoader();
-      this.projectsService.getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
-        (data: any) => {
-          //this.service.bodylegal_data = data.data;
-          this.installations = data.data;
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
   private getArticlesByInstallation(installation_id: any){
 
     this.showPreLoader();
@@ -304,138 +245,45 @@ export class EvaluationFollowComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
-
-  selectInstallation(event: any){
-
-    if(this.installation_id_select.length > 0){
-    
-    let vacio = event.target.value > 0 ? 1 : 0;
-    
-    this.installation_id_select.splice(0 + vacio, (this.installation_id_select.length-(1+vacio)));
-    
-      if(event.target.value > 0){
-        
-        const index = this.installations.findIndex(
-          (co: any) =>
-            co.id == event.target.value
-        );
-
-        let nombre = this.installations[index].nombre;
-
-        this.installation_id_select[0] = {value: event.target.value, label: nombre};
-      }
-
-    }else{
-      
-      const index2 = this.installations.findIndex(
-        (co: any) =>
-          co.id == event.target.value
-      );
-
-      let nombre2 = this.installations[index2].nombre;
-      this.installation_id_select.push({value: event.target.value, label: nombre2});
-    }
-
-    //this.installation_id_select = event.target.value;
-      this.items = [];
-      this.getChildren(event.target.value);
-  }
-
-  selectInstallationChildren(event: any, parent?: any){
-    //this.addElement(parent);
-      let vacio = event.target.value > 0 ? 2 : 1;
-    
-      this.installation_id_select.splice((parent+vacio), (this.installation_id_select.length-(parent+vacio)));
-
-      if(event.target.value > 0){
-        
-        const index = this.items[parent].options.findIndex(
-          (co: any) =>
-            co.id == event.target.value
-        );
-
-        let nombre = this.items[parent].options[index].nombre;
-
-        this.installation_id_select[parent+1] = {value: event.target.value, label: nombre};
-      }
-
-    //this.installation_id_select = event.target.value;
-      this.items.splice((parent+1), (this.items.length-(parent+1)));
-      this.items[parent].value = event.target.value;
-      this.getChildren(event.target.value);
-  }
-
-  getChildren(padre_id: any){
-    if(padre_id > 0){
-      this.showPreLoader();
-      this.projectsService.getInstallationsItems(padre_id).pipe().subscribe(
-        (data: any) => {
-          if(data.data.length > 0){
-            this.items.push({value: null, options: data.data});
-          }
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-    }
-  }
   
-  addElement(parent?: any) {
-    
-    const select: HTMLParagraphElement = this.renderer.createElement('div');
-    
-    if(this.installation_id_select/*parent > 0*/){
-      let zone: any = document.getElementById('zone-'+(parent+1));
-      if(zone){
-        this.renderer.removeChild(select, zone?.lastElementChild);
-      }
-    }
-
-    select.innerHTML = '<div id="zone-'+(parent+1)+'"> <div class="col-xxl-12 col-lg-12"><p><b>Instalación o proceso</b></p><select class="form-select" placeholder="Selecciona instalación o proceso '+(parent+1)+'" data-choices data-choices-search-false id="choices-priority-input" (change)="selectInstallation($event,'+(parent+1)+')"> <option value="">Selecciona instalación o proceso</option> <option  value="4">Prueba</option></select></div>';
-
-    this.renderer.appendChild(this.zone?.nativeElement, select);
-  }
-
   changeStatus(status: any){
     this.status = status;
   }
 
+  changeStatusHallazgo(id: number, estado: number){
+    const index = this.HallazgosDatas.findIndex(
+      (h: any) =>
+        h.id == id
+    );
 
-  saveInstallation(){
-    this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
-    /*const index = this.installations.findIndex(
-      (co: any) =>
-        co.id == this.installation_id
-    );*/
+    let new_estado: any = estado == 1 ? 2 : (estado == 2 ? 3 : 1);
 
-    this.installation_nombre = /*this.installations[index].nombre*/this.installation_id_select[this.installation_id_select.length - 1].label;
-    this.getArticlesByInstallation(this.installation_id);
+    this.HallazgosDatas[index].estado = new_estado;
   }
-
+  
   saveHallazgo(){
     
     if (this.hallazgoForm.valid) {
       let nombre: any = this.hallazgoForm.get('nombre')?.value;
-      let descripcion: any = this.hallazgoForm.get('descripcion')?.value;
+      let descripcion: any = null;//this.hallazgoForm.get('descripcion')?.value;
       //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion});
-
-      this.myFiles.push(this.selectedFile);
-
-      this.imgView2.push(this.imgView);
+      let fecha: any = new Date();
       
-      Swal.fire({
+      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion, fecha: fecha.getDate()+'/'+(fecha.getMonth() + 1)+'/'+fecha.getFullYear(), estado: 2});
+
+      //this.myFiles.push(this.selectedFile);
+      //this.imgView2.push(this.imgView);
+      
+      /*Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Hallazgo agregado',
         showConfirmButton: true,
         timer: 5000,
-      });
+      });*/
+      
       this.hallazgoForm.reset();
+      this.modalService.dismissAll()
     }
   }
 
@@ -466,11 +314,11 @@ export class EvaluationFollowComponent implements OnInit {
     this.showPreLoader();
 
     let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
-    let fecha_termino: any = this.evaluacionForm.get('fecha_termino')?.value;
+    let fecha_termino: any = null;//this.evaluacionForm.get('fecha_termino')?.value;
     let comentario: any = this.evaluacionForm.get('comentario')?.value;
-    let reportable: any = this.evaluacionForm.get('reportable')?.value;
-    let monitoreo: any = this.evaluacionForm.get('monitoreo')?.value;
-    let permiso: any = this.evaluacionForm.get('permiso')?.value;
+    let reportable: any = null;//this.evaluacionForm.get('reportable')?.value;
+    let monitoreo: any = null;//this.evaluacionForm.get('monitoreo')?.value;
+    let permiso: any = null;//this.evaluacionForm.get('permiso')?.value;
     let hallazgoImg: any = this.myFiles;
     let hallazgos: any = [];
 
@@ -478,7 +326,7 @@ export class EvaluationFollowComponent implements OnInit {
       hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion});
     }
 
-    let tipoArticulo: any = [];
+    /*let tipoArticulo: any = [];
 
     if(reportable){
       tipoArticulo.push('reportable');
@@ -490,15 +338,15 @@ export class EvaluationFollowComponent implements OnInit {
 
     if(permiso){
       tipoArticulo.push('permiso');
-    }
+    }*/
 
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
-      fecha_termino: fecha_termino,
+      //fecha_termino: fecha_termino,
       hallazgos: this.status == 'CUMPLE' ? /*JSON.stringify(*/[]/*)*/ : /*JSON.stringify(*/hallazgos/*)*/,
       estado: this.status,
       installationArticleId: this.cuerpo_id,
-      tipoArticulo: tipoArticulo,
+      //tipoArticulo: tipoArticulo,
       comentario: comentario,
       //hallazgoImg: hallazgoImg
       //articuloId: this.cuerpo_id,
