@@ -25,7 +25,8 @@ export class ProjectDashboardComponent implements OnInit {
   TeamMembers: any;
   status7: any;
   simpleDonutChart: any;
-  simplePieChart: any;
+  simplePieChartCuerpos: any;
+  simplePieChartArticulos: any;
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
@@ -36,6 +37,13 @@ export class ProjectDashboardComponent implements OnInit {
   installations_group: any = [];
   userData: any;
   avance_evaluacion: number = 0;
+  
+  cumple: number = 0;
+  nocumple: number = 0;
+  parcial: number = 0;
+  cuerpo_cumple: number = 0;
+  cuerpo_nocumple: number = 0;
+  cuerpo_parcial: number = 0;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -68,8 +76,8 @@ export class ProjectDashboardComponent implements OnInit {
     //this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
     //this._status7('["--vz-success", "--vz-primary", "--vz-warning", "--vz-danger"]');
     //this._simpleDonutChart('["--vz-primary", "--vz-warning", "--vz-info"]');
-    this._simplePieChart('["--vz-success", "--vz-warning", "--vz-danger"]');
-    
+    this._simplePieChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simplePieChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
   }
 
   ngAfterViewInit() {
@@ -98,17 +106,24 @@ export class ProjectDashboardComponent implements OnInit {
           let lista: any = [];
           let avance_total: number = 0;
 
+          let cumple: number = 0;
+          let nocumple: number = 0;
+          let parcial: number = 0;
+          let cumple_norma: number = 0;
+          let nocumple_norma: number = 0;
+          let parcial_norma: number = 0;
+
           for (var i = 0; i < obj.length; i++) {
-            
             if(obj[i].installations_articles.length > 0){
 
               let total_articulos: any = [];
               let total_cuerpos: any = [];
-              let cumple: number = 0;
-              let nocumple: number = 0;
-              let parcial: number = 0;
+              
+              let cuerpo_cumple: number = 0;
+              let cuerpo_nocumple: number = 0;
+              let cuerpo_parcial: number = 0;
 
-              for (var j = 0; j < obj[i].installations_articles.length; j++) {
+              for (var j = 0; j < obj[i].installations_articles.length; j++) { 
                 if(obj[i].installations_articles[j].proyectoId == this.project_id){
                   total_articulos.push(obj[i].installations_articles[j]);
                   
@@ -126,14 +141,17 @@ export class ProjectDashboardComponent implements OnInit {
                         switch (obj[i].installations_articles[j].evaluations[v].estado) {
                           case 'CUMPLE':
                             cumple ++;
+                            cuerpo_cumple ++;
                             break;
       
                           case 'NO CUMPLE':
                               nocumple ++;
+                              cuerpo_nocumple ++;
                             break;
                           
                           case 'CUMPLE PARCIALMENTE':
                             parcial ++;
+                            cuerpo_parcial ++;
                             break;
                         
                           default:
@@ -157,6 +175,14 @@ export class ProjectDashboardComponent implements OnInit {
               if(total_articulos.length > 0){
                 //avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);
+                
+                if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
+                  cumple_norma ++;
+                }else if(cuerpo_nocumple > cuerpo_parcial && cuerpo_nocumple > cuerpo_cumple){
+                  cuerpo_nocumple ++;
+                }else{
+                  cuerpo_parcial ++;
+                }
               }
             }
 
@@ -164,6 +190,13 @@ export class ProjectDashboardComponent implements OnInit {
 
           let total: any = lista.length;
           this.installations_data = lista;
+
+          this.cumple = cumple;
+          this.nocumple = nocumple;
+          this.parcial = parcial;
+          this.cuerpo_cumple = cumple_norma;
+          this.cuerpo_nocumple = nocumple_norma;
+          this.cuerpo_parcial = parcial_norma;
           
           this.installations_group = [];
           lista.forEach((x: any) => {
@@ -183,6 +216,9 @@ export class ProjectDashboardComponent implements OnInit {
           });
           //console.log('lista_data', this.installations_group);
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
+          
+          this._simplePieChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+          this._simplePieChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
       },
       (error: any) => {
       });
@@ -230,14 +266,37 @@ export class ProjectDashboardComponent implements OnInit {
     return articles_group.length;
   }
 
+  /**
+ * Simple Pie Chart Cuerpos
+ */
+  private _simplePieChartCuerpos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simplePieChartCuerpos = {
+      series: [this.cuerpo_cumple, this.cuerpo_parcial, this.cuerpo_nocumple],
+      chart: {
+        height: 300,
+        type: "pie",
+      },
+      labels: ["Cumple", "Cumple parcial", "No cumple"],
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      colors: colors,
+    };
+  }
 
   /**
- * Simple Pie Chart
+ * Simple Pie Chart Articulos
  */
-  private _simplePieChart(colors:any) {
+  private _simplePieChartArticulos(colors:any) {
     colors = this.getChartColorsArray(colors);
-    this.simplePieChart = {
-      series: [44, 55, 13],
+    this.simplePieChartArticulos = {
+      series: [this.cumple, this.parcial, this.nocumple],
       chart: {
         height: 300,
         type: "pie",

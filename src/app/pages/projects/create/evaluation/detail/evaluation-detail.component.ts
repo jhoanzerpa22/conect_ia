@@ -54,7 +54,11 @@ export class EvaluationDetailComponent implements OnInit {
   articulosDatas: any;
   simpleDonutChart: any;
   basicRadialbarChart: any;
-  customAngleChart: any;
+  customAngleChartCuerpos: any;
+  customAngleChartArticulos: any;
+  customAngleChartPermisos: any;
+  customAngleChartReportes: any;
+  customAngleChartMonitoreo: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
   showEncabezado: boolean = true;
@@ -74,6 +78,18 @@ export class EvaluationDetailComponent implements OnInit {
   cumple: number = 0;
   nocumple: number = 0;
   parcial: number = 0;
+  cuerpo_cumple: number = 0;
+  cuerpo_nocumple: number = 0;
+  cuerpo_parcial: number = 0;
+  reporte_cumple: number = 0;
+  reporte_nocumple: number = 0;
+  reporte_parcial: number = 0;
+  monitoreo_cumple: number = 0;
+  monitoreo_nocumple: number = 0;
+  monitoreo_parcial: number = 0;
+  permiso_cumple: number = 0;
+  permiso_nocumple: number = 0;
+  permiso_parcial: number = 0;
   avance: number = 0;
   total_articulos: number = 0;
 
@@ -99,8 +115,12 @@ export class EvaluationDetailComponent implements OnInit {
 
     this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
 
-    this._basicRadialbarChart('["--vz-warning"]', 75);
-    this._customAngleChart('["--vz-success", "--vz-warning", "--vz-danger"]');    
+    //this._basicRadialbarChart('["--vz-warning"]', 75);
+    this._customAngleChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._customAngleChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._customAngleChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._customAngleChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._customAngleChartMonitoreo('["--vz-success", "--vz-warning", "--vz-danger"]');
 
     /**
      * Form Validation
@@ -155,14 +175,14 @@ export class EvaluationDetailComponent implements OnInit {
   }
   
   /**
- * Circle Chart - Custom Angle
+ * Grafica cuerpos legales
  */
-  private _customAngleChart(colors:any) {
+  private _customAngleChartCuerpos(colors:any) {
     colors = this.getChartColorsArray(colors);
-    this.customAngleChart = {
-      series: [76, 67, 61],
+    this.customAngleChartCuerpos = {
+      series: [this.cuerpo_cumple, this.cuerpo_parcial, this.cuerpo_nocumple],
       chart: {
-          height: 300,
+          height: 200,
           type: "radialBar",
       },
       plotOptions: {
@@ -193,8 +213,268 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "16px",
           position: "left",
-          offsetX: 60,
-          offsetY: 15,
+          offsetX: 50,
+          offsetY: 0,
+          labels: {
+              useSeriesColors: true,
+          },
+          markers: {
+
+          },
+          formatter: function (seriesName:any, opts:any) {
+              return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+          },
+          itemMargin: {
+              vertical: 3,
+          },
+      },
+      responsive: [{
+          breakpoint: 480,
+          options: {
+              legend: {
+                  show: false,
+              },
+          },
+      }, ],
+    };
+  }
+  
+  /**
+ * Grafica articulos
+ */
+  private _customAngleChartArticulos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.customAngleChartArticulos = {
+      series: [this.cumple, this.parcial, this.nocumple],
+      chart: {
+          height: 200,
+          type: "radialBar",
+      },
+      plotOptions: {
+          radialBar: {
+              offsetY: 0,
+              startAngle: 0,
+              endAngle: 270,
+              hollow: {
+                  margin: 5,
+                  size: "30%",
+                  background: "transparent",
+                  image: undefined,
+              },
+              dataLabels: {
+                  name: {
+                      show: false,
+                  },
+                  value: {
+                      show: false,
+                  },
+              },
+          },
+      },
+      colors: colors,
+      labels: ["Cumple", "Cumple Parcial", "No Cumple"],
+      legend: {
+          show: true,
+          floating: true,
+          fontSize: "16px",
+          position: "left",
+          offsetX: 50,
+          offsetY: 0,
+          labels: {
+              useSeriesColors: true,
+          },
+          markers: {
+
+          },
+          formatter: function (seriesName:any, opts:any) {
+              return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+          },
+          itemMargin: {
+              vertical: 3,
+          },
+      },
+      responsive: [{
+          breakpoint: 480,
+          options: {
+              legend: {
+                  show: false,
+              },
+          },
+      }, ],
+    };
+  }
+  
+  /**
+ * Grafica permisos
+ */
+  private _customAngleChartPermisos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.customAngleChartPermisos = {
+      series: [this.permiso_cumple, this.permiso_parcial, this.permiso_nocumple],
+      chart: {
+          height: 200,
+          type: "radialBar",
+      },
+      plotOptions: {
+          radialBar: {
+              offsetY: 0,
+              startAngle: 0,
+              endAngle: 270,
+              hollow: {
+                  margin: 5,
+                  size: "30%",
+                  background: "transparent",
+                  image: undefined,
+              },
+              dataLabels: {
+                  name: {
+                      show: false,
+                  },
+                  value: {
+                      show: false,
+                  },
+              },
+          },
+      },
+      colors: colors,
+      labels: ["Cumple", "Cumple Parcial", "No Cumple"],
+      legend: {
+          show: true,
+          floating: true,
+          fontSize: "16px",
+          position: "left",
+          offsetX: 50,
+          offsetY: 0,
+          labels: {
+              useSeriesColors: true,
+          },
+          markers: {
+
+          },
+          formatter: function (seriesName:any, opts:any) {
+              return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+          },
+          itemMargin: {
+              vertical: 3,
+          },
+      },
+      responsive: [{
+          breakpoint: 480,
+          options: {
+              legend: {
+                  show: false,
+              },
+          },
+      }, ],
+    };
+  }
+  
+  /**
+ * Grafica Reportes
+ */
+  private _customAngleChartReportes(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.customAngleChartReportes = {
+      series: [this.reporte_cumple, this.reporte_parcial, this.reporte_nocumple],
+      chart: {
+          height: 200,
+          type: "radialBar",
+      },
+      plotOptions: {
+          radialBar: {
+              offsetY: 0,
+              startAngle: 0,
+              endAngle: 270,
+              hollow: {
+                  margin: 5,
+                  size: "30%",
+                  background: "transparent",
+                  image: undefined,
+              },
+              dataLabels: {
+                  name: {
+                      show: false,
+                  },
+                  value: {
+                      show: false,
+                  },
+              },
+          },
+      },
+      colors: colors,
+      labels: ["Cumple", "Cumple Parcial", "No Cumple"],
+      legend: {
+          show: true,
+          floating: true,
+          fontSize: "16px",
+          position: "left",
+          offsetX: 50,
+          offsetY: 0,
+          labels: {
+              useSeriesColors: true,
+          },
+          markers: {
+
+          },
+          formatter: function (seriesName:any, opts:any) {
+              return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+          },
+          itemMargin: {
+              vertical: 3,
+          },
+      },
+      responsive: [{
+          breakpoint: 480,
+          options: {
+              legend: {
+                  show: false,
+              },
+          },
+      }, ],
+    };
+  }
+  
+  /**
+ * Grafica Monitoreo
+ */
+  private _customAngleChartMonitoreo(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.customAngleChartMonitoreo = {
+      series: [this.monitoreo_cumple, this.monitoreo_parcial, this.monitoreo_nocumple],
+      chart: {
+          height: 200,
+          type: "radialBar",
+      },
+      plotOptions: {
+          radialBar: {
+              offsetY: 0,
+              startAngle: 0,
+              endAngle: 270,
+              hollow: {
+                  margin: 5,
+                  size: "30%",
+                  background: "transparent",
+                  image: undefined,
+              },
+              dataLabels: {
+                  name: {
+                      show: false,
+                  },
+                  value: {
+                      show: false,
+                  },
+              },
+          },
+      },
+      colors: colors,
+      labels: ["Cumple", "Cumple Parcial", "No Cumple"],
+      legend: {
+          show: true,
+          floating: true,
+          fontSize: "16px",
+          position: "left",
+          offsetX: 50,
+          offsetY: 0,
           labels: {
               useSeriesColors: true,
           },
@@ -222,7 +502,7 @@ export class EvaluationDetailComponent implements OnInit {
   /**
  * Basic Radialbar Chart
  */
-  private _basicRadialbarChart(colors:any, avance: number) {
+  /*private _basicRadialbarChart(colors:any, avance: number) {
     colors = this.getChartColorsArray(colors);
     this.basicRadialbarChart = {
       series: [70],
@@ -250,7 +530,7 @@ export class EvaluationDetailComponent implements OnInit {
       labels: [""],
       colors: colors,
     };
-  }
+  }*/
 
   // Chat Data Fetch
   /*private _fetchData() {
@@ -345,6 +625,22 @@ export class EvaluationDetailComponent implements OnInit {
           let cumple: number = 0;
           let nocumple: number = 0;
           let parcial: number = 0;
+          let cumple_norma: number = 0;
+          let nocumple_norma: number = 0;
+          let parcial_norma: number = 0;
+
+          let cumple_monitoreo: number = 0;
+          let nocumple_monitoreo: number = 0;
+          let parcial_monitoreo: number = 0;
+          
+          let cumple_reporte: number = 0;
+          let nocumple_reporte: number = 0;
+          let parcial_reporte: number = 0;
+          
+          let cumple_permiso: number = 0;
+          let nocumple_permiso: number = 0;
+          let parcial_permiso: number = 0;
+
           let avance: number = 0;
           let total: number = 0;
 
@@ -352,6 +648,11 @@ export class EvaluationDetailComponent implements OnInit {
             if(articulos[i].articulos.length > 0){
               //total += articulos[i].articulos.length;
               let procede: boolean = false;
+              
+              let cuerpo_cumple: number = 0;
+              let cuerpo_nocumple: number = 0;
+              let cuerpo_parcial: number = 0;
+
               for (var j = 0; j < articulos[i].articulos.length; j++) {
                 if(articulos[i].articulos[j].proyectoId == this.project_id){
                   total += 1;
@@ -360,14 +661,68 @@ export class EvaluationDetailComponent implements OnInit {
                     switch (articulos[i].articulos[j].evaluations.estado) {
                       case 'CUMPLE':
                         cumple ++;
+                        cuerpo_cumple ++;
+
+                            switch (articulos[i].articulos[j].project_article.articuloTipo) {
+                              case 'monitoreo':
+                                cumple_monitoreo++;
+                                break;
+                              
+                              case 'reporte':                              
+                                cumple_reporte++;
+                                break;
+          
+                              case 'permiso':
+                                cumple_permiso++;
+                              break;
+                            
+                              default:
+                                break;
+                            }
                         break;
 
                       case 'NO CUMPLE':
-                          nocumple ++;
+                        nocumple ++;
+                        cuerpo_nocumple ++;
+                        
+                          switch (articulos[i].articulos[j].project_article.articuloTipo) {
+                            case 'monitoreo':
+                              nocumple_monitoreo++;
+                              break;
+                            
+                            case 'reporte':                              
+                              nocumple_reporte++;
+                              break;
+        
+                            case 'permiso':
+                              nocumple_permiso++;
+                            break;
+                          
+                            default:
+                              break;
+                          }
                         break;
                       
                       case 'CUMPLE PARCIALMENTE':
                         parcial ++;
+                        cuerpo_parcial ++;
+                        
+                          switch (articulos[i].articulos[j].project_article.articuloTipo) {
+                            case 'monitoreo':
+                              parcial_monitoreo++;
+                              break;
+                            
+                            case 'reporte':                              
+                              parcial_reporte++;
+                              break;
+        
+                            case 'permiso':
+                              parcial_permiso++;
+                            break;
+                          
+                            default:
+                              break;
+                          }
                         break;
                     
                       default:
@@ -379,6 +734,15 @@ export class EvaluationDetailComponent implements OnInit {
               }
               if(procede){
                 cuerpo_articulos.push(articulos[i]);
+
+                if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
+                  cumple_norma ++;
+                }else if(cuerpo_nocumple > cuerpo_parcial && cuerpo_nocumple > cuerpo_cumple){
+                  cuerpo_nocumple ++;
+                }else{
+                  cuerpo_parcial ++;
+                }
+
               }
             }
           }
@@ -391,7 +755,19 @@ export class EvaluationDetailComponent implements OnInit {
           this.cumple = cumple;
           this.nocumple = nocumple;
           this.parcial = parcial;
-
+          this.cuerpo_cumple = cumple_norma;
+          this.cuerpo_nocumple = nocumple_norma;
+          this.cuerpo_parcial = parcial_norma;
+          this.monitoreo_cumple = cumple_monitoreo;
+          this.monitoreo_nocumple = nocumple_monitoreo;
+          this.monitoreo_parcial = parcial_monitoreo;
+          this.reporte_cumple = cumple_reporte;
+          this.reporte_nocumple = nocumple_reporte;
+          this.reporte_parcial = parcial_reporte;
+          this.permiso_cumple = cumple_permiso;
+          this.permiso_nocumple = nocumple_permiso;
+          this.permiso_parcial = parcial_permiso;
+          
           //this.articulosDatas = articulos.length > 0 ? articulos[0].articulos : [];
           this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];
 
@@ -421,6 +797,12 @@ export class EvaluationDetailComponent implements OnInit {
           //console.log('group',this.articles_proyects_group);
 
           //this._basicRadialbarChart('["--vz-warning"]', this.avance);
+
+          this._customAngleChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+          this._customAngleChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+          this._customAngleChartMonitoreo('["--vz-success", "--vz-warning", "--vz-danger"]');
+          this._customAngleChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
+          this._customAngleChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
 
           this.hidePreLoader();
       },
