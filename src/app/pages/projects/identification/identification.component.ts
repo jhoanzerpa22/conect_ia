@@ -42,7 +42,8 @@ export class IdentificationComponent implements OnInit {
   TeamMembers: any;
   status7: any;
   simpleDonutChart: any;
-  basicBarChart: any;
+  basicBarChartCuerpos: any;
+  basicBarChartArticulos: any;
 
   @ViewChild('scrollRef') scrollRef: any;
 
@@ -114,6 +115,13 @@ export class IdentificationComponent implements OnInit {
   ambitos: any = [];
   ambito: any = undefined;
 
+  ambiente: number = 0;
+  sso: number = 0;
+  energia: number = 0;
+  cuerpo_ambiente: number = 0;
+  cuerpo_sso: number = 0;
+  cuerpo_energia: number = 0;
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
     this.total = service.total$;
@@ -174,7 +182,8 @@ export class IdentificationComponent implements OnInit {
       this.getNormas(0);
     });
 
-    this._basicBarChart('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
 
     /**
      * Fetches the data
@@ -212,13 +221,13 @@ export class IdentificationComponent implements OnInit {
   }
 
   /**
-   * Basic Bar Chart
+   * Basic Bar Chart Cuerpos
    */
-  private _basicBarChart(colors:any) {
+  private _basicBarChartCuerpos(colors:any) {
     colors = this.getChartColorsArray(colors);
-    this.basicBarChart = {
+    this.basicBarChartCuerpos = {
       series: [{
-        data: [380, 430, 450],
+        data: [this.cuerpo_ambiente, this.cuerpo_sso, this.cuerpo_energia],
       }, ],
       chart: {
         height: 170,
@@ -235,6 +244,51 @@ export class IdentificationComponent implements OnInit {
       },
       dataLabels: {
         enabled: false,
+      },
+      legend: {
+        show: false
+      },
+      colors: colors,
+      grid: {
+        borderColor: "#f1f1f1",
+      },
+      xaxis: {
+        categories: [
+          "Medio Ambiente",
+          "SSO",
+          "Energía"
+        ],
+      },
+    };
+  }
+
+  /**
+   * Basic Bar Chart Articulos
+   */
+  private _basicBarChartArticulos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChartArticulos = {
+      series: [{
+        data: [this.ambiente, this.sso, this.energia],
+      }, ],
+      chart: {
+        height: 170,
+        type: "bar",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          distributed: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false
       },
       colors: colors,
       grid: {
@@ -459,7 +513,7 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, proyectoId: x.proyectoId, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, ambito: 'MA',proyectoId: x.proyectoId, articulos: [x]
               });
 
             }else{
@@ -1091,6 +1145,8 @@ validateIdparte(idParte: any){
             estado: j.estado,
             normaId: this.articuloSelect[index].normaId,
             cuerpoLegal: this.articuloSelect[index].cuerpoLegal,
+            proyectoArticleId: this.articuloSelect[index].id,
+            ambito: this.articuloSelect[index].ambito,
             proyectoId: this.project_id
           };
           
@@ -1344,6 +1400,21 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               articles_group.push(x.normaId);
+
+              switch (x.ambito) {
+                case 'MA':
+                  this.cuerpo_ambiente ++;
+                  break;
+                case 'SSO':
+                  this.cuerpo_sso ++;
+                  break;
+                case 'ENERGIA':
+                  this.cuerpo_energia ++;
+                  break;
+              
+                default:
+                  break;
+              }
             }
           })
 
@@ -1365,6 +1436,21 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               articles_group.push(x.articuloId);
+              
+              switch (x.ambito) {
+                case 'MA':
+                  this.ambiente ++;
+                  break;
+                case 'SSO':
+                  this.sso ++;
+                  break;
+                case 'ENERGIA':
+                  this.energia ++;
+                  break;
+              
+                default:
+                  break;
+              }
             }
           })
 
@@ -2023,6 +2109,7 @@ validateIdparte(idParte: any){
       monitoreo: false,
       reporte: false,
       permiso: false,
+      ambito: 'MA',
       articulos: JSON.stringify(data.EstructurasFuncionales)
     };
 
@@ -2263,6 +2350,9 @@ validateIdparte(idParte: any){
     this.getArticlesInstallation();
     this.getArticleProyect(this.project_id);
     this.getCuerpoInstallationsByProyect();
+
+    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
   }
 
 }
