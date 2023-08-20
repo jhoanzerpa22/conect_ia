@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
 
 import { DecimalPipe, Location } from '@angular/common';
+
+import flatpickr from 'flatpickr';
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
+
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -104,6 +108,8 @@ export class EvaluationFollowComponent implements OnInit {
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location) {
     this.recentData = service.recents$;
     this.total = service.total$;
+
+    flatpickr.localize(Spanish);
   }
 
   inlineDatePicker: Date = new Date();
@@ -256,7 +262,7 @@ export class EvaluationFollowComponent implements OnInit {
         h.id == id
     );
 
-    let new_estado: any = estado == 1 ? 2 : (estado == 2 ? 3 : 1);
+    let new_estado: any = estado == 1 ? 2 : 1;
 
     this.HallazgosDatas[index].estado = new_estado;
   }
@@ -342,7 +348,7 @@ export class EvaluationFollowComponent implements OnInit {
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
       //fecha_termino: fecha_termino,
-      hallazgos: this.status == 'CUMPLE' ? /*JSON.stringify(*/[]/*)*/ : /*JSON.stringify(*/hallazgos/*)*/,
+      hallazgos: /*this.status == 'CUMPLE' ? [] : */hallazgos,
       estado: this.status,
       installationArticleId: this.cuerpo_id,
       //tipoArticulo: tipoArticulo,
@@ -354,11 +360,11 @@ export class EvaluationFollowComponent implements OnInit {
     };
 
     const formData = new FormData();
-    if(this.status == 'CUMPLE'){
+    //if(this.status == 'CUMPLE'){
       formData.append('evaluacionImg', this.selectedFileEvaluation);
-    }else{
+    /*}else{
       formData.append('hallazgoImg', this.myFiles[0]);
-    }
+    }*/
     formData.append('data', JSON.stringify(evaluations));
  
     /*for (var i = 0; i < this.myFiles.length; i++) { 
@@ -415,7 +421,7 @@ var reader = new FileReader();
 onFileSelectedEvaluation(event: any){
   this.selectedFileEvaluation = <File>event[0];
 
-var reader = new FileReader();
+  var reader = new FileReader();
   reader.readAsDataURL(this.selectedFileEvaluation);
   reader.onload = (_event) => {
     console.log(reader.result);

@@ -106,12 +106,12 @@
                             </div>
                             <div class="col-sm-4">
                                 <h4>Cuerpos Legales</h4>
-                                <apx-chart [series]="simplePieChart.series" [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [legend]="simplePieChart.legend" [dataLabels]="simplePieChart.dataLabels" [responsive]="simplePieChart.responsive" [colors]="simplePieChart.colors" dir="ltr"></apx-chart>
+                                <apx-chart [series]="simplePieChartCuerpos.series" [chart]="simplePieChartCuerpos.chart" [labels]="simplePieChartCuerpos.labels" [legend]="simplePieChartCuerpos.legend" [dataLabels]="simplePieChartCuerpos.dataLabels" [responsive]="simplePieChartCuerpos.responsive" [colors]="simplePieChartCuerpos.colors" dir="ltr"></apx-chart>
                             </div>
                             
                             <div class="col-sm-4">
                                 <h4>Artículos</h4>
-                                <apx-chart [series]="simplePieChart.series" [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [legend]="simplePieChart.legend" [dataLabels]="simplePieChart.dataLabels" [responsive]="simplePieChart.responsive" [colors]="simplePieChart.colors" dir="ltr"></apx-chart>
+                                <apx-chart [series]="simplePieChartArticulos.series" [chart]="simplePieChartArticulos.chart" [labels]="simplePieChartArticulos.labels" [legend]="simplePieChartArticulos.legend" [dataLabels]="simplePieChartArticulos.dataLabels" [responsive]="simplePieChartArticulos.responsive" [colors]="simplePieChartArticulos.colors" dir="ltr"></apx-chart>
                             </div>
                           </div>
                         </ng-template>
@@ -186,7 +186,7 @@
                                                                                 <div class="row text-muted text-center">
                                                                                     <div class="col-12 border-end border-end-dashed">
                                                                                         <h5 class="mb-1">{{v.total_cuerpos ? v.total_cuerpos : 0}}</h5>
-                                                                                        <p class="text-muted mb-0">Cuerpos legales Vinculados</p>
+                                                                                        <p class="text-muted mb-0">{{v.total_cuerpos && v.total_cuerpos == 1 ? 'Cuerpo Legal Vinculado' : 'Cuerpos legales Vinculados'}}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -195,7 +195,7 @@
                                                                                 <div class="row text-muted text-center">
                                                                                     <div class="col-12 border-end border-end-dashed">
                                                                                         <h5 class="mb-1">{{v.total_articulos ? v.total_articulos : 0}}</h5>
-                                                                                        <p class="text-muted mb-0">Artículos Vinculados</p>
+                                                                                        <p class="text-muted mb-0">{{v.total_articulos && v.total_articulos == 1 ? 'Artículo Vinculado' : 'Artículos Vinculados'}}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -207,7 +207,7 @@
                                                                             </div>
 
                                                                             <div class="col-lg-1 col">
-                                                                                <span class="badge text-bg-danger">No evaluado</span>
+                                                                                <span class="badge text-bg-danger" [ngClass]="{'bg-success': v.avance > 0, 'bg-danger': v.avance < 1}">{{v.avance > 0 ? 'Evaluado' : 'No evaluado'}}</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -225,7 +225,7 @@
                           </div>
                         </ng-template>
                     </li>
-                    <li [ngbNavItem]="3">
+                    <li [ngbNavItem]="3" [disabled]="true">
                         <a ngbNavLink>
                           Control
                         </a>
