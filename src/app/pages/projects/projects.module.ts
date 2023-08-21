@@ -52,6 +52,7 @@ import { ComplianceAssessComponent } from "./create/compliance/assess/assess.com
 import { TeamComponent } from "./team/team.component";
 import { EvaluationDetailComponent } from "./create/evaluation/detail/evaluation-detail.component";
 import { EvaluationFollowComponent } from "./create/evaluation/follow/follow.component";
+import { EvaluationTaskComponent } from "./create/evaluation/task/task.component";
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -128,7 +129,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ConfigComponent,
     TeamComponent,
     EvaluationDetailComponent,
-    EvaluationFollowComponent
+    EvaluationFollowComponent,
+    EvaluationTaskComponent
   ],
   imports: [
     CommonModule,
