@@ -169,7 +169,7 @@ export class ProjectDashboardComponent implements OnInit {
               }
               obj[i].total_articulos = total_articulos.length;
               obj[i].total_cuerpos = total_cuerpos.length;
-              let avance: any = total_articulos.length > 0 ? ((((cumple * 100) + (nocumple * 0) + (parcial * 50)) * 100) / (total_articulos.length * 100)) : 0;
+              let avance: any = total_articulos.length > 0 ? ((((cuerpo_cumple * 100) + (cuerpo_nocumple * 0) + (cuerpo_parcial * 50)) * 100) / (total_articulos.length * 100)) : 0;
               obj[i].avance = round(avance, 0);
               
               if(total_articulos.length > 0){
