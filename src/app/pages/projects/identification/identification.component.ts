@@ -1483,25 +1483,32 @@ validateIdparte(idParte: any){
 
   validChecked(){
     var checkboxes: any = document.getElementsByName('checkAll');
-    
     for (var j = 0; j < checkboxes.length; j++) {
-      const index = this.cuerpo_installations.findIndex(
-        (ins: any) =>
-          ins.installationId == checkboxes[j].id && parseInt(ins.normaId) == this.normaIdSelect[0]
-      );
-
-      if(index != - 1){
-        const index2 = this.installations_data.findIndex(
+      checkboxes[j].checked = false;
+      for (var nor = 0; nor < this.normaIdSelect.length; nor++) {
+        const index = this.cuerpo_installations.findIndex(
           (ins: any) =>
-            ins.id == checkboxes[j].id
+            ins.installationId == checkboxes[j].id && parseInt(ins.normaId) == parseInt(this.normaIdSelect[nor])
         );
-        checkboxes[j].checked = true;
 
-        if(index2 != -1){
-          this.selectChecked.push(this.installations_data[index2]);
-        }
-      }else{
-        checkboxes[j].checked = false;
+        if(index != - 1){
+          const index2 = this.installations_data.findIndex(
+            (ins: any) =>
+              ins.id == checkboxes[j].id
+          );
+          
+          const index3 = this.selectChecked.findIndex(
+            (ins2: any) =>
+              ins2.id == checkboxes[j].id
+          );
+
+          if(index2 != -1 && index3 == -1){
+            checkboxes[j].checked = true;
+            this.selectChecked.push(this.installations_data[index2]);
+          }
+        }/*else{
+          checkboxes[j].checked = false;
+        }*/
       }
     }
   }
@@ -1510,9 +1517,12 @@ validateIdparte(idParte: any){
     var checkboxes: any = document.getElementsByName('checkAll2');
 
     for (var j = 0; j < checkboxes.length; j++) {
+      checkboxes[j].checked = false;
+      
+      for (var nor = 0; nor < this.installationSelect.length; nor++) {
       const index = this.cuerpo_installations.findIndex(
         (ins: any) =>
-          ins.installationId == this.installationSelect[0] && parseInt(ins.normaId) == checkboxes[j].id
+          ins.installationId == this.installationSelect[nor] && parseInt(ins.normaId) == checkboxes[j].id
       );
 
       if(index != - 1){
@@ -1521,13 +1531,19 @@ validateIdparte(idParte: any){
           (cu: any) =>
             cu.normaId == checkboxes[j].id
         );
-        checkboxes[j].checked = true;
+        
+        const index3 = this.selectChecked2.findIndex(
+          (ins2: any) =>
+            ins2.normaId == checkboxes[j].id
+        );
 
-        if(index2 != -1){
+        if(index2 != -1 && index3 == -1){
+          checkboxes[j].checked = true;
           this.selectChecked2.push(this.articles_proyects_group[index2]);
         }
-      }else{
+      }/*else{
         checkboxes[j].checked = false;
+      }*/
       }
     }
   }
