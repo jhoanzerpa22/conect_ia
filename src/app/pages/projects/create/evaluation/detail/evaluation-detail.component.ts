@@ -555,8 +555,13 @@ export class EvaluationDetailComponent implements OnInit {
     });
  }
 
- goEvaluation(id: any){
-  this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id]);
+ goEvaluation(id: any, evaluation: any){
+
+  if(evaluation.estado){
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowView/'+id]);
+  }else{
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id]);
+  }
 }
 
   /**

@@ -23,6 +23,7 @@ import { ComplianceAssessComponent } from "./create/compliance/assess/assess.com
 import { TeamComponent } from "./team/team.component";
 import { EvaluationDetailComponent } from "./create/evaluation/detail/evaluation-detail.component";
 import { EvaluationFollowComponent } from "./create/evaluation/follow/follow.component";
+import { EvaluationTaskComponent } from "./create/evaluation/task/task.component";
 
 const routes: Routes = [
   {
@@ -155,6 +156,10 @@ const routes: Routes = [
   {
     path: ":idProject/evaluation/:idInstallation/Follow/:id",
     component: EvaluationFollowComponent
+  },
+  {
+    path: ":idProject/evaluation/:idInstallation/FollowView/:id",
+    component: EvaluationTaskComponent
   }
 ];
 

@@ -1,0 +1,181 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<!--preloader-->
+<div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                                    <h4 class="mb-3" style="color: #405189;">{{cuerpoLegal}}</h4>
+                                    <h6 class="card-title mb-3" style="color: #405189;">{{articulo.articulo}}</h6>  
+                                    <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 850 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 850 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
+                                    
+                                    <p class="card-text">
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 850 && !validatShow(articulo.articulo)" (click)="showText(articulo.articulo)"><b>Leer más</b></small>
+                                        <small class="text-success" style="cursor: pointer;" *ngIf="articulo.descripcion && articulo.descripcion.length > 850 && validatShow(articulo.articulo)" (click)="hideText(articulo.articulo)"><b>Ocultar texto completo</b></small>
+                                    </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+        <div class="card-body">
+                
+          <div class="row g-4 mb-3">
+            <div class="col-sm">
+                <h4 style="color: #405189;"><b>EVALUACIÓN</b></h4>
+            </div>
+
+          </div>
+          
+          <div class="row g-0 mb-3">
+            <div class="col-md-6">
+                    <h6 style="color: #405189;"><b>ESTADO</b></h6>
+                    
+                    <div class="col-lg-2 col">
+                        <span class="badge" [ngClass]="{'text-bg-danger': (!articulo.evaluations || !articulo.evaluations.estado) || (articulo.evaluations && articulo.evaluations.estado  == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado  ? articulo.evaluations.estado  : 'NO EVALUADO' }}</span>
+                    </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h6 style="color: #405189;"><b>FECHA EVALUACIÓN</b></h6>
+                {{articulo.evaluations && articulo.evaluations.fecha_evaluacion ? (articulo.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : '-' }}
+            </div>
+            </div>
+
+            <div class="row g-0 mb-3">
+                <div class="col-md-6">
+                        <h6 style="color: #405189;"><b>EVIDENCIA CARGADA</b></h6>
+                        <img [src]="articulo.evaluations ? articulo.evaluations.evaluacionImg : ''
+                                            " (error)="imgError($event)" alt="Hallazgo respaldo"
+                                            class="users-avatar-shadow avatar mr-3" height="64" width="64">
+                </div>
+                
+                <div class="col-md-6">
+                    <h6 style="color: #405189;"><b>COMENTARIO</b></h6>                    
+                    <p>{{articulo.evaluations ? articulo.evaluations.comentario : ''}}</p>
+                </div>
+                </div>
+
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="row"><!-- *ngIf="status == 'NO CUMPLE' || status == 'CUMPLE PARCIALMENTE'"-->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0" style="color: #405189;"><b>HALLAZGOS</b></h4>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div id="customerList">                    
+                    <div class="row g-0">
+                        <div class="col-md-10">
+                                <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
+                                    <input type="text" class="form-control" style="width: 100%;" placeholder="Buscar un Hallazgo">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-md btn-primary edit-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content)"
+                                                    ><i class="ri-add-fill me-1 align-bottom"></i>Crear Hallazgo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-sm table-nowrap">
+                            <thead>
+                            <tr>
+                            <th scope="col" style="width: 70%;">Hallazgo</th>
+                            <th scope="col">Fecha Hallazgo</th>
+                            <th scope="col">Estado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
+                                    <td><ngb-highlight [result]="data.findings.nombre"
+                                        [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        {{data.findings.createdAt | date: 'd/M/yy' }}</td>
+                                    <td><span style="cursor: pointer;" class="badge" [ngClass]="{'badge-soft-warning': data.findings.estado == 2 || !data.findings.estado,'badge-soft-success': data.findings.estado == 1}" (click)="changeStatusHallazgo(data.findings.id, data.findings.estado)">{{data.findings.estado == 1 ? 'Completada' : 'Pendiente' }}</span></td>
+                                </tr>
+                            </tbody>
+                            </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Mostrando página 1
+                                de
+                                {{pageTotal(HallazgosDatas.length)}} de {{HallazgosDatas.length}}
+                                registros
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="HallazgosDatas.length" [(page)]="service.page"
+                                    [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+
+<!-- Add Hallazgo -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Hallazgo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" formControlName="id" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label for="area-field" class="form-label">Descripción</label>
+                <textarea class="form-control" id="nombreHallazgo" formControlName="nombre" placeholder="Descripción del Hallazgo" rows="3"></textarea>
+                <div class="invalid-feedback">Por favor ingresar descripción.</div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-primary" id="add-btn">Guardar</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
