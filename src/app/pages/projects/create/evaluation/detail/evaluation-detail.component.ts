@@ -211,10 +211,10 @@ export class EvaluationDetailComponent implements OnInit {
       legend: {
           show: true,
           floating: true,
-          fontSize: "16px",
+          fontSize: "12px",
           position: "left",
           offsetX: 50,
-          offsetY: 0,
+          offsetY: -10,
           labels: {
               useSeriesColors: true,
           },
@@ -276,10 +276,10 @@ export class EvaluationDetailComponent implements OnInit {
       legend: {
           show: true,
           floating: true,
-          fontSize: "16px",
+          fontSize: "12px",
           position: "left",
           offsetX: 50,
-          offsetY: 0,
+          offsetY: -10,
           labels: {
               useSeriesColors: true,
           },
@@ -341,10 +341,10 @@ export class EvaluationDetailComponent implements OnInit {
       legend: {
           show: true,
           floating: true,
-          fontSize: "16px",
+          fontSize: "12px",
           position: "left",
           offsetX: 50,
-          offsetY: 0,
+          offsetY: -10,
           labels: {
               useSeriesColors: true,
           },
@@ -406,10 +406,10 @@ export class EvaluationDetailComponent implements OnInit {
       legend: {
           show: true,
           floating: true,
-          fontSize: "16px",
+          fontSize: "12px",
           position: "left",
           offsetX: 50,
-          offsetY: 0,
+          offsetY: -10,
           labels: {
               useSeriesColors: true,
           },
@@ -471,10 +471,10 @@ export class EvaluationDetailComponent implements OnInit {
       legend: {
           show: true,
           floating: true,
-          fontSize: "16px",
+          fontSize: "12px",
           position: "left",
           offsetX: 50,
-          offsetY: 0,
+          offsetY: -10,
           labels: {
               useSeriesColors: true,
           },
