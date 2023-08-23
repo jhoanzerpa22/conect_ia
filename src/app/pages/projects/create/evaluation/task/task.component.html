@@ -83,64 +83,103 @@
             </div><!-- end card header -->
 
             <div class="card-body">
-                <div id="customerList">                    
-                    <div class="row g-0">
-                        <div class="col-md-10">
-                                <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                                    <input type="text" class="form-control" style="width: 100%;" placeholder="Buscar un Hallazgo">
-                                    <i class="ri-search-line search-icon"></i>
+                <div id="customerList">
+
+                    
+                    
+        <div class="p-3 bg-light rounded mb-4">
+            <div class="row g-2">
+                <div class="col-lg">
+                    <div class="search-box">
+                        <input type="text" id="searchTaskList" class="form-control search"
+                            placeholder="Buscar Hallazgo" [(ngModel)]="term">
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                </div>
+                <div class="col-lg-auto">
+                    <button class="btn btn-primary showModal createTask" type="button" data-bs-toggle="modal"
+                        data-bs-target="#showModal" (click)="openModal(content)">
+                        <i class="ri-add-fill align-bottom"></i> Crear Hallazgo
+                    </button>
+                </div>
+            </div>
+        </div>
+          
+        <div class="todo-content position-relative px-4 mx-n4" id="todo-content">
+            <div class="todo-task" id="todo-task">
+                <div class="table-responsive mt-3 mb-1"><!--table-card-->
+                    <table mat-table #dataTable [dataSource]="HallazgosDatas | filter:term"
+                        cdkDropList (cdkDropListDropped)="todoTable($event)"
+                        class="table align-middle position-relative table-nowrap" style="border: lightgray !important;">
+                        <ng-container matColumnDef="nombre">
+                            <th scope="col" style="width: 70%;" mat-header-cell *matHeaderCellDef> Hallazgo </th>
+                            <td *matCellDef="let element">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="task-handle px-1 bg-light rounded">: :</div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="form-check">
+                                            <input class="form-check-input me-1" type="checkbox" value="15"
+                                                id="todo{{element.id}}" name="checkAll"
+                                                (change)="checkUncheckAll($event,element.id)"
+                                                [checked]="element.estado === 1">
+                                            <label class="form-check-label" for="todo15">{{element.nombre}}</label>
+                                        </div>
+                                    </div>
                                 </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-md btn-primary edit-item-btn"
-                                                    data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content)"
-                                                    ><i class="ri-add-fill me-1 align-bottom"></i>Crear Hallazgo
-                            </button>
-                        </div>
-                    </div>
+                            </td>
+                        </ng-container>
 
-                    <div class="table-responsive table-card mt-3 mb-1">
-                        <table class="table table-sm table-nowrap">
-                            <thead>
-                            <tr>
-                            <th scope="col" style="width: 70%;">Hallazgo</th>
-                            <th scope="col">Fecha Hallazgo</th>
-                            <th scope="col">Estado</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                
-                                <tr *ngFor="let data of HallazgosDatas" id="lj_{{data.id}}">
-                                    <td><ngb-highlight [result]="data.findings.nombre"
-                                        [term]="service.searchTerm"></ngb-highlight>
-                                    </td>
-                                    <td>
-                                        {{data.findings.createdAt | date: 'd/M/yy' }}</td>
-                                    <td><span style="cursor: pointer;" class="badge" [ngClass]="{'badge-soft-warning': data.findings.estado == 2 || !data.findings.estado,'badge-soft-success': data.findings.estado == 1}" (click)="changeStatusHallazgo(data.findings.id, data.findings.estado)">{{data.findings.estado == 1 ? 'Completada' : 'Pendiente' }}</span></td>
-                                </tr>
-                            </tbody>
-                            </table>
-                    </div>
+                        <ng-container matColumnDef="fecha">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Fecha Hallazgo </th>
+                            <td *matCellDef="let element">
+                                {{element.fecha }}
+                            </td>
+                        </ng-container>
 
-                    <div class="row justify-content-md-between align-items-md-center">
-                        <div class="col col-sm-6">
-                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
-                                Mostrando página 1
-                                de
-                                {{pageTotal(HallazgosDatas.length)}} de {{HallazgosDatas.length}}
-                                registros
-                            </div>
-                        </div>
-                        <!-- Pagination -->
-                        <div class="col col-sm-6">
-                            <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="HallazgosDatas.length" [(page)]="service.page"
-                                    [pageSize]="service.pageSize">
-                                </ngb-pagination>
-                            </div>
-                        </div>
-                        <!-- End Pagination -->
-                    </div>
+                        <ng-container matColumnDef="estado">    
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Estado </th>
+                            <td *matCellDef="let element" class="status">
+                                <span style="cursor: pointer;" class="badge  text-uppercase" (click)="changeStatusHallazgo(element.id, element.estado)"
+                                    [ngClass]=" { 'badge-soft-warning': element.estado === 2, 'badge-soft-success': element.estado === 1}">{{element.estado == 1 ? 'Completada' : 'Pendiente' }}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Acción </th>
+                            <td *matCellDef="let element">
+                                <div class="hstack gap-2">
+                                    <button class="btn btn-sm btn-soft-danger remove-list" data-bs-toggle="modal"
+                                        data-bs-target="#deleteRecordModal" data-remove-id="1"
+                                        (click)="confirm(deleteModel,element.id)">
+                                        <i class="ri-delete-bin-5-fill align-bottom"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" cdkDrag
+                            id="row-{{i+1}}"></tr>
+
+                        <div *cdkDragPlaceholder></div>
+
+                    </table>
+                </div>
+            </div>
+            <div class="py-4 mt-4 text-center" id="noresult" style="display: none;">
+                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                    colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px"></lord-icon>
+                <h5 class="mt-4">No posee hallazgos</h5>
+            </div>
+            
+            <div *ngIf="!HallazgosDatas || HallazgosDatas.length == 0">
+                <div style="text-align: center;width: 100%;font-size: 20px;">
+                    No hay datos para mostrar
+                </div>
+            </div>
+        </div>
                 </div>
             </div><!-- end card -->
         </div>
@@ -176,6 +215,33 @@
             </div>
         </div>
     </form>
+</ng-template>
+
+<!-- removeItemModal -->
+<ng-template #deleteModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Está a punto de eliminar este registro</h4>
+                    <p class="text-muted mx-4 mb-0">Eliminar su registro eliminará toda su información de nuestro
+sistema.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Cerrar</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                    (click)="modal.close('Close click')">Si, Remover!</button>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
 </ng-template>
 
 <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
