@@ -38,3 +38,13 @@ export interface ArticulosModel {
   date: string;
   isIcon?:any;
 }
+
+/** 
+ * Hallazgo Model
+*/
+export interface HallazgoModel {
+  id?: any;
+  nombre?: any;
+  fecha?: any;
+  estado?: any;
+}
