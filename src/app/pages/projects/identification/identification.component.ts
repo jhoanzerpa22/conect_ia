@@ -513,7 +513,7 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               this.articles_proyects_group.push({
-                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, ambito: 'MA',proyectoId: x.proyectoId, articulos: [x]
+                cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, ambito: x.ambito, proyectoId: x.proyectoId, articulos: [x]
               });
 
             }else{
@@ -1414,7 +1414,7 @@ validateIdparte(idParte: any){
                 case 'MA':
                   this.cuerpo_ambiente ++;
                   break;
-                case 'SSO':
+                case 'SST':
                   this.cuerpo_sso ++;
                   break;
                 case 'ENERGIA':
@@ -1450,7 +1450,7 @@ validateIdparte(idParte: any){
                 case 'MA':
                   this.ambiente ++;
                   break;
-                case 'SSO':
+                case 'SST':
                   this.sso ++;
                   break;
                 case 'ENERGIA':
@@ -2116,7 +2116,7 @@ validateIdparte(idParte: any){
       monitoreo: false,
       reporte: false,
       permiso: false,
-      ambito: 'MA',
+      ambito: data.ambito,
       articulos: JSON.stringify(data.EstructurasFuncionales)
     };
 
