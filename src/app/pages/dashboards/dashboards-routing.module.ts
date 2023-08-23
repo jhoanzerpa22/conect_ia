@@ -10,6 +10,7 @@ import { NftComponent } from "./nft/nft.component";
 import { JobComponent } from './job/job.component';
 import { ProjectAnalityComponent } from './project-anality/project-anality.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { ProjectControlComponent } from './project-control/project-control.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,10 @@ const routes: Routes = [
   {
     path: ":id/project-dashboard",
     component: ProjectDashboardComponent
+  },
+  {
+    path: ":id/project-control",
+    component: ProjectControlComponent
   }
 ];
 

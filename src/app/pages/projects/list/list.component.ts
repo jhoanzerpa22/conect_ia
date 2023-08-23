@@ -130,10 +130,21 @@ export class ListComponent implements OnInit {
     return fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
   }
 
-  comenzar(proyecto_id: any){
-    this.showPreLoader();
+  comenzar(proyecto_id: any, estado?: number){
+    //this.showPreLoader();
 
-    this._router.navigate(['/projects/'+proyecto_id+'/identification']);
+    switch (estado) {
+      case 1:
+          this._router.navigate(['/projects/'+proyecto_id+'/identification']);
+        break;
+      case 2:
+          this._router.navigate(['/'+proyecto_id+'/project-dashboard']);
+        break;
+    
+      default:  
+          this._router.navigate(['/projects/'+proyecto_id+'/identification']);
+        break;
+    }
     
     /*this.projectsService.getAnswerQuestion(6, proyecto_id).pipe().subscribe(
       (data: any) => {
