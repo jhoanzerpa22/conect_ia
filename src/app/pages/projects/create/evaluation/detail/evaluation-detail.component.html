@@ -160,14 +160,14 @@
 
                                                         <div class="col-lg-3 col">
                                                             <div class="row text-muted text-center">
-                                                                <div class="col-12 border-end border-end-dashed">
+                                                                <div class="col-6 border-end border-end-dashed">
                                                                     <h5 class="mb-1">{{s.evaluations.fecha_evaluacion ? (s.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : '-' }}</h5>
                                                                     <p class="text-muted mb-0">Fecha evaluación</p>
                                                                 </div>
-                                                                <!--<div class="col-6">
-                                                                    <h5 class="mb-1">10</h5>
-                                                                    <p class="text-muted mb-0">Hallazgos pendientes</p>
-                                                                </div>-->
+                                                                <div class="col-6">
+                                                                    <h5 class="mb-1">{{s.evaluations ? s.evaluations.findings.length : 0}}</h5>
+                                                                    <p class="text-muted mb-0">{{s.evaluations ? (s.evaluations.findings.length == 1 ? 'Hallazgo' : 'Hallazgos') : 'Hallazgos'}}</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-2 col">
