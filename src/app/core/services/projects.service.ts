@@ -316,4 +316,12 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'project/article/'+id, attribute, this.getToken());
     }
 
+    estadoProyecto(estado: any, id: any): Observable<any> {
+    
+        return this.http.put(API_URL_BACK + 'project/setStatus/'+id, {
+        "estado": estado
+      }, /*httpOptions*/this.getToken());
+    
+    }
+
 }
