@@ -1192,15 +1192,24 @@ validateIdparte(idParte: any){
 
       }));
 
-        setTimeout(() => {        
+        setTimeout(() => {
+
+          if(this.attributes_all.length > 0){          
+            this.modalService.dismissAll();
+            this.setAttributeArticleAll();
+          }else{
+
           this.getArticlesInstallation();
           this.getArticleProyect(this.project_id);
           this.getCuerpoInstallationsByProyect();
-          
+
+          this.attributes_all = [];
           this.selectCheckedVincular = [];
 
           this.modalService.dismissAll();
           this.hidePreLoader();
+          
+          }
 
           /*Swal.fire({
             position: 'center',
@@ -1950,25 +1959,7 @@ validateIdparte(idParte: any){
 
     return index != -1;
   }
-
-  // PreLoader
-  showPreLoader() {
-    var preloader = document.getElementById("preloader");
-    if (preloader) {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
-    }
-  }
-
-  // PreLoader
-  hidePreLoader() {
-    var preloader = document.getElementById("preloader");
-    if (preloader) {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
-    }
-  }
-
+  
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 12),0);
     return (tp * 12) > totalRecords ? tp : (tp + 1);
@@ -2369,6 +2360,50 @@ validateIdparte(idParte: any){
 
     this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+  }
+
+  terminar(){
+
+    if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado != 1){
+      this._router.navigate(['/'+this.project_id+'/project-dashboard']);
+    }else{
+    
+    this.showPreLoader();
+    this.projectsService.estadoProyecto(2, this.project_id).pipe().subscribe(
+      (data: any) => {
+        this.hidePreLoader();
+        this._router.navigate(['/'+this.project_id+'/project-dashboard']);
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
+    }
+  }
+
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }
