@@ -5,6 +5,9 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
 
+// Sweet Alert
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
@@ -662,6 +665,68 @@ layers = [
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
+  }
+  
+  goControl(){
+    this._router.navigate(['/'+this.project_id+'/project-control']);
+  }
+
+  terminar(){
+
+    if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Evaluación finalizada',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }else{
+    
+    this.showPreLoader();
+    this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
+      (data: any) => {
+        this.hidePreLoader();
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Evaluación finalizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+        this.getProject(this.project_id);
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
+    }
+  }
+
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }
