@@ -57,7 +57,11 @@ import { EvaluationTaskComponent } from "./create/evaluation/task/task.component
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
+//  Drag and drop
+import { DndModule } from 'ngx-drag-drop';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
@@ -162,12 +166,14 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     Ng2SearchPipeModule,
     CdkTableModule,
     CdkTreeModule,
+    DndModule,
     DragDropModule,
     MatExpansionModule,
     MatPaginatorModule,
     MatSelectModule,
     MatTableModule,
     MatTreeModule,
+    FlexLayoutModule,
     ScrollingModule,
     AutocompleteLibModule
   ],

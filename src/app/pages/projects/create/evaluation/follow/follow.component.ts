@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2/*, ChangeDetectorRef*/ } from '@angular/core';
+
+import { MatTable } from '@angular/material/table';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+// Drag and drop
+import { DndDropEvent } from 'ngx-drag-drop';
 
 import { DecimalPipe, Location } from '@angular/common';
 
@@ -10,7 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel } from './follow.model';
+import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './follow.model';
 import { folderData } from './data';
 import { RecentService } from './follow.service';
 import { NgbdRecentSortableHeader, SortEvent } from './follow-sortable.directive';
@@ -77,7 +82,9 @@ export class EvaluationFollowComponent implements OnInit {
 
   items: any = [];
   hallazgos: any = [];
-  HallazgosDatas: any = [];
+  hallazgosList!: HallazgoModel[];
+  HallazgosDatas: any/* = []*/;
+  term: any;
 
   status: any;
 
@@ -105,12 +112,17 @@ export class EvaluationFollowComponent implements OnInit {
 
   modelValueAsDate: Date = new Date();
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location/*, private ref: ChangeDetectorRef*/) {
     this.recentData = service.recents$;
     this.total = service.total$;
 
     flatpickr.localize(Spanish);
   }
+  
+  @ViewChild('dataTable')
+  table!: MatTable<HallazgoModel>;
+  displayedColumns: string[] = ['nombre', 'fecha', 'estado', 'action'];
+  dataSource = [];
 
   inlineDatePicker: Date = new Date();
 
@@ -156,6 +168,8 @@ export class EvaluationFollowComponent implements OnInit {
       ids: [''],
       icon_name: ['', [Validators.required]]
     });
+
+    this.HallazgosDatas = this.dataSource;
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
@@ -273,9 +287,23 @@ export class EvaluationFollowComponent implements OnInit {
       let nombre: any = this.hallazgoForm.get('nombre')?.value;
       let descripcion: any = null;//this.hallazgoForm.get('descripcion')?.value;
       //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-      let fecha: any = new Date();
+      let fecha_format: any = new Date();
+      let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
+      let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1);
+      let estado: any = 2;
+
+      const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado};
       
-      this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion, fecha: fecha.getDate()+'/'+(fecha.getMonth() + 1)+'/'+fecha.getFullYear(), estado: 2});
+        this.HallazgosDatas.push({
+          id,
+          nombre,
+          fecha,
+          estado
+        });
+      
+      this.table.renderRows(); 
+      //this.ref.detectChanges();
+      //this.dataSource.push(hallazgo_data);
 
       //this.myFiles.push(this.selectedFile);
       //this.imgView2.push(this.imgView);
@@ -287,7 +315,6 @@ export class EvaluationFollowComponent implements OnInit {
         showConfirmButton: true,
         timer: 5000,
       });*/
-      
       this.hallazgoForm.reset();
       this.modalService.dismissAll()
     }
@@ -553,6 +580,49 @@ imgError(ev: any){
       });
     });*/
   }
+  
+  /**
+   * on dragging task
+   * @param item item dragged
+   * @param list list from item dragged
+   */
+  onDragged(item: any, list: any[]) {
+    const index = list.indexOf(item);
+    list.splice(index, 1);
+  }
+
+  /**
+   * On task drop event
+   */
+  onDrop(event: DndDropEvent, filteredList?: any[], targetStatus?: string) {
+    if (filteredList && event.dropEffect === 'move') {
+      let index = event.index;
+      if (typeof index === 'undefined') {
+        index = filteredList.length;
+      }
+      filteredList.splice(index, 0, event.data);
+    }
+  }
+
+  // Todo Drag and droup data
+  todoTable(event: CdkDragDrop<HallazgoModel[]>): void {
+    moveItemInArray(this.HallazgosDatas, event.previousIndex, event.currentIndex);
+    this.table.renderRows();
+  }
+
+  // Checked Selected
+  checkUncheckAll(e: any, id: any) {
+    var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
+    var status: any = e.target.closest('tr').querySelector('.status');
+    if (checkboxes.checked) {
+      this.changeStatusHallazgo(id, 1);
+      status.innerHTML = '<span class="badge text-uppercase badge-soft-success">Completada</span>'
+    }
+    else {
+      this.changeStatusHallazgo(id, 2);
+      status.innerHTML = '<span class="badge text-uppercase badge-soft-warning">Pendiente</span>'
+    }
+  }
 
   /**
   * Confirmation mail model
@@ -563,13 +633,13 @@ imgError(ev: any){
     this.modalService.open(content, { centered: true });
   }
 
-  
   // Delete Data
   deleteData(id: any) {
     if (id) {
       /*this.projectsService.deleteInstallation(id)
       .subscribe(
         response => {*/
+          //document.getElementById('row-' + id)?.remove();
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
           
             const index = this.HallazgosDatas.findIndex(
@@ -578,8 +648,9 @@ imgError(ev: any){
             );
 
             this.HallazgosDatas.splice(index, 1);
-            this.myFiles.splice(index, 1);
+            //this.myFiles.splice(index, 1);
 
+            this.table.renderRows();
           //document.getElementById('lj_'+id)?.remove();
         /*},
         error => {

@@ -1,12 +1,17 @@
 import { Component, OnInit, ViewChildren, QueryList, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, forwardRef, Renderer2 } from '@angular/core';
 
+import { MatTable } from '@angular/material/table';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+// Drag and drop
+import { DndDropEvent } from 'ngx-drag-drop';
+
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel } from './task.model';
+import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './task.model';
 import { folderData } from './data';
 import { RecentService } from './task.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
@@ -76,7 +81,10 @@ export class EvaluationTaskComponent implements OnInit {
 
   items: any = [];
   hallazgos: any = [];
-  HallazgosDatas: any = [];
+  
+  hallazgosList!: HallazgoModel[];
+  HallazgosDatas: any/* = []*/;
+  term: any;
 
   nombreHallazgo: any = '';
   idHallazgo: any = null;
@@ -101,6 +109,10 @@ export class EvaluationTaskComponent implements OnInit {
   }
 
   inlineDatePicker: Date = new Date();
+  @ViewChild('dataTable')
+  table!: MatTable<HallazgoModel>;
+  displayedColumns: string[] = ['nombre', 'fecha', 'estado', 'action'];
+  dataSource = [];
 
   ngOnInit(): void {
     /**
@@ -152,6 +164,8 @@ export class EvaluationTaskComponent implements OnInit {
       ids: [''],
       icon_name: ['', [Validators.required]]
     });
+    
+    this.HallazgosDatas = this.dataSource;
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
@@ -211,8 +225,16 @@ export class EvaluationTaskComponent implements OnInit {
       .subscribe(
         response => {*/
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+          const index = this.HallazgosDatas.findIndex(
+            (co: any) =>
+              co.id == id
+          );
+
+          this.HallazgosDatas.splice(index, 1);
           
-          document.getElementById('lj_'+id)?.remove();
+          //document.getElementById('lj_'+id)?.remove();
+          this.table.renderRows();
         /*},
         error => {
           console.log(error);
@@ -393,13 +415,26 @@ export class EvaluationTaskComponent implements OnInit {
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
-  saveHallazgo(){if (this.hallazgoForm.valid) {
+  saveHallazgo(){
+    if (this.hallazgoForm.valid) {
     let nombre: any = this.hallazgoForm.get('nombre')?.value;
     let descripcion: any = null;//this.hallazgoForm.get('descripcion')?.value;
     //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-    let fecha: any = new Date();
+    let fecha_format: any = new Date();
+    let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
+    let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1);
+    let estado: any = 2;
+
+    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado};
     
-    this.HallazgosDatas.push({id: (this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1), nombre: nombre, descripcion: descripcion, fecha: fecha.getDate()+'/'+(fecha.getMonth() + 1)+'/'+fecha.getFullYear(), estado: 2});
+    this.HallazgosDatas.push({
+      id,
+      nombre,
+      fecha,
+      estado
+    });
+  
+    this.table.renderRows(); 
 
     this.hallazgoForm.reset();
     this.modalService.dismissAll()
@@ -866,6 +901,49 @@ export class EvaluationTaskComponent implements OnInit {
         return product.type === name;
       });
     });*/
+  }
+
+  /**
+   * on dragging task
+   * @param item item dragged
+   * @param list list from item dragged
+   */
+  onDragged(item: any, list: any[]) {
+    const index = list.indexOf(item);
+    list.splice(index, 1);
+  }
+
+  /**
+   * On task drop event
+   */
+  onDrop(event: DndDropEvent, filteredList?: any[], targetStatus?: string) {
+    if (filteredList && event.dropEffect === 'move') {
+      let index = event.index;
+      if (typeof index === 'undefined') {
+        index = filteredList.length;
+      }
+      filteredList.splice(index, 0, event.data);
+    }
+  }
+
+  // Todo Drag and droup data
+  todoTable(event: CdkDragDrop<HallazgoModel[]>): void {
+    moveItemInArray(this.HallazgosDatas, event.previousIndex, event.currentIndex);
+    this.table.renderRows();
+  }
+
+  // Checked Selected
+  checkUncheckAll(e: any, id: any) {
+    var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
+    var status: any = e.target.closest('tr').querySelector('.status');
+    if (checkboxes.checked) {
+      this.changeStatusHallazgo(id, 1);
+      status.innerHTML = '<span class="badge text-uppercase badge-soft-success">Completada</span>'
+    }
+    else {
+      this.changeStatusHallazgo(id, 2); 
+      status.innerHTML = '<span class="badge text-uppercase badge-soft-warning">Pendiente</span>'
+    }
   }
 
   // PreLoader

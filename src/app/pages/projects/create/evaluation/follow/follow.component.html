@@ -49,7 +49,7 @@
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
                         <div class="form-icon right">
-                            <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'d-m-y'">
+                            <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'d-m-y'" [maxDate]="modelValueAsDate.getDate()+'.'+(modelValueAsDate.getMonth() + 1 > 9 ? (modelValueAsDate.getMonth() + 1) : '0'+(modelValueAsDate.getMonth() + 1))+'.'+modelValueAsDate.getFullYear()">
                             <i class="ri-calendar-todo-fill"></i>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
 
             <div class="card-body">
                 <div id="customerList">                    
-                    <div class="row g-0">
+                    <!--<div class="row g-0">
                         <div class="col-md-10">
                                 <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
                                     <input type="text" class="form-control" style="width: 100%;" placeholder="Buscar un Hallazgo">
@@ -105,7 +105,7 @@
                                                     data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content)"
                                                     ><i class="ri-add-fill me-1 align-bottom"></i>Crear Hallazgo
                             </button>
-                        </div>
+                        </div>-->
                         <!--<div class="col-md-12">
                             <form (ngSubmit)="saveHallazgo()" [formGroup]="hallazgoForm" class="tablelist-form">
                             <div class="row">
@@ -135,9 +135,103 @@
                             </div>
                             </form>
                         </div>-->
+                    <!--</div>-->
+                    
+        <div class="p-3 bg-light rounded mb-4">
+            <div class="row g-2">
+                <div class="col-lg">
+                    <div class="search-box">
+                        <input type="text" id="searchTaskList" class="form-control search"
+                            placeholder="Buscar Hallazgo" [(ngModel)]="term">
+                        <i class="ri-search-line search-icon"></i>
                     </div>
+                </div>
+                <div class="col-lg-auto">
+                    <button class="btn btn-primary showModal createTask" type="button" data-bs-toggle="modal"
+                        data-bs-target="#showModal" (click)="openModal(content)">
+                        <i class="ri-add-fill align-bottom"></i> Crear Hallazgo
+                    </button>
+                </div>
+            </div>
+        </div>
+          
+        <div class="todo-content position-relative px-4 mx-n4" id="todo-content">
+            <div class="todo-task" id="todo-task">
+                <div class="table-responsive mt-3 mb-1"><!--table-card-->
+                    <table mat-table #dataTable [dataSource]="HallazgosDatas | filter:term"
+                        cdkDropList (cdkDropListDropped)="todoTable($event)"
+                        class="table align-middle position-relative table-nowrap" style="border: lightgray !important;">
+                        <ng-container matColumnDef="nombre">
+                            <th scope="col" style="width: 70%;" mat-header-cell *matHeaderCellDef> Hallazgo </th>
+                            <td *matCellDef="let element">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="task-handle px-1 bg-light rounded">: :</div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="form-check">
+                                            <input class="form-check-input me-1" type="checkbox" value="15"
+                                                id="todo{{element.id}}" name="checkAll"
+                                                (change)="checkUncheckAll($event,element.id)"
+                                                [checked]="element.estado === 1">
+                                            <label class="form-check-label" for="todo15">{{element.nombre}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </ng-container>
 
-                    <div class="table-responsive table-card mt-3 mb-1">
+                        <ng-container matColumnDef="fecha">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Fecha Hallazgo </th>
+                            <td *matCellDef="let element">
+                                {{element.fecha }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">    
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Estado </th>
+                            <td *matCellDef="let element" class="status">
+                                <span style="cursor: pointer;" class="badge  text-uppercase" (click)="changeStatusHallazgo(element.id, element.estado)"
+                                    [ngClass]=" { 'badge-soft-warning': element.estado === 2, 'badge-soft-success': element.estado === 1}">{{element.estado == 1 ? 'Completada' : 'Pendiente' }}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Acción </th>
+                            <td *matCellDef="let element">
+                                <div class="hstack gap-2">
+                                    <button class="btn btn-sm btn-soft-danger remove-list" data-bs-toggle="modal"
+                                        data-bs-target="#deleteRecordModal" data-remove-id="1"
+                                        (click)="confirm(deleteModel,element.id)">
+                                        <i class="ri-delete-bin-5-fill align-bottom"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" cdkDrag
+                            id="row-{{i+1}}"></tr>
+
+                        <div *cdkDragPlaceholder></div>
+
+                    </table>
+                </div>
+            </div>
+            <div class="py-4 mt-4 text-center" id="noresult" style="display: none;">
+                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                    colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px"></lord-icon>
+                <h5 class="mt-4">No posee hallazgos</h5>
+            </div>
+            
+            <div *ngIf="!HallazgosDatas || HallazgosDatas.length == 0">
+                <div style="text-align: center;width: 100%;font-size: 20px;">
+                    No hay datos para mostrar
+                </div>
+            </div>
+        </div>
+
+                    <!--<div class="table-responsive table-card mt-3 mb-1">
                         <table class="table table-sm table-nowrap">
                             <thead>
                             <tr>
@@ -156,7 +250,7 @@
                                     <td><span style="cursor: pointer;" class="badge" [ngClass]="{'badge-soft-warning': data.estado == 2,'badge-soft-success': data.estado == 1}" (click)="changeStatusHallazgo(data.id, data.estado)">{{data.estado == 1 ? 'Completada' : 'Pendiente' }}</span></td>
                                 </tr>
                             </tbody>
-                            </table>
+                            </table>-->
 
                         <!--<table class="table">
                             <thead>
@@ -192,31 +286,28 @@
                                 </tr>
                             </tbody>
                         </table>-->
-                    </div>
+                   <!-- </div>-->
 
-                    <div class="row justify-content-md-between align-items-md-center">
+                   <!-- <div class="row justify-content-md-between align-items-md-center">
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
                                 Mostrando página 1
                                 de
-                                {{pageTotal(HallazgosDatas.length)}} de {{HallazgosDatas.length}}
+                                {{pageTotal((HallazgosDatas && HallazgosDatas.length ? HallazgosDatas.length : 1))}} de {{HallazgosDatas && HallazgosDatas.length ? HallazgosDatas.length : 0 }}
                                 registros
                             </div>
                         </div>
-                        <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="HallazgosDatas.length" [(page)]="service.page"
+                                <ngb-pagination [collectionSize]="HallazgosDatas && HallazgosDatas.length ? HallazgosDatas.length : 0" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
                                 </ngb-pagination>
                             </div>
                         </div>
-                        <!-- End Pagination -->
-                    </div>
+                    </div>-->
                 </div>
-            </div><!-- end card -->
+            </div>
         </div>
-        <!-- end col -->
     </div>
 </div>
 
