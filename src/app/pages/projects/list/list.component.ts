@@ -140,6 +140,9 @@ export class ListComponent implements OnInit {
       case 2:
           this._router.navigate(['/'+proyecto_id+'/project-dashboard']);
         break;
+      case 3:
+          this._router.navigate(['/'+proyecto_id+'/project-control']);
+        break;
     
       default:  
           this._router.navigate(['/projects/'+proyecto_id+'/identification']);
