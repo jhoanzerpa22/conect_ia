@@ -270,7 +270,7 @@ export class EvaluationFollowComponent implements OnInit {
     this.status = e.target.value;
   }
 
-  changeStatusHallazgo(id: number, estado: number){
+  changeStatusHallazgo(e: any, id: number, estado: number){
     const index = this.HallazgosDatas.findIndex(
       (h: any) =>
         h.id == id
@@ -279,6 +279,13 @@ export class EvaluationFollowComponent implements OnInit {
     let new_estado: any = estado == 1 ? 2 : 1;
 
     this.HallazgosDatas[index].estado = new_estado;
+
+    var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
+    if(new_estado == 1){
+      checkboxes.checked = true;
+    }else{
+      checkboxes.checked = false;
+    }
   }
   
   saveHallazgo(){
@@ -355,7 +362,7 @@ export class EvaluationFollowComponent implements OnInit {
     let hallazgos: any = [];
 
     for (var h = 0; h < this.HallazgosDatas.length; h++) { 
-      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion});
+      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado});
     }
 
     /*let tipoArticulo: any = [];
@@ -615,12 +622,12 @@ imgError(ev: any){
     var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
     var status: any = e.target.closest('tr').querySelector('.status');
     if (checkboxes.checked) {
-      this.changeStatusHallazgo(id, 1);
-      status.innerHTML = '<span class="badge text-uppercase badge-soft-success">Completada</span>'
+      this.changeStatusHallazgo(e, id, 1);
+      //status.innerHTML = '<span class="badge text-uppercase badge-soft-success">Completada</span>'
     }
-    else {
-      this.changeStatusHallazgo(id, 2);
-      status.innerHTML = '<span class="badge text-uppercase badge-soft-warning">Pendiente</span>'
+    else{
+      this.changeStatusHallazgo(e, id, 2);
+      //status.innerHTML = '<span class="badge text-uppercase badge-soft-warning">Pendiente</span>'
     }
   }
 
