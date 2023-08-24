@@ -737,12 +737,16 @@ export class EvaluationDetailComponent implements OnInit {
               if(procede){
                 cuerpo_articulos.push(articulos[i]);
 
-                if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
-                  cumple_norma ++;
-                }else if(cuerpo_nocumple > cuerpo_parcial && cuerpo_nocumple > cuerpo_cumple){
-                  cuerpo_nocumple ++;
-                }else{
-                  cuerpo_parcial ++;
+                if(cuerpo_cumple > 0 || cuerpo_parcial > 0 || cuerpo_nocumple > 0){
+                  if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
+                    cumple_norma ++;
+                  }else if(cuerpo_parcial > cuerpo_cumple && cuerpo_parcial > cuerpo_nocumple){
+                    parcial_norma ++;
+                  }else if(cuerpo_nocumple > cuerpo_cumple && cuerpo_nocumple > cuerpo_parcial){
+                    nocumple_norma ++;
+                  }else{
+                    parcial_norma ++;
+                  }
                 }
 
               }
