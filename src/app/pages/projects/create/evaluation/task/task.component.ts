@@ -319,7 +319,7 @@ export class EvaluationTaskComponent implements OnInit {
     return index == -1;
   }
 
-  changeStatusHallazgo(id: number, estado: number){
+  changeStatusHallazgo(e: any,id: number, estado: number){
     const index = this.HallazgosDatas.findIndex(
       (h: any) =>
         h.id == id
@@ -328,6 +328,13 @@ export class EvaluationTaskComponent implements OnInit {
     let new_estado: any = estado == 1 ? 2 : 1;
 
     this.HallazgosDatas[index].estado = new_estado;
+    
+    var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
+    if(new_estado == 1){
+      checkboxes.checked = true;
+    }else{
+      checkboxes.checked = false;
+    }
   }
   
   private getInstallations() {
@@ -420,9 +427,9 @@ export class EvaluationTaskComponent implements OnInit {
     let nombre: any = this.hallazgoForm.get('nombre')?.value;
     let descripcion: any = null;//this.hallazgoForm.get('descripcion')?.value;
     //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
-    let fecha_format: any = new Date();
-    let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
-    let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 1) : 1);
+    let fecha: any = new Date();
+    //let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
+    let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 101) : 1);
     let estado: any = 2;
 
     const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado};
@@ -676,15 +683,20 @@ export class EvaluationTaskComponent implements OnInit {
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
           this.hallazgos = data.data;
-          this.HallazgosDatas = data.data;
+          //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
           let tareas: any = [];
           for (var i = 0; i < this.hallazgos.length; i++) {
+                if(this.hallazgos[i].findings.id != null){
+                    this.HallazgosDatas.push({id: this.hallazgos[i].findings.id, nombre: this.hallazgos[i].findings.nombre, fecha: this.hallazgos[i].findings.createdAt, estado: this.hallazgos[i].findings.estado});
+                }
                 if(this.hallazgos[i].findings.tasks.id != null){
                     tareas.push(this.hallazgos[i].findings.tasks);
                 }
           }
+
+          this.table.renderRows();
 
           this.TaskDatas = tareas;
           
@@ -937,11 +949,11 @@ export class EvaluationTaskComponent implements OnInit {
     var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
     var status: any = e.target.closest('tr').querySelector('.status');
     if (checkboxes.checked) {
-      this.changeStatusHallazgo(id, 1);
+      this.changeStatusHallazgo(e, id, 1);
       status.innerHTML = '<span class="badge text-uppercase badge-soft-success">Completada</span>'
     }
     else {
-      this.changeStatusHallazgo(id, 2); 
+      this.changeStatusHallazgo(e, id, 2); 
       status.innerHTML = '<span class="badge text-uppercase badge-soft-warning">Pendiente</span>'
     }
   }
