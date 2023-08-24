@@ -577,9 +577,6 @@ export class EvaluationDetailComponent implements OnInit {
           this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
           
           this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
-
-          console.log('detail',this.detail);
-          console.log('detailData',this.articulosDatas);
           this.hidePreLoader();
       },
       (error: any) => {
