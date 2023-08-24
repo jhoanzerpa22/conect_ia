@@ -333,9 +333,8 @@ export class ProjectsService {
         "cumplimiento": 0}, this.getToken());
     }
     
-    updateEvaluation(project_id: any, cumplimiento: any): Observable<any> {
-        return this.http.put(API_URL_BACK + 'evaluacionProyecto/'+project_id, {
-        "cumplimiento": cumplimiento}, this.getToken());
+    updateEvaluation(project_id: any, data: any): Observable<any> {
+        return this.http.put(API_URL_BACK + 'evaluacionProyecto/'+project_id, data, this.getToken());
     }
 
 }

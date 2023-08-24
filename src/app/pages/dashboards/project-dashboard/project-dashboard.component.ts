@@ -49,6 +49,7 @@ export class ProjectDashboardComponent implements OnInit {
   cuerpo_cumple: number = 0;
   cuerpo_nocumple: number = 0;
   cuerpo_parcial: number = 0;
+  showData: boolean = false;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -108,6 +109,7 @@ export class ProjectDashboardComponent implements OnInit {
    getEvaluations(idProject?: any){
        this.projectsService.getEvaluations(idProject).pipe().subscribe(
          (data: any) => {
+           this.showData = true;
            this.evaluations = data.data;
        },
        (error: any) => {
@@ -683,6 +685,10 @@ layers = [
   
   goControl(){
     this._router.navigate(['/'+this.project_id+'/project-control']);
+  }
+
+  goEvaluation(){
+    this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations']);
   }
 
   createEvaluation(){

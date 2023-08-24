@@ -47,6 +47,8 @@ export class ProjectEvaluationsComponent implements OnInit {
   cuerpo_cumple: number = 0;
   cuerpo_nocumple: number = 0;
   cuerpo_parcial: number = 0;
+  
+  finalizeDate: Date = new Date();
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -686,7 +688,12 @@ layers = [
     }else{
     
       this.showPreLoader();
-      this.projectsService.updateEvaluation(this.project_id, this.avance_evaluacion).pipe().subscribe(
+      const evaluation: any = {
+        "cumplimiento": this.avance_evaluacion, 
+        "fechaFinalizacion": this.finalizeDate
+      };
+
+      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
         (data: any) => {
 
           this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
