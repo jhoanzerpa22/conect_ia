@@ -1,0 +1,144 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+ <div class="row project-wrapper">
+    <div class="col-xxl-12">
+        
+  <div class="row">
+    <div class="col-xxl-12">
+        <div class="card">
+            <div class="card-header"><!-- align-items-xl-center d-xl-flex-->
+                <div class="row g-4 mb-3">
+                    <div class="col-lg-12">
+                            <div class="row g-4 mb-3">
+                                <div class="col-sm">
+                                </div>
+                                <div class="col-sm-auto">
+                                    
+                                    <button type="button" style="
+                                    width: 200px;" class="btn btn-light waves-effect waves-light" routerLink="/{{project_id}}/project-dashboard"><!--<i class="ri-arrow-right-line label-icon align-middle fs-16"></i> -->Salir</button>
+
+                                    <button type="button" style="margin-left: 20px;" class="btn btn-primary waves-effect waves-light" (click)="terminar()"><!-- btn-label left <i class="ri-add-line label-icon align-middle fs-16"></i>--> Finalizar Evaluación</button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!--<div class="flex-grow-1 mb-xl-0">
+                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/projects/{{project_id}}/identification"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Identificación</button>
+                </div>
+                <div class="flex-shrink-0">
+                    
+                    <div>
+                        <button type="button" class="btn btn-success btn-label waves-effect left waves-light"><i class="ri-add-line label-icon align-middle fs-16"></i> Finalizar Evaluación</button>
+                    </div>
+                </div>-->
+                    
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <!--<div class="row g-4 mb-3">
+                                <div class="col-sm">
+                                </div>
+                                <div class="col-sm-auto">
+                                    <div class="d-md-flex justify-content-sm-end gap-2">
+                                        <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
+                                            <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="Buscar un Elemento">
+                                            <i class="ri-search-line search-icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <!--<div class="card">
+                                <div class="card-body">-->
+                
+                                    <div *ngIf="installations_data.length < 1">
+                                        <div style="text-align: center;width: 100%;font-size: 20px;">
+                                            Aún no tiene Elementos o actividades
+                                        </div>
+                                    </div>
+                
+                                    <div *ngIf="installations_data.length > 0">            
+                                            <div class="list-group">
+                                                <ng-container *ngFor="let ig of installations_group"><!-- | filter:term2-->
+                                                    <h4 style="color: #405189;">{{ig.area}}</h4>
+                                                    <p>{{ig.descripcion}}</p>
+                
+                                                    <ng-container *ngFor="let v of ig.instalaciones;">
+                
+                                                    <div class="team-list list-view-filter row" style="cursor: pointer;" (click)="goDetail(v.id)">
+                                                        <div class="col">
+                                                            <div class="card team-box">
+                                                                <div class="team-cover">
+                                                                    
+                                                                </div>
+                                                                <div class="card-body p-4">                
+                                                                    <div class="row align-items-center team-row">
+                                                                        <div class="col team-settings">
+                                                                            <div class="row">
+                                                                                <div class="col">
+                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col">
+                                                                            <div class="team-profile-img">
+                                                                                
+                                                                                <div class="form-check form-check-inline form-radio-primary mb-3">
+                                                                                    <label class="form-check-label" for="inlineCheckbox1">
+                                                                                        <h5 class="fs-16 mb-1" style="color: #405189;">{{v.nombre}}</h5>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                
+                                                                        <div class="col-lg-2 col">
+                                                                            <div class="row text-muted text-center">
+                                                                                <div class="col-12 border-end border-end-dashed">
+                                                                                    <h5 class="mb-1">{{v.total_cuerpos ? v.total_cuerpos : 0}}</h5>
+                                                                                    <p class="text-muted mb-0">{{v.total_cuerpos && v.total_cuerpos == 1 ? 'Cuerpo Legal Vinculado' : 'Cuerpos legales Vinculados'}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="col-lg-2 col">
+                                                                            <div class="row text-muted text-center">
+                                                                                <div class="col-12 border-end border-end-dashed">
+                                                                                    <h5 class="mb-1">{{v.total_articulos ? v.total_articulos : 0}}</h5>
+                                                                                    <p class="text-muted mb-0">{{v.total_articulos && v.total_articulos == 1 ? 'Artículo Vinculado' : 'Artículos Vinculados'}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-lg-2 col">
+                                                                            <div class="progress progress-xl">
+                                                                                <div class="progress-bar" [ngClass]="{'bg-danger': v.avance > 0 && v.avance < 25, 'bg-warning': v.avance > 25 && v.avance < 75, 'bg-success': v.avance > 75 }" role="progressbar" [style]="v.avance > 0 ? 'width:'+v.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{v.avance}}%</div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-lg-1 col">
+                                                                            <span class="badge text-bg-no-evaluado" [ngClass]="{'bg-success': v.avance > 0, 'text-bg-no-evaluado': v.avance < 1}">{{v.avance > 0 ? 'Evaluado' : 'No evaluado'}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--end card-->
+                                                        </div>
+                                                    </div>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    <!--</div>
+                            </div>-->
+                        </div>
+                </div>
+            </div><!-- end card header -->
+        </div><!-- end card -->
+        </div><!--end col-->
+        </div>
+        
+    </div><!-- end col -->
+
+</div><!-- end row -->
