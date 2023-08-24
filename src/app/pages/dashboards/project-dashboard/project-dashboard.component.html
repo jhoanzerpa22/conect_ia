@@ -38,19 +38,19 @@
                     <!--<div class="card">
                         <div class="card-body">-->
         
-                            <div *ngIf="!evaluations">
+                            <div *ngIf="!evaluations || !showData">
                                 <div style="text-align: center;width: 100%;font-size: 20px;">
                                     Aún no tiene Evaluaciones
                                 </div>
                             </div>
         
-                            <div *ngIf="evaluations">            
+                            <div *ngIf="evaluations && showData">            
                                     <div class="list-group">
                                         <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
                           
                                             <!--<ng-container *ngFor="let v of ig.instalaciones;">-->
         
-                                            <div class="team-list list-view-filter row">
+                                            <div class="team-list list-view-filter row" style="cursor:pointer;" (click)="goEvaluation()">
                                                 <div class="col">
                                                     <div class="card team-box">
                                                         <div class="team-cover">
@@ -77,7 +77,7 @@
                                                                 <div class="col-lg-3 col">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">{{ evaluations.updatedAt | date: 'd/M/yyyy' }}</h5>
+                                                                            <h5 class="mb-1">{{ evaluations.fechaFinalizacion ? (evaluations.fechaFinalizacion | date: 'd/M/yyyy') : '-' }}</h5>
                                                                             <p class="text-muted mb-0">Término</p>
                                                                         </div>
                                                                     </div>
@@ -86,7 +86,7 @@
                                                                 <div class="col-lg-3 col">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1"style="color: #405189;"><b>Andrea Marin</b></h5>
+                                                                            <h5 class="mb-1"style="color: #405189;"><b>{{evaluations.evaluador.nombre}}</b></h5>
                                                                             <p class="text-muted mb-0">Evaluador/a</p>
                                                                         </div>
                                                                     </div>
@@ -100,7 +100,7 @@
                                                                 </div>
 
                                                                 <div class="col-lg-1 col">
-                                                                    <span class="badge" [ngClass]="{'text-bg-success': evaluations.cumplimiento > 0, 'text-bg-warning': evaluations.cumplimiento < 1}">{{evaluations.cumplimiento > 0 ? 'Finalizada' : 'En proceso'}}</span>
+                                                                    <span class="badge" [ngClass]="{'text-bg-success': evaluations.fechaFinalizacion, 'text-bg-warning': !evaluations.fechaFinalizacion}">{{evaluations.fechaFinalizacion ? 'Finalizada' : 'En proceso'}}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
