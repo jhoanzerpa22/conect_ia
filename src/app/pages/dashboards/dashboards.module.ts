@@ -34,6 +34,7 @@ import { NftComponent } from './nft/nft.component';
 import { JobComponent } from './job/job.component';
 import { ProjectAnalityComponent } from './project-anality/project-anality.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { ProjectEvaluationsComponent } from './project-dashboard//project-evaluations/project-evaluations.component';
 import { ProjectControlComponent } from './project-control/project-control.component';
 import { HomeComponent } from "./home/home.component";
 
@@ -47,6 +48,7 @@ import { HomeComponent } from "./home/home.component";
     JobComponent,
     ProjectAnalityComponent,
     ProjectDashboardComponent,
+    ProjectEvaluationsComponent,
     ProjectControlComponent,
     HomeComponent
   ],
