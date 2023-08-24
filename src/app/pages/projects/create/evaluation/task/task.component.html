@@ -121,9 +121,8 @@
                                     <div class="flex-grow-1">
                                         <div class="form-check">
                                             <input class="form-check-input me-1" type="checkbox" value="15"
-                                                id="todo{{element.id}}" name="checkAll"
-                                                (change)="checkUncheckAll($event,element.id)"
-                                                [checked]="element.estado === 1">
+                                                id="todo{{element.id}}" name="checkAll" (change)="changeStatusHallazgo($event, element.id, element.estado)"
+                                                [checked]="element.estado === 1"><!--(change)="checkUncheckAll($event,element.id)"-->
                                             <label class="form-check-label" for="todo15">{{element.nombre}}</label>
                                         </div>
                                     </div>
@@ -134,15 +133,15 @@
                         <ng-container matColumnDef="fecha">
                             <th scope="col" mat-header-cell *matHeaderCellDef> Fecha Hallazgo </th>
                             <td *matCellDef="let element">
-                                {{element.fecha }}
+                                {{element.fecha | date: 'd/M/yyyy' }}
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="estado">    
-                            <th scope="col" mat-header-cell *matHeaderCellDef> Estado </th>
+                            <th scope="col" style="width: 10%;" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td *matCellDef="let element" class="status">
-                                <span style="cursor: pointer;" class="badge  text-uppercase" (click)="changeStatusHallazgo(element.id, element.estado)"
-                                    [ngClass]=" { 'badge-soft-warning': element.estado === 2, 'badge-soft-success': element.estado === 1}">{{element.estado == 1 ? 'Completada' : 'Pendiente' }}</span>
+                                <span style="cursor: pointer;" class="badge  text-uppercase" (click)="changeStatusHallazgo($event, element.id, element.estado)"
+                                    [ngClass]=" { 'badge-soft-warning': element.estado === 2 || !element.estado, 'badge-soft-success': element.estado === 1}">{{element.estado == 1 ? 'Completada' : 'Pendiente' }}</span>
                             </td>
                         </ng-container>
 

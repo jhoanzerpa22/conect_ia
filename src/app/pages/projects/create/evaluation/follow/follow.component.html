@@ -49,7 +49,7 @@
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
                         <div class="form-icon right">
-                            <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'d-m-y'" [maxDate]="modelValueAsDate.getDate()+'.'+(modelValueAsDate.getMonth() + 1 > 9 ? (modelValueAsDate.getMonth() + 1) : '0'+(modelValueAsDate.getMonth() + 1))+'.'+modelValueAsDate.getFullYear()">
+                            <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'d-m-y'" [maxDate]="modelValueAsDate">
                             <i class="ri-calendar-todo-fill"></i>
                         </div>
                     </div>
@@ -172,8 +172,8 @@
                                         <div class="form-check">
                                             <input class="form-check-input me-1" type="checkbox" value="15"
                                                 id="todo{{element.id}}" name="checkAll"
-                                                (change)="checkUncheckAll($event,element.id)"
-                                                [checked]="element.estado === 1">
+                                                (change)="changeStatusHallazgo($event, element.id, element.estado)"
+                                                [checked]="element.estado === 1"><!--(change)="checkUncheckAll($event,element.id)"-->
                                             <label class="form-check-label" for="todo15">{{element.nombre}}</label>
                                         </div>
                                     </div>
@@ -189,9 +189,9 @@
                         </ng-container>
 
                         <ng-container matColumnDef="estado">    
-                            <th scope="col" mat-header-cell *matHeaderCellDef> Estado </th>
+                            <th scope="col"  style="width: 10%;" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td *matCellDef="let element" class="status">
-                                <span style="cursor: pointer;" class="badge  text-uppercase" (click)="changeStatusHallazgo(element.id, element.estado)"
+                                <span style="cursor: pointer;" class="badge  text-uppercase" (click)="changeStatusHallazgo($event, element.id, element.estado)"
                                     [ngClass]=" { 'badge-soft-warning': element.estado === 2, 'badge-soft-success': element.estado === 1}">{{element.estado == 1 ? 'Completada' : 'Pendiente' }}</span>
                             </td>
                         </ng-container>
