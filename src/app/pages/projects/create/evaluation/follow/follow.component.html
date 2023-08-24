@@ -39,7 +39,7 @@
                 <h4 style="color: #405189;"><b>EVALUACIÓN</b></h4>
             </div>
             <div class="col-sm-auto">
-                <div class="d-md-flex justify-content-sm-end gap-2">
+                <!--<div class="d-md-flex justify-content-sm-end gap-2">
                     <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
                                 id="choices-priority-input2" (change)="changeStatus($event)">
                                 <option value="" selected>Seleccione Cumplimiento</option>
@@ -54,6 +54,33 @@
                         </div>
                     </div>
                     
+                </div>-->
+            </div>
+          </div>
+          
+          <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h6>1. Determina el estado del cumplimiento.</h6>
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
+                                id="choices-priority-input2" (change)="changeStatus($event)">
+                                <option value="" selected>Seleccione Cumplimiento</option>
+                                <option value="CUMPLE">Cumple</option>
+                                <option value="CUMPLE PARCIALMENTE">Cumple parcial</option>
+                                <option value="NO CUMPLE">No cumple</option>
+                    </select>
+                </div>
+            </div>
+          </div>
+
+          <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h6>2. Define una fecha de evaluación.</h6>
+                    <div class="form-icon right" style="width: 400px;">
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'d-m-y'" [maxDate]="modelValueAsDate">
+                        <i class="ri-calendar-todo-fill"></i>
+                    </div>
                 </div>
             </div>
           </div>
@@ -61,17 +88,17 @@
           <div class="row g-0">
             <div class="col-md-12">
                 <div class="card-body">
-                    <h6 style="color: #405189;"><b>COMENTARIOS</b></h6>
+                    <h6>3. Agrega tus comentarios.</h6>
                     <ckeditor [editor]="Editor" data="" formControlName="comentario"></ckeditor>
                 </div>
             </div>
-            </div>
+          </div>
 
             
             <div class="row g-0">
                 <div class="col-md-12">
                     <div class="card-body">
-                        <h6 style="color: #405189;"><b>ADJUNTAR IMAGEN O ARCHIVO DE RESPALDO</b></h6>
+                        <h6>4. Carga tu evidencia.</h6>
                         <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" (success)="onFileSelectedEvaluation($event)"></dropzone>
                     </div>
                 </div>
