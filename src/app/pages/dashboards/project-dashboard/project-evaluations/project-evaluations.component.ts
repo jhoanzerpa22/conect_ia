@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
+import { statData, ActiveProjects, MyTask, TeamMembers } from '../data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
-import { ProjectsService } from '../../../core/services/projects.service';
+import { ProjectsService } from '../../../../core/services/projects.service';
 import { round } from 'lodash';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-project-dashboard',
-  templateUrl: './project-dashboard.component.html',
-  styleUrls: ['./project-dashboard.component.scss']
+  selector: 'app-evaluations',
+  templateUrl: './project-evaluations.component.html',
+  styleUrls: ['./project-evaluations.component.scss']
 })
 
 /**
  * Projects Component
  */
-export class ProjectDashboardComponent implements OnInit {
+export class ProjectEvaluationsComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -34,8 +34,6 @@ export class ProjectDashboardComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
-
-  evaluations: any = {};
 
   installations_data: any = [];
   installations_articles: any = [];
@@ -69,7 +67,6 @@ export class ProjectDashboardComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
-      this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
     });
 
@@ -104,17 +101,6 @@ export class ProjectDashboardComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
-
-   getEvaluations(idProject?: any){
-       this.projectsService.getEvaluations(idProject).pipe().subscribe(
-         (data: any) => {
-           this.evaluations = data.data;
-       },
-       (error: any) => {
-         //this.error = error ? error : '';
-         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-       });
-    }
 
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
@@ -190,7 +176,7 @@ export class ProjectDashboardComponent implements OnInit {
               obj[i].avance = round(avance, 0);
               
               if(total_articulos.length > 0){
-                //avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
+                avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);
                 
                 if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
@@ -233,7 +219,7 @@ export class ProjectDashboardComponent implements OnInit {
           });
           //console.log('lista_data', this.installations_group);
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
-          
+          //console.log('avance_evaluacion',this.avance_evaluacion);
           this._simplePieChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
           this._simplePieChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
       },
@@ -685,26 +671,6 @@ layers = [
     this._router.navigate(['/'+this.project_id+'/project-control']);
   }
 
-  createEvaluation(){
-    this.showPreLoader();
-    this.projectsService.createEvaluation(this.project_id).pipe().subscribe(
-      (data: any) => {
-        this.hidePreLoader();
-        this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations']);
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-    });
-  }
-
   terminar(){
 
     if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
@@ -716,32 +682,51 @@ layers = [
         showConfirmButton: true,
         timer: 5000,
       });
+      this._router.navigate(['/'+this.project_id+'/project-dashboard']);
     }else{
     
-    this.showPreLoader();
-    this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
-      (data: any) => {
-        this.hidePreLoader();
+      this.showPreLoader();
+      this.projectsService.updateEvaluation(this.project_id, this.avance_evaluacion).pipe().subscribe(
+        (data: any) => {
+
+          this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
+            (data: any) => {
+              this.hidePreLoader();
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Evaluación finalizada',
+                showConfirmButton: true,
+                timer: 5000,
+              });
+              this._router.navigate(['/'+this.project_id+'/project-dashboard']);
+              //this.getProject(this.project_id);
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();      
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+          });
+
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();      
         Swal.fire({
           position: 'center',
-          icon: 'success',
-          title: 'Evaluación finalizada',
+          icon: 'error',
+          title: 'Ha ocurrido un error..',
           showConfirmButton: true,
           timer: 5000,
         });
-        this.getProject(this.project_id);
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
       });
-    });
+    
     }
   }
 
