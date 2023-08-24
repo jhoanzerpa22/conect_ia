@@ -139,7 +139,7 @@
                         <div class="list-group">
 
                                 <ng-template #myArticles let-s="s">
-                                    <div class="team-list list-view-filter row" style="cursor: pointer;" (click)="goEvaluation(s.id, s.evaluations)">
+                                    <div class="team-list list-view-filter row" style="cursor: pointer;" (click)="goEvaluation(s.id, s.evaluations)" *ngIf="s.proyectoId == project_id">
                                         <div class="col">
                                             <div class="card team-box">
                                                 
@@ -171,7 +171,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-2 col">
-                                                            <span class="badge" [ngClass]="{'text-bg-danger': !s.evaluations.estado || (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
+                                                            <span class="badge" [ngClass]="{
+                                                                'text-bg-no-evaluado': !s.evaluations.estado,'text-bg-danger': (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
