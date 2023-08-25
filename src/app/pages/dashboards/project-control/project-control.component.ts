@@ -31,6 +31,7 @@ export class ProjectControlComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  evaluations: any = {};
 
   installations_data: any = [];
   installations_articles: any = [];
@@ -64,6 +65,7 @@ export class ProjectControlComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
+      this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
     });
 
@@ -98,6 +100,17 @@ export class ProjectControlComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+   getEvaluations(idProject?: any){
+       this.projectsService.getEvaluations(idProject).pipe().subscribe(
+         (data: any) => {
+           this.evaluations = data.data;
+       },
+       (error: any) => {
+         //this.error = error ? error : '';
+         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+       });
+    }
 
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
@@ -173,15 +186,17 @@ export class ProjectControlComponent implements OnInit {
               obj[i].avance = round(avance, 0);
               
               if(total_articulos.length > 0){
-                //avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
+                avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);
                 
-                if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
-                  cumple_norma ++;
-                }else if(cuerpo_nocumple > cuerpo_parcial && cuerpo_nocumple > cuerpo_cumple){
-                  cuerpo_nocumple ++;
-                }else{
-                  cuerpo_parcial ++;
+                if(cuerpo_cumple > 0 || cuerpo_parcial > 0 || cuerpo_nocumple > 0){
+                  if(cuerpo_cumple == total_articulos.length){
+                    cumple_norma ++;
+                  }else if(cuerpo_nocumple == total_articulos.length){
+                    nocumple_norma ++;
+                  }else{
+                    parcial_norma ++;
+                  }
                 }
               }
             }
