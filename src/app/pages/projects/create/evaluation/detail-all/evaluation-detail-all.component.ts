@@ -65,7 +65,7 @@ export class EvaluationDetailAllComponent implements OnInit {
 
   // Table data
   recentData!: Observable<recentModel[]>;
-  total: Observable<number>;
+  //total: Observable<number>;
   @ViewChildren(NgbdRecentSortableHeader) headers!: QueryList<NgbdRecentSortableHeader>;
 
   htmlString: any = "";
@@ -96,9 +96,9 @@ export class EvaluationDetailAllComponent implements OnInit {
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private TokenStorageService : TokenStorageService) {
-    this.recentData = service.recents$;
-    this.total = service.total$;
+  constructor(private modalService: NgbModal/*, public service: RecentService*/, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private TokenStorageService : TokenStorageService) {
+    //this.recentData = service.recents$;
+    //this.total = service.total$;
   }
 
   ngOnInit(): void {
@@ -107,7 +107,7 @@ export class EvaluationDetailAllComponent implements OnInit {
     */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento' },
+      { label: 'Control' },
       { label: 'Detalle', active: true }
     ];
 
@@ -649,6 +649,7 @@ export class EvaluationDetailAllComponent implements OnInit {
               let cuerpo_cumple: number = 0;
               let cuerpo_nocumple: number = 0;
               let cuerpo_parcial: number = 0;
+              let total_cuerpos: number = 0;
 
               for (var j = 0; j < articulos[i].articulos.length; j++) {
                 if(articulos[i].articulos[j].proyectoId == this.project_id){
@@ -731,13 +732,12 @@ export class EvaluationDetailAllComponent implements OnInit {
               }
               if(procede){
                 cuerpo_articulos.push(articulos[i]);
+                total_cuerpos = parseInt(articulos[i].articulos.length);
 
                 if(cuerpo_cumple > 0 || cuerpo_parcial > 0 || cuerpo_nocumple > 0){
-                  if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
+                  if(cuerpo_cumple == total_cuerpos){
                     cumple_norma ++;
-                  }else if(cuerpo_parcial > cuerpo_cumple && cuerpo_parcial > cuerpo_nocumple){
-                    parcial_norma ++;
-                  }else if(cuerpo_nocumple > cuerpo_cumple && cuerpo_nocumple > cuerpo_parcial){
+                  }else if(cuerpo_nocumple == total_cuerpos){
                     nocumple_norma ++;
                   }else{
                     parcial_norma ++;

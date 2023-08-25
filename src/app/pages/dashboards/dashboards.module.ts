@@ -37,6 +37,7 @@ import { ProjectDashboardComponent } from './project-dashboard/project-dashboard
 import { ProjectEvaluationsComponent } from './project-dashboard//project-evaluations/project-evaluations.component';
 import { ProjectControlComponent } from './project-control/project-control.component';
 import { HomeComponent } from "./home/home.component";
+import { ProjectResumenComponent } from './project-dashboard//project-resumen/project-resumen.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { HomeComponent } from "./home/home.component";
     ProjectDashboardComponent,
     ProjectEvaluationsComponent,
     ProjectControlComponent,
+    ProjectResumenComponent,
     HomeComponent
   ],
   imports: [

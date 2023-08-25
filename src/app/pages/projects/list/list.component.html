@@ -47,7 +47,7 @@
   <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
   
   <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets | filter:term" id="pl1_{{data.id}}">
-      <div class="card card-height-100">
+      <div class="card card-height-100" style="cursor: pointer;" (click)="comenzar(data.id, data.estado)">
           <div class="card-body">
               <div class="d-flex flex-column h-100">
                   <div class="d-flex">
@@ -76,7 +76,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="d-flex mb-2" style="cursor: pointer;" (click)="comenzar(data.id, data.estado)"><!--routerLink="/pages/{{data.id}}/steps"-->
+                  <div class="d-flex mb-2"><!--routerLink="/pages/{{data.id}}/steps"-->
                       <!--<div class="flex-shrink-0 me-3">
                           <div class="avatar-sm">
                               <span class="avatar-title bg-soft-warning rounded p-2">
