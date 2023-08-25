@@ -53,6 +53,8 @@ import { TeamComponent } from "./team/team.component";
 import { EvaluationDetailComponent } from "./create/evaluation/detail/evaluation-detail.component";
 import { EvaluationFollowComponent } from "./create/evaluation/follow/follow.component";
 import { EvaluationTaskComponent } from "./create/evaluation/task/task.component";
+import { EvaluationDetailAllComponent } from "./create/evaluation/detail-all/evaluation-detail-all.component";
+import { TaskControlComponent } from "./create/evaluation/task-control/task-control.component";
 
 // Ngx Sliders
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -134,7 +136,10 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     TeamComponent,
     EvaluationDetailComponent,
     EvaluationFollowComponent,
-    EvaluationTaskComponent
+    EvaluationTaskComponent,
+    EvaluationDetailAllComponent,
+    TaskControlComponent,
+    TaskControlComponent
   ],
   imports: [
     CommonModule,

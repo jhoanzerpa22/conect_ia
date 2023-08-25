@@ -24,6 +24,8 @@ import { TeamComponent } from "./team/team.component";
 import { EvaluationDetailComponent } from "./create/evaluation/detail/evaluation-detail.component";
 import { EvaluationFollowComponent } from "./create/evaluation/follow/follow.component";
 import { EvaluationTaskComponent } from "./create/evaluation/task/task.component";
+import { EvaluationDetailAllComponent } from "./create/evaluation/detail-all/evaluation-detail-all.component";
+import { TaskControlComponent } from "./create/evaluation/task-control/task-control.component";
 
 const routes: Routes = [
   {
@@ -160,6 +162,14 @@ const routes: Routes = [
   {
     path: ":idProject/evaluation/:idInstallation/FollowView/:id",
     component: EvaluationTaskComponent
+  },
+  {
+    path: ":idProject/evaluation/:id/DetailAll",
+    component: EvaluationDetailAllComponent
+  },
+  {
+    path: ":idProject/evaluation/:idInstallation/TaskControl/:id",
+    component: TaskControlComponent
   }
 ];
 
