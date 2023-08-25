@@ -60,7 +60,7 @@ export class ProjectDashboardComponent implements OnInit {
      */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Dashboard', active: true }
+      { label: 'Evaluación', active: true }
     ];
 
     if (localStorage.getItem('toast')) {
@@ -683,8 +683,8 @@ layers = [
     this.TeamMembers = TeamMembers;
   }
   
-  goControl(){
-    this._router.navigate(['/'+this.project_id+'/project-control']);
+  goDashboard(){
+    this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen']);
   }
 
   goEvaluation(){

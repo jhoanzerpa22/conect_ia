@@ -1,23 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { statData, ActiveProjects, MyTask, TeamMembers } from '../data';
+import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../core/services/projects.service';
 import { round } from 'lodash';
 
-// Sweet Alert
-import Swal from 'sweetalert2';
-
 @Component({
-  selector: 'app-evaluations',
-  templateUrl: './project-evaluations.component.html',
-  styleUrls: ['./project-evaluations.component.scss']
+  selector: 'app-project-resumen',
+  templateUrl: './project-resumen.component.html',
+  styleUrls: ['./project-resumen.component.scss']
 })
 
 /**
- * Projects Component
+ * Projects Resumen Component
  */
-export class ProjectEvaluationsComponent implements OnInit {
+export class ProjectResumenComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -34,6 +31,7 @@ export class ProjectEvaluationsComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  evaluations: any = {};
 
   installations_data: any = [];
   installations_articles: any = [];
@@ -47,8 +45,6 @@ export class ProjectEvaluationsComponent implements OnInit {
   cuerpo_cumple: number = 0;
   cuerpo_nocumple: number = 0;
   cuerpo_parcial: number = 0;
-  
-  finalizeDate: Date = new Date();
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -60,7 +56,7 @@ export class ProjectEvaluationsComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'Proyecto' },
       { label: 'Evaluación' },
-      { label: 'Cumplimiento', active: true }
+      { label: 'Dashboard', active: true }
     ];
 
     if (localStorage.getItem('toast')) {
@@ -70,6 +66,7 @@ export class ProjectEvaluationsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
+      this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
     });
 
@@ -91,7 +88,11 @@ export class ProjectEvaluationsComponent implements OnInit {
   }
 
   goDetail(id: any){
-    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/Detail']);
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/DetailAll']);
+  }
+  
+  goControl(){
+    this._router.navigate(['/'+this.project_id+'/project-control']);
   }
 
   getProject(idProject?: any){
@@ -104,6 +105,17 @@ export class ProjectEvaluationsComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+   getEvaluations(idProject?: any){
+       this.projectsService.getEvaluations(idProject).pipe().subscribe(
+         (data: any) => {
+           this.evaluations = data.data;
+       },
+       (error: any) => {
+         //this.error = error ? error : '';
+         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+       });
+    }
 
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
@@ -182,12 +194,14 @@ export class ProjectEvaluationsComponent implements OnInit {
                 avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);
                 
-                if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){
-                  cumple_norma ++;
-                }else if(cuerpo_nocumple > cuerpo_parcial && cuerpo_nocumple > cuerpo_cumple){
-                  cuerpo_nocumple ++;
-                }else{
-                  cuerpo_parcial ++;
+                if(cuerpo_cumple > 0 || cuerpo_parcial > 0 || cuerpo_nocumple > 0){
+                  if(cuerpo_cumple == total_articulos.length){
+                    cumple_norma ++;
+                  }else if(cuerpo_nocumple == total_articulos.length){
+                    nocumple_norma ++;
+                  }else{
+                    parcial_norma ++;
+                  }
                 }
               }
             }
@@ -222,7 +236,7 @@ export class ProjectEvaluationsComponent implements OnInit {
           });
           //console.log('lista_data', this.installations_group);
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
-          //console.log('avance_evaluacion',this.avance_evaluacion);
+          
           this._simplePieChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
           this._simplePieChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
       },
@@ -668,92 +682,6 @@ layers = [
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
-  }
-  
-  goControl(){
-    this._router.navigate(['/'+this.project_id+'/project-control']);
-  }
-
-  terminar(){
-
-    if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Evaluación finalizada',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      this._router.navigate(['/'+this.project_id+'/project-dashboard']);
-    }else{
-    
-      this.showPreLoader();
-      const evaluation: any = {
-        "cumplimiento": this.avance_evaluacion, 
-        "fechaFinalizacion": this.finalizeDate
-      };
-
-      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
-        (data: any) => {
-
-          this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
-            (data: any) => {
-              this.hidePreLoader();
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Evaluación finalizada',
-                showConfirmButton: true,
-                timer: 5000,
-              });
-              this._router.navigate(['/'+this.project_id+'/project-dashboard']);
-              //this.getProject(this.project_id);
-          },
-          (error: any) => {
-            
-            this.hidePreLoader();      
-            Swal.fire({
-              position: 'center',
-              icon: 'error',
-              title: 'Ha ocurrido un error..',
-              showConfirmButton: true,
-              timer: 5000,
-            });
-          });
-
-      },
-      (error: any) => {
-        
-        this.hidePreLoader();      
-        Swal.fire({
-          position: 'center',
-          icon: 'error',
-          title: 'Ha ocurrido un error..',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-      });
-    
-    }
-  }
-
-  // PreLoader
-  showPreLoader() {
-    var preloader = document.getElementById("preloader");
-    if (preloader) {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
-    }
-  }
-
-  // PreLoader
-  hidePreLoader() {
-    var preloader = document.getElementById("preloader");
-    if (preloader) {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
-    }
   }
 
 }

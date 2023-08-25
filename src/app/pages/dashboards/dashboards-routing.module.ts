@@ -12,6 +12,7 @@ import { ProjectAnalityComponent } from './project-anality/project-anality.compo
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { ProjectEvaluationsComponent } from './project-dashboard//project-evaluations/project-evaluations.component';
 import { ProjectControlComponent } from './project-control/project-control.component';
+import { ProjectResumenComponent } from './project-dashboard//project-resumen/project-resumen.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: ":id/project-dashboard/evaluations",
     component: ProjectEvaluationsComponent
+  },
+  {
+    path: ":id/project-dashboard/resumen",
+    component: ProjectResumenComponent
   },
   {
     path: ":id/project-control",

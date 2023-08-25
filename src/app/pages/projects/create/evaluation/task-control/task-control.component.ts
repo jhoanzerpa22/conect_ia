@@ -136,8 +136,8 @@ export class TaskControlComponent implements OnInit {
     */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Evaluar Cumplimiento' },
-      { label: 'Detalle', active: true }
+      { label: 'Control' },
+      { label: 'Tareas', active: true }
     ];
 
     document.body.classList.add('file-detail-show');

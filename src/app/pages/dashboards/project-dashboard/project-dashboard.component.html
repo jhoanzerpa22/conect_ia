@@ -20,7 +20,7 @@
                                         <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/projects/{{project_id}}/identification"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Identificación</button>
                                     </div>
                                     <div class="col-sm-auto">
-                                        <button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goControl()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Control</button>
+                                        <button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goDashboard()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Dashboard</button>
                                     </div>
                                 </div>
                         </div>
@@ -87,7 +87,7 @@
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1"style="color: #405189;"><b>{{evaluations.evaluador.nombre}}</b></h5>
-                                                                            <p class="text-muted mb-0">Evaluador/a</p>
+                                                                            <p class="text-muted mb-0">Responsable</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
