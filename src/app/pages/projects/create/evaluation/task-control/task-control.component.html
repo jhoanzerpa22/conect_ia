@@ -287,10 +287,11 @@
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
                                     <td class="status"><span
-                                            class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger')}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada')) : 'Creada'}}</span>
+                                            class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (data.estado && data.estado == 'INICIADA' ? 'primary' : 'warning')}} text-uppercase">{{data.estado ? data.estado : 'CREADA'}}</span>
                                     </td>
-                                    <td class="status"><span
-                                            class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger')}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada')) : 'Creada'}}</span>
+                                    <td>
+                                        <span
+                                            class="badge text-bg-{{data.prioridad && data.prioridad == 'BAJA' ? 'primary' : (data.prioridad && data.prioridad == 'MEDIA' ? 'warning' : 'danger')}} text-uppercase">{{data.prioridad ? data.prioridad : 'BAJA'}}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex gap-2">
@@ -359,14 +360,14 @@
             </div> 
             <div class="col-12">    
             <div class="mb-3">
-                <label for="nombre-field" class="form-label">Titulo</label>
-                <input type="text" id="nombre-field" class="form-control" placeholder="Ingresar Titulo" required
+                <label for="nombre-field" class="form-label">Tarea</label>
+                <input type="text" id="nombre-field" class="form-control" placeholder="Ingresar Tarea" required
                     formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }" />
-                <div class="invalid-feedback">Por favor ingresar titulo.</div>
+                <div class="invalid-feedback">Por favor ingresar tarea.</div>
             </div>
             </div>
             
-            <div class="col-6">
+            <!--<div class="col-6">
             <div class="mb-3">
                 <label for="inicio-field" class="form-label">Fecha Inicio</label>
                     <div class="form-icon right">
@@ -376,7 +377,7 @@
                     </div>
                 <div class="invalid-feedback">Por favor ingresar Fecha inicio.</div>
             </div>
-            </div>
+            </div>-->
 
             <div class="col-6">
             <div class="mb-3">
@@ -440,7 +441,20 @@
                 </ngx-simplebar>-->
             <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
             </div>
-            </div> 
+            </div>
+
+            <div class="col-6">    
+                <div class="mb-3">
+                    <label for="user-field" class="form-label">Prioridad</label>
+                    <select class="form-select mb-3" aria-label="Prioridad" formControlName="prioridad" placeholder="Seleccione Prioridad">
+                        <option selected>Seleccione Prioridad </option>
+                        <option value="BAJA">BAJA</option>
+                        <option value="MEDIA">MEDIA</option>
+                        <option value="ALTA">ALTA</option>
+                    </select>
+                <div class="invalid-feedback">Por favor ingresar prioridad.</div>
+                </div>
+            </div>
 
             <div class="col-12">    
             <div class="mb-3">
