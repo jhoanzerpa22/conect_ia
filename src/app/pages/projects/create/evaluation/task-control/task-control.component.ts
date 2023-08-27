@@ -66,7 +66,7 @@ export class TaskControlComponent implements OnInit {
   TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
-  TaskDatas: any;
+  TaskDatas: any = [];
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -165,8 +165,9 @@ export class TaskControlComponent implements OnInit {
       responsable: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      fecha_inicio: [''],
+      //fecha_inicio: [''],
       fecha_termino: [''],
+      prioridad: [''],
       evaluationFindingId: [''],
       is_image: [''],
       is_file: ['']
@@ -198,8 +199,8 @@ export class TaskControlComponent implements OnInit {
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
         this.getFindingsByInstallationArticle();
-        //this.getTasksByProyect();
-        //this.getResponsables(); 
+        this.getTasksByProyect();
+        this.getResponsables(); 
         this.getProject();
     });
 
@@ -497,16 +498,17 @@ onFileSelectedEvaluation(event: any){
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
-        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        const fecha_inicio = new Date();//this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
+        const prioridad = this.taskForm.get('prioridad')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
         const is_image = this.taskForm.get('is_image')?.value;
         const is_file = this.taskForm.get('is_file')?.value;
 
-        const index = this.TaskDatas.findIndex(
+        const index = this.TaskDatas.length > 0 ? this.TaskDatas.findIndex(
           (t: any) =>
-            (moment(fecha_inicio).format() > t.fecha_inicio && moment(fecha_inicio).format() < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (moment(fecha_inicio).format() < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
-        );
+            (/*moment(*/fecha_inicio/*).format()*/ > t.fecha_inicio && /*moment(*/fecha_inicio/*).format()*/ < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (/*moment(*/fecha_inicio/*).format()*/ < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
+        ) : -1;
 
         if(index != -1){
           
@@ -544,6 +546,7 @@ onFileSelectedEvaluation(event: any){
                 fecha_termino: fecha_termino,
                 evaluationFindingId: evaluationFindingId,//this.idHallazgo,
                 estado: 'CREADA',
+                prioridad: prioridad,
                 type: 'findingTaks',
                 is_image: is_image,
                 is_file: is_file,
@@ -597,6 +600,7 @@ onFileSelectedEvaluation(event: any){
           fecha_termino: fecha_termino,
           evaluationFindingId: evaluationFindingId,//this.idHallazgo,
           estado: 'CREADA',
+          prioridad: prioridad,
           type: 'findingTaks',
           is_image: is_image,
           is_file: is_file,
