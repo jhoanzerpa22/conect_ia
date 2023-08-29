@@ -118,6 +118,9 @@ export class TaskControlComponent implements OnInit {
   imgView: any;
   imgView2: any = [];
   myFiles:string [] = [];
+  activeTab: number = 1;
+  evaluations: any = {};
+  showData: boolean = false;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
@@ -202,6 +205,7 @@ export class TaskControlComponent implements OnInit {
         this.getTasksByProyect();
         this.getResponsables(); 
         this.getProject();
+        this.getEvaluations();
     });
 
     // Data Get Function
@@ -218,6 +222,18 @@ export class TaskControlComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
+ 
+ getEvaluations(){
+  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
+    (data: any) => {
+      this.showData = true;
+      this.evaluations = data.data;
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
   // Chat Data Fetch
   /*private _fetchData() {
@@ -340,6 +356,10 @@ export class TaskControlComponent implements OnInit {
     );
 
     return index == -1;
+  }
+
+  changeTab(active: number){
+    this.activeTab = active;
   }
 
   changeStatusHallazgo(e: any,id: number, estado: number){
