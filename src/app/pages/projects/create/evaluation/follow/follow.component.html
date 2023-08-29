@@ -93,13 +93,45 @@
                 </div>
             </div>
           </div>
-
             
             <div class="row g-0">
                 <div class="col-md-12">
                     <div class="card-body">
                         <h6>4. Carga tu evidencia.</h6>
-                        <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" (success)="onFileSelectedEvaluation($event)"></dropzone>
+                        <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" [config]="{ previewsContainer: '#myPreviewsContainer' }" (success)="onFileSelectedEvaluation($event)">
+                        </dropzone>
+                        <div class="table table-striped files" style="display: none;" id="myPreviewsContainer">
+                        </div>
+                        <div class="table table-striped" *ngIf="imgEvaluations.length > 0">
+                            <ul _ngcontent-eyd-c348="" class="list-unstyled vstack gap-4">
+                                <li _ngcontent-eyd-c348="" style="
+                                border: 1px solid #C6C6C6;
+                                margin-top: 10px;" *ngFor="let im of imgEvaluations; let i = index">
+                                    <div _ngcontent-eyd-c348="" class="d-flex align-items-center">
+                                        <div _ngcontent-eyd-c348="" class="flex-shrink-0">
+                                            <div _ngcontent-eyd-c348="" class="avatar-xs">
+                                                <div _ngcontent-eyd-c348="" class="avatar-title">
+                                                    <img src="{{im.imagen}}" width="32" height="32" style="width: 32px; height: 32px;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div _ngcontent-eyd-c348="" class="flex-grow-1 ms-3">
+                                            <h5 _ngcontent-eyd-c348="" class="mb-1 fs-15">{{im.name}}</h5>
+                                            <p _ngcontent-eyd-c348="" class="mb-0 fs-12 text-muted">{{im.size}}</p>
+                                        </div>
+                                        <button class="btn btn-danger edit-item-btn d-sm-flex align-items-center justify-content-end" (click)="deleteEvaluationImg(i)">Quitar</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                            
+                        <!--<div class="dz-preview dz-file-preview">
+                            <div class="dz-details">
+                              <div class="dz-filename"><span data-dz-name></span></div>
+                              <div class="dz-size" data-dz-size></div>
+                              <img data-dz-thumbnail />
+                            </div>
+                          </div>-->
                     </div>
                 </div>
             </div>
@@ -354,9 +386,41 @@
             </div>
 
             <div class="mb-3">
-                <label for="area-field" class="form-label">Descripción</label>
-                <textarea class="form-control" id="nombreHallazgo" formControlName="nombre" placeholder="Descripción del Hallazgo" rows="3"></textarea>
+                <label for="area-field" class="form-label"><h6>1. Describe el Hallazgo.</h6></label>
+                <ckeditor [editor]="Editor" data="" formControlName="nombre"></ckeditor>
+                <!--<textarea class="form-control" id="nombreHallazgo" formControlName="nombre" placeholder="Descripción del Hallazgo" rows="3"></textarea>-->
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
+            </div>
+
+            
+            <div class="mb-3">
+                <label for="area-field" class="form-label"><h6>2. Carga evidencia.</h6></label>
+                <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" [config]="{ previewsContainer: '#myPreviewsContainer2' }" (success)="onFileSelected($event)">
+                </dropzone>
+                <div class="table table-striped files" style="display: none;" id="myPreviewsContainer2">
+                </div>
+                <div class="table table-striped" *ngIf="imgHallazgos.name">
+                    <ul _ngcontent-eyd-c348="" class="list-unstyled vstack gap-4">
+                        <li _ngcontent-eyd-c348="" style="
+                        border: 1px solid #C6C6C6;
+                        margin-top: 10px;">
+                            <div _ngcontent-eyd-c348="" class="d-flex align-items-center">
+                                <div _ngcontent-eyd-c348="" class="flex-shrink-0">
+                                    <div _ngcontent-eyd-c348="" class="avatar-xs">
+                                        <div _ngcontent-eyd-c348="" class="avatar-title">
+                                            <img src="{{imgHallazgos.imagen}}" width="32" height="32" style="width: 32px; height: 32px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div _ngcontent-eyd-c348="" class="flex-grow-1 ms-3">
+                                    <h5 _ngcontent-eyd-c348="" class="mb-1 fs-15">{{imgHallazgos.name}}</h5>
+                                    <p _ngcontent-eyd-c348="" class="mb-0 fs-12 text-muted">{{imgHallazgos.size}}</p>
+                                </div>
+                                <button class="btn btn-danger edit-item-btn d-sm-flex align-items-center justify-content-end" (click)="deleteHallazgoImg()">Quitar</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
