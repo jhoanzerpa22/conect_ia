@@ -92,14 +92,16 @@ export class EvaluationFollowComponent implements OnInit {
   public imagePath: any;
   imgURL: any;
 
-  //selectedFile: File;
   selectedFile: any;
-  selectedFileEvaluation: any;
-  pdfURL: any;
+  //selectedFile:string [] = [];
+  selectedFileEvaluation: string [] = [];
+  //pdfURL: any;
+  imgEvaluations: any = [];
+  imgHallazgos: any = {};
 
-  imageChangedEvent: any = '';
-  imgView: any;
-  imgView2: any = [];
+  //imageChangedEvent: any = '';
+  //imgView: any;
+  //imgView2: any = [];
   myFiles:string [] = [];
 
   @ViewChild('zone') zone?: ElementRef<any>;
@@ -312,7 +314,7 @@ export class EvaluationFollowComponent implements OnInit {
       //this.ref.detectChanges();
       //this.dataSource.push(hallazgo_data);
 
-      //this.myFiles.push(this.selectedFile);
+      this.myFiles.push(this.selectedFile);
       //this.imgView2.push(this.imgView);
       
       /*Swal.fire({
@@ -395,15 +397,20 @@ export class EvaluationFollowComponent implements OnInit {
 
     const formData = new FormData();
     //if(this.status == 'CUMPLE'){
-      formData.append('evaluacionImg', this.selectedFileEvaluation);
-    /*}else{
-      formData.append('hallazgoImg', this.myFiles[0]);
-    }*/
+      //formData.append('evaluacionImg', this.selectedFileEvaluation);
+    //}else{
+      //formData.append('hallazgoImg', this.myFiles[0]);
+    //}
+    
+    for (var j = 0; j < this.selectedFileEvaluation.length; j++) { 
+      formData.append("evaluacionImg", this.selectedFileEvaluation[j]);
+    }
+
+    for (var i = 0; i < this.myFiles.length; i++) { 
+      formData.append("hallazgoImg", this.myFiles[i]);
+    }
+    
     formData.append('data', JSON.stringify(evaluations));
- 
-    /*for (var i = 0; i < this.myFiles.length; i++) { 
-      //formData.append("hallazgoImg[]", this.myFiles[i]);
-    }*/
     
     this.projectsService.saveEvaluation(formData).pipe().subscribe(
       (data: any) => {     
@@ -436,29 +443,33 @@ export class EvaluationFollowComponent implements OnInit {
   }
 
 onFileSelected(event: any){
-
-  this.imageChangedEvent = event;
-  this.selectedFile = <File>event.target.files[0];
-  //console.log(this.selectedFile);
-  //console.log(this.selectedFile.name);
+  //this.imageChangedEvent = event;
+  let selectedFileNow: any = <File>event[0];
+  this.selectedFile = selectedFileNow;
+  
+  //console.log('selectedFile',selectedFileNow);
+  let name_file: any = selectedFileNow.name;
+  let size_file: any = (selectedFileNow.size / 1000000).toFixed(2) + "MB";
 
 var reader = new FileReader();
-  reader.readAsDataURL(this.selectedFile);
+  reader.readAsDataURL(selectedFileNow);
   reader.onload = (_event) => {
     //console.log(reader.result);
-    this.imgView = reader.result;
-    //this.pdfURL = this.selectedFile.name;
-    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
     }
 }
   
 onFileSelectedEvaluation(event: any){
-  this.selectedFileEvaluation = <File>event[0];
-
+  let selectedFileEvaluationNow: any = <File>event[0];
+  this.selectedFileEvaluation.push(selectedFileEvaluationNow);
+  //console.log('selectedFile',selectedFileEvaluationNow);
+  let name_file: any = selectedFileEvaluationNow.name;
+  let size_file: any = (selectedFileEvaluationNow.size / 1000000).toFixed(2) + "MB";
   var reader = new FileReader();
-  reader.readAsDataURL(this.selectedFileEvaluation);
+  reader.readAsDataURL(selectedFileEvaluationNow);
   reader.onload = (_event) => {
-    console.log(reader.result);
+    //console.log(reader.result);
+    this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
     //this.imgView = reader.result;
     //this.pdfURL = this.selectedFile.name;
     //this.formUsuario.controls['img'].setValue(this.selectedFile);
@@ -479,7 +490,11 @@ imgError(ev: any){
    */
   openModal(content: any) {
     this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+    
+    //this.myFiles = [];
+    this.selectedFile = [];
+    this.imgHallazgos = {};
+    this.modalService.open(content, { size: 'xl', centered: true });
   }
 
   /**
@@ -665,6 +680,16 @@ imgError(ev: any){
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
         });*/
     }
+  }
+
+  deleteEvaluationImg(index: any){
+    this.selectedFileEvaluation.splice(index,1);
+    this.imgEvaluations.splice(index, 1);
+  }
+
+  deleteHallazgoImg(){
+    this.selectedFile = [];
+    this.imgHallazgos = {};
   }
 
   // PreLoader
