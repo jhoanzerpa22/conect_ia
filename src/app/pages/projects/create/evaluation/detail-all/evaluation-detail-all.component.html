@@ -209,7 +209,7 @@
                                         </h6>                              
                                         <p class="card-subtitle text-muted mb-3">{{g.organismo}}</p>
                                                                 
-                                    <ng-container *ngFor="let s of g.articulos"><!-- | filter:term3-->
+                                    <ng-container *ngFor="let s of getArticlesCuerpo(g.articulos)"><!-- | filter:term3-->
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
                                         [ngTemplateOutletContext] ="{s:s }">

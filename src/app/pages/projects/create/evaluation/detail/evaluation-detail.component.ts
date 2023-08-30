@@ -564,6 +564,23 @@ export class EvaluationDetailComponent implements OnInit {
   }
 }
 
+getArticlesCuerpo(articulos: any){
+  let articulosData: any = [];
+
+  for (var j = 0; j < articulos.length; j++) {
+    const index = articulosData.findIndex(
+      (co: any) =>
+        co.articuloId == articulos[j].articuloId
+    );
+
+    if(index == -1){
+      articulosData.push(articulos[j]);
+    }
+  }
+
+  return articulosData;
+}
+
   /**
    * Fetches the data
    */

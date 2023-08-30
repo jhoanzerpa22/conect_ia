@@ -111,16 +111,19 @@ export class TaskControlComponent implements OnInit {
 
   //selectedFile: File;
   selectedFile: any;
-  selectedFileEvaluation: any;
-  pdfURL: any;
+  selectedFileEvaluation: string [] = [];
+  //pdfURL: any;
+  imgEvaluations: any = [];
+  imgHallazgos: any = {};
 
-  imageChangedEvent: any = '';
-  imgView: any;
-  imgView2: any = [];
+  //imageChangedEvent: any = '';
+  //imgView: any;
+  //imgView2: any = [];
   myFiles:string [] = [];
   activeTab: number = 1;
-  evaluations: any = {};
-  showData: boolean = false;
+  status: any;
+  evaluationDetail: any = {};
+  showDetailEvaluation: boolean = false;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
@@ -205,7 +208,6 @@ export class TaskControlComponent implements OnInit {
         this.getTasksByProyect();
         this.getResponsables(); 
         this.getProject();
-        this.getEvaluations();
     });
 
     // Data Get Function
@@ -222,18 +224,6 @@ export class TaskControlComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
- 
- getEvaluations(){
-  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
-    (data: any) => {
-      this.showData = true;
-      this.evaluations = data.data;
-  },
-  (error: any) => {
-    //this.error = error ? error : '';
-    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-  });
-}
 
   // Chat Data Fetch
   /*private _fetchData() {
@@ -256,7 +246,6 @@ export class TaskControlComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
-  
   // Delete Data
   deleteData(id: any) {
     if (id) {
@@ -280,6 +269,26 @@ export class TaskControlComponent implements OnInit {
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
         });*/
     }
+  }
+  
+  deleteEvaluationImg(index: any){
+    this.selectedFileEvaluation.splice(index,1);
+    this.imgEvaluations.splice(index, 1);
+  }
+
+  deleteHallazgoImg(){
+    this.selectedFile = [];
+    this.imgHallazgos = {};
+  }
+
+  viewEvaluation(data: any){
+    this.evaluationDetail = data;
+    console.log('evaluationDetail', data);
+    this.showDetailEvaluation = true;
+  }
+
+  hideDetailEvaluation(){
+    this.showDetailEvaluation = false;
   }
 
   /**
@@ -465,6 +474,91 @@ export class TaskControlComponent implements OnInit {
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
+  
+  saveEvaluation(){
+    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE') || (this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
+
+      if(this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Debe asignar hallazgos a la evaluación.',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }else{
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Debe asignar un estado a la evaluación y cargar una imagen o comentario.',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }
+
+  } else{
+    
+    this.showPreLoader();
+
+    let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let comentario: any = this.evaluacionForm.get('comentario')?.value;
+    let hallazgos: any = [];
+
+    for (var h = 0; h < this.HallazgosDatas.length; h++) { 
+      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado});
+    }
+
+    const evaluations: any = {
+      fecha_evaluacion: fecha_evaluacion,
+      hallazgos: hallazgos,
+      estado: this.status,
+      installationArticleId: this.cuerpo_id,
+      comentario: comentario,
+    };
+
+    const formData = new FormData();
+    
+    for (var j = 0; j < this.selectedFileEvaluation.length; j++) { 
+      formData.append("evaluacionImg", this.selectedFileEvaluation[j]);
+    }
+
+    for (var i = 0; i < this.myFiles.length; i++) { 
+      formData.append("hallazgoImg", this.myFiles[i]);
+    }
+    
+    formData.append('data', JSON.stringify(evaluations));
+    
+    this.projectsService.saveEvaluation(formData).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Evaluación actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+        
+        this.evaluacionForm.reset();
+        this.getArticlesByInstallationBody(this.installation_id);
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    })
+  }
+  }
+
   saveHallazgo(){
     if (this.hallazgoForm.valid) {
     let nombre: any = this.hallazgoForm.get('nombre')?.value;
@@ -484,25 +578,49 @@ export class TaskControlComponent implements OnInit {
       estado
     });
   
-    this.table.renderRows(); 
-
+    this.table.renderRows();
+    
+    this.myFiles.push(this.selectedFile);
+      
     this.hallazgoForm.reset();
     this.modalService.dismissAll()
   }
   }
   
-onFileSelectedEvaluation(event: any){
-  this.selectedFileEvaluation = <File>event[0];
+  changeStatus(e: any){
+    this.status = e.target.value;
+  } 
+
+  onFileSelected(event: any){
+    //this.imageChangedEvent = event;
+    let selectedFileNow: any = <File>event[0];
+    this.selectedFile = selectedFileNow;
+    
+    //console.log('selectedFile',selectedFileNow);
+    let name_file: any = selectedFileNow.name;
+    let size_file: any = (selectedFileNow.size / 1000000).toFixed(2) + "MB";
 
   var reader = new FileReader();
-  reader.readAsDataURL(this.selectedFileEvaluation);
-  reader.onload = (_event) => {
-    console.log(reader.result);
-    //this.imgView = reader.result;
-    //this.pdfURL = this.selectedFile.name;
-    //this.formUsuario.controls['img'].setValue(this.selectedFile);
-    }
-}
+    reader.readAsDataURL(selectedFileNow);
+    reader.onload = (_event) => {
+      //console.log(reader.result);
+      this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
+      }
+  }
+  
+  onFileSelectedEvaluation(event: any){
+    let selectedFileEvaluationNow: any = <File>event[0];
+    this.selectedFileEvaluation.push(selectedFileEvaluationNow);
+
+    let name_file: any = selectedFileEvaluationNow.name;
+    let size_file: any = (selectedFileEvaluationNow.size / 1000000).toFixed(2) + "MB";
+    var reader = new FileReader();
+    reader.readAsDataURL(selectedFileEvaluationNow);
+    reader.onload = (_event) => {
+      //console.log(reader.result);
+      this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
+      }
+  }
 
   /**
   * Save saveTask
@@ -742,18 +860,20 @@ onFileSelectedEvaluation(event: any){
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
           this.hallazgos = data.data;
+          console.log('evaluaciones',this.hallazgos);
           //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
           let tareas: any = [];
-          for (var i = 0; i < this.hallazgos.length; i++) {
+          let i: any = 0;
+          //for (var i = 0; i < this.hallazgos.length; i++) {
                 if(this.hallazgos[i].findings.id != null){
                     this.HallazgosDatas.push({id: this.hallazgos[i].findings.id, nombre: this.hallazgos[i].findings.nombre, fecha: this.hallazgos[i].findings.createdAt, estado: this.hallazgos[i].findings.estado});
                 }
                 if(this.hallazgos[i].findings.tasks.id != null){
                     tareas.push(this.hallazgos[i].findings.tasks);
                 }
-          }
+          //}
 
           this.table.renderRows();
 
@@ -858,6 +978,9 @@ onFileSelectedEvaluation(event: any){
    */
   openModal(content: any) {
     this.submitted = false;
+
+    this.selectedFile = [];
+    this.imgHallazgos = {};
     this.modalService.open(content, { size: 'lg', centered: true });
   }
 
