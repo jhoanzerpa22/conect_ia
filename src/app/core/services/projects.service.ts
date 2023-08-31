@@ -278,6 +278,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluation/'+installation_article_id+'/findings', /*httpOptions*/this.getToken());
     }
 
+    getEvaluationsByInstallationArticle(installation_article_id: any){
+        return this.http.get(API_URL_BACK + 'evaluation/'+installation_article_id+'/evaluations', /*httpOptions*/this.getToken());
+    }
+
     createTask(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'evaluation/task', data, /*httpOptions*/this.getToken());
