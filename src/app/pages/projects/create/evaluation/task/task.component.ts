@@ -5,7 +5,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 // Drag and drop
 import { DndDropEvent } from 'ngx-drag-drop';
 
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, Location } from '@angular/common';
+import flatpickr from 'flatpickr';
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -59,6 +61,7 @@ export class EvaluationTaskComponent implements OnInit {
   folderForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
+  evaluacionForm!: UntypedFormGroup;
   taskForm!: UntypedFormGroup;
   hallazgoForm!: UntypedFormGroup;
   TaskData!: DetailModel[];
@@ -103,9 +106,19 @@ export class EvaluationTaskComponent implements OnInit {
   articulo: any = {};
   userData: any;
 
+  selectedFile: any;
+  selectedFileEvaluation: string [] = [];
+  imgEvaluations: any = [];
+  imgHallazgos: any = {};
+
+  myFiles:string [] = [];
+  status: any;
+
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
+    
+    flatpickr.localize(Spanish);
   }
 
   inlineDatePicker: Date = new Date();
@@ -133,6 +146,12 @@ export class EvaluationTaskComponent implements OnInit {
     */
     this.folderForm = this.formBuilder.group({
       title: ['', [Validators.required]]
+    });
+
+    this.evaluacionForm = this.formBuilder.group({
+      fecha_evaluacion: ['', [Validators.required]],
+      comentario: [''],
+      estado_evaluacion: ['', [Validators.required]]
     });
 
     /**
@@ -196,6 +215,23 @@ export class EvaluationTaskComponent implements OnInit {
     });
  }
 
+ setValue(){
+  if(this.articulo.evaluations){
+
+    if(this.articulo.evaluations.fecha_evaluacion){
+      this.evaluacionForm.get('fecha_evaluacion')?.setValue(this.articulo.evaluations.fecha_evaluacion);
+    }
+
+    this.evaluacionForm.get('comentario')?.setValue(this.articulo.evaluations.comentario);
+
+    if(this.articulo.evaluations.estado){
+    
+    this.evaluacionForm.get('estado_evaluacion')?.setValue(this.articulo.evaluations.estado);
+    }
+
+  }
+}
+
   // Chat Data Fetch
   /*private _fetchData() {
     // Folder Data Fetch
@@ -207,6 +243,20 @@ export class EvaluationTaskComponent implements OnInit {
       this.recentDatas = Object.assign([], x);
     });
   }*/
+
+  changeStatus(e: any){
+    this.status = e.target.value;
+  }
+  
+  deleteHallazgoImg(){
+    this.selectedFile = [];
+    this.imgHallazgos = {};
+  }
+  
+  deleteEvaluationImg(index: any){
+    this.selectedFileEvaluation.splice(index,1);
+    this.imgEvaluations.splice(index, 1);
+  }
 
   /**
   * Confirmation mail model
@@ -299,7 +349,7 @@ export class EvaluationTaskComponent implements OnInit {
           });
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-
+          this.setValue();
           this.hidePreLoader();
       },
       (error: any) => {
@@ -431,17 +481,21 @@ export class EvaluationTaskComponent implements OnInit {
     //let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
     let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 101) : 1);
     let estado: any = 2;
+    let cuerpo_id: any = this.cuerpo_id;
 
-    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado};
+    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.cuerpo_id};
     
     this.HallazgosDatas.push({
       id,
       nombre,
       fecha,
-      estado
+      estado,
+      cuerpo_id
     });
   
-    this.table.renderRows(); 
+    this.table.renderRows();
+
+    this.myFiles.push(this.selectedFile);
 
     this.hallazgoForm.reset();
     this.modalService.dismissAll()
@@ -688,11 +742,10 @@ export class EvaluationTaskComponent implements OnInit {
 
           let tareas: any = [];
           for (var i = 0; i < this.hallazgos.length; i++) {
-                if(this.hallazgos[i].findings.id != null){
-                    this.HallazgosDatas.push({id: this.hallazgos[i].findings.id, nombre: this.hallazgos[i].findings.nombre, fecha: this.hallazgos[i].findings.createdAt, estado: this.hallazgos[i].findings.estado});
-                }
-                if(this.hallazgos[i].findings.tasks.id != null){
-                    tareas.push(this.hallazgos[i].findings.tasks);
+                    this.HallazgosDatas.push({id: this.hallazgos[i].id, nombre: this.hallazgos[i].nombre, fecha: this.hallazgos[i].createdAt, estado: this.hallazgos[i].estado, installationArticleId: this.hallazgos[i].installationArticleId});
+                
+                if(this.hallazgos[i].tasks.id != null){
+                    tareas.push(this.hallazgos[i].tasks);
                 }
           }
 
@@ -767,6 +820,40 @@ export class EvaluationTaskComponent implements OnInit {
       }
     }
   }
+
+  onFileSelected(event: any){
+    //this.imageChangedEvent = event;
+    let selectedFileNow: any = <File>event[0];
+    this.selectedFile = selectedFileNow;
+    
+    //console.log('selectedFile',selectedFileNow);
+    let name_file: any = selectedFileNow.name;
+    let size_file: any = (selectedFileNow.size / 1000000).toFixed(2) + "MB";
+
+  var reader = new FileReader();
+    reader.readAsDataURL(selectedFileNow);
+    reader.onload = (_event) => {
+      //console.log(reader.result);
+      this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
+      }
+  }
+  
+onFileSelectedEvaluation(event: any){
+  let selectedFileEvaluationNow: any = <File>event[0];
+  this.selectedFileEvaluation.push(selectedFileEvaluationNow);
+  //console.log('selectedFile',selectedFileEvaluationNow);
+  let name_file: any = selectedFileEvaluationNow.name;
+  let size_file: any = (selectedFileEvaluationNow.size / 1000000).toFixed(2) + "MB";
+  var reader = new FileReader();
+  reader.readAsDataURL(selectedFileEvaluationNow);
+  reader.onload = (_event) => {
+    //console.log(reader.result);
+    this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
+    //this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
 
   saveInstallation(){
     this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
