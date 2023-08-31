@@ -5,7 +5,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 // Drag and drop
 import { DndDropEvent } from 'ngx-drag-drop';
 
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, Location } from '@angular/common';
+import flatpickr from 'flatpickr';
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -83,6 +85,7 @@ export class TaskControlComponent implements OnInit {
 
   items: any = [];
   hallazgos: any = [];
+  evaluations: any = [];
   
   hallazgosList!: HallazgoModel[];
   HallazgosDatas: any/* = []*/;
@@ -128,6 +131,8 @@ export class TaskControlComponent implements OnInit {
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
+    
+    flatpickr.localize(Spanish);
   }
 
   inlineDatePicker: Date = new Date();
@@ -204,6 +209,7 @@ export class TaskControlComponent implements OnInit {
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
+        this.getEvaluationsByInstallationArticle();
         this.getFindingsByInstallationArticle();
         this.getTasksByProyect();
         this.getResponsables(); 
@@ -505,7 +511,7 @@ export class TaskControlComponent implements OnInit {
     let hallazgos: any = [];
 
     for (var h = 0; h < this.HallazgosDatas.length; h++) { 
-      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado});
+      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.cuerpo_id });
     }
 
     const evaluations: any = {
@@ -542,6 +548,7 @@ export class TaskControlComponent implements OnInit {
         
         this.evaluacionForm.reset();
         this.getArticlesByInstallationBody(this.installation_id);
+        this.getEvaluationsByInstallationArticle();
     },
     (error: any) => {
       
@@ -568,14 +575,16 @@ export class TaskControlComponent implements OnInit {
     //let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
     let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 101) : 1);
     let estado: any = 2;
+    let cuerpo_id: any = this.cuerpo_id;
 
-    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado};
+    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.cuerpo_id};
     
     this.HallazgosDatas.push({
       id,
       nombre,
       fecha,
-      estado
+      estado,
+      cuerpo_id
     });
   
     this.table.renderRows();
@@ -854,26 +863,38 @@ export class TaskControlComponent implements OnInit {
     }
   }
 
+  private getEvaluationsByInstallationArticle(){
+    this.projectsService.getEvaluationsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+      (data: any) => {
+        this.evaluations = data.data;
+        console.log('evaluaciones',this.evaluations);
+    },
+    (error: any) => {
+      this.hidePreLoader();
+      //this.error = error ? error : '';
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+    document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   private getFindingsByInstallationArticle(){
 
     this.showPreLoader();
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
           this.hallazgos = data.data;
-          console.log('evaluaciones',this.hallazgos);
+          console.log('hallazgos', this.hallazgos);
           //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
           let tareas: any = [];
-          let i: any = 0;
-          //for (var i = 0; i < this.hallazgos.length; i++) {
-                if(this.hallazgos[i].findings.id != null){
-                    this.HallazgosDatas.push({id: this.hallazgos[i].findings.id, nombre: this.hallazgos[i].findings.nombre, fecha: this.hallazgos[i].findings.createdAt, estado: this.hallazgos[i].findings.estado});
+          for (var i = 0; i < this.hallazgos.length; i++) {
+                    this.HallazgosDatas.push({id: this.hallazgos[i].id, nombre: this.hallazgos[i].nombre, fecha: this.hallazgos[i].createdAt, estado: this.hallazgos[i].estado, installationArticleId: this.hallazgos[i].installationArticleId});
+                
+                if(this.hallazgos[i].tasks.id != null){
+                    tareas.push(this.hallazgos[i].tasks);
                 }
-                if(this.hallazgos[i].findings.tasks.id != null){
-                    tareas.push(this.hallazgos[i].findings.tasks);
-                }
-          //}
+          }
 
           this.table.renderRows();
 

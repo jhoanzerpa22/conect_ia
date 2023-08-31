@@ -47,4 +47,5 @@ export interface HallazgoModel {
   nombre?: any;
   fecha?: any;
   estado?: any;
+  installationArticleId?: any;
 }

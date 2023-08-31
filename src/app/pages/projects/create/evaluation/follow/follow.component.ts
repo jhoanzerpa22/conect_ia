@@ -194,7 +194,7 @@ export class EvaluationFollowComponent implements OnInit {
       //this.error = error ? error : '';
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
- }
+  }
 
   private getArticlesByInstallationBody(installation_id: any){
 
@@ -227,7 +227,6 @@ export class EvaluationFollowComponent implements OnInit {
           });
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-
           this.hidePreLoader();
       },
       (error: any) => {
@@ -355,16 +354,16 @@ export class EvaluationFollowComponent implements OnInit {
     this.showPreLoader();
 
     let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
-    let fecha_termino: any = null;//this.evaluacionForm.get('fecha_termino')?.value;
+    //let fecha_termino: any = null;//this.evaluacionForm.get('fecha_termino')?.value;
     let comentario: any = this.evaluacionForm.get('comentario')?.value;
-    let reportable: any = null;//this.evaluacionForm.get('reportable')?.value;
-    let monitoreo: any = null;//this.evaluacionForm.get('monitoreo')?.value;
-    let permiso: any = null;//this.evaluacionForm.get('permiso')?.value;
-    let hallazgoImg: any = this.myFiles;
+    //let reportable: any = null;//this.evaluacionForm.get('reportable')?.value;
+    //let monitoreo: any = null;//this.evaluacionForm.get('monitoreo')?.value;
+    //let permiso: any = null;//this.evaluacionForm.get('permiso')?.value;
+    //let hallazgoImg: any = this.myFiles;
     let hallazgos: any = [];
 
     for (var h = 0; h < this.HallazgosDatas.length; h++) { 
-      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado});
+      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.cuerpo_id});
     }
 
     /*let tipoArticulo: any = [];
