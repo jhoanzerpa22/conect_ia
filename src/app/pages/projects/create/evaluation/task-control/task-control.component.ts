@@ -282,6 +282,11 @@ export class TaskControlComponent implements OnInit {
     this.imgEvaluations.splice(index, 1);
   }
 
+  deleteEvaluationImgAll(){
+    this.selectedFileEvaluation = [];
+    this.imgEvaluations = [];
+  }
+
   deleteHallazgoImg(){
     this.selectedFile = [];
     this.imgHallazgos = {};
@@ -510,8 +515,15 @@ export class TaskControlComponent implements OnInit {
     let comentario: any = this.evaluacionForm.get('comentario')?.value;
     let hallazgos: any = [];
 
-    for (var h = 0; h < this.HallazgosDatas.length; h++) { 
-      hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.cuerpo_id });
+    for (var h = 0; h < this.HallazgosDatas.length; h++) {
+      const index4 = this.hallazgos.findIndex(
+        (ha: any) =>
+          ha.id == this.HallazgosDatas[h].id
+      );
+
+      if(index4 == -1){
+        hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.cuerpo_id });
+      }
     }
 
     const evaluations: any = {
@@ -547,6 +559,7 @@ export class TaskControlComponent implements OnInit {
         });
         
         this.evaluacionForm.reset();
+        this.deleteEvaluationImgAll();
         this.getArticlesByInstallationBody(this.installation_id);
         this.getEvaluationsByInstallationArticle();
     },
