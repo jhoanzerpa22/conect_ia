@@ -667,10 +667,20 @@ getArticlesCuerpo(articulos: any){
               let cuerpo_nocumple: number = 0;
               let cuerpo_parcial: number = 0;
               let total_cuerpos: number = 0;
+              let articulos_group: any = [];
 
               for (var j = 0; j < articulos[i].articulos.length; j++) {
                 if(articulos[i].articulos[j].proyectoId == this.project_id){
-                  total += 1;
+                  
+                  const index = articulos_group.findIndex(
+                    (ar: any) =>
+                      ar == articulos[i].articulos[j].articuloId
+                  );
+              
+                  if(index == -1){
+                    articulos_group.push(articulos[i].articulos[j].articuloId);
+                    total += 1;
+
                   procede = true;
                   if(articulos[i].articulos[j].evaluations.estado){
                     switch (articulos[i].articulos[j].evaluations.estado) {
@@ -744,6 +754,7 @@ getArticlesCuerpo(articulos: any){
                         break;
                     }
                     
+                  }
                   }
                 }
               }
