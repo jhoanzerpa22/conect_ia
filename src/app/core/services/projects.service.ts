@@ -274,6 +274,16 @@ export class ProjectsService {
     
     }
 
+    editEvaluation(id: any, data: any): Observable<any> {
+    
+        const httpOptions6 = {
+            headers: new HttpHeaders({ /*'Content-Type': 'multipart/form-data',*/'Authorization': `Bearer ${localStorage.getItem('token')}`, "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.put(API_URL_BACK + 'evaluation/'+id, data, httpOptions6);
+    
+    }
+
     getFindingsByInstallationArticle(installation_article_id: any){
         return this.http.get(API_URL_BACK + 'evaluation/'+installation_article_id+'/findings', /*httpOptions*/this.getToken());
     }
