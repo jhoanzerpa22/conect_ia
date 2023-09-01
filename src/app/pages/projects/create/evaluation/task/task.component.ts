@@ -113,8 +113,9 @@ export class EvaluationTaskComponent implements OnInit {
 
   myFiles:string [] = [];
   status: any;
+  evaluation_id: any = '';
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private _location: Location) {
     this.recentData = service.recents$;
     this.total = service.total$;
     
@@ -217,6 +218,7 @@ export class EvaluationTaskComponent implements OnInit {
 
  setValue(){
   if(this.articulo.evaluations){
+    this.evaluation_id = this.articulo.evaluations.id;
 
     if(this.articulo.evaluations.fecha_evaluacion){
       this.evaluacionForm.get('fecha_evaluacion')?.setValue(this.articulo.evaluations.fecha_evaluacion);
@@ -470,6 +472,69 @@ export class EvaluationTaskComponent implements OnInit {
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
+
+  editEvaluation(){
+    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE')){
+
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Debe asignar un estado a la evaluación y cargar una imagen o comentario.',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+
+  } else{
+    
+    this.showPreLoader();
+
+    let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let comentario: any = this.evaluacionForm.get('comentario')?.value;
+
+    const evaluations: any = {
+      fecha_evaluacion: fecha_evaluacion,
+      estado: this.status,
+      installationArticleId: this.cuerpo_id,
+      comentario: comentario,
+    };
+
+    const formData = new FormData();
+    
+    for (var j = 0; j < this.selectedFileEvaluation.length; j++) { 
+      formData.append("evaluacionImg", this.selectedFileEvaluation[j]);
+    }
+    
+    formData.append('data', JSON.stringify(evaluations));
+    
+    this.projectsService.editEvaluation(this.evaluation_id, formData).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Evaluación actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+        
+        this._location.back();
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    })
+  }
   }
 
   saveHallazgo(){
