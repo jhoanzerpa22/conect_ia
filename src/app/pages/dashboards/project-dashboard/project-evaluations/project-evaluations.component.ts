@@ -49,6 +49,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   cuerpo_parcial: number = 0;
   
   finalizeDate: Date = new Date();
+  evaluations: any = {};
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -70,6 +71,7 @@ export class ProjectEvaluationsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
+      this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
     });
 
@@ -104,6 +106,17 @@ export class ProjectEvaluationsComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+ getEvaluations(idProject?: any){
+  this.projectsService.getEvaluations(idProject).pipe().subscribe(
+    (data: any) => {
+      this.evaluations = data.data;
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
