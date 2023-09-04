@@ -125,7 +125,7 @@ export class EvaluationTaskViewComponent implements OnInit {
   inlineDatePicker: Date = new Date();
   @ViewChild('dataTable')
   table!: MatTable<HallazgoModel>;
-  displayedColumns: string[] = ['nombre', 'fecha', 'estado', 'action'];
+  displayedColumns: string[] = ['nombre', 'fecha', 'estado'];
   dataSource = [];
 
   ngOnInit(): void {
@@ -245,6 +245,10 @@ export class EvaluationTaskViewComponent implements OnInit {
       this.recentDatas = Object.assign([], x);
     });
   }*/
+  
+  parseHtmlString(texto: any){
+    return this.sanitizer.bypassSecurityTrustHtml(texto);
+  }
 
   changeStatus(e: any){
     this.status = e.target.value;
@@ -827,6 +831,15 @@ export class EvaluationTaskViewComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  removeTags(str: any) {
+    if ((str===null) || (str===''))
+        return false;
+    else
+        str = str.toString();
+          
+    return str.replace( /(<([^>]+)>)/ig, '');
+}
   
   addElement(parent?: any) {
     

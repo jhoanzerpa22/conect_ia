@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './task-control.model';
+import { DetailModel, recentModel, ArticulosModel, HallazgoModel, TaskModel } from './task-control.model';
 import { folderData } from './data';
 import { RecentService } from './task-control.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-control-sortable.directive';
@@ -68,7 +68,7 @@ export class TaskControlComponent implements OnInit {
   TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
-  TaskDatas: any = [];
+  TaskDatas: any/* = []*/;
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -90,6 +90,7 @@ export class TaskControlComponent implements OnInit {
   hallazgosList!: HallazgoModel[];
   HallazgosDatas: any/* = []*/;
   term: any;
+  term2: any;
 
   nombreHallazgo: any = '';
   idHallazgo: any = null;
@@ -140,6 +141,11 @@ export class TaskControlComponent implements OnInit {
   table!: MatTable<HallazgoModel>;
   displayedColumns: string[] = ['nombre', 'fecha', 'estado', 'action'];
   dataSource = [];
+
+  @ViewChild('dataTable2')
+  table2!: MatTable<HallazgoModel>;
+  displayedColumns2: string[] = ['nombre', 'responsable', 'fecha_termino', 'estado', 'prioridad', 'action'];
+  dataSource2 = [];
 
   ngOnInit(): void {
     /**
@@ -200,6 +206,7 @@ export class TaskControlComponent implements OnInit {
     });
     
     this.HallazgosDatas = this.dataSource;
+    this.TaskDatas = this.dataSource2;
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
@@ -912,6 +919,8 @@ export class TaskControlComponent implements OnInit {
           this.table.renderRows();
 
           this.TaskDatas = tareas;
+          console.log('tareas',tareas);
+          this.table2.renderRows();
           
           this.hidePreLoader();
       },
@@ -922,6 +931,19 @@ export class TaskControlComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  removeTags(str: any) {
+    if ((str===null) || (str===''))
+        return false;
+    else
+        str = str.toString();
+          
+    return str.replace( /(<([^>]+)>)/ig, '');
+}
+
+parseHtmlString(texto: any){
+  return this.sanitizer.bypassSecurityTrustHtml(texto);
+}
   
   addElement(parent?: any) {
     
@@ -1158,6 +1180,11 @@ export class TaskControlComponent implements OnInit {
   todoTable(event: CdkDragDrop<HallazgoModel[]>): void {
     moveItemInArray(this.HallazgosDatas, event.previousIndex, event.currentIndex);
     this.table.renderRows();
+  }
+
+  todoTable2(event: CdkDragDrop<HallazgoModel[]>): void {
+    moveItemInArray(this.TaskDatas, event.previousIndex, event.currentIndex);
+    this.table2.renderRows();
   }
 
   // Checked Selected
