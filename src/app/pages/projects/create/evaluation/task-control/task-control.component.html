@@ -205,7 +205,7 @@
                                                         
                                                         <div class="col-lg-8 col">
                                                             <div class="row text-muted text-center">
-                                                                {{h.comentario}}
+                                                                {{removeTags(h.comentario)}}
                                                             </div>
                                                         </div>
 
@@ -261,7 +261,10 @@
                                                 
                                                 <div class="col-md-6">
                                                     <h6 style="color: #405189;"><b>COMENTARIO</b></h6>                    
-                                                    <p>{{evaluationDetail.comentario ? evaluationDetail.comentario : ''}}</p>
+                                                    <ng-container *ngIf="evaluationDetail.comentario">
+                                                    
+                                                    <div [innerHTML]="parseHtmlString(evaluationDetail.comentario)"></div>
+                                                    </ng-container>
                                                 </div>
                                                 </div>
                                 
@@ -338,7 +341,7 @@
                                             <input class="form-check-input me-1" type="checkbox" value="15"
                                                 id="todo{{element.id}}" name="checkAll" (change)="changeStatusHallazgo($event, element.id, element.estado)"
                                                 [checked]="element.estado === 1"><!--(change)="checkUncheckAll($event,element.id)"-->
-                                            <label class="form-check-label" for="todo15">{{element.nombre}}</label>
+                                            <label class="form-check-label" for="todo15">{{removeTags(element.nombre)}}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -410,29 +413,104 @@
 
             <div class="card-body">
                 <div id="customerList">
-                    <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
-                            <!--<div class="d-flex gap-1">
-                                <h4 class="card-title mb-0" style="color: #405189;"><b>PLAN DE TRABAJO-PT-001</b></h4>
-                            </div>-->
-                        </div>
-                        
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <!--<div class="search-box ms-2">
-                                    <input type="text" class="form-control search" placeholder="Buscar..."
-                                        [(ngModel)]="service.searchTerm">
-                                    <i class="ri-search-line search-icon"></i>
-                                </div>-->
-                                
-                                <button type="button" style="margin-left:20px;" class="btn btn-danger add-btn" data-bs-toggle="modal"
-                                    id="create-btn" data-bs-target="#showModal" (click)="openModal(content2)"><i
-                                        class="ri-add-line align-bottom me-1"></i> Crear Tarea</button>
-                            </div>
-                        </div>
+                    
+        <div class="p-3 bg-light rounded mb-4">
+            <div class="row g-2">
+                <div class="col-lg">
+                    <div class="search-box">
+                        <input type="text" id="searchTaskList2" class="form-control search"
+                            placeholder="Buscar Tarea" [(ngModel)]="term2">
+                        <i class="ri-search-line search-icon"></i>
                     </div>
+                </div>
+                <div class="col-lg-auto">
+                    <button class="btn btn-danger showModal createTask" type="button" data-bs-toggle="modal"
+                        data-bs-target="#showModal" (click)="openModal(content2)">
+                        <i class="ri-add-fill align-bottom"></i> Crear Tarea
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="todo-content position-relative px-4 mx-n4" style="height: auto;" id="todo-content2">
+            <div class="todo-task" id="todo-task2">
+                <div class="table-responsive mt-3 mb-1">
+                    <table mat-table #dataTable2 [dataSource]="TaskDatas | filter:term2"
+                        cdkDropList (cdkDropListDropped)="todoTable2($event)"
+                        class="table align-middle position-relative table-nowrap" style="border: lightgray !important;">
+                        <ng-container matColumnDef="nombre">
+                            <th scope="col" style="width: 40%;" mat-header-cell *matHeaderCellDef> Tarea </th>
+                            <td *matCellDef="let element">
+                                    <label class="form-check-label" for="todo15">{{element.nombre}}</label>      
+                            </td>
+                        </ng-container>
 
-                    <div class="table-responsive table-card mt-3 mb-1">
+                        <ng-container matColumnDef="responsable">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Responsable </th>
+                            <td *matCellDef="let element">
+                                {{element.responsable ? element.responsable.nombre : '' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fecha_termino">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Fecha término </th>
+                            <td *matCellDef="let element">
+                                {{element.fecha_termino | date: 'd/M/yyyy' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">    
+                            <th scope="col" style="width: 10%;" mat-header-cell *matHeaderCellDef> Estado </th>
+                            <td *matCellDef="let element" class="status">
+                                <span
+                                            class="badge badge-soft-{{element.estado && element.estado == 'COMPLETADA' ? 'success' : (element.estado && element.estado == 'INICIADA' ? 'primary' : 'warning')}} text-uppercase">{{element.estado ? element.estado : 'CREADA'}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="prioridad">    
+                            <th scope="col" style="width: 10%;" mat-header-cell *matHeaderCellDef> Prioridad </th>
+                            <td *matCellDef="let element" class="status">
+                                
+                                <span
+                                class="badge text-bg-{{element.prioridad && element.prioridad == 'BAJA' ? 'primary' : (element.prioridad && element.prioridad == 'MEDIA' ? 'warning' : 'danger')}} text-uppercase">{{element.prioridad ? element.prioridad : 'BAJA'}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Acción </th>
+                            <td *matCellDef="let element">
+                                <div class="hstack gap-2">
+                                    <button class="btn btn-sm btn-soft-danger remove-list" data-bs-toggle="modal"
+                                        data-bs-target="#deleteRecordModal" data-remove-id="1"
+                                        (click)="confirm(deleteModel2,element.id)">
+                                        <i class="ri-delete-bin-5-fill align-bottom"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2; let i = index;" cdkDrag
+                            id="row-{{i+1}}"></tr>
+
+                        <div *cdkDragPlaceholder></div>
+
+                    </table>
+                </div>
+            </div>
+            <div class="py-4 mt-4 text-center" id="noresult" style="display: none;">
+                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                    colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px"></lord-icon>
+                <h5 class="mt-4">No posee tareas</h5>
+            </div>
+            
+            <div *ngIf="!TaskDatas || TaskDatas.length == 0">
+                <div style="text-align: center;width: 100%;font-size: 20px;">
+                    No hay datos para mostrar
+                </div>
+            </div>
+        </div>
+                    <!--<div class="table-responsive table-card mt-3 mb-1">
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
@@ -461,12 +539,6 @@
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
-                                                <!--<a href="javascript:void(0);" class="link-primary"
-                                                title="Ver" 
-                                                data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>-->
-
-                                                <!--<a href="javascript:void(0);" class="link-primary"
-                                                title="Dar Cumplimiento" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-shield-user-fill"></i></a>-->
                                                 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
@@ -488,7 +560,6 @@
                                 registros
                             </div>
                         </div>
-                        <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
                                 <ngb-pagination [collectionSize]="TaskDatas ? TaskDatas.length : 0" [(page)]="service.page"
@@ -496,8 +567,7 @@
                                 </ngb-pagination>
                             </div>
                         </div>
-                        <!-- End Pagination -->
-                    </div>
+                    </div>-->
                 </div>
             </div><!-- end card -->
         </div>
