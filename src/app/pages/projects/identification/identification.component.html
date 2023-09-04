@@ -880,7 +880,7 @@
                                                             </div>
                                                             -->
                                                             <div>
-                                                                <h5 class="fs-16 mb-1" style="color: #405189;">{{s.tipoParte +' '+ s.articulo}}</h5>
+                                                                <h5 class="fs-16 mb-1" style="color: #405189;">{{s.articulo ? s.tipoParte +' '+ s.articulo : s.tipoParte}}</h5>
                                                             </div>
                                                         </div>
                                                         <div class="col pointer" [ngClass]="validateConfig('atributo') || validateConfig('componente') || validateConfig('fase') ? 'col-lg-5' : 'col-lg-8'" (click)="onCheckboxClickVincular(s.articuloId, s)">
