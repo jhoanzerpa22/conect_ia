@@ -405,7 +405,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0" style="color: #405189;"><b>PLAN DE TRABAJO-PT-001</b></h4><!-- {{nombreHallazgo}}-->
+                <h4 class="card-title mb-0" style="color: #405189;"><b>PLAN DE TRABAJO</b></h4><!-- -PT-001 {{nombreHallazgo}}-->
             </div>
 
             <div class="card-body">
@@ -465,8 +465,8 @@
                                                 title="Ver" 
                                                 data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-eye-line"></i></a>-->
 
-                                                <a href="javascript:void(0);" class="link-primary"
-                                                title="Dar Cumplimiento" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-shield-user-fill"></i></a>
+                                                <!--<a href="javascript:void(0);" class="link-primary"
+                                                title="Dar Cumplimiento" routerLink="/projects/{{project_id}}/compliance/{{installation_id}}/Task/{{cuerpo_id}}/Assess/{{data.id}}/"><i class="ri-shield-user-fill"></i></a>-->
                                                 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
@@ -631,7 +631,7 @@
             </div>
             </div>
 
-            <div class="col-12">
+            <!--<div class="col-12">
                 <div class="mb-3">
                     <label for="criterio-field" class="form-label">Selecciona si para el cumplimiento de esta tarea es necesario subir un archivo o imagen</label>
                     
@@ -656,15 +656,14 @@
                     </div>
                         
                 </div>
-            </div>
+            </div>-->
             </div>
 
         </div>
+        
         <div class="modal-footer">
             <div class="hstack gap-2 justify-content-end">
-                <!--<button type="button" class="btn btn-light" data-bs-dismiss="modal"
-                    (click)="modal.close('Close click')">Cerrar</button>-->
-                <button type="submit" class="btn btn-success" id="add-btn">Agregar</button>
+                <button type="submit" class="btn btn-primary" id="add-btn">Guardar</button>
             </div>
         </div>
     </form>

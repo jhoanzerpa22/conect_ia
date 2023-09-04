@@ -319,6 +319,18 @@ export class IdentificationComponent implements OnInit {
     return this.cuerpo_select == cuerpo;
  }
 
+ onClickList(active: boolean){
+    this.selectList = active;
+
+    if(!this.selectList){
+      this.selectCheckedInstalaciones = [];
+    }else{
+      this.selectCheckedCuerpos = [];
+    }
+
+    this.ref.detectChanges();
+ }
+
  onChangeList(e: any){
     this.selectList = !this.selectList;
 

@@ -687,10 +687,8 @@ layers = [
     this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen']);
   }
 
-  goEvaluation(fechaFinalizacion: any){
-    if(!fechaFinalizacion){
+  goEvaluation(){
       this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations']);
-    }
   }
 
   createEvaluation(){
