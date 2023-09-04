@@ -68,7 +68,7 @@ export class TaskControlComponent implements OnInit {
   TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
-  TaskDatas: any/* = []*/;
+  TaskDatas: any = [];
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -672,7 +672,7 @@ export class TaskControlComponent implements OnInit {
         //const is_image = this.taskForm.get('is_image')?.value;
         //const is_file = this.taskForm.get('is_file')?.value;
 
-        const index = this.TaskDatas.length > 0 ? this.TaskDatas.findIndex(
+        const index = this.TaskDatas/*.length > 0*/ ? this.TaskDatas.findIndex(
           (t: any) =>
             (/*moment(*/fecha_inicio/*).format()*/ > t.fecha_inicio && /*moment(*/fecha_inicio/*).format()*/ < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (/*moment(*/fecha_inicio/*).format()*/ < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
         ) : -1;
