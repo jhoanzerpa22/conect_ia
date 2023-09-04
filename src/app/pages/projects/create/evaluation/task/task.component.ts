@@ -827,6 +827,15 @@ export class EvaluationTaskComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+ 
+  removeTags(str: any) {
+    if ((str===null) || (str===''))
+        return false;
+    else
+        str = str.toString();
+          
+    return str.replace( /(<([^>]+)>)/ig, '');
+}
   
   addElement(parent?: any) {
     

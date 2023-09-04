@@ -573,6 +573,15 @@ imgError(ev: any){
     this.submitted = false;
     this.modalService.open(recentContent, { size: 'md', centered: true });
   }
+  
+  removeTags(str: any) {
+    if ((str===null) || (str===''))
+        return false;
+    else
+        str = str.toString();
+          
+    return str.replace( /(<([^>]+)>)/ig, '');
+}
 
   /**
    * Form data get

@@ -233,7 +233,7 @@
                                                 id="todo{{element.id}}" name="checkAll"
                                                 (change)="changeStatusHallazgo($event, element.id, element.estado)"
                                                 [checked]="element.estado === 1"><!--(change)="checkUncheckAll($event,element.id)"-->
-                                            <label class="form-check-label" for="todo15">{{element.nombre}}</label>
+                                            <label class="form-check-label" for="todo15">{{removeTags(element.nombre)}}</label>
                                         </div>
                                     </div>
                                 </div>
