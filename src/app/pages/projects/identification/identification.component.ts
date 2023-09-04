@@ -1150,7 +1150,7 @@ validateIdparte(idParte: any){
           if(index_add == -1){
           const article_installation: any = {
             articuloId: this.articuloSelect[index].articuloId,
-            articulo: this.articuloSelect[index].tipoParte +' '+ this.articuloSelect[index].articulo,
+            articulo: this.articuloSelect[index].articulo ? this.articuloSelect[index].tipoParte +' '+ this.articuloSelect[index].articulo : this.articuloSelect[index].tipoParte,
             descripcion: this.articuloSelect[index].descripcion ? this.articuloSelect[index].descripcion : this.articuloSelect[index].tipoParte,
             tipoParte: this.articuloSelect[index].tipoParte,
             instalacionId: j.data.id,
