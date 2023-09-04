@@ -93,6 +93,8 @@ export class EvaluationDetailComponent implements OnInit {
   avance: number = 0;
   total_articulos: number = 0;
 
+  evaluations: any = {};
+
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
 
@@ -143,6 +145,7 @@ export class EvaluationDetailComponent implements OnInit {
 
         this.getArticlesByInstallationBody(this.installation_id);
         this.getProject();
+        this.getEvaluations();
     });
 
     // Data Get Function
@@ -554,13 +557,27 @@ export class EvaluationDetailComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
+ 
+ getEvaluations(){
+  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
+    (data: any) => {
+      this.evaluations = data.data;
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
  goEvaluation(id: any, evaluation: any){
-
-  if(evaluation.estado){
-    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowView/'+id]);
+  if(!this.evaluations.fechaFinalizacion){
+    if(evaluation.estado){
+      this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowEdit/'+id]);
+    }else{
+      this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id]);
+    }
   }else{
-    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id]);
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowView/'+id]);
   }
 }
 
@@ -789,7 +806,8 @@ getArticlesCuerpo(articulos: any){
             }
           }
 
-          avance = total > 0 ? ((((cumple * 100) + (nocumple * 0) + (parcial * 50)) * 100) / (total * 100)) : 0;
+          //avance = total > 0 ? ((((cumple * 100) + (nocumple * 50 * 0) + (parcial * 50)) * 100) / (total * 100)) : 0;
+          avance = total > 0 ? ((((cumple * 100) + (nocumple * 100) + (parcial * 100)) * 100) / (total * 100)) : 0;
 
           this.avance = round(avance, 0);
           this.total_articulos = total;

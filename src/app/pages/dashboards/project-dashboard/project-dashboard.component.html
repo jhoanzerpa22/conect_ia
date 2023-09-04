@@ -38,19 +38,19 @@
                     <!--<div class="card">
                         <div class="card-body">-->
         
-                            <div *ngIf="!evaluations || !showData">
-                                <div style="text-align: center;width: 100%;font-size: 20px;">
+                            <div *ngIf="!evaluations || !showData" style="min-height: 400px !important;">
+                                <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
                                     Aún no tiene Evaluaciones
                                 </div>
                             </div>
         
-                            <div *ngIf="evaluations && showData">            
+                            <div *ngIf="evaluations && showData" style="min-height: 450px !important;">            
                                     <div class="list-group">
                                         <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
                           
                                             <!--<ng-container *ngFor="let v of ig.instalaciones;">-->
         
-                                            <div class="team-list list-view-filter row" style="cursor:pointer;" (click)="goEvaluation(evaluations.fechaFinalizacion)">
+                                            <div class="team-list list-view-filter row" style="cursor:pointer;" (click)="goEvaluation()">
                                                 <div class="col">
                                                     <div class="card team-box">
                                                         <div class="team-cover">

@@ -118,7 +118,7 @@
                                                                         </div>
 
                                                                         <div class="col-lg-1 col">
-                                                                            <span class="badge text-bg-no-evaluado" [ngClass]="{'bg-success': v.avance > 0, 'text-bg-no-evaluado': v.avance < 1}">{{v.avance > 0 ? 'Evaluado' : 'No evaluado'}}</span>
+                                                                            <span class="badge text-bg-no-evaluado" [ngClass]="{'bg-success': v.avance >= 100, 'bg-warning': v.avance > 0 && v.avance < 100, 'text-bg-no-evaluado': v.avance < 1}">{{v.avance >= 100 ? 'Evaluado' : (v.avance > 0 && v.avance < 100 ? 'En evaluación' : 'No evaluado')}}</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
