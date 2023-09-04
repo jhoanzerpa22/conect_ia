@@ -13,14 +13,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './task-control.model';
+import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './task-view.model';
 import { folderData } from './data';
-import { RecentService } from './task-control.service';
-import { NgbdRecentSortableHeader, SortEvent } from './task-control-sortable.directive';
+import { RecentService } from './task-view.service';
+import { NgbdRecentSortableHeader, SortEvent } from './task-view-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
-import { UserProfileService } from '../../../../../core/services/user.service';
-import { TokenStorageService } from '../../../../../core/services/token-storage.service';
+import { UserProfileService } from '../../../../../core/services/user.service';import { TokenStorageService } from '../../../../../core/services/token-storage.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
@@ -32,16 +31,16 @@ import { round } from 'lodash';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-task-control',
-  templateUrl: './task-control.component.html',
-  styleUrls: ['./task-control.component.scss'],
+  selector: 'app-task-view',
+  templateUrl: './task-view.component.html',
+  styleUrls: ['./task-view.component.scss'],
   providers: [RecentService, DecimalPipe]
 })
 
 /**
- * TaskControlComponent
+ * EvaluationTaskViewComponent
  */
-export class TaskControlComponent implements OnInit {
+export class EvaluationTaskViewComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -62,13 +61,13 @@ export class TaskControlComponent implements OnInit {
   folderForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
+  evaluacionForm!: UntypedFormGroup;
   taskForm!: UntypedFormGroup;
   hallazgoForm!: UntypedFormGroup;
-  evaluacionForm!: UntypedFormGroup;
   TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
-  TaskDatas: any = [];
+  TaskDatas: any;
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -85,7 +84,6 @@ export class TaskControlComponent implements OnInit {
 
   items: any = [];
   hallazgos: any = [];
-  evaluations: any = [];
   
   hallazgosList!: HallazgoModel[];
   HallazgosDatas: any/* = []*/;
@@ -108,27 +106,16 @@ export class TaskControlComponent implements OnInit {
   articulo: any = {};
   userData: any;
 
-  PlaceInput: any;
-  public imagePath: any;
-  imgURL: any;
-
-  //selectedFile: File;
   selectedFile: any;
   selectedFileEvaluation: string [] = [];
-  //pdfURL: any;
   imgEvaluations: any = [];
   imgHallazgos: any = {};
 
-  //imageChangedEvent: any = '';
-  //imgView: any;
-  //imgView2: any = [];
   myFiles:string [] = [];
-  activeTab: number = 1;
   status: any;
-  evaluationDetail: any = {};
-  showDetailEvaluation: boolean = false;
+  evaluation_id: any = '';
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private _location: Location) {
     this.recentData = service.recents$;
     this.total = service.total$;
     
@@ -147,8 +134,8 @@ export class TaskControlComponent implements OnInit {
     */
     this.breadCrumbItems = [
       { label: 'Proyecto' },
-      { label: 'Control' },
-      { label: 'Tareas', active: true }
+      { label: 'Evaluar Cumplimiento' },
+      { label: 'Detalle', active: true }
     ];
 
     document.body.classList.add('file-detail-show');
@@ -162,10 +149,10 @@ export class TaskControlComponent implements OnInit {
       title: ['', [Validators.required]]
     });
 
-
     this.evaluacionForm = this.formBuilder.group({
       fecha_evaluacion: ['', [Validators.required]],
       comentario: [''],
+      estado_evaluacion: ['', [Validators.required]]
     });
 
     /**
@@ -176,12 +163,11 @@ export class TaskControlComponent implements OnInit {
       responsable: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      //fecha_inicio: [''],
+      fecha_inicio: [''],
       fecha_termino: [''],
-      prioridad: [''],
       evaluationFindingId: [''],
-      //is_image: [''],
-      //is_file: ['']
+      is_image: [''],
+      is_file: ['']
     });
   
     this.hallazgoForm = this.formBuilder.group({
@@ -209,10 +195,9 @@ export class TaskControlComponent implements OnInit {
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
-        this.getEvaluationsByInstallationArticle();
         this.getFindingsByInstallationArticle();
-        this.getTasksByProyect();
-        this.getResponsables(); 
+        //this.getTasksByProyect();
+        //this.getResponsables(); 
         this.getProject();
     });
 
@@ -231,6 +216,24 @@ export class TaskControlComponent implements OnInit {
     });
  }
 
+ setValue(){
+  if(this.articulo.evaluations){
+    this.evaluation_id = this.articulo.evaluations.id;
+
+    if(this.articulo.evaluations.fecha_evaluacion){
+      this.evaluacionForm.get('fecha_evaluacion')?.setValue(this.articulo.evaluations.fecha_evaluacion);
+    }
+
+    this.evaluacionForm.get('comentario')?.setValue(this.articulo.evaluations.comentario);
+
+    if(this.articulo.evaluations.estado){
+    
+    this.evaluacionForm.get('estado_evaluacion')?.setValue(this.articulo.evaluations.estado);
+    }
+
+  }
+}
+
   // Chat Data Fetch
   /*private _fetchData() {
     // Folder Data Fetch
@@ -243,6 +246,20 @@ export class TaskControlComponent implements OnInit {
     });
   }*/
 
+  changeStatus(e: any){
+    this.status = e.target.value;
+  }
+  
+  deleteHallazgoImg(){
+    this.selectedFile = [];
+    this.imgHallazgos = {};
+  }
+  
+  deleteEvaluationImg(index: any){
+    this.selectedFileEvaluation.splice(index,1);
+    this.imgEvaluations.splice(index, 1);
+  }
+
   /**
   * Confirmation mail model
   */
@@ -252,6 +269,7 @@ export class TaskControlComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
+  
   // Delete Data
   deleteData(id: any) {
     if (id) {
@@ -275,31 +293,6 @@ export class TaskControlComponent implements OnInit {
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
         });*/
     }
-  }
-  
-  deleteEvaluationImg(index: any){
-    this.selectedFileEvaluation.splice(index,1);
-    this.imgEvaluations.splice(index, 1);
-  }
-
-  deleteEvaluationImgAll(){
-    this.selectedFileEvaluation = [];
-    this.imgEvaluations = [];
-  }
-
-  deleteHallazgoImg(){
-    this.selectedFile = [];
-    this.imgHallazgos = {};
-  }
-
-  viewEvaluation(data: any){
-    this.evaluationDetail = data;
-    console.log('evaluationDetail', data);
-    this.showDetailEvaluation = true;
-  }
-
-  hideDetailEvaluation(){
-    this.showDetailEvaluation = false;
   }
 
   /**
@@ -358,7 +351,7 @@ export class TaskControlComponent implements OnInit {
           });
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-
+          this.setValue();
           this.hidePreLoader();
       },
       (error: any) => {
@@ -376,10 +369,6 @@ export class TaskControlComponent implements OnInit {
     );
 
     return index == -1;
-  }
-
-  changeTab(active: number){
-    this.activeTab = active;
   }
 
   changeStatusHallazgo(e: any,id: number, estado: number){
@@ -485,19 +474,9 @@ export class TaskControlComponent implements OnInit {
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
-  
-  saveEvaluation(){
-    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE') || (this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
+  editEvaluation(){
+    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE')){
 
-      if(this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
-        Swal.fire({
-          position: 'center',
-          icon: 'error',
-          title: 'Debe asignar hallazgos a la evaluación.',
-          showConfirmButton: true,
-          timer: 5000,
-        });
-      }else{
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -505,7 +484,6 @@ export class TaskControlComponent implements OnInit {
           showConfirmButton: true,
           timer: 5000,
         });
-      }
 
   } else{
     
@@ -513,22 +491,9 @@ export class TaskControlComponent implements OnInit {
 
     let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
     let comentario: any = this.evaluacionForm.get('comentario')?.value;
-    let hallazgos: any = [];
-
-    for (var h = 0; h < this.HallazgosDatas.length; h++) {
-      const index4 = this.hallazgos.findIndex(
-        (ha: any) =>
-          ha.id == this.HallazgosDatas[h].id
-      );
-
-      if(index4 == -1){
-        hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.cuerpo_id });
-      }
-    }
 
     const evaluations: any = {
       fecha_evaluacion: fecha_evaluacion,
-      hallazgos: hallazgos,
       estado: this.status,
       installationArticleId: this.cuerpo_id,
       comentario: comentario,
@@ -539,14 +504,10 @@ export class TaskControlComponent implements OnInit {
     for (var j = 0; j < this.selectedFileEvaluation.length; j++) { 
       formData.append("evaluacionImg", this.selectedFileEvaluation[j]);
     }
-
-    for (var i = 0; i < this.myFiles.length; i++) { 
-      formData.append("hallazgoImg", this.myFiles[i]);
-    }
     
     formData.append('data', JSON.stringify(evaluations));
     
-    this.projectsService.saveEvaluation(formData).pipe().subscribe(
+    this.projectsService.editEvaluation(this.evaluation_id, formData).pipe().subscribe(
       (data: any) => {     
        this.hidePreLoader();
        
@@ -558,10 +519,7 @@ export class TaskControlComponent implements OnInit {
           timer: 5000,
         });
         
-        this.evaluacionForm.reset();
-        this.deleteEvaluationImgAll();
-        this.getArticlesByInstallationBody(this.installation_id);
-        this.getEvaluationsByInstallationArticle();
+        this._location.back();
     },
     (error: any) => {
       
@@ -601,47 +559,12 @@ export class TaskControlComponent implements OnInit {
     });
   
     this.table.renderRows();
-    
+
     this.myFiles.push(this.selectedFile);
-      
+
     this.hallazgoForm.reset();
     this.modalService.dismissAll()
   }
-  }
-  
-  changeStatus(e: any){
-    this.status = e.target.value;
-  } 
-
-  onFileSelected(event: any){
-    //this.imageChangedEvent = event;
-    let selectedFileNow: any = <File>event[0];
-    this.selectedFile = selectedFileNow;
-    
-    //console.log('selectedFile',selectedFileNow);
-    let name_file: any = selectedFileNow.name;
-    let size_file: any = (selectedFileNow.size / 1000000).toFixed(2) + "MB";
-
-  var reader = new FileReader();
-    reader.readAsDataURL(selectedFileNow);
-    reader.onload = (_event) => {
-      //console.log(reader.result);
-      this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
-      }
-  }
-  
-  onFileSelectedEvaluation(event: any){
-    let selectedFileEvaluationNow: any = <File>event[0];
-    this.selectedFileEvaluation.push(selectedFileEvaluationNow);
-
-    let name_file: any = selectedFileEvaluationNow.name;
-    let size_file: any = (selectedFileEvaluationNow.size / 1000000).toFixed(2) + "MB";
-    var reader = new FileReader();
-    reader.readAsDataURL(selectedFileEvaluationNow);
-    reader.onload = (_event) => {
-      //console.log(reader.result);
-      this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
-      }
   }
 
   /**
@@ -658,17 +581,16 @@ export class TaskControlComponent implements OnInit {
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
-        const fecha_inicio = new Date();//this.taskForm.get('fecha_inicio')?.value;
+        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
-        const prioridad = this.taskForm.get('prioridad')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
-        //const is_image = this.taskForm.get('is_image')?.value;
-        //const is_file = this.taskForm.get('is_file')?.value;
+        const is_image = this.taskForm.get('is_image')?.value;
+        const is_file = this.taskForm.get('is_file')?.value;
 
-        const index = this.TaskDatas.length > 0 ? this.TaskDatas.findIndex(
+        const index = this.TaskDatas.findIndex(
           (t: any) =>
-            (/*moment(*/fecha_inicio/*).format()*/ > t.fecha_inicio && /*moment(*/fecha_inicio/*).format()*/ < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (/*moment(*/fecha_inicio/*).format()*/ < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
-        ) : -1;
+            (moment(fecha_inicio).format() > t.fecha_inicio && moment(fecha_inicio).format() < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (moment(fecha_inicio).format() < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
+        );
 
         if(index != -1){
           
@@ -706,10 +628,9 @@ export class TaskControlComponent implements OnInit {
                 fecha_termino: fecha_termino,
                 evaluationFindingId: evaluationFindingId,//this.idHallazgo,
                 estado: 'CREADA',
-                prioridad: prioridad,
                 type: 'findingTaks',
-                //is_image: is_image,
-                //is_file: is_file,
+                is_image: is_image,
+                is_file: is_file,
                 installationId: this.installation_id,
                 proyectoId: this.project_id,
                 empresaId: this.userData.empresaId
@@ -760,10 +681,9 @@ export class TaskControlComponent implements OnInit {
           fecha_termino: fecha_termino,
           evaluationFindingId: evaluationFindingId,//this.idHallazgo,
           estado: 'CREADA',
-          prioridad: prioridad,
           type: 'findingTaks',
-          //is_image: is_image,
-          //is_file: is_file,
+          is_image: is_image,
+          is_file: is_file,
           installationId: this.installation_id,
           proyectoId: this.project_id,
           empresaId: this.userData.empresaId
@@ -876,27 +796,12 @@ export class TaskControlComponent implements OnInit {
     }
   }
 
-  private getEvaluationsByInstallationArticle(){
-    this.projectsService.getEvaluationsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
-      (data: any) => {
-        this.evaluations = data.data;
-        console.log('evaluaciones',this.evaluations);
-    },
-    (error: any) => {
-      this.hidePreLoader();
-      //this.error = error ? error : '';
-      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
-    });
-    document.getElementById('elmLoader')?.classList.add('d-none')
-  }
-
   private getFindingsByInstallationArticle(){
 
     this.showPreLoader();
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
           this.hallazgos = data.data;
-          console.log('hallazgos', this.hallazgos);
           //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
@@ -981,6 +886,40 @@ export class TaskControlComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: any){
+    //this.imageChangedEvent = event;
+    let selectedFileNow: any = <File>event[0];
+    this.selectedFile = selectedFileNow;
+    
+    //console.log('selectedFile',selectedFileNow);
+    let name_file: any = selectedFileNow.name;
+    let size_file: any = (selectedFileNow.size / 1000000).toFixed(2) + "MB";
+
+  var reader = new FileReader();
+    reader.readAsDataURL(selectedFileNow);
+    reader.onload = (_event) => {
+      //console.log(reader.result);
+      this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
+      }
+  }
+  
+onFileSelectedEvaluation(event: any){
+  let selectedFileEvaluationNow: any = <File>event[0];
+  this.selectedFileEvaluation.push(selectedFileEvaluationNow);
+  //console.log('selectedFile',selectedFileEvaluationNow);
+  let name_file: any = selectedFileEvaluationNow.name;
+  let size_file: any = (selectedFileEvaluationNow.size / 1000000).toFixed(2) + "MB";
+  var reader = new FileReader();
+  reader.readAsDataURL(selectedFileEvaluationNow);
+  reader.onload = (_event) => {
+    //console.log(reader.result);
+    this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
+    //this.imgView = reader.result;
+    //this.pdfURL = this.selectedFile.name;
+    //this.formUsuario.controls['img'].setValue(this.selectedFile);
+    }
+}
+
   saveInstallation(){
     this.installation_id = this.installation_id_select[this.installation_id_select.length - 1].value;
     /*const index = this.installations.findIndex(
@@ -1012,9 +951,6 @@ export class TaskControlComponent implements OnInit {
    */
   openModal(content: any) {
     this.submitted = false;
-
-    this.selectedFile = [];
-    this.imgHallazgos = {};
     this.modalService.open(content, { size: 'lg', centered: true });
   }
 

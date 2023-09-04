@@ -128,9 +128,19 @@ export class ProjectEvaluationsComponent implements OnInit {
               let cuerpo_cumple: number = 0;
               let cuerpo_nocumple: number = 0;
               let cuerpo_parcial: number = 0;
+              let articulos_group: any = [];
 
               for (var j = 0; j < obj[i].installations_articles.length; j++) { 
                 if(obj[i].installations_articles[j].proyectoId == this.project_id){
+                  
+                  const index = articulos_group.findIndex(
+                    (ar: any) =>
+                      ar == obj[i].installations_articles[j].articuloId
+                  );
+              
+                  if(index == -1){
+                    articulos_group.push(obj[i].installations_articles[j].articuloId);
+
                   total_articulos.push(obj[i].installations_articles[j]);
                   
                   const index = total_cuerpos.findIndex(
@@ -142,9 +152,10 @@ export class ProjectEvaluationsComponent implements OnInit {
                     total_cuerpos.push(obj[i].installations_articles[j].cuerpoLegal);
                   }
 
-                  for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
-                      if(obj[i].installations_articles[j].evaluations[v].estado){
-                        switch (obj[i].installations_articles[j].evaluations[v].estado) {
+                  //for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
+                    if(obj[i].installations_articles[j].evaluations.length > 0){
+                      if(obj[i].installations_articles[j].evaluations[0].estado){
+                        switch (obj[i].installations_articles[j].evaluations[0].estado) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;
@@ -167,17 +178,16 @@ export class ProjectEvaluationsComponent implements OnInit {
                       }
                     }
                 }
+              }
 
-                
               if(total_articulos.length > 0){
                 this.installations_articles.push(obj[i].installations_articles[j]);
               }
               }
               obj[i].total_articulos = total_articulos.length;
               obj[i].total_cuerpos = total_cuerpos.length;
-              let avance: any = total_articulos.length > 0 ? ((((cuerpo_cumple * 100) + (cuerpo_nocumple * 0) + (cuerpo_parcial * 50)) * 100) / (total_articulos.length * 100)) : 0;
+              let avance: any = total_articulos.length > 0 ? ((((cuerpo_cumple * 100) + (cuerpo_nocumple * 100/** 0*/) + (cuerpo_parcial * 100/** 50*/)) * 100) / (total_articulos.length * 100)) : 0;
               obj[i].avance = round(avance, 0);
-              
               if(total_articulos.length > 0){
                 avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);
