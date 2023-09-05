@@ -68,7 +68,7 @@ export class TaskControlComponent implements OnInit {
   TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
-  TaskDatas: any = [];
+  TaskDatas: any/* = []*/;
   simpleDonutChart: any;
   public isCollapsed: any = [];
   isCollapseArray: any = ['Encabezado'];
@@ -88,7 +88,7 @@ export class TaskControlComponent implements OnInit {
   evaluations: any = [];
   
   hallazgosList!: HallazgoModel[];
-  HallazgosDatas: any/* = []*/;
+  HallazgosDatas: any = [];
   term: any;
   term2: any;
 
@@ -143,7 +143,7 @@ export class TaskControlComponent implements OnInit {
   dataSource = [];
 
   @ViewChild('dataTable2')
-  table2!: MatTable<HallazgoModel>;
+  table2!: MatTable<TaskModel>;
   displayedColumns2: string[] = ['nombre', 'responsable', 'fecha_termino', 'estado', 'prioridad', 'action'];
   dataSource2 = [];
 
@@ -167,7 +167,6 @@ export class TaskControlComponent implements OnInit {
     this.folderForm = this.formBuilder.group({
       title: ['', [Validators.required]]
     });
-
 
     this.evaluacionForm = this.formBuilder.group({
       fecha_evaluacion: ['', [Validators.required]],
@@ -218,7 +217,7 @@ export class TaskControlComponent implements OnInit {
         this.getArticlesByInstallationBody(this.installation_id);
         this.getEvaluationsByInstallationArticle();
         this.getFindingsByInstallationArticle();
-        this.getTasksByProyect();
+        //this.getTasksByProyect();
         this.getResponsables(); 
         this.getProject();
     });
@@ -492,7 +491,6 @@ export class TaskControlComponent implements OnInit {
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
 
-  
   saveEvaluation(){
     if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE') || (this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
 
@@ -804,6 +802,55 @@ export class TaskControlComponent implements OnInit {
     }
   }
 
+  changeStatusTask(e: any, id: number, estado: any){
+    
+    //this.showPreLoader();
+    const index = this.TaskDatas.findIndex(
+      (t: any) =>
+        t.id == id
+    );
+    
+    let new_estado: any = estado == 'CREADA' ? 'INICIADA' : (estado == 'INICIADA' ? 'COMPLETADA' : 'INICIADA');
+
+    this.TaskDatas[index].estado = new_estado;
+
+    const task: any = {
+      estado: new_estado
+    };
+
+    const formData = new FormData();
+    
+    formData.append('data', JSON.stringify(task));
+    
+    this.projectsService.updateTaskStatus(id, formData).pipe().subscribe(
+      (data: any) => {     
+       //this.hidePreLoader();
+       
+        /*Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Tarea actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });*/
+
+    },
+    (error: any) => {
+      
+      //this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
+
+  }
+
+
   selectInstallation(event: any){
 
     if(this.installation_id_select.length > 0){
@@ -903,7 +950,7 @@ export class TaskControlComponent implements OnInit {
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
           this.hallazgos = data.data;
-          console.log('hallazgos', this.hallazgos);
+          //console.log('hallazgos', this.hallazgos);
           //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
@@ -912,14 +959,15 @@ export class TaskControlComponent implements OnInit {
                     this.HallazgosDatas.push({id: this.hallazgos[i].id, nombre: this.hallazgos[i].nombre, fecha: this.hallazgos[i].createdAt, estado: this.hallazgos[i].estado, installationArticleId: this.hallazgos[i].installationArticleId});
                 
                 if(this.hallazgos[i].tasks.id != null){
-                    tareas.push(this.hallazgos[i].tasks);
+                    tareas.push(this.hallazgos[i].tasks);          
+                    //this.TaskDatas.push({id: this.hallazgos[i].tasks.id, nombre: this.hallazgos[i].tasks.nombre, responsable: this.hallazgos[i].tasks.responsable ? this.hallazgos[i].tasks.responsable.nombre : '', fecha_termino: this.hallazgos[i].tasks.fecha_termino, estado: this.hallazgos[i].tasks.estado, prioridad: this.hallazgos[i].tasks.prioridad});
                 }
           }
 
-          this.table.renderRows();
-
           this.TaskDatas = tareas;
-          console.log('tareas',tareas);
+          //console.log('Hallazgos',this.HallazgosDatas);
+          //console.log('tareas',this.TaskDatas);
+          this.table.renderRows();
           this.table2.renderRows();
           
           this.hidePreLoader();

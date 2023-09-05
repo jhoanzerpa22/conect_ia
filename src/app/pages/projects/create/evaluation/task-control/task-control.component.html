@@ -435,9 +435,7 @@
         <div class="todo-content position-relative px-4 mx-n4" style="height: auto;" id="todo-content2">
             <div class="todo-task" id="todo-task2">
                 <div class="table-responsive mt-3 mb-1">
-                    <table mat-table #dataTable2 [dataSource]="TaskDatas | filter:term2"
-                        cdkDropList (cdkDropListDropped)="todoTable2($event)"
-                        class="table align-middle position-relative table-nowrap" style="border: lightgray !important;">
+                    <table mat-table #dataTable2 [dataSource]="TaskDatas | filter:term2" class="table align-middle position-relative table-nowrap" style="border: lightgray !important;">
                         <ng-container matColumnDef="nombre">
                             <th scope="col" style="width: 40%;" mat-header-cell *matHeaderCellDef> Tarea </th>
                             <td *matCellDef="let element">
@@ -463,7 +461,7 @@
                             <th scope="col" style="width: 10%;" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td *matCellDef="let element" class="status">
                                 <span
-                                            class="badge badge-soft-{{element.estado && element.estado == 'COMPLETADA' ? 'success' : (element.estado && element.estado == 'INICIADA' ? 'primary' : 'warning')}} text-uppercase">{{element.estado ? element.estado : 'CREADA'}}</span>
+                                            class="badge badge-soft-{{element.estado && element.estado == 'COMPLETADA' ? 'success' : (element.estado && element.estado == 'INICIADA' ? 'primary' : 'warning')}} text-uppercase" style="cursor:pointer;" (click)="changeStatusTask($event, element.id, element.estado)">{{element.estado ? element.estado : 'CREADA'}}</span>
                             </td>
                         </ng-container>
 
