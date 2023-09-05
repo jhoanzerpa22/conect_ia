@@ -595,7 +595,28 @@ getArticlesCuerpo(articulos: any){
     }
   }
 
-  return articulosData;
+  let order: any = articulosData.sort((a: any, b: any) => a.articulo.localeCompare(b.articulo));
+  
+  return order;
+  //return articulosData.sort((a: any, b: any) => a.articulo.localeCompare(b.articulo, { sensitivity: 'base' }));
+
+  /*return articulosData.sort(function (a: any, b: any) {
+    if (a.articulo.toUpperCase().trimEnd() < b.articulo.toUpperCase().trimEnd()) {
+      return -1;
+    }
+    if (a.articulo.toUpperCase().trimEnd() > b.articulo.toUpperCase().trimEnd()) {
+      return 1;
+    }
+    return 0;
+  });*/
+
+  /*return articulosData.sort(function (a: any, b: any) {
+      
+    let x = a.articulo.trimEnd().toUpperCase(),
+    y = b.articulo.trimEnd().toUpperCase();
+    return x == y ? 0 : x > y ? 1 : -1;
+
+  });*/
 }
 
   /**
