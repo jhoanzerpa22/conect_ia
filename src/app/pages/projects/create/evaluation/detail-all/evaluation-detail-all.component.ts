@@ -573,7 +573,9 @@ getArticlesCuerpo(articulos: any){
     }
   }
 
-  return articulosData;
+  let order: any = articulosData.sort((a: any, b: any) => a.articulo.localeCompare(b.articulo));
+  
+  return order;
 }
 
   /**
