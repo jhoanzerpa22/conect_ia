@@ -710,6 +710,23 @@ layers = [
       });
       this._router.navigate(['/'+this.project_id+'/project-dashboard']);
     }else{
+
+      if(this.avance_evaluacion < 90){
+
+      Swal.fire({
+        title: '¿Deseas finalizar la evaluación? Tienes obligaciones pendientes por evaluar. Si presionas continuar, las obligaciones pendientes pasarán a control como "No cumple", con un 0% de cumplimiento',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+        customClass: {
+          actions: 'my-actions',
+          //cancelButton: 'order-1 right-gap',
+          confirmButton: 'order-2',
+          denyButton: 'order-3',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
     
       this.showPreLoader();
       const evaluation: any = {
@@ -758,7 +775,60 @@ layers = [
         });
       });
     
+    } else if (result.isDenied) {
+              
     }
+    });
+    
+    }else{
+      this.showPreLoader();
+      const evaluation: any = {
+        "cumplimiento": this.avance_evaluacion, 
+        "fechaFinalizacion": this.finalizeDate
+      };
+
+      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
+        (data: any) => {
+
+          this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
+            (data: any) => {
+              this.hidePreLoader();
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Evaluación finalizada',
+                showConfirmButton: true,
+                timer: 5000,
+              });
+              this._router.navigate(['/'+this.project_id+'/project-dashboard']);
+              //this.getProject(this.project_id);
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();      
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+          });
+
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();      
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Ha ocurrido un error..',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      });
+    }
+  }
   }
 
   // PreLoader
