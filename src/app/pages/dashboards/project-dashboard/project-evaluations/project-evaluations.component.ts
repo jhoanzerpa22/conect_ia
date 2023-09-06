@@ -702,11 +702,15 @@ layers = [
     if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
       
       Swal.fire({
-        position: 'center',
+        title: 'Evaluación finalizada!',
+        //text: 'You clicked the button!',
         icon: 'success',
-        title: 'Evaluación finalizada',
         showConfirmButton: true,
-        timer: 5000,
+        showCancelButton: false,
+        confirmButtonColor: '#364574',
+        cancelButtonColor: 'rgb(243, 78, 78)',
+        confirmButtonText: 'OK',
+        timer: 5000
       });
       this._router.navigate(['/'+this.project_id+'/project-dashboard']);
     }else{
@@ -714,7 +718,7 @@ layers = [
       if(this.avance_evaluacion < 90){
 
       Swal.fire({
-        title: '¿Deseas finalizar la evaluación? Tienes obligaciones pendientes por evaluar. Si presionas continuar, las obligaciones pendientes pasarán a control como "No cumple", con un 0% de cumplimiento',
+        /*title: '¿Deseas finalizar la evaluación? Tienes obligaciones pendientes por evaluar. Si presionas continuar, las obligaciones pendientes pasarán a control como "No cumple", con un 0% de cumplimiento',
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: 'Si',
@@ -724,7 +728,15 @@ layers = [
           //cancelButton: 'order-1 right-gap',
           confirmButton: 'order-2',
           denyButton: 'order-3',
-        }
+        }*/
+          title: '¿Deseas finalizar la evaluación?',
+          text: 'Tienes obligaciones pendientes por evaluar. Si presionas continuar, las obligaciones pendientes pasarán a control como "No cumple", con un 0% de cumplimiento',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#364574',
+          cancelButtonColor: 'rgb(243, 78, 78)',
+          confirmButtonText: 'Si',
+          denyButtonText: 'No'
       }).then((result) => {
         if (result.isConfirmed) {
     
@@ -741,11 +753,15 @@ layers = [
             (data: any) => {
               this.hidePreLoader();
               Swal.fire({
-                position: 'center',
+                title: 'Evaluación finalizada!',
+                //text: 'You clicked the button!',
                 icon: 'success',
-                title: 'Evaluación finalizada',
                 showConfirmButton: true,
-                timer: 5000,
+                showCancelButton: false,
+                confirmButtonColor: '#364574',
+                cancelButtonColor: 'rgb(243, 78, 78)',
+                confirmButtonText: 'OK',
+                timer: 5000
               });
               this._router.navigate(['/'+this.project_id+'/project-dashboard']);
               //this.getProject(this.project_id);
@@ -794,11 +810,15 @@ layers = [
             (data: any) => {
               this.hidePreLoader();
               Swal.fire({
-                position: 'center',
+                title: 'Evaluación finalizada!',
+                //text: 'You clicked the button!',
                 icon: 'success',
-                title: 'Evaluación finalizada',
                 showConfirmButton: true,
-                timer: 5000,
+                showCancelButton: false,
+                confirmButtonColor: '#364574',
+                cancelButtonColor: 'rgb(243, 78, 78)',
+                confirmButtonText: 'OK',
+                timer: 5000
               });
               this._router.navigate(['/'+this.project_id+'/project-dashboard']);
               //this.getProject(this.project_id);
