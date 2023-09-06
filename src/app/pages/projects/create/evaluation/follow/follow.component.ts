@@ -202,19 +202,19 @@ export class EvaluationFollowComponent implements OnInit {
       this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
         (data: any) => {
           this.detail = data.data;
-          let articulos: any = data.data.data.length > 0 ? data.data.data : [];
+          let cuerpos: any = data.data.data.length > 0 ? data.data.data : [];
           let cuerpo_articulos: any = [];
 
-          for (var i = 0; i < articulos.length; i++) {
-            if(articulos[i].articulos.length > 0){
+          for (var i = 0; i < cuerpos.length; i++) {
+            if(cuerpos[i].articulos.length > 0){
               let procede: boolean = false;
-              for (var j = 0; j < articulos[i].articulos.length; j++) {
-                if(articulos[i].articulos[j].proyectoId == this.project_id){
+              for (var j = 0; j < cuerpos[i].articulos.length; j++) {
+                if(cuerpos[i].articulos[j].proyectoId == this.project_id && cuerpos[i].articulos[j].id == this.cuerpo_id){
                   procede = true;                
                 }
               }
               if(procede){
-                cuerpo_articulos.push(articulos[i]);
+                cuerpo_articulos.push(cuerpos[i]);
               }
             }
           }

@@ -1127,7 +1127,7 @@
                                     <div class="flex-grow-1">
                                     <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0"><!--avatar-xs-->
-                                           <i class="mdi align-middle lh-1 me-2"  [ngClass]="{'mdi-check-circle text-success': validChecked4(o.id) == 1, 'mdi-alert-circle text-warning': validChecked4(o.id) == 2,'mdi-checkbox-blank-circle text-gray': validChecked4(o.id) == null }"></i>
+                                           <i class="mdi align-middle lh-1 me-2"  [ngClass]="{'mdi-check-circle text-success': validChecked4(o.id) == 1, 'mdi-alert-circle text-warning': validChecked4(o.id) == 2,'mdi-checkbox-blank-circle text-gray': validChecked4(o.id) == null || validChecked4(o.id) == 0 }"></i>
                                     </div>
                                     <div class="flex-shrink-0 ms-2">
                                         {{o.nombre}}
@@ -1137,7 +1137,7 @@
                                     
                                     <div class="flex-shrink-0">
                                         <div class="form-check form-check-inline form-radio-danger">
-                                            <input class="form-check-input" type="radio" name="{{o.id}}-estado" id="{{o.id}}-estado0" value="{{o.id}}-0" (change)="onCheckboxChange5(o.id, 0)" [checked]="validChecked4(o.id) == 0">
+                                            <input class="form-check-input" type="radio" name="{{o.id}}-estado" id="{{o.id}}-estado0" value="{{o.id}}-0" (change)="onCheckboxChange5(o.id, 0)" [checked]="validChecked4(o.id) == 0 || validChecked4(o.id) == null">
                                             <label class="form-check-label" for="{{o.id}}-estado0">No gestionar</label>
                                         </div>
                                         <div class="form-check form-check-inline form-radio-warning">
