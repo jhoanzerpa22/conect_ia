@@ -137,7 +137,7 @@ export class ProjectControlComponent implements OnInit {
               let cuerpo_parcial: number = 0;
 
               for (var j = 0; j < obj[i].installations_articles.length; j++) { 
-                if(obj[i].installations_articles[j].proyectoId == this.project_id){
+                if(obj[i].installations_articles[j].proyectoId == this.project_id && (obj[i].installations_articles[j].estado == '1' || obj[i].installations_articles[j].estado == '2')){
                   total_articulos.push(obj[i].installations_articles[j]);
                   
                   const index = total_cuerpos.findIndex(
