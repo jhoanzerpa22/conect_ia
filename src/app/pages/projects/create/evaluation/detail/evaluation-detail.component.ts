@@ -713,7 +713,7 @@ getArticlesCuerpo(articulos: any){
               let articulos_group: any = [];
 
               for (var j = 0; j < articulos[i].articulos.length; j++) {
-                if(articulos[i].articulos[j].proyectoId == this.project_id){
+                if(articulos[i].articulos[j].proyectoId == this.project_id && (articulos[i].articulos[j].estado == '1' || articulos[i].articulos[j].estado == '2')){
                   
                   const index = articulos_group.findIndex(
                     (ar: any) =>

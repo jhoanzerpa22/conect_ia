@@ -1387,7 +1387,7 @@ validateIdparte(idParte: any){
   byCuerpoVinculacion(id: any){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.normaId == id && ins.proyectoId == this.project_id
+        ins.normaId == id && ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
     );
 
     let articles_group: any = [];
@@ -1409,7 +1409,7 @@ validateIdparte(idParte: any){
   countCuerposLegales(){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
     );
     let articles_group: any = [];
           filter.forEach((x: any) => {
@@ -1445,7 +1445,7 @@ validateIdparte(idParte: any){
   countArticulos(){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
     );
     let articles_group: any = [];
           filter.forEach((x: any) => {
