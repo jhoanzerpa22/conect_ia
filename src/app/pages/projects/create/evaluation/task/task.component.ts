@@ -511,13 +511,17 @@ export class EvaluationTaskComponent implements OnInit {
       (data: any) => {     
        this.hidePreLoader();
        
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Evaluación actualizada',
-          showConfirmButton: true,
-          timer: 5000,
-        });
+       Swal.fire({
+        title: 'Evaluación actualizada!',
+        //text: 'You clicked the button!',
+        icon: 'success',
+        showConfirmButton: true,
+        showCancelButton: false,
+        confirmButtonColor: '#364574',
+        cancelButtonColor: 'rgb(243, 78, 78)',
+        confirmButtonText: 'OK',
+        timer: 5000
+      });
         
         this._location.back();
     },
