@@ -48,6 +48,7 @@ export class TaskControlComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  evaluation: any = {};
   cuerpo_id: any = '';
   cuerpoLegal: any = '';
   installation_id: any = null;
@@ -214,7 +215,8 @@ export class TaskControlComponent implements OnInit {
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
         //this.getArticlesByInstallation(this.installation_id);
-        this.getArticlesByInstallationBody(this.installation_id);
+        this.getArticlesByInstallationBody(this.installation_id);      
+        this.getEvaluations();
         this.getEvaluationsByInstallationArticle();
         this.getFindingsByInstallationArticle();
         //this.getTasksByProyect();
@@ -236,6 +238,17 @@ export class TaskControlComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
+
+ getEvaluations(){
+  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
+    (data: any) => {
+      this.evaluation = data.data;
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
   // Chat Data Fetch
   /*private _fetchData() {
