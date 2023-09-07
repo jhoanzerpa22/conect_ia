@@ -1,11 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-
-// Language
-import { CookieService } from 'ngx-cookie-service';
-import { LanguageService } from '../../core/services/language.service';
-import { TranslateService } from '@ngx-translate/core';
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-vertical',
@@ -16,8 +9,7 @@ export class VerticalComponent implements OnInit {
 
   isCondensed = false;
   
-  constructor(@Inject(DOCUMENT) private document: any, public languageService: LanguageService,
-  public _cookiesService: CookieService, public translate: TranslateService) { }
+  constructor() { }
 
   ngOnInit(): void {
     document.documentElement.setAttribute('data-layout', 'vertical');
@@ -41,6 +33,7 @@ export class VerticalComponent implements OnInit {
         document.documentElement.setAttribute('data-sidebar-size', 'lg');
       }
     })
+    
   }
 
   /**

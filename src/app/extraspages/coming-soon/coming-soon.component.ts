@@ -26,7 +26,7 @@ export class ComingSoonComponent implements OnInit {
 
   ngOnInit(): void {
     // Date Set
-    this._trialEndsAt = "2023-12-31";
+    this._trialEndsAt = "2022-12-31";
 
     /**
      * Count date set

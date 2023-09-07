@@ -7,7 +7,6 @@ import { CoverComponent } from "./cover/cover.component";
 import { AltComponent } from "./alt/alt.component";
 import { Page500Component } from "./page500/page500.component";
 import { OfflineComponent } from "./offline/offline.component";
-import { TokenComponent } from "./token/token.component";
 
 const routes: Routes = [
   {
@@ -29,10 +28,6 @@ const routes: Routes = [
   {
     path: "offline",
     component: OfflineComponent
-  },
-  {
-    path: "expire",
-    component: TokenComponent
   }
 ];
 

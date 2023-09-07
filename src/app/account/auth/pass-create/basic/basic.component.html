@@ -9,15 +9,6 @@
             </svg>
         </div>
     </div>
-
-    <!--preloader-->
-    <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
-        <div id="status">
-          <div class="spinner-border text-primary avatar-sm" role="status">
-              <span class="visually-hidden">Cargando...</span>
-          </div>
-        </div>
-      </div>
   
     <!-- auth page content -->
     <div class="auth-page-content">
@@ -27,10 +18,10 @@
                     <div class="text-center mt-sm-5 mb-4 text-white-50">
                         <div>
                             <a routerLink="/" class="d-inline-block auth-logo">
-                                <img src="assets/images/logo-light2.png" alt="" height="100" width="250">
+                                <img src="assets/images/logo-light.png" alt="" height="20">
                             </a>
                         </div>
-                        <p class="mt-3 fs-15 fw-medium">Potenciando tu gestión en sostenibilidad</p>
+                        <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
                     </div>
                 </div>
             </div>
@@ -42,56 +33,55 @@
                     
                         <div class="card-body p-4"> 
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Crear nueva contraseña</h5>
-                                <p class="text-muted">Su nueva contraseña debe ser diferente de la contraseña utilizada anteriormente.</p>
+                                <h5 class="text-primary">Create new password</h5>
+                                <p class="text-muted">Your new password must be different from previous used password.</p>
                             </div>
 
                             <div class="p-2">
                                 <form [formGroup]="passresetForm" (ngSubmit)="onSubmit()">
                                     <div class="mb-3">
-                                        <label class="form-label" for="password-input">Contraseña</label>
+                                        <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup">
-                                            <input [type]="passwordField ? 'text' : 'password'" class="form-control pe-5 password-input" placeholder="Ingresar contraseña" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required formControlName="password"
+                                            <input [type]="passwordField ? 'text' : 'password'" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required formControlName="password"
                                             [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"
                                                 id="password-addon"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !passwordField, 'mdi-eye-outline': passwordField
                                             }" (click)="togglepasswordField()"></i></button>
                                             <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                                                <span *ngIf="f['password'].errors['required']">Contraseña es requerida</span>
+                                                <span *ngIf="f['password'].errors['required']">Password is required</span>
                                               </div>
                                         </div>
-                                        <div id="passwordInput" class="form-text">
-                                            Debe tener al menos 8 caracteres.</div>
+                                        <div id="passwordInput" class="form-text">Must be at least 8 characters.</div>
                                     </div>
             
                                     <div class="mb-3">
-                                        <label class="form-label" for="confirm-password-input">Confirmar Contraseña</label>
+                                        <label class="form-label" for="confirm-password-input">Confirm Password</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input [type]="confirmField ? 'text' : 'password'" class="form-control pe-5 password-input" placeholder="Confirmar contraseña" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="confirm-password-input" required formControlName="cpassword"
+                                            <input [type]="confirmField ? 'text' : 'password'" class="form-control pe-5 password-input" placeholder="Confirm password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="confirm-password-input" required formControlName="cpassword"
                                             [ngClass]="{ 'is-invalid': submitted && f['cpassword'].errors }">
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="confirm-password-input"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !passwordField, 'mdi-eye-outline': passwordField
                                             }" (click)="toggleconfirmField()"></i></button>
                                             <div *ngIf="submitted && f['cpassword'].errors" class="invalid-feedback">
-                                                <span *ngIf="f['cpassword'].errors['required']">Confirmar contraseña es requerida</span>
+                                                <span *ngIf="f['cpassword'].errors['required']">Confirm Password is required</span>
                                               </div>
                                         </div>
                                     </div>
 
                                     <div id="password-contain" class="p-3 bg-light mb-2 rounded">
-                                        <h5 class="fs-13">La contraseña debe contener:</h5>
-                                        <p id="pass-length" class="invalid fs-12 mb-2">Minimo <b>8 caracteres</b></p>
-                                        <p id="pass-lower" class="invalid fs-12 mb-2">En letra <b>minúscula</b>(a-z)</p>
-                                        <p id="pass-upper" class="invalid fs-12 mb-2">Aunque sea una letra <b>mayúscula</b> (A-Z)</p>
-                                        <p id="pass-number" class="invalid fs-12 mb-0">Un <b>número</b> (0-9)</p>
+                                        <h5 class="fs-13">Password must contain:</h5>
+                                        <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
+                                        <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
+                                        <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
+                                        <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
                                     </div>
                                     
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
-                                        <label class="form-check-label" for="auth-remember-check">Recuerdame</label>
+                                        <label class="form-check-label" for="auth-remember-check">Remember me</label>
                                     </div>
                                     
                                     <div class="mt-4">
-                                        <button class="btn btn-success w-100" type="submit">Restablecer la contraseña</button>
+                                        <button class="btn btn-success w-100" type="submit">Reset Password</button>
                                     </div>
 
                                 </form>
@@ -102,7 +92,7 @@
                     <!-- end card -->
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">Espera, recuerdo mi contraseña... <a routerLink="/auth/login" class="fw-semibold text-primary text-decoration-underline"> Click aqui </a> </p>
+                        <p class="mb-0">Wait, I remember my password... <a routerLink="/auth/signin/basic" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
                     </div>
 
                 </div>
@@ -119,7 +109,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center">
-                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> Conect - IA. Crafted with <i class="mdi mdi-heart text-danger"></i> by Tresidea spa</p>
+                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
                     </div>
                 </div>
             </div>
@@ -128,5 +118,4 @@
     <!-- end Footer -->
   </div>
   <!-- end auth-page-wrapper -->
-<app-toastsrc aria-live="polite" aria-atomic="true"></app-toastsrc>
   

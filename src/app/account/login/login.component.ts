@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit {
   // set the current year
   year: number = new Date().getFullYear();
 
-  constructor(private formBuilder: UntypedFormBuilder,private authenticationService: AuthenticationService,private router: Router, private authFackservice: AuthfakeauthenticationService,private route: ActivatedRoute,public toastService: ToastService) {
+  constructor(private formBuilder: UntypedFormBuilder,private authenticationService: AuthenticationService,private router: Router,
+    private authFackservice: AuthfakeauthenticationService,private route: ActivatedRoute,public toastService: ToastService) {
       // redirect to home if already logged in
       if (this.authenticationService.currentUserValue) {
         this.router.navigate(['/']);
@@ -40,7 +41,6 @@ export class LoginComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    //this.preLoader();
     if(localStorage.getItem('currentUser')) {
       this.router.navigate(['/']);
     }
@@ -48,16 +48,11 @@ export class LoginComponent implements OnInit {
      * Form Validatyion
      */
      this.loginForm = this.formBuilder.group({
-      email: [''/*'admin@themesbrand.com'*/, [Validators.required, Validators.email]],
-      password: [''/*'123456'*/, [Validators.required]],
+      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
+      password: ['123456', [Validators.required]],
     });
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-
-    if (localStorage.getItem('toast')) {
-      this.toastService.show('Registro exitoso.', { classname: 'bg-success text-center text-white', delay: 5000 });
-      localStorage.removeItem('toast');
-    }
   }
 
   // convenience getter for easy access to form fields
@@ -69,40 +64,16 @@ export class LoginComponent implements OnInit {
    onSubmit() {
     this.submitted = true;
 
-    if (this.loginForm.invalid) {
-        return;
-    }
-
-    this.showPreLoader();
-
     // Login Api
     this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data:any) => { 
-      //if(data.status == 'success'){
-      if(data.data){
-        this.hidePreLoader();
-        const user: any = {
-        "_id": data.data.user.id,
-        "nombre": data.data.user.nombre,
-        "apellido": data.data.user.apellido,
-        "email": data.data.user.email,
-        "telefono": data.data.user.telefono,
-        "cargo": data.data.user.cargo,
-        "rol": data.data.user.rol,
-        "empresaId": data.data.user.empresaId
-        //"rol": data.data.user.user_rol ? data.data.user.user_rol.nombre : ''
-        };
-        //localStorage.setItem('toast', 'true');
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        localStorage.setItem('token', data.data.token);
+      if(data.status == 'success'){
+        localStorage.setItem('toast', 'true');
+        localStorage.setItem('currentUser', JSON.stringify(data.data));
+        localStorage.setItem('token', data.token);
         this.router.navigate(['/']);
       } else {
-        this.hidePreLoader();
         this.toastService.show(data.data, { classname: 'bg-danger text-white', delay: 15000 });
       }
-    },
-    (error: any) => {
-      this.hidePreLoader();
-      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
 
     // stop here if form is invalid
@@ -132,24 +103,6 @@ export class LoginComponent implements OnInit {
    */
    toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
-  }
-
-  // PreLoader
-  showPreLoader() {
-    var preloader = document.getElementById("preloader");
-    if (preloader) {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
-    }
-  }
-
-  // PreLoader
-  hidePreLoader() {
-    var preloader = document.getElementById("preloader");
-    if (preloader) {
-        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
-        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
-    }
   }
 
 }

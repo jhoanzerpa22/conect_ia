@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 // Components
 import { BasicComponent } from "./basic/basic.component";
 import { CoverComponent } from "./cover/cover.component";
-import { PasswordComponent } from "./password/password.component";
 
 const routes: Routes = [
   {
@@ -14,10 +13,6 @@ const routes: Routes = [
   {
     path: "cover",
     component: CoverComponent
-  },
-  {
-    path: "password",
-    component: PasswordComponent
   }
 ];
 

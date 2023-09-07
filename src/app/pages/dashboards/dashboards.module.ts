@@ -20,10 +20,12 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 // Flat Picker
 import { FlatpickrModule } from 'angularx-flatpickr';
 
+
 //Module
 import { DashboardsRoutingModule } from "./dashboards-routing.module";
 import { SharedModule } from '../../shared/shared.module';
 import { WidgetModule } from '../../shared/widget/widget.module';
+
 
 // Component
 import { AnalyticsComponent } from './analytics/analytics.component';
@@ -32,12 +34,6 @@ import { CryptoComponent } from './crypto/crypto.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { NftComponent } from './nft/nft.component';
 import { JobComponent } from './job/job.component';
-import { ProjectAnalityComponent } from './project-anality/project-anality.component';
-import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
-import { ProjectEvaluationsComponent } from './project-dashboard//project-evaluations/project-evaluations.component';
-import { ProjectControlComponent } from './project-control/project-control.component';
-import { HomeComponent } from "./home/home.component";
-import { ProjectResumenComponent } from './project-dashboard//project-resumen/project-resumen.component';
 
 @NgModule({
   declarations: [
@@ -46,13 +42,7 @@ import { ProjectResumenComponent } from './project-dashboard//project-resumen/pr
     CryptoComponent,
     ProjectsComponent,
     NftComponent,
-    JobComponent,
-    ProjectAnalityComponent,
-    ProjectDashboardComponent,
-    ProjectEvaluationsComponent,
-    ProjectControlComponent,
-    ProjectResumenComponent,
-    HomeComponent
+    JobComponent
   ],
   imports: [
     CommonModule,

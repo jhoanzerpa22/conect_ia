@@ -2,18 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Component pages
-//import { DashboardComponent } from "./dashboards/dashboard/dashboard.component";
-//import { ProjectsComponent } from "./dashboards/projects/projects.component";
-import { HomeComponent } from "./dashboards/home/home.component";
+import { DashboardComponent } from "./dashboards/dashboard/dashboard.component";
 
 const routes: Routes = [
     {
         path: "",
-        component: HomeComponent//ProjectsComponent//DashboardComponent
+        component: DashboardComponent
     },
-    /*{
-      path: '', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule)
-    },*/
     {
       path: '', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule)
     },
@@ -25,15 +20,6 @@ const routes: Routes = [
     },
     {
       path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule)
-    },
-    {
-      path: 'plans-work', loadChildren: () => import('./plans-work/plans-work.module').then(m => m.PlansWorkModule)
-    },
-    {
-      path: 'auditor', loadChildren: () => import('./auditor/auditor.module').then(m => m.AuditorModule)
-    },
-    {
-      path: 'library', loadChildren: () => import('./library/library.module').then(m => m.LibraryModule)
     },
     {
       path: 'tasks', loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)

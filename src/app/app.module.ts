@@ -39,7 +39,7 @@ if (environment.defaultauth === 'firebase') {
   ],
   imports: [
     TranslateModule.forRoot({
-      defaultLanguage: 'es',
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),

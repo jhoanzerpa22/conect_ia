@@ -7,17 +7,9 @@ import { CoverComponent } from "./cover/cover.component";
 
 const routes: Routes = [
   {
-    path: "",
-    component: BasicComponent
-  },
-  {
-    path: ":token",
-    component: BasicComponent
-  },/*,
-  {
     path: "basic",
     component: BasicComponent
-  }*/
+  },
   {
     path:"cover",
     component: CoverComponent

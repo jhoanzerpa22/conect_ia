@@ -5,9 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 
-import { TokenStorageService } from '../../core/services/token-storage.service';
-import { AuthenticationService } from '../../core/services/auth.service';
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -20,16 +17,12 @@ export class SidebarComponent implements OnInit {
   menuItems: MenuItem[] = [];
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
-  userData:any;
 
-  constructor(private router: Router, public translate: TranslateService,private TokenStorageService : TokenStorageService, private authService: AuthenticationService) {
+  constructor(private router: Router, public translate: TranslateService) {
     translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {
-    
-    this.userData =  this.TokenStorageService.getUser();   
-    
     // Menu Items
     this.menuItems = MENU;
   }
@@ -222,21 +215,6 @@ export class SidebarComponent implements OnInit {
    */
    SidebarHide() {
     document.body.classList.remove('vertical-sidebar-enable');
-  }
-
-  /**
-   * Logout the user
-   */
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
-  }
-
-  validateRol(rol: any){
-    return this.userData.rol.findIndex(
-      (r: any) =>
-        r == rol
-    ) != -1;
   }
 
 }

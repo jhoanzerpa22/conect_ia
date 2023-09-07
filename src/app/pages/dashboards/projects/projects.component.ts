@@ -36,10 +36,6 @@ export class ProjectsComponent implements OnInit {
       { label: 'Projects', active: true }
     ];
 
-    if (localStorage.getItem('toast')) {
-      localStorage.removeItem('toast');
-    }
-
     /**
      * Fetches the data
      */
@@ -52,7 +48,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+    this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
   }
 
   // Chart Colors Set

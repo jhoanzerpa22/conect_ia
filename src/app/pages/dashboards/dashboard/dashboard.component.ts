@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
     ];
 
     if (localStorage.getItem('toast')) {
-      this.toastService.show('Ha iniciado sesión exitosamente.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      this.toastService.show('Logged in Successfull.', { classname: 'bg-success text-center text-white', delay: 5000 });
       localStorage.removeItem('toast');
     }
 

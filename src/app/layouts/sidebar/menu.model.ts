@@ -8,6 +8,4 @@ export interface MenuItem {
   badge?: any;
   parentId?: number;
   isLayout?: boolean;
-  onlyAdmin?: boolean;
-  onlySuperAdmin?: boolean;
 }

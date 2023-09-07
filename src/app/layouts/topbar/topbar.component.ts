@@ -37,7 +37,6 @@ export class TopbarComponent implements OnInit {
   countryName: any;
   cookieValue: any;
   userData: any;
-  roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
 
   constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
     public _cookiesService: CookieService, public translate: TranslateService, private authService: AuthenticationService, private authFackservice: AuthfakeauthenticationService,
@@ -238,26 +237,6 @@ export class TopbarComponent implements OnInit {
     dropdown.classList.remove("show");
     searchOptions.classList.add("d-none");
     searchInputReponsive.value = "";
-  }
-
-  irPerfil(){
-    const dataUser: any = this.userData;
-    dataUser.id = this.userData._id;
-    this.TokenStorageService.saveUserProfile(this.userData);
-    this.router.navigate(['/pages/profile']);
-  }
-
-  getRol(rol: any){
-    if(rol && rol[0] != 1){
-      const index = this.roles.findIndex(
-        (r: any) =>
-          r.id == rol[0]
-      );
-  
-      return index != -1 ? this.roles[index].nombre : 'Super Admin';
-    }else{
-      return "Super Admin";
-    }
   }
 
 }

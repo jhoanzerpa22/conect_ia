@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbNavModule, NgbDropdownModule, NgbAccordionModule, NgbTooltipModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Swiper Slider
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
@@ -22,8 +21,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { defineElement } from 'lord-icon-element';
 import lottie from 'lottie-web';
 
-import { ToastsTeamContainer } from './toasts-container.component';
-
 // Component pages
 import { ExtraPagesRoutingModule } from './extrapages-routing.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -40,7 +37,6 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsConditionComponent } from './terms-condition/terms-condition.component';
 
-
 @NgModule({
   declarations: [
     StarterComponent,
@@ -54,14 +50,12 @@ import { TermsConditionComponent } from './terms-condition/terms-condition.compo
     SitemapComponent,
     SearchResultsComponent,
     PrivacyPolicyComponent,
-    TermsConditionComponent,
-    ToastsTeamContainer
+    TermsConditionComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbToastModule,
     NgbNavModule,
     NgbDropdownModule,
     NgbAccordionModule,

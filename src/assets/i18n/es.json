@@ -16,8 +16,7 @@
         "CRM": "CRM",
         "ECOMMERCE": "Comercio electrónico",
         "CRYPTO": "Cripto",
-        "PROJECTS": "Requisitos legales",
-        "USERS": "Usuarios",
+        "PROJECTS": "Proyectos",
         "NFT": "NFT",
         "JOB":"TRABAJO"
       }
@@ -43,7 +42,7 @@
         "CHECKOUT": "Verificar",
         "SELLERS": "vendedores",
         "SELLERDETAILS": "Detalles del vendedor",
-        "PROJECTS": "Requisitos legales",
+        "PROJECTS": "Proyectos",
         "LIST": "Lista",
         "OVERVIEW": "Visión de conjunto",
         "CREATEPROJECT": "Crear proyecto",
@@ -283,38 +282,6 @@
           }
         }
       }
-    },
-    "CONFIG": {
-      "TEXT": "Configuración",
-      "LIST": {
-        "COMPANIES": "Configurar Empresa",
-        "USERS": "Configurar Usuarios"
-      }
-    },
-    "LIBRARY": {
-      "TEXT": "Biblioteca"
-    },
-    "COMMITMENTS": {
-      "TEXT": "Compromisos"
-    },
-    "MONITORING": {
-      "TEXT": "Monitoreo"
-    },
-    "AUDITS": {
-      "TEXT": "Auditorias"
-    },
-    "PYS": {
-      "TEXT": "PyS",
-      "LIST": {
-        "QUOTE": "Cotizar",
-        "REQUEST": "Solicitud"
-      }
-    },
-    "PROFILE": {
-      "TEXT": "Perfil"
-    },
-    "PLANS": {
-      "TEXT": "Plan de Trabajo"
     }
   }
 }

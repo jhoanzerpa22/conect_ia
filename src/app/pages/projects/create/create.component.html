@@ -1,414 +1,186 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Crear Proyecto" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Create Project" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
-  <!--preloader-->
-  <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
-    <div id="status">
-      <div class="spinner-border text-primary avatar-sm" role="status">
-          <span class="visually-hidden">Cargando...</span>
+<div class="row">
+  <div class="col-lg-8">
+      <div class="card">
+          <div class="card-body">
+              <div class="mb-3">
+                  <label class="form-label" for="project-title-input">Project Title</label>
+                  <input type="text" class="form-control" id="project-title-input"
+                      placeholder="Enter project title">
+              </div>
+
+              <div class="mb-3">
+                  <label class="form-label" for="project-thumbnail-img">Thumbnail Image</label>
+                  <input class="form-control" id="project-thumbnail-img" type="file" accept="image/png, image/gif, image/jpeg">
+              </div>
+
+              <div class="mb-3">
+                  <label class="form-label">Project Description</label>
+                  <ckeditor [editor]="Editor" data="
+                  <p>It will be as simple as occidental in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is. The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary.</p>
+                    <ul>
+                      <li>Product Design, Figma (Software), Prototype</li>
+                      <li>Four Dashboards : Ecommerce, Analytics, Project etc.</li>
+                      <li>Create calendar, chat and email app pages.</li>
+                      <li>Add authentication pages</li>
+                    </ul>
+                    ">
+                  </ckeditor>
+              </div>
+
+              <div class="row">
+                  <div class="col-lg-4">
+                      <div class="mb-3 mb-lg-0">
+                          <label for="choices-priority-input" class="form-label">Priority</label>
+                          <select class="form-select" data-choices data-choices-search-false
+                              id="choices-priority-input">
+                              <option value="High" selected>High</option>
+                              <option value="Medium">Medium</option>
+                              <option value="Low">Low</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-lg-4">
+                      <div class="mb-3 mb-lg-0">
+                          <label for="choices-status-input" class="form-label">Status</label>
+                          <select class="form-select" data-choices data-choices-search-false
+                              id="choices-status-input">
+                              <option value="Inprogress" selected>Inprogress</option>
+                              <option value="Completed">Completed</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-lg-4">
+                      <div>
+                          <label for="datepicker-deadline-input" class="form-label">Deadline</label>
+                          <input class="form-control flatpickr-input" type="text" placeholder="Enter publish date" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'Y-m-d'">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- end card body -->
       </div>
-    </div>
+      <!-- end card -->
+
+      <div class="card">
+          <div class="card-header">
+              <h5 class="card-title mb-0">Attached files</h5>
+          </div>
+          <div class="card-body">
+              <div>
+                  <p class="text-muted">Add Attached files here.</p>
+                  <dropzone class="dropzone_sec"></dropzone>
+              </div>
+          </div>
+      </div>
+      <!-- end card -->
+      <div class="text-end mb-4">
+        <div class="d-flex gap-1 justify-content-end">
+          <button type="submit" class="btn btn-danger w-sm">Delete</button>
+          <button type="submit" class="btn btn-secondary w-sm">Draft</button>
+          <button type="submit" class="btn btn-success w-sm">Create</button>
+        </div>
+      </div>
   </div>
-  
-<ng-container *ngIf="step == 1">
-<!-- Vertical alignment (align-items-center) -->
-<div class="row justify-content-center"><!--style="padding-top: 5%;"-->
-    <div class="col-lg-12">
-        <!--<h4 style="text-align: center;">Define el características de tu proyecto</h4>-->
-        <div class="card">
-            <div class="card-header">
-                <h4>Datos Generales</h4>
-                <p>Ingresa las variables generales de tu proyecto como se solicita a continuación, para continuar a la identificación de cuerpos legales y obligaciones.</p>
-            </div>
-            <div class="card-body" style="min-height: 450px;">
-                  <div class="mb-3">
-                    <form [formGroup]="createForm">
-                    <label class="form-label" for="project-title-input">Nombre de Proyecto</label>
-                    <input type="text" class="form-control" id="project-title-input"
-                        placeholder="Escribe nombre de Proyecto" formControlName="nombre">
-                        
-                    <label class="form-label" style="margin-top: 20px !important;" for="project-description-input">Descripción del Proyecto</label>
-                    <!--<input type="text" class="form-control" id="project-title-input"
-                        placeholder="Escribe descripción del Proyecto" formControlName="descripcion">-->
-                        <textarea rows="3" class="form-control" id="project-description-input"
-                        placeholder="Escribe descripción del Proyecto" formControlName="descripcion"></textarea>
-                        
-                    <label class="form-label" style="margin-top: 20px !important;" for="project-location-input">Lugar de ejecución del proyecto</label>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona región" data-choices data-choices-search-false
-                            id="choices-priority-input" formControlName="regionId" (change)="getComunes($event.target)">
-                            <option value="">Selecciona región</option>
-                            <option *ngFor="let r of regions;" value="{{r.id}}">{{r.nombre_region}}</option>
-                            </select>
-                
-                        </div>
-                        
-                        <div class="col-sm-4">
-                            
-                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona comuna" data-choices data-choices-search-false
-                            id="choices-priority-input2" formControlName="comunaId">
-                            <option value="">Selecciona comuna</option>
-                            <option *ngFor="let c of comunes;" value="{{c.id}}">{{c.nombre_comuna}}</option>
-                            </select>
-                        </div>
+  <!-- end col -->
+  <div class="col-lg-4">
+      <div class="card">
+          <div class="card-header">
+              <h5 class="card-title mb-0">Privacy</h5>
+          </div>
+          <div class="card-body">
+              <div>
+                  <label for="choices-privacy-status-input" class="form-label">Status</label>
+                  <select class="form-select" data-choices data-choices-search-false
+                      id="choices-privacy-status-input">
+                      <option value="Private" selected>Private</option>
+                      <option value="Team">Team</option>
+                      <option value="Public">Public</option>
+                  </select>
+              </div>
+          </div>
+          <!-- end card body -->
+      </div>
+      <!-- end card -->
 
-                        
-                        <div class="col-sm-4">
-                            
-                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona tipo de zona" data-choices data-choices-search-false
-                            id="choices-priority-input3" formControlName="tipoZonaId">
-                            <option value="">Selecciona tipo de zona</option>
-                            <option *ngFor="let z of zones;" value="{{z.id}}">{{z.nombre_zona}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <label class="form-label" style="margin-top: 20px !important;" for="project-sector-input">Sector Productivo</label>
-                    <!--<select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona sector productivo" data-choices data-choices-search-false
-                    id="project-sector-input" formControlName="sector">
-                                <option value="">Selecciona sector productivo</option>
-                                <option value="Energía">Energía</option>
-                                <option value="Minería">Minería</option>
-                                <option value="Portuario">Portuario</option>
-                                <option value="Silvoagropecuario">Silvoagropecuario</option>
-                                <option value="Industria Manufacturera">Industria Manufacturera</option>
-                                <option value="Pesca">Pesca</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Construcción">Construcción</option>
-                                <option value="Transporte y Comunicaciones">Transporte y Comunicaciones</option>
-                                <option value="Comercio">Comercio</option>
-                                <option value="Hoteles y Restoranes">Hoteles y Restoranes</option>
-                    </select>-->
-                    
-                            <ng-autocomplete
-                            [data]="Sectores"
-                            [searchKeyword]="keyword"
-                            placeholder="Selecciona sector productivo"
-                            (selected)='selectEvent($event)'
-                            (inputChanged)='onChangeSearch($event)'
-                            (inputFocused)='onFocused($event)'
-                            historyIdentifier="Sector"
-                            [itemTemplate]="itemTemplate"
-                            [notFoundTemplate]="notFoundTemplate"
-                            formControlName="sector">
-                            </ng-autocomplete>
+      <div class="card">
+          <div class="card-header">
+              <h5 class="card-title mb-0">Tags</h5>
+          </div>
+          <div class="card-body">
+              <div class="mb-3">
+                  <label for="choices-categories-input" class="form-label">Categories</label>
+                  <select class="form-select" data-choices data-choices-search-false
+                      id="choices-categories-input">
+                      <option value="Designing" selected>Designing</option>
+                      <option value="Development">Development</option>
+                  </select>
+              </div>
 
-                            <ng-template #itemTemplate let-item>
-                                <a [innerHTML]="item.name"></a>
-                            </ng-template>
+              <div>
+                  <label for="choices-text-input" class="form-label">Skills</label>
+                  <ng-select [items]="selectValue" [multiple]="true"></ng-select>
+              </div>
+          </div>
+          <!-- end card body -->
+      </div>
+      <!-- end card -->
 
-                            <ng-template #notFoundTemplate let-notFound>
-                                <div [innerHTML]="notFound"></div>
-                            </ng-template>
-                    
-                    <label class="form-label" style="margin-top: 20px !important;" for="project-actividad-input">Actividad</label>
-                    <!--<select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona actividad" data-choices data-choices-search-false
-                    id="project-actividad-input" formControlName="actividad">
-                                <option value="">Selecciona actividad</option>
-                                <option value="Almacenamiento de residuos peligrosos">Almacenamiento de residuos peligrosos</option>
-                                <option value="Almacenamiento de sustancias peligrosas">Almacenamiento de sustancias peligrosas</option>
-                                <option value="Almacenamiento de combustibles">Almacenamiento de combustibles</option>
-                                <option value="Transporte de sustancias peligrosas">Transporte de sustancias peligrosas</option>
-                                <option value="Tratamiento de residuos líquidos">Tratamiento de residuos líquidos</option>
-                            </select>-->
-                    
-                            <ng-autocomplete
-                            [data]="Actividades"
-                            [searchKeyword]="keyword2"
-                            placeholder="Selecciona actividad"
-                            (selected)='selectEvent2($event)'
-                            (inputChanged)='onChangeSearch2($event)'
-                            (inputFocused)='onFocused2($event)'
-                            historyIdentifier="Actividad"
-                            [itemTemplate]="itemTemplate2"
-                            [notFoundTemplate]="notFoundTemplate2"
-                            formControlName="actividad">
-                            </ng-autocomplete>
+      <div class="card">
+          <div class="card-header">
+              <h5 class="card-title mb-0">Members</h5>
+          </div>
+          <div class="card-body">
+              <div class="mb-3">
+                  <label for="choices-lead-input" class="form-label">Team Lead</label>
+                  <select class="form-select" data-choices data-choices-search-false
+                      id="choices-lead-input">
+                      <option value="Brent Gonzalez" selected>Brent Gonzalez</option>
+                      <option value="Darline Williams">Darline Williams</option>
+                      <option value="Sylvia Wright">Sylvia Wright</option>
+                      <option value="Ellen Smith">Ellen Smith</option>
+                      <option value="Jeffrey Salazar">Jeffrey Salazar</option>
+                      <option value="Mark Williams">Mark Williams</option>
+                  </select>
+              </div>
 
-                            <ng-template #itemTemplate2 let-item>
-                                <a [innerHTML]="item.name"></a>
-                            </ng-template>
-
-                            <ng-template #notFoundTemplate2 let-notFound>
-                                <div [innerHTML]="notFound"></div>
-                            </ng-template>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+              <div>
+                  <label class="form-label">Team Members</label>
+                  <div class="avatar-group">
+                      <a href="javascript: void(0);" class="avatar-group-item" ngbTooltip="Brent Gonzalez" placement="top">
+                          <div class="avatar-xs">
+                              <img src="assets/images/users/avatar-3.jpg" alt="" class="rounded-circle img-fluid">
+                          </div>
+                      </a>
+                      <a href="javascript: void(0);" class="avatar-group-item" ngbTooltip="Sylvia Wright" placement="top">
+                          <div class="avatar-xs">
+                              <div class="avatar-title rounded-circle bg-secondary">
+                                  S
+                              </div>
+                          </div>
+                      </a>
+                      <a href="javascript: void(0);" class="avatar-group-item" ngbTooltip="Ellen Smith" placement="top">
+                          <div class="avatar-xs">
+                              <img src="assets/images/users/avatar-4.jpg" alt="" class="rounded-circle img-fluid">
+                          </div>
+                      </a>
+                      <a href="javascript: void(0);" class="avatar-group-item" ngbTooltip="Add Members" placement="top">
+                          <div class="avatar-xs" data-bs-toggle="modal" data-bs-target="#inviteMembersModal">
+                              <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
+                                  +
+                              </div>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+          </div>
+          <!-- end card body -->
+      </div>
+      <!-- end card -->
+  </div>
+  <!-- end col -->
 </div>
-
-<div class="row">
-    <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
-        <div class="row justify-content-center">
-            <div class="col-12"><!--style="text-align: center;"-->
-                <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="siguiente()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
-            </div>
-        </div>
-    </div>
-</div>
-</ng-container>
-
-<ng-container *ngIf="step == 2">
-    <!-- Vertical alignment (align-items-center) -->
-    <div class="row justify-content-center"><!--style="padding-top: 5%;"-->
-        <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">                
-                <h4 style="text-align: center;">SELECCIONA LA FASE ACTUAL DE TU PROYECTO</h4>
-                <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
-            </div>
-            <div class="card-body" style="min-height: 450px;">
-                <div class="row justify-content-center">
-                    <div class="button-card-container">
-                        <div class="button-card" (click)="toggleSelected(1)" [class.selected]="selected === 1">Prefactibilidad</div>
-                        <div class="button-card" (click)="toggleSelected(2)" [class.selected]="selected === 2">Factibilidad</div>
-                        <div class="button-card" (click)="toggleSelected(3)" [class.selected]="selected === 3">Construcción</div>
-                        <div class="button-card" (click)="toggleSelected(4)" [class.selected]="selected === 4">Operación</div>
-                        <div class="button-card" (click)="toggleSelected(5)" [class.selected]="selected === 5">Cierre</div>
-                        <div class="button-card" (click)="toggleSelected(6)" [class.selected]="selected === 6">Post cierre</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-        <div class="row">
-            <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
-                <div class="row justify-content-center">
-                    <div class="col-12"><!--style="text-align: center;"-->                
-                        <button class="btn btn-primary btn-label waves-effect left waves-light" style="float:left;" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Regresar</button>
-                        
-                        <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="siguiente2()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-</ng-container>
-
-<ng-container *ngIf="step == 3">
-    <!-- Vertical alignment (align-items-center) -->
-    <div class="row justify-content-center"><!--style="padding-top: 5%;"-->
-        <div class="col-lg-12"><!--mb-4-->
-            <div class="card">
-                <div class="card-header">        
-                    <h4 style="text-align: center;">SELECCIONA EL TIPO DE OBLIGACIÓN LEGAL QUE PRECISAS IDENTIFICAR</h4>
-                    <p style="text-align: center;">Al seleccionar alguno de los tipos de obligaciones, se desplegará el listado de cuerpos legales y árticulos asociados con dicho atributo. Puedes seleccionar más de un tipo de obligación.</p>
-                </div>
-                <div class="card-body" style="min-height: 450px;">
-                    <div class="row justify-content-center">
-                        <div class="button-card-container-flex align-self-center justify-content-center align-items-center" style="min-height: 350px;">
-                            <div class="button-card" (click)="toggleSelected2(1)" [class.selected]="selected === 1">Permisos</div>
-                            <div class="button-card" (click)="toggleSelected2(2)" [class.disabled]="disabled">Resportes</div>
-                            <div class="button-card" (click)="toggleSelected2(3)" [class.disabled]="disabled">Monitoreos</div>
-                            <div class="button-card" (click)="toggleSelected2(4)" [class.selected]="selected === 4">Todas</div>
-                        </div>
-                        <p style="text-align: center;font-style: italic;color: gray;">Si identificas algún permiso, reporte o monitoreo que no esté en el listado que se muestra en las próximas ventanas, contáctate con nosotros y lo agregaremos a la brevedad
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
-            <div class="row justify-content-center">
-                <div class="col-12">         
-                    <button class="btn btn-primary btn-label waves-effect left waves-light" style="float:left;" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Regresar</button>
-                    
-                    <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="siguiente2()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Siguiente</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-container>
-
-<ng-container *ngIf="step == 4">
-    <!-- Vertical alignment (align-items-center) -->
-    <div class="row justify-content-center"><!--style="padding-top: 5%;"-->
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">                
-                    <h4 style="text-align: center;">SELECCIONA EL ÁMBITO NORMATIVO A GESTIONAR</h4>
-                    <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
-                </div>
-                <div class="card-body" style="min-height: 450px;">
-            
-        <div class="row justify-content-center">
-                     
-        <div class="col-lg-2">
-            <div class="card border select-variable" style="background: #d1eeea;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|ambiental')}" (click)="selectVariable(step+'|ambiental')">
-                <div class="card-body" style="text-align: center;min-height: 310px;">
-                    <div style="background-color: #d7e8d8;width: 40px;height: 40px; border: 1px solid #d7e8d8;border-radius: 24px;margin: auto;">
-                        <i class="ri-plant-fill" style="font-size: 24px;color: #4a9d4b;"></i>
-                    </div>
-                    <p style="margin-top: 10px;height: 40px;"><b>Legislación Ambiental</b></p>
-                    <p>Todas aquellas normas que tienen la finalidad de asegurar la protección del medio ambiente.</p>
-                    
-                </div>
-            </div>
-            
-        </div>
-        <div class="col-lg-2">
-            <div class="card border select-variable" style="background: #faeedc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|seguridad')}" (click)="selectVariable(step+'|seguridad')">
-                <div class="card-body" style="text-align: center;min-height: 310px;">
-                    <div style="background-color: #f4d890;width: 40px;height: 40px; border: 1px solid #f4d890;border-radius: 24px;margin: auto;">
-                        <i class="ri-briefcase-fill" style="font-size: 24px;color: #ebaf47;"></i>
-                    </div>
-                    <p style="margin-top: 10px;height: 40px;"><b>Legislación de seguridad y salud en el trabajo</b></p>
-                    <p>Es un área multidisciplinaria relacionada con la seguridad, salud y la calidad de vida de las personas en la ocupación.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-2">
-            <div class="card border select-variable" style="background: #fae1dc;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|laboral')}" (click)="selectVariable(step+'|laboral')">
-                <div class="card-body" style="text-align: center;min-height: 310px;">
-                    <div style="background-color: #ebbdb4;width: 40px;height: 40px; border: 1px solid #ebbdb4;border-radius: 24px;margin: auto;">
-                        <i class="ri-shirt-fill" style="font-size: 24px;color: #f25c03;"></i>
-                    </div>
-                    <p style="margin-top: 10px;height: 40px;"><b>Legislación laboral</b></p>
-                    <p>Todas las empresas deben cumplir y hacer cumplir los requisitos contractuales y estatutarios.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-2">
-            <div class="card border select-variable" style="background: #b3ebf6;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|energia')}" (click)="selectVariable(step+'|energia')">
-                <div class="card-body" style="text-align: center;min-height: 310px;">
-                    <div style="background-color: #8de1f2;width: 40px;height: 40px; border: 1px solid #8de1f2;border-radius: 24px;margin: auto;">
-                        <i class="ri-flashlight-line" style="font-size: 24px;color: #0cc2e7;"></i>
-                    </div>
-                    <p style="margin-top: 10px;height: 40px;"><b>Legislación de energía</b></p>
-                    <p>Optimización del consumo energético para alcanzar unos niveles determinados de confort y de servicio.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-2">
-            <div class="card border select-variable" style="background: #d2d2d2;margin-top: 1.5rem;" [ngClass]="{'select-variable-check': validateVariable(step+'|todos')}" (click)="selectVariable(step+'|todos')">
-                <div class="card-body" style="text-align: center;min-height: 310px;">
-                    <div style="background-color: #b1b0b0;width: 40px;height: 40px; border: 1px solid #b1b0b0;border-radius: 24px;margin: auto;">
-                        <i class="ri-bookmark-line" style="font-size: 24px;color: #4b4b4b;"></i>
-                    </div>
-                    <p style="margin-top: 10px;height: 40px;"><b>Todos los ámbitos normativos</b></p>
-                    <p>Tomar en cuenta todos los ámbitos de los cuerpos legales.</p>
-                </div>
-            </div>
-        </div>
-
-        </div>
-        </div>
-        </div>
-        </div>
-    </div>
-    
-<div class="row">
-    <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                
-                <button class="btn btn-primary btn-label waves-effect left waves-light" style="float:left;" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Regresar</button>
-                        
-                <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="saveProject(1)"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-</ng-container>
-
-<ng-container *ngIf="step == 5">
-    <!--<div class="row">-->
-    <div class="row justify-content-center"><!--style="padding-top: 10%;"-->
-        <!--<ng-container *ngFor="let t of types;let impar=odd;">
-        <div class="col-xxl-5">
-            <div class="card border card-border-dark" style="border-color: #767676 !important;min-height: 250px;">
-                <div class="card-header" style="background-color: #dce0e4 !important;min-height: 70px;">
-                    <h6 class="card-title mb-0">{{t.nombre}}</h6>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{t.descripcion}}</p>
-                </div>
-                <div class="card-footer" style="border-top: 0px;">
-                    <div class="text-end">
-                        <button mat-raised-button class="btn btn-danger w-lg waves-effect waves-light" (click)="saveProject(t.id)">Iniciar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-xxl-2" *ngIf="!impar">
-        </div>
-        </ng-container>-->
-        <div class="col-lg-12">
-            
-        <div class="card">
-            <div class="card-header">                
-                <h4 style="text-align: center;">SELECCIONA EL ÁMBITO NORMATIVO A GESTIONAR</h4>
-                <p style="text-align: center;">Al seleccionar alguno de los ámbitos normativos, se desplegará el listado de cuerpos legales asociados a dicho ámbito. Puedes seleccionar más de un ámbito normativo.</p>
-            </div>
-            <div class="card-body" style="min-height: 450px;">
-        <div class="col-xxl-4 col-lg-6">
-            <div class="card card-body" style="min-height: 250px;">
-                <div class="avatar-sm mb-3">
-                    <div class="avatar-title bg-soft-success text-success fs-17 rounded">
-                        <i class="ri-add-line"></i>
-                    </div>
-                </div>
-                <div style="min-height: 140px;max-height: 140px;">
-                <h4 class="card-title">Identificación/Vinculación</h4>
-                <p class="card-text text-muted">Completa los campos requeridos y obtendrás un reporte gráfico y ejecutivo de las obligaciones legales aplicables a tu proyecto y vinculalos a tus instalaciones para gestionar su cumplimiento.</p>
-                </div>
-                <a href="javascript:void(0);" class="btn btn-success" (click)="saveProject(1)">Iniciar</a>
-            </div>
-        </div>
-        
-        <div class="col-xxl-4 col-lg-6">
-            <div class="card card-body" style="min-height: 250px;">
-                <div class="avatar-sm mb-3">
-                    <div class="avatar-title fs-17 rounded" style="background-color: #767676;">
-                        <i class="ri-add-line"></i>
-                    </div>
-                </div>
-                <div style="min-height: 140px;max-height: 140px;">
-                <h4 class="card-title">Evalua las obligaciones legales de tu proyecto</h4>
-                <p class="card-text text-muted">Evalua las obligaciones legales aplicables de tu proyecto y gestiona hallazgos segun instalaciones.</p>
-                </div>
-                <a href="javascript:void(0);" class="btn btn-success" style="
-                background: #767676;
-                border-color: #767676;
-                cursor: no-drop;
-                ">Iniciar</a>
-            </div>
-        </div>
-        
-        <div class="col-xxl-4 col-lg-6">
-            <div class="card card-body" style="min-height: 250px;">
-                <div class="avatar-sm mb-3">
-                    <div class="avatar-title fs-17 rounded" style="background-color: #767676;">
-                        <i class="ri-add-line"></i>
-                    </div>
-                </div>
-                <div style="min-height: 140px;max-height: 140px;">
-                
-                <h4 class="card-title">Seguimiento y Control de los hallazgos de tu proyecto</h4>
-                <p class="card-text text-muted">Gestiona el cumplimiento de los hallazgos encontrados en tu proyecto.</p>
-                </div>
-                <a href="javascript:void(0);" class="btn btn-success" style="
-                background: #767676;
-                border-color: #767676;
-                cursor: no-drop;
-                ">Iniciar</a>
-            </div>
-        </div>
-        </div>
-        </div>
-        </div>
-    </div>
-</ng-container>
-
-<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
+<!-- end row -->

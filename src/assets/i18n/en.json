@@ -16,8 +16,7 @@
         "CRM": "CRM",
         "ECOMMERCE": "Ecommerce",
         "CRYPTO": "Crypto",
-        "PROJECTS": "Legal Requirements",
-        "USERS": "Users",
+        "PROJECTS": "Projects",
         "NFT": "NFT",
         "JOB":"Job"
       }
@@ -186,7 +185,6 @@
     },
     "ADVANCEUI": {
       "TEXT": "Advance UI",
-      "BADGE": "New",
       "LIST": {
         "SWEETALERTS": "Sweet Alerts",
         "NESTABLELIST": "Nestable List",
@@ -283,38 +281,6 @@
           }
         }
       }
-    },
-    "CONFIG": {
-      "TEXT": "Setting",
-      "LIST": {
-        "COMPANIES": "Set Up Company",
-        "USERS": "Set Up Users"
-      }
-    },
-    "LIBRARY": {
-      "TEXT": "Library"
-    },
-    "COMMITMENTS": {
-      "TEXT": "Commitments"
-    },
-    "MONITORING": {
-      "TEXT": "Monitoring"
-    },
-    "AUDITS": {
-      "TEXT": "Audits"
-    },
-    "PYS": {
-      "TEXT": "PyS",
-      "LIST": {
-        "QUOTE": "Quote",
-        "REQUEST": "Request"
-      }
-    },
-    "PROFILE": {
-      "TEXT": "Profile"
-    },
-    "PLANS": {
-      "TEXT": "Plans Work"
     }
   }
 }

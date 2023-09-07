@@ -36,22 +36,17 @@ export class AuthenticationService {
      * @param email email
      * @param password password
      */
-    register(email: string, nombre: string, password: string, confirm_password: string) {        
+    register(email: string, first_name: string, password: string) {        
         // return getFirebaseBackend()!.registerUser(email, password).then((response: any) => {
         //     const user = response;
         //     return user;
         // });
 
         // Register Api
-        return this.http.post(AUTH_API + 'signUp', {
-            "email": email,
-            "nombre": nombre,/*
-            "apellido": apellido,
-            "rut": rut,
-            "telefono": telefono,*/
-            "password": password,
-            "confirm_password": confirm_password,
-            "rol": [1]
+        return this.http.post(AUTH_API + 'signup', {
+            email,
+            first_name,
+            password,
           }, httpOptions);
     }
 
@@ -66,7 +61,7 @@ export class AuthenticationService {
         //     return user;
         // });
 
-        return this.http.post(AUTH_API + 'signIn', {
+        return this.http.post(AUTH_API + 'signin', {
             email,
             password
           }, httpOptions);
@@ -95,37 +90,10 @@ export class AuthenticationService {
      * @param email email
      */
     resetPassword(email: string) {
-        /*return getFirebaseBackend()!.forgetPassword(email).then((response: any) => {
+        return getFirebaseBackend()!.forgetPassword(email).then((response: any) => {
             const message = response.data;
             return message;
-        });*/
-        return this.http.post(AUTH_API + 'forgot-pass', {
-            "email": email
-          }, httpOptions);
-    }
-
-    /**
-     * Validate Token
-     * @param token token
-     */
-    validToken(token: string) {
-        return this.http.get(AUTH_API + 'check/'+token, httpOptions);
-    }
-
-    /**
-     * Update Password
-     * @param password password
-     * @param cpassword cpassword
-     */
-    updatePassword(password: string, cpassword: string, token: string) {
-        var httpOptionsToken = {
-            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` })
-          };
-
-        return this.http.put(AUTH_API + 'update-pass', {
-            "password": password,
-            "confirm_password": cpassword
-        }, httpOptionsToken);
+        });
     }
 
 }
