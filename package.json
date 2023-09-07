@@ -84,6 +84,7 @@
     "ngx-nestable": "^0.9.4",
     "ngx-ui-switch": "^14.0.3",
     "ngx-useful-swiper": "^10.0.1",
+    "primeng": "^15.0.0",
     "prismjs": "^1.29.0",
     "rxjs": "^7.6.0",
     "simplebar-angular": "^2.5.0",

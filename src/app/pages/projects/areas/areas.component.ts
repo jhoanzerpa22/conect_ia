@@ -18,7 +18,7 @@ import { TokenStorageService } from '../../../core/services/token-storage.servic
 
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-
+import { TreeNode } from 'primeng/api';
 interface FoodNode {
   id: number;
   nombre: string;
@@ -103,6 +103,39 @@ export class AreasComponent {
       node => node.expandable, node => node.children);
 
       dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+      data: TreeNode[] = [
+        /*{
+            label: 'F.C Barcelona',
+            expanded: true,
+            children: [
+                {
+                    label: 'Argentina',
+                    expanded: true,
+                    children: [
+                        {
+                            label: 'Argentina'
+                        },
+                        {
+                            label: 'France'
+                        }
+                    ]
+                },
+                {
+                    label: 'France',
+                    expanded: true,
+                    children: [
+                        {
+                            label: 'France'
+                        },
+                        {
+                            label: 'Morocco'
+                        }
+                    ]
+                }
+            ]
+        }*/
+    ];
 
   constructor(private modalService: NgbModal, public service: AreasService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.AreaList = service.areas$;
@@ -248,6 +281,7 @@ export class AreasComponent {
         (data: any) => {
           let obj: any = data.data;
           let tree_data: any = [];
+          let tree_data_org: any = [];
           this.areas_all = [];
           
           for (let c in obj) {
@@ -256,9 +290,13 @@ export class AreasComponent {
               this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion });
               
               tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              
+              tree_data_org.push({ id: padre.id, label: padre.nombre, expanded: padre.hijas.length > 0 ? true : false, children: padre.hijas.length > 0 ? this.getHijasOrg(padre.hijas) : null });
           }
+
           this.service.areas_data = tree_data;    
           this.dataSource.data = tree_data;
+          this.data = tree_data_org;
           //console.log('data',tree_data);
 
           this.hidePreLoader();
@@ -278,6 +316,17 @@ export class AreasComponent {
         this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion });
 
         tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+    }
+    return tree_data;
+  }
+
+  private getHijasOrg(hijos: any){
+    let tree_data: any = [];
+    
+    for (let d in hijos) {
+      this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion });
+      
+      tree_data.push({ id: hijos[d].id, label: hijos[d].nombre, expanded: hijos[d].hijas.length > 0 ? true : false, children: hijos[d].hijas.length > 0 ? this.getHijasOrg(hijos[d].hijas) : null });
     }
     return tree_data;
   }

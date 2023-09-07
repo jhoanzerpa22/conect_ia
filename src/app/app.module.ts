@@ -23,6 +23,8 @@ import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
+import { OrganizationChartModule } from 'primeng/organizationchart';
+
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
@@ -52,7 +54,8 @@ if (environment.defaultauth === 'firebase') {
     AppRoutingModule,
     LayoutsModule,
     PagesModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    OrganizationChartModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
