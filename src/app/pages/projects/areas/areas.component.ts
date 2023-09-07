@@ -296,8 +296,9 @@ export class AreasComponent {
 
           this.service.areas_data = tree_data;    
           this.dataSource.data = tree_data;
-          this.data = tree_data_org;
-          //console.log('data',tree_data);
+          const tree_data_organization: any = [{ id: 0, label: 'Areas', expanded: true, children: tree_data_org }];
+          this.data = tree_data_organization;
+          //console.log('data',tree_data_org);
 
           this.hidePreLoader();
       },

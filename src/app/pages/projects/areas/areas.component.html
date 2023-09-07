@@ -43,12 +43,12 @@
                                                 <i class="ri-git-merge-fill"></i>
                                             </a>
                                             <ng-template ngbNavContent>
-                                                <div class="card flex justify-content-center">
+                                                <div class="card flex justify-content-center" style="overflow: auto;">
                                                     <p-organizationChart [value]="data">
                                                         <ng-template let-node pTemplate="default">
                                                             <div class="p-2 text-center">
                                                                 <div>{{ node.label }}</div>
-                                                                <div class="d-flex gap-2 p-2">
+                                                                <div class="d-flex gap-2 p-2" *ngIf="node.id != 0">
                                                                     <div class="edit">
                                                                       <div class="hstack gap-3 fs-15">
                                                                           <button type="button" class="btn btn-sm btn-primary edit-item-btn" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,node.id)">Editar</button>
