@@ -97,6 +97,8 @@ import { WidgetModule } from '../../shared/widget/widget.module';
 // Auto Complate
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
+import { OrganizationChartModule } from 'primeng/organizationchart';
+
 /*
 import {
   MatExpansionModule,
@@ -182,7 +184,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     MatTreeModule,
     FlexLayoutModule,
     ScrollingModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    OrganizationChartModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
