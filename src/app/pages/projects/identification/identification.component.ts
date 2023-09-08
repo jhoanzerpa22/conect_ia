@@ -43,6 +43,12 @@ export class IdentificationComponent implements OnInit {
   status7: any;
   simpleDonutChart: any;
   simpleDonutChartArticulos: any;
+  simpleDonutChartInstancias: any;
+  simpleDonutChartCuerpos: any;
+  simpleDonutChartReportes: any;
+  simpleDonutChartPermisos: any;
+  simpleDonutChartMonitoreos: any;
+  simpleDonutChartOtros: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
   
@@ -187,6 +193,12 @@ export class IdentificationComponent implements OnInit {
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChart('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
     
     /**
      * Fetches the data
@@ -334,10 +346,157 @@ export class IdentificationComponent implements OnInit {
    /**
  * Simple Donut Chart
  */
+   private _simpleDonutChartCuerpos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartCuerpos = {
+      series: [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+
+   /**
+ * Simple Donut Chart
+ */
    private _simpleDonutChartArticulos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartArticulos = {
-      series: [/*this.countArticulosEstado(1), this.countArticulosEstado(2)*/80,20],
+      series: [this.countArticulosEstado('1'), this.countArticulosEstado('2')],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+  /**
+ * Simple Donut Chart
+ */
+  private _simpleDonutChartInstancias(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartInstancias = {
+      series: [this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+   /**
+ * Simple Donut Chart
+ */
+   private _simpleDonutChartMonitoreos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartMonitoreos = {
+      series: [this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+   /**
+ * Simple Donut Chart
+ */
+   private _simpleDonutChartReportes(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartReportes = {
+      series: [this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+  
+   /**
+ * Simple Donut Chart
+ */
+   private _simpleDonutChartPermisos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartPermisos = {
+      series: [this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+  
+   /**
+ * Simple Donut Chart
+ */
+   private _simpleDonutChartOtros(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartOtros = {
+      series: [this.countAtributoEstado('1'), this.countAtributoEstado('2')],
       chart: {
         height: 300,
         type: "donut",
@@ -1492,6 +1651,42 @@ validateIdparte(idParte: any){
 
     return articles_group.length;
   }
+
+  countCuerposLegalesEstado(estado?: any){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+    let gestionar: number = 0;
+    let no_gestionar: number = 0;
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.normaId
+            );
+
+            if(index == -1){
+              articles_group.push(x.normaId);
+
+              switch (this.validateIdCuerpo(x.normaId)) {
+                case 1:
+                  gestionar ++;
+                  break;
+                case 2:
+                  no_gestionar ++;
+                  break;
+              
+                default:
+                  break;
+              }
+
+            }
+          })
+          
+    return estado == 1 ? gestionar : no_gestionar;
+  }
   
   countArticulos(){
     const filter: any = this.installations_articles.filter(
@@ -1532,8 +1727,12 @@ validateIdparte(idParte: any){
   countArticulosEstado(estado: any){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && ins.estado == estado
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
     );
+
+    let gestionar: number = 0;
+    let no_gestionar: number = 0;
+
     let articles_group: any = [];
           filter.forEach((x: any) => {
             
@@ -1544,10 +1743,21 @@ validateIdparte(idParte: any){
 
             if(index == -1){
               articles_group.push(x.articuloId);
+              
+              switch (x.estado) {
+                case '1':
+                  gestionar ++;
+                  break;
+                case '2':
+                  no_gestionar ++;
+                  break;
+              
+                default:
+                  break;
+              }
             }
           })
-
-    return articles_group.length;
+    return estado == 1 ? gestionar : no_gestionar;//articles_group.length;
   }
   
   countAtributo(atributo?: any){
@@ -1627,6 +1837,163 @@ validateIdparte(idParte: any){
           }
 
     return result;
+  }
+
+  countAtributoEstado(estado?: any, atributo?: any){
+    
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+    let permisos: number = 0;
+    let reportes: number = 0;
+    let monitoreos: number = 0;
+    let otros: number = 0;
+    let gestionar: number = 0;
+    let no_gestionar: number = 0;
+    let gestionar_permisos: number = 0;
+    let no_gestionar_permisos: number = 0;
+    let gestionar_reportes: number = 0;
+    let no_gestionar_reportes: number = 0;
+    let gestionar_monitoreos: number = 0;
+    let no_gestionar_monitoreos: number = 0;
+    let gestionar_otros: number = 0;
+    let no_gestionar_otros: number = 0;
+    
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+              
+                const existe_reporte = this.articulos.findIndex(
+                  (co: any) =>
+                    co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.articuloTipo == 'reporte'
+                );
+
+                if(existe_reporte != -1){
+                  reportes ++;
+                  
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_reportes ++;
+                        break;
+                      case '2':
+                        no_gestionar_reportes ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                }else{
+
+                  const existe_permiso = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.articuloTipo == 'permiso'
+                  );
+                  
+                  if(existe_permiso != -1){
+                    permisos ++;
+                    
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_permisos ++;
+                        break;
+                      case '2':
+                        no_gestionar_permisos ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                  }else{
+                    
+                    const existe_monitoreo = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.articuloTipo == 'monitoreo'
+                    );
+
+                    if(existe_monitoreo != -1){
+                      monitoreos ++;
+                                       
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_monitoreos ++;
+                        break;
+                      case '2':
+                        no_gestionar_monitoreos ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                    }else{
+                      otros ++;
+                  
+                      switch (x.estado) {
+                        case '1':
+                          gestionar_otros ++;
+                          break;
+                        case '2':
+                          no_gestionar_otros ++;
+                          break;
+                      
+                        default:
+                          break;
+                      }
+                    }
+
+                  }
+                }
+            }
+          })
+
+          let result: number = 0;
+
+          switch (atributo) {
+            case 'reporte':
+              result = reportes;
+                if(estado == 1){
+                  gestionar = gestionar_reportes;
+                }else{
+                  no_gestionar = no_gestionar_reportes;
+                }
+              break;
+            
+            case 'permiso':
+                result = permisos;
+                if(estado == 1){
+                  gestionar = gestionar_permisos;
+                }else{
+                  no_gestionar = no_gestionar_permisos;
+                }
+              break;
+
+            case 'monitoreo':
+                result = monitoreos;
+                if(estado == 1){
+                  gestionar = gestionar_monitoreos;
+                }else{
+                  no_gestionar = no_gestionar_monitoreos;
+                }
+              break;
+          
+            default:
+              result = otros;
+              if(estado == 1){
+                gestionar = gestionar_otros;
+              }else{
+                no_gestionar = no_gestionar_otros;
+              }
+              break;
+          }
+    
+      return estado == 1 ? gestionar : no_gestionar;
   }
 
   countElementos(){
@@ -2545,6 +2912,13 @@ validateIdparte(idParte: any){
 
     this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
   }
 
   terminar(){
