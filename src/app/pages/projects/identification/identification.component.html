@@ -1264,7 +1264,7 @@
                                             <div>
                                                 <p class="fw-medium text-muted mb-0">Artículos</p>
                                                 <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countArticulos()" class="counter-value" [from]="0" [duration]="1"></span>
+                                                    <span [CountTo]="countArticulos(true)" class="counter-value" [from]="0" [duration]="1"></span>
                                                 </h2>
                                             </div>
                                             <!--<div>
@@ -1286,7 +1286,7 @@
                                             <div>
                                                 <p class="fw-medium text-muted mb-0">Instancias de cumplimiento</p>
                                                 <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countArticulos() * countElementos()" class="counter-value" [from]="0" [duration]="1"></span>
+                                                    <span [CountTo]="countArticulos(false) * countElementos()" class="counter-value" [from]="0" [duration]="1"></span>
                                                 </h2>
                                             </div>
                                             <!--<div>
@@ -1417,7 +1417,7 @@
 
                 <div class="row mb-3 align-items-center justify-content-center">
                     
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 text-center">
                         <h4>Cuerpos Legales</h4>
                         <!--<apx-chart [series]="basicBarChartCuerpos.series" [chart]="basicBarChartCuerpos.chart" [dataLabels]="basicBarChartCuerpos.dataLabels" [legend]="basicBarChartCuerpos.legend" [plotOptions]="basicBarChartCuerpos.plotOptions" [xaxis]="basicBarChartCuerpos.xaxis" [colors]="basicBarChartCuerpos.colors" dir="ltr"></apx-chart>-->
 
@@ -1429,7 +1429,7 @@
                     </div>
 
                     
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 text-center">
                         <h4>Artículos</h4>
                         
                         <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
@@ -1440,7 +1440,7 @@
                     </div>
 
                     
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 text-center">
                         <h4>Instancias de cumplimiento</h4>
                         <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
                         [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
@@ -1453,7 +1453,7 @@
                 
                 <div class="row mb-3 align-items-center justify-content-center">
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 text-center">
                         <h4>Permisos</h4>
                         <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
                         [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
@@ -1463,7 +1463,7 @@
                     </div>
 
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 text-center">
                         <h4>Reportes</h4>
                         
                         <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
@@ -1474,7 +1474,7 @@
                     </div>
 
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 text-center">
                         <h4>Monitoreos</h4>
                         <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
                         [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
@@ -1483,7 +1483,7 @@
 
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 text-center">
                         <h4>Otras obligaciones</h4>
                         <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
                         [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
@@ -1492,6 +1492,42 @@
 
                     </div>
                 </div>
+
+                <div class="row mb-3 align-items-center justify-content-center">
+                    
+                    <div class="col-sm-4 text-center">
+                        <h4>Cuerpos Legales por ámbito normativo</h4>
+
+                        <apx-chart [series]="simpleDonutChartCuerposAmbito.series" [chart]="simpleDonutChartCuerposAmbito.chart"
+                        [labels]="simpleDonutChartCuerposAmbito.labels" [responsive]="simpleDonutChartCuerposAmbito.responsive"
+                        [legend]="simpleDonutChartCuerposAmbito.legend" [dataLabels]="simpleDonutChartCuerposAmbito.dataLabels"
+                        [colors]="simpleDonutChartCuerposAmbito.colors" dir="ltr"></apx-chart>
+
+                    </div>
+
+                    
+                    <div class="col-sm-4 text-center">
+                        <h4>Artículos por ámbito normativo</h4>
+                        
+                        <apx-chart [series]="simpleDonutChartArticulosAmbito.series" [chart]="simpleDonutChartArticulosAmbito.chart"
+                        [labels]="simpleDonutChartArticulosAmbito.labels" [responsive]="simpleDonutChartArticulosAmbito.responsive"
+                        [legend]="simpleDonutChartArticulosAmbito.legend" [dataLabels]="simpleDonutChartArticulosAmbito.dataLabels"
+                        [colors]="simpleDonutChartArticulosAmbito.colors" dir="ltr"></apx-chart>
+
+                    </div>
+
+                    
+                    <div class="col-sm-4 text-center">
+                        <h4>Instancias por ámbito normativo</h4>
+                        <apx-chart [series]="simpleDonutChartInstanciasAmbito.series" [chart]="simpleDonutChartInstanciasAmbito.chart"
+                        [labels]="simpleDonutChartInstanciasAmbito.labels" [responsive]="simpleDonutChartInstanciasAmbito.responsive"
+                        [legend]="simpleDonutChartInstanciasAmbito.legend" [dataLabels]="simpleDonutChartInstanciasAmbito.dataLabels"
+                        [colors]="simpleDonutChartInstanciasAmbito.colors" dir="ltr"></apx-chart>
+
+                    </div>
+
+                </div>
+
 
                 <!--<div class="row">
                     <div class="col-sm-12">
