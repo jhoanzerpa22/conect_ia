@@ -44,7 +44,7 @@ export class IdentificationComponent implements OnInit {
   simpleDonutChart: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
-
+  
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
@@ -184,7 +184,8 @@ export class IdentificationComponent implements OnInit {
 
     this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-
+    this._simpleDonutChart('["--vz-success", "--vz-warning", "--vz-danger"]');
+    
     /**
      * Fetches the data
      */
@@ -301,6 +302,30 @@ export class IdentificationComponent implements OnInit {
           "Energía"
         ],
       },
+    };
+  }
+
+   /**
+ * Simple Donut Chart
+ */
+   private _simpleDonutChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChart = {
+      series: [80, 20],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
     };
   }
 
