@@ -49,6 +49,9 @@ export class IdentificationComponent implements OnInit {
   simpleDonutChartPermisos: any;
   simpleDonutChartMonitoreos: any;
   simpleDonutChartOtros: any;
+  simpleDonutChartArticulosAmbito: any;
+  simpleDonutChartInstanciasAmbito: any;
+  simpleDonutChartCuerposAmbito: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
   
@@ -199,6 +202,9 @@ export class IdentificationComponent implements OnInit {
     this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     
     /**
      * Fetches the data
@@ -513,6 +519,80 @@ export class IdentificationComponent implements OnInit {
       colors: colors,
     };
   }
+
+     /**
+ * Simple Donut Chart
+ */
+     private _simpleDonutChartCuerposAmbito(colors:any) {
+      colors = this.getChartColorsArray(colors);
+      this.simpleDonutChartCuerposAmbito = {
+        series: [this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso],
+        chart: {
+          height: 300,
+          type: "donut",
+        },
+        legend: {
+          position: "bottom",
+        },
+        dataLabels: {
+          dropShadow: {
+            enabled: false,
+          },
+        },
+        labels: ["MA","ENERGIA","SSO"],
+        colors: colors,
+      };
+    }
+  
+  
+     /**
+   * Simple Donut Chart
+   */
+     private _simpleDonutChartArticulosAmbito(colors:any) {
+      colors = this.getChartColorsArray(colors);
+      this.simpleDonutChartArticulosAmbito = {
+        series: [this.ambiente, this.energia, this.sso],
+        chart: {
+          height: 300,
+          type: "donut",
+        },
+        legend: {
+          position: "bottom",
+        },
+        dataLabels: {
+          dropShadow: {
+            enabled: false,
+          },
+        },
+        labels: ["MA","ENERGIA","SSO"],
+        colors: colors,
+      };
+    }
+  
+    /**
+   * Simple Donut Chart
+   */
+    private _simpleDonutChartInstanciasAmbito(colors:any) {
+      colors = this.getChartColorsArray(colors);
+      this.simpleDonutChartInstanciasAmbito = {
+        series: [this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()],
+        chart: {
+          height: 300,
+          type: "donut",
+        },
+        legend: {
+          position: "bottom",
+        },
+        dataLabels: {
+          dropShadow: {
+            enabled: false,
+          },
+        },
+        labels: ["MA","ENERGIA","SSO"],
+        colors: colors,
+      };
+    }
+  
 
   selectCuerpo(cuerpo: any){
     
@@ -1688,7 +1768,7 @@ validateIdparte(idParte: any){
     return estado == 1 ? gestionar : no_gestionar;
   }
   
-  countArticulos(){
+  countArticulos(ambitos?: boolean){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
         ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
@@ -1704,6 +1784,7 @@ validateIdparte(idParte: any){
             if(index == -1){
               articles_group.push(x.articuloId);
               
+              if(ambitos){
               switch (x.ambito) {
                 case 'MA':
                   this.ambiente ++;
@@ -1717,6 +1798,7 @@ validateIdparte(idParte: any){
               
                 default:
                   break;
+              }
               }
             }
           })
@@ -2919,6 +3001,10 @@ validateIdparte(idParte: any){
     this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    
   }
 
   terminar(){
