@@ -39,18 +39,18 @@
                     <h6>CUMPLIMIENTO</h6>
                     
                     <div class="col-lg-12 col">
-                        <span class="badge" [ngClass]="{'text-bg-danger': (!articulo.evaluations || !articulo.evaluations.estado) || (articulo.evaluations && articulo.evaluations.estado  == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado  ? articulo.evaluations.estado  : 'NO EVALUADO' }}</span>
+                        <span class="badge" [ngClass]="{'text-bg-danger': (!articulo.evaluations || !articulo.evaluations.estado) || (articulo.evaluations && articulo.evaluations.estado  == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado  ? articulo.evaluations.estado  : 'NO CUMPLE' }}</span>
                     </div>
             </div>
             
             <div class="col-md-4">
                 <h6>FECHA EVALUACIÓN</h6>
-                {{articulo.evaluations && articulo.evaluations.fecha_evaluacion ? (articulo.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : '-' }}
+                {{articulo.evaluations && articulo.evaluations.fecha_evaluacion ? (articulo.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : (evaluation.fechaFinalizacion | date:"dd-MM-yy") }}
             </div>
             
             <div class="col-md-4">
                 <h6>RESPONSABLE</h6>
-                {{articulo.evaluations && articulo.evaluations.evaluador ? articulo.evaluations.evaluador.nombre : '-' }}
+                {{articulo.evaluations && articulo.evaluations.evaluador && articulo.evaluations.evaluador.nombre ? articulo.evaluations.evaluador.nombre : evaluation.evaluador.nombre }}
             </div>
             
           </div>
@@ -182,9 +182,54 @@
                         </a>
                         <ng-template ngbNavContent>
 
-                            <div class="list-group" *ngIf="!showDetailEvaluation"><!-- *ngIf="hallazgos.lenght > 0"-->
+                            <div class="list-group" *ngIf="!showDetailEvaluation && (!evaluations || evaluations.lenght < 1)">
+
+                                <div class="team-list list-view-filter row" style="cursor:pointer;"> 
+                                    <div class="col">
+                                        <div class="card team-box">
+                                            <div class="team-cover">
+                                                
+                                            </div>
+                                            <div class="card-body p-4">                
+                                                <div class="row align-items-center team-row">
+                                                    <div class="col team-settings">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-lg-8 col">
+                                                        <div class="row text-muted text-center">
+                                                            Cumplimiento agregado por defecto porque la obligación no ha sido evaluada
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-2 col">
+                                                        <div class="row text-muted text-center">
+                                                            <div class="col-12 border-end border-end-dashed">
+                                                                <h5 class="mb-1">{{ evaluation.fechaFinalizacion | date: 'd/M/yyyy' }}</h5>
+                                                                <p class="text-muted mb-0">Fecha Evaluación</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-2 col">
+                                                        
+                                                        <span class="badge text-bg-danger">{{ 'NO CUMPLE' }}</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list-group" *ngIf="!showDetailEvaluation && evaluations && evaluations.lenght > 0"><!-- *ngIf="hallazgos.lenght > 0"-->
                                 <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
-                  
+                                
                                     <ng-container *ngFor="let h of evaluations;">
 
                                     <div class="team-list list-view-filter row" style="cursor:pointer;" (click)="viewEvaluation(h)"> 

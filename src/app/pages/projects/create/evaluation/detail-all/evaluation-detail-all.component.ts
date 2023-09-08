@@ -38,6 +38,7 @@ export class EvaluationDetailAllComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  evaluations: any = {};
   installation_id: any = null;
   detail: any = [];
   cuerpos_articulos: any = [];
@@ -143,6 +144,7 @@ export class EvaluationDetailAllComponent implements OnInit {
 
         this.getArticlesByInstallationBody(this.installation_id);
         this.getProject();
+        this.getEvaluations();
     });
 
     // Data Get Function
@@ -554,6 +556,17 @@ export class EvaluationDetailAllComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
+ 
+ getEvaluations(){
+  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
+    (data: any) => {
+      this.evaluations = data.data;
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
  goControl(id: any){
     this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/TaskControl/'+id]);
@@ -756,6 +769,26 @@ getArticlesCuerpo(articulos: any){
                         break;
                     }
                     
+                  }else{
+                    nocumple ++;
+                        cuerpo_nocumple ++;
+                        
+                          switch (articulos[i].articulos[j].project_article.articuloTipo) {
+                            case 'monitoreo':
+                              nocumple_monitoreo++;
+                              break;
+                            
+                            case 'reporte':                              
+                              nocumple_reporte++;
+                              break;
+        
+                            case 'permiso':
+                              nocumple_permiso++;
+                            break;
+                          
+                            default:
+                              break;
+                          }
                   }
                   }
                 }

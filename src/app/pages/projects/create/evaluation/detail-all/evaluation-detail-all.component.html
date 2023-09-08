@@ -161,7 +161,8 @@
                                                         <div class="col-lg-3 col">
                                                             <div class="row text-muted text-center">
                                                                 <div class="col-6 border-end border-end-dashed">
-                                                                    <h5 class="mb-1">{{s.evaluations.fecha_evaluacion ? (s.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : '-' }}</h5>
+                                                                    <h5 class="mb-1">{{s.evaluations.fecha_evaluacion ? (s.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : (evaluations.fechaFinalizacion | date:"dd-MM-yy")
+                                                                    }}</h5>
                                                                     <p class="text-muted mb-0">Fecha evaluación</p>
                                                                 </div>
                                                                 <div class="col-6">
@@ -172,7 +173,7 @@
                                                         </div>
                                                         <div class="col-lg-2 col">
                                                             <span class="badge" [ngClass]="{
-                                                                'text-bg-no-evaluado': !s.evaluations.estado,'text-bg-danger': (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
+                                                                'text-bg-danger': !s.evaluations.estado || (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO CUMPLE' }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
