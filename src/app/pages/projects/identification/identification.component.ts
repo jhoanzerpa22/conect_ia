@@ -1502,6 +1502,107 @@ validateIdparte(idParte: any){
 
     return articles_group.length;
   }
+  
+  countAtributo(atributo?: any){
+    
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+    let permisos: number = 0;
+    let reportes: number = 0;
+    let monitoreos: number = 0;
+    let otros: number = 0;
+    
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+              
+                const existe_reporte = this.articulos.findIndex(
+                  (co: any) =>
+                    co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.articuloTipo == 'reporte'
+                );
+
+                if(existe_reporte != -1){
+                  reportes ++;
+                }else{
+
+                  const existe_permiso = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.articuloTipo == 'permiso'
+                  );
+                  
+                  if(existe_permiso != -1){
+                    permisos ++;
+                  }else{
+                    
+                    const existe_monitoreo = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.articuloTipo == 'monitoreo'
+                    );
+
+                    if(existe_monitoreo != -1){
+                      monitoreos ++;
+                    }else{
+                      otros ++;
+                    }
+
+                  }
+                }
+            }
+          })
+
+          let result: number = 0;
+
+          switch (atributo) {
+            case 'reporte':
+              result = reportes;
+              break;
+            
+            case 'permiso':
+                result = permisos;
+              break;
+
+            case 'monitoreo':
+                result = monitoreos;
+              break;
+          
+            default:
+              result = otros;
+              break;
+          }
+
+    return result;
+  }
+
+  countElementos(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let installation_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = installation_group.findIndex(
+              (co: any) =>
+                co == x.instalacionId
+            );
+
+            if(index == -1){
+              installation_group.push(x.instalacionId);
+              
+            }
+          })
+
+    return installation_group.length;
+  }
 
   byArticuloVinculacion(id: any){
     const filter: any = this.installations_articles.filter(
@@ -2059,12 +2160,12 @@ validateIdparte(idParte: any){
             
             const index = this.installations_group.findIndex(
               (co: any) =>
-                co.area == x.area.nombre
+                co.area == (x.area ? x.area.nombre : '')
             );
 
             if(index == -1){
               this.installations_group.push({
-                area: x.area.nombre, instalaciones: [x]
+                area: x.area ? x.area.nombre : '', instalaciones: [x]
               });
             }else{
               this.installations_group[index].instalaciones.push(x);
