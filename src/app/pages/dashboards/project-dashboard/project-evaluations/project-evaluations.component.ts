@@ -232,12 +232,12 @@ export class ProjectEvaluationsComponent implements OnInit {
             
             const index = this.installations_group.findIndex(
               (co: any) =>
-                co.area == x.area.nombre
+                co.area == (x.area ? x.area.nombre : '')
             );
 
             if(index == -1){
               this.installations_group.push({
-                area: x.area.nombre, descripcion: x.area.descripcion, instalaciones: [x]
+                area: x.area ? x.area.nombre : '', descripcion: x.area ? x.area.descripcion : '', instalaciones: [x]
               });
             }else{
               this.installations_group[index].instalaciones.push(x);
