@@ -42,6 +42,7 @@ export class IdentificationComponent implements OnInit {
   TeamMembers: any;
   status7: any;
   simpleDonutChart: any;
+  simpleDonutChartArticulos: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
   
@@ -185,6 +186,7 @@ export class IdentificationComponent implements OnInit {
     this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChart('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
     
     /**
      * Fetches the data
@@ -312,6 +314,30 @@ export class IdentificationComponent implements OnInit {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChart = {
       series: [80, 20],
+      chart: {
+        height: 300,
+        type: "donut",
+      },
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false,
+        },
+      },
+      labels: ["Gestionar","Por definir"],
+      colors: colors,
+    };
+  }
+
+   /**
+ * Simple Donut Chart
+ */
+   private _simpleDonutChartArticulos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.simpleDonutChartArticulos = {
+      series: [/*this.countArticulosEstado(1), this.countArticulosEstado(2)*/80,20],
       chart: {
         height: 300,
         type: "donut",
@@ -1497,6 +1523,27 @@ validateIdparte(idParte: any){
                 default:
                   break;
               }
+            }
+          })
+
+    return articles_group.length;
+  }
+
+  countArticulosEstado(estado: any){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && ins.estado == estado
+    );
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
             }
           })
 
