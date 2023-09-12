@@ -75,7 +75,11 @@ export class InstallationsComponent {
   installation_id: any = '';
   installation_name: any = ''; 
   areas: any = [];
+  areas_all: any = [];
+  areas_template: any = [];
   area_id_select: any = [];
+  area_id: any = '';
+  area_select: any = [];
   subtitle: any = 'Elementos y actividades';//'Instalaciones y procesos';
 
   items: any = [];
@@ -132,7 +136,7 @@ export class InstallationsComponent {
       ids: [''],
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      area: ['']
+      //area: ['']
     });
 
     this.project_id = this.userData._id;
@@ -168,6 +172,7 @@ export class InstallationsComponent {
         this.getInstallations();
       }
       this.getAreas();
+      this.getAreasAll();
     });
 
     /**
@@ -193,8 +198,10 @@ export class InstallationsComponent {
   openModal(content: any, instalationID?: any, instalacionName?: any) {
     this.submitted = false;
     this.installationForm.reset();
+    this.area_id = '';
+    this.area_select = [];
 
-    if(this.areas.length < 1){
+    if(this.areas_all.length < 1){
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -205,7 +212,22 @@ export class InstallationsComponent {
     }else{
       this.installation_id = instalationID;
       this.installation_name = instalacionName;
-      this.installationForm.controls['area'].setValue('');
+      //this.installationForm.controls['area'].setValue('');
+     
+      if(instalationID){
+        const index = this.installations_all.findIndex(
+          (co: any) =>
+            co.id == instalationID
+        );
+
+        if(index != -1){
+
+          this.area_id = this.installations_all[index].area_id;
+          if(this.installations_all[index].area_id){
+            this.setArea(this.installations_all[index].area_id, true);
+          }
+        }
+      }
       this.modalService.open(content, { size: 'lg', centered: true });
     }
   }
@@ -237,6 +259,185 @@ export class InstallationsComponent {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getItems(hijos: any, padre: any){
+    let tree_data: any = [];
+    
+    this.areas_template.push({id: padre, valor: null, disabled: false});
+
+    for (let d in hijos) {
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, padre: padre, hijas: hijos[d].hijas.length > 0 ? true : false/*this.getItems(hijos[d].hijas, hijos[d].id) : null*/ });
+        
+        this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, padre: padre, hijas: hijos[d].hijas.length > 0 ? true : false});
+        
+        if(hijos[d].hijas.length > 0){
+          this.getItems(hijos[d].hijas, hijos[d].id);
+        }
+    }
+    return tree_data;
+  }
+
+  private getAreasAll(){
+    this.showPreLoader();
+      this.projectsService.getAreasAll(this.project_id).pipe().subscribe(
+        (data: any) => {
+          let obj: any = data.data;
+          this.areas_all = [];
+          
+          if(obj.length > 0){
+            this.areas_template.push({id: null, valor: null, disabled: false});
+            for (let c in obj) {
+              let padre: any = obj[c].padre;
+
+              this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion, padre: null, hijas: padre.hijas.length > 0 ? true : false/*this.getItems(padre.hijas, padre.id) : null*/ });
+
+              if(padre.hijas.length > 0){
+                this.getItems(padre.hijas, padre.id);
+              }
+            }
+          }
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
+  }
+
+  getAreasTemplate(padre: any){
+    return this.areas_all.filter((a: any) => a.padre == padre);
+  }
+
+  showSelect(padre: any){
+    const index = this.area_select.findIndex(
+      (co: any) =>
+        co.padre == padre
+    ); 
+    return index != -1;
+  }
+
+  selectAreaTemplate(event: any, position: any){
+
+    this.areas_template[position].valor = event.target.value;
+    
+    if(this.area_select.length > 0){
+    
+      const index3 = this.area_select.findIndex(
+        (co: any) =>
+          co.position == position
+      );
+
+      if(index3 == -1){
+        this.area_select.push({padre: event.target.value, position: position});
+      }else{
+        
+        this.area_select[index3].padre = event.target.value;
+        this.area_id = event.target.value;
+        for (let p = 0; p < this.area_select.length; p++) {
+          const element = this.area_select[p];
+
+          if(position < this.area_select[p].position){
+            this.area_select.splice(p, 1);
+          }
+
+        }
+      }
+
+    }else{
+      
+      const index2 = this.areas_all.findIndex(
+        (co: any) =>
+          co.id == event.target.value
+      );
+
+      let nombre2 = this.areas_all[index2].nombre;
+      
+      this.area_id = event.target.value;
+      this.area_select.push({padre: event.target.value, position: position});
+    }
+
+  }
+
+  setAreaPadre(area: any){
+
+    const index = this.areas_all.findIndex(
+      (co: any) =>
+        co.id == area
+    );
+  
+    if(index != -1){
+
+      const index2 = this.areas_template.findIndex((t: any) =>
+        t.id == this.areas_all[index].padre 
+      );
+      this.areas_template[index2].valor = area;
+      this.areas_template[index2].disabled = true;
+
+      this.area_select.push({padre: this.areas_all[index].id, position: index});
+
+      if(this.areas_all[index].padre){
+        this.setAreaPadre(this.areas_all[index].padre);
+      }
+      
+    }
+  }
+
+  setArea(area: any, disabled: boolean){
+
+    const index = this.areas_all.findIndex(
+      (co: any) =>
+        co.id == area
+    );
+  
+    if(index != -1){
+
+      this.area_select.push({padre: this.areas_all[index].id, position: index});
+
+      const index2 = this.areas_template.findIndex((t: any) =>
+        t.id == this.areas_all[index].padre 
+      );
+      this.areas_template[index2].valor = area;
+      this.areas_template[index2].disabled = disabled;
+
+      if(this.areas_all[index].padre){
+        this.setAreaPadre(this.areas_all[index].padre);
+      }
+      
+    }
+
+    //console.log('setArea',this.area_select);
+    //console.log('setAreaTemplate',this.areas_template);
+  }
+
+  isSelected(i: number, valor: number){
+    const index = this.areas_template.findIndex(
+      (co: any) =>
+        co.id == (i > 0 ? i : null) && co.valor == valor
+    );
+  
+    if(index != -1){
+      return true;//this.area_select[index].padre;
+    }else{
+      return false;
+    }
+  }
+  
+  isDisabled(i: number){
+    const index = this.areas_template.findIndex(
+      (co: any) =>
+        co.id == (i > 0 ? i : null) && co.disabled == true
+    );
+  
+    if(index != -1){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   private getInstallations(){
@@ -406,7 +607,7 @@ export class InstallationsComponent {
       const nombre = this.installationForm.get('nombre')?.value;
       const descripcion = this.installationForm.get('descripcion')?.value;
         
-      let area_id = this.area_id_select[this.area_id_select.length - 1].value;
+      let area_id = this.area_id;//this.area_id_select[this.area_id_select.length - 1].value;
         
         const installation: any = {
           nombre: nombre,
@@ -587,21 +788,23 @@ export class InstallationsComponent {
     this.installationForm.controls['nombre'].setValue(listData[0].nombre);
     this.installationForm.controls['descripcion'].setValue(listData[0].descripcion);
     this.installationForm.controls['ids'].setValue(listData[0].id);
-    
-    const index2 = this.areas.findIndex(
+
+    this.area_select = [];    
+    this.area_id = listData[0].area_id;
+
+    this.setArea(listData[0].area_id, false);
+
+    /*const index2 = this.areas_all.findIndex(
       (co: any) =>
         co.id == listData[0].area_id
     );
 
     if(index2 != -1){
-      this.installationForm.controls['area'].setValue(listData[0].area_id);
+      //this.installationForm.controls['area'].setValue(listData[0].area_id);
 
-      let nombre2 = this.areas[index2].nombre;
-      this.area_id_select.push({value: listData[0].area_id, label: nombre2});
-    }else{
-      
-    }
-
+      let nombre2 = this.areas_all[index2].nombre;
+      //this.area_id_select.push({value: listData[0].area_id, label: nombre2});
+    }*/
   }
 
   // PreLoader
