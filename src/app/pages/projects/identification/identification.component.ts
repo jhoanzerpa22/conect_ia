@@ -132,6 +132,8 @@ export class IdentificationComponent implements OnInit {
   cuerpo_sso: number = 0;
   cuerpo_energia: number = 0;
 
+  criticidad: any;
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
     this.total = service.total$;
@@ -2098,6 +2100,10 @@ validateIdparte(idParte: any){
           })
 
     return installation_group.length;
+  }
+
+  selectCriticidad(criticidad?: any){
+    this.criticidad = criticidad;
   }
 
   byArticuloVinculacion(id: any){
