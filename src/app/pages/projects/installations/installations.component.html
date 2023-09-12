@@ -228,7 +228,7 @@
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
             </div>
 
-            <div class="mb-3">
+            <!--<div class="mb-3">
                 <label for="area-field" class="form-label">Area Administrativa</label>
                 <select class="form-select mb-3" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa" formControlName="area" (change)="selectArea($event)">
                     <option value="" selected>Seleccione Area Administrativa </option>
@@ -246,6 +246,17 @@
                                         <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
                     </select>
                     <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+                </div>
+            </ng-container>-->
+            
+            <ng-container *ngFor="let tem of areas_template;let i = index;">
+                <div class="mb-3" id="{{tem.id}}" *ngIf="!tem.id || showSelect(tem.id)">
+                    <label for="area-field" class="form-label">{{ tem.id > 0 ? 'Sub ' : ''}}Area Administrativa</label>
+                    <select class="form-select mb-3" placeholder="Seleccione Area Administrativa" (change)="selectAreaTemplate($event, i)" [disabled]="isDisabled(tem.id) == true">
+                                        <option value="">Seleccione {{ tem.id > 0 ? 'Sub ' : ''}} Area Administrativa</option>
+                                        <option *ngFor="let o of getAreasTemplate(tem.id);" [value]="o.id" [selected]="isSelected(tem.id, o.id) == true">{{o.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback">Por favor ingresar {{ tem.id > 0 ? 'Sub ' : ''}} area administrativa.</div>
                 </div>
             </ng-container>
 
