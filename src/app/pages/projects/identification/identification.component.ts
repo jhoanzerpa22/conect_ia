@@ -55,6 +55,10 @@ export class IdentificationComponent implements OnInit {
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
   
+  stacked100BarChart: any;
+  stacked100BarChart2: any;
+  stacked100BarChart3: any;
+  
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
@@ -207,7 +211,8 @@ export class IdentificationComponent implements OnInit {
     this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    
+    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+     
     /**
      * Fetches the data
      */
@@ -594,8 +599,204 @@ export class IdentificationComponent implements OnInit {
         colors: colors,
       };
     }
-  
 
+    /**
+ * Stacked 100 Bar Charts
+ */
+   private _stacked100BarChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.stacked100BarChart = {
+      series: [{
+        name: "Alta",
+        data: [44, 55],
+      },
+      {
+        name: "Media",
+        data: [53, 32],
+      },
+      {
+        name: "Baja",
+        data: [12, 17],
+      },
+      {
+        name: "Otros",
+        data: [9, 7],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "top",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    this.stacked100BarChart2 = {
+      series: [{
+        name: "Alta",
+        data: [44, 55],
+      },
+      {
+        name: "Media",
+        data: [53, 32],
+      },
+      {
+        name: "Baja",
+        data: [12, 17],
+      },
+      {
+        name: "Otros",
+        data: [9, 7],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          vertical: true
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "bottom",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    this.stacked100BarChart3 = {
+      series: [{
+        name: "Alta",
+        data: [44, 55, 33],
+      },
+      {
+        name: "Media",
+        data: [53, 32, 24],
+      },
+      {
+        name: "Baja",
+        data: [12, 17, 20],
+      },
+      {
+        name: "Otros",
+        data: [9, 7, 2],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ["MA","ENERGIA","SSO"],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "top",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+   }
+  
   selectCuerpo(cuerpo: any){
     
     this.showPreLoader();
