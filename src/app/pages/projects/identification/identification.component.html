@@ -1170,16 +1170,15 @@
 
 <ng-template #TabContent3>
 
-    <div class="card">  
-        <div class="card-body">  
-    <ul ngbNav #Pills="ngbNav" [activeId]="1" class="nav nav-pills nav-primary mb-3">
+    <div><!-- class="card"-->  
+        <div><!-- class="card-body"-->  
+    <ul ngbNav #Pills="ngbNav" [activeId]="1" class="nav nav-tabs mb-3" style="background: #fff;padding-top: 20px;"><!--nav nav-pills nav-primary mb-3-->
         
-        <li [ngbNavItem]="1" class="nav-item waves-effect waves-light">
+        <li [ngbNavItem]="1"><!--class="nav-item waves-effect waves-light"-->
             <a ngbNavLink>
                 <span class="d-sm-block">Dashboard</span>
             </a>
             <ng-template ngbNavContent>
-                
                 <!--<div class="row">
                     <div class="col-sm-12">
                         <div class="row mb-3">
@@ -1230,194 +1229,208 @@
                         </div>
                     </div>
                   </div>-->
+                  <div class="row g-4 mb-3">
+                    <div class="col-sm-auto">
+                        
+                    </div>
+                    <div class="col-sm">
+                        <div class="d-flex justify-content-sm-end gap-2">
+                            
+                        <div class="btn-group">
+                            
+                            <button type="button" class="btn btn-primary" style="
+                            width: 250px;
+                            text-align: left;
+                        ">General (Empresa)</button>    
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Empresa</a>
+                            </div>
+                        </div>
 
-                  <div class="row">
-                    <div class="col-sm-12">
-                        <div class="row mb-3 align-items-center justify-content-center">
-                            
-                            <div class="col-md-1" style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Cuerpos legales</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countCuerposLegales()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" style="
+                            width: 250px;
+                            text-align: left;
+                        ">Criticidad</button>    
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Alta</a>
+                                <a class="dropdown-item" href="#">Media</a>
+                                <a class="dropdown-item" href="#">Baja</a>
                             </div>
-                            
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Artículos</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countArticulos(true)" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Instancias de cumplimiento</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countArticulos(false) * countElementos()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Permisos</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countAtributo('permiso')" class="counter-value" [from]="0" [duration]="1">{{countAtributo('permiso') < 1 ? 0 : ''}}</span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Reportes</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countAtributo('reporte')" class="counter-value" [from]="0" [duration]="1">{{countAtributo('reporte') < 1 ? 0 : ''}}</span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Monitoreos</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countAtributo('monitoreo')" class="counter-value" [from]="0" [duration]="1">{{countAtributo('monitoreo') < 1 ? 0 : ''}}</span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Otras obligaciones</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countAtributo()" class="counter-value" [from]="0" [duration]="1">{{countAtributo() < 1 ? 0 : ''}}</span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1"  style="width: 11.33%;">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Elementos y actividades</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countElementos()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                            </div>
-                                            <!--<div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                   </div>
+                </div>
+
+<div class="row">
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countCuerposLegales()" class="counter-value"
+                                [from]="0" [duration]="1"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countArticulos(true)" class="counter-value"
+                                [from]="0" [duration]="1"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countArticulos(false) * countElementos()" class="counter-value"
+                                [from]="0" [duration]="1"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countElementos()" class="counter-value"
+                                [from]="0" [duration]="1"></span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+            
+<div class="row">
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo('permiso')" class="counter-value"
+                                [from]="0" [duration]="1">{{countAtributo('permiso') < 1 ? 0 : ''}}</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo('reporte')" class="counter-value"
+                                [from]="0" [duration]="1">{{countAtributo('reporte') < 1 ? 0 : ''}}</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo('monitoreo')" class="counter-value"
+                                [from]="0" [duration]="1">{{countAtributo('monitoreo') < 1 ? 0 : ''}}</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="col-xl-3 col-md-3">
+        <div class="card card-height-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo()" class="counter-value"
+                                [from]="0" [duration]="1">{{countAtributo() < 1 ? 0 : ''}}</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
                 <div class="row mb-3 align-items-center justify-content-center">
+                    <b>Aplicabilidad</b>
                     
-                    <div class="col-sm-4 text-center">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Cuerpos Legales</h4>
                         <!--<apx-chart [series]="basicBarChartCuerpos.series" [chart]="basicBarChartCuerpos.chart" [dataLabels]="basicBarChartCuerpos.dataLabels" [legend]="basicBarChartCuerpos.legend" [plotOptions]="basicBarChartCuerpos.plotOptions" [xaxis]="basicBarChartCuerpos.xaxis" [colors]="basicBarChartCuerpos.colors" dir="ltr"></apx-chart>-->
 
@@ -1425,104 +1438,145 @@
                         [labels]="simpleDonutChartCuerpos.labels" [responsive]="simpleDonutChartCuerpos.responsive"
                         [legend]="simpleDonutChartCuerpos.legend" [dataLabels]="simpleDonutChartCuerpos.dataLabels"
                         [colors]="simpleDonutChartCuerpos.colors" dir="ltr"></apx-chart>
-
+                            </div>
+                        </div>
                     </div>
 
-                    
-                    <div class="col-sm-4 text-center">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Artículos</h4>
                         
                         <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
                         [labels]="simpleDonutChartArticulos.labels" [responsive]="simpleDonutChartArticulos.responsive"
                         [legend]="simpleDonutChartArticulos.legend" [dataLabels]="simpleDonutChartArticulos.dataLabels"
                         [colors]="simpleDonutChartArticulos.colors" dir="ltr"></apx-chart>
+                            </div>
+                        </div>
 
                     </div>
+  
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
 
-                    
-                    <div class="col-sm-4 text-center">
                         <h4>Instancias de cumplimiento</h4>
                         <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
                         [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
                         [legend]="simpleDonutChartInstancias.legend" [dataLabels]="simpleDonutChartInstancias.dataLabels"
                         [colors]="simpleDonutChartInstancias.colors" dir="ltr"></apx-chart>
-
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 
                 <div class="row mb-3 align-items-center justify-content-center">
-                    
-                    <div class="col-sm-3 text-center">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Permisos</h4>
                         <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
                         [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
                         [legend]="simpleDonutChartPermisos.legend" [dataLabels]="simpleDonutChartPermisos.dataLabels"
                         [colors]="simpleDonutChartPermisos.colors" dir="ltr"></apx-chart>
+                            </div>
+                        </div>
 
                     </div>
 
                     
-                    <div class="col-sm-3 text-center">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Reportes</h4>
                         
                         <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
                         [labels]="simpleDonutChartReportes.labels" [responsive]="simpleDonutChartReportes.responsive"
                         [legend]="simpleDonutChartReportes.legend" [dataLabels]="simpleDonutChartReportes.dataLabels"
                         [colors]="simpleDonutChartReportes.colors" dir="ltr"></apx-chart>
+                            </div>
+                        </div>
 
                     </div>
 
                     
-                    <div class="col-sm-3 text-center">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Monitoreos</h4>
                         <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
                         [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
                         [legend]="simpleDonutChartMonitoreos.legend" [dataLabels]="simpleDonutChartMonitoreos.dataLabels"
                         [colors]="simpleDonutChartMonitoreos.colors" dir="ltr"></apx-chart>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="col-sm-3 text-center">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Otras obligaciones</h4>
                         <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
                         [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
                         [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
                         [colors]="simpleDonutChartOtros.colors" dir="ltr"></apx-chart>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
 
                 <div class="row mb-3 align-items-center justify-content-center">
+                    <b>Ámbito normativo a gestionar</b>
                     
-                    <div class="col-sm-4 text-center">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Cuerpos Legales por ámbito normativo</h4>
 
                         <apx-chart [series]="simpleDonutChartCuerposAmbito.series" [chart]="simpleDonutChartCuerposAmbito.chart"
                         [labels]="simpleDonutChartCuerposAmbito.labels" [responsive]="simpleDonutChartCuerposAmbito.responsive"
                         [legend]="simpleDonutChartCuerposAmbito.legend" [dataLabels]="simpleDonutChartCuerposAmbito.dataLabels"
                         [colors]="simpleDonutChartCuerposAmbito.colors" dir="ltr"></apx-chart>
-
+                            </div>
+                        </div>
                     </div>
 
                     
-                    <div class="col-sm-4 text-center">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Artículos por ámbito normativo</h4>
                         
                         <apx-chart [series]="simpleDonutChartArticulosAmbito.series" [chart]="simpleDonutChartArticulosAmbito.chart"
                         [labels]="simpleDonutChartArticulosAmbito.labels" [responsive]="simpleDonutChartArticulosAmbito.responsive"
                         [legend]="simpleDonutChartArticulosAmbito.legend" [dataLabels]="simpleDonutChartArticulosAmbito.dataLabels"
                         [colors]="simpleDonutChartArticulosAmbito.colors" dir="ltr"></apx-chart>
-
+                            </div>
+                        </div>
                     </div>
 
                     
-                    <div class="col-sm-4 text-center">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+
                         <h4>Instancias por ámbito normativo</h4>
                         <apx-chart [series]="simpleDonutChartInstanciasAmbito.series" [chart]="simpleDonutChartInstanciasAmbito.chart"
                         [labels]="simpleDonutChartInstanciasAmbito.labels" [responsive]="simpleDonutChartInstanciasAmbito.responsive"
                         [legend]="simpleDonutChartInstanciasAmbito.legend" [dataLabels]="simpleDonutChartInstanciasAmbito.dataLabels"
                         [colors]="simpleDonutChartInstanciasAmbito.colors" dir="ltr"></apx-chart>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -1590,7 +1644,7 @@
                 </div>-->
             </ng-template>
         </li>
-        <li [ngbNavItem]="2" class="nav-item waves-effect waves-light">
+        <li [ngbNavItem]="2"><!--class="nav-item waves-effect waves-light"-->
             <a ngbNavLink>
                 Resumen
             </a>
@@ -1765,7 +1819,7 @@
         </li>
         </ul>
         
-        <div class="tab-content text-muted">
+        <div class="tab-content text-muted" style="background: #f3f3f9">
             <div [ngbNavOutlet]="Pills"></div>
         </div>
         
