@@ -1426,9 +1426,10 @@
 
 </div>
 
+            <ng-container *ngIf="!criticidad">
                 <div class="row mb-3 align-items-center justify-content-center">
                     <h4>Aplicabilidad</h4>
-                    
+
                     <div class="col-sm-4">
                         <div class="card">
                             <div class="card-body">
@@ -1472,9 +1473,9 @@
                         </div>
                     </div>
                 </div>
-
                 
                 <div class="row mb-3 align-items-center justify-content-center">
+                    
                     <div class="col-sm-3">
                         <div class="card">
                             <div class="card-body">
@@ -1489,7 +1490,6 @@
 
                     </div>
 
-                    
                     <div class="col-sm-3">
                         <div class="card">
                             <div class="card-body">
@@ -1581,9 +1581,330 @@
                         </div>
 
                     </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="criticidad">
+                
+                <div class="row mb-3 align-items-center justify-content-center">
+                    <h4>Aplicabilidad</h4>
+
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                    <h4>Cuerpos Legales</h4>
+                    
+                    <apx-chart [series]="simpleDonutChartCuerpos.series" [chart]="simpleDonutChartCuerpos.chart"
+                    [labels]="simpleDonutChartCuerpos.labels" [responsive]="simpleDonutChartCuerpos.responsive"
+                    [legend]="simpleDonutChartCuerpos.legend" [dataLabels]="simpleDonutChartCuerpos.dataLabels"
+                    [colors]="simpleDonutChartCuerpos.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad según Cuerpos Legales</h4>
+                        <apx-chart [series]="stacked100BarChart.series" [chart]="stacked100BarChart.chart"
+                        [dataLabels]="stacked100BarChart.dataLabels" [plotOptions]="stacked100BarChart.plotOptions"
+                        [xaxis]="stacked100BarChart.xaxis" [stroke]="stacked100BarChart.stroke"
+                        [fill]="stacked100BarChart.fill" [title]="stacked100BarChart.title"
+                        [tooltip]="stacked100BarChart.tooltip" [legend]="stacked100BarChart.legend" [colors]="stacked100BarChart.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center justify-content-center">
+            
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                    <h4>Artículos</h4>
+                    
+                    <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
+                    [labels]="simpleDonutChartArticulos.labels" [responsive]="simpleDonutChartArticulos.responsive"
+                    [legend]="simpleDonutChartArticulos.legend" [dataLabels]="simpleDonutChartArticulos.dataLabels"
+                    [colors]="simpleDonutChartArticulos.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
 
                 </div>
 
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad según Artículos</h4>
+                        <apx-chart [series]="stacked100BarChart.series" [chart]="stacked100BarChart.chart"
+                        [dataLabels]="stacked100BarChart.dataLabels" [plotOptions]="stacked100BarChart.plotOptions"
+                        [xaxis]="stacked100BarChart.xaxis" [stroke]="stacked100BarChart.stroke"
+                        [fill]="stacked100BarChart.fill" [title]="stacked100BarChart.title"
+                        [tooltip]="stacked100BarChart.tooltip" [legend]="stacked100BarChart.legend" [colors]="stacked100BarChart.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3 align-items-center justify-content-center">
+            
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4>Instancias de cumplimiento</h4>
+                            <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
+                            [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
+                            [legend]="simpleDonutChartInstancias.legend" [dataLabels]="simpleDonutChartInstancias.dataLabels"
+                            [colors]="simpleDonutChartInstancias.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad según Instancias de cumplimiento</h4>
+                        <apx-chart [series]="stacked100BarChart.series" [chart]="stacked100BarChart.chart"
+                        [dataLabels]="stacked100BarChart.dataLabels" [plotOptions]="stacked100BarChart.plotOptions"
+                        [xaxis]="stacked100BarChart.xaxis" [stroke]="stacked100BarChart.stroke"
+                        [fill]="stacked100BarChart.fill" [title]="stacked100BarChart.title"
+                        [tooltip]="stacked100BarChart.tooltip" [legend]="stacked100BarChart.legend" [colors]="stacked100BarChart.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3 align-items-center justify-content-center">
+            
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4>Permisos</h4>
+                            <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
+                            [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
+                            [legend]="simpleDonutChartPermisos.legend" [dataLabels]="simpleDonutChartPermisos.dataLabels"
+                            [colors]="simpleDonutChartPermisos.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad Permisos</h4>
+                        <apx-chart [series]="stacked100BarChart2.series" [chart]="stacked100BarChart2.chart"
+                        [dataLabels]="stacked100BarChart2.dataLabels" [plotOptions]="stacked100BarChart2.plotOptions"
+                        [xaxis]="stacked100BarChart2.xaxis" [stroke]="stacked100BarChart2.stroke"
+                        [fill]="stacked100BarChart2.fill" [title]="stacked100BarChart2.title"
+                        [tooltip]="stacked100BarChart2.tooltip" [legend]="stacked100BarChart2.legend" [colors]="stacked100BarChart2.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+      
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4>Monitoreos</h4>
+                            <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
+                            [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
+                            [legend]="simpleDonutChartMonitoreos.legend" [dataLabels]="simpleDonutChartMonitoreos.dataLabels"
+                            [colors]="simpleDonutChartMonitoreos.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad Monitoreos</h4>
+                        <apx-chart [series]="stacked100BarChart2.series" [chart]="stacked100BarChart2.chart"
+                        [dataLabels]="stacked100BarChart2.dataLabels" [plotOptions]="stacked100BarChart2.plotOptions"
+                        [xaxis]="stacked100BarChart2.xaxis" [stroke]="stacked100BarChart2.stroke"
+                        [fill]="stacked100BarChart2.fill" [title]="stacked100BarChart2.title"
+                        [tooltip]="stacked100BarChart2.tooltip" [legend]="stacked100BarChart2.legend" [colors]="stacked100BarChart2.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row mb-3 align-items-center justify-content-center">
+            
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4>Reportes</h4>
+                            <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
+                            [labels]="simpleDonutChartReportes.labels" [responsive]="simpleDonutChartReportes.responsive"
+                            [legend]="simpleDonutChartReportes.legend" [dataLabels]="simpleDonutChartReportes.dataLabels"
+                            [colors]="simpleDonutChartReportes.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad Reportes</h4>
+                        <apx-chart [series]="stacked100BarChart2.series" [chart]="stacked100BarChart2.chart"
+                        [dataLabels]="stacked100BarChart2.dataLabels" [plotOptions]="stacked100BarChart2.plotOptions"
+                        [xaxis]="stacked100BarChart2.xaxis" [stroke]="stacked100BarChart2.stroke"
+                        [fill]="stacked100BarChart2.fill" [title]="stacked100BarChart2.title"
+                        [tooltip]="stacked100BarChart2.tooltip" [legend]="stacked100BarChart2.legend" [colors]="stacked100BarChart2.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+      
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4>Otras Obligaciones</h4>
+                            <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
+                            [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
+                            [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
+                            [colors]="simpleDonutChartOtros.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad Otras Obl.</h4>
+                        <apx-chart [series]="stacked100BarChart2.series" [chart]="stacked100BarChart2.chart"
+                        [dataLabels]="stacked100BarChart2.dataLabels" [plotOptions]="stacked100BarChart2.plotOptions"
+                        [xaxis]="stacked100BarChart2.xaxis" [stroke]="stacked100BarChart2.stroke"
+                        [fill]="stacked100BarChart2.fill" [title]="stacked100BarChart2.title"
+                        [tooltip]="stacked100BarChart2.tooltip" [legend]="stacked100BarChart2.legend" [colors]="stacked100BarChart2.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                <div class="row mb-3 align-items-center justify-content-center">
+                    <h4>Ámbito normativo a gestionar</h4>
+
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                    <h4>Cuerpos Legales por ámbito normativo</h4>
+                    
+                            <apx-chart [series]="simpleDonutChartCuerposAmbito.series"  [chart]="simpleDonutChartCuerposAmbito.chart"
+                            [labels]="simpleDonutChartCuerposAmbito.labels" [responsive]="simpleDonutChartCuerposAmbito.responsive"
+                            [legend]="simpleDonutChartCuerposAmbito.legend" [dataLabels]="simpleDonutChartCuerposAmbito.dataLabels"
+                            [colors]="simpleDonutChartCuerposAmbito.colors" dir="ltr"></apx-chart>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h4>Criticidad según Cuerpos Legales por ámbito normativo</h4>
+                        <apx-chart [series]="stacked100BarChart3.series" [chart]="stacked100BarChart3.chart"
+                        [dataLabels]="stacked100BarChart3.dataLabels" [plotOptions]="stacked100BarChart3.plotOptions"
+                        [xaxis]="stacked100BarChart3.xaxis" [stroke]="stacked100BarChart3.stroke"
+                        [fill]="stacked100BarChart3.fill" [title]="stacked100BarChart3.title"
+                        [tooltip]="stacked100BarChart3.tooltip" [legend]="stacked100BarChart3.legend" [colors]="stacked100BarChart3.colors" dir="ltr"></apx-chart>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                
+            <div class="row mb-3 align-items-center justify-content-center">
+
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4>Artículos por ámbito normativo</h4>
+                        
+                        <apx-chart [series]="simpleDonutChartArticulosAmbito.series" [chart]="simpleDonutChartArticulosAmbito.chart"
+                        [labels]="simpleDonutChartArticulosAmbito.labels" [responsive]="simpleDonutChartArticulosAmbito.responsive"
+                        [legend]="simpleDonutChartArticulosAmbito.legend" [dataLabels]="simpleDonutChartArticulosAmbito.dataLabels"
+                        [colors]="simpleDonutChartArticulosAmbito.colors" dir="ltr"></apx-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+
+                    <h4>Criticidad según Artículos por ámbito normativo</h4>
+                    <apx-chart [series]="stacked100BarChart3.series" [chart]="stacked100BarChart3.chart"
+                    [dataLabels]="stacked100BarChart3.dataLabels" [plotOptions]="stacked100BarChart3.plotOptions"
+                    [xaxis]="stacked100BarChart3.xaxis" [stroke]="stacked100BarChart3.stroke"
+                    [fill]="stacked100BarChart3.fill" [title]="stacked100BarChart3.title"
+                    [tooltip]="stacked100BarChart3.tooltip" [legend]="stacked100BarChart3.legend" [colors]="stacked100BarChart3.colors" dir="ltr"></apx-chart>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-3 align-items-center justify-content-center">
+
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4>Instancias por ámbito normativo</h4>
+                        <apx-chart [series]="simpleDonutChartInstanciasAmbito.series" [chart]="simpleDonutChartInstanciasAmbito.chart"
+                        [labels]="simpleDonutChartInstanciasAmbito.labels" [responsive]="simpleDonutChartInstanciasAmbito.responsive"
+                        [legend]="simpleDonutChartInstanciasAmbito.legend" [dataLabels]="simpleDonutChartInstanciasAmbito.dataLabels"
+                        [colors]="simpleDonutChartInstanciasAmbito.colors" dir="ltr"></apx-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+
+                    <h4>Criticidad según Instancias por ámbito normativo</h4>
+                    <apx-chart [series]="stacked100BarChart3.series" [chart]="stacked100BarChart3.chart"
+                    [dataLabels]="stacked100BarChart3.dataLabels" [plotOptions]="stacked100BarChart3.plotOptions"
+                    [xaxis]="stacked100BarChart3.xaxis" [stroke]="stacked100BarChart3.stroke"
+                    [fill]="stacked100BarChart3.fill" [title]="stacked100BarChart3.title"
+                    [tooltip]="stacked100BarChart3.tooltip" [legend]="stacked100BarChart3.legend" [colors]="stacked100BarChart3.colors" dir="ltr"></apx-chart>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            </ng-container>
+             
 
                 <!--<div class="row">
                     <div class="col-sm-12">
