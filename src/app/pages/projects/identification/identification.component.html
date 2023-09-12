@@ -1236,28 +1236,30 @@
                     <div class="col-sm">
                         <div class="d-flex justify-content-sm-end gap-2">
                             
-                        <div class="btn-group">
+                        <div class="btn-group" ngbDropdown>
                             
                             <button type="button" class="btn btn-primary" style="
                             width: 250px;
                             text-align: left;
                         ">General (Empresa)</button>    
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Empresa</a>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                            <div class="dropdown-menu dropdown-menu-dark"  style="width: 250px;" ngbDropdownMenu>
+                                <a class="dropdown-item" href="javascript:void(0);">Empresa</a>
                             </div>
                         </div>
 
-                        <div class="btn-group">
+                        <div class="btn-group" ngbDropdown>
                             <button type="button" class="btn btn-primary" style="
                             width: 250px;
                             text-align: left;
-                        ">Criticidad</button>    
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Alta</a>
-                                <a class="dropdown-item" href="#">Media</a>
-                                <a class="dropdown-item" href="#">Baja</a>
+                        ">{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                            <div class="dropdown-menu dropdown-menu-dark" style="width: 250px;" ngbDropdownMenu>
+                                <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
                             </div>
                         </div>
                     </div>
@@ -1425,7 +1427,7 @@
 </div>
 
                 <div class="row mb-3 align-items-center justify-content-center">
-                    <b>Aplicabilidad</b>
+                    <h4>Aplicabilidad</h4>
                     
                     <div class="col-sm-4">
                         <div class="card">
@@ -1534,7 +1536,7 @@
                 </div>
 
                 <div class="row mb-3 align-items-center justify-content-center">
-                    <b>Ámbito normativo a gestionar</b>
+                    <h4>Ámbito normativo a gestionar</h4>
                     
                     <div class="col-sm-4">
                         <div class="card">
