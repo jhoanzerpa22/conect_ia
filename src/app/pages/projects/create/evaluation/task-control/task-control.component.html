@@ -227,7 +227,8 @@
                                 </div>
                             </div>
 
-                            <div class="list-group" *ngIf="!showDetailEvaluation && evaluations && evaluations.lenght > 0"><!-- *ngIf="hallazgos.lenght > 0"-->
+                            <div class="list-group" *ngIf="!showDetailEvaluation && evaluations"><!-- && evaluations.lenght > 0-->
+                                <!-- *ngIf="hallazgos.lenght > 0"-->
                                 <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
                                 
                                     <ng-container *ngFor="let h of evaluations;">
