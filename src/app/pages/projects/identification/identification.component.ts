@@ -58,6 +58,14 @@ export class IdentificationComponent implements OnInit {
   stacked100BarChart: any;
   stacked100BarChart2: any;
   stacked100BarChart3: any;
+  stacked100BarChartArticulos: any;
+  stacked100BarChartInstancias: any;
+  stacked100BarChartPermisos: any;
+  stacked100BarChartReportes: any;
+  stacked100BarChartMonitoreos: any;
+  stacked100BarChartOtros: any;
+  stacked100BarChartAmbienteCriticidad: any;
+  stacked100BarChartAmbienteCriticidadInstancias: any;
   
   @ViewChild('scrollRef') scrollRef: any;
 
@@ -132,6 +140,18 @@ export class IdentificationComponent implements OnInit {
   ambiente: number = 0;
   sso: number = 0;
   energia: number = 0;
+  ambiente_alta: number = 0;
+  ambiente_media: number = 0;
+  ambiente_baja: number = 0;
+  ambiente_otros: number = 0;
+  sso_alta: number = 0;
+  sso_media: number = 0;
+  sso_baja: number = 0;
+  sso_otros: number = 0;
+  energia_alta: number = 0;
+  energia_media: number = 0;
+  energia_baja: number = 0;
+  energia_otros: number = 0;
   cuerpo_ambiente: number = 0;
   cuerpo_sso: number = 0;
   cuerpo_energia: number = 0;
@@ -212,6 +232,10 @@ export class IdentificationComponent implements OnInit {
     this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
      
     /**
      * Fetches the data
@@ -735,19 +759,228 @@ export class IdentificationComponent implements OnInit {
     this.stacked100BarChart3 = {
       series: [{
         name: "Alta",
-        data: [44, 55, 33],
+        data: [20,18,11],
       },
       {
         name: "Media",
-        data: [53, 32, 24],
+        data: [4,2,9],
       },
       {
         name: "Baja",
-        data: [12, 17, 20],
+        data: [10,2,30],
       },
       {
         name: "Otros",
-        data: [9, 7, 2],
+        data: [11,22,10],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ["MA","ENERGIA","SSO"],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "top",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+   }
+
+   /**
+ * Stacked 100 Bar Charts
+ */
+   private _stacked100BarChartArticulos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.stacked100BarChartArticulos = {
+      series: [{
+        name: "Alta",
+        data: [this.countCriticidadArticuloEstado('1','Alta'), this.countCriticidadArticuloEstado('2','Alta')],
+      },
+      {
+        name: "Media",
+        data: [this.countCriticidadArticuloEstado('1','Media'), this.countCriticidadArticuloEstado('2','Media')],
+      },
+      {
+        name: "Baja",
+        data: [this.countCriticidadArticuloEstado('1','Baja'), this.countCriticidadArticuloEstado('2','Baja')],
+      },
+      {
+        name: "Otros",
+        data: [this.countCriticidadArticuloEstado('1'), this.countCriticidadArticuloEstado('2')],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "top",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    
+   }
+  
+   /**
+ * Stacked 100 Bar Charts
+ */
+   private _stacked100BarChartInstancias(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.stacked100BarChartInstancias = {
+      series: [{
+        name: "Alta",
+        data: [this.countCriticidadArticuloEstado('1','Alta') * this.countElementos(), this.countCriticidadArticuloEstado('2','Alta') * this.countElementos()],
+      },
+      {
+        name: "Media",
+        data: [this.countCriticidadArticuloEstado('1','Media') * this.countElementos(), this.countCriticidadArticuloEstado('2','Media') * this.countElementos()],
+      },
+      {
+        name: "Baja",
+        data: [this.countCriticidadArticuloEstado('1','Baja') * this.countElementos(), this.countCriticidadArticuloEstado('2','Baja') * this.countElementos()],
+      },
+      {
+        name: "Otros",
+        data: [this.countCriticidadArticuloEstado('1') * this.countElementos(), this.countCriticidadArticuloEstado('2') * this.countElementos()],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "top",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    
+   }
+
+   private _stacked100BarChartAmbienteCriticidad(colors: any){
+    
+    colors = this.getChartColorsArray(colors);
+    this.stacked100BarChartAmbienteCriticidad = {
+      series: [{
+        name: "Alta",
+        data: [this.ambiente_alta, this.energia_alta, this.sso_alta],
+      },
+      {
+        name: "Media",
+        data: [this.ambiente_media, this.energia_media, this.sso_media],
+      },
+      {
+        name: "Baja",
+        data: [this.ambiente_baja, this.energia_baja, this.sso_baja],
+      },
+      {
+        name: "Otros",
+        data: [this.ambiente_otros, this.energia_otros, this.sso_otros],
       }
       ],
       chart: {
@@ -795,6 +1028,330 @@ export class IdentificationComponent implements OnInit {
       colors: colors,
     };
 
+    this.stacked100BarChartAmbienteCriticidadInstancias = {
+      series: [{
+        name: "Alta",
+        data: [this.ambiente_alta * this.countElementos(), this.energia_alta * this.countElementos(), this.sso_alta * this.countElementos()],
+      },
+      {
+        name: "Media",
+        data: [this.ambiente_media * this.countElementos(), this.energia_media * this.countElementos(), this.sso_media * this.countElementos()],
+      },
+      {
+        name: "Baja",
+        data: [this.ambiente_baja * this.countElementos(), this.energia_baja * this.countElementos(), this.sso_baja * this.countElementos()],
+      },
+      {
+        name: "Otros",
+        data: [this.ambiente_otros * this.countElementos(), this.energia_otros * this.countElementos(), this.sso_otros * this.countElementos()],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ["MA","ENERGIA","SSO"],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "top",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+   }
+   /**
+ * Stacked 100 Bar Charts
+ */
+   private _stacked100BarChartAtributos(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.stacked100BarChartPermisos = {
+      series: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','permiso','Alta'), this.countCriticidadAtributoEstado('2','permiso','Alta')],
+      },
+      {
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','permiso','Media'), this.countCriticidadAtributoEstado('2','permiso','Media')],
+      },
+      {
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','permiso','Baja'), this.countCriticidadAtributoEstado('2','permiso','Baja')],
+      },
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','permiso'), this.countCriticidadAtributoEstado('1','permiso')],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          vertical: true
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "bottom",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    this.stacked100BarChartReportes = {
+      series: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','reporte','Alta'), this.countCriticidadAtributoEstado('2','reporte','Alta')],
+      },
+      {
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','reporte','Media'), this.countCriticidadAtributoEstado('2','reporte','Media')],
+      },
+      {
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','reporte','Baja'), this.countCriticidadAtributoEstado('2','reporte','Baja')],
+      },
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','reporte'), this.countCriticidadAtributoEstado('1','reporte')],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          vertical: true
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "bottom",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    this.stacked100BarChartMonitoreos = {
+      series: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo','Alta'), this.countCriticidadAtributoEstado('2','monitoreo','Alta')],
+      },
+      {
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo','Media'), this.countCriticidadAtributoEstado('2','monitoreo','Media')],
+      },
+      {
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo','Baja'), this.countCriticidadAtributoEstado('2','monitoreo','Baja')],
+      },
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo'), this.countCriticidadAtributoEstado('1','monitoreo')],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          vertical: true
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "bottom",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
+
+    this.stacked100BarChartOtros = {
+      series: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','otros','Alta'), this.countCriticidadAtributoEstado('2','otros','Alta')],
+      },
+      {
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','otros','Media'), this.countCriticidadAtributoEstado('2','otros','Media')],
+      },
+      {
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','otros','Baja'), this.countCriticidadAtributoEstado('2','otros','Baja')],
+      },
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','otros'), this.countCriticidadAtributoEstado('1','otros')],
+      }
+      ],
+      chart: {
+        type: "bar",
+        height: 250,
+        stacked: true,
+        stackType: "100%",
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          vertical: true
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
+      /*title: {
+        text: "100% Stacked Bar",
+        style: {
+          fontWeight: 600,
+        },
+      },*/
+      xaxis: {
+        categories: ['Gestionar', 'Por definir'],
+      },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: "bottom",
+        //horizontalAlign: "left",
+        //offsetX: 40,
+      },
+      colors: colors,
+    };
    }
   
   selectCuerpo(cuerpo: any){
@@ -1991,12 +2548,106 @@ validateIdparte(idParte: any){
               switch (x.ambito) {
                 case 'MA':
                   this.ambiente ++;
+
+                  const existe_ambiente_alta = this.articulos.findIndex(
+                  (co: any) =>
+                    co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.construccion == true
+                  );
+
+                  if(existe_ambiente_alta != -1){
+                    this.ambiente_alta ++;
+                  }
+
+                  const existe_ambiente_media = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.operacion == true
+                    );
+  
+                    if(existe_ambiente_media != -1){
+                      this.ambiente_media ++;
+                    }
+                    
+                  const existe_ambiente_baja = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.cierre == true
+                    );
+  
+                    if(existe_ambiente_baja != -1){
+                      this.ambiente_baja ++;
+                    }  
+                    
+                    if(existe_ambiente_alta == -1 && existe_ambiente_media == -1 && existe_ambiente_baja == -1){
+                      this.ambiente_otros ++;
+                    }
+
                   break;
                 case 'SST':
                   this.sso ++;
+                  
+                  const existe_sso_alta = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.construccion == true
+                    );
+  
+                    if(existe_sso_alta != -1){
+                      this.sso_alta ++;
+                    }
+  
+                    const existe_sso_media = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.operacion == true
+                      );
+    
+                      if(existe_sso_media != -1){
+                        this.sso_media ++;
+                      }
+                      
+                    const existe_sso_baja = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.cierre == true
+                      );
+    
+                      if(existe_sso_baja != -1){
+                        this.sso_baja ++;
+                      }  
+                      
+                      if(existe_sso_alta == -1 && existe_sso_media == -1 && existe_sso_baja == -1){
+                        this.sso_otros ++;
+                      }
                   break;
                 case 'ENERGIA':
                   this.energia ++;
+
+                  const existe_energia_alta = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.construccion == true
+                    );
+  
+                    if(existe_energia_alta != -1){
+                      this.energia_alta ++;
+                    }
+  
+                    const existe_energia_media = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.operacion == true
+                      );
+    
+                      if(existe_energia_media != -1){
+                        this.energia_media ++;
+                      }
+                      
+                    const existe_energia_baja = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.cierre == true
+                      );
+    
+                      if(existe_energia_baja != -1){
+                        this.energia_baja ++;
+                      }  
+                      
+                      if(existe_energia_alta == -1 && existe_energia_media == -1 && existe_energia_baja == -1){
+                        this.energia_otros ++;
+                      }
                   break;
               
                 default:
@@ -2265,6 +2916,320 @@ validateIdparte(idParte: any){
                   gestionar = gestionar_monitoreos;
                 }else{
                   no_gestionar = no_gestionar_monitoreos;
+                }
+              break;
+          
+            default:
+              result = otros;
+              if(estado == 1){
+                gestionar = gestionar_otros;
+              }else{
+                no_gestionar = no_gestionar_otros;
+              }
+              break;
+          }
+    
+      return estado == 1 ? gestionar : no_gestionar;
+  }
+
+  countCriticidadArticuloEstado(estado?: any, criticidad?: any){
+    
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+    let alta: number = 0;
+    let media: number = 0;
+    let baja: number = 0;
+    let otros: number = 0;
+    let gestionar: number = 0;
+    let no_gestionar: number = 0;
+    let gestionar_alta: number = 0;
+    let no_gestionar_alta: number = 0;
+    let gestionar_media: number = 0;
+    let no_gestionar_media: number = 0;
+    let gestionar_baja: number = 0;
+    let no_gestionar_baja: number = 0;
+    let gestionar_otros: number = 0;
+    let no_gestionar_otros: number = 0;
+    
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+              
+                const existe_alta = this.articulos.findIndex(
+                  (co: any) =>
+                    co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.construccion == true
+                );
+
+                if(existe_alta != -1){
+                  alta ++;
+                  
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_alta ++;
+                        break;
+                      case '2':
+                        no_gestionar_alta ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                }
+
+                  const existe_media = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.operacion == true
+                  );
+                  
+                  if(existe_media != -1){
+                    media ++;
+                    
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_media ++;
+                        break;
+                      case '2':
+                        no_gestionar_media ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                  }
+                    
+                    const existe_baja = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.cierre == true
+                    );
+
+                    if(existe_baja != -1){
+                      baja ++;
+                                       
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_baja ++;
+                        break;
+                      case '2':
+                        no_gestionar_baja ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                    }
+                    
+                    if(existe_alta == -1 && existe_media == -1 && existe_baja == -1){
+                      otros ++;
+                  
+                      switch (x.estado) {
+                        case '1':
+                          gestionar_otros ++;
+                          break;
+                        case '2':
+                          no_gestionar_otros ++;
+                          break;
+                      
+                        default:
+                          break;
+                      }
+                    }
+                
+            }
+          })
+
+          let result: number = 0;
+
+          switch (criticidad) {
+            case 'Alta':
+              result = alta;
+                if(estado == 1){
+                  gestionar = gestionar_alta;
+                }else{
+                  no_gestionar = no_gestionar_alta;
+                }
+              break;
+            
+            case 'Media':
+                result = media;
+                if(estado == 1){
+                  gestionar = gestionar_media;
+                }else{
+                  no_gestionar = no_gestionar_media;
+                }
+              break;
+
+            case 'Baja':
+                result = baja;
+                if(estado == 1){
+                  gestionar = gestionar_baja;
+                }else{
+                  no_gestionar = no_gestionar_baja;
+                }
+              break;
+          
+            default:
+              result = otros;
+              if(estado == 1){
+                gestionar = gestionar_otros;
+              }else{
+                no_gestionar = no_gestionar_otros;
+              }
+              break;
+          }
+    
+      return estado == 1 ? gestionar : no_gestionar;
+  }
+
+  countCriticidadAtributoEstado(estado?: any, atributo?: any, criticidad?: any){
+    
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+    let alta: number = 0;
+    let media: number = 0;
+    let baja: number = 0;
+    let otros: number = 0;
+    let gestionar: number = 0;
+    let no_gestionar: number = 0;
+    let gestionar_alta: number = 0;
+    let no_gestionar_alta: number = 0;
+    let gestionar_media: number = 0;
+    let no_gestionar_media: number = 0;
+    let gestionar_baja: number = 0;
+    let no_gestionar_baja: number = 0;
+    let gestionar_otros: number = 0;
+    let no_gestionar_otros: number = 0;
+    
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push(x.articuloId);
+              
+                const existe_alta = this.articulos.findIndex(
+                  (co: any) =>
+                    co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.construccion == true && co.articuloTipo == (atributo == 'otros' ? null : atributo)
+                );
+
+                if(existe_alta != -1){
+                  alta ++;
+                  
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_alta ++;
+                        break;
+                      case '2':
+                        no_gestionar_alta ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                }
+
+                  const existe_media = this.articulos.findIndex(
+                    (co: any) =>
+                      co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.operacion == true && co.articuloTipo == (atributo == 'otros' ? null : atributo)
+                  );
+                  
+                  if(existe_media != -1){
+                    media ++;
+                    
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_media ++;
+                        break;
+                      case '2':
+                        no_gestionar_media ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                  }
+                    
+                    const existe_baja = this.articulos.findIndex(
+                      (co: any) =>
+                        co.articuloId == x.articuloId && co.proyectoId == this.project_id && co.cierre == true && co.articuloTipo == (atributo == 'otros' ? null : atributo)
+                    );
+
+                    if(existe_baja != -1){
+                      baja ++;
+                                       
+                    switch (x.estado) {
+                      case '1':
+                        gestionar_baja ++;
+                        break;
+                      case '2':
+                        no_gestionar_baja ++;
+                        break;
+                    
+                      default:
+                        break;
+                    }
+                    }
+                    
+                    if(existe_alta == -1 && existe_media == -1 && existe_baja == -1){
+                      otros ++;
+                  
+                      switch (x.estado) {
+                        case '1':
+                          gestionar_otros ++;
+                          break;
+                        case '2':
+                          no_gestionar_otros ++;
+                          break;
+                      
+                        default:
+                          break;
+                      }
+                    }
+                
+            }
+          })
+
+          let result: number = 0;
+
+          switch (criticidad) {
+            case 'Alta':
+              result = alta;
+                if(estado == 1){
+                  gestionar = gestionar_alta;
+                }else{
+                  no_gestionar = no_gestionar_alta;
+                }
+              break;
+            
+            case 'Media':
+                result = media;
+                if(estado == 1){
+                  gestionar = gestionar_media;
+                }else{
+                  no_gestionar = no_gestionar_media;
+                }
+              break;
+
+            case 'Baja':
+                result = baja;
+                if(estado == 1){
+                  gestionar = gestionar_baja;
+                }else{
+                  no_gestionar = no_gestionar_baja;
                 }
               break;
           
@@ -3211,6 +4176,10 @@ validateIdparte(idParte: any){
     this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     
   }
 
