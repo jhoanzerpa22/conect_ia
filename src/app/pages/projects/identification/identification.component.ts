@@ -642,7 +642,6 @@ export class IdentificationComponent implements OnInit {
  * Stacked 100 Bar Charts
  */
    private _stacked100BarChart(colors:any) {
-    console.log('countCriticidad',this.countCriticidadCuerposEstado('1','Alta'));
     colors = this.getChartColorsArray(colors);
     this.stacked100BarChart = {
       series: [{
@@ -658,6 +657,27 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadCuerposEstado('1','Baja'), this.countCriticidadCuerposEstado('2','Baja')],
       },
       {
+        name: "Otros",
+        data: [this.countCriticidadCuerposEstado('1'), this.countCriticidadCuerposEstado('2')],
+      }
+      ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadCuerposEstado('1','Alta'), this.countCriticidadCuerposEstado('2','Alta')],
+      }
+      ],
+      seriesMedia: [
+      {
+        name: "Media",
+        data: [this.countCriticidadCuerposEstado('1','Media'), this.countCriticidadCuerposEstado('2','Media')],
+      }
+      ],
+      seriesBaja: [{
+        name: "Baja",
+        data: [this.countCriticidadCuerposEstado('1','Baja'), this.countCriticidadCuerposEstado('2','Baja')],
+      }
+      ],
+      seriesOtros: [{
         name: "Otros",
         data: [this.countCriticidadCuerposEstado('1'), this.countCriticidadCuerposEstado('2')],
       }
@@ -858,6 +878,26 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadArticuloEstado('1'), this.countCriticidadArticuloEstado('2')],
       }
       ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadArticuloEstado('1','Alta'), this.countCriticidadArticuloEstado('2','Alta')],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.countCriticidadArticuloEstado('1','Media'), this.countCriticidadArticuloEstado('2','Media')],
+      }
+      ],
+      seriesBaja: [{
+          name: "Baja",
+          data: [this.countCriticidadArticuloEstado('1','Baja'), this.countCriticidadArticuloEstado('2','Baja')],
+      }
+      ],
+      seriesOtros: [{
+        name: "Otros",
+        data: [this.countCriticidadArticuloEstado('1'), this.countCriticidadArticuloEstado('2')],
+      }
+      ],
       chart: {
         type: "bar",
         height: 250,
@@ -925,6 +965,27 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadArticuloEstado('1','Baja') * this.countElementos(), this.countCriticidadArticuloEstado('2','Baja') * this.countElementos()],
       },
       {
+        name: "Otros",
+        data: [this.countCriticidadArticuloEstado('1') * this.countElementos(), this.countCriticidadArticuloEstado('2') * this.countElementos()],
+      }
+      ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadArticuloEstado('1','Alta') * this.countElementos(), this.countCriticidadArticuloEstado('2','Alta') * this.countElementos()],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.countCriticidadArticuloEstado('1','Media') * this.countElementos(), this.countCriticidadArticuloEstado('2','Media') * this.countElementos()],
+      }
+      ],
+      seriesBaja: [
+      {
+        name: "Baja",
+        data: [this.countCriticidadArticuloEstado('1','Baja') * this.countElementos(), this.countCriticidadArticuloEstado('2','Baja') * this.countElementos()],
+      }
+      ],
+      seriesOtros: [{
         name: "Otros",
         data: [this.countCriticidadArticuloEstado('1') * this.countElementos(), this.countCriticidadArticuloEstado('2') * this.countElementos()],
       }
@@ -997,6 +1058,28 @@ export class IdentificationComponent implements OnInit {
         data: [this.ambiente_otros, this.energia_otros, this.sso_otros],
       }
       ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.ambiente_alta, this.energia_alta, this.sso_alta],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.ambiente_media, this.energia_media, this.sso_media],
+      }
+      ],
+      seriesBaja: [
+      {
+        name: "Baja",
+        data: [this.ambiente_baja, this.energia_baja, this.sso_baja],
+      }
+      ],
+      seriesOtros: [
+      {
+        name: "Otros",
+        data: [this.ambiente_otros, this.energia_otros, this.sso_otros],
+      }
+      ],
       chart: {
         type: "bar",
         height: 250,
@@ -1055,6 +1138,27 @@ export class IdentificationComponent implements OnInit {
         name: "Baja",
         data: [this.cuerpo_ambiente_baja, this.cuerpo_energia_baja, this.cuerpo_sso_baja],
       },
+      {
+        name: "Otros",
+        data: [this.cuerpo_ambiente_otros, this.cuerpo_energia_otros, this.cuerpo_sso_otros],
+      }
+      ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.cuerpo_ambiente_alta, this.cuerpo_energia_alta, this.cuerpo_sso_alta],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.cuerpo_ambiente_media, this.cuerpo_energia_media, this.cuerpo_sso_media],
+      }
+      ],
+      seriesBaja: [{
+        name: "Baja",
+        data: [this.cuerpo_ambiente_baja, this.cuerpo_energia_baja, this.cuerpo_sso_baja],
+      }
+      ],
+      seriesOtros: [
       {
         name: "Otros",
         data: [this.cuerpo_ambiente_otros, this.cuerpo_energia_otros, this.cuerpo_sso_otros],
@@ -1119,6 +1223,26 @@ export class IdentificationComponent implements OnInit {
         data: [this.ambiente_baja * this.countElementos(), this.energia_baja * this.countElementos(), this.sso_baja * this.countElementos()],
       },
       {
+        name: "Otros",
+        data: [this.ambiente_otros * this.countElementos(), this.energia_otros * this.countElementos(), this.sso_otros * this.countElementos()],
+      }
+      ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.ambiente_alta * this.countElementos(), this.energia_alta * this.countElementos(), this.sso_alta * this.countElementos()],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.ambiente_media * this.countElementos(), this.energia_media * this.countElementos(), this.sso_media * this.countElementos()],
+      }
+      ],
+      seriesBaja: [{
+        name: "Baja",
+        data: [this.ambiente_baja * this.countElementos(), this.energia_baja * this.countElementos(), this.sso_baja * this.countElementos()],
+      }
+      ],
+      seriesOtros: [{
         name: "Otros",
         data: [this.ambiente_otros * this.countElementos(), this.energia_otros * this.countElementos(), this.sso_otros * this.countElementos()],
       }
@@ -1192,6 +1316,29 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','permiso'), this.countCriticidadAtributoEstado('1','permiso')],
       }
       ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','permiso','Alta'), this.countCriticidadAtributoEstado('2','permiso','Alta')],
+      }
+      ],
+      seriesMedia: [
+      {
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','permiso','Media'), this.countCriticidadAtributoEstado('2','permiso','Media')],
+      }
+      ],
+      seriesBaja: [
+      {
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','permiso','Baja'), this.countCriticidadAtributoEstado('2','permiso','Baja')],
+      }
+      ],
+      seriesOtros: [
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','permiso'), this.countCriticidadAtributoEstado('1','permiso')],
+      }
+      ],
       chart: {
         type: "bar",
         height: 250,
@@ -1251,6 +1398,29 @@ export class IdentificationComponent implements OnInit {
         name: "Baja",
         data: [this.countCriticidadAtributoEstado('1','reporte','Baja'), this.countCriticidadAtributoEstado('2','reporte','Baja')],
       },
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','reporte'), this.countCriticidadAtributoEstado('1','reporte')],
+      }
+      ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','reporte','Alta'), this.countCriticidadAtributoEstado('2','reporte','Alta')],
+      }
+      ],
+      seriesMedia: [
+      {
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','reporte','Media'), this.countCriticidadAtributoEstado('2','reporte','Media')],
+      }
+      ],
+      seriesBaja: [
+      {
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','reporte','Baja'), this.countCriticidadAtributoEstado('2','reporte','Baja')],
+      }
+      ],
+      seriesOtros: [
       {
         name: "Otros",
         data: [this.countCriticidadAtributoEstado('1','reporte'), this.countCriticidadAtributoEstado('1','reporte')],
@@ -1320,6 +1490,26 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','monitoreo'), this.countCriticidadAtributoEstado('1','monitoreo')],
       }
       ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo','Alta'), this.countCriticidadAtributoEstado('2','monitoreo','Alta')],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo','Media'), this.countCriticidadAtributoEstado('2','monitoreo','Media')],
+      }
+      ],
+      seriesBaja: [{
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo','Baja'), this.countCriticidadAtributoEstado('2','monitoreo','Baja')],
+      }
+      ],
+      seriesOtros: [{
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','monitoreo'), this.countCriticidadAtributoEstado('1','monitoreo')],
+      }
+      ],
       chart: {
         type: "bar",
         height: 250,
@@ -1384,6 +1574,27 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','otros'), this.countCriticidadAtributoEstado('1','otros')],
       }
       ],
+      seriesAlta: [{
+        name: "Alta",
+        data: [this.countCriticidadAtributoEstado('1','otros','Alta'), this.countCriticidadAtributoEstado('2','otros','Alta')],
+      }
+      ],
+      seriesMedia: [{
+        name: "Media",
+        data: [this.countCriticidadAtributoEstado('1','otros','Media'), this.countCriticidadAtributoEstado('2','otros','Media')],
+      }
+      ],
+      seriesBaja: [{
+        name: "Baja",
+        data: [this.countCriticidadAtributoEstado('1','otros','Baja'), this.countCriticidadAtributoEstado('2','otros','Baja')],
+      }
+      ],
+      seriesOtros: [
+      {
+        name: "Otros",
+        data: [this.countCriticidadAtributoEstado('1','otros'), this.countCriticidadAtributoEstado('1','otros')],
+      }
+      ],
       chart: {
         type: "bar",
         height: 250,
@@ -1429,7 +1640,31 @@ export class IdentificationComponent implements OnInit {
       },
       colors: colors,
     };
-   }
+  }
+
+  getSeries(criticidad: any, objeto: any){
+    switch (criticidad) {
+      case 'Alta':
+        return objeto.seriesAlta;
+        break;
+      
+      case 'Media':
+        return objeto.seriesMedia;
+        break;
+          
+      case 'Baja':
+        return objeto.seriesBaja;
+        break;
+          
+        case 'Otros':
+          return objeto.seriesOtros;
+          break;
+    
+      default:
+        return objeto.series;
+        break;
+    }
+  }
   
   selectCuerpo(cuerpo: any){
     

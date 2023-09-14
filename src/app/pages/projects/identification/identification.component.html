@@ -1260,6 +1260,7 @@
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>
                             </div>
                         </div>
                     </div>
@@ -1608,7 +1609,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad según Cuerpos Legales</h4>
-                        <apx-chart [series]="stacked100BarChart.series" [chart]="stacked100BarChart.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChart)" [chart]="stacked100BarChart.chart"
                         [dataLabels]="stacked100BarChart.dataLabels" [plotOptions]="stacked100BarChart.plotOptions"
                         [xaxis]="stacked100BarChart.xaxis" [stroke]="stacked100BarChart.stroke"
                         [fill]="stacked100BarChart.fill" [title]="stacked100BarChart.title"
@@ -1640,7 +1641,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad según Artículos</h4>
-                        <apx-chart [series]="stacked100BarChartArticulos.series" [chart]="stacked100BarChartArticulos.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartArticulos)" [chart]="stacked100BarChartArticulos.chart"
                         [dataLabels]="stacked100BarChartArticulos.dataLabels" [plotOptions]="stacked100BarChartArticulos.plotOptions"
                         [xaxis]="stacked100BarChartArticulos.xaxis" [stroke]="stacked100BarChartArticulos.stroke"
                         [fill]="stacked100BarChartArticulos.fill" [title]="stacked100BarChartArticulos.title"
@@ -1672,7 +1673,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad según Instancias de cumplimiento</h4>
-                        <apx-chart [series]="stacked100BarChartInstancias.series" [chart]="stacked100BarChartInstancias.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartInstancias)" [chart]="stacked100BarChartInstancias.chart"
                         [dataLabels]="stacked100BarChartInstancias.dataLabels" [plotOptions]="stacked100BarChartInstancias.plotOptions"
                         [xaxis]="stacked100BarChartInstancias.xaxis" [stroke]="stacked100BarChartInstancias.stroke"
                         [fill]="stacked100BarChartInstancias.fill" [title]="stacked100BarChartInstancias.title"
@@ -1704,7 +1705,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad Permisos</h4>
-                        <apx-chart [series]="stacked100BarChartPermisos.series" [chart]="stacked100BarChartPermisos.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartPermisos)" [chart]="stacked100BarChartPermisos.chart"
                         [dataLabels]="stacked100BarChartPermisos.dataLabels" [plotOptions]="stacked100BarChartPermisos.plotOptions"
                         [xaxis]="stacked100BarChartPermisos.xaxis" [stroke]="stacked100BarChartPermisos.stroke"
                         [fill]="stacked100BarChartPermisos.fill" [title]="stacked100BarChartPermisos.title"
@@ -1733,7 +1734,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad Monitoreos</h4>
-                        <apx-chart [series]="stacked100BarChartMonitoreos.series" [chart]="stacked100BarChartMonitoreos.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartMonitoreos)" [chart]="stacked100BarChartMonitoreos.chart"
                         [dataLabels]="stacked100BarChartMonitoreos.dataLabels" [plotOptions]="stacked100BarChartMonitoreos.plotOptions"
                         [xaxis]="stacked100BarChartMonitoreos.xaxis" [stroke]="stacked100BarChartMonitoreos.stroke"
                         [fill]="stacked100BarChartMonitoreos.fill" [title]="stacked100BarChartMonitoreos.title"
@@ -1766,7 +1767,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad Reportes</h4>
-                        <apx-chart [series]="stacked100BarChartReportes.series" [chart]="stacked100BarChartReportes.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartReportes)" [chart]="stacked100BarChartReportes.chart"
                         [dataLabels]="stacked100BarChartReportes.dataLabels" [plotOptions]="stacked100BarChartReportes.plotOptions"
                         [xaxis]="stacked100BarChartReportes.xaxis" [stroke]="stacked100BarChartReportes.stroke"
                         [fill]="stacked100BarChartReportes.fill" [title]="stacked100BarChartReportes.title"
@@ -1795,7 +1796,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad Otras Obl.</h4>
-                        <apx-chart [series]="stacked100BarChartOtros.series" [chart]="stacked100BarChartOtros.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartOtros)" [chart]="stacked100BarChartOtros.chart"
                         [dataLabels]="stacked100BarChartOtros.dataLabels" [plotOptions]="stacked100BarChartOtros.plotOptions"
                         [xaxis]="stacked100BarChartOtros.xaxis" [stroke]="stacked100BarChartOtros.stroke"
                         [fill]="stacked100BarChartOtros.fill" [title]="stacked100BarChartOtros.title"
@@ -1828,7 +1829,7 @@
                         <div class="card-body">
 
                         <h4>Criticidad según Cuerpos Legales por ámbito normativo</h4>
-                        <apx-chart [series]="stacked100BarChartAmbienteCriticidadCuerpos.series" [chart]="stacked100BarChartAmbienteCriticidadCuerpos.chart"
+                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartAmbienteCriticidadCuerpos)" [chart]="stacked100BarChartAmbienteCriticidadCuerpos.chart"
                         [dataLabels]="stacked100BarChartAmbienteCriticidadCuerpos.dataLabels" [plotOptions]="stacked100BarChartAmbienteCriticidadCuerpos.plotOptions"
                         [xaxis]="stacked100BarChartAmbienteCriticidadCuerpos.xaxis" [stroke]="stacked100BarChartAmbienteCriticidadCuerpos.stroke"
                         [fill]="stacked100BarChartAmbienteCriticidadCuerpos.fill" [title]="stacked100BarChartAmbienteCriticidadCuerpos.title"
@@ -1861,7 +1862,7 @@
                     <div class="card-body">
 
                     <h4>Criticidad según Artículos por ámbito normativo</h4>
-                    <apx-chart [series]="stacked100BarChartAmbienteCriticidad.series" [chart]="stacked100BarChartAmbienteCriticidad.chart"
+                    <apx-chart [series]="getSeries(criticidad, stacked100BarChartAmbienteCriticidad)" [chart]="stacked100BarChartAmbienteCriticidad.chart"
                     [dataLabels]="stacked100BarChartAmbienteCriticidad.dataLabels" [plotOptions]="stacked100BarChartAmbienteCriticidad.plotOptions"
                     [xaxis]="stacked100BarChartAmbienteCriticidad.xaxis" [stroke]="stacked100BarChartAmbienteCriticidad.stroke"
                     [fill]="stacked100BarChartAmbienteCriticidad.fill" [title]="stacked100BarChartAmbienteCriticidad.title"
@@ -1892,7 +1893,7 @@
                     <div class="card-body">
 
                     <h4>Criticidad según Instancias por ámbito normativo</h4>
-                    <apx-chart [series]="stacked100BarChartAmbienteCriticidadInstancias.series" [chart]="stacked100BarChartAmbienteCriticidadInstancias.chart"
+                    <apx-chart [series]="getSeries(criticidad, stacked100BarChartAmbienteCriticidadInstancias)" [chart]="stacked100BarChartAmbienteCriticidadInstancias.chart"
                     [dataLabels]="stacked100BarChartAmbienteCriticidadInstancias.dataLabels" [plotOptions]="stacked100BarChartAmbienteCriticidadInstancias.plotOptions"
                     [xaxis]="stacked100BarChartAmbienteCriticidadInstancias.xaxis" [stroke]="stacked100BarChartAmbienteCriticidadInstancias.stroke"
                     [fill]="stacked100BarChartAmbienteCriticidadInstancias.fill" [title]="stacked100BarChartAmbienteCriticidadInstancias.title"
