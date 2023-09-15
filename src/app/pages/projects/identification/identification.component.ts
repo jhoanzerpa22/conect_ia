@@ -67,6 +67,7 @@ export class IdentificationComponent implements OnInit {
   stacked100BarChartAmbienteCriticidad: any;
   stacked100BarChartAmbienteCriticidadCuerpos: any;
   stacked100BarChartAmbienteCriticidadInstancias: any;
+  basicBarChart: any;
   
   @ViewChild('scrollRef') scrollRef: any;
 
@@ -171,8 +172,12 @@ export class IdentificationComponent implements OnInit {
   
   criticidad: any;
   tipo: any;
+  filtro_cuerpo: any;
+  filtro_articulo: any;
+  filtro_atributo: any;
   areas_chart: any;
   areas_select_chart: any = [];
+  articulos_chart: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -252,7 +257,8 @@ export class IdentificationComponent implements OnInit {
     this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-     
+    this._basicBarChart('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-danger", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+        
     /**
      * Fetches the data
      */
@@ -435,6 +441,13 @@ export class IdentificationComponent implements OnInit {
       legend: {
         position: "bottom",
       },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "76%",
+          },
+        },
+      },
       dataLabels: {
         dropShadow: {
           enabled: false,
@@ -573,18 +586,57 @@ export class IdentificationComponent implements OnInit {
      private _simpleDonutChartCuerposAmbito(colors:any) {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartCuerposAmbito = {
-        series: [this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso],
+        series: [{
+          data: [this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso]
+        }],
         chart: {
           height: 300,
-          type: "donut",
+          //type: "donut",
+          type: "bar",
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+              show: false,
+          }
         },
+      plotOptions: {
+        bar: {
+          //columnWidth: '45%',
+          //distributed: true,
+          dataLabels: {
+              position: "top", // top, center, bottom
+          },
+        }
+      },
         legend: {
           position: "bottom",
         },
         dataLabels: {
-          dropShadow: {
-            enabled: false,
+          enabled: true,
+          formatter: function (val:any) {
+              return val + "%";
           },
+          offsetY: 160,
+          style: {
+              fontSize: "12px",
+              colors: ["#000"],
+          },
+        },
+        yaxis: {
+          show: false,
+          showAlways: false,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            labels: {
+                show: false,
+                formatter: function (val:any) {
+                    return val + "%";
+                },
+            },
         },
         labels: ["MA","ENERGIA","SSO"],
         colors: colors,
@@ -598,18 +650,57 @@ export class IdentificationComponent implements OnInit {
      private _simpleDonutChartArticulosAmbito(colors:any) {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartArticulosAmbito = {
-        series: [this.ambiente, this.energia, this.sso],
+        series: [{
+          data: [this.ambiente, this.energia, this.sso]
+        }],
         chart: {
           height: 300,
-          type: "donut",
+          //type: "donut",
+          type: "bar",
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+              show: false,
+          }
+        },
+        plotOptions: {
+          bar: {
+            //columnWidth: '45%',
+            //distributed: true,
+            dataLabels: {
+              position: "top", // top, center, bottom
+            }
+          }
         },
         legend: {
           position: "bottom",
         },
         dataLabels: {
-          dropShadow: {
-            enabled: false,
+          enabled: true,
+          formatter: function (val:any) {
+              return val + "%";
           },
+          offsetY: 160,
+          style: {
+              fontSize: "12px",
+              colors: ["#000"],
+          },
+        },
+        yaxis: {
+          show: false,
+          showAlways: false,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            labels: {
+                show: false,
+                formatter: function (val:any) {
+                    return val + "%";
+                },
+            },
         },
         labels: ["MA","ENERGIA","SSO"],
         colors: colors,
@@ -622,18 +713,57 @@ export class IdentificationComponent implements OnInit {
     private _simpleDonutChartInstanciasAmbito(colors:any) {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartInstanciasAmbito = {
-        series: [this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()],
+        series: [{
+          data: [this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()]
+        }],
         chart: {
           height: 300,
-          type: "donut",
+          //type: "donut",
+          type: "bar",
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+              show: false,
+          }
+        },
+        plotOptions: {
+          bar: {
+            //columnWidth: '45%',
+            //distributed: true,
+            dataLabels: {
+              position: "top", // top, center, bottom
+            },
+          }
         },
         legend: {
           position: "bottom",
         },
         dataLabels: {
-          dropShadow: {
-            enabled: false,
+          enabled: true,
+          formatter: function (val:any) {
+              return val + "%";
           },
+          offsetY: 160,
+          style: {
+              fontSize: "12px",
+              colors: ["#000"],
+          },
+        },
+        yaxis: {
+          show: false,
+          showAlways: false,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            labels: {
+                show: false,
+                formatter: function (val:any) {
+                    return val + "%";
+                },
+            },
         },
         labels: ["MA","ENERGIA","SSO"],
         colors: colors,
@@ -944,8 +1074,6 @@ export class IdentificationComponent implements OnInit {
       },
       colors: colors,
     };
-
-    
    }
   
    /**
@@ -1643,6 +1771,55 @@ export class IdentificationComponent implements OnInit {
       colors: colors,
     };
   }
+
+  /**
+   * Basic Bar Chart
+   */
+  private _basicBarChart(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChart = {
+        series: [{
+            data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Sessions',
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+            toolbar: {
+                show: false,
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+                distributed: true,
+                dataLabels: {
+                    position: 'top',
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            offsetX: 32,
+            style: {
+                fontSize: '12px',
+                fontWeight: 400,
+                colors: ['#adb5bd']
+            }
+        },
+        colors: colors,
+        legend: {
+            show: false,
+        },
+        grid: {
+            show: false,
+        },
+        xaxis: {
+            categories: ['India', 'United States', 'China', 'Indonesia', 'Russia', 'Bangladesh', 'Canada', 'Brazil', 'Vietnam', 'UK'],
+        },
+    };
+}
 
   getSeries(criticidad: any, objeto: any){
     switch (criticidad) {
@@ -3859,6 +4036,53 @@ validateIdparte(idParte: any){
   selectTipo(tipo?: any){
     this.tipo = tipo;
   }
+
+  selectAtributoFiltro(atributo?: any){
+    this.filtro_atributo = atributo;
+  }
+
+  selectCuerpoFiltro(cuerpo?: any){
+    this.filtro_cuerpo = cuerpo;
+  
+    if(cuerpo){
+      const index = this.articles_proyects_group.findIndex(
+        (ap: any) =>
+          ap.cuerpoLegal == cuerpo
+      );
+
+      if(index != -1){
+        this.articulos_chart = this.articles_proyects_group[index].articulos;
+      }
+    }else{
+        this.articulos_chart = [];
+    }
+
+  }
+
+  selectArticuloFiltro(articulo?: any){
+    this.filtro_articulo = articulo;
+  }
+  
+  selectGestion(x: any) {
+    /*if (x == 'all') {
+        this.basicBarChart.series = [{
+            data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Sessions',
+        }]
+    }
+    if (x == '1M') {
+        this.basicBarChart.series = [{
+            data: [200, 640, 490, 255, 50, 689, 800, 420, 85, 589],
+            name: 'Sessions',
+        }]
+    }
+    if (x == '6M') {
+        this.basicBarChart.series = [{
+            data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Sessions',
+        }]
+    }*/
+  }
   
   selectAreaChart(id?: any){
     const existe_area = this.areas_chart.findIndex(
@@ -4806,6 +5030,7 @@ validateIdparte(idParte: any){
     this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._basicBarChart('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-danger", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
     
   }
 
