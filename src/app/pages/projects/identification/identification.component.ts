@@ -169,8 +169,10 @@ export class IdentificationComponent implements OnInit {
   cuerpo_energia_baja: number = 0;
   cuerpo_energia_otros: number = 0;
   
-
   criticidad: any;
+  tipo: any;
+  areas_chart: any;
+  areas_select_chart: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -1921,6 +1923,7 @@ validateIdparte(idParte: any){
     this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.areas = data.data;
+          this.areas_chart = data.data;
       },
       (error: any) => {
       });
@@ -2684,6 +2687,25 @@ validateIdparte(idParte: any){
         (data: any) => {
           if(data.data.length > 0){
             this.items.push({value: null, options: data.data});
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    }
+  }
+
+  getChildrenChart(padre_id: any){
+    this.areas_chart = [];
+    if(padre_id > 0){
+      this.showPreLoader();
+      this.projectsService.getAreasItems(padre_id).pipe().subscribe(
+        (data: any) => {
+          if(data.data.length > 0){
+            this.areas_chart = data.data;
           }
           this.hidePreLoader();
       },
@@ -3832,6 +3854,47 @@ validateIdparte(idParte: any){
 
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
+  }
+
+  selectTipo(tipo?: any){
+    this.tipo = tipo;
+  }
+  
+  selectAreaChart(id?: any){
+    const existe_area = this.areas_chart.findIndex(
+      (arc: any) =>
+        arc.id == id
+    );
+
+    if(existe_area != -1){
+      this.areas_select_chart.push({id: id, nombre: this.areas_chart[existe_area].nombre});
+      this.getChildrenChart(id);
+    }
+  }
+
+  deleteAreaChart(id: any){
+    
+    //event.style.display='none';
+
+    const existe_area = this.areas_select_chart.findIndex(
+      (arc: any) =>
+        arc.id == id
+    );
+
+    const chart_length: any = this.areas_select_chart.length;
+
+    //for (let p = 0; p < chart_length; p++) {
+      //if(p >= existe_area){
+        this.areas_select_chart.splice(existe_area, chart_length - existe_area/*1*/);
+      //}
+    //}
+
+    if(this.areas_select_chart.length > 0){
+      this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
+    }else{
+      this.areas_chart = this.areas;
+    }
+
   }
 
   byArticuloVinculacion(id: any){
