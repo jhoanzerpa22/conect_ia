@@ -4029,6 +4029,27 @@ validateIdparte(idParte: any){
     return installation_group.length;
   }
 
+  getArticulos(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push({id: x.articuloId, articulo: x.articulo});
+            }
+          })
+
+    return articles_group;
+  }
+
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
   }
@@ -4044,7 +4065,7 @@ validateIdparte(idParte: any){
   selectCuerpoFiltro(cuerpo?: any){
     this.filtro_cuerpo = cuerpo;
   
-    if(cuerpo){
+    /*if(cuerpo){
       const index = this.articles_proyects_group.findIndex(
         (ap: any) =>
           ap.cuerpoLegal == cuerpo
@@ -4055,12 +4076,12 @@ validateIdparte(idParte: any){
       }
     }else{
         this.articulos_chart = [];
-    }
+    }*/
 
   }
 
-  selectArticuloFiltro(articulo?: any){
-    this.filtro_articulo = articulo;
+  selectArticuloFiltro(id?: any, articulo?: any){
+    this.filtro_articulo = id > 0 ? {id: id,articulo: articulo} : null;
   }
   
   selectGestion(x: any) {

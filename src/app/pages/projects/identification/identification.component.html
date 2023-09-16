@@ -1278,12 +1278,12 @@
 
                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                             
-                            <button type="button" class="btn btn-light" style="
+                            <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
                             width: 100%;
                             text-align: left;
                             background: white;
-                        ">{{ !tipo ? 'Tipo de Vinculación' : tipo }}</button>    
-                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo ? 'Tipo de Vinculación' : tipo }}</button>    
+                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                 <a class="dropdown-item" [ngClass]="!tipo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo()">Todos</a>
                                 <a class="dropdown-item" [ngClass]="tipo && tipo == 'Gestionar' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Gestionar')">Gestionar</a>
@@ -1297,12 +1297,12 @@
 
                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                             
-                            <button type="button" class="btn btn-light" style="
+                            <button type="button" class="btn btn-light  dropdown-toggle dropdown-disable" style="
                             width: 100%;
                             text-align: left;
                             background: white;
-                        " disabled>{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
-                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled></button>
+                        " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled>{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
+                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled></button>
                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                 <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
@@ -2197,12 +2197,12 @@
                 
                                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                                             
-                                            <button type="button" class="btn btn-light" style="
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        ">{{ !tipo ? 'Tipo de Vinculación' : tipo }}</button>    
-                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo ? 'Tipo de Vinculación' : tipo }}</button>    
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!tipo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo()">Todos</a>
                                                 <a class="dropdown-item" [ngClass]="tipo && tipo == 'Gestionar' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Gestionar')">Gestionar</a>
@@ -2216,12 +2216,12 @@
                 
                                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                                             
-                                            <button type="button" class="btn btn-light" style="
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        " disabled>{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
-                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled></button>
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled>{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
@@ -2237,13 +2237,13 @@
                 
                                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                                             
-                                            <button type="button" class="btn btn-light" style="
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        ">{{ !filtro_atributo ? 'Seleccione el atributo' : filtro_atributo }}</button>    
-                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
-                                            <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_atributo ? 'Seleccione el atributo' : filtro_atributo }}</button>    
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                            <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
                                                 
                                                 <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permisos' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permisos')">Permisos</a>
@@ -2261,18 +2261,18 @@
                 
                                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                                             
-                                            <button type="button" class="btn btn-light" style="
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        ">{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo }}</button>    
-                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
-                                            <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo.articulo }}</button>
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                            <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
 
-                                                <ng-container *ngFor="let ach of articulos_chart;">
-                                                    
-                                                    <a class="dropdown-item" [ngClass]="filtro_articulo && filtro_articulo == ach.articuloId ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
+                                                <ng-container *ngFor="let ach of getArticulos();">
+ <!--articulos_chart-->                                                   
+                                                    <a class="dropdown-item" [ngClass]="filtro_articulo && filtro_articulo.id == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
                                                 </ng-container>
                                             </div>
                                         </div>

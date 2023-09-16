@@ -91,3 +91,7 @@
   .closebtn:hover {
     color: #000;
   }
+  
+  .dropdown-disable::after{
+    display: none !important;
+  }
