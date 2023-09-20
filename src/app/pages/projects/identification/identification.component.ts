@@ -33,15 +33,12 @@ import Swal from 'sweetalert2';
  */
 export class IdentificationComponent implements OnInit {
 
-  // bread crumb items
   breadCrumbItems!: Array<{}>;
-  statData!: any;
-  OverviewChart: any;
-  ActiveProjects: any;
-  MyTask: any;
-  TeamMembers: any;
-  status7: any;
-  simpleDonutChart: any;
+  //statData!: any;
+  //ActiveProjects: any;
+  //MyTask: any;
+  //TeamMembers: any;
+  //status7: any;
   simpleDonutChartArticulos: any;
   simpleDonutChartInstancias: any;
   simpleDonutChartCuerpos: any;
@@ -52,6 +49,12 @@ export class IdentificationComponent implements OnInit {
   simpleDonutChartArticulosAmbito: any;
   simpleDonutChartInstanciasAmbito: any;
   simpleDonutChartCuerposAmbito: any;
+  
+  basicBarChartGeneral: any;
+  basicBarChartReportes: any;
+  basicBarChartPermisos: any;
+  basicBarChartMonitoreos: any;
+  basicBarChartOtros: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
   
@@ -67,7 +70,6 @@ export class IdentificationComponent implements OnInit {
   stacked100BarChartAmbienteCriticidad: any;
   stacked100BarChartAmbienteCriticidadCuerpos: any;
   stacked100BarChartAmbienteCriticidadInstancias: any;
-  basicBarChart: any;
   
   @ViewChild('scrollRef') scrollRef: any;
 
@@ -84,6 +86,7 @@ export class IdentificationComponent implements OnInit {
   total: Observable<number>;
   sellers?: any;
   pagLength?: number = 0;
+  
   term:any;
   term2:any;
   term3:any;
@@ -91,6 +94,7 @@ export class IdentificationComponent implements OnInit {
   term5:any;
   term6:any;
   term7:any;
+  
   articles_proyects: any = [];
   articles_proyects_group: any = [];
   articles_proyects_all: any = [];
@@ -154,6 +158,7 @@ export class IdentificationComponent implements OnInit {
   energia_media: number = 0;
   energia_baja: number = 0;
   energia_otros: number = 0;
+  
   cuerpo_ambiente: number = 0;
   cuerpo_sso: number = 0;
   cuerpo_energia: number = 0;
@@ -178,6 +183,11 @@ export class IdentificationComponent implements OnInit {
   areas_chart: any;
   areas_select_chart: any = [];
   articulos_chart: any = [];
+
+  dashboard: any;
+  dashboardArea: any;
+
+  select_gestion: any = 'articulos';
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -237,32 +247,16 @@ export class IdentificationComponent implements OnInit {
       this.getArticleProyect(this.project_id);
       this.getCuerpoInstallationsByProyect();
       this.getNormas(0);
-    });
 
-    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChart('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._basicBarChart('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-danger", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+      this.getDashboard(params['id']);
+      this.getDashboardArea(params['id'], 'articulos'); //cuerpoLegal, articulos, instancias
+      this.setChart();
+    });
         
     /**
      * Fetches the data
      */
-    this.fetchData();
+    //this.fetchData();
   }
 
   ngAfterViewInit() {
@@ -292,6 +286,32 @@ export class IdentificationComponent implements OnInit {
             }
         }
     });
+  }
+
+  private setChart(){
+
+    this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartAtributos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    
+    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    
+    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+  
   }
 
   /**
@@ -381,30 +401,6 @@ export class IdentificationComponent implements OnInit {
    /**
  * Simple Donut Chart
  */
-   private _simpleDonutChart(colors:any) {
-    colors = this.getChartColorsArray(colors);
-    this.simpleDonutChart = {
-      series: [80, 20],
-      chart: {
-        height: 300,
-        type: "donut",
-      },
-      legend: {
-        position: "bottom",
-      },
-      dataLabels: {
-        dropShadow: {
-          enabled: false,
-        },
-      },
-      labels: ["Gestionar","Por definir"],
-      colors: colors,
-    };
-  }
-
-   /**
- * Simple Donut Chart
- */
    private _simpleDonutChartCuerpos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartCuerpos = {
@@ -426,14 +422,13 @@ export class IdentificationComponent implements OnInit {
     };
   }
 
-
    /**
  * Simple Donut Chart
  */
    private _simpleDonutChartArticulos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartArticulos = {
-      series: [this.countArticulosEstado('1'), this.countArticulosEstado('2')],
+      series: [this.getDataDashboard('articulos_gestionar'),this.getDataDashboard('articulos_definir')],//this.countArticulosEstado('1'), this.countArticulosEstado('2')
       chart: {
         height: 300,
         type: "donut",
@@ -464,7 +459,7 @@ export class IdentificationComponent implements OnInit {
   private _simpleDonutChartInstancias(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartInstancias = {
-      series: [this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()],
+      series: [this.getDataDashboard('articulos_gestionar') * this.getDataDashboard('elementos'), this.getDataDashboard('articulos_definir') * this.getDataDashboard('elementos')],//this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()
       chart: {
         height: 300,
         type: "donut",
@@ -488,7 +483,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartMonitoreos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartMonitoreos = {
-      series: [this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')],
+      series: [this.getDataDashboard('monitoreos_gestionar'), this.getDataDashboard('monitoreos_definir')],//this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')
       chart: {
         height: 300,
         type: "donut",
@@ -512,7 +507,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartReportes(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartReportes = {
-      series: [this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')],
+      series: [this.getDataDashboard('reportes_gestionar'), this.getDataDashboard('reportes_definir')],//this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')
       chart: {
         height: 300,
         type: "donut",
@@ -537,7 +532,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartPermisos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartPermisos = {
-      series: [this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')],
+      series: [this.getDataDashboard('permisos_gestionar'), this.getDataDashboard('permisos_definir')],//this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')
       chart: {
         height: 300,
         type: "donut",
@@ -562,7 +557,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartOtros(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartOtros = {
-      series: [this.countAtributoEstado('1'), this.countAtributoEstado('2')],
+      series: [this.getDataDashboard('otros_gestionar'), this.getDataDashboard('otros_definir')],//this.countAtributoEstado('1'), this.countAtributoEstado('2')
       chart: {
         height: 300,
         type: "donut",
@@ -587,7 +582,7 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartCuerposAmbito = {
         series: [{
-          data: [this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso]
+          data: [this.getDataDashboard('cuerpo_ma'),this.getDataDashboard('cuerpo_energia'),this.getDataDashboard('cuerpo_sso')]//this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso
         }],
         chart: {
           height: 300,
@@ -651,7 +646,7 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartArticulosAmbito = {
         series: [{
-          data: [this.ambiente, this.energia, this.sso]
+          data: [this.getDataDashboard('ma'),this.getDataDashboard('energia'),this.getDataDashboard('sso')]//this.ambiente, this.energia, this.sso
         }],
         chart: {
           height: 300,
@@ -714,7 +709,7 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartInstanciasAmbito = {
         series: [{
-          data: [this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()]
+          data: [this.getDataDashboard('ma') * this.getDataDashboard('elementos'),this.getDataDashboard('energia') * this.getDataDashboard('elementos'),this.getDataDashboard('sso') * this.getDataDashboard('elementos')]//this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()
         }],
         chart: {
           height: 300,
@@ -1775,12 +1770,12 @@ export class IdentificationComponent implements OnInit {
   /**
    * Basic Bar Chart
    */
-  private _basicBarChart(colors: any) {
+  private _basicBarChartGeneral(colors: any) {
     colors = this.getChartColorsArray(colors);
-    this.basicBarChart = {
+    this.basicBarChartGeneral = {
         series: [{
-            data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
-            name: 'Sessions',
+            data: this.getDataDashboardArea('value','general'),//[1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Articulos',
         }],
         chart: {
             type: 'bar',
@@ -1816,9 +1811,185 @@ export class IdentificationComponent implements OnInit {
             show: false,
         },
         xaxis: {
-            categories: ['India', 'United States', 'China', 'Indonesia', 'Russia', 'Bangladesh', 'Canada', 'Brazil', 'Vietnam', 'UK'],
+            categories: this.getDataDashboardArea('label','general')//['India', 'United States', 'China', 'Indonesia', 'Russia', 'Bangladesh', 'Canada', 'Brazil', 'Vietnam', 'UK'],
         },
     };
+  }
+
+  private _basicBarChartAtributos(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChartPermisos = {
+      series: [{
+          data: this.getDataDashboardArea('value','permisos'),
+          name: 'Articulos',
+      }],
+      chart: {
+          type: 'bar',
+          height: 400,
+          toolbar: {
+              show: false,
+          }
+      },
+      plotOptions: {
+          bar: {
+              borderRadius: 4,
+              horizontal: true,
+              distributed: true,
+              dataLabels: {
+                  position: 'top',
+              },
+          }
+      },
+      dataLabels: {
+          enabled: true,
+          offsetX: 32,
+          style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: ['#adb5bd']
+          }
+      },
+      colors: colors,
+      legend: {
+          show: false,
+      },
+      grid: {
+          show: false,
+      },
+      xaxis: {
+          categories: this.getDataDashboardArea('label','permisos')
+      },
+  };
+  
+  this.basicBarChartReportes = {
+    series: [{
+        data: this.getDataDashboardArea('value','reportes'),
+        name: 'Articulos',
+    }],
+    chart: {
+        type: 'bar',
+        height: 400,
+        toolbar: {
+            show: false,
+        }
+    },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            horizontal: true,
+            distributed: true,
+            dataLabels: {
+                position: 'top',
+            },
+        }
+    },
+    dataLabels: {
+        enabled: true,
+        offsetX: 32,
+        style: {
+            fontSize: '12px',
+            fontWeight: 400,
+            colors: ['#adb5bd']
+        }
+    },
+    colors: colors,
+    legend: {
+        show: false,
+    },
+    grid: {
+        show: false,
+    },
+    xaxis: {
+        categories: this.getDataDashboardArea('label','reportes')
+    },
+};
+
+this.basicBarChartMonitoreos = {
+  series: [{
+      data: this.getDataDashboardArea('value','monitoreos'),
+      name: 'Articulos',
+  }],
+  chart: {
+      type: 'bar',
+      height: 400,
+      toolbar: {
+          show: false,
+      }
+  },
+  plotOptions: {
+      bar: {
+          borderRadius: 4,
+          horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
+      }
+  },
+  dataLabels: {
+      enabled: true,
+      offsetX: 32,
+      style: {
+          fontSize: '12px',
+          fontWeight: 400,
+          colors: ['#adb5bd']
+      }
+  },
+  colors: colors,
+  legend: {
+      show: false,
+  },
+  grid: {
+      show: false,
+  },
+  xaxis: {
+      categories: this.getDataDashboardArea('label','monitoreos')
+  },
+};
+
+this.basicBarChartOtros = {
+  series: [{
+      data: this.getDataDashboardArea('value','otros'),
+      name: 'Articulos',
+  }],
+  chart: {
+      type: 'bar',
+      height: 400,
+      toolbar: {
+          show: false,
+      }
+  },
+  plotOptions: {
+      bar: {
+          borderRadius: 4,
+          horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
+      }
+  },
+  dataLabels: {
+      enabled: true,
+      offsetX: 32,
+      style: {
+          fontSize: '12px',
+          fontWeight: 400,
+          colors: ['#adb5bd']
+      }
+  },
+  colors: colors,
+  legend: {
+      show: false,
+  },
+  grid: {
+      show: false,
+  },
+  xaxis: {
+      categories: this.getDataDashboardArea('label','otros')
+  },
+};
+
 }
 
   getSeries(criticidad: any, objeto: any){
@@ -2001,6 +2172,34 @@ validateIdparte(idParte: any){
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+   getDashboard(idProject?: any){
+       this.projectsService.getDashboard(idProject).pipe().subscribe(
+         (data: any) => {
+          console.log('dataDashboard',data);
+          this.dashboard = data.data;
+       },
+       (error: any) => {
+         //this.error = error ? error : '';
+         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+       });
+    }
+
+    getDashboardArea(idProject?: any, type?: any, refresh?: boolean){
+        this.projectsService.getDashboardArea(idProject, type).pipe().subscribe(
+          (data: any) => {
+            console.log('dataDashboardArea',data);
+            this.dashboardArea = data.data;
+            if(refresh){
+              this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+            }
+            //this.project = data.data;
+        },
+        (error: any) => {
+          //this.error = error ? error : '';
+          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+     }
    
   private getNormas(page: number, ambito?: any) {
     
@@ -2965,6 +3164,162 @@ validateIdparte(idParte: any){
           })
 
     return articles_group.length;
+  }
+
+  getDataDashboard(type: any){
+    if(this.dashboard){
+      switch (type) {
+        case 'cuerpos':
+          return this.dashboard.tarjetas.countCuerpoLegal;
+          break;
+        
+        case 'articulos':
+          return this.dashboard.tarjetas.countArticulos;
+          break;
+        
+        case 'instancias':
+          return this.dashboard.tarjetas.countInstanciasCumplimiento;
+          break;
+        
+        case 'elementos':
+          return this.dashboard.tarjetas.countInstalaciones;
+          break;
+        
+        case 'permisos':
+          return this.dashboard.tarjetas.countPermisos;
+          break;
+        
+        case 'monitoreos':
+            return this.dashboard.tarjetas.countMonitoreos;
+            break;
+        
+        case 'reportes':
+            return this.dashboard.tarjetas.countReportes;
+            break;
+        
+        case 'otros':
+            return this.dashboard.tarjetas.countOtrasObligaciones;
+            break;
+        
+        case 'articulos_gestionar':
+            return this.dashboard.tarjetas.countArticulosGestionar;
+            break;
+        
+        case 'articulos_definir':
+            return this.dashboard.tarjetas.countArticulosDefinir;
+            break;
+
+        case 'permisos_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.permiso.countGestionar;
+            break;
+          
+        case 'permisos_definir':
+            return this.dashboard.obligacionesAplicabilidad.permiso.countDefinir;
+            break;
+
+        case 'reportes_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.reporte.countGestionar;
+            break;
+      
+        case 'reportes_definir':
+            return this.dashboard.obligacionesAplicabilidad.reporte.countDefinir;
+            break;
+
+        case 'monitoreos_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.monitoreo.countGestionar;
+            break;
+      
+        case 'monitoreos_definir':
+            return this.dashboard.obligacionesAplicabilidad.monitoreo.countDefinir;
+            break;
+
+        case 'otros_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countGestionar;
+            break;
+      
+        case 'otros_definir':
+            return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
+            break;
+
+        case 'cuerpo_ma':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.MA;
+            break;
+        
+        case 'cuerpo_energia':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.ENERGIA;
+            break;
+        
+        case 'cuerpo_sso':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.SSO;
+            break;
+            
+        case 'ma':
+            return this.dashboard.ambitoNormativo.articulos.MA;
+            break;
+      
+        case 'energia':
+            return this.dashboard.ambitoNormativo.articulos.ENERGIA;
+            break;
+      
+        case 'sso':
+            return this.dashboard.ambitoNormativo.articulos.SSO;
+            break;
+            
+        default:
+          break;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+    getDataDashboardArea(parametro: any, type?: any){
+    if(this.dashboardArea){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardArea.general;
+          break;
+        case 'permisos':
+          data_type = this.dashboardArea.permisos;
+          break;
+        case 'reportes':
+          data_type = this.dashboardArea.reportes;
+          break;
+        case 'monitoreos':
+          data_type = this.dashboardArea.monitoreos;
+          break;
+        case 'otros':
+          data_type = this.dashboardArea.otrasObligaciones;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombreArea);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
   }
 
   countCuerposLegales(){
@@ -4085,6 +4440,8 @@ validateIdparte(idParte: any){
   }
   
   selectGestion(x: any) {
+    this.select_gestion = x;
+    this.getDashboardArea(this.project_id, x, true);
     /*if (x == 'all') {
         this.basicBarChart.series = [{
             data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
@@ -4679,12 +5036,12 @@ validateIdparte(idParte: any){
   /**
    * Fetches the data
    */
-  private fetchData() {
+  /*private fetchData() {
     this.statData = statData;
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
-  }
+  }*/
 
   private getArticlesInstallation() {
 
@@ -5033,25 +5390,10 @@ validateIdparte(idParte: any){
     this.getArticlesInstallation();
     this.getArticleProyect(this.project_id);
     this.getCuerpoInstallationsByProyect();
+    this.getDashboard(this.project_id);
+    this.getDashboardArea(this.project_id, 'articulos');
 
-    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._basicBarChart('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-danger", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this.setChart();
     
   }
 

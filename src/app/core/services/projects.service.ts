@@ -351,4 +351,12 @@ export class ProjectsService {
         return this.http.put(API_URL_BACK + 'evaluacionProyecto/'+project_id, data, this.getToken());
     }
 
+    getDashboard(project_id: any, areaId?: any){
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics', { projectId: project_id }, this.getToken());
+    }
+
+    getDashboardArea(project_id: any, type: any, areaId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal?type='+type, { projectId: project_id }, this.getToken());
+    }
+
 }
