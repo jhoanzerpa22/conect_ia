@@ -1748,23 +1748,23 @@
                                         <div class="card-header align-items-center d-flex">
                                             <h4 class="card-title mb-0 flex-grow-1">Gestión por Elemento y actividad</h4>
                                             <div class="d-flex gap-1">
-                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('cuerpoLegal')">
                                                     Cuerpos
                                                 </button>
-                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('articulos')">
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('articulos')">
                                                     Árticulos
                                                 </button>
-                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('instancias')">
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('instancias')">
                                                     Instancias
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="card-body p-0">
                                             <div>
-                                                <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                                    [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                                    [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                                    [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
+                                                <apx-chart [series]="basicBarChartGeneralInstallation.series" [colors]="basicBarChartGeneralInstallation.colors"
+                                                    [chart]="basicBarChartGeneralInstallation.chart" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
+                                                    [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr" dir="ltr"
+                                                    [xaxis]="basicBarChartGeneralInstallation.xaxis"></apx-chart>
                                             </div>
                                         </div>
                                     </div>
@@ -1779,10 +1779,10 @@
                                             
                                             <h4>Permisos por Elemento y actividad</h4>
 
-                                                <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                                    [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                                    [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                                    [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
+                                                <apx-chart [series]="basicBarChartPermisosInstallations.series" [colors]="basicBarChartPermisosInstallations.colors"
+                                                    [chart]="basicBarChartPermisosInstallations.chart" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
+                                                    [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" dir="ltr"
+                                                    [xaxis]="basicBarChartPermisosInstallations.xaxis"></apx-chart>
                                             
                                         </div>
                                     </div>
@@ -1794,10 +1794,10 @@
                                                 
                                                 <h4>Reportes por Elemento y actividad</h4>
     
-                                                    <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                                        [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                                        [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                                        [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
+                                                    <apx-chart [series]="basicBarChartReportesInstallations.series" [colors]="basicBarChartReportesInstallations.colors"
+                                                        [chart]="basicBarChartReportesInstallations.chart" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
+                                                        [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" dir="ltr"
+                                                        [xaxis]="basicBarChartReportesInstallations.xaxis"></apx-chart>
                                                 
                                             </div>
                                         </div>
@@ -1813,10 +1813,10 @@
                                             
                                             <h4>Monitoreos por Elemento y actividad</h4>
 
-                                                <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                                    [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                                    [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                                    [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
+                                                <apx-chart [series]="basicBarChartMonitoreosInstallations.series" [colors]="basicBarChartMonitoreosInstallations.colors"
+                                                    [chart]="basicBarChartMonitoreosInstallations.chart" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
+                                                    [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" dir="ltr"
+                                                    [xaxis]="basicBarChartMonitoreosInstallations.xaxis"></apx-chart>
                                             
                                         </div>
                                     </div>
@@ -1828,10 +1828,10 @@
                                                 
                                                 <h4>Otras Obligaciones por Elemento y actividad</h4>
     
-                                                    <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                                        [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                                        [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                                        [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
+                                                    <apx-chart [series]="basicBarChartOtrosInstallations.series" [colors]="basicBarChartOtrosInstallations.colors"
+                                                        [chart]="basicBarChartOtrosInstallations.chart" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
+                                                        [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" dir="ltr"
+                                                        [xaxis]="basicBarChartOtrosInstallations.xaxis"></apx-chart>
                                                 
                                             </div>
                                         </div>
@@ -2183,7 +2183,7 @@
                                                 
                                                 <ng-container *ngFor="let g of articles_proyects_group;">
                                                     
-                                                <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal)">{{g.cuerpoLegal}}</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
 
                                                 </ng-container>
                                             </div>
@@ -2457,10 +2457,10 @@
                             
                             <h4>Instancias de cumplimiento por área</h4>
 
-                                <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                    [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                    [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                    [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
+                                <apx-chart [series]="basicBarChartGeneralCuerpos.series" [colors]="basicBarChartGeneralCuerpos.colors"
+                                    [chart]="basicBarChartGeneralCuerpos.chart" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
+                                    [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr" dir="ltr"
+                                    [xaxis]="basicBarChartGeneralCuerpos.xaxis"></apx-chart>
                             
                         </div>
                     </div>
@@ -2471,7 +2471,7 @@
                     <div class="col-sm-12">
                         
                     <div class="card card-height-100">
-                        <div class="card-header align-items-center d-flex">
+                        <!--<div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Instancias de cumplimiento por Elemento y actividad</h4>
                             <div class="d-flex gap-1">
                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
@@ -2484,14 +2484,15 @@
                                     Instancias
                                 </button>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="card-body p-0">
-                            <div>
-                                <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
-                                    [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                    [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
-                                    [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
-                            </div>
+                                <h4 class="card-title mb-0 flex-grow-1">Instancias de cumplimiento por Elemento y actividad</h4>
+                            
+                                <apx-chart [series]="basicBarChartGeneralCuerposInstallation.series" [colors]="basicBarChartGeneralCuerposInstallation.colors"
+                                    [chart]="basicBarChartGeneralCuerposInstallation.chart" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
+                                    [plotOptions]="basicBarChartGeneralCuerposInstallation.plotOptions" dir="ltr" dir="ltr"
+                                    [xaxis]="basicBarChartGeneralCuerposInstallation.xaxis"></apx-chart>
+                            
                         </div>
                     </div>
                     </div>

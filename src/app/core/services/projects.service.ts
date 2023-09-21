@@ -355,8 +355,20 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'dashboard/project/graphics', { projectId: project_id }, this.getToken());
     }
 
-    getDashboardArea(project_id: any, type: any, areaId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal?type='+type, { projectId: project_id }, this.getToken());
+    getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal?type='+type, { projectId: project_id, cuerpoId }, this.getToken());
     }
+
+    getDashboardInstalations(project_id: any, type: any, cuerpoId?: any, areaId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal/instalaciones?type='+type, { projectId: project_id, cuerpoId }, this.getToken());
+    }
+
+    /*getDashboardAreaByCuerpo(project_id: any, type: any, cuerpoId?: any, areaId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal-cuerpos?type='+type, { projectId: project_id, cuerpoId: cuerpoId }, this.getToken());
+    }
+
+    getDashboardInstallationByCuerpo(project_id: any, type: any, cuerpoId?: any, areaId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal-cuerpos-instalacion?type='+type, { projectId: project_id, cuerpoId: cuerpoId }, this.getToken());
+    }*/
 
 }

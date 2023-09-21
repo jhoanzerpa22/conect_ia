@@ -51,12 +51,19 @@ export class IdentificationComponent implements OnInit {
   simpleDonutChartCuerposAmbito: any;
   
   basicBarChartGeneral: any;
+  basicBarChartGeneralInstallation: any;
   basicBarChartReportes: any;
   basicBarChartPermisos: any;
   basicBarChartMonitoreos: any;
   basicBarChartOtros: any;
+  basicBarChartReportesInstallations: any;
+  basicBarChartPermisosInstallations: any;
+  basicBarChartMonitoreosInstallations: any;
+  basicBarChartOtrosInstallations: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
+  basicBarChartGeneralCuerpos: any;
+  basicBarChartGeneralCuerposInstallation: any;
   
   stacked100BarChart: any;
   stacked100BarChart2: any;
@@ -186,8 +193,12 @@ export class IdentificationComponent implements OnInit {
 
   dashboard: any;
   dashboardArea: any;
+  dashboardInstallation: any;
+  dashboardAreaCuerpo: any;
+  dashboardInstallationCuerpo: any;
 
   select_gestion: any = 'articulos';
+  select_gestion_instalacion: any = 'articulos';
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -250,6 +261,8 @@ export class IdentificationComponent implements OnInit {
 
       this.getDashboard(params['id']);
       this.getDashboardArea(params['id'], 'articulos'); //cuerpoLegal, articulos, instancias
+      this.getDashboardInstalaciones(params['id'], 'articulos');
+      //this.getDashboardAreaCuerpo(this.project_id, 'instancias', this.articles_proyects_group[0].normaId);
       this.setChart();
     });
         
@@ -291,7 +304,9 @@ export class IdentificationComponent implements OnInit {
   private setChart(){
 
     this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartGeneralInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
     this._basicBarChartAtributos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartAtributosInstallations('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
     this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
     
@@ -312,6 +327,8 @@ export class IdentificationComponent implements OnInit {
     this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
   
+    this._basicBarChartGeneralCuerpos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartGeneralCuerposInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
   }
 
   /**
@@ -1816,6 +1833,55 @@ export class IdentificationComponent implements OnInit {
     };
   }
 
+  /**
+   * Basic Bar Chart
+   */
+  private _basicBarChartGeneralInstallation(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChartGeneralInstallation = {
+        series: [{
+            data: this.getDataDashboardInstallation('value','general'),
+            name: 'Articulos',
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+            toolbar: {
+                show: false,
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+                distributed: true,
+                dataLabels: {
+                    position: 'top',
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            offsetX: 32,
+            style: {
+                fontSize: '12px',
+                fontWeight: 400,
+                colors: ['#adb5bd']
+            }
+        },
+        colors: colors,
+        legend: {
+            show: false,
+        },
+        grid: {
+            show: false,
+        },
+        xaxis: {
+            categories: this.getDataDashboardInstallation('label','general')
+        },
+    };
+  }
+
   private _basicBarChartAtributos(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.basicBarChartPermisos = {
@@ -1990,6 +2056,280 @@ this.basicBarChartOtros = {
   },
 };
 
+}
+
+private _basicBarChartAtributosInstallations(colors: any) {
+  colors = this.getChartColorsArray(colors);
+  this.basicBarChartPermisosInstallations = {
+    series: [{
+        data: this.getDataDashboardInstallation('value','permisos'),
+        name: 'Articulos',
+    }],
+    chart: {
+        type: 'bar',
+        height: 400,
+        toolbar: {
+            show: false,
+        }
+    },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            horizontal: true,
+            distributed: true,
+            dataLabels: {
+                position: 'top',
+            },
+        }
+    },
+    dataLabels: {
+        enabled: true,
+        offsetX: 32,
+        style: {
+            fontSize: '12px',
+            fontWeight: 400,
+            colors: ['#adb5bd']
+        }
+    },
+    colors: colors,
+    legend: {
+        show: false,
+    },
+    grid: {
+        show: false,
+    },
+    xaxis: {
+        categories: this.getDataDashboardInstallation('label','permisos')
+    },
+};
+
+this.basicBarChartReportesInstallations = {
+  series: [{
+      data: this.getDataDashboardInstallation('value','reportes'),
+      name: 'Articulos',
+  }],
+  chart: {
+      type: 'bar',
+      height: 400,
+      toolbar: {
+          show: false,
+      }
+  },
+  plotOptions: {
+      bar: {
+          borderRadius: 4,
+          horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
+      }
+  },
+  dataLabels: {
+      enabled: true,
+      offsetX: 32,
+      style: {
+          fontSize: '12px',
+          fontWeight: 400,
+          colors: ['#adb5bd']
+      }
+  },
+  colors: colors,
+  legend: {
+      show: false,
+  },
+  grid: {
+      show: false,
+  },
+  xaxis: {
+      categories: this.getDataDashboardInstallation('label','reportes')
+  },
+};
+
+this.basicBarChartMonitoreosInstallations = {
+series: [{
+    data: this.getDataDashboardInstallation('value','monitoreos'),
+    name: 'Articulos',
+}],
+chart: {
+    type: 'bar',
+    height: 400,
+    toolbar: {
+        show: false,
+    }
+},
+plotOptions: {
+    bar: {
+        borderRadius: 4,
+        horizontal: true,
+        distributed: true,
+        dataLabels: {
+            position: 'top',
+        },
+    }
+},
+dataLabels: {
+    enabled: true,
+    offsetX: 32,
+    style: {
+        fontSize: '12px',
+        fontWeight: 400,
+        colors: ['#adb5bd']
+    }
+},
+colors: colors,
+legend: {
+    show: false,
+},
+grid: {
+    show: false,
+},
+xaxis: {
+    categories: this.getDataDashboardInstallation('label','monitoreos')
+},
+};
+
+this.basicBarChartOtrosInstallations = {
+series: [{
+    data: this.getDataDashboardInstallation('value','otros'),
+    name: 'Articulos',
+}],
+chart: {
+    type: 'bar',
+    height: 400,
+    toolbar: {
+        show: false,
+    }
+},
+plotOptions: {
+    bar: {
+        borderRadius: 4,
+        horizontal: true,
+        distributed: true,
+        dataLabels: {
+            position: 'top',
+        },
+    }
+},
+dataLabels: {
+    enabled: true,
+    offsetX: 32,
+    style: {
+        fontSize: '12px',
+        fontWeight: 400,
+        colors: ['#adb5bd']
+    }
+},
+colors: colors,
+legend: {
+    show: false,
+},
+grid: {
+    show: false,
+},
+xaxis: {
+    categories: this.getDataDashboardInstallation('label','otros')
+},
+};
+
+}
+
+/**
+   * Basic Bar Chart Cuerpos
+   */
+private _basicBarChartGeneralCuerpos(colors: any) {
+  colors = this.getChartColorsArray(colors);
+  this.basicBarChartGeneralCuerpos = {
+      series: [{
+          data: this.getDataDashboardAreaCuerpo('value','general'),
+          name: 'Articulos',
+      }],
+      chart: {
+          type: 'bar',
+          height: 400,
+          toolbar: {
+              show: false,
+          }
+      },
+      plotOptions: {
+          bar: {
+              borderRadius: 4,
+              horizontal: true,
+              distributed: true,
+              dataLabels: {
+                  position: 'top',
+              },
+          }
+      },
+      dataLabels: {
+          enabled: true,
+          offsetX: 32,
+          style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: ['#adb5bd']
+          }
+      },
+      colors: colors,
+      legend: {
+          show: false,
+      },
+      grid: {
+          show: false,
+      },
+      xaxis: {
+          categories: this.getDataDashboardAreaCuerpo('label','general')
+      },
+  };
+}
+
+/**
+   * Basic Bar Chart Cuerpos
+   */
+private _basicBarChartGeneralCuerposInstallation(colors: any) {
+  colors = this.getChartColorsArray(colors);
+  this.basicBarChartGeneralCuerposInstallation = {
+      series: [{
+          data: this.getDataDashboardInstallationCuerpo('value','general'),
+          name: 'Articulos',
+      }],
+      chart: {
+          type: 'bar',
+          height: 400,
+          toolbar: {
+              show: false,
+          }
+      },
+      plotOptions: {
+          bar: {
+              borderRadius: 4,
+              horizontal: true,
+              distributed: true,
+              dataLabels: {
+                  position: 'top',
+              },
+          }
+      },
+      dataLabels: {
+          enabled: true,
+          offsetX: 32,
+          style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: ['#adb5bd']
+          }
+      },
+      colors: colors,
+      legend: {
+          show: false,
+      },
+      grid: {
+          show: false,
+      },
+      xaxis: {
+          categories: this.getDataDashboardInstallationCuerpo('label','general')
+      },
+  };
 }
 
   getSeries(criticidad: any, objeto: any){
@@ -2193,6 +2533,54 @@ validateIdparte(idParte: any){
             if(refresh){
               this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
             }
+            //this.project = data.data;
+        },
+        (error: any) => {
+          //this.error = error ? error : '';
+          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+     }
+     
+    getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean){
+      this.projectsService.getDashboardInstalations(idProject, type).pipe().subscribe(
+        (data: any) => {
+          console.log('dataDashboardInstalaciones',data);
+          this.dashboardInstallation = data.data;
+          if(refresh){
+            this._basicBarChartGeneralInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+          }
+          //this.project = data.data;
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+   }
+
+     getDashboardAreaCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean){
+         this.projectsService./*getDashboardAreaByCuerpo*/getDashboardArea(idProject, type, cuerpoId).pipe().subscribe(
+           (data: any) => {
+             console.log('dataDashboardAreaCuerpo',data);
+             this.dashboardAreaCuerpo = data.data;
+             //if(refresh){
+               this._basicBarChartGeneralCuerpos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+             //}
+             //this.project = data.data;
+         },
+         (error: any) => {
+           //this.error = error ? error : '';
+           //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+         });
+      }
+
+      getDashboardInstallationCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean){
+        this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalations(idProject, type, cuerpoId).pipe().subscribe(
+          (data: any) => {
+            console.log('dataDashboardInstallationCuerpo',data);
+            this.dashboardInstallationCuerpo = data.data;
+            //if(refresh){
+              this._basicBarChartGeneralCuerposInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+            //}
             //this.project = data.data;
         },
         (error: any) => {
@@ -3322,6 +3710,129 @@ validateIdparte(idParte: any){
     }
   }
 
+  getDataDashboardInstallation(parametro: any, type?: any){
+    if(this.dashboardInstallation){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardInstallation.general;
+          break;
+        case 'permisos':
+          data_type = this.dashboardInstallation.permisos;
+          break;
+        case 'reportes':
+          data_type = this.dashboardInstallation.reportes;
+          break;
+        case 'monitoreos':
+          data_type = this.dashboardInstallation.monitoreos;
+          break;
+        case 'otros':
+          data_type = this.dashboardInstallation.otrasObligaciones;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombre);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+  }
+
+  getDataDashboardAreaCuerpo(parametro: any, type?: any){
+    if(this.dashboardAreaCuerpo){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardAreaCuerpo.general;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombreArea);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+  }
+
+  getDataDashboardInstallationCuerpo(parametro: any, type?: any){
+    if(this.dashboardInstallationCuerpo){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardInstallationCuerpo.general;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombre);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+  }
+
   countCuerposLegales(){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
@@ -4417,19 +4928,23 @@ validateIdparte(idParte: any){
     this.filtro_atributo = atributo;
   }
 
-  selectCuerpoFiltro(cuerpo?: any){
+  selectCuerpoFiltro(cuerpo?: any, normaId?: any){
     this.filtro_cuerpo = cuerpo;
   
-    /*if(cuerpo){
-      const index = this.articles_proyects_group.findIndex(
+    if(cuerpo){
+      
+      this.getDashboardAreaCuerpo(this.project_id, 'instancias',normaId);
+      this.getDashboardInstallationCuerpo(this.project_id, 'instancias',normaId);
+
+      /*const index = this.articles_proyects_group.findIndex(
         (ap: any) =>
           ap.cuerpoLegal == cuerpo
       );
 
       if(index != -1){
         this.articulos_chart = this.articles_proyects_group[index].articulos;
-      }
-    }else{
+      }*/
+    }/*else{
         this.articulos_chart = [];
     }*/
 
@@ -4460,6 +4975,11 @@ validateIdparte(idParte: any){
             name: 'Sessions',
         }]
     }*/
+  }
+
+  selectGestionInstalacion(x: any) {
+    this.select_gestion_instalacion = x;
+    this.getDashboardInstalaciones(this.project_id, x, true);
   }
   
   selectAreaChart(id?: any){
@@ -5392,6 +5912,14 @@ validateIdparte(idParte: any){
     this.getCuerpoInstallationsByProyect();
     this.getDashboard(this.project_id);
     this.getDashboardArea(this.project_id, 'articulos');
+    this.getDashboardInstalaciones(this.project_id, 'articulos');
+
+    if(this.articles_proyects_group.length > 0){
+      this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
+
+      this.getDashboardAreaCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
+      this.getDashboardInstallationCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
+    }
 
     this.setChart();
     
