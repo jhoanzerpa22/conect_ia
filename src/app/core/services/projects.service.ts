@@ -351,7 +351,7 @@ export class ProjectsService {
         return this.http.put(API_URL_BACK + 'evaluacionProyecto/'+project_id, data, this.getToken());
     }
 
-    getDashboard(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+    getDashboard(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
         
         switch (criticidad) {
             case 'Alta':
@@ -372,11 +372,12 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'dashboard/project/graphics', { projectId: project_id, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
-            normaId: cuerpoId
+            normaId: cuerpoId,
+            articuloId: articuloId
         } }, this.getToken());
     }
 
-    getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+    getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
             case 'Alta':
@@ -396,11 +397,12 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal?type='+type, { projectId: project_id, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
-            normaId: cuerpoId
+            normaId: cuerpoId,
+            articuloId: articuloId
         } }, this.getToken());
     }
 
-    getDashboardInstalations(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+    getDashboardInstalations(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
             case 'Alta':
@@ -420,7 +422,8 @@ export class ProjectsService {
         return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal/instalaciones?type='+type, { projectId: project_id, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
-            normaId: cuerpoId
+            normaId: cuerpoId,
+            articuloId: articuloId
         } }, this.getToken());
     }
 
