@@ -1301,15 +1301,15 @@
                             width: 100%;
                             text-align: left;
                             background: white;
-                        " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled>{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
-                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled></button>
+                        " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo">{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
+                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo"></button>
                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                 <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
-                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
+                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>-->
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
-                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>
+                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>-->
                             </div>
                         </div>
 
@@ -1329,8 +1329,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('cuerpos')" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4><!--countCuerposLegales()-->
+                                        <h4 class="fs-4 mb-3"><span class="counter-value">{{getDataDashboard('cuerpos') < 1 ? 0 : getDataDashboard('cuerpos')}}</span></h4><!--[CountTo]="getDataDashboard('cuerpos')" 
+                                            [from]="0" [duration]="1"  countCuerposLegales()-->
                                     </div>
                                 </div>
                             </div>
@@ -1349,8 +1349,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('articulos')" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4><!--countArticulos(true)-->
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboard('articulos') < 1 ? 0 : getDataDashboard('articulos')}}</span></h4><!-- [CountTo]="getDataDashboard('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
                                     </div>
                                 </div>
                             </div>
@@ -1369,8 +1369,8 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('instancias')" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4><!--countArticulos(false) * countElementos()-->
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}</span></h4><!-- [CountTo]="getDataDashboard('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
                                     </div>
                                 </div>
                             </div>
@@ -1390,8 +1390,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('elementos')" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4><!--countElementos()-->
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}</span></h4><!-- [CountTo]="getDataDashboard('elementos')" [from]="0" [duration]="1" countElementos()-->
                                     </div>
                                 </div>
                             </div>
@@ -1413,8 +1413,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('permisos')" class="counter-value"
-                                                [from]="0" [duration]="1">{{getDataDashboard('permisos') < 1 ? 0 : ''}}</span></h4><!--countAtributo('permiso')-->
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboard('permisos') < 1 ? 0 : getDataDashboard('permisos')}}</span></h4><!--[CountTo]="getDataDashboard('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
                                     </div>
                                 </div>
                             </div>
@@ -1433,8 +1433,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('reportes')" class="counter-value"
-                                                [from]="0" [duration]="1">{{getDataDashboard('reportes') < 1 ? 0 : ''}}</span></h4><!--countAtributo('reporte')-->
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboard('reportes') < 1 ? 0 : getDataDashboard('reportes')}}</span></h4><!--[from]="0" [duration]="1" [CountTo]="getDataDashboard('reportes')" countAtributo('reporte')-->
                                     </div>
                                 </div>
                             </div>
@@ -1453,8 +1453,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('monitoreos')" class="counter-value"
-                                                [from]="0" [duration]="1">{{getDataDashboard('monitoreos') < 1 ? 0 : ''}}</span></h4><!--countAtributo('monitoreo')-->
+                                        <h4 class="fs-4 mb-3"><span  class="counter-value"
+                                                >{{getDataDashboard('monitoreos') < 1 ? 0 : getDataDashboard('monitoreos')}}</span></h4><!--[CountTo]="getDataDashboard('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
                                     </div>
                                 </div>
                             </div>
@@ -1474,8 +1474,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="getDataDashboard('otros')" class="counter-value"
-                                                [from]="0" [duration]="1">{{getDataDashboard('otros') < 1 ? 0 : ''}}</span></h4><!--countAtributo()-->
+                                        <h4 class="fs-4 mb-3"><span  class="counter-value"
+                                                >{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" [from]="0" [duration]="1" countAtributo()-->
                                     </div>
                                 </div>
                             </div>
@@ -2179,7 +2179,7 @@
                                         ">{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo }}</button>    
                                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
-                                                <a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>
+                                                <!--<a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>-->
                                                 
                                                 <ng-container *ngFor="let g of articles_proyects_group;">
                                                     
@@ -2201,12 +2201,12 @@
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo ? 'Tipo de Vinculación' : tipo }}</button>    
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo_cuerpo ? 'Tipo de Vinculación' : tipo_cuerpo }}</button>    
                                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
-                                            <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
-                                                <a class="dropdown-item" [ngClass]="!tipo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo()">Todos</a>
-                                                <a class="dropdown-item" [ngClass]="tipo && tipo == 'Gestionar' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Gestionar')">Gestionar</a>
-                                                <a class="dropdown-item" [ngClass]="tipo && tipo == 'Por definir' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Por definir')">Por definir</a>
+                                            <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                                <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
+                                                <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Gestionar' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Gestionar')">Gestionar</a>
+                                                <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Por definir' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Por definir')">Por definir</a>
                                             </div>
                                         </div>
                 
@@ -2220,15 +2220,15 @@
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled>{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
-                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle disabled></button>
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo">{{ !criticidad_cuerpo ? 'Criticidad' : criticidad_cuerpo }}</button>    
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
-                                                <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>
+                                                <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
+                                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>-->
+                                                <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
+                                                <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
+                                                <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
+                                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>-->
                                             </div>
                                         </div>
                                     </div>
@@ -2294,7 +2294,7 @@
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                 <!--<a class="dropdown-item" [ngClass]="!area_chart ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChart()">Todos</a>-->
                                                 <ng-container *ngFor="let ar of areas_chart;">
-                                                    <a class="dropdown-item" href="javascript:void(0);" (click)="selectAreaChart(ar.id)">{{ar.nombre}}</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.id)">{{ar.nombre}}</a>
                                                 </ng-container>
                                             </div>
                                         </div>
@@ -2316,8 +2316,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countArticulos(true)" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4>
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboardCuerpo('articulos') < 1 ? 0 : getDataDashboardCuerpo('articulos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
                                     </div>
                                 </div>
                             </div>
@@ -2336,8 +2336,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countArticulos(false) * countElementos()" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4>
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboardCuerpo('instancias') < 1 ? 0 : getDataDashboardCuerpo('instancias')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
                                     </div>
                                 </div>
                             </div>
@@ -2356,8 +2356,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countElementos()" class="counter-value"
-                                                [from]="0" [duration]="1"></span></h4>
+                                        <h4 class="fs-4 mb-3"><span  class="counter-value"
+                                                >{{getDataDashboardCuerpo('elementos') < 1 ? 0 : getDataDashboardCuerpo('elementos')}}</span></h4><!-- [CountTo]="getDataDashboardCuerpo('elementos')" [from]="0" [duration]="1" countElementos()-->
                                     </div>
                                 </div>
                             </div>
@@ -2380,8 +2380,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo('permiso')" class="counter-value"
-                                                [from]="0" [duration]="1">{{countAtributo('permiso') < 1 ? 0 : ''}}</span></h4>
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboardCuerpo('permisos') < 1 ? 0 : getDataDashboardCuerpo('permisos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
                                     </div>
                                 </div>
                             </div>
@@ -2399,8 +2399,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo('reporte')" class="counter-value"
-                                                [from]="0" [duration]="1">{{countAtributo('reporte') < 1 ? 0 : ''}}</span></h4>
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboardCuerpo('reportes') < 1 ? 0 : getDataDashboardCuerpo('reportes')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('reportes')" [from]="0" [duration]="1" countAtributo('reporte')-->
                                     </div>
                                 </div>
                             </div>
@@ -2419,8 +2419,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo('monitoreo')" class="counter-value"
-                                                [from]="0" [duration]="1">{{countAtributo('monitoreo') < 1 ? 0 : ''}}</span></h4>
+                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                                >{{getDataDashboardCuerpo('monitoreos') < 1 ? 0 : getDataDashboardCuerpo('monitoreos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
                                     </div>
                                 </div>
                             </div>
@@ -2439,8 +2439,8 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span [CountTo]="countAtributo()" class="counter-value"
-                                                [from]="0" [duration]="1">{{countAtributo() < 1 ? 0 : ''}}</span></h4>
+                                        <h4 class="fs-4 mb-3"><span class="counter-value">{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
+                                            [from]="0" [duration]="1" countAtributo()-->
                                     </div>
                                 </div>
                             </div>

@@ -184,6 +184,10 @@ export class IdentificationComponent implements OnInit {
   
   criticidad: any;
   tipo: any;
+  tipo_cuerpo: any;
+  criticidad_cuerpo: any;
+  filtro_area: any;
+  filtro_area_cuerpo: any;
   filtro_cuerpo: any;
   filtro_articulo: any;
   filtro_atributo: any;
@@ -192,6 +196,7 @@ export class IdentificationComponent implements OnInit {
   articulos_chart: any = [];
 
   dashboard: any;
+  dashboardCuerpo: any;
   dashboardArea: any;
   dashboardInstallation: any;
   dashboardAreaCuerpo: any;
@@ -259,7 +264,7 @@ export class IdentificationComponent implements OnInit {
       this.getCuerpoInstallationsByProyect();
       this.getNormas(0);
 
-      this.getDashboard(params['id']);
+      this.getDashboard(params['id'], false);
       this.getDashboardArea(params['id'], 'articulos'); //cuerpoLegal, articulos, instancias
       this.getDashboardInstalaciones(params['id'], 'articulos');
       //this.getDashboardAreaCuerpo(this.project_id, 'instancias', this.articles_proyects_group[0].normaId);
@@ -2513,17 +2518,33 @@ validateIdparte(idParte: any){
       });
    }
 
-   getDashboard(idProject?: any){
-       this.projectsService.getDashboard(idProject).pipe().subscribe(
+   getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
+       this.projectsService.getDashboard(idProject, undefined, areaId,/* atributo,*/ criticidad).pipe().subscribe(
          (data: any) => {
           console.log('dataDashboard',data);
           this.dashboard = data.data;
+          
+          if(refresh){
+            this.setChart();
+          }
        },
        (error: any) => {
          //this.error = error ? error : '';
          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
        });
     }
+
+    getDashboardCuerpo(idProject?: any, cuerpoId?: any){
+        this.projectsService.getDashboard(idProject, cuerpoId).pipe().subscribe(
+          (data: any) => {
+           console.log('dataDashboardCuerpo',data);
+           this.dashboardCuerpo = data.data;
+        },
+        (error: any) => {
+          //this.error = error ? error : '';
+          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+     }
 
     getDashboardArea(idProject?: any, type?: any, refresh?: boolean){
         this.projectsService.getDashboardArea(idProject, type).pipe().subscribe(
@@ -3651,6 +3672,113 @@ validateIdparte(idParte: any){
       
         case 'sso':
             return this.dashboard.ambitoNormativo.articulos.SSO;
+            break;
+            
+        default:
+          break;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  getDataDashboardCuerpo(type: any){
+    if(this.dashboardCuerpo){
+      switch (type) {
+        case 'cuerpos':
+          return this.dashboardCuerpo.tarjetas.countCuerpoLegal;
+          break;
+        
+        case 'articulos':
+          return this.dashboardCuerpo.tarjetas.countArticulos;
+          break;
+        
+        case 'instancias':
+          return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento;
+          break;
+        
+        case 'elementos':
+          return this.dashboardCuerpo.tarjetas.countInstalaciones;
+          break;
+        
+        case 'permisos':
+          return this.dashboardCuerpo.tarjetas.countPermisos;
+          break;
+        
+        case 'monitoreos':
+            return this.dashboardCuerpo.tarjetas.countMonitoreos;
+            break;
+        
+        case 'reportes':
+            return this.dashboardCuerpo.tarjetas.countReportes;
+            break;
+        
+        case 'otros':
+            return this.dashboardCuerpo.tarjetas.countOtrasObligaciones;
+            break;
+        
+        case 'articulos_gestionar':
+            return this.dashboardCuerpo.tarjetas.countArticulosGestionar;
+            break;
+        
+        case 'articulos_definir':
+            return this.dashboardCuerpo.tarjetas.countArticulosDefinir;
+            break;
+
+        case 'permisos_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countGestionar;
+            break;
+          
+        case 'permisos_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countDefinir;
+            break;
+
+        case 'reportes_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countGestionar;
+            break;
+      
+        case 'reportes_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countDefinir;
+            break;
+
+        case 'monitoreos_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countGestionar;
+            break;
+      
+        case 'monitoreos_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countDefinir;
+            break;
+
+        case 'otros_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countGestionar;
+            break;
+      
+        case 'otros_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
+            break;
+
+        case 'cuerpo_ma':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.MA;
+            break;
+        
+        case 'cuerpo_energia':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.ENERGIA;
+            break;
+        
+        case 'cuerpo_sso':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.SSO;
+            break;
+            
+        case 'ma':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.MA;
+            break;
+      
+        case 'energia':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.ENERGIA;
+            break;
+      
+        case 'sso':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.SSO;
             break;
             
         default:
@@ -4918,10 +5046,24 @@ validateIdparte(idParte: any){
 
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
+    
+    this.getDashboard(this.project_id, true, this.filtro_area, /*this.tipo,*/ criticidad);
+    
+    this.setChart();
+  }
+
+  selectCriticidadCuerpo(criticidad?: any){
+    this.criticidad_cuerpo = criticidad;
   }
 
   selectTipo(tipo?: any){
     this.tipo = tipo;
+    
+    //this.getDashboard(this.project_id, this.filtro_area, tipo, this.criticidad);
+  }
+
+  selectTipoCuerpo(tipo?: any){
+    this.tipo_cuerpo = tipo;
   }
 
   selectAtributoFiltro(atributo?: any){
@@ -4933,6 +5075,7 @@ validateIdparte(idParte: any){
   
     if(cuerpo){
       
+      this.getDashboardCuerpo(this.project_id, normaId);
       this.getDashboardAreaCuerpo(this.project_id, 'instancias',normaId);
       this.getDashboardInstallationCuerpo(this.project_id, 'instancias',normaId);
 
@@ -4988,12 +5131,22 @@ validateIdparte(idParte: any){
         arc.id == id
     );
 
+    this.filtro_area = id;
+
     if(existe_area != -1){
+      this.getDashboard(this.project_id, true, id, /*this.tipo,*/ this.criticidad);
       this.areas_select_chart.push({id: id, nombre: this.areas_chart[existe_area].nombre});
       this.getChildrenChart(id);
+    }else{
+      this.getDashboard(this.project_id, true);
     }
+    this.setChart();
   }
-
+  
+  selectAreaChartCuerpo(id?: any){
+    this.filtro_area_cuerpo = id;
+  }
+  
   deleteAreaChart(id: any){
     
     //event.style.display='none';
@@ -5012,10 +5165,21 @@ validateIdparte(idParte: any){
     //}
 
     if(this.areas_select_chart.length > 0){
+      
+      this.getDashboard(this.project_id, true, this.areas_select_chart[(this.areas_select_chart.length - 1)].id, /*this.tipo,*/ this.criticidad);
+
+      this.filtro_area = this.areas_select_chart[(this.areas_select_chart.length - 1)].id;
+
       this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
     }else{
+      
+      this.getDashboard(this.project_id, true, undefined, /*this.tipo,*/ this.criticidad);
+
+      this.filtro_area = undefined;
       this.areas_chart = this.areas;
     }
+    
+    this.setChart();
 
   }
 
@@ -5910,13 +6074,14 @@ validateIdparte(idParte: any){
     this.getArticlesInstallation();
     this.getArticleProyect(this.project_id);
     this.getCuerpoInstallationsByProyect();
-    this.getDashboard(this.project_id);
+    this.getDashboard(this.project_id, false);
     this.getDashboardArea(this.project_id, 'articulos');
     this.getDashboardInstalaciones(this.project_id, 'articulos');
 
     if(this.articles_proyects_group.length > 0){
       this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
 
+      this.getDashboardCuerpo(this.project_id, this.articles_proyects_group[0].normaId);
       this.getDashboardAreaCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
       this.getDashboardInstallationCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
     }
