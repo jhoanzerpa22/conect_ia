@@ -325,6 +325,8 @@ export class InstallationsComponent {
 
     this.areas_template[position].valor = event.target.value;
     
+    this.area_id = event.target.value;
+
     if(this.area_select.length > 0){
     
       const index3 = this.area_select.findIndex(
@@ -337,7 +339,6 @@ export class InstallationsComponent {
       }else{
         
         this.area_select[index3].padre = event.target.value;
-        this.area_id = event.target.value;
         for (let p = 0; p < this.area_select.length; p++) {
           const element = this.area_select[p];
 
@@ -357,7 +358,6 @@ export class InstallationsComponent {
 
       let nombre2 = this.areas_all[index2].nombre;
       
-      this.area_id = event.target.value;
       this.area_select.push({padre: event.target.value, position: position});
     }
 

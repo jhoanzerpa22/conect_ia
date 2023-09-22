@@ -2519,7 +2519,7 @@ validateIdparte(idParte: any){
    }
 
    getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
-       this.projectsService.getDashboard(idProject, undefined, areaId,/* atributo,*/ criticidad).pipe().subscribe(
+       this.projectsService.getDashboard(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
          (data: any) => {
           console.log('dataDashboard',data);
           this.dashboard = data.data;
@@ -2534,11 +2534,15 @@ validateIdparte(idParte: any){
        });
     }
 
-    getDashboardCuerpo(idProject?: any, cuerpoId?: any){
-        this.projectsService.getDashboard(idProject, cuerpoId).pipe().subscribe(
+    getDashboardCuerpo(idProject?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any){
+        this.projectsService.getDashboard(idProject, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
           (data: any) => {
            console.log('dataDashboardCuerpo',data);
            this.dashboardCuerpo = data.data;
+           
+          if(refresh){
+            this.setChart();
+          }
         },
         (error: any) => {
           //this.error = error ? error : '';
@@ -2546,8 +2550,8 @@ validateIdparte(idParte: any){
         });
      }
 
-    getDashboardArea(idProject?: any, type?: any, refresh?: boolean){
-        this.projectsService.getDashboardArea(idProject, type).pipe().subscribe(
+    getDashboardArea(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+        this.projectsService.getDashboardArea(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
           (data: any) => {
             console.log('dataDashboardArea',data);
             this.dashboardArea = data.data;
@@ -2562,14 +2566,14 @@ validateIdparte(idParte: any){
         });
      }
      
-    getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean){
-      this.projectsService.getDashboardInstalations(idProject, type).pipe().subscribe(
+    getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+      this.projectsService.getDashboardInstalations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
         (data: any) => {
           console.log('dataDashboardInstalaciones',data);
           this.dashboardInstallation = data.data;
-          if(refresh){
+          //if(refresh){
             this._basicBarChartGeneralInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
-          }
+          //}
           //this.project = data.data;
       },
       (error: any) => {
