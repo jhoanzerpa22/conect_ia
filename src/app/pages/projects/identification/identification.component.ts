@@ -33,15 +33,12 @@ import Swal from 'sweetalert2';
  */
 export class IdentificationComponent implements OnInit {
 
-  // bread crumb items
   breadCrumbItems!: Array<{}>;
-  statData!: any;
-  OverviewChart: any;
-  ActiveProjects: any;
-  MyTask: any;
-  TeamMembers: any;
-  status7: any;
-  simpleDonutChart: any;
+  //statData!: any;
+  //ActiveProjects: any;
+  //MyTask: any;
+  //TeamMembers: any;
+  //status7: any;
   simpleDonutChartArticulos: any;
   simpleDonutChartInstancias: any;
   simpleDonutChartCuerpos: any;
@@ -52,8 +49,21 @@ export class IdentificationComponent implements OnInit {
   simpleDonutChartArticulosAmbito: any;
   simpleDonutChartInstanciasAmbito: any;
   simpleDonutChartCuerposAmbito: any;
+  
+  basicBarChartGeneral: any;
+  basicBarChartGeneralInstallation: any;
+  basicBarChartReportes: any;
+  basicBarChartPermisos: any;
+  basicBarChartMonitoreos: any;
+  basicBarChartOtros: any;
+  basicBarChartReportesInstallations: any;
+  basicBarChartPermisosInstallations: any;
+  basicBarChartMonitoreosInstallations: any;
+  basicBarChartOtrosInstallations: any;
   basicBarChartCuerpos: any;
   basicBarChartArticulos: any;
+  basicBarChartGeneralCuerpos: any;
+  basicBarChartGeneralCuerposInstallation: any;
   
   stacked100BarChart: any;
   stacked100BarChart2: any;
@@ -83,6 +93,7 @@ export class IdentificationComponent implements OnInit {
   total: Observable<number>;
   sellers?: any;
   pagLength?: number = 0;
+  
   term:any;
   term2:any;
   term3:any;
@@ -90,6 +101,7 @@ export class IdentificationComponent implements OnInit {
   term5:any;
   term6:any;
   term7:any;
+  
   articles_proyects: any = [];
   articles_proyects_group: any = [];
   articles_proyects_all: any = [];
@@ -153,6 +165,7 @@ export class IdentificationComponent implements OnInit {
   energia_media: number = 0;
   energia_baja: number = 0;
   energia_otros: number = 0;
+  
   cuerpo_ambiente: number = 0;
   cuerpo_sso: number = 0;
   cuerpo_energia: number = 0;
@@ -169,8 +182,28 @@ export class IdentificationComponent implements OnInit {
   cuerpo_energia_baja: number = 0;
   cuerpo_energia_otros: number = 0;
   
-
   criticidad: any;
+  tipo: any;
+  tipo_cuerpo: any;
+  criticidad_cuerpo: any;
+  filtro_area: any;
+  filtro_area_cuerpo: any;
+  filtro_cuerpo: any;
+  filtro_articulo: any;
+  filtro_atributo: any;
+  areas_chart: any;
+  areas_select_chart: any = [];
+  articulos_chart: any = [];
+
+  dashboard: any;
+  dashboardCuerpo: any;
+  dashboardArea: any;
+  dashboardInstallation: any;
+  dashboardAreaCuerpo: any;
+  dashboardInstallationCuerpo: any;
+
+  select_gestion: any = 'articulos';
+  select_gestion_instalacion: any = 'articulos';
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -230,31 +263,18 @@ export class IdentificationComponent implements OnInit {
       this.getArticleProyect(this.project_id);
       this.getCuerpoInstallationsByProyect();
       this.getNormas(0);
-    });
 
-    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChart('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-     
+      this.getDashboard(params['id'], false);
+      this.getDashboardArea(params['id'], 'articulos'); //cuerpoLegal, articulos, instancias
+      this.getDashboardInstalaciones(params['id'], 'articulos');
+      //this.getDashboardAreaCuerpo(this.project_id, 'instancias', this.articles_proyects_group[0].normaId);
+      this.setChart();
+    });
+        
     /**
      * Fetches the data
      */
-    this.fetchData();
+    //this.fetchData();
   }
 
   ngAfterViewInit() {
@@ -284,6 +304,36 @@ export class IdentificationComponent implements OnInit {
             }
         }
     });
+  }
+
+  private setChart(){
+
+    this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartGeneralInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartAtributos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartAtributosInstallations('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    
+    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    
+    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+  
+    this._basicBarChartGeneralCuerpos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartGeneralCuerposInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
   }
 
   /**
@@ -373,30 +423,6 @@ export class IdentificationComponent implements OnInit {
    /**
  * Simple Donut Chart
  */
-   private _simpleDonutChart(colors:any) {
-    colors = this.getChartColorsArray(colors);
-    this.simpleDonutChart = {
-      series: [80, 20],
-      chart: {
-        height: 300,
-        type: "donut",
-      },
-      legend: {
-        position: "bottom",
-      },
-      dataLabels: {
-        dropShadow: {
-          enabled: false,
-        },
-      },
-      labels: ["Gestionar","Por definir"],
-      colors: colors,
-    };
-  }
-
-   /**
- * Simple Donut Chart
- */
    private _simpleDonutChartCuerpos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartCuerpos = {
@@ -418,20 +444,26 @@ export class IdentificationComponent implements OnInit {
     };
   }
 
-
    /**
  * Simple Donut Chart
  */
    private _simpleDonutChartArticulos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartArticulos = {
-      series: [this.countArticulosEstado('1'), this.countArticulosEstado('2')],
+      series: [this.getDataDashboard('articulos_gestionar'),this.getDataDashboard('articulos_definir')],//this.countArticulosEstado('1'), this.countArticulosEstado('2')
       chart: {
         height: 300,
         type: "donut",
       },
       legend: {
         position: "bottom",
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "76%",
+          },
+        },
       },
       dataLabels: {
         dropShadow: {
@@ -449,7 +481,7 @@ export class IdentificationComponent implements OnInit {
   private _simpleDonutChartInstancias(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartInstancias = {
-      series: [this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()],
+      series: [this.getDataDashboard('articulos_gestionar') * this.getDataDashboard('elementos'), this.getDataDashboard('articulos_definir') * this.getDataDashboard('elementos')],//this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()
       chart: {
         height: 300,
         type: "donut",
@@ -473,7 +505,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartMonitoreos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartMonitoreos = {
-      series: [this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')],
+      series: [this.getDataDashboard('monitoreos_gestionar'), this.getDataDashboard('monitoreos_definir')],//this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')
       chart: {
         height: 300,
         type: "donut",
@@ -497,7 +529,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartReportes(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartReportes = {
-      series: [this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')],
+      series: [this.getDataDashboard('reportes_gestionar'), this.getDataDashboard('reportes_definir')],//this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')
       chart: {
         height: 300,
         type: "donut",
@@ -522,7 +554,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartPermisos(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartPermisos = {
-      series: [this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')],
+      series: [this.getDataDashboard('permisos_gestionar'), this.getDataDashboard('permisos_definir')],//this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')
       chart: {
         height: 300,
         type: "donut",
@@ -547,7 +579,7 @@ export class IdentificationComponent implements OnInit {
    private _simpleDonutChartOtros(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartOtros = {
-      series: [this.countAtributoEstado('1'), this.countAtributoEstado('2')],
+      series: [this.getDataDashboard('otros_gestionar'), this.getDataDashboard('otros_definir')],//this.countAtributoEstado('1'), this.countAtributoEstado('2')
       chart: {
         height: 300,
         type: "donut",
@@ -571,18 +603,57 @@ export class IdentificationComponent implements OnInit {
      private _simpleDonutChartCuerposAmbito(colors:any) {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartCuerposAmbito = {
-        series: [this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso],
+        series: [{
+          data: [this.getDataDashboard('cuerpo_ma'),this.getDataDashboard('cuerpo_energia'),this.getDataDashboard('cuerpo_sso')]//this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso
+        }],
         chart: {
           height: 300,
-          type: "donut",
+          //type: "donut",
+          type: "bar",
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+              show: false,
+          }
         },
+      plotOptions: {
+        bar: {
+          //columnWidth: '45%',
+          //distributed: true,
+          dataLabels: {
+              position: "top", // top, center, bottom
+          },
+        }
+      },
         legend: {
           position: "bottom",
         },
         dataLabels: {
-          dropShadow: {
-            enabled: false,
+          enabled: true,
+          formatter: function (val:any) {
+              return val + "%";
           },
+          offsetY: 160,
+          style: {
+              fontSize: "12px",
+              colors: ["#000"],
+          },
+        },
+        yaxis: {
+          show: false,
+          showAlways: false,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            labels: {
+                show: false,
+                formatter: function (val:any) {
+                    return val + "%";
+                },
+            },
         },
         labels: ["MA","ENERGIA","SSO"],
         colors: colors,
@@ -596,18 +667,57 @@ export class IdentificationComponent implements OnInit {
      private _simpleDonutChartArticulosAmbito(colors:any) {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartArticulosAmbito = {
-        series: [this.ambiente, this.energia, this.sso],
+        series: [{
+          data: [this.getDataDashboard('ma'),this.getDataDashboard('energia'),this.getDataDashboard('sso')]//this.ambiente, this.energia, this.sso
+        }],
         chart: {
           height: 300,
-          type: "donut",
+          //type: "donut",
+          type: "bar",
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+              show: false,
+          }
+        },
+        plotOptions: {
+          bar: {
+            //columnWidth: '45%',
+            //distributed: true,
+            dataLabels: {
+              position: "top", // top, center, bottom
+            }
+          }
         },
         legend: {
           position: "bottom",
         },
         dataLabels: {
-          dropShadow: {
-            enabled: false,
+          enabled: true,
+          formatter: function (val:any) {
+              return val + "%";
           },
+          offsetY: 160,
+          style: {
+              fontSize: "12px",
+              colors: ["#000"],
+          },
+        },
+        yaxis: {
+          show: false,
+          showAlways: false,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            labels: {
+                show: false,
+                formatter: function (val:any) {
+                    return val + "%";
+                },
+            },
         },
         labels: ["MA","ENERGIA","SSO"],
         colors: colors,
@@ -620,18 +730,57 @@ export class IdentificationComponent implements OnInit {
     private _simpleDonutChartInstanciasAmbito(colors:any) {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartInstanciasAmbito = {
-        series: [this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()],
+        series: [{
+          data: [this.getDataDashboard('ma') * this.getDataDashboard('elementos'),this.getDataDashboard('energia') * this.getDataDashboard('elementos'),this.getDataDashboard('sso') * this.getDataDashboard('elementos')]//this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()
+        }],
         chart: {
           height: 300,
-          type: "donut",
+          //type: "donut",
+          type: "bar",
+          stacked: true,
+          stackType: "100%",
+          toolbar: {
+              show: false,
+          }
+        },
+        plotOptions: {
+          bar: {
+            //columnWidth: '45%',
+            //distributed: true,
+            dataLabels: {
+              position: "top", // top, center, bottom
+            },
+          }
         },
         legend: {
           position: "bottom",
         },
         dataLabels: {
-          dropShadow: {
-            enabled: false,
+          enabled: true,
+          formatter: function (val:any) {
+              return val + "%";
           },
+          offsetY: 160,
+          style: {
+              fontSize: "12px",
+              colors: ["#000"],
+          },
+        },
+        yaxis: {
+          show: false,
+          showAlways: false,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            labels: {
+                show: false,
+                formatter: function (val:any) {
+                    return val + "%";
+                },
+            },
         },
         labels: ["MA","ENERGIA","SSO"],
         colors: colors,
@@ -942,8 +1091,6 @@ export class IdentificationComponent implements OnInit {
       },
       colors: colors,
     };
-
-    
    }
   
    /**
@@ -1642,6 +1789,554 @@ export class IdentificationComponent implements OnInit {
     };
   }
 
+  /**
+   * Basic Bar Chart
+   */
+  private _basicBarChartGeneral(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChartGeneral = {
+        series: [{
+            data: this.getDataDashboardArea('value','general'),//[1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Articulos',
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+            toolbar: {
+                show: false,
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+                distributed: true,
+                dataLabels: {
+                    position: 'top',
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            offsetX: 32,
+            style: {
+                fontSize: '12px',
+                fontWeight: 400,
+                colors: ['#adb5bd']
+            }
+        },
+        colors: colors,
+        legend: {
+            show: false,
+        },
+        grid: {
+            show: false,
+        },
+        xaxis: {
+            categories: this.getDataDashboardArea('label','general')//['India', 'United States', 'China', 'Indonesia', 'Russia', 'Bangladesh', 'Canada', 'Brazil', 'Vietnam', 'UK'],
+        },
+    };
+  }
+
+  /**
+   * Basic Bar Chart
+   */
+  private _basicBarChartGeneralInstallation(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChartGeneralInstallation = {
+        series: [{
+            data: this.getDataDashboardInstallation('value','general'),
+            name: 'Articulos',
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+            toolbar: {
+                show: false,
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+                distributed: true,
+                dataLabels: {
+                    position: 'top',
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            offsetX: 32,
+            style: {
+                fontSize: '12px',
+                fontWeight: 400,
+                colors: ['#adb5bd']
+            }
+        },
+        colors: colors,
+        legend: {
+            show: false,
+        },
+        grid: {
+            show: false,
+        },
+        xaxis: {
+            categories: this.getDataDashboardInstallation('label','general')
+        },
+    };
+  }
+
+  private _basicBarChartAtributos(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicBarChartPermisos = {
+      series: [{
+          data: this.getDataDashboardArea('value','permisos'),
+          name: 'Articulos',
+      }],
+      chart: {
+          type: 'bar',
+          height: 400,
+          toolbar: {
+              show: false,
+          }
+      },
+      plotOptions: {
+          bar: {
+              borderRadius: 4,
+              horizontal: true,
+              distributed: true,
+              dataLabels: {
+                  position: 'top',
+              },
+          }
+      },
+      dataLabels: {
+          enabled: true,
+          offsetX: 32,
+          style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: ['#adb5bd']
+          }
+      },
+      colors: colors,
+      legend: {
+          show: false,
+      },
+      grid: {
+          show: false,
+      },
+      xaxis: {
+          categories: this.getDataDashboardArea('label','permisos')
+      },
+  };
+  
+  this.basicBarChartReportes = {
+    series: [{
+        data: this.getDataDashboardArea('value','reportes'),
+        name: 'Articulos',
+    }],
+    chart: {
+        type: 'bar',
+        height: 400,
+        toolbar: {
+            show: false,
+        }
+    },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            horizontal: true,
+            distributed: true,
+            dataLabels: {
+                position: 'top',
+            },
+        }
+    },
+    dataLabels: {
+        enabled: true,
+        offsetX: 32,
+        style: {
+            fontSize: '12px',
+            fontWeight: 400,
+            colors: ['#adb5bd']
+        }
+    },
+    colors: colors,
+    legend: {
+        show: false,
+    },
+    grid: {
+        show: false,
+    },
+    xaxis: {
+        categories: this.getDataDashboardArea('label','reportes')
+    },
+};
+
+this.basicBarChartMonitoreos = {
+  series: [{
+      data: this.getDataDashboardArea('value','monitoreos'),
+      name: 'Articulos',
+  }],
+  chart: {
+      type: 'bar',
+      height: 400,
+      toolbar: {
+          show: false,
+      }
+  },
+  plotOptions: {
+      bar: {
+          borderRadius: 4,
+          horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
+      }
+  },
+  dataLabels: {
+      enabled: true,
+      offsetX: 32,
+      style: {
+          fontSize: '12px',
+          fontWeight: 400,
+          colors: ['#adb5bd']
+      }
+  },
+  colors: colors,
+  legend: {
+      show: false,
+  },
+  grid: {
+      show: false,
+  },
+  xaxis: {
+      categories: this.getDataDashboardArea('label','monitoreos')
+  },
+};
+
+this.basicBarChartOtros = {
+  series: [{
+      data: this.getDataDashboardArea('value','otros'),
+      name: 'Articulos',
+  }],
+  chart: {
+      type: 'bar',
+      height: 400,
+      toolbar: {
+          show: false,
+      }
+  },
+  plotOptions: {
+      bar: {
+          borderRadius: 4,
+          horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
+      }
+  },
+  dataLabels: {
+      enabled: true,
+      offsetX: 32,
+      style: {
+          fontSize: '12px',
+          fontWeight: 400,
+          colors: ['#adb5bd']
+      }
+  },
+  colors: colors,
+  legend: {
+      show: false,
+  },
+  grid: {
+      show: false,
+  },
+  xaxis: {
+      categories: this.getDataDashboardArea('label','otros')
+  },
+};
+
+}
+
+private _basicBarChartAtributosInstallations(colors: any) {
+  colors = this.getChartColorsArray(colors);
+  this.basicBarChartPermisosInstallations = {
+    series: [{
+        data: this.getDataDashboardInstallation('value','permisos'),
+        name: 'Articulos',
+    }],
+    chart: {
+        type: 'bar',
+        height: 400,
+        toolbar: {
+            show: false,
+        }
+    },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            horizontal: true,
+            distributed: true,
+            dataLabels: {
+                position: 'top',
+            },
+        }
+    },
+    dataLabels: {
+        enabled: true,
+        offsetX: 32,
+        style: {
+            fontSize: '12px',
+            fontWeight: 400,
+            colors: ['#adb5bd']
+        }
+    },
+    colors: colors,
+    legend: {
+        show: false,
+    },
+    grid: {
+        show: false,
+    },
+    xaxis: {
+        categories: this.getDataDashboardInstallation('label','permisos')
+    },
+};
+
+this.basicBarChartReportesInstallations = {
+  series: [{
+      data: this.getDataDashboardInstallation('value','reportes'),
+      name: 'Articulos',
+  }],
+  chart: {
+      type: 'bar',
+      height: 400,
+      toolbar: {
+          show: false,
+      }
+  },
+  plotOptions: {
+      bar: {
+          borderRadius: 4,
+          horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
+      }
+  },
+  dataLabels: {
+      enabled: true,
+      offsetX: 32,
+      style: {
+          fontSize: '12px',
+          fontWeight: 400,
+          colors: ['#adb5bd']
+      }
+  },
+  colors: colors,
+  legend: {
+      show: false,
+  },
+  grid: {
+      show: false,
+  },
+  xaxis: {
+      categories: this.getDataDashboardInstallation('label','reportes')
+  },
+};
+
+this.basicBarChartMonitoreosInstallations = {
+series: [{
+    data: this.getDataDashboardInstallation('value','monitoreos'),
+    name: 'Articulos',
+}],
+chart: {
+    type: 'bar',
+    height: 400,
+    toolbar: {
+        show: false,
+    }
+},
+plotOptions: {
+    bar: {
+        borderRadius: 4,
+        horizontal: true,
+        distributed: true,
+        dataLabels: {
+            position: 'top',
+        },
+    }
+},
+dataLabels: {
+    enabled: true,
+    offsetX: 32,
+    style: {
+        fontSize: '12px',
+        fontWeight: 400,
+        colors: ['#adb5bd']
+    }
+},
+colors: colors,
+legend: {
+    show: false,
+},
+grid: {
+    show: false,
+},
+xaxis: {
+    categories: this.getDataDashboardInstallation('label','monitoreos')
+},
+};
+
+this.basicBarChartOtrosInstallations = {
+series: [{
+    data: this.getDataDashboardInstallation('value','otros'),
+    name: 'Articulos',
+}],
+chart: {
+    type: 'bar',
+    height: 400,
+    toolbar: {
+        show: false,
+    }
+},
+plotOptions: {
+    bar: {
+        borderRadius: 4,
+        horizontal: true,
+        distributed: true,
+        dataLabels: {
+            position: 'top',
+        },
+    }
+},
+dataLabels: {
+    enabled: true,
+    offsetX: 32,
+    style: {
+        fontSize: '12px',
+        fontWeight: 400,
+        colors: ['#adb5bd']
+    }
+},
+colors: colors,
+legend: {
+    show: false,
+},
+grid: {
+    show: false,
+},
+xaxis: {
+    categories: this.getDataDashboardInstallation('label','otros')
+},
+};
+
+}
+
+/**
+   * Basic Bar Chart Cuerpos
+   */
+private _basicBarChartGeneralCuerpos(colors: any) {
+  colors = this.getChartColorsArray(colors);
+  this.basicBarChartGeneralCuerpos = {
+      series: [{
+          data: this.getDataDashboardAreaCuerpo('value','general'),
+          name: 'Articulos',
+      }],
+      chart: {
+          type: 'bar',
+          height: 400,
+          toolbar: {
+              show: false,
+          }
+      },
+      plotOptions: {
+          bar: {
+              borderRadius: 4,
+              horizontal: true,
+              distributed: true,
+              dataLabels: {
+                  position: 'top',
+              },
+          }
+      },
+      dataLabels: {
+          enabled: true,
+          offsetX: 32,
+          style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: ['#adb5bd']
+          }
+      },
+      colors: colors,
+      legend: {
+          show: false,
+      },
+      grid: {
+          show: false,
+      },
+      xaxis: {
+          categories: this.getDataDashboardAreaCuerpo('label','general')
+      },
+  };
+}
+
+/**
+   * Basic Bar Chart Cuerpos
+   */
+private _basicBarChartGeneralCuerposInstallation(colors: any) {
+  colors = this.getChartColorsArray(colors);
+  this.basicBarChartGeneralCuerposInstallation = {
+      series: [{
+          data: this.getDataDashboardInstallationCuerpo('value','general'),
+          name: 'Articulos',
+      }],
+      chart: {
+          type: 'bar',
+          height: 400,
+          toolbar: {
+              show: false,
+          }
+      },
+      plotOptions: {
+          bar: {
+              borderRadius: 4,
+              horizontal: true,
+              distributed: true,
+              dataLabels: {
+                  position: 'top',
+              },
+          }
+      },
+      dataLabels: {
+          enabled: true,
+          offsetX: 32,
+          style: {
+              fontSize: '12px',
+              fontWeight: 400,
+              colors: ['#adb5bd']
+          }
+      },
+      colors: colors,
+      legend: {
+          show: false,
+      },
+      grid: {
+          show: false,
+      },
+      xaxis: {
+          categories: this.getDataDashboardInstallationCuerpo('label','general')
+      },
+  };
+}
+
   getSeries(criticidad: any, objeto: any){
     switch (criticidad) {
       case 'Alta':
@@ -1822,6 +2517,98 @@ validateIdparte(idParte: any){
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+   getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
+       this.projectsService.getDashboard(idProject, undefined, areaId,/* atributo,*/ criticidad).pipe().subscribe(
+         (data: any) => {
+          console.log('dataDashboard',data);
+          this.dashboard = data.data;
+          
+          if(refresh){
+            this.setChart();
+          }
+       },
+       (error: any) => {
+         //this.error = error ? error : '';
+         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+       });
+    }
+
+    getDashboardCuerpo(idProject?: any, cuerpoId?: any){
+        this.projectsService.getDashboard(idProject, cuerpoId).pipe().subscribe(
+          (data: any) => {
+           console.log('dataDashboardCuerpo',data);
+           this.dashboardCuerpo = data.data;
+        },
+        (error: any) => {
+          //this.error = error ? error : '';
+          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+     }
+
+    getDashboardArea(idProject?: any, type?: any, refresh?: boolean){
+        this.projectsService.getDashboardArea(idProject, type).pipe().subscribe(
+          (data: any) => {
+            console.log('dataDashboardArea',data);
+            this.dashboardArea = data.data;
+            if(refresh){
+              this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+            }
+            //this.project = data.data;
+        },
+        (error: any) => {
+          //this.error = error ? error : '';
+          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+     }
+     
+    getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean){
+      this.projectsService.getDashboardInstalations(idProject, type).pipe().subscribe(
+        (data: any) => {
+          console.log('dataDashboardInstalaciones',data);
+          this.dashboardInstallation = data.data;
+          if(refresh){
+            this._basicBarChartGeneralInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+          }
+          //this.project = data.data;
+      },
+      (error: any) => {
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+   }
+
+     getDashboardAreaCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean){
+         this.projectsService./*getDashboardAreaByCuerpo*/getDashboardArea(idProject, type, cuerpoId).pipe().subscribe(
+           (data: any) => {
+             console.log('dataDashboardAreaCuerpo',data);
+             this.dashboardAreaCuerpo = data.data;
+             //if(refresh){
+               this._basicBarChartGeneralCuerpos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+             //}
+             //this.project = data.data;
+         },
+         (error: any) => {
+           //this.error = error ? error : '';
+           //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+         });
+      }
+
+      getDashboardInstallationCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean){
+        this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalations(idProject, type, cuerpoId).pipe().subscribe(
+          (data: any) => {
+            console.log('dataDashboardInstallationCuerpo',data);
+            this.dashboardInstallationCuerpo = data.data;
+            //if(refresh){
+              this._basicBarChartGeneralCuerposInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+            //}
+            //this.project = data.data;
+        },
+        (error: any) => {
+          //this.error = error ? error : '';
+          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        });
+     }
    
   private getNormas(page: number, ambito?: any) {
     
@@ -1921,6 +2708,7 @@ validateIdparte(idParte: any){
     this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.areas = data.data;
+          this.areas_chart = data.data;
       },
       (error: any) => {
       });
@@ -2694,6 +3482,25 @@ validateIdparte(idParte: any){
       document.getElementById('elmLoader')?.classList.add('d-none')
     }
   }
+
+  getChildrenChart(padre_id: any){
+    this.areas_chart = [];
+    if(padre_id > 0){
+      this.showPreLoader();
+      this.projectsService.getAreasItems(padre_id).pipe().subscribe(
+        (data: any) => {
+          if(data.data.length > 0){
+            this.areas_chart = data.data;
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    }
+  }
   
   private getCuerpoInstallationsByProyect() {
     
@@ -2766,6 +3573,392 @@ validateIdparte(idParte: any){
           })
 
     return articles_group.length;
+  }
+
+  getDataDashboard(type: any){
+    if(this.dashboard){
+      switch (type) {
+        case 'cuerpos':
+          return this.dashboard.tarjetas.countCuerpoLegal;
+          break;
+        
+        case 'articulos':
+          return this.dashboard.tarjetas.countArticulos;
+          break;
+        
+        case 'instancias':
+          return this.dashboard.tarjetas.countInstanciasCumplimiento;
+          break;
+        
+        case 'elementos':
+          return this.dashboard.tarjetas.countInstalaciones;
+          break;
+        
+        case 'permisos':
+          return this.dashboard.tarjetas.countPermisos;
+          break;
+        
+        case 'monitoreos':
+            return this.dashboard.tarjetas.countMonitoreos;
+            break;
+        
+        case 'reportes':
+            return this.dashboard.tarjetas.countReportes;
+            break;
+        
+        case 'otros':
+            return this.dashboard.tarjetas.countOtrasObligaciones;
+            break;
+        
+        case 'articulos_gestionar':
+            return this.dashboard.tarjetas.countArticulosGestionar;
+            break;
+        
+        case 'articulos_definir':
+            return this.dashboard.tarjetas.countArticulosDefinir;
+            break;
+
+        case 'permisos_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.permiso.countGestionar;
+            break;
+          
+        case 'permisos_definir':
+            return this.dashboard.obligacionesAplicabilidad.permiso.countDefinir;
+            break;
+
+        case 'reportes_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.reporte.countGestionar;
+            break;
+      
+        case 'reportes_definir':
+            return this.dashboard.obligacionesAplicabilidad.reporte.countDefinir;
+            break;
+
+        case 'monitoreos_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.monitoreo.countGestionar;
+            break;
+      
+        case 'monitoreos_definir':
+            return this.dashboard.obligacionesAplicabilidad.monitoreo.countDefinir;
+            break;
+
+        case 'otros_gestionar':
+            return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countGestionar;
+            break;
+      
+        case 'otros_definir':
+            return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
+            break;
+
+        case 'cuerpo_ma':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.MA;
+            break;
+        
+        case 'cuerpo_energia':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.ENERGIA;
+            break;
+        
+        case 'cuerpo_sso':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.SSO;
+            break;
+            
+        case 'ma':
+            return this.dashboard.ambitoNormativo.articulos.MA;
+            break;
+      
+        case 'energia':
+            return this.dashboard.ambitoNormativo.articulos.ENERGIA;
+            break;
+      
+        case 'sso':
+            return this.dashboard.ambitoNormativo.articulos.SSO;
+            break;
+            
+        default:
+          break;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  getDataDashboardCuerpo(type: any){
+    if(this.dashboardCuerpo){
+      switch (type) {
+        case 'cuerpos':
+          return this.dashboardCuerpo.tarjetas.countCuerpoLegal;
+          break;
+        
+        case 'articulos':
+          return this.dashboardCuerpo.tarjetas.countArticulos;
+          break;
+        
+        case 'instancias':
+          return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento;
+          break;
+        
+        case 'elementos':
+          return this.dashboardCuerpo.tarjetas.countInstalaciones;
+          break;
+        
+        case 'permisos':
+          return this.dashboardCuerpo.tarjetas.countPermisos;
+          break;
+        
+        case 'monitoreos':
+            return this.dashboardCuerpo.tarjetas.countMonitoreos;
+            break;
+        
+        case 'reportes':
+            return this.dashboardCuerpo.tarjetas.countReportes;
+            break;
+        
+        case 'otros':
+            return this.dashboardCuerpo.tarjetas.countOtrasObligaciones;
+            break;
+        
+        case 'articulos_gestionar':
+            return this.dashboardCuerpo.tarjetas.countArticulosGestionar;
+            break;
+        
+        case 'articulos_definir':
+            return this.dashboardCuerpo.tarjetas.countArticulosDefinir;
+            break;
+
+        case 'permisos_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countGestionar;
+            break;
+          
+        case 'permisos_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countDefinir;
+            break;
+
+        case 'reportes_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countGestionar;
+            break;
+      
+        case 'reportes_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countDefinir;
+            break;
+
+        case 'monitoreos_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countGestionar;
+            break;
+      
+        case 'monitoreos_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countDefinir;
+            break;
+
+        case 'otros_gestionar':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countGestionar;
+            break;
+      
+        case 'otros_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
+            break;
+
+        case 'cuerpo_ma':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.MA;
+            break;
+        
+        case 'cuerpo_energia':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.ENERGIA;
+            break;
+        
+        case 'cuerpo_sso':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.SSO;
+            break;
+            
+        case 'ma':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.MA;
+            break;
+      
+        case 'energia':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.ENERGIA;
+            break;
+      
+        case 'sso':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.SSO;
+            break;
+            
+        default:
+          break;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+    getDataDashboardArea(parametro: any, type?: any){
+    if(this.dashboardArea){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardArea.general;
+          break;
+        case 'permisos':
+          data_type = this.dashboardArea.permisos;
+          break;
+        case 'reportes':
+          data_type = this.dashboardArea.reportes;
+          break;
+        case 'monitoreos':
+          data_type = this.dashboardArea.monitoreos;
+          break;
+        case 'otros':
+          data_type = this.dashboardArea.otrasObligaciones;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombreArea);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+  }
+
+  getDataDashboardInstallation(parametro: any, type?: any){
+    if(this.dashboardInstallation){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardInstallation.general;
+          break;
+        case 'permisos':
+          data_type = this.dashboardInstallation.permisos;
+          break;
+        case 'reportes':
+          data_type = this.dashboardInstallation.reportes;
+          break;
+        case 'monitoreos':
+          data_type = this.dashboardInstallation.monitoreos;
+          break;
+        case 'otros':
+          data_type = this.dashboardInstallation.otrasObligaciones;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombre);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+  }
+
+  getDataDashboardAreaCuerpo(parametro: any, type?: any){
+    if(this.dashboardAreaCuerpo){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardAreaCuerpo.general;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombreArea);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+  }
+
+  getDataDashboardInstallationCuerpo(parametro: any, type?: any){
+    if(this.dashboardInstallationCuerpo){
+
+      let data: any = [];
+      let data_type: any = [];
+
+      switch (type) {
+        case 'general':
+          data_type = this.dashboardInstallationCuerpo.general;
+          break;
+      
+        default:
+          break;
+      }
+      
+      for (let x = 0; x < data_type.length; x++) {
+        
+        switch (parametro) {
+          case 'label':
+            data.push(data_type[x].nombre);
+            break;
+          
+          case 'value':
+            data.push(data_type[x].total);
+            break;
+              
+          default:
+            break;
+        }
+      }
+
+      return data;
+    } else {
+      return [];
+    }
   }
 
   countCuerposLegales(){
@@ -3830,8 +5023,164 @@ validateIdparte(idParte: any){
     return installation_group.length;
   }
 
+  getArticulos(){
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+    );
+    let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = articles_group.findIndex(
+              (co: any) =>
+                co == x.articuloId
+            );
+
+            if(index == -1){
+              articles_group.push({id: x.articuloId, articulo: x.articulo});
+            }
+          })
+
+    return articles_group;
+  }
+
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
+    
+    this.getDashboard(this.project_id, true, this.filtro_area, /*this.tipo,*/ criticidad);
+    
+    this.setChart();
+  }
+
+  selectCriticidadCuerpo(criticidad?: any){
+    this.criticidad_cuerpo = criticidad;
+  }
+
+  selectTipo(tipo?: any){
+    this.tipo = tipo;
+    
+    //this.getDashboard(this.project_id, this.filtro_area, tipo, this.criticidad);
+  }
+
+  selectTipoCuerpo(tipo?: any){
+    this.tipo_cuerpo = tipo;
+  }
+
+  selectAtributoFiltro(atributo?: any){
+    this.filtro_atributo = atributo;
+  }
+
+  selectCuerpoFiltro(cuerpo?: any, normaId?: any){
+    this.filtro_cuerpo = cuerpo;
+  
+    if(cuerpo){
+      
+      this.getDashboardCuerpo(this.project_id, normaId);
+      this.getDashboardAreaCuerpo(this.project_id, 'instancias',normaId);
+      this.getDashboardInstallationCuerpo(this.project_id, 'instancias',normaId);
+
+      /*const index = this.articles_proyects_group.findIndex(
+        (ap: any) =>
+          ap.cuerpoLegal == cuerpo
+      );
+
+      if(index != -1){
+        this.articulos_chart = this.articles_proyects_group[index].articulos;
+      }*/
+    }/*else{
+        this.articulos_chart = [];
+    }*/
+
+  }
+
+  selectArticuloFiltro(id?: any, articulo?: any){
+    this.filtro_articulo = id > 0 ? {id: id,articulo: articulo} : null;
+  }
+  
+  selectGestion(x: any) {
+    this.select_gestion = x;
+    this.getDashboardArea(this.project_id, x, true);
+    /*if (x == 'all') {
+        this.basicBarChart.series = [{
+            data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Sessions',
+        }]
+    }
+    if (x == '1M') {
+        this.basicBarChart.series = [{
+            data: [200, 640, 490, 255, 50, 689, 800, 420, 85, 589],
+            name: 'Sessions',
+        }]
+    }
+    if (x == '6M') {
+        this.basicBarChart.series = [{
+            data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            name: 'Sessions',
+        }]
+    }*/
+  }
+
+  selectGestionInstalacion(x: any) {
+    this.select_gestion_instalacion = x;
+    this.getDashboardInstalaciones(this.project_id, x, true);
+  }
+  
+  selectAreaChart(id?: any){
+    const existe_area = this.areas_chart.findIndex(
+      (arc: any) =>
+        arc.id == id
+    );
+
+    this.filtro_area = id;
+
+    if(existe_area != -1){
+      this.getDashboard(this.project_id, true, id, /*this.tipo,*/ this.criticidad);
+      this.areas_select_chart.push({id: id, nombre: this.areas_chart[existe_area].nombre});
+      this.getChildrenChart(id);
+    }else{
+      this.getDashboard(this.project_id, true);
+    }
+    this.setChart();
+  }
+  
+  selectAreaChartCuerpo(id?: any){
+    this.filtro_area_cuerpo = id;
+  }
+  
+  deleteAreaChart(id: any){
+    
+    //event.style.display='none';
+
+    const existe_area = this.areas_select_chart.findIndex(
+      (arc: any) =>
+        arc.id == id
+    );
+
+    const chart_length: any = this.areas_select_chart.length;
+
+    //for (let p = 0; p < chart_length; p++) {
+      //if(p >= existe_area){
+        this.areas_select_chart.splice(existe_area, chart_length - existe_area/*1*/);
+      //}
+    //}
+
+    if(this.areas_select_chart.length > 0){
+      
+      this.getDashboard(this.project_id, true, this.areas_select_chart[(this.areas_select_chart.length - 1)].id, /*this.tipo,*/ this.criticidad);
+
+      this.filtro_area = this.areas_select_chart[(this.areas_select_chart.length - 1)].id;
+
+      this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
+    }else{
+      
+      this.getDashboard(this.project_id, true, undefined, /*this.tipo,*/ this.criticidad);
+
+      this.filtro_area = undefined;
+      this.areas_chart = this.areas;
+    }
+    
+    this.setChart();
+
   }
 
   byArticuloVinculacion(id: any){
@@ -4371,12 +5720,12 @@ validateIdparte(idParte: any){
   /**
    * Fetches the data
    */
-  private fetchData() {
+  /*private fetchData() {
     this.statData = statData;
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
-  }
+  }*/
 
   private getArticlesInstallation() {
 
@@ -4725,24 +6074,19 @@ validateIdparte(idParte: any){
     this.getArticlesInstallation();
     this.getArticleProyect(this.project_id);
     this.getCuerpoInstallationsByProyect();
+    this.getDashboard(this.project_id, false);
+    this.getDashboardArea(this.project_id, 'articulos');
+    this.getDashboardInstalaciones(this.project_id, 'articulos');
 
-    this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstancias('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartMonitoreos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartInstancias('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAtributos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChartAmbienteCriticidad('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
-    this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
+    if(this.articles_proyects_group.length > 0){
+      this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
+
+      this.getDashboardCuerpo(this.project_id, this.articles_proyects_group[0].normaId);
+      this.getDashboardAreaCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
+      this.getDashboardInstallationCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
+    }
+
+    this.setChart();
     
   }
 
