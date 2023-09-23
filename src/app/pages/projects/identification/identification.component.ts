@@ -189,7 +189,9 @@ export class IdentificationComponent implements OnInit {
   filtro_area: any;
   filtro_area_cuerpo: any;
   filtro_cuerpo: any;
+  filtro_cuerpoId: any;
   filtro_articulo: any;
+  filtro_articuloId: any;
   filtro_atributo: any;
   areas_chart: any;
   areas_select_chart: any = [];
@@ -204,6 +206,8 @@ export class IdentificationComponent implements OnInit {
 
   select_gestion: any = 'articulos';
   select_gestion_instalacion: any = 'articulos';
+
+  articles_filter: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -5045,24 +5049,24 @@ validateIdparte(idParte: any){
   }
 
   getArticulos(){
+    this.articles_filter = [];
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2') && ins.normaId == this.filtro_cuerpoId
     );
-    let articles_group: any = [];
+   // let articles_group: any = [];
           filter.forEach((x: any) => {
             
-            const index = articles_group.findIndex(
+            const index = /*articles_group*/this.articles_filter.findIndex(
               (co: any) =>
-                co == x.articuloId
+                co.id == x.articuloId
             );
 
             if(index == -1){
-              articles_group.push({id: x.articuloId, articulo: x.articulo});
+              /*articles_group*/this.articles_filter.push({id: x.articuloId, articulo: x.articulo});
             }
           })
-
-    return articles_group;
+    //return articles_group;
   }
 
   selectCriticidad(criticidad?: any){
@@ -5091,19 +5095,21 @@ validateIdparte(idParte: any){
     this.filtro_atributo = atributo;
     
     if(atributo){
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpo, true, this.filtro_area, atributo, this.criticidad_cuerpo,this.filtro_articulo);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, atributo, this.criticidad_cuerpo,this.filtro_articuloId);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpo, true, this.filtro_area, undefined, this.criticidad_cuerpo,this.filtro_articulo);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, undefined, this.criticidad_cuerpo,this.filtro_articuloId);
     }
   }
 
   selectCuerpoFiltro(cuerpo?: any, normaId?: any){
     this.filtro_cuerpo = cuerpo;
+    this.filtro_cuerpoId = normaId;
   
     if(cuerpo){
-      
-      this.resetFiltroCuerpo(this.project_id, normaId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo,this.filtro_articulo);
+  
+      this.getArticulos();    
+      this.resetFiltroCuerpo(this.project_id, normaId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo,this.filtro_articuloId);
 
       /*const index = this.articles_proyects_group.findIndex(
         (ap: any) =>
@@ -5120,14 +5126,15 @@ validateIdparte(idParte: any){
   }
 
   selectArticuloFiltro(id?: any, articulo?: any){
-    this.filtro_articulo = id > 0 ? {id: id,articulo: articulo} : null;
+    this.filtro_articuloId = id > 0 ? id : null;
+    this.filtro_articulo = id > 0 ? articulo : null;
     
     if(id > 0){
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpo, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo, id);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo, id);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpo, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo);
     }
   }
   
@@ -5822,7 +5829,7 @@ validateIdparte(idParte: any){
 
   changeTab(active: number){
     this.activeTab = active;
-    this.resteblecer();
+    this.restablecer();
     if (this.articles_proyects_group < 1) {
       
       Swal.fire({
@@ -6097,10 +6104,10 @@ validateIdparte(idParte: any){
 
   siguiente(){
     this.activeTab = this.activeTab + 1;
-    this.resteblecer();
+    this.restablecer();
   }
 
-  resteblecer(){
+  restablecer(){
     this.selectCheckedVincular = [];
     this.selectCheckedInstalaciones = [];
     this.selectCheckedCuerpos = [];
@@ -6115,7 +6122,9 @@ validateIdparte(idParte: any){
 
     if(this.articles_proyects_group.length > 0){
       this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
+      this.filtro_cuerpoId = this.articles_proyects_group[0].normaId;
 
+      this.getArticulos();
       this.getDashboardCuerpo(this.project_id, this.articles_proyects_group[0].normaId);
       this.getDashboardAreaCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
       this.getDashboardInstallationCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
