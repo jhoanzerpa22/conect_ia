@@ -2265,14 +2265,14 @@
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo.articulo }}</button>
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo }}</button>
                                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                             <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
 
-                                                <ng-container *ngFor="let ach of getArticulos();">
+                                                <ng-container *ngFor="let ach of articles_filter"><!--getArticulos()-->
  <!--articulos_chart-->                                                   
-                                                    <a class="dropdown-item" [ngClass]="filtro_articulo && filtro_articulo.id == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
+                                                    <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
                                                 </ng-container>
                                             </div>
                                         </div>
