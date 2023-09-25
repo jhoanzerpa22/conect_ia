@@ -1305,11 +1305,11 @@
                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo"></button>
                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                 <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
-                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>-->
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
                                 <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
-                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>-->
+                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>
                             </div>
                         </div>
 
@@ -1484,7 +1484,7 @@
                 
                 </div>
                 
-                            <ng-container *ngIf="!criticidad">
+                            <ng-container *ngIf="!criticidad_old">
                                 <div class="row mb-3 align-items-center justify-content-center">
                                     <h4>Aplicabilidad</h4>
                 
@@ -1615,7 +1615,7 @@
                                         </div>
                                         <div class="card-body p-0">
                                             <div>
-                                                <apx-chart [series]="basicBarChartGeneral.series" [colors]="basicBarChartGeneral.colors"
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
                                                     [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
                                                     [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr" dir="ltr"
                                                     [xaxis]="basicBarChartGeneral.xaxis"></apx-chart>
@@ -1633,7 +1633,7 @@
                                             
                                             <h4>Permisos por área</h4>
 
-                                                <apx-chart [series]="basicBarChartPermisos.series" [colors]="basicBarChartPermisos.colors"
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
                                                     [chart]="basicBarChartPermisos.chart" [dataLabels]="basicBarChartPermisos.dataLabels"
                                                     [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr" dir="ltr"
                                                     [xaxis]="basicBarChartPermisos.xaxis"></apx-chart>
@@ -1648,7 +1648,7 @@
                                                 
                                                 <h4>Reportes por área</h4>
     
-                                                    <apx-chart [series]="basicBarChartReportes.series" [colors]="basicBarChartReportes.colors"
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
                                                         [chart]="basicBarChartReportes.chart" [dataLabels]="basicBarChartReportes.dataLabels"
                                                         [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" dir="ltr"
                                                         [xaxis]="basicBarChartReportes.xaxis"></apx-chart>
@@ -1667,7 +1667,7 @@
                                             
                                             <h4>Monitoreos por área</h4>
 
-                                                <apx-chart [series]="basicBarChartMonitoreos.series" [colors]="basicBarChartMonitoreos.colors"
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
                                                     [chart]="basicBarChartMonitoreos.chart" [dataLabels]="basicBarChartMonitoreos.dataLabels"
                                                     [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" dir="ltr"
                                                     [xaxis]="basicBarChartMonitoreos.xaxis"></apx-chart>
@@ -1682,7 +1682,7 @@
                                                 
                                                 <h4>Otras Obligaciones por área</h4>
     
-                                                    <apx-chart [series]="basicBarChartOtros.series" [colors]="basicBarChartOtros.colors"
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
                                                         [chart]="basicBarChartOtros.chart" [dataLabels]="basicBarChartOtros.dataLabels"
                                                         [plotOptions]="basicBarChartOtros.plotOptions" dir="ltr" dir="ltr"
                                                         [xaxis]="basicBarChartOtros.xaxis"></apx-chart>
@@ -1761,7 +1761,7 @@
                                         </div>
                                         <div class="card-body p-0">
                                             <div>
-                                                <apx-chart [series]="basicBarChartGeneralInstallation.series" [colors]="basicBarChartGeneralInstallation.colors"
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
                                                     [chart]="basicBarChartGeneralInstallation.chart" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
                                                     [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr" dir="ltr"
                                                     [xaxis]="basicBarChartGeneralInstallation.xaxis"></apx-chart>
@@ -1779,7 +1779,7 @@
                                             
                                             <h4>Permisos por Elemento y actividad</h4>
 
-                                                <apx-chart [series]="basicBarChartPermisosInstallations.series" [colors]="basicBarChartPermisosInstallations.colors"
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
                                                     [chart]="basicBarChartPermisosInstallations.chart" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
                                                     [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" dir="ltr"
                                                     [xaxis]="basicBarChartPermisosInstallations.xaxis"></apx-chart>
@@ -1794,7 +1794,7 @@
                                                 
                                                 <h4>Reportes por Elemento y actividad</h4>
     
-                                                    <apx-chart [series]="basicBarChartReportesInstallations.series" [colors]="basicBarChartReportesInstallations.colors"
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
                                                         [chart]="basicBarChartReportesInstallations.chart" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
                                                         [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" dir="ltr"
                                                         [xaxis]="basicBarChartReportesInstallations.xaxis"></apx-chart>
@@ -1813,7 +1813,7 @@
                                             
                                             <h4>Monitoreos por Elemento y actividad</h4>
 
-                                                <apx-chart [series]="basicBarChartMonitoreosInstallations.series" [colors]="basicBarChartMonitoreosInstallations.colors"
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
                                                     [chart]="basicBarChartMonitoreosInstallations.chart" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
                                                     [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" dir="ltr"
                                                     [xaxis]="basicBarChartMonitoreosInstallations.xaxis"></apx-chart>
@@ -1828,7 +1828,7 @@
                                                 
                                                 <h4>Otras Obligaciones por Elemento y actividad</h4>
     
-                                                    <apx-chart [series]="basicBarChartOtrosInstallations.series" [colors]="basicBarChartOtrosInstallations.colors"
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
                                                         [chart]="basicBarChartOtrosInstallations.chart" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
                                                         [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" dir="ltr"
                                                         [xaxis]="basicBarChartOtrosInstallations.xaxis"></apx-chart>
@@ -1839,7 +1839,7 @@
                                 </div>
                             </ng-container>
                 
-                            <ng-container *ngIf="criticidad">
+                            <ng-container *ngIf="criticidad_old">
                                 
                                 <div class="row mb-3 align-items-center justify-content-center">
                                     <h4>Aplicabilidad</h4>

@@ -183,6 +183,7 @@ export class IdentificationComponent implements OnInit {
   cuerpo_energia_otros: number = 0;
   
   criticidad: any;
+  criticidad_old: any;
   tipo: any;
   tipo_cuerpo: any;
   criticidad_cuerpo: any;
@@ -308,6 +309,120 @@ export class IdentificationComponent implements OnInit {
             }
         }
     });
+  }
+
+  getCategories(){
+    if(!this.tipo){
+      return ['Gestionar','Por definir'];
+    }else{
+      switch (this.tipo) {
+        case 'Gestionar':
+          return ['Gestionar'];
+          break;
+          case 'Por definir':
+            return ['Por definir'];
+            break;
+      
+        default:
+          return ['Gestionar','Por definir'];
+          break;
+      }
+    }
+  }
+  
+  getSeriesTipo(gestionar: any, por_definir: any, diferent?: any){
+    let series: any = [];
+
+    if(!this.tipo){
+      if(diferent){
+
+        if(diferent == 'instancias'){
+
+          series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos'), this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
+
+        }else if (diferent == 'cuerpos'){
+          series =  [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')];
+        }
+      }else{
+        series =  [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
+      }
+    }else{
+      switch (this.tipo) {
+        case 'Gestionar':
+          if(diferent){
+
+            if(diferent == 'instancias'){
+    
+              series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos')];
+              
+            }else if (diferent == 'cuerpos'){
+    
+              series =  [this.countCuerposLegalesEstado('1')];
+            }
+          }else{
+            series =  [this.getDataDashboard(gestionar)];
+          }
+
+          break;
+          case 'Por definir':
+            if(diferent){
+
+              if(diferent == 'instancias'){
+      
+                series =  [this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
+                
+              }else if (diferent == 'cuerpos'){
+      
+                series =  [this.countCuerposLegalesEstado('2')];
+              }
+            }else{
+              series =  [this.getDataDashboard(por_definir)];
+            }
+            break;
+      
+        default:
+          if(diferent){
+
+            if(diferent == 'instancias'){
+    
+              series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos'), this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
+    
+            }else if (diferent == 'cuerpos'){
+    
+              series =  [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')];
+            }
+          }else{
+            series = [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
+          }
+          break;
+      }
+    }
+
+    return series;
+  }
+
+  getColorsTipo(){
+    let colors: any = [];
+
+    if(!this.tipo){
+        colors =  '["--vz-success", "--vz-warning", "--vz-danger"]';
+    }else{
+      switch (this.tipo) {
+        case 'Gestionar':
+            colors =  '["--vz-success", "--vz-warning", "--vz-danger"]';
+          break;
+          case 'Por definir':
+              colors =  '["--vz-warning", "--vz-danger"]';
+            break;
+      
+        default:
+            colors = '["--vz-success", "--vz-warning", "--vz-danger"]';
+          
+          break;
+      }
+    }
+
+    return colors;
   }
 
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
@@ -443,9 +558,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
    private _simpleDonutChartCuerpos(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartCuerpos = {
-      series: [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')],
+      series: this.getSeriesTipo('cuerpos_gestionar','cuerpos_definir', 'cuerpos'),//[this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')],
       chart: {
         height: 300,
         type: "donut",
@@ -458,7 +574,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -467,9 +583,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
    private _simpleDonutChartArticulos(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartArticulos = {
-      series: [this.getDataDashboard('articulos_gestionar'),this.getDataDashboard('articulos_definir')],//this.countArticulosEstado('1'), this.countArticulosEstado('2')
+      series: this.getSeriesTipo('articulos_gestionar','articulos_definir'),//[this.getDataDashboard('articulos_gestionar'),this.getDataDashboard('articulos_definir')],//this.countArticulosEstado('1'), this.countArticulosEstado('2')
       chart: {
         height: 300,
         type: "donut",
@@ -489,7 +606,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -498,9 +615,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
   private _simpleDonutChartInstancias(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartInstancias = {
-      series: [this.getDataDashboard('articulos_gestionar') * this.getDataDashboard('elementos'), this.getDataDashboard('articulos_definir') * this.getDataDashboard('elementos')],//this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()
+      series: this.getSeriesTipo('articulos_gestionar','articulos_definir','instancias'),//[this.getDataDashboard('articulos_gestionar') * this.getDataDashboard('elementos'), this.getDataDashboard('articulos_definir') * this.getDataDashboard('elementos')],//this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()
       chart: {
         height: 300,
         type: "donut",
@@ -513,7 +631,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -522,9 +640,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
    private _simpleDonutChartMonitoreos(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartMonitoreos = {
-      series: [this.getDataDashboard('monitoreos_gestionar'), this.getDataDashboard('monitoreos_definir')],//this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')
+      series: this.getSeriesTipo('monitoreos_gestionar','monitoreos_definir'),//[this.getDataDashboard('monitoreos_gestionar'), this.getDataDashboard('monitoreos_definir')],//this.countAtributoEstado('1','monitoreo'), this.countAtributoEstado('2', 'monitoreo')
       chart: {
         height: 300,
         type: "donut",
@@ -537,7 +656,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -546,9 +665,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
    private _simpleDonutChartReportes(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartReportes = {
-      series: [this.getDataDashboard('reportes_gestionar'), this.getDataDashboard('reportes_definir')],//this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')
+      series: this.getSeriesTipo('reportes_gestionar','reportes_definir'),//[this.getDataDashboard('reportes_gestionar'), this.getDataDashboard('reportes_definir')],//this.countAtributoEstado('1','reporte'), this.countAtributoEstado('2', 'reporte')
       chart: {
         height: 300,
         type: "donut",
@@ -561,7 +681,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -571,9 +691,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
    private _simpleDonutChartPermisos(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartPermisos = {
-      series: [this.getDataDashboard('permisos_gestionar'), this.getDataDashboard('permisos_definir')],//this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')
+      series: this.getSeriesTipo('permisos_gestionar','permisos_definir'),//[this.getDataDashboard('permisos_gestionar'), this.getDataDashboard('permisos_definir')],//this.countAtributoEstado('1','permiso'), this.countAtributoEstado('2', 'permiso')
       chart: {
         height: 300,
         type: "donut",
@@ -586,7 +707,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -596,9 +717,10 @@ export class IdentificationComponent implements OnInit {
  * Simple Donut Chart
  */
    private _simpleDonutChartOtros(colors:any) {
+    colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartOtros = {
-      series: [this.getDataDashboard('otros_gestionar'), this.getDataDashboard('otros_definir')],//this.countAtributoEstado('1'), this.countAtributoEstado('2')
+      series: this.getSeriesTipo('otros_gestionar','otros_definir'),//[this.getDataDashboard('otros_gestionar'), this.getDataDashboard('otros_definir')],//this.countAtributoEstado('1'), this.countAtributoEstado('2')
       chart: {
         height: 300,
         type: "donut",
@@ -611,7 +733,7 @@ export class IdentificationComponent implements OnInit {
           enabled: false,
         },
       },
-      labels: ["Gestionar","Por definir"],
+      labels: this.getCategories(),//["Gestionar","Por definir"],
       colors: colors,
     };
   }
@@ -875,7 +997,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -895,132 +1017,6 @@ export class IdentificationComponent implements OnInit {
       colors: colors,
     };
 
-    this.stacked100BarChart2 = {
-      series: [{
-        name: "Alta",
-        data: [44, 55],
-      },
-      {
-        name: "Media",
-        data: [53, 32],
-      },
-      {
-        name: "Baja",
-        data: [12, 17],
-      },
-      {
-        name: "Otros",
-        data: [9, 7],
-      }
-      ],
-      chart: {
-        type: "bar",
-        height: 250,
-        stacked: true,
-        stackType: "100%",
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          vertical: true
-        },
-      },
-      stroke: {
-        width: 1,
-        colors: ["#fff"],
-      },
-      /*title: {
-        text: "100% Stacked Bar",
-        style: {
-          fontWeight: 600,
-        },
-      },*/
-      xaxis: {
-        categories: ['Gestionar', 'Por definir'],
-      },
-      tooltip: {
-        y: {
-          formatter: function (val:any) {
-            return val;// + "K";
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: "bottom",
-        //horizontalAlign: "left",
-        //offsetX: 40,
-      },
-      colors: colors,
-    };
-
-    this.stacked100BarChart3 = {
-      series: [{
-        name: "Alta",
-        data: [20,18,11],
-      },
-      {
-        name: "Media",
-        data: [4,2,9],
-      },
-      {
-        name: "Baja",
-        data: [10,2,30],
-      },
-      {
-        name: "Otros",
-        data: [11,22,10],
-      }
-      ],
-      chart: {
-        type: "bar",
-        height: 250,
-        stacked: true,
-        stackType: "100%",
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      stroke: {
-        width: 1,
-        colors: ["#fff"],
-      },
-      /*title: {
-        text: "100% Stacked Bar",
-        style: {
-          fontWeight: 600,
-        },
-      },*/
-      xaxis: {
-        categories: ["MA","ENERGIA","SSO"],
-      },
-      tooltip: {
-        y: {
-          formatter: function (val:any) {
-            return val;// + "K";
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: "top",
-        //horizontalAlign: "left",
-        //offsetX: 40,
-      },
-      colors: colors,
-    };
    }
 
    /**
@@ -1091,7 +1087,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -1181,7 +1177,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -1531,7 +1527,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -1618,7 +1614,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -1702,7 +1698,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -1787,7 +1783,7 @@ export class IdentificationComponent implements OnInit {
         },
       },*/
       xaxis: {
-        categories: ['Gestionar', 'Por definir'],
+        categories: this.getCategories(),//['Gestionar', 'Por definir'],
       },
       tooltip: {
         y: {
@@ -1815,8 +1811,40 @@ export class IdentificationComponent implements OnInit {
     colors = this.getChartColorsArray(colors);
     this.basicBarChartGeneral = {
         series: [{
-            data: this.getDataDashboardArea('value','general'),//[1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
+            data: this.getDataDashboardArea('value','general'),
             name: 'Articulos',
+        }],
+        seriesCriticidad: [{
+          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          name: 'Alta',
+        },
+        {
+          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          name: 'Media',
+        },
+        {
+          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          name: 'Baja',
+        },
+        {
+          data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+          name: 'Otros',
+        }],
+        seriesAlta: [{
+          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          name: 'Alta',
+        }],
+        seriesMedia: [{
+          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          name: 'Media',
+        }],
+        seriesBaja: [{
+          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          name: 'Baja',
+        }],
+        seriesOtros: [{
+          data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+          name: 'Otros',
         }],
         chart: {
             type: 'bar',
@@ -1852,7 +1880,7 @@ export class IdentificationComponent implements OnInit {
             show: false,
         },
         xaxis: {
-            categories: this.getDataDashboardArea('label','general')//['India', 'United States', 'China', 'Indonesia', 'Russia', 'Bangladesh', 'Canada', 'Brazil', 'Vietnam', 'UK'],
+            categories: this.getDataDashboardArea('label','general')
         },
     };
   }
@@ -1866,6 +1894,38 @@ export class IdentificationComponent implements OnInit {
         series: [{
             data: this.getDataDashboardInstallation('value','general'),
             name: 'Articulos',
+        }],
+        seriesCriticidad: [{
+          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          name: 'Alta',
+        },
+        {
+          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          name: 'Media',
+        },
+        {
+          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          name: 'Baja',
+        },
+        {
+          data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+          name: 'Otros',
+        }],
+        seriesAlta: [{
+          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          name: 'Alta',
+        }],
+        seriesMedia: [{
+          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          name: 'Media',
+        }],
+        seriesBaja: [{
+          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          name: 'Baja',
+        }],
+        seriesOtros: [{
+          data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+          name: 'Otros',
         }],
         chart: {
             type: 'bar',
@@ -1913,6 +1973,38 @@ export class IdentificationComponent implements OnInit {
           data: this.getDataDashboardArea('value','permisos'),
           name: 'Articulos',
       }],
+      seriesCriticidad: [{
+        data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+        name: 'Alta',
+      },
+      {
+        data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+        name: 'Media',
+      },
+      {
+        data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+        name: 'Baja',
+      },
+      {
+        data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+        name: 'Otros',
+      }],
+      seriesAlta: [{
+        data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+        name: 'Alta',
+      }],
+      seriesMedia: [{
+        data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+        name: 'Media',
+      }],
+      seriesBaja: [{
+        data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+        name: 'Baja',
+      }],
+      seriesOtros: [{
+        data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+        name: 'Otros',
+      }],
       chart: {
           type: 'bar',
           height: 400,
@@ -1955,6 +2047,38 @@ export class IdentificationComponent implements OnInit {
     series: [{
         data: this.getDataDashboardArea('value','reportes'),
         name: 'Articulos',
+    }],
+    seriesCriticidad: [{
+      data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+      name: 'Alta',
+    },
+    {
+      data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+      name: 'Media',
+    },
+    {
+      data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+      name: 'Baja',
+    },
+    {
+      data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+      name: 'Otros',
+    }],
+    seriesAlta: [{
+      data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+      name: 'Alta',
+    }],
+    seriesMedia: [{
+      data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+      name: 'Media',
+    }],
+    seriesBaja: [{
+      data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+      name: 'Baja',
+    }],
+    seriesOtros: [{
+      data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+      name: 'Otros',
     }],
     chart: {
         type: 'bar',
@@ -1999,6 +2123,38 @@ this.basicBarChartMonitoreos = {
       data: this.getDataDashboardArea('value','monitoreos'),
       name: 'Articulos',
   }],
+  seriesCriticidad: [{
+    data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+    name: 'Alta',
+  },
+  {
+    data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+    name: 'Media',
+  },
+  {
+    data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+    name: 'Baja',
+  },
+  {
+    data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+    name: 'Otros',
+  }],
+  seriesAlta: [{
+    data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+    name: 'Alta',
+  }],
+  seriesMedia: [{
+    data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+    name: 'Media',
+  }],
+  seriesBaja: [{
+    data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+    name: 'Baja',
+  }],
+  seriesOtros: [{
+    data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+    name: 'Otros',
+  }],
   chart: {
       type: 'bar',
       height: 400,
@@ -2042,6 +2198,38 @@ this.basicBarChartOtros = {
       data: this.getDataDashboardArea('value','otros'),
       name: 'Articulos',
   }],
+seriesCriticidad: [{
+  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  name: 'Alta',
+},
+{
+  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  name: 'Media',
+},
+{
+  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  name: 'Baja',
+},
+{
+  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  name: 'Otros',
+}],
+seriesAlta: [{
+  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  name: 'Alta',
+}],
+seriesMedia: [{
+  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  name: 'Media',
+}],
+seriesBaja: [{
+  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  name: 'Baja',
+}],
+seriesOtros: [{
+  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  name: 'Otros',
+}],
   chart: {
       type: 'bar',
       height: 400,
@@ -2089,6 +2277,38 @@ private _basicBarChartAtributosInstallations(colors: any) {
         data: this.getDataDashboardInstallation('value','permisos'),
         name: 'Articulos',
     }],
+    seriesCriticidad: [{
+      data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+      name: 'Alta',
+    },
+    {
+      data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+      name: 'Media',
+    },
+    {
+      data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+      name: 'Baja',
+    },
+    {
+      data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+      name: 'Otros',
+    }],
+    seriesAlta: [{
+      data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+      name: 'Alta',
+    }],
+    seriesMedia: [{
+      data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+      name: 'Media',
+    }],
+    seriesBaja: [{
+      data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+      name: 'Baja',
+    }],
+    seriesOtros: [{
+      data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+      name: 'Otros',
+    }],
     chart: {
         type: 'bar',
         height: 400,
@@ -2131,6 +2351,38 @@ this.basicBarChartReportesInstallations = {
   series: [{
       data: this.getDataDashboardInstallation('value','reportes'),
       name: 'Articulos',
+  }],
+  seriesCriticidad: [{
+    data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+    name: 'Alta',
+  },
+  {
+    data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+    name: 'Media',
+  },
+  {
+    data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+    name: 'Baja',
+  },
+  {
+    data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+    name: 'Otros',
+  }],
+  seriesAlta: [{
+    data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+    name: 'Alta',
+  }],
+  seriesMedia: [{
+    data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+    name: 'Media',
+  }],
+  seriesBaja: [{
+    data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+    name: 'Baja',
+  }],
+  seriesOtros: [{
+    data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+    name: 'Otros',
   }],
   chart: {
       type: 'bar',
@@ -2175,6 +2427,38 @@ series: [{
     data: this.getDataDashboardInstallation('value','monitoreos'),
     name: 'Articulos',
 }],
+seriesCriticidad: [{
+  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  name: 'Alta',
+},
+{
+  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  name: 'Media',
+},
+{
+  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  name: 'Baja',
+},
+{
+  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  name: 'Otros',
+}],
+seriesAlta: [{
+  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  name: 'Alta',
+}],
+seriesMedia: [{
+  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  name: 'Media',
+}],
+seriesBaja: [{
+  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  name: 'Baja',
+}],
+seriesOtros: [{
+  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  name: 'Otros',
+}],
 chart: {
     type: 'bar',
     height: 400,
@@ -2217,6 +2501,38 @@ this.basicBarChartOtrosInstallations = {
 series: [{
     data: this.getDataDashboardInstallation('value','otros'),
     name: 'Articulos',
+}],
+seriesCriticidad: [{
+  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  name: 'Alta',
+},
+{
+  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  name: 'Media',
+},
+{
+  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  name: 'Baja',
+},
+{
+  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  name: 'Otros',
+}],
+seriesAlta: [{
+  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  name: 'Alta',
+}],
+seriesMedia: [{
+  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  name: 'Media',
+}],
+seriesBaja: [{
+  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  name: 'Baja',
+}],
+seriesOtros: [{
+  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  name: 'Otros',
 }],
 chart: {
     type: 'bar',
@@ -2372,6 +2688,10 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           
         case 'Otros':
           return objeto.seriesOtros;
+          break;
+          
+        case 'Todos':
+          return objeto.seriesCriticidad;
           break;
     
       default:
@@ -3698,6 +4018,19 @@ validateIdparte(idParte: any){
         case 'sso':
             return this.dashboard.ambitoNormativo.articulos.SSO;
             break;
+            
+        case 'alta':
+          return [this.dashboard.criticidad.countCriticidadAlta];
+          break;
+        case 'media':
+          return [this.dashboard.criticidad.countCriticidadMedia];
+          break;
+        case 'baja':
+          return [this.dashboard.criticidad.countCriticidadBaja];
+          break;
+        case 'sin_criticidad':
+          return [this.dashboard.tarjetas.countArticulos - this.dashboard.criticidad.countCriticidadBaja - this.dashboard.criticidad.countCriticidadAlta - this.dashboard.criticidad.countCriticidadMedia];
+          break;
             
         default:
           break;
@@ -5083,7 +5416,8 @@ validateIdparte(idParte: any){
 
   selectTipo(tipo?: any){
     this.tipo = tipo;
-    
+
+    this.setChart();
     //this.getDashboard(this.project_id, this.filtro_area, tipo, this.criticidad);
   }
 
