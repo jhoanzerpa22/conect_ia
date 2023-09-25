@@ -1942,8 +1942,7 @@ export class IdentificationComponent implements OnInit {
    * Basic Bar Chart
    */
   private _basicBarChartGeneralInstallation(colors: any) {
-    colors = this.getColorsCriticidad();
-    colors = this.getChartColorsArray(colors);
+    colors = this.getChartColorsArray(this.getColorsCriticidad());
     this.basicBarChartGeneralInstallation = {
         series: [{
             data: this.getDataDashboardInstallation('value','general'),
@@ -1988,14 +1987,18 @@ export class IdentificationComponent implements OnInit {
                 show: false,
             }
         },
+        stroke: {
+          width: 1,
+          colors: ["#fff"],
+        },
         plotOptions: {
             bar: {
-                borderRadius: 4,
+                //borderRadius: 4,
                 horizontal: true,
-                distributed: true,
+                /*distributed: true,
                 dataLabels: {
                     position: 'top',
-                },
+                },*/
             }
         },
         dataLabels: {
@@ -2007,13 +2010,24 @@ export class IdentificationComponent implements OnInit {
                 colors: ['#adb5bd']
             }
         },
-        colors: colors,
+        tooltip: {
+          y: {
+            formatter: function (val:any) {
+              return val;// + "K";
+            },
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
         legend: {
-            show: false,
+            position: "top",
+            //show: false,
         },
-        grid: {
+        colors: colors,
+        /*grid: {
             show: false,
-        },
+        },*/
         xaxis: {
             categories: this.getDataDashboardInstallation('label','general')
         },
@@ -2021,8 +2035,7 @@ export class IdentificationComponent implements OnInit {
   }
 
   private _basicBarChartAtributos(colors: any) {
-    colors = this.getColorsCriticidad();
-    colors = this.getChartColorsArray(colors);
+    colors = this.getChartColorsArray(this.getColorsCriticidad());
     this.basicBarChartPermisos = {
       series: [{
           data: this.getDataDashboardArea('value','permisos'),
@@ -2062,20 +2075,26 @@ export class IdentificationComponent implements OnInit {
       }],
       chart: {
           type: 'bar',
-          height: 400,
+          height: 400,      
+          stacked: true,
+          stackType: "100%",
           toolbar: {
               show: false,
           }
       },
       plotOptions: {
           bar: {
-              borderRadius: 4,
+              //borderRadius: 4,
               horizontal: true,
-              distributed: true,
+              /*distributed: true,
               dataLabels: {
                   position: 'top',
-              },
+              },*/
           }
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
       },
       dataLabels: {
           enabled: true,
@@ -2087,12 +2106,23 @@ export class IdentificationComponent implements OnInit {
           }
       },
       colors: colors,
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
       legend: {
-          show: false,
+          position: "top",
+          //show: false,
       },
-      grid: {
+      /*grid: {
           show: false,
-      },
+      },*/
       xaxis: {
           categories: this.getDataDashboardArea('label','permisos')
       },
@@ -2137,20 +2167,26 @@ export class IdentificationComponent implements OnInit {
     }],
     chart: {
         type: 'bar',
-        height: 400,
+        height: 400,      
+        stacked: true,
+        stackType: "100%",
         toolbar: {
             show: false,
         }
     },
     plotOptions: {
         bar: {
-            borderRadius: 4,
+            //borderRadius: 4,
             horizontal: true,
-            distributed: true,
+            /*distributed: true,
             dataLabels: {
                 position: 'top',
-            },
+            },*/
         }
+    },
+    stroke: {
+      width: 1,
+      colors: ["#fff"],
     },
     dataLabels: {
         enabled: true,
@@ -2162,12 +2198,23 @@ export class IdentificationComponent implements OnInit {
         }
     },
     colors: colors,
+    tooltip: {
+      y: {
+        formatter: function (val:any) {
+          return val;// + "K";
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
     legend: {
-        show: false,
+        position: "top",
+        //show: false,
     },
-    grid: {
+    /*grid: {
         show: false,
-    },
+    },*/
     xaxis: {
         categories: this.getDataDashboardArea('label','reportes')
     },
@@ -2212,19 +2259,25 @@ this.basicBarChartMonitoreos = {
   }],
   chart: {
       type: 'bar',
-      height: 400,
+      height: 400,      
+      stacked: true,
+      stackType: "100%",
       toolbar: {
           show: false,
       }
   },
+  stroke: {
+    width: 1,
+    colors: ["#fff"],
+  },
   plotOptions: {
       bar: {
-          borderRadius: 4,
+          //borderRadius: 4,
           horizontal: true,
-          distributed: true,
+          /*distributed: true,
           dataLabels: {
               position: 'top',
-          },
+          },*/
       }
   },
   dataLabels: {
@@ -2237,12 +2290,23 @@ this.basicBarChartMonitoreos = {
       }
   },
   colors: colors,
+  tooltip: {
+    y: {
+      formatter: function (val:any) {
+        return val;// + "K";
+      },
+    },
+  },
+  fill: {
+    opacity: 1,
+  },
   legend: {
-      show: false,
+      position: "top",
+      //show: false,
   },
-  grid: {
+  /*grid: {
       show: false,
-  },
+  },*/
   xaxis: {
       categories: this.getDataDashboardArea('label','monitoreos')
   },
@@ -2292,14 +2356,18 @@ seriesOtros: [{
           show: false,
       }
   },
+  stroke: {
+    width: 1,
+    colors: ["#fff"],
+  },
   plotOptions: {
       bar: {
-          borderRadius: 4,
+          //borderRadius: 4,
           horizontal: true,
-          distributed: true,
+          /*distributed: true,
           dataLabels: {
               position: 'top',
-          },
+          },*/
       }
   },
   dataLabels: {
@@ -2312,12 +2380,23 @@ seriesOtros: [{
       }
   },
   colors: colors,
+  tooltip: {
+    y: {
+      formatter: function (val:any) {
+        return val;// + "K";
+      },
+    },
+  },
+  fill: {
+    opacity: 1,
+  },
   legend: {
-      show: false,
+      position: "top",
+      //show: false,
   },
-  grid: {
+  /*grid: {
       show: false,
-  },
+  },*/
   xaxis: {
       categories: this.getDataDashboardArea('label','otros')
   },
@@ -2326,8 +2405,7 @@ seriesOtros: [{
 }
 
 private _basicBarChartAtributosInstallations(colors: any) {
-  colors = this.getColorsCriticidad();
-  colors = this.getChartColorsArray(colors);
+  colors = this.getChartColorsArray(this.getColorsCriticidad());
   this.basicBarChartPermisosInstallations = {
     series: [{
         data: this.getDataDashboardInstallation('value','permisos'),
@@ -2374,12 +2452,12 @@ private _basicBarChartAtributosInstallations(colors: any) {
     },
     plotOptions: {
         bar: {
-            borderRadius: 4,
+            //borderRadius: 4,
             horizontal: true,
-            distributed: true,
+            /*distributed: true,
             dataLabels: {
                 position: 'top',
-            },
+            },*/
         }
     },
     dataLabels: {
@@ -2391,13 +2469,28 @@ private _basicBarChartAtributosInstallations(colors: any) {
             colors: ['#adb5bd']
         }
     },
-    colors: colors,
-    legend: {
-        show: false,
+    colors: colors,  
+    stroke: {
+      width: 1,
+      colors: ["#fff"],
     },
+    tooltip: {
+      y: {
+        formatter: function (val:any) {
+          return val;// + "K";
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+        position: "top",
+        //show: false,
+    },/*
     grid: {
         show: false,
-    },
+    },*/
     xaxis: {
         categories: this.getDataDashboardInstallation('label','permisos')
     },
@@ -2449,12 +2542,12 @@ this.basicBarChartReportesInstallations = {
   },
   plotOptions: {
       bar: {
-          borderRadius: 4,
+          //borderRadius: 4,
           horizontal: true,
-          distributed: true,
+          /*distributed: true,
           dataLabels: {
               position: 'top',
-          },
+          },*/
       }
   },
   dataLabels: {
@@ -2467,12 +2560,27 @@ this.basicBarChartReportesInstallations = {
       }
   },
   colors: colors,
-  legend: {
-      show: false,
+  stroke: {
+    width: 1,
+    colors: ["#fff"],
   },
+  tooltip: {
+    y: {
+      formatter: function (val:any) {
+        return val;// + "K";
+      },
+    },
+  },
+  fill: {
+    opacity: 1,
+  },
+  legend: {
+      position: "top",
+      //show: false,
+  },/*
   grid: {
       show: false,
-  },
+  },*/
   xaxis: {
       categories: this.getDataDashboardInstallation('label','reportes')
   },
@@ -2524,12 +2632,12 @@ chart: {
 },
 plotOptions: {
     bar: {
-        borderRadius: 4,
+        //borderRadius: 4,
         horizontal: true,
-        distributed: true,
+        /*distributed: true,
         dataLabels: {
             position: 'top',
-        },
+        },*/
     }
 },
 dataLabels: {
@@ -2542,12 +2650,27 @@ dataLabels: {
     }
 },
 colors: colors,
-legend: {
-    show: false,
+stroke: {
+  width: 1,
+  colors: ["#fff"],
 },
+tooltip: {
+  y: {
+    formatter: function (val:any) {
+      return val;// + "K";
+    },
+  },
+},
+fill: {
+  opacity: 1,
+},
+legend: {
+    position: "top",
+    //show: false,
+},/*
 grid: {
     show: false,
-},
+},*/
 xaxis: {
     categories: this.getDataDashboardInstallation('label','monitoreos')
 },
@@ -2599,12 +2722,12 @@ chart: {
 },
 plotOptions: {
     bar: {
-        borderRadius: 4,
+        //borderRadius: 4,
         horizontal: true,
-        distributed: true,
+        /*distributed: true,
         dataLabels: {
             position: 'top',
-        },
+        },*/
     }
 },
 dataLabels: {
@@ -2617,12 +2740,27 @@ dataLabels: {
     }
 },
 colors: colors,
-legend: {
-    show: false,
+stroke: {
+  width: 1,
+  colors: ["#fff"],
 },
+tooltip: {
+  y: {
+    formatter: function (val:any) {
+      return val;// + "K";
+    },
+  },
+},
+fill: {
+  opacity: 1,
+},
+legend: {
+    position: "top",
+    //show: false,
+},/*
 grid: {
     show: false,
-},
+},*/
 xaxis: {
     categories: this.getDataDashboardInstallation('label','otros')
 },
