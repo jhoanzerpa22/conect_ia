@@ -425,6 +425,37 @@ export class IdentificationComponent implements OnInit {
     return colors;
   }
 
+  getColorsCriticidad(){
+    let colors: any = [];
+
+    if(!this.criticidad){
+        colors = '["--vz-info"]';
+    }else{
+      switch (this.criticidad) {
+          case 'Alta':
+            colors = '["--vz-success"]';
+          break;
+          case 'Media':
+              colors = '["--vz-warning"]';
+            break;
+            
+          case 'Baja':
+            colors = '["--vz-danger"]';
+          break;
+          
+          case 'Otros':
+            colors = '["--vz-info"]';
+          break;
+      
+        default:
+          colors = '["--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]';
+          break;
+      }
+    }
+
+    return colors;
+  }
+
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
@@ -442,10 +473,10 @@ export class IdentificationComponent implements OnInit {
 
   private setChart(){
 
-    this._basicBarChartGeneral('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
-    this._basicBarChartGeneralInstallation('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
-    this._basicBarChartAtributos('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
-    this._basicBarChartAtributosInstallations('["--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info", "--vz-info"]');
+    this._basicBarChartGeneral('["--vz-info"]');
+    this._basicBarChartGeneralInstallation('["--vz-info"]');
+    this._basicBarChartAtributos('["--vz-info"]');
+    this._basicBarChartAtributosInstallations('["--vz-info"]');
     this._basicBarChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._basicBarChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
     
@@ -1073,7 +1104,12 @@ export class IdentificationComponent implements OnInit {
       },
       plotOptions: {
         bar: {
+          borderRadius: 4,
           horizontal: true,
+          distributed: true,
+          dataLabels: {
+              position: 'top',
+          },
         },
       },
       stroke: {
@@ -1808,7 +1844,7 @@ export class IdentificationComponent implements OnInit {
    * Basic Bar Chart
    */
   private _basicBarChartGeneral(colors: any) {
-    colors = this.getChartColorsArray(colors);
+    colors = this.getChartColorsArray(this.getColorsCriticidad());
     this.basicBarChartGeneral = {
         series: [{
             data: this.getDataDashboardArea('value','general'),
@@ -1848,20 +1884,26 @@ export class IdentificationComponent implements OnInit {
         }],
         chart: {
             type: 'bar',
-            height: 400,
+            height: 400,            
+            stacked: true,
+            stackType: "100%",
             toolbar: {
                 show: false,
             }
         },
         plotOptions: {
             bar: {
-                borderRadius: 4,
+                //borderRadius: 4,
                 horizontal: true,
-                distributed: true,
+                /*distributed: true,
                 dataLabels: {
                     position: 'top',
-                },
+                },*/
             }
+        },
+        stroke: {
+          width: 1,
+          colors: ["#fff"],
         },
         dataLabels: {
             enabled: true,
@@ -1872,13 +1914,24 @@ export class IdentificationComponent implements OnInit {
                 colors: ['#adb5bd']
             }
         },
-        colors: colors,
+        colors: colors,  
+        tooltip: {
+          y: {
+            formatter: function (val:any) {
+              return val;// + "K";
+            },
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
         legend: {
-            show: false,
+            position: "top",
+            //show: false,
         },
-        grid: {
+        /*grid: {
             show: false,
-        },
+        },*/
         xaxis: {
             categories: this.getDataDashboardArea('label','general')
         },
@@ -1889,6 +1942,7 @@ export class IdentificationComponent implements OnInit {
    * Basic Bar Chart
    */
   private _basicBarChartGeneralInstallation(colors: any) {
+    colors = this.getColorsCriticidad();
     colors = this.getChartColorsArray(colors);
     this.basicBarChartGeneralInstallation = {
         series: [{
@@ -1967,6 +2021,7 @@ export class IdentificationComponent implements OnInit {
   }
 
   private _basicBarChartAtributos(colors: any) {
+    colors = this.getColorsCriticidad();
     colors = this.getChartColorsArray(colors);
     this.basicBarChartPermisos = {
       series: [{
@@ -2271,6 +2326,7 @@ seriesOtros: [{
 }
 
 private _basicBarChartAtributosInstallations(colors: any) {
+  colors = this.getColorsCriticidad();
   colors = this.getChartColorsArray(colors);
   this.basicBarChartPermisosInstallations = {
     series: [{
