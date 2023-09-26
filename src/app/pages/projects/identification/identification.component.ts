@@ -340,9 +340,9 @@ export class IdentificationComponent implements OnInit {
 
           series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos'), this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
 
-        }else if (diferent == 'cuerpos'){
+        }/*else if (diferent == 'cuerpos'){
           series =  [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')];
-        }
+        }*/
       }else{
         series =  [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
       }
@@ -355,10 +355,10 @@ export class IdentificationComponent implements OnInit {
     
               series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos')];
               
-            }else if (diferent == 'cuerpos'){
+            }/*else if (diferent == 'cuerpos'){
     
               series =  [this.countCuerposLegalesEstado('1')];
-            }
+            }*/
           }else{
             series =  [this.getDataDashboard(gestionar)];
           }
@@ -371,10 +371,10 @@ export class IdentificationComponent implements OnInit {
       
                 series =  [this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
                 
-              }else if (diferent == 'cuerpos'){
+              }/*else if (diferent == 'cuerpos'){
       
                 series =  [this.countCuerposLegalesEstado('2')];
-              }
+              }*/
             }else{
               series =  [this.getDataDashboard(por_definir)];
             }
@@ -387,10 +387,10 @@ export class IdentificationComponent implements OnInit {
     
               series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos'), this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
     
-            }else if (diferent == 'cuerpos'){
+            }/*else if (diferent == 'cuerpos'){
     
               series =  [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')];
-            }
+            }*/
           }else{
             series = [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
           }
@@ -592,7 +592,7 @@ export class IdentificationComponent implements OnInit {
     colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartCuerpos = {
-      series: this.getSeriesTipo('cuerpos_gestionar','cuerpos_definir', 'cuerpos'),//[this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')],
+      series: this.getSeriesTipo('cuerpos_gestionar','cuerpos_definir'),//[this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')],
       chart: {
         height: 300,
         type: "donut",
@@ -1851,15 +1851,15 @@ export class IdentificationComponent implements OnInit {
             name: 'Articulos',
         }],
         seriesCriticidad: [{
-          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          data: this.getDataDashboardArea('value','alta'),
           name: 'Alta',
         },
         {
-          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          data: this.getDataDashboardArea('value','media'),
           name: 'Media',
         },
         {
-          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          data: this.getDataDashboardArea('value','baja'),
           name: 'Baja',
         },
         {
@@ -1867,15 +1867,15 @@ export class IdentificationComponent implements OnInit {
           name: 'Otros',
         }],
         seriesAlta: [{
-          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          data: this.getDataDashboardArea('value','alta'),
           name: 'Alta',
         }],
         seriesMedia: [{
-          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          data: this.getDataDashboardArea('value','media'),
           name: 'Media',
         }],
         seriesBaja: [{
-          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          data: this.getDataDashboardArea('value','baja'),
           name: 'Baja',
         }],
         seriesOtros: [{
@@ -4157,6 +4157,14 @@ validateIdparte(idParte: any){
             return this.dashboard.tarjetas.countArticulosDefinir;
             break;
 
+        case 'cuerpos_gestionar':
+            return this.dashboard.estadoCuerposLegales.countGestionar;
+            break;
+
+        case 'cuerpos_definir':
+            return this.dashboard.estadoCuerposLegales.countDefinir;
+            break;
+
         case 'permisos_gestionar':
             return this.dashboard.obligacionesAplicabilidad.permiso.countGestionar;
             break;
@@ -4363,7 +4371,15 @@ validateIdparte(idParte: any){
         case 'otros':
           data_type = this.dashboardArea.otrasObligaciones;
           break;
-      
+        case 'alta':
+          data_type = this.dashboardArea.criticidad.criticidadAlta;
+          break;
+        case 'media':
+          data_type = this.dashboardArea.criticidad.criticidadMedia;
+          break;
+        case 'baja':
+          data_type = this.dashboardArea.criticidad.criticidadBaja;
+          break;
         default:
           break;
       }
