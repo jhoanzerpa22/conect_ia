@@ -1949,40 +1949,42 @@ export class IdentificationComponent implements OnInit {
             name: 'Articulos',
         }],
         seriesCriticidad: [{
-          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          data: this.getDataDashboardInstallation('value','general','alta'),
           name: 'Alta',
         },
         {
-          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          data: this.getDataDashboardInstallation('value','general','media'),
           name: 'Media',
         },
         {
-          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          data: this.getDataDashboardInstallation('value','general','baja'),
           name: 'Baja',
         },
         {
-          data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+          data: this.getDataDashboardInstallation('value','general','otros'),
           name: 'Otros',
         }],
         seriesAlta: [{
-          data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+          data: this.getDataDashboardInstallation('value','general','alta'),
           name: 'Alta',
         }],
         seriesMedia: [{
-          data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+          data: this.getDataDashboardInstallation('value','general','media'),
           name: 'Media',
         }],
         seriesBaja: [{
-          data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+          data: this.getDataDashboardInstallation('value','general','baja'),
           name: 'Baja',
         }],
         seriesOtros: [{
-          data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+          data: this.getDataDashboardInstallation('value','general','otros'),
           name: 'Otros',
         }],
         chart: {
             type: 'bar',
-            height: 400,
+            height: 400,    
+            stacked: true,
+            stackType: "100%",
             toolbar: {
                 show: false,
             }
@@ -2412,42 +2414,44 @@ private _basicBarChartAtributosInstallations(colors: any) {
     series: [{
         data: this.getDataDashboardInstallation('value','permisos'),
         name: 'Articulos',
-    }],
-    seriesCriticidad: [{
-      data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
-      name: 'Alta',
-    },
-    {
-      data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
-      name: 'Media',
-    },
-    {
-      data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
-      name: 'Baja',
-    },
-    {
-      data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
-      name: 'Otros',
-    }],
-    seriesAlta: [{
-      data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
-      name: 'Alta',
-    }],
-    seriesMedia: [{
-      data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
-      name: 'Media',
-    }],
-    seriesBaja: [{
-      data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
-      name: 'Baja',
-    }],
-    seriesOtros: [{
-      data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
-      name: 'Otros',
-    }],
+    }], 
+seriesCriticidad: [{
+  data: this.getDataDashboardInstallation('value','permisos','alta'),
+  name: 'Alta',
+},
+{
+  data: this.getDataDashboardInstallation('value','permisos','media'),
+  name: 'Media',
+},
+{
+  data: this.getDataDashboardInstallation('value','permisos','baja'),
+  name: 'Baja',
+},
+{
+  data: this.getDataDashboardInstallation('value','permisos','otros'),
+  name: 'Otros',
+}],
+seriesAlta: [{
+  data: this.getDataDashboardInstallation('value','permisos','alta'),
+  name: 'Alta',
+}],
+seriesMedia: [{
+  data: this.getDataDashboardInstallation('value','permisos','media'),
+  name: 'Media',
+}],
+seriesBaja: [{
+  data: this.getDataDashboardInstallation('value','permisos','baja'),
+  name: 'Baja',
+}],
+seriesOtros: [{
+  data: this.getDataDashboardInstallation('value','permisos','otros'),
+  name: 'Otros',
+}],
     chart: {
         type: 'bar',
-        height: 400,
+        height: 400,    
+        stacked: true,
+        stackType: "100%",
         toolbar: {
             show: false,
         }
@@ -2503,41 +2507,43 @@ this.basicBarChartReportesInstallations = {
       data: this.getDataDashboardInstallation('value','reportes'),
       name: 'Articulos',
   }],
-  seriesCriticidad: [{
-    data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
-    name: 'Alta',
-  },
-  {
-    data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
-    name: 'Media',
-  },
-  {
-    data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
-    name: 'Baja',
-  },
-  {
-    data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
-    name: 'Otros',
-  }],
-  seriesAlta: [{
-    data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
-    name: 'Alta',
-  }],
-  seriesMedia: [{
-    data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
-    name: 'Media',
-  }],
-  seriesBaja: [{
-    data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
-    name: 'Baja',
-  }],
-  seriesOtros: [{
-    data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
-    name: 'Otros',
-  }],
+seriesCriticidad: [{
+  data: this.getDataDashboardInstallation('value','reportes','alta'),
+  name: 'Alta',
+},
+{
+  data: this.getDataDashboardInstallation('value','reportes','media'),
+  name: 'Media',
+},
+{
+  data: this.getDataDashboardInstallation('value','reportes','baja'),
+  name: 'Baja',
+},
+{
+  data: this.getDataDashboardInstallation('value','reportes','otros'),
+  name: 'Otros',
+}],
+seriesAlta: [{
+  data: this.getDataDashboardInstallation('value','reportes','alta'),
+  name: 'Alta',
+}],
+seriesMedia: [{
+  data: this.getDataDashboardInstallation('value','reportes','media'),
+  name: 'Media',
+}],
+seriesBaja: [{
+  data: this.getDataDashboardInstallation('value','reportes','baja'),
+  name: 'Baja',
+}],
+seriesOtros: [{
+  data: this.getDataDashboardInstallation('value','reportes','otros'),
+  name: 'Otros',
+}],
   chart: {
       type: 'bar',
-      height: 400,
+      height: 400,    
+      stacked: true,
+      stackType: "100%",
       toolbar: {
           show: false,
       }
@@ -2594,40 +2600,42 @@ series: [{
     name: 'Articulos',
 }],
 seriesCriticidad: [{
-  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  data: this.getDataDashboardInstallation('value','monitoreos','alta'),
   name: 'Alta',
 },
 {
-  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  data: this.getDataDashboardInstallation('value','monitoreos','media'),
   name: 'Media',
 },
 {
-  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  data: this.getDataDashboardInstallation('value','monitoreos','baja'),
   name: 'Baja',
 },
 {
-  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  data: this.getDataDashboardInstallation('value','monitoreos','otros'),
   name: 'Otros',
 }],
 seriesAlta: [{
-  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  data: this.getDataDashboardInstallation('value','monitoreos','alta'),
   name: 'Alta',
 }],
 seriesMedia: [{
-  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  data: this.getDataDashboardInstallation('value','monitoreos','media'),
   name: 'Media',
 }],
 seriesBaja: [{
-  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  data: this.getDataDashboardInstallation('value','monitoreos','baja'),
   name: 'Baja',
 }],
 seriesOtros: [{
-  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  data: this.getDataDashboardInstallation('value','monitoreos','otros'),
   name: 'Otros',
 }],
 chart: {
     type: 'bar',
-    height: 400,
+    height: 400,    
+    stacked: true,
+    stackType: "100%",
     toolbar: {
         show: false,
     }
@@ -2684,40 +2692,42 @@ series: [{
     name: 'Articulos',
 }],
 seriesCriticidad: [{
-  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  data: this.getDataDashboardInstallation('value','otros','alta'),
   name: 'Alta',
 },
 {
-  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  data: this.getDataDashboardInstallation('value','otros','media'),
   name: 'Media',
 },
 {
-  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  data: this.getDataDashboardInstallation('value','otros','baja'),
   name: 'Baja',
 },
 {
-  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  data: this.getDataDashboardInstallation('value','otros','otros'),
   name: 'Otros',
 }],
 seriesAlta: [{
-  data: this.getDataDashboard('alta'),//this.getDataDashboardArea('value','alta'),
+  data: this.getDataDashboardInstallation('value','otros','alta'),
   name: 'Alta',
 }],
 seriesMedia: [{
-  data: this.getDataDashboard('media'),//this.getDataDashboardArea('value','media'),
+  data: this.getDataDashboardInstallation('value','otros','media'),
   name: 'Media',
 }],
 seriesBaja: [{
-  data: this.getDataDashboard('baja'),//this.getDataDashboardArea('value','baja'),
+  data: this.getDataDashboardInstallation('value','otros','baja'),
   name: 'Baja',
 }],
 seriesOtros: [{
-  data: this.getDataDashboard('sin_criticidad'),//this.getDataDashboardArea('value','sin_criticidad'),
+  data: this.getDataDashboardInstallation('value','otros','otros'),
   name: 'Otros',
 }],
 chart: {
     type: 'bar',
-    height: 400,
+    height: 400,    
+    stacked: true,
+    stackType: "100%",
     toolbar: {
         show: false,
     }
@@ -2878,21 +2888,56 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           data: this.getDataDashboardInstallationCuerpo('value','general'),
           name: 'Articulos',
       }],
+      
+      seriesCriticidad: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','alta'),
+        name: 'Alta',
+      },
+      {
+        data: this.getDataDashboardInstallationCuerpo('value','general','media'),
+        name: 'Media',
+      },
+      {
+        data: this.getDataDashboardInstallationCuerpo('value','general','baja'),
+        name: 'Baja',
+      },
+      {
+        data: this.getDataDashboardInstallationCuerpo('value','general','otros'),
+        name: 'Otros',
+      }],
+      seriesAlta: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','alta'),
+        name: 'Alta',
+      }],
+      seriesMedia: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','media'),
+        name: 'Media',
+      }],
+      seriesBaja: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','baja'),
+        name: 'Baja',
+      }],
+      seriesOtros: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','otros'),
+        name: 'Otros',
+      }],
       chart: {
           type: 'bar',
-          height: 400,
+          height: 400,      
+          stacked: true,
+          stackType: "100%",
           toolbar: {
               show: false,
           }
       },
       plotOptions: {
           bar: {
-              borderRadius: 4,
+              //borderRadius: 4,
               horizontal: true,
-              distributed: true,
+              /*distributed: true,
               dataLabels: {
                   position: 'top',
-              },
+              },*/
           }
       },
       dataLabels: {
@@ -2905,12 +2950,27 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           }
       },
       colors: colors,
-      legend: {
-          show: false,
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
       },
+      tooltip: {
+        y: {
+          formatter: function (val:any) {
+            return val;// + "K";
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+          position: "top",
+          //show: false,
+      },/*
       grid: {
           show: false,
-      },
+      },*/
       xaxis: {
           categories: this.getDataDashboardInstallationCuerpo('label','general')
       },
@@ -4462,7 +4522,7 @@ validateIdparte(idParte: any){
     }
   }
 
-  getDataDashboardInstallation(parametro: any, type?: any){
+  getDataDashboardInstallation(parametro: any, type?: any, criticidad?: any){
     if(this.dashboardInstallation){
 
       let data: any = [];
@@ -4497,7 +4557,11 @@ validateIdparte(idParte: any){
             break;
           
           case 'value':
-            data.push(data_type[x].total);
+            if(criticidad){
+              data.push(data_type[x].criticidad[criticidad]);
+            }else{
+              data.push(data_type[x].total);
+            }
             break;
               
           default:
@@ -4552,7 +4616,7 @@ validateIdparte(idParte: any){
     }
   }
 
-  getDataDashboardInstallationCuerpo(parametro: any, type?: any){
+  getDataDashboardInstallationCuerpo(parametro: any, type?: any, criticidad?: any){
     if(this.dashboardInstallationCuerpo){
 
       let data: any = [];
@@ -4575,7 +4639,11 @@ validateIdparte(idParte: any){
             break;
           
           case 'value':
-            data.push(data_type[x].total);
+            if(criticidad){
+              data.push(data_type[x].criticidad[criticidad]);
+            }else{
+              data.push(data_type[x].total);
+            }
             break;
               
           default:
