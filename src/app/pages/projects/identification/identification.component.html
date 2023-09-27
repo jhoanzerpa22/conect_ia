@@ -1242,7 +1242,7 @@
                     
                     <!--<div class="col-2">-->
                         <div class="chip">
-                            Empresa
+                            Corporativo
                             <!--<span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>-->
                         </div>
                     <!--</div>-->
@@ -1319,7 +1319,7 @@
                 <div class="row">
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1329,7 +1329,9 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value">{{getDataDashboard('cuerpos') < 1 ? 0 : getDataDashboard('cuerpos')}}</span></h4><!--[CountTo]="getDataDashboard('cuerpos')" 
+                                        
+                                        <h4 class="fs-1">
+                                            <span class="counter-value">{{getDataDashboard('cuerpos') < 1 ? 0 : getDataDashboard('cuerpos')}}</span></h4><!--[CountTo]="getDataDashboard('cuerpos')" 
                                             [from]="0" [duration]="1"  countCuerposLegales()-->
                                     </div>
                                 </div>
@@ -1339,7 +1341,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1349,7 +1351,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboard('articulos') < 1 ? 0 : getDataDashboard('articulos')}}</span></h4><!-- [CountTo]="getDataDashboard('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
                                     </div>
                                 </div>
@@ -1359,7 +1361,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                 <div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -1369,7 +1371,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}</span></h4><!-- [CountTo]="getDataDashboard('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
                                     </div>
                                 </div>
@@ -1380,7 +1382,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1390,7 +1392,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}</span></h4><!-- [CountTo]="getDataDashboard('elementos')" [from]="0" [duration]="1" countElementos()-->
                                     </div>
                                 </div>
@@ -1403,7 +1405,7 @@
                 <div class="row">
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1413,7 +1415,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboard('permisos') < 1 ? 0 : getDataDashboard('permisos')}}</span></h4><!--[CountTo]="getDataDashboard('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
                                     </div>
                                 </div>
@@ -1423,7 +1425,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1433,7 +1435,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboard('reportes') < 1 ? 0 : getDataDashboard('reportes')}}</span></h4><!--[from]="0" [duration]="1" [CountTo]="getDataDashboard('reportes')" countAtributo('reporte')-->
                                     </div>
                                 </div>
@@ -1443,7 +1445,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1453,7 +1455,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span  class="counter-value"
+                                        <h4 class="fs-1"><span  class="counter-value"
                                                 >{{getDataDashboard('monitoreos') < 1 ? 0 : getDataDashboard('monitoreos')}}</span></h4><!--[CountTo]="getDataDashboard('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
                                     </div>
                                 </div>
@@ -1464,7 +1466,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -1474,7 +1476,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span  class="counter-value"
+                                        <h4 class="fs-1"><span  class="counter-value"
                                                 >{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" [from]="0" [duration]="1" countAtributo()-->
                                     </div>
                                 </div>
@@ -2244,11 +2246,11 @@
                                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
-                                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>-->
+                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
-                                                <!--<a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Otros')">Otros</a>-->
+                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Otros')">Otros</a>
                                             </div>
                                         </div>
                                     </div>
@@ -2326,7 +2328,7 @@
                     
                     <div class="col-xl-4 col-md-4">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2336,7 +2338,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboardCuerpo('articulos') < 1 ? 0 : getDataDashboardCuerpo('articulos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
                                     </div>
                                 </div>
@@ -2346,7 +2348,7 @@
                     
                     <div class="col-xl-4 col-md-4">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2356,7 +2358,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboardCuerpo('instancias') < 1 ? 0 : getDataDashboardCuerpo('instancias')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
                                     </div>
                                 </div>
@@ -2366,7 +2368,7 @@
                     
                     <div class="col-xl-4 col-md-4">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2376,7 +2378,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span  class="counter-value"
+                                        <h4 class="fs-1"><span  class="counter-value"
                                                 >{{getDataDashboardCuerpo('elementos') < 1 ? 0 : getDataDashboardCuerpo('elementos')}}</span></h4><!-- [CountTo]="getDataDashboardCuerpo('elementos')" [from]="0" [duration]="1" countElementos()-->
                                     </div>
                                 </div>
@@ -2390,7 +2392,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2400,7 +2402,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboardCuerpo('permisos') < 1 ? 0 : getDataDashboardCuerpo('permisos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
                                     </div>
                                 </div>
@@ -2409,7 +2411,7 @@
                     </div>
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2419,7 +2421,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboardCuerpo('reportes') < 1 ? 0 : getDataDashboardCuerpo('reportes')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('reportes')" [from]="0" [duration]="1" countAtributo('reporte')-->
                                     </div>
                                 </div>
@@ -2429,7 +2431,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2439,7 +2441,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value"
+                                        <h4 class="fs-1"><span class="counter-value"
                                                 >{{getDataDashboardCuerpo('monitoreos') < 1 ? 0 : getDataDashboardCuerpo('monitoreos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
                                     </div>
                                 </div>
@@ -2449,7 +2451,7 @@
                     
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
-                            <div class="card-body">
+                            <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                 <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                         
                                 <div class="d-flex align-items-center">
@@ -2459,7 +2461,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h4 class="fs-4 mb-3"><span class="counter-value">{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
+                                        <h4 class="fs-1"><span class="counter-value">{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
                                             [from]="0" [duration]="1" countAtributo()-->
                                     </div>
                                 </div>
@@ -2477,10 +2479,12 @@
                             
                             <h4>Instancias de cumplimiento por área</h4>
 
-                                <apx-chart [series]="basicBarChartGeneralCuerpos.series" [colors]="basicBarChartGeneralCuerpos.colors"
+                                <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
                                     [chart]="basicBarChartGeneralCuerpos.chart" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
-                                    [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr" dir="ltr"
-                                    [xaxis]="basicBarChartGeneralCuerpos.xaxis"></apx-chart>
+                                    [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr"
+                                    [xaxis]="basicBarChartGeneralCuerpos.xaxis" [stroke]="basicBarChartGeneralCuerpos.stroke"
+                                    [fill]="basicBarChartGeneralCuerpos.fill" [title]="basicBarChartGeneralCuerpos.title"
+                                    [tooltip]="basicBarChartGeneralCuerpos.tooltip" [legend]="basicBarChartGeneralCuerpos.legend"></apx-chart>
                             
                         </div>
                     </div>
