@@ -401,6 +401,10 @@ export class IdentificationComponent implements OnInit {
     return series;
   }
 
+  getDataExist(series: any){
+    return series.some((s: any) => s > 0);
+  }
+
   getColorsTipo(){
     let colors: any = [];
 

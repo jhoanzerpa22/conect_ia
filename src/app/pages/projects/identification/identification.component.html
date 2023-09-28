@@ -1525,11 +1525,17 @@
                 
                                         <h4>Cuerpos Legales</h4>
                                         <!--<apx-chart [series]="basicBarChartCuerpos.series" [chart]="basicBarChartCuerpos.chart" [dataLabels]="basicBarChartCuerpos.dataLabels" [legend]="basicBarChartCuerpos.legend" [plotOptions]="basicBarChartCuerpos.plotOptions" [xaxis]="basicBarChartCuerpos.xaxis" [colors]="basicBarChartCuerpos.colors" dir="ltr"></apx-chart>-->
+                                        
+                                        <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartCuerpos.series)">
+                                                <h4>No existe información</h4>
+                                        </div>
                 
                                         <apx-chart [series]="simpleDonutChartCuerpos.series" [chart]="simpleDonutChartCuerpos.chart"
                                         [labels]="simpleDonutChartCuerpos.labels" [responsive]="simpleDonutChartCuerpos.responsive"
                                         [legend]="simpleDonutChartCuerpos.legend" [dataLabels]="simpleDonutChartCuerpos.dataLabels"
-                                        [colors]="simpleDonutChartCuerpos.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartCuerpos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartCuerpos.series)"></apx-chart>
                                             </div>
                                         </div>
                                     </div>
@@ -1540,10 +1546,16 @@
                 
                                         <h4>Artículos</h4>
                                         
+                                        <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartArticulos.series)">
+                                                <h4>No existe información</h4>
+                                        </div>
+
                                         <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
                                         [labels]="simpleDonutChartArticulos.labels" [responsive]="simpleDonutChartArticulos.responsive"
                                         [legend]="simpleDonutChartArticulos.legend" [dataLabels]="simpleDonutChartArticulos.dataLabels"
-                                        [colors]="simpleDonutChartArticulos.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartArticulos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartArticulos.series)"></apx-chart>
                                             </div>
                                         </div>
                 
@@ -1552,12 +1564,19 @@
                                     <div class="col-sm-4">
                                         <div class="card">
                                             <div class="card-body">
-                
+                                        
                                         <h4>Instancias de cumplimiento</h4>
+                                        
+                                        <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartInstancias.series)">
+                                                <h4>No existe información</h4>
+                                        </div>
+
                                         <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
                                         [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
                                         [legend]="simpleDonutChartInstancias.legend" [dataLabels]="simpleDonutChartInstancias.dataLabels"
-                                        [colors]="simpleDonutChartInstancias.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartInstancias.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartInstancias.series)"></apx-chart>
                                             </div>
                                         </div>
                                     </div>
@@ -1568,12 +1587,19 @@
                                     <div class="col-sm-3">
                                         <div class="card">
                                             <div class="card-body">
-                
+
                                         <h4>Permisos</h4>
+                                        
+                                        <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartPermisos.series)">
+                                                <h4>No existe información</h4>
+                                        </div>
+                
                                         <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
                                         [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
                                         [legend]="simpleDonutChartPermisos.legend" [dataLabels]="simpleDonutChartPermisos.dataLabels"
-                                        [colors]="simpleDonutChartPermisos.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartPermisos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartPermisos.series)"></apx-chart>
                                             </div>
                                         </div>
                 
@@ -1584,11 +1610,17 @@
                                             <div class="card-body">
                 
                                         <h4>Reportes</h4>
+
+                                        <div style="height: 266px;
+                                        display: grid;
+                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartReportes.series)">
+                                            <h4>No existe información</h4>
+                                        </div>
                                         
                                         <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
                                         [labels]="simpleDonutChartReportes.labels" [responsive]="simpleDonutChartReportes.responsive"
                                         [legend]="simpleDonutChartReportes.legend" [dataLabels]="simpleDonutChartReportes.dataLabels"
-                                        [colors]="simpleDonutChartReportes.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartReportes.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartReportes.series)"></apx-chart>
                                             </div>
                                         </div>
                 
@@ -1600,10 +1632,17 @@
                                             <div class="card-body">
                 
                                         <h4>Monitoreos</h4>
+                                        
+                                        <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartMonitoreos.series)">
+                                                <h4>No existe información</h4>
+                                        </div>
+
                                         <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
                                         [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
                                         [legend]="simpleDonutChartMonitoreos.legend" [dataLabels]="simpleDonutChartMonitoreos.dataLabels"
-                                        [colors]="simpleDonutChartMonitoreos.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartMonitoreos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartMonitoreos.series)"></apx-chart>
                                             </div>
                                         </div>
                 
@@ -1614,10 +1653,17 @@
                                             <div class="card-body">
                 
                                         <h4>Otras obligaciones</h4>
+                                        
+                                        <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartOtros.series)">
+                                                <h4>No existe información</h4>
+                                        </div>
+
                                         <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
                                         [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
                                         [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
-                                        [colors]="simpleDonutChartOtros.colors" dir="ltr"></apx-chart>
+                                        [colors]="simpleDonutChartOtros.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartOtros.series)"></apx-chart>
                                             </div>
                                         </div>
                 
