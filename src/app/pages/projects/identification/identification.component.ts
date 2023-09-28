@@ -6407,7 +6407,8 @@ validateIdparte(idParte: any){
     this.getNormas(page, this.ambito);
   }
 
-  setFilterAmbito(ambito: any){
+  setFilterAmbito(ambito?: any){
+    if(ambito){
     const index = this.ambitos.findIndex(
       (p: any) =>
         p == ambito
@@ -6425,6 +6426,14 @@ validateIdparte(idParte: any){
       this.ambitos.push(ambito);
       this.getNormas(0,ambito);
     }
+  }else{
+    
+    this.page = 0;
+    this.ambito = undefined;
+    this.ambitos = [];    
+    this.getNormas(0);
+
+  }
 
   }
 
