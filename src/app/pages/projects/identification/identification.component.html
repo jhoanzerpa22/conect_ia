@@ -1602,7 +1602,7 @@
                                         
                                     <div class="card card-height-100">
                                         <div class="card-header align-items-center d-flex">
-                                            <h4 class="card-title mb-0 flex-grow-1">Gestión por área</h4>
+                                            <h4 class="flex-grow-1">Gestión por área</h4><!--card-title mb-0 -->
                                             <div class="d-flex gap-1">
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
                                                     Cuerpos
@@ -1758,7 +1758,7 @@
                                         
                                     <div class="card card-height-100">
                                         <div class="card-header align-items-center d-flex">
-                                            <h4 class="card-title mb-0 flex-grow-1">Gestión por Elemento y actividad</h4>
+                                            <h4 class="flex-grow-1">Gestión por Elemento y actividad</h4><!--card-title mb-0 -->
                                             <div class="d-flex gap-1">
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('cuerpoLegal')">
                                                     Cuerpos
@@ -2509,8 +2509,8 @@
                                 </button>
                             </div>
                         </div>-->
-                        <div class="card-body p-0">
-                                <h4 class="card-title mb-0 flex-grow-1">Instancias de cumplimiento por Elemento y actividad</h4>
+                        <div class="card-body">
+                                <h4>Instancias de cumplimiento por Elemento y actividad</h4>
                             
                                 <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation)" [colors]="basicBarChartGeneralCuerposInstallation.colors"
                                     [chart]="basicBarChartGeneralCuerposInstallation.chart" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"

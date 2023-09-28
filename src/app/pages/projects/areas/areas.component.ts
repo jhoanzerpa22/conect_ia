@@ -24,6 +24,7 @@ interface FoodNode {
   nombre: string;
   //area?: string;
   descripcion?: string;
+  areaId?: any;
   children?: FoodNode[];
 }
 
@@ -31,7 +32,8 @@ const TREE_DATA: FoodNode[] = [
   {
     id: 1,
     nombre: 'Area 1',
-    descripcion: ''
+    descripcion: '',
+    areaId: null
   }/*,
   {
     id: 2,
@@ -287,11 +289,11 @@ export class AreasComponent {
           for (let c in obj) {
             let padre: any = obj[c].padre;
 
-              this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion });
+              this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion, areaId: padre.areaId });
               
-              tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, areaId: padre.areaId, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
               
-              tree_data_org.push({ id: padre.id, label: padre.nombre, expanded: padre.hijas.length > 0 ? true : false, children: padre.hijas.length > 0 ? this.getHijasOrg(padre.hijas) : null });
+              tree_data_org.push({ id: padre.id, label: padre.nombre, areaId: padre.areaId, expanded: padre.hijas.length > 0 ? true : false, children: padre.hijas.length > 0 ? this.getHijasOrg(padre.hijas) : null });
           }
 
           this.service.areas_data = tree_data;    
@@ -314,9 +316,9 @@ export class AreasComponent {
   private getHijas(hijos: any){
     let tree_data: any = [];
     for (let d in hijos) {
-        this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion });
+        this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId });
 
-        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
     return tree_data;
   }
@@ -325,9 +327,9 @@ export class AreasComponent {
     let tree_data: any = [];
     
     for (let d in hijos) {
-      this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion });
+      this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId });
       
-      tree_data.push({ id: hijos[d].id, label: hijos[d].nombre, expanded: hijos[d].hijas.length > 0 ? true : false, children: hijos[d].hijas.length > 0 ? this.getHijasOrg(hijos[d].hijas) : null });
+      tree_data.push({ id: hijos[d].id, label: hijos[d].nombre, areaId: hijos[d].areaId, expanded: hijos[d].hijas.length > 0 ? true : false, children: hijos[d].hijas.length > 0 ? this.getHijasOrg(hijos[d].hijas) : null });
     }
     return tree_data;
   }
@@ -518,6 +520,8 @@ export class AreasComponent {
     this.areaForm.controls['nombre'].setValue(listData[0].nombre);
     this.areaForm.controls['descripcion'].setValue(listData[0].descripcion);
     this.areaForm.controls['ids'].setValue(listData[0].id);
+    
+    this.area_id = listData[0].areaId;
   }
 
   // PreLoader
