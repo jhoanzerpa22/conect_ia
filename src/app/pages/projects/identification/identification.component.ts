@@ -1885,7 +1885,7 @@ export class IdentificationComponent implements OnInit {
         chart: {
             type: 'bar',
             height: 400,            
-            stacked: true,
+            stacked: false,
             stackType: "100%",
             toolbar: {
                 show: false,
@@ -2975,6 +2975,38 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           categories: this.getDataDashboardInstallationCuerpo('label','general')
       },
   };
+}
+
+getChart(criticidad: any, config: any){
+  let objeto: any = config;
+
+  switch (criticidad) {
+    case 'Alta':
+      objeto.stacked = true;
+      break;
+    
+    case 'Media':
+      objeto.stacked = true;
+      break;
+        
+    case 'Baja':
+      objeto.stacked = true;
+      break;
+        
+      case 'Otros':
+        objeto.stacked = true;
+        break;
+        
+      case 'Todos':
+        objeto.stacked = true;
+        break;
+  
+    default:
+      objeto.stacked = false;
+      break;
+  }
+
+  return objeto;
 }
 
   getSeries(criticidad: any, objeto: any){

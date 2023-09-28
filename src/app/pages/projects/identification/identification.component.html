@@ -1516,7 +1516,6 @@
                 
                 </div>
                 
-                            <ng-container *ngIf="!criticidad_old">
                                 <div class="row mb-3 align-items-center justify-content-center">
                                     <h4>Aplicabilidad</h4>
                 
@@ -1648,7 +1647,7 @@
                                         <div class="card-body p-0">
                                             <div>
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
-                                                    [chart]="basicBarChartGeneral.chart" [dataLabels]="basicBarChartGeneral.dataLabels"
+                                                    [chart]="getChart(criticidad, basicBarChartGeneral.chart)" [dataLabels]="basicBarChartGeneral.dataLabels"
                                                     [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr"
                                                     [xaxis]="basicBarChartGeneral.xaxis" [stroke]="basicBarChartGeneral.stroke"
                                                     [fill]="basicBarChartGeneral.fill" [title]="basicBarChartGeneral.title"
@@ -1668,7 +1667,7 @@
                                             <h4>Permisos por área</h4>
 
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
-                                                    [chart]="basicBarChartPermisos.chart" [dataLabels]="basicBarChartPermisos.dataLabels"
+                                                [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
                                                     [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr"
                                                     [xaxis]="basicBarChartPermisos.xaxis" [stroke]="basicBarChartPermisos.stroke"
                                                     [fill]="basicBarChartPermisos.fill" [title]="basicBarChartPermisos.title"
@@ -1685,7 +1684,7 @@
                                                 <h4>Reportes por área</h4>
     
                                                     <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
-                                                        [chart]="basicBarChartReportes.chart" [dataLabels]="basicBarChartReportes.dataLabels"
+                                                        [chart]="getChart(criticidad, basicBarChartReportes.chart)" [dataLabels]="basicBarChartReportes.dataLabels"
                                                         [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" 
                                                         [xaxis]="basicBarChartReportes.xaxis" [stroke]="basicBarChartReportes.stroke"
                                                         [fill]="basicBarChartReportes.fill" [title]="basicBarChartReportes.title"
@@ -1706,7 +1705,7 @@
                                             <h4>Monitoreos por área</h4>
 
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
-                                                    [chart]="basicBarChartMonitoreos.chart" [dataLabels]="basicBarChartMonitoreos.dataLabels"
+                                                    [chart]="getChart(criticidad, basicBarChartMonitoreos.chart)" [dataLabels]="basicBarChartMonitoreos.dataLabels"
                                                     [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" 
                                                     [xaxis]="basicBarChartMonitoreos.xaxis" [stroke]="basicBarChartMonitoreos.stroke"
                                                     [fill]="basicBarChartMonitoreos.fill" [title]="basicBarChartMonitoreos.title"
@@ -1723,7 +1722,7 @@
                                                 <h4>Otras Obligaciones por área</h4>
     
                                                     <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
-                                                        [chart]="basicBarChartOtros.chart" [dataLabels]="basicBarChartOtros.dataLabels"
+                                                        [chart]="getChart(criticidad, basicBarChartOtros.chart)" [dataLabels]="basicBarChartOtros.dataLabels"
                                                         [plotOptions]="basicBarChartOtros.plotOptions" dir="ltr"
                                                         [xaxis]="basicBarChartOtros.xaxis"  [stroke]="basicBarChartOtros.stroke"
                                                         [fill]="basicBarChartOtros.fill" [title]="basicBarChartOtros.title"
@@ -1804,7 +1803,7 @@
                                         <div class="card-body p-0">
                                             <div>
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
-                                                    [chart]="basicBarChartGeneralInstallation.chart" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
+                                                    [chart]="getChart(criticidad, basicBarChartGeneralInstallation.chart)" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
                                                     [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr"
                                                     [xaxis]="basicBarChartGeneralInstallation.xaxis" [stroke]="basicBarChartGeneralInstallation.stroke"
                                                     [fill]="basicBarChartGeneralInstallation.fill" [title]="basicBarChartGeneralInstallation.title"
@@ -1824,7 +1823,7 @@
                                             <h4>Permisos por Elemento y actividad</h4>
 
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
-                                                    [chart]="basicBarChartPermisosInstallations.chart" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
+                                                    [chart]="getChart(criticidad, basicBarChartPermisosInstallations.chart)" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
                                                     [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" 
                                                     [xaxis]="basicBarChartPermisosInstallations.xaxis" [stroke]="basicBarChartPermisosInstallations.stroke"
                                                     [fill]="basicBarChartPermisosInstallations.fill" [title]="basicBarChartPermisosInstallations.title"
@@ -1841,7 +1840,7 @@
                                                 <h4>Reportes por Elemento y actividad</h4>
     
                                                     <apx-chart [series]="getSeries(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
-                                                        [chart]="basicBarChartReportesInstallations.chart" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
+                                                        [chart]="getChart(criticidad, basicBarChartReportesInstallations.chart)" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
                                                         [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" 
                                                         [xaxis]="basicBarChartReportesInstallations.xaxis" [stroke]="basicBarChartReportesInstallations.stroke"
                                                         [fill]="basicBarChartReportesInstallations.fill" [title]="basicBarChartReportesInstallations.title"
@@ -1862,7 +1861,7 @@
                                             <h4>Monitoreos por Elemento y actividad</h4>
 
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
-                                                    [chart]="basicBarChartMonitoreosInstallations.chart" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
+                                                    [chart]="getChart(criticidad, basicBarChartMonitoreosInstallations.chart)" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
                                                     [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" 
                                                     [xaxis]="basicBarChartMonitoreosInstallations.xaxis" [stroke]="basicBarChartMonitoreosInstallations.stroke"
                                                     [fill]="basicBarChartMonitoreosInstallations.fill" [title]="basicBarChartMonitoreosInstallations.title"
@@ -1879,7 +1878,7 @@
                                                 <h4>Otras Obligaciones por Elemento y actividad</h4>
     
                                                     <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
-                                                        [chart]="basicBarChartOtrosInstallations.chart" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
+                                                        [chart]="getChart(criticidad, basicBarChartOtrosInstallations.chart)" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
                                                         [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" 
                                                         [xaxis]="basicBarChartOtrosInstallations.xaxis" [stroke]="basicBarChartOtrosInstallations.stroke"
                                                         [fill]="basicBarChartOtrosInstallations.fill" [title]="basicBarChartOtrosInstallations.title"
@@ -1889,327 +1888,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </ng-container>
-                
-                            <ng-container *ngIf="criticidad_old">
-                                
-                                <div class="row mb-3 align-items-center justify-content-center">
-                                    <h4>Aplicabilidad</h4>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-4 col-xxl-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                    <h4>Cuerpos Legales</h4>
-                                    
-                                    <apx-chart [series]="simpleDonutChartCuerpos.series" [chart]="simpleDonutChartCuerpos.chart"
-                                    [labels]="simpleDonutChartCuerpos.labels" [responsive]="simpleDonutChartCuerpos.responsive"
-                                    [legend]="simpleDonutChartCuerpos.legend" [dataLabels]="simpleDonutChartCuerpos.dataLabels"
-                                    [colors]="simpleDonutChartCuerpos.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-8 col-xxl-8">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad según Cuerpos Legales</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChart)" [chart]="stacked100BarChart.chart"
-                                        [dataLabels]="stacked100BarChart.dataLabels" [plotOptions]="stacked100BarChart.plotOptions"
-                                        [xaxis]="stacked100BarChart.xaxis" [stroke]="stacked100BarChart.stroke"
-                                        [fill]="stacked100BarChart.fill" [title]="stacked100BarChart.title"
-                                        [tooltip]="stacked100BarChart.tooltip" [legend]="stacked100BarChart.legend" [colors]="stacked100BarChart.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3 align-items-center justify-content-center">
-                            
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-4 col-xxl-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                    <h4>Artículos</h4>
-                                    
-                                    <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
-                                    [labels]="simpleDonutChartArticulos.labels" [responsive]="simpleDonutChartArticulos.responsive"
-                                    [legend]="simpleDonutChartArticulos.legend" [dataLabels]="simpleDonutChartArticulos.dataLabels"
-                                    [colors]="simpleDonutChartArticulos.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-8 col-xxl-8">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad según Artículos</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartArticulos)" [chart]="stacked100BarChartArticulos.chart"
-                                        [dataLabels]="stacked100BarChartArticulos.dataLabels" [plotOptions]="stacked100BarChartArticulos.plotOptions"
-                                        [xaxis]="stacked100BarChartArticulos.xaxis" [stroke]="stacked100BarChartArticulos.stroke"
-                                        [fill]="stacked100BarChartArticulos.fill" [title]="stacked100BarChartArticulos.title"
-                                        [tooltip]="stacked100BarChartArticulos.tooltip" [legend]="stacked100BarChartArticulos.legend" [colors]="stacked100BarChartArticulos.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center justify-content-center">
-                            
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-4 col-xxl-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                            <h4>Instancias de cumplimiento</h4>
-                                            <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
-                                            [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
-                                            [legend]="simpleDonutChartInstancias.legend" [dataLabels]="simpleDonutChartInstancias.dataLabels"
-                                            [colors]="simpleDonutChartInstancias.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-8 col-xxl-8">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad según Instancias de cumplimiento</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartInstancias)" [chart]="stacked100BarChartInstancias.chart"
-                                        [dataLabels]="stacked100BarChartInstancias.dataLabels" [plotOptions]="stacked100BarChartInstancias.plotOptions"
-                                        [xaxis]="stacked100BarChartInstancias.xaxis" [stroke]="stacked100BarChartInstancias.stroke"
-                                        [fill]="stacked100BarChartInstancias.fill" [title]="stacked100BarChartInstancias.title"
-                                        [tooltip]="stacked100BarChartInstancias.tooltip" [legend]="stacked100BarChartInstancias.legend" [colors]="stacked100BarChartInstancias.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center justify-content-center">
-                            
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                            <h4>Permisos</h4>
-                                            <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
-                                            [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
-                                            [legend]="simpleDonutChartPermisos.legend" [dataLabels]="simpleDonutChartPermisos.dataLabels"
-                                            [colors]="simpleDonutChartPermisos.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad Permisos</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartPermisos)" [chart]="stacked100BarChartPermisos.chart"
-                                        [dataLabels]="stacked100BarChartPermisos.dataLabels" [plotOptions]="stacked100BarChartPermisos.plotOptions"
-                                        [xaxis]="stacked100BarChartPermisos.xaxis" [stroke]="stacked100BarChartPermisos.stroke"
-                                        [fill]="stacked100BarChartPermisos.fill" [title]="stacked100BarChartPermisos.title"
-                                        [tooltip]="stacked100BarChartPermisos.tooltip" [legend]="stacked100BarChartPermisos.legend" [colors]="stacked100BarChartPermisos.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                      
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                            <h4>Monitoreos</h4>
-                                            <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
-                                            [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
-                                            [legend]="simpleDonutChartMonitoreos.legend" [dataLabels]="simpleDonutChartMonitoreos.dataLabels"
-                                            [colors]="simpleDonutChartMonitoreos.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad Monitoreos</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartMonitoreos)" [chart]="stacked100BarChartMonitoreos.chart"
-                                        [dataLabels]="stacked100BarChartMonitoreos.dataLabels" [plotOptions]="stacked100BarChartMonitoreos.plotOptions"
-                                        [xaxis]="stacked100BarChartMonitoreos.xaxis" [stroke]="stacked100BarChartMonitoreos.stroke"
-                                        [fill]="stacked100BarChartMonitoreos.fill" [title]="stacked100BarChartMonitoreos.title"
-                                        [tooltip]="stacked100BarChartMonitoreos.tooltip" [legend]="stacked100BarChartMonitoreos.legend" [colors]="stacked100BarChartMonitoreos.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            
-                            <div class="row mb-3 align-items-center justify-content-center">
-                            
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                            <h4>Reportes</h4>
-                                            <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
-                                            [labels]="simpleDonutChartReportes.labels" [responsive]="simpleDonutChartReportes.responsive"
-                                            [legend]="simpleDonutChartReportes.legend" [dataLabels]="simpleDonutChartReportes.dataLabels"
-                                            [colors]="simpleDonutChartReportes.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad Reportes</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartReportes)" [chart]="stacked100BarChartReportes.chart"
-                                        [dataLabels]="stacked100BarChartReportes.dataLabels" [plotOptions]="stacked100BarChartReportes.plotOptions"
-                                        [xaxis]="stacked100BarChartReportes.xaxis" [stroke]="stacked100BarChartReportes.stroke"
-                                        [fill]="stacked100BarChartReportes.fill" [title]="stacked100BarChartReportes.title"
-                                        [tooltip]="stacked100BarChartReportes.tooltip" [legend]="stacked100BarChartReportes.legend" [colors]="stacked100BarChartReportes.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                      
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                            <h4>Otras Obligaciones</h4>
-                                            <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
-                                            [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
-                                            [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
-                                            [colors]="simpleDonutChartOtros.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-3 col-xxl-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad Otras Obl.</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartOtros)" [chart]="stacked100BarChartOtros.chart"
-                                        [dataLabels]="stacked100BarChartOtros.dataLabels" [plotOptions]="stacked100BarChartOtros.plotOptions"
-                                        [xaxis]="stacked100BarChartOtros.xaxis" [stroke]="stacked100BarChartOtros.stroke"
-                                        [fill]="stacked100BarChartOtros.fill" [title]="stacked100BarChartOtros.title"
-                                        [tooltip]="stacked100BarChartOtros.tooltip" [legend]="stacked100BarChartOtros.legend" [colors]="stacked100BarChartOtros.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                
-                                <div class="row mb-3 align-items-center justify-content-center">
-                                    <h4>Ámbito normativo a gestionar</h4>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-4 col-xxl-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                    <h4>Cuerpos Legales por ámbito normativo</h4>
-                                    
-                                            <apx-chart [series]="simpleDonutChartCuerposAmbito.series"  [chart]="simpleDonutChartCuerposAmbito.chart"
-                                            [labels]="simpleDonutChartCuerposAmbito.labels" [responsive]="simpleDonutChartCuerposAmbito.responsive"
-                                            [legend]="simpleDonutChartCuerposAmbito.legend" [dataLabels]="simpleDonutChartCuerposAmbito.dataLabels"
-                                            [colors]="simpleDonutChartCuerposAmbito.colors" dir="ltr"></apx-chart>
-                                        </div>
-                                    </div>
-                                </div>
-                
-                                <div class="col-12 col-sm-12 col-md-12 col-xl-8 col-xxl-8">
-                                    <div class="card">
-                                        <div class="card-body">
-                
-                                        <h4>Criticidad según Cuerpos Legales por ámbito normativo</h4>
-                                        <apx-chart [series]="getSeries(criticidad, stacked100BarChartAmbienteCriticidadCuerpos)" [chart]="stacked100BarChartAmbienteCriticidadCuerpos.chart"
-                                        [dataLabels]="stacked100BarChartAmbienteCriticidadCuerpos.dataLabels" [plotOptions]="stacked100BarChartAmbienteCriticidadCuerpos.plotOptions"
-                                        [xaxis]="stacked100BarChartAmbienteCriticidadCuerpos.xaxis" [stroke]="stacked100BarChartAmbienteCriticidadCuerpos.stroke"
-                                        [fill]="stacked100BarChartAmbienteCriticidadCuerpos.fill" [title]="stacked100BarChartAmbienteCriticidadCuerpos.title"
-                                        [tooltip]="stacked100BarChartAmbienteCriticidadCuerpos.tooltip" [legend]="stacked100BarChartAmbienteCriticidadCuerpos.legend" [colors]="stacked100BarChartAmbienteCriticidadCuerpos.colors" dir="ltr"></apx-chart>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3 align-items-center justify-content-center">
-                
-                            <div class="col-12 col-sm-12 col-md-12 col-xl-4 col-xxl-4">
-                                <div class="card">
-                                    <div class="card-body">
-                
-                                        <h4>Artículos por ámbito normativo</h4>
-                                        
-                                        <apx-chart [series]="simpleDonutChartArticulosAmbito.series" [chart]="simpleDonutChartArticulosAmbito.chart"
-                                        [labels]="simpleDonutChartArticulosAmbito.labels" [responsive]="simpleDonutChartArticulosAmbito.responsive"
-                                        [legend]="simpleDonutChartArticulosAmbito.legend" [dataLabels]="simpleDonutChartArticulosAmbito.dataLabels"
-                                        [colors]="simpleDonutChartArticulosAmbito.colors" dir="ltr"></apx-chart>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            <div class="col-12 col-sm-12 col-md-12 col-xl-8 col-xxl-8">
-                                <div class="card">
-                                    <div class="card-body">
-                
-                                    <h4>Criticidad según Artículos por ámbito normativo</h4>
-                                    <apx-chart [series]="getSeries(criticidad, stacked100BarChartAmbienteCriticidad)" [chart]="stacked100BarChartAmbienteCriticidad.chart"
-                                    [dataLabels]="stacked100BarChartAmbienteCriticidad.dataLabels" [plotOptions]="stacked100BarChartAmbienteCriticidad.plotOptions"
-                                    [xaxis]="stacked100BarChartAmbienteCriticidad.xaxis" [stroke]="stacked100BarChartAmbienteCriticidad.stroke"
-                                    [fill]="stacked100BarChartAmbienteCriticidad.fill" [title]="stacked100BarChartAmbienteCriticidad.title"
-                                    [tooltip]="stacked100BarChartAmbienteCriticidad.tooltip" [legend]="stacked100BarChartAmbienteCriticidad.legend" [colors]="stacked100BarChartAmbienteCriticidad.colors" dir="ltr"></apx-chart>
-                
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-3 align-items-center justify-content-center">
-                
-                            <div class="col-12 col-sm-12 col-md-12 col-xl-4 col-xxl-4">
-                                <div class="card">
-                                    <div class="card-body">
-                
-                                        <h4>Instancias por ámbito normativo</h4>
-                                        <apx-chart [series]="simpleDonutChartInstanciasAmbito.series" [chart]="simpleDonutChartInstanciasAmbito.chart"
-                                        [labels]="simpleDonutChartInstanciasAmbito.labels" [responsive]="simpleDonutChartInstanciasAmbito.responsive"
-                                        [legend]="simpleDonutChartInstanciasAmbito.legend" [dataLabels]="simpleDonutChartInstanciasAmbito.dataLabels"
-                                        [colors]="simpleDonutChartInstanciasAmbito.colors" dir="ltr"></apx-chart>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            <div class="col-12 col-sm-12 col-md-12 col-xl-8 col-xxl-8">
-                                <div class="card">
-                                    <div class="card-body">
-                
-                                    <h4>Criticidad según Instancias por ámbito normativo</h4>
-                                    <apx-chart [series]="getSeries(criticidad, stacked100BarChartAmbienteCriticidadInstancias)" [chart]="stacked100BarChartAmbienteCriticidadInstancias.chart"
-                                    [dataLabels]="stacked100BarChartAmbienteCriticidadInstancias.dataLabels" [plotOptions]="stacked100BarChartAmbienteCriticidadInstancias.plotOptions"
-                                    [xaxis]="stacked100BarChartAmbienteCriticidadInstancias.xaxis" [stroke]="stacked100BarChartAmbienteCriticidadInstancias.stroke"
-                                    [fill]="stacked100BarChartAmbienteCriticidadInstancias.fill" [title]="stacked100BarChartAmbienteCriticidadInstancias.title"
-                                    [tooltip]="stacked100BarChartAmbienteCriticidadInstancias.tooltip" [legend]="stacked100BarChartAmbienteCriticidadInstancias.legend" [colors]="stacked100BarChartAmbienteCriticidadInstancias.colors" dir="ltr"></apx-chart>
-                
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                
-                            </ng-container>
 
                             </ng-template>
                         </li>
@@ -2510,7 +2188,7 @@
                             <h4>Instancias de cumplimiento por área</h4>
 
                                 <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
-                                    [chart]="basicBarChartGeneralCuerpos.chart" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
+                                    [chart]="getChart(criticidad, basicBarChartGeneralCuerpos.chart)" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
                                     [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr"
                                     [xaxis]="basicBarChartGeneralCuerpos.xaxis" [stroke]="basicBarChartGeneralCuerpos.stroke"
                                     [fill]="basicBarChartGeneralCuerpos.fill" [title]="basicBarChartGeneralCuerpos.title"
@@ -2543,7 +2221,7 @@
                                 <h4>Instancias de cumplimiento por Elemento y actividad</h4>
                             
                                 <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation)" [colors]="basicBarChartGeneralCuerposInstallation.colors"
-                                    [chart]="basicBarChartGeneralCuerposInstallation.chart" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
+                                    [chart]="getChart(criticidad, basicBarChartGeneralCuerposInstallation.chart)" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
                                     [plotOptions]="basicBarChartGeneralCuerposInstallation.plotOptions" dir="ltr"
                                     [xaxis]="basicBarChartGeneralCuerposInstallation.xaxis" [stroke]="basicBarChartGeneralCuerposInstallation.stroke"
                                     [fill]="basicBarChartGeneralCuerposInstallation.fill" [title]="basicBarChartGeneralCuerposInstallation.title"
