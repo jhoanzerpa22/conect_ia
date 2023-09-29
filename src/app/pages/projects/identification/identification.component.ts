@@ -447,7 +447,7 @@ export class IdentificationComponent implements OnInit {
             colors = '["--vz-danger"]';
           break;
           
-          case 'Otros':
+          case 'No especificado':
             colors = '["--vz-info"]';
           break;
       
@@ -982,7 +982,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadCuerposEstado('1','Baja'), this.countCriticidadCuerposEstado('2','Baja')],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadCuerposEstado('1'), this.countCriticidadCuerposEstado('2')],
       }
       ],
@@ -1003,7 +1003,7 @@ export class IdentificationComponent implements OnInit {
       }
       ],
       seriesOtros: [{
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadCuerposEstado('1'), this.countCriticidadCuerposEstado('2')],
       }
       ],
@@ -1073,7 +1073,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadArticuloEstado('1','Baja'), this.countCriticidadArticuloEstado('2','Baja')],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadArticuloEstado('1'), this.countCriticidadArticuloEstado('2')],
       }
       ],
@@ -1093,7 +1093,7 @@ export class IdentificationComponent implements OnInit {
       }
       ],
       seriesOtros: [{
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadArticuloEstado('1'), this.countCriticidadArticuloEstado('2')],
       }
       ],
@@ -1167,7 +1167,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadArticuloEstado('1','Baja') * this.countElementos(), this.countCriticidadArticuloEstado('2','Baja') * this.countElementos()],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadArticuloEstado('1') * this.countElementos(), this.countCriticidadArticuloEstado('2') * this.countElementos()],
       }
       ],
@@ -1188,7 +1188,7 @@ export class IdentificationComponent implements OnInit {
       }
       ],
       seriesOtros: [{
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadArticuloEstado('1') * this.countElementos(), this.countCriticidadArticuloEstado('2') * this.countElementos()],
       }
       ],
@@ -1256,7 +1256,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.ambiente_baja, this.energia_baja, this.sso_baja],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.ambiente_otros, this.energia_otros, this.sso_otros],
       }
       ],
@@ -1278,7 +1278,7 @@ export class IdentificationComponent implements OnInit {
       ],
       seriesOtros: [
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.ambiente_otros, this.energia_otros, this.sso_otros],
       }
       ],
@@ -1341,7 +1341,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.cuerpo_ambiente_baja, this.cuerpo_energia_baja, this.cuerpo_sso_baja],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.cuerpo_ambiente_otros, this.cuerpo_energia_otros, this.cuerpo_sso_otros],
       }
       ],
@@ -1362,7 +1362,7 @@ export class IdentificationComponent implements OnInit {
       ],
       seriesOtros: [
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.cuerpo_ambiente_otros, this.cuerpo_energia_otros, this.cuerpo_sso_otros],
       }
       ],
@@ -1425,7 +1425,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.ambiente_baja * this.countElementos(), this.energia_baja * this.countElementos(), this.sso_baja * this.countElementos()],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.ambiente_otros * this.countElementos(), this.energia_otros * this.countElementos(), this.sso_otros * this.countElementos()],
       }
       ],
@@ -1445,7 +1445,7 @@ export class IdentificationComponent implements OnInit {
       }
       ],
       seriesOtros: [{
-        name: "Otros",
+        name: "No especificado",
         data: [this.ambiente_otros * this.countElementos(), this.energia_otros * this.countElementos(), this.sso_otros * this.countElementos()],
       }
       ],
@@ -1514,7 +1514,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','permiso','Baja'), this.countCriticidadAtributoEstado('2','permiso','Baja')],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','permiso'), this.countCriticidadAtributoEstado('1','permiso')],
       }
       ],
@@ -1537,7 +1537,7 @@ export class IdentificationComponent implements OnInit {
       ],
       seriesOtros: [
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','permiso'), this.countCriticidadAtributoEstado('1','permiso')],
       }
       ],
@@ -1601,7 +1601,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','reporte','Baja'), this.countCriticidadAtributoEstado('2','reporte','Baja')],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','reporte'), this.countCriticidadAtributoEstado('1','reporte')],
       }
       ],
@@ -1624,7 +1624,7 @@ export class IdentificationComponent implements OnInit {
       ],
       seriesOtros: [
       {
-        name: "Otros",
+        name: "No especificados",
         data: [this.countCriticidadAtributoEstado('1','reporte'), this.countCriticidadAtributoEstado('1','reporte')],
       }
       ],
@@ -1688,7 +1688,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','monitoreo','Baja'), this.countCriticidadAtributoEstado('2','monitoreo','Baja')],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','monitoreo'), this.countCriticidadAtributoEstado('1','monitoreo')],
       }
       ],
@@ -1708,7 +1708,7 @@ export class IdentificationComponent implements OnInit {
       }
       ],
       seriesOtros: [{
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','monitoreo'), this.countCriticidadAtributoEstado('1','monitoreo')],
       }
       ],
@@ -1772,7 +1772,7 @@ export class IdentificationComponent implements OnInit {
         data: [this.countCriticidadAtributoEstado('1','otros','Baja'), this.countCriticidadAtributoEstado('2','otros','Baja')],
       },
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','otros'), this.countCriticidadAtributoEstado('1','otros')],
       }
       ],
@@ -1793,7 +1793,7 @@ export class IdentificationComponent implements OnInit {
       ],
       seriesOtros: [
       {
-        name: "Otros",
+        name: "No especificado",
         data: [this.countCriticidadAtributoEstado('1','otros'), this.countCriticidadAtributoEstado('1','otros')],
       }
       ],
@@ -1868,7 +1868,7 @@ export class IdentificationComponent implements OnInit {
         },
         {
           data: this.getDataDashboardArea('value','general','otros'),
-          name: 'Otros',
+          name: 'No especificado',
         }],
         seriesAlta: [{
           data: this.getDataDashboardArea('value','general','alta'),
@@ -1884,7 +1884,7 @@ export class IdentificationComponent implements OnInit {
         }],
         seriesOtros: [{
           data: this.getDataDashboardArea('value','general','otros'),
-          name: 'Otros',
+          name: 'No especificado',
         }],
         chart: {
             type: 'bar',
@@ -1966,7 +1966,7 @@ export class IdentificationComponent implements OnInit {
         },
         {
           data: this.getDataDashboardInstallation('value','general','otros'),
-          name: 'Otros',
+          name: 'No especificado',
         }],
         seriesAlta: [{
           data: this.getDataDashboardInstallation('value','general','alta'),
@@ -1982,7 +1982,7 @@ export class IdentificationComponent implements OnInit {
         }],
         seriesOtros: [{
           data: this.getDataDashboardInstallation('value','general','otros'),
-          name: 'Otros',
+          name: 'No especificado',
         }],
         chart: {
             type: 'bar',
@@ -2061,7 +2061,7 @@ export class IdentificationComponent implements OnInit {
       },
       {
         data: this.getDataDashboardArea('value','permisos','otros'),
-        name: 'Otros',
+        name: 'No especificado',
       }],
       seriesAlta: [{
         data: this.getDataDashboardArea('value','permisos','alta'),
@@ -2077,7 +2077,7 @@ export class IdentificationComponent implements OnInit {
       }],
       seriesOtros: [{
         data: this.getDataDashboardArea('value','permisos','otros'),
-        name: 'Otros',
+        name: 'No especificado',
       }],
       chart: {
           type: 'bar',
@@ -2153,7 +2153,7 @@ export class IdentificationComponent implements OnInit {
     },
     {
       data: this.getDataDashboardArea('value','reportes','otros'),
-      name: 'Otros',
+      name: 'No especificado',
     }],
     seriesAlta: [{
       data: this.getDataDashboardArea('value','reportes','alta'),
@@ -2169,7 +2169,7 @@ export class IdentificationComponent implements OnInit {
     }],
     seriesOtros: [{
       data: this.getDataDashboardArea('value','reportes','otros'),
-      name: 'Otros',
+      name: 'No especificado',
     }],
     chart: {
         type: 'bar',
@@ -2245,7 +2245,7 @@ this.basicBarChartMonitoreos = {
   },
   {
     data: this.getDataDashboardArea('value','monitoreos','otros'),
-    name: 'Otros',
+    name: 'No especificado',
   }],
   seriesAlta: [{
     data: this.getDataDashboardArea('value','monitoreos','alta'),
@@ -2261,7 +2261,7 @@ this.basicBarChartMonitoreos = {
   }],
   seriesOtros: [{
     data: this.getDataDashboardArea('value','monitoreos','otros'),
-    name: 'Otros',
+    name: 'No especificado',
   }],
   chart: {
       type: 'bar',
@@ -2337,7 +2337,7 @@ seriesCriticidad: [{
 },
 {
   data: this.getDataDashboardArea('value','otros','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 seriesAlta: [{
   data: this.getDataDashboardArea('value','otros','alta'),
@@ -2353,7 +2353,7 @@ seriesBaja: [{
 }],
 seriesOtros: [{
   data: this.getDataDashboardArea('value','otros','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
   chart: {
       type: 'bar',
@@ -2433,7 +2433,7 @@ seriesCriticidad: [{
 },
 {
   data: this.getDataDashboardInstallation('value','permisos','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 seriesAlta: [{
   data: this.getDataDashboardInstallation('value','permisos','alta'),
@@ -2449,7 +2449,7 @@ seriesBaja: [{
 }],
 seriesOtros: [{
   data: this.getDataDashboardInstallation('value','permisos','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
     chart: {
         type: 'bar',
@@ -2525,7 +2525,7 @@ seriesCriticidad: [{
 },
 {
   data: this.getDataDashboardInstallation('value','reportes','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 seriesAlta: [{
   data: this.getDataDashboardInstallation('value','reportes','alta'),
@@ -2541,7 +2541,7 @@ seriesBaja: [{
 }],
 seriesOtros: [{
   data: this.getDataDashboardInstallation('value','reportes','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
   chart: {
       type: 'bar',
@@ -2617,7 +2617,7 @@ seriesCriticidad: [{
 },
 {
   data: this.getDataDashboardInstallation('value','monitoreos','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 seriesAlta: [{
   data: this.getDataDashboardInstallation('value','monitoreos','alta'),
@@ -2633,7 +2633,7 @@ seriesBaja: [{
 }],
 seriesOtros: [{
   data: this.getDataDashboardInstallation('value','monitoreos','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 chart: {
     type: 'bar',
@@ -2709,7 +2709,7 @@ seriesCriticidad: [{
 },
 {
   data: this.getDataDashboardInstallation('value','otros','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 seriesAlta: [{
   data: this.getDataDashboardInstallation('value','otros','alta'),
@@ -2725,7 +2725,7 @@ seriesBaja: [{
 }],
 seriesOtros: [{
   data: this.getDataDashboardInstallation('value','otros','otros'),
-  name: 'Otros',
+  name: 'No especificado',
 }],
 chart: {
     type: 'bar',
@@ -2808,7 +2808,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
       },
       {
         data: this.getDataDashboardAreaCuerpo('value','general','otros'),
-        name: 'Otros',
+        name: 'No especificado',
       }],
       seriesAlta: [{
         data: this.getDataDashboardAreaCuerpo('value','general','alta'),
@@ -2824,7 +2824,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
       }],
       seriesOtros: [{
         data: this.getDataDashboardAreaCuerpo('value','general','otros'),
-        name: 'Otros',
+        name: 'No especificado',
       }],
       chart: {
           type: 'bar',
@@ -2907,7 +2907,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
       },
       {
         data: this.getDataDashboardInstallationCuerpo('value','general','otros'),
-        name: 'Otros',
+        name: 'No especificado',
       }],
       seriesAlta: [{
         data: this.getDataDashboardInstallationCuerpo('value','general','alta'),
@@ -2923,7 +2923,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
       }],
       seriesOtros: [{
         data: this.getDataDashboardInstallationCuerpo('value','general','otros'),
-        name: 'Otros',
+        name: 'No especificado',
       }],
       chart: {
           type: 'bar',
@@ -2997,7 +2997,7 @@ getChart(criticidad: any, config: any){
       objeto.stacked = true;
       break;
         
-      case 'Otros':
+      case 'No especificado':
         objeto.stacked = true;
         break;
         
@@ -3027,7 +3027,7 @@ getChart(criticidad: any, config: any){
         return objeto.seriesBaja;
         break;
           
-        case 'Otros':
+        case 'No especificado':
           return objeto.seriesOtros;
           break;
           
