@@ -787,7 +787,7 @@ export class IdentificationComponent implements OnInit {
           //type: "donut",
           type: "bar",
           stacked: true,
-          stackType: "100%",
+          //stackType: "100%",
           toolbar: {
               show: false,
           }
@@ -851,7 +851,7 @@ export class IdentificationComponent implements OnInit {
           //type: "donut",
           type: "bar",
           stacked: true,
-          stackType: "100%",
+          //stackType: "100%",
           toolbar: {
               show: false,
           }
@@ -914,7 +914,7 @@ export class IdentificationComponent implements OnInit {
           //type: "donut",
           type: "bar",
           stacked: true,
-          stackType: "100%",
+          //stackType: "100%",
           toolbar: {
               show: false,
           }
@@ -1011,7 +1011,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1101,7 +1101,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1196,7 +1196,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1286,7 +1286,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1370,7 +1370,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1453,7 +1453,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1545,7 +1545,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1632,7 +1632,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1716,7 +1716,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1801,7 +1801,7 @@ export class IdentificationComponent implements OnInit {
         type: "bar",
         height: 250,
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
           show: false,
         },
@@ -1890,7 +1890,7 @@ export class IdentificationComponent implements OnInit {
             type: 'bar',
             height: 400,            
             stacked: false,
-            stackType: "100%",
+            //stackType: "100%",
             toolbar: {
                 show: false,
             }
@@ -1988,7 +1988,7 @@ export class IdentificationComponent implements OnInit {
             type: 'bar',
             height: 400,    
             stacked: true,
-            stackType: "100%",
+            //stackType: "100%",
             toolbar: {
                 show: false,
             }
@@ -2083,7 +2083,7 @@ export class IdentificationComponent implements OnInit {
           type: 'bar',
           height: 400,      
           stacked: true,
-          stackType: "100%",
+          //stackType: "100%",
           toolbar: {
               show: false,
           }
@@ -2175,7 +2175,7 @@ export class IdentificationComponent implements OnInit {
         type: 'bar',
         height: 400,      
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
             show: false,
         }
@@ -2267,7 +2267,7 @@ this.basicBarChartMonitoreos = {
       type: 'bar',
       height: 400,      
       stacked: true,
-      stackType: "100%",
+      //stackType: "100%",
       toolbar: {
           show: false,
       }
@@ -2359,7 +2359,7 @@ seriesOtros: [{
       type: 'bar',
       height: 400,      
       stacked: true,
-      stackType: "100%",
+      //stackType: "100%",
       toolbar: {
           show: false,
       }
@@ -2455,7 +2455,7 @@ seriesOtros: [{
         type: 'bar',
         height: 400,    
         stacked: true,
-        stackType: "100%",
+        //stackType: "100%",
         toolbar: {
             show: false,
         }
@@ -2547,7 +2547,7 @@ seriesOtros: [{
       type: 'bar',
       height: 400,    
       stacked: true,
-      stackType: "100%",
+      //stackType: "100%",
       toolbar: {
           show: false,
       }
@@ -2639,7 +2639,7 @@ chart: {
     type: 'bar',
     height: 400,    
     stacked: true,
-    stackType: "100%",
+    //stackType: "100%",
     toolbar: {
         show: false,
     }
@@ -2731,7 +2731,7 @@ chart: {
     type: 'bar',
     height: 400,    
     stacked: true,
-    stackType: "100%",
+    //stackType: "100%",
     toolbar: {
         show: false,
     }
@@ -2830,7 +2830,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           type: 'bar',
           height: 400,      
           stacked: true,
-          stackType: "100%",
+          //stackType: "100%",
           toolbar: {
               show: false,
           }
@@ -2929,7 +2929,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           type: 'bar',
           height: 400,      
           stacked: true,
-          stackType: "100%",
+          //stackType: "100%",
           toolbar: {
               show: false,
           }
@@ -2986,19 +2986,19 @@ getChart(criticidad: any, config: any){
 
   switch (criticidad) {
     case 'Alta':
-      objeto.stacked = true;
+      objeto.stacked = false;
       break;
     
     case 'Media':
-      objeto.stacked = true;
+      objeto.stacked = false;
       break;
         
     case 'Baja':
-      objeto.stacked = true;
+      objeto.stacked = false;
       break;
         
       case 'No especificado':
-        objeto.stacked = true;
+        objeto.stacked = false;
         break;
         
       case 'Todos':
