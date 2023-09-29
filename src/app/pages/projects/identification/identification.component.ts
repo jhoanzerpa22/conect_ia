@@ -491,9 +491,9 @@ export class IdentificationComponent implements OnInit {
     this._simpleDonutChartReportes('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartPermisos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._simpleDonutChartOtros('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
-    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger"]');
+    this._simpleDonutChartArticulosAmbito('["--vz-success", "--vz-warning", "--vz-danger", "--vz-info","--vz-primary"]');
+    this._simpleDonutChartCuerposAmbito('["--vz-success", "--vz-warning", "--vz-danger","--vz-primary", "--vz-info"]');
+    this._simpleDonutChartInstanciasAmbito('["--vz-success", "--vz-warning", "--vz-danger", "--vz-primary", "--vz-info"]');
     
     this._stacked100BarChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
     this._stacked100BarChartArticulos('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]');
@@ -780,13 +780,13 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartCuerposAmbito = {
         series: [{
-          data: [this.getDataDashboard('cuerpo_ma'),this.getDataDashboard('cuerpo_energia'),this.getDataDashboard('cuerpo_sso')]//this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso
+          data: [this.getDataDashboard('cuerpo_ma'),this.getDataDashboard('cuerpo_sst'),this.getDataDashboard('cuerpo_energia'),this.getDataDashboard('cuerpo_general'),this.getDataDashboard('cuerpo_laboral')]//this.cuerpo_ambiente, this.cuerpo_energia, this.cuerpo_sso
         }],
         chart: {
           height: 300,
           //type: "donut",
           type: "bar",
-          stacked: true,
+          stacked: false,
           //stackType: "100%",
           toolbar: {
               show: false,
@@ -806,13 +806,13 @@ export class IdentificationComponent implements OnInit {
         },
         dataLabels: {
           enabled: true,
-          formatter: function (val:any) {
+          /*formatter: function (val:any) {
               return val + "%";
-          },
+          },*/
           offsetY: 160,
           style: {
               fontSize: "12px",
-              colors: ["#000"],
+              colors: ["#adb5bd"],
           },
         },
         yaxis: {
@@ -827,11 +827,11 @@ export class IdentificationComponent implements OnInit {
             labels: {
                 show: false,
                 formatter: function (val:any) {
-                    return val + "%";
+                    return val;// + "%";
                 },
             },
         },
-        labels: ["MA","ENERGIA","SSO"],
+        labels: ["MA","SST","ENERGIA","GENERAL","LABORAL"],
         colors: colors,
       };
     }
@@ -844,13 +844,13 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartArticulosAmbito = {
         series: [{
-          data: [this.getDataDashboard('ma'),this.getDataDashboard('energia'),this.getDataDashboard('sso')]//this.ambiente, this.energia, this.sso
+          data: [this.getDataDashboard('ma'),this.getDataDashboard('sst'),this.getDataDashboard('energia'),this.getDataDashboard('general'),this.getDataDashboard('laboral')]//this.ambiente, this.energia, this.sso
         }],
         chart: {
           height: 300,
           //type: "donut",
           type: "bar",
-          stacked: true,
+          stacked: false,
           //stackType: "100%",
           toolbar: {
               show: false,
@@ -870,13 +870,13 @@ export class IdentificationComponent implements OnInit {
         },
         dataLabels: {
           enabled: true,
-          formatter: function (val:any) {
+          /*formatter: function (val:any) {
               return val + "%";
-          },
+          },*/
           offsetY: 160,
           style: {
               fontSize: "12px",
-              colors: ["#000"],
+              colors: ["#adb5bd"],
           },
         },
         yaxis: {
@@ -891,11 +891,11 @@ export class IdentificationComponent implements OnInit {
             labels: {
                 show: false,
                 formatter: function (val:any) {
-                    return val + "%";
+                    return val; //+ "%";
                 },
             },
         },
-        labels: ["MA","ENERGIA","SSO"],
+        labels: ["MA","SST","ENERGIA","GENERAL","LABORAL"],
         colors: colors,
       };
     }
@@ -907,13 +907,13 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartInstanciasAmbito = {
         series: [{
-          data: [this.getDataDashboard('ma') * this.getDataDashboard('elementos'),this.getDataDashboard('energia') * this.getDataDashboard('elementos'),this.getDataDashboard('sso') * this.getDataDashboard('elementos')]//this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()
+          data: [this.getDataDashboard('ma') * this.getDataDashboard('elementos'),this.getDataDashboard('sst') * this.getDataDashboard('elementos'), this.getDataDashboard('energia') * this.getDataDashboard('elementos'), this.getDataDashboard('general') * this.getDataDashboard('elementos'),this.getDataDashboard('laboral') * this.getDataDashboard('elementos')]//this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()
         }],
         chart: {
           height: 300,
           //type: "donut",
           type: "bar",
-          stacked: true,
+          stacked: false,
           //stackType: "100%",
           toolbar: {
               show: false,
@@ -933,13 +933,13 @@ export class IdentificationComponent implements OnInit {
         },
         dataLabels: {
           enabled: true,
-          formatter: function (val:any) {
+          /*formatter: function (val:any) {
               return val + "%";
-          },
+          },*/
           offsetY: 160,
           style: {
               fontSize: "12px",
-              colors: ["#000"],
+              colors: ["#adb5bd"],
           },
         },
         yaxis: {
@@ -954,11 +954,11 @@ export class IdentificationComponent implements OnInit {
             labels: {
                 show: false,
                 formatter: function (val:any) {
-                    return val + "%";
+                    return val;// + "%";
                 },
             },
         },
-        labels: ["MA","ENERGIA","SSO"],
+        labels: ["MA","SST","ENERGIA","GENERAL","LABORAL"],
         colors: colors,
       };
     }
@@ -4344,28 +4344,44 @@ validateIdparte(idParte: any){
             return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
             break;
 
+        case 'cuerpo_general':
+              return this.dashboard.ambitoNormativo.cuerpoLegal.GENERAL ? this.dashboard.ambitoNormativo.cuerpoLegal.GENERAL : 0;
+              break;
+
         case 'cuerpo_ma':
-            return this.dashboard.ambitoNormativo.cuerpoLegal.MA;
+            return this.dashboard.ambitoNormativo.cuerpoLegal.MA ? this.dashboard.ambitoNormativo.cuerpoLegal.MA : 0;
             break;
         
         case 'cuerpo_energia':
-            return this.dashboard.ambitoNormativo.cuerpoLegal.ENERGIA;
+            return this.dashboard.ambitoNormativo.cuerpoLegal.ENERGIA ? this.dashboard.ambitoNormativo.cuerpoLegal.ENERGIA : 0;
             break;
         
-        case 'cuerpo_sso':
-            return this.dashboard.ambitoNormativo.cuerpoLegal.SSO;
+        case 'cuerpo_sst':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.SST ? this.dashboard.ambitoNormativo.cuerpoLegal.SST : 0;
+            break;
+
+        case 'cuerpo_laboral':
+            return this.dashboard.ambitoNormativo.cuerpoLegal.LABORAL ? this.dashboard.ambitoNormativo.cuerpoLegal.LABORAL : 0;
+            break;
+            
+        case 'general':
+            return this.dashboard.ambitoNormativo.articulos.GENERAL ? this.dashboard.ambitoNormativo.articulos.GENERAL : 0;
             break;
             
         case 'ma':
-            return this.dashboard.ambitoNormativo.articulos.MA;
+            return this.dashboard.ambitoNormativo.articulos.MA ? this.dashboard.ambitoNormativo.articulos.MA : 0;
             break;
       
         case 'energia':
-            return this.dashboard.ambitoNormativo.articulos.ENERGIA;
+            return this.dashboard.ambitoNormativo.articulos.ENERGIA ? this.dashboard.ambitoNormativo.articulos.ENERGIA : 0;
             break;
       
-        case 'sso':
-            return this.dashboard.ambitoNormativo.articulos.SSO;
+        case 'sst':
+            return this.dashboard.ambitoNormativo.articulos.SST ? this.dashboard.ambitoNormativo.articulos.SST : 0;
+            break;
+      
+        case 'laboral':
+            return this.dashboard.ambitoNormativo.articulos.LABORAL ? this.dashboard.ambitoNormativo.articulos.LABORAL : 0;
             break;
             
         case 'alta':
