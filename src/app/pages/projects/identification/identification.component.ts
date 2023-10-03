@@ -5938,14 +5938,14 @@ validateIdparte(idParte: any){
 
     if(this.areas_select_chart.length > 0){
       
-      this.getDashboard(this.project_id, true, this.areas_select_chart[(this.areas_select_chart.length - 1)].id, /*this.tipo,*/ this.criticidad);
+      this.resetFiltro(this.project_id, true, this.areas_select_chart[(this.areas_select_chart.length - 1)].id, /*this.tipo,*/ this.criticidad);
 
       this.filtro_area = this.areas_select_chart[(this.areas_select_chart.length - 1)].id;
 
       this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
     }else{
       
-      this.getDashboard(this.project_id, true, undefined, /*this.tipo,*/ this.criticidad);
+      this.resetFiltro(this.project_id, true, undefined, /*this.tipo,*/ this.criticidad);
 
       this.filtro_area = undefined;
       this.areas_chart = this.areas;
