@@ -5803,7 +5803,7 @@ validateIdparte(idParte: any){
   selectCriticidadCuerpo(criticidad?: any){
     this.criticidad_cuerpo = criticidad;
     
-    this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, this.filtro_atributo, criticidad,this.filtro_articuloId);
+    this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.filtro_atributo, criticidad,this.filtro_articuloId);
     
     this.setChart();
   }
@@ -5825,10 +5825,10 @@ validateIdparte(idParte: any){
     this.filtro_atributo = atributo;
     
     if(atributo){
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, atributo, this.criticidad_cuerpo,this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), atributo, this.criticidad_cuerpo,this.filtro_articuloId);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, undefined, this.criticidad_cuerpo,this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), undefined, this.criticidad_cuerpo,this.filtro_articuloId);
     }
   }
 
@@ -5839,7 +5839,7 @@ validateIdparte(idParte: any){
     if(cuerpo){
   
       this.getArticulos();    
-      this.resetFiltroCuerpo(this.project_id, normaId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo,this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, normaId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo,this.filtro_articuloId);
 
       /*const index = this.articles_proyects_group.findIndex(
         (ap: any) =>
@@ -5861,10 +5861,10 @@ validateIdparte(idParte: any){
     
     if(id > 0){
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo, id);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo, id);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, this.filtro_area, this.tipo_cuerpo, this.criticidad_cuerpo);
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo);
     }
   }
   
@@ -5915,8 +5915,16 @@ validateIdparte(idParte: any){
     this.setChart();
   }
   
-  selectAreaChartCuerpo(id?: any){
-    this.filtro_area_cuerpo = id;
+  selectAreaChartCuerpo(id?: any, nombre?: any){
+    this.filtro_area_cuerpo = id > 0 ? {id: id, nombre: nombre} : null;
+    
+    if(id > 0){
+      
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, id, this.tipo_cuerpo, this.criticidad_cuerpo, this.filtro_articuloId);
+    }else{
+      
+      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, null, this.tipo_cuerpo, this.criticidad_cuerpo, this.filtro_articuloId);
+    }
   }
   
   deleteAreaChart(id: any){

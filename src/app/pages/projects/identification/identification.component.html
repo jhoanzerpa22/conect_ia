@@ -2061,16 +2061,18 @@
                 
                                         <div class="btn-group" style="width: 100%;" ngbDropdown>
                                             
-                                            <button type="button" class="btn btn-light" style="
+                                            <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
                                             background: white;
-                                        ">Selecciona el área</button>    
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_area_cuerpo ? 'Selecciona el área' : filtro_area_cuerpo.nombre }}</button>    
                                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                 <!--<a class="dropdown-item" [ngClass]="!area_chart ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChart()">Todos</a>-->
+                                                <a class="dropdown-item" [ngClass]="!filtro_area_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo()">Todos</a>
+
                                                 <ng-container *ngFor="let ar of areas_chart;">
-                                                    <a class="dropdown-item" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.id)">{{ar.nombre}}</a>
+                                                    <a class="dropdown-item" [ngClass]="filtro_area_cuerpo && filtro_area_cuerpo.id == ar.id ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.id, ar.nombre)">{{ar.nombre}}</a>
                                                 </ng-container>
                                             </div>
                                         </div>
