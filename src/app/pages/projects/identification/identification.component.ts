@@ -330,70 +330,23 @@ export class IdentificationComponent implements OnInit {
     }
   }
   
-  getSeriesTipo(gestionar: any, por_definir: any, diferent?: any){
+  getSeriesTipo(gestionar: any, por_definir: any){
     let series: any = [];
 
     if(!this.tipo){
-      if(diferent){
-
-        if(diferent == 'instancias'){
-
-          series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos'), this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
-
-        }/*else if (diferent == 'cuerpos'){
-          series =  [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')];
-        }*/
-      }else{
         series =  [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
-      }
+      
     }else{
       switch (this.tipo) {
         case 'Gestionar':
-          if(diferent){
-
-            if(diferent == 'instancias'){
-    
-              series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos')];
-              
-            }/*else if (diferent == 'cuerpos'){
-    
-              series =  [this.countCuerposLegalesEstado('1')];
-            }*/
-          }else{
             series =  [this.getDataDashboard(gestionar)];
-          }
-
           break;
           case 'Por definir':
-            if(diferent){
-
-              if(diferent == 'instancias'){
-      
-                series =  [this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
-                
-              }/*else if (diferent == 'cuerpos'){
-      
-                series =  [this.countCuerposLegalesEstado('2')];
-              }*/
-            }else{
               series =  [this.getDataDashboard(por_definir)];
-            }
             break;
       
         default:
-          if(diferent){
-
-            if(diferent == 'instancias'){
-    
-              series =  [this.getDataDashboard(gestionar) * this.getDataDashboard('elementos'), this.getDataDashboard(por_definir) * this.getDataDashboard('elementos')];
-    
-            }/*else if (diferent == 'cuerpos'){
-    
-              series =  [this.countCuerposLegalesEstado('1'), this.countCuerposLegalesEstado('2')];
-            }*/
-          }else{
             series = [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
-          }
           break;
       }
     }
@@ -653,7 +606,7 @@ export class IdentificationComponent implements OnInit {
     colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartInstancias = {
-      series: this.getSeriesTipo('articulos_gestionar','articulos_definir','instancias'),//[this.getDataDashboard('articulos_gestionar') * this.getDataDashboard('elementos'), this.getDataDashboard('articulos_definir') * this.getDataDashboard('elementos')],//this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()
+      series: this.getSeriesTipo('instancias_gestionar','instancias_definir'),//[this.getDataDashboard('articulos_gestionar') * this.getDataDashboard('elementos'), this.getDataDashboard('articulos_definir') * this.getDataDashboard('elementos')],//this.countArticulosEstado('1') * this.countElementos(), this.countArticulosEstado('2') * this.countElementos()
       chart: {
         height: 300,
         type: "donut",
@@ -4302,6 +4255,14 @@ validateIdparte(idParte: any){
         
         case 'articulos_definir':
             return this.dashboard.tarjetas.countArticulosDefinir;
+            break;
+        
+        case 'instancias_gestionar':
+            return this.dashboard.tarjetas.countInstanciasGestionar;
+            break;
+          
+        case 'instancias_definir':
+            return this.dashboard.tarjetas.countInstanciasDefinir;
             break;
 
         case 'cuerpos_gestionar':
