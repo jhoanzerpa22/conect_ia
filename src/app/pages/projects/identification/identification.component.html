@@ -1361,7 +1361,7 @@
                                     <div class="flex-grow-1 ms-3">-->
                                         
                                         <h4 class="fs-1">
-                                            <span class="counter-value">{{getDataDashboard('cuerpos') < 1 ? 0 : getDataDashboard('cuerpos')}}</span></h4><!--[CountTo]="getDataDashboard('cuerpos')" 
+                                            <span class="counter-value">{{getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('cuerpos')" 
                                             [from]="0" [duration]="1"  countCuerposLegales()-->
                                     <!--</div>
                                 </div>-->
@@ -1382,7 +1382,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboard('articulos') < 1 ? 0 : getDataDashboard('articulos')}}</span></h4><!-- [CountTo]="getDataDashboard('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
+                                                >{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}</span></h4><!-- [CountTo]="getDataDashboard('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -1402,7 +1402,7 @@
                                     <div class="flex-grow-1 ms-3">-->
                                         
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}</span></h4><!-- [CountTo]="getDataDashboard('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
+                                                >{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}</span></h4><!-- [CountTo]="getDataDashboard('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -1446,7 +1446,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboard('permisos') < 1 ? 0 : getDataDashboard('permisos')}}</span></h4><!--[CountTo]="getDataDashboard('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
+                                                >{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -1466,7 +1466,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboard('reportes') < 1 ? 0 : getDataDashboard('reportes')}}</span></h4><!--[from]="0" [duration]="1" [CountTo]="getDataDashboard('reportes')" countAtributo('reporte')-->
+                                                >{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}</span></h4><!--[from]="0" [duration]="1" [CountTo]="getDataDashboard('reportes')" countAtributo('reporte')-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -1486,7 +1486,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span  class="counter-value"
-                                                >{{getDataDashboard('monitoreos') < 1 ? 0 : getDataDashboard('monitoreos')}}</span></h4><!--[CountTo]="getDataDashboard('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
+                                                >{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -1507,7 +1507,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span  class="counter-value"
-                                                >{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" [from]="0" [duration]="1" countAtributo()-->
+                                                >{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('otros')" [from]="0" [duration]="1" countAtributo()-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -2097,7 +2097,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboardCuerpo('articulos') < 1 ? 0 : getDataDashboardCuerpo('articulos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
+                                                >{{getDataDashboardCuerpo(!tipo_cuerpo ? 'articulos' : (tipo_cuerpo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboardCuerpo(!tipo_cuerpo ? 'articulos' : (tipo_cuerpo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('articulos')" [from]="0" [duration]="1" countArticulos(true)-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -2117,7 +2117,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboardCuerpo('instancias') < 1 ? 0 : getDataDashboardCuerpo('instancias')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
+                                                >{{getDataDashboardCuerpo(!tipo_cuerpo ? 'instancias' : (tipo_cuerpo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboardCuerpo(!tipo_cuerpo ? 'instancias' : (tipo_cuerpo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('instancias')" [from]="0" [duration]="1" countArticulos(false) * countElementos()-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -2161,7 +2161,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboardCuerpo('permisos') < 1 ? 0 : getDataDashboardCuerpo('permisos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
+                                                >{{getDataDashboardCuerpo(!tipo_cuerpo ? 'permisos' : (tipo_cuerpo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboardCuerpo(!tipo_cuerpo ? 'permisos' : (tipo_cuerpo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -2180,7 +2180,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboardCuerpo('reportes') < 1 ? 0 : getDataDashboardCuerpo('reportes')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('reportes')" [from]="0" [duration]="1" countAtributo('reporte')-->
+                                                >{{getDataDashboardCuerpo(!tipo_cuerpo ? 'reportes' : (tipo_cuerpo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboardCuerpo(!tipo_cuerpo ? 'reportes' : (tipo_cuerpo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('reportes')" [from]="0" [duration]="1" countAtributo('reporte')-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -2200,7 +2200,7 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
                                         <h4 class="fs-1"><span class="counter-value"
-                                                >{{getDataDashboardCuerpo('monitoreos') < 1 ? 0 : getDataDashboardCuerpo('monitoreos')}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
+                                                >{{getDataDashboardCuerpo(!tipo_cuerpo ? 'monitoreos' : (tipo_cuerpo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboardCuerpo(!tipo_cuerpo ? 'monitoreos' : (tipo_cuerpo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}</span></h4><!--[CountTo]="getDataDashboardCuerpo('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
                                     <!--</div>
                                 </div>-->
                             </div>
@@ -2219,7 +2219,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
-                                        <h4 class="fs-1"><span class="counter-value">{{getDataDashboardCuerpo('otros') < 1 ? 0 : getDataDashboardCuerpo('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
+                                        <h4 class="fs-1"><span class="counter-value">{{getDataDashboardCuerpo(!tipo_cuerpo ? 'otros' : (tipo_cuerpo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboardCuerpo(!tipo_cuerpo ? 'otros' : (tipo_cuerpo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
                                             [from]="0" [duration]="1" countAtributo()-->
                                     <!--</div>
                                 </div>-->

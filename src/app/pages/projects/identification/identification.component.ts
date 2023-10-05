@@ -4414,6 +4414,14 @@ validateIdparte(idParte: any){
         case 'articulos_definir':
             return this.dashboardCuerpo.tarjetas.countArticulosDefinir;
             break;
+        
+        case 'instancias_gestionar':
+            return this.dashboardCuerpo.tarjetas.countInstanciasGestionar;
+            break;
+            
+        case 'instancias_definir':
+            return this.dashboardCuerpo.tarjetas.countInstanciasDefinir;
+            break;
 
         case 'permisos_gestionar':
             return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countGestionar;
