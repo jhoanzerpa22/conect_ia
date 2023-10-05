@@ -422,6 +422,8 @@ export class IdentificationComponent implements OnInit {
   }
 
   private resetFiltroCuerpo(project_id?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+
+    atributo = atributo ? atributo.toLowerCase() : atributo;
     
     this.getDashboardCuerpo(project_id, cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
     this.getDashboardAreaCuerpo(project_id, 'instancias',cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
