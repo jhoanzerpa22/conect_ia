@@ -3289,7 +3289,7 @@ validateIdparte(idParte: any){
 
   }
 
-  private getArticleProyect(project_id: any){
+  private getArticleProyect(project_id: any, refresh?: boolean){
 
     //this.showPreLoader();
       this.projectsService.getArticleProyect(project_id).pipe().subscribe(
@@ -3333,6 +3333,10 @@ validateIdparte(idParte: any){
               this.articles_proyects_all[index2].articulos.push(x);
             }
           });
+
+          if(refresh){
+            this.setChartCuerpo();
+          }
 
           //this.hidePreLoader();
       },
@@ -4566,14 +4570,18 @@ validateIdparte(idParte: any){
         
         switch (parametro) {
           case 'label':
-            data.push(data_type[x].nombre);
+            if((criticidad && data_type[x].criticidad[criticidad] > 0) || (!criticidad && data_type[x].total > 0)){
+              data.push(data_type[x].nombre);
+            }
             break;
           
           case 'value':
-            if(criticidad){
+            if(criticidad && data_type[x].criticidad[criticidad] > 0){
               data.push(data_type[x].criticidad[criticidad]);
             }else{
+              if(data_type[x].total > 0){
               data.push(data_type[x].total);
+              }
             }
             break;
               
@@ -6540,13 +6548,13 @@ validateIdparte(idParte: any){
     this.restablecer();
     if (this.articles_proyects_group < 1) {
       
-      Swal.fire({
+      /*Swal.fire({
         position: 'center',
         icon: 'error',
         title: 'Seleccione al menos un cuerpo legal..',
         showConfirmButton: true,
         timer: 5000,
-      });
+      });*/
 
       return;
     }
@@ -6822,12 +6830,17 @@ validateIdparte(idParte: any){
     this.configs = [];
             
     this.getArticlesInstallation();
-    this.getArticleProyect(this.project_id);
+    this.getArticleProyect(this.project_id, true);
     this.getCuerpoInstallationsByProyect();
     this.getDashboard(this.project_id, false);
     this.getDashboardArea(this.project_id, 'articulos');
     this.getDashboardInstalaciones(this.project_id, 'articulos');
 
+    this.setChart();
+    
+  }
+
+  setChartCuerpo(){
     if(this.articles_proyects_group.length > 0){
       this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
       this.filtro_cuerpoId = this.articles_proyects_group[0].normaId;
@@ -6837,9 +6850,6 @@ validateIdparte(idParte: any){
       this.getDashboardAreaCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
       this.getDashboardInstallationCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
     }
-
-    this.setChart();
-    
   }
 
   terminar(){
