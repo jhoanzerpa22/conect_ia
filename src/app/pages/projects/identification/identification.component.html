@@ -2022,11 +2022,11 @@
                                             <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
                                                 
-                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permisos' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permisos')">Permisos</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
                                                 
-                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reportes' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reportes')">Reportes</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reporte' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reporte')">Reporte</a>
                                                 
-                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreos' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreos')">Monitoreos</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreo' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreo')">Monitoreo</a>
                                                 
                                                 <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>
                                             </div>
@@ -2219,7 +2219,7 @@
                                         </span>
                                     </div>
                                     <div class="flex-grow-1 ms-3">-->
-                                        <h4 class="fs-1"><span class="counter-value">{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
+                                        <h4 class="fs-1"><span class="counter-value">{{getDataDashboardCuerpo('otros') < 1 ? 0 : getDataDashboardCuerpo('otros')}}</span></h4><!--[CountTo]="getDataDashboard('otros')" 
                                             [from]="0" [duration]="1" countAtributo()-->
                                     <!--</div>
                                 </div>-->
