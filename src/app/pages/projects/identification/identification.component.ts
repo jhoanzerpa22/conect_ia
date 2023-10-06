@@ -4534,7 +4534,18 @@ validateIdparte(idParte: any){
             if(criticidad){
               data.push(data_type[x].criticidad[criticidad]);
             }else{
-              data.push(data_type[x].total);
+              switch (this.tipo) {
+                case 'Gestionar':              
+                  data.push(data_type[x].total_gestionar);
+                  break;
+                  case 'Por definir':              
+                    data.push(data_type[x].total_definir);
+                    break;
+              
+                default:
+                  data.push(data_type[x].total);
+                  break;
+              }
             }
             break;
               
@@ -4589,8 +4600,24 @@ validateIdparte(idParte: any){
             if(criticidad && data_type[x].criticidad[criticidad] > 0){
               data.push(data_type[x].criticidad[criticidad]);
             }else{
-              if(data_type[x].total > 0){
-              data.push(data_type[x].total);
+              
+              switch (this.tipo) {
+                case 'Gestionar':              
+                    if(data_type[x].total_gestionar > 0){
+                      data.push(data_type[x].total_gestionar);
+                    }
+                  break;
+                  case 'Por definir':              
+                      if(data_type[x].total_definir > 0){
+                        data.push(data_type[x].total_definir);
+                      }
+                    break;
+              
+                default:
+                  if(data_type[x].total > 0){
+                    data.push(data_type[x].total);
+                    }
+                  break;
               }
             }
             break;
@@ -4632,7 +4659,19 @@ validateIdparte(idParte: any){
             if(criticidad){
               data.push(data_type[x].criticidad[criticidad]);
             }else{
-              data.push(data_type[x].total);
+              
+              switch (this.tipo_cuerpo) {
+                case 'Gestionar':              
+                  data.push(data_type[x].total_gestionar);
+                  break;
+                  case 'Por definir':              
+                    data.push(data_type[x].total_definir);
+                    break;
+              
+                default:
+                  data.push(data_type[x].total);
+                  break;
+              }
             }
             break;
               
@@ -4673,7 +4712,18 @@ validateIdparte(idParte: any){
             if(criticidad){
               data.push(data_type[x].criticidad[criticidad]);
             }else{
-              data.push(data_type[x].total);
+              switch (this.tipo_cuerpo) {
+                case 'Gestionar':              
+                  data.push(data_type[x].total_gestionar);
+                  break;
+                  case 'Por definir':              
+                    data.push(data_type[x].total_definir);
+                    break;
+              
+                default:
+                  data.push(data_type[x].total);
+                  break;
+              }
             }
             break;
               
