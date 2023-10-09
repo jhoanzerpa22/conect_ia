@@ -95,3 +95,35 @@
   .dropdown-disable::after{
     display: none !important;
   }
+
+  /* Tamaño del scroll */
+  .dropdown-menu-dark::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+   /* Estilos barra (thumb) de scroll */
+  .dropdown-menu-dark::-webkit-scrollbar-thumb {
+    background: #405189;
+    border-radius: 4px;
+  }
+  
+  .dropdown-menu-dark::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+  }
+  
+  .dropdown-menu-dark::-webkit-scrollbar-thumb:hover {
+    background: #405189;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  
+   /* Estilos track de scroll */
+  .dropdown-menu-dark::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+  }
+  
+  .dropdown-menu-dark::-webkit-scrollbar-track:hover,
+  .dropdown-menu-dark::-webkit-scrollbar-track:active {
+    background: #d4d4d4;
+  }
