@@ -1,0 +1,31 @@
+/* Tamaño del scroll */
+  ::ng-deep body::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+  }
+  
+   /* Estilos barra (thumb) de scroll */
+   ::ng-deep  body::-webkit-scrollbar-thumb {
+    background: #405189 !important;
+    border-radius: 4px !important;
+  }
+  
+  ::ng-deep body::-webkit-scrollbar-thumb:active {
+    background-color: #999999 !important;
+  }
+  
+  ::ng-deep body::-webkit-scrollbar-thumb:hover {
+    background: #405189 !important;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+   /* Estilos track de scroll */
+   ::ng-deep body::-webkit-scrollbar-track {
+    background: #e1e1e1 !important;
+    border-radius: 4px !important;
+  }
+  
+  ::ng-deep body::-webkit-scrollbar-track:hover,
+  ::ng-deep body::-webkit-scrollbar-track:active {
+    background: #d4d4d4 !important;
+  }

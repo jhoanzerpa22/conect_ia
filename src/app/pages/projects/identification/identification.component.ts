@@ -390,14 +390,14 @@ export class IdentificationComponent implements OnInit {
     }else{
       switch (criticidad) {
           case 'Alta':
-            colors = '["--vz-success"]';
+            colors = '["--vz-danger"]';
           break;
           case 'Media':
               colors = '["--vz-warning"]';
             break;
             
           case 'Baja':
-            colors = '["--vz-danger"]';
+            colors = '["--vz-success"]';
           break;
           
           case 'No especificado':
@@ -405,7 +405,7 @@ export class IdentificationComponent implements OnInit {
           break;
       
         default:
-          colors = '["--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]';
+          colors = '["--vz-danger", "--vz-warning", "--vz-success", "--vz-info"]';
           break;
       }
     }
@@ -1854,6 +1854,7 @@ export class IdentificationComponent implements OnInit {
             bar: {
                 //borderRadius: 4,
                 horizontal: true,
+                columnWidth: '80%',
                 /*distributed: true,
                 dataLabels: {
                     position: 'top',
@@ -1892,7 +1893,9 @@ export class IdentificationComponent implements OnInit {
             show: false,
         },*/
         xaxis: {
-            categories: this.getDataDashboardArea('label','general')
+            categories: this.getDataDashboardArea('label','general'),
+            width: 400,
+            columnWidth: '40%'
         },
     };
   }
