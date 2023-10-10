@@ -1867,7 +1867,7 @@ export class IdentificationComponent implements OnInit {
         }],
         chart: {
             type: 'bar',
-            height: 400,            
+            height: this.getDataDashboardArea('label','general').length > 20 ? 800 : 400,            
             stacked: false,
             //stackType: "100%",
             toolbar: {
@@ -1968,7 +1968,7 @@ export class IdentificationComponent implements OnInit {
         }],
         chart: {
             type: 'bar',
-            height: 400,    
+            height: this.getDataDashboardInstallation('label','general').length > 20 ? 800 : 400,    
             stacked: true,
             //stackType: "100%",
             toolbar: {
@@ -2063,7 +2063,7 @@ export class IdentificationComponent implements OnInit {
       }],
       chart: {
           type: 'bar',
-          height: 400,      
+          height: this.getDataDashboardArea('label','permisos').length > 20 ? 800 : 400,      
           stacked: true,
           //stackType: "100%",
           toolbar: {
@@ -2155,7 +2155,7 @@ export class IdentificationComponent implements OnInit {
     }],
     chart: {
         type: 'bar',
-        height: 400,      
+        height: this.getDataDashboardArea('label','reportes').length > 20 ? 800 : 400,      
         stacked: true,
         //stackType: "100%",
         toolbar: {
@@ -2247,7 +2247,7 @@ this.basicBarChartMonitoreos = {
   }],
   chart: {
       type: 'bar',
-      height: 400,      
+      height: this.getDataDashboardArea('label','monitoreos').length > 20 ? 800 : 400,      
       stacked: true,
       //stackType: "100%",
       toolbar: {
@@ -2339,7 +2339,7 @@ seriesOtros: [{
 }],
   chart: {
       type: 'bar',
-      height: 400,      
+      height: this.getDataDashboardArea('label','otros').length > 20 ? 800 : 400,      
       stacked: true,
       //stackType: "100%",
       toolbar: {
@@ -2435,7 +2435,7 @@ seriesOtros: [{
 }],
     chart: {
         type: 'bar',
-        height: 400,    
+        height: this.getDataDashboardInstallation('label','permisos').length > 20 ? 800 : 400,    
         stacked: true,
         //stackType: "100%",
         toolbar: {
@@ -2527,7 +2527,7 @@ seriesOtros: [{
 }],
   chart: {
       type: 'bar',
-      height: 400,    
+      height: this.getDataDashboardInstallation('label','reportes').length > 20 ? 800 : 400,    
       stacked: true,
       //stackType: "100%",
       toolbar: {
@@ -2619,7 +2619,7 @@ seriesOtros: [{
 }],
 chart: {
     type: 'bar',
-    height: 400,    
+    height: this.getDataDashboardInstallation('label','monitoreos').length > 20 ? 800 : 400,    
     stacked: true,
     //stackType: "100%",
     toolbar: {
@@ -2711,7 +2711,7 @@ seriesOtros: [{
 }],
 chart: {
     type: 'bar',
-    height: 400,    
+    height: this.getDataDashboardInstallation('label','otros').length > 20 ? 800 : 400,    
     stacked: true,
     //stackType: "100%",
     toolbar: {
@@ -2810,7 +2810,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
       }],
       chart: {
           type: 'bar',
-          height: 400,      
+          height: this.getDataDashboardAreaCuerpo('label','general').length > 20 ? 800 : 400,      
           stacked: true,
           //stackType: "100%",
           toolbar: {
@@ -2909,7 +2909,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
       }],
       chart: {
           type: 'bar',
-          height: 400,      
+          height: this.getDataDashboardInstallationCuerpo('label','general').length > 20 ? 800 : 400,      
           stacked: true,
           //stackType: "100%",
           toolbar: {
@@ -4714,32 +4714,32 @@ validateIdparte(idParte: any){
         
         switch (parametro) {
           case 'label':
-            if((criticidad && data_type[x].criticidad[criticidad] > 0) || (!criticidad && data_type[x].total > 0)){
+            //if((criticidad && data_type[x].criticidad[criticidad] > 0) || (!criticidad && data_type[x].total > 0)){
               data.push(data_type[x].nombre);
-            }
+            //}
             break;
           
           case 'value':
-            if(criticidad && data_type[x].criticidad[criticidad] > 0){
+            if(criticidad/* && data_type[x].criticidad[criticidad] > 0*/){
               data.push(data_type[x].criticidad[criticidad]);
             }else{
               
               switch (this.tipo) {
                 case 'Gestionar':              
-                    if(data_type[x].total_gestionar > 0){
+                    //if(data_type[x].total_gestionar > 0){
                       data.push(data_type[x].total_gestionar);
-                    }
+                    //}
                   break;
                   case 'Por definir':              
-                      if(data_type[x].total_definir > 0){
+                      //if(data_type[x].total_definir > 0){
                         data.push(data_type[x].total_definir);
-                      }
+                      //}
                     break;
               
                 default:
-                  if(data_type[x].total > 0){
+                    //if(data_type[x].total > 0){
                     data.push(data_type[x].total);
-                    }
+                    //}
                   break;
               }
             }
