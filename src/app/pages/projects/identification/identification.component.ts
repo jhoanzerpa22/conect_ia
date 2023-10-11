@@ -886,7 +886,7 @@ export class IdentificationComponent implements OnInit {
       colors = this.getChartColorsArray(colors);
       this.simpleDonutChartInstanciasAmbito = {
         series: [{
-          data: [this.getDataDashboard('ma') * this.getDataDashboard('elementos'),this.getDataDashboard('sst') * this.getDataDashboard('elementos'), this.getDataDashboard('energia') * this.getDataDashboard('elementos'), this.getDataDashboard('general') * this.getDataDashboard('elementos'),this.getDataDashboard('laboral') * this.getDataDashboard('elementos')]//this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()
+          data: [this.getDataDashboard('instancias_ma'),this.getDataDashboard('instancias_sst'), this.getDataDashboard('instancias_energia'), this.getDataDashboard('instancias_general'), this.getDataDashboard('instancias_laboral')]//this.ambiente * this.countElementos(), this.energia * this.countElementos(), this.sso * this.countElementos()
         }],
         chart: {
           height: 300,
@@ -4472,6 +4472,26 @@ validateIdparte(idParte: any){
       
         case 'laboral':
             return this.dashboard.ambitoNormativo.articulos.LABORAL ? this.dashboard.ambitoNormativo.articulos.LABORAL : 0;
+            break;
+        
+        case 'instancias_general':
+              return this.dashboard.ambitoNormativo.instancias.GENERAL ? this.dashboard.ambitoNormativo.instancias.GENERAL : 0;
+              break;
+
+        case 'instancias_ma':
+            return this.dashboard.ambitoNormativo.instancias.MA ? this.dashboard.ambitoNormativo.instancias.MA : 0;
+            break;
+        
+        case 'instancias_energia':
+            return this.dashboard.ambitoNormativo.instancias.ENERGIA ? this.dashboard.ambitoNormativo.instancias.ENERGIA : 0;
+            break;
+        
+        case 'instancias_sst':
+            return this.dashboard.ambitoNormativo.instancias.SST ? this.dashboard.ambitoNormativo.instancias.SST : 0;
+            break;
+
+        case 'instancias_laboral':
+            return this.dashboard.ambitoNormativo.instancias.LABORAL ? this.dashboard.ambitoNormativo.instancias.LABORAL : 0;
             break;
             
         case 'alta':
