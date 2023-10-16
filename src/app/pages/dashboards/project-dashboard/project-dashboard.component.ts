@@ -691,6 +691,10 @@ layers = [
       this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations']);
   }
 
+  goControl(){
+    this._router.navigate(['/'+this.project_id+'/project-control']);
+  }
+
   createEvaluation(){
     this.showPreLoader();
     this.projectsService.createEvaluation(this.project_id).pipe().subscribe(
