@@ -439,8 +439,8 @@ export class IdentificationComponent implements OnInit {
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
-    this.getDashboardArea(project_id, 'articulos', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
-    this.getDashboardInstalaciones(project_id, 'articulos', refresh, undefined, areaId, undefined, criticidad);
+    this.getDashboardArea(project_id, this.select_gestion, refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
+    this.getDashboardInstalaciones(project_id, this.select_gestion_instalacion, refresh, undefined, areaId, undefined, criticidad);
 
   }
 
@@ -6072,6 +6072,9 @@ validateIdparte(idParte: any){
   selectGestion(x: any) {
     this.select_gestion = x;
     this.getDashboardArea(this.project_id, x, true);
+    
+    this.setChart();
+
     /*if (x == 'all') {
         this.basicBarChart.series = [{
             data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
@@ -6095,6 +6098,7 @@ validateIdparte(idParte: any){
   selectGestionInstalacion(x: any) {
     this.select_gestion_instalacion = x;
     this.getDashboardInstalaciones(this.project_id, x, true);
+    this.setChart();
   }
   
   selectAreaChart(id?: any){
@@ -7078,8 +7082,8 @@ validateIdparte(idParte: any){
 
   refreshChart(){
     this.getDashboard(this.project_id, false);
-    this.getDashboardArea(this.project_id, 'articulos');
-    this.getDashboardInstalaciones(this.project_id, 'articulos');
+    this.getDashboardArea(this.project_id, this.select_gestion);
+    this.getDashboardInstalaciones(this.project_id, this.select_gestion_instalacion);
 
     this.setChart();
   }
