@@ -1030,7 +1030,11 @@
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-down-s-line"></i></span>
                                         </h4>
-                                        <p>{{g.organismo}}</p>
+                                        <p>{{g.tituloNorma ? (g.tituloNorma.length > 250 ? formatNorma2(g.tituloNorma, g.normaId) : g.tituloNorma) : ''}}<!--{{g.organismo}}--></p>
+                                        <p class="card-text">
+                                            <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && !validatShow3(g.normaId)" (click)="showText3(g.normaId)"><b>Leer más</b></small>
+                                            <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && validatShow3(g.normaId)" (click)="hideText3(g.normaId)"><b>Ocultar texto completo</b></small>
+                                        </p>
                                     <ng-container *ngIf="!validateShowArticles(g.normaId)">
                                     <ng-container *ngFor="let s of g.articulos | filter:term3">
             
