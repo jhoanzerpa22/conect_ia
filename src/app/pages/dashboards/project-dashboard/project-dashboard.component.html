@@ -20,7 +20,8 @@
                                         <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/projects/{{project_id}}/identification"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Identificación</button>
                                     </div>
                                     <div class="col-sm-auto">
-                                        <button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goDashboard()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Dashboard</button>
+                                        <!--<button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goDashboard()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Dashboard</button>-->
+                                        <button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goControl()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Control</button>
                                     </div>
                                 </div>
                         </div>

@@ -109,6 +109,7 @@ export class IdentificationComponent implements OnInit {
   cuerpo_select: any = 'Cuerpo Legal';
   showRow: any = [];
   showRow2: any = [];
+  showRow3: any = [];
   showContainerArticles: any = [];
 
   submitted = false;
@@ -3708,6 +3709,16 @@ getChart(criticidad: any, config: any){
   return index != -1 ? texto : texto.substr(0,250)+'...';
 }
 
+formatNorma2(texto:any, idParte: any){
+    
+  const index = this.showRow3.findIndex(
+    (co: any) =>
+      co == idParte
+  );
+
+  return index != -1 ? texto : texto.substr(0,250)+'...';
+}
+
 validateIdparte2(idParte: any){
   const index = this.articles_proyects_group.findIndex(
     (co: any) =>
@@ -3739,6 +3750,30 @@ hideText2(idParte: any){
 
   this.showRow2.splice(index, 1);
 }
+
+validatShow3(idParte: any){
+  const index = this.showRow3.findIndex(
+    (co: any) =>
+      co == idParte
+  );
+
+  return index != -1;
+}
+
+showText3(idParte: any){
+  this.showRow3.push(idParte);
+}
+
+hideText3(idParte: any){
+  
+  const index = this.showRow3.findIndex(
+    (co: any) =>
+      co == idParte
+  );
+
+  this.showRow3.splice(index, 1);
+}
+
 
  formatArticle(texto:any, idParte: any){
     

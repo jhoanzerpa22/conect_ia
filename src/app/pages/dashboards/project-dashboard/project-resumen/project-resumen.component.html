@@ -11,15 +11,719 @@
         <div class="card">
             <div class="card-header align-items-xl-center d-xl-flex">
                 <div class="flex-grow-1 mb-xl-0">
-                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/{{project_id}}/project-dashboard"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Evaluaciones</button>
+                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/{{project_id}}/project-dashboard/evaluations"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Evaluaciones</button>
                 </div>
                 <!--<p class="text-muted flex-grow-1 mb-xl-0">Use <code>card-header-pills</code> class to create header justify tab.</p>-->
-                <div class="flex-shrink-0">
+                <!--<div class="flex-shrink-0">
                     <button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goControl()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Control</button>
-                </div>
+                </div>-->
             </div><!-- end card header -->
             <div class="card-body">
+
+                <div class="align-items-xl-center d-xl-flex mb-3">
+                    <p class="text-muted flex-grow-1 mb-xl-0"></p>
+                    <div class="flex-shrink-0">
+                <ul ngbNav #Header="ngbNav" [activeId]="1" class="nav nav-pills card-header-pills">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink>
+                          Operaciones
+                        </a>
+                        <ng-template ngbNavContent>
+                            
+                        <div class="row g-4 mb-3">
+                    
+                            <!--<div class="col-2">-->
+                                <div class="chip">
+                                    Corporativo
+                                    <!--<span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>-->
+                                </div>
+                            <!--</div>-->
+                            <ng-container *ngFor="let arc of areas_select_chart;">
+                                <!--<div class="col-2">-->
+                                    <div class="chip">
+                                        {{arc.nombre}}
+                                        <span class="closebtn" (click)="deleteAreaChart(arc.id)">&times;</span><!-- onclick="this.parentElement.style.display='none'"-->
+                                    </div>
+                                <!--</div>-->
+                            </ng-container>
+                          </div>
+
+                          <div class="row g-4 mb-3">
+                            
+                            <div class="col-12">
+
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-primary" style="
+                                    width: 100%;
+                                    text-align: left;
+                                ">Selecciona el área</button>    
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <ng-container *ngFor="let ar of areas_chart;">
+                                            <a class="dropdown-item" href="javascript:void(0);" (click)="selectAreaChart(ar.id)">{{ar.nombre}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                            <div class="col-6">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo ? 'Cumplimiento' : tipo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!tipo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo()">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Cumple')">Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'Cumple Parcial' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Cumple Parcial')">Cumple Parcial</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'No Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('No Cumple')">No Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'No Evaluado' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('No Evaluado')">No Evaluado</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                            
+                            <div class="col-6">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light  dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo">{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo"></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('No especificado')">No especificado</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                          </div>
+        
+                        <div class="row">
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES EVALUADOS</p>
+                                                
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value">
+                                                        21/35
+                                                        <!--{{getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir'))}}--></span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                                                
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value"
+                                                        ><!--{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}-->
+                                                        4/30
+                                                    </span>
+                                                </h4>
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                    
+                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
+                                        <h4 class="fs-1">
+                                            <span class="counter-value"><!--{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}-->
+                                                20/20
+                                            </span>
+                                        </h4>
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                    
+                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
+                                         
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value"><!--{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}-->
+                                                    10/20
+                                                    </span>
+                                                </h4>
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                    
+                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                                    
+                        <div class="row">
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                                                
+                                        <!--<div class="d-flex align-items-center">
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                                                    <i class="ri-money-dollar-circle-fill"></i>
+                                                </span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">-->
+                                                <h4 class="fs-1"><span class="counter-value"
+                                                        >{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
+                                                
+                                        <!--<div class="d-flex align-items-center">
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                                                    <i class="ri-money-dollar-circle-fill"></i>
+                                                </span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">-->
+                                                <h4 class="fs-1"><span class="counter-value"
+                                                        >{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}</span></h4><!--[from]="0" [duration]="1" [CountTo]="getDataDashboard('reportes')" countAtributo('reporte')-->
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
+                                                
+                                        <!--<div class="d-flex align-items-center">
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                                                    <i class="ri-money-dollar-circle-fill"></i>
+                                                </span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">-->
+                                                <h4 class="fs-1"><span  class="counter-value"
+                                                        >{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                                                
+                                        <!--<div class="d-flex align-items-center">
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
+                                                    <i class="ri-money-dollar-circle-fill"></i>
+                                                </span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">-->
+                                                <h4 class="fs-1"><span  class="counter-value"
+                                                        >{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('otros')" [from]="0" [duration]="1" countAtributo()-->
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <h4>Cumplimiento</h4>
+                        
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Cuerpos Legales</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartCuerpos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+                        
+                                                <apx-chart [series]="simpleDonutChartCuerpos.series" [chart]="simpleDonutChartCuerpos.chart"
+                                                [labels]="simpleDonutChartCuerpos.labels" [responsive]="simpleDonutChartCuerpos.responsive"
+                                                [legend]="simpleDonutChartCuerpos.legend" [dataLabels]="simpleDonutChartCuerpos.dataLabels"
+                                                [colors]="simpleDonutChartCuerpos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartCuerpos.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Artículos</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartArticulos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+        
+                                                <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
+                                                [labels]="simpleDonutChartArticulos.labels" [responsive]="simpleDonutChartArticulos.responsive"
+                                                [legend]="simpleDonutChartArticulos.legend" [dataLabels]="simpleDonutChartArticulos.dataLabels"
+                                                [colors]="simpleDonutChartArticulos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartArticulos.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                          
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                
+                                                <h4>Instancias de cumplimiento</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartInstancias.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+        
+                                                <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
+                                                [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
+                                                [legend]="simpleDonutChartInstancias.legend" [dataLabels]="simpleDonutChartInstancias.dataLabels"
+                                                [colors]="simpleDonutChartInstancias.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartInstancias.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            
+                                            <div class="col-sm-3">
+                                                <div class="card">
+                                                    <div class="card-body">
+        
+                                                <h4>Permisos</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartPermisos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+                        
+                                                <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
+                                                [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
+                                                [legend]="simpleDonutChartPermisos.legend" [dataLabels]="simpleDonutChartPermisos.dataLabels"
+                                                [colors]="simpleDonutChartPermisos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartPermisos.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                                            <div class="col-sm-3">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Reportes</h4>
+        
+                                                <div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartReportes.series)">
+                                                    <h4>No existe información</h4>
+                                                </div>
+                                                
+                                                <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
+                                                [labels]="simpleDonutChartReportes.labels" [responsive]="simpleDonutChartReportes.responsive"
+                                                [legend]="simpleDonutChartReportes.legend" [dataLabels]="simpleDonutChartReportes.dataLabels"
+                                                [colors]="simpleDonutChartReportes.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartReportes.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                                            
+                                            <div class="col-sm-3">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Monitoreos</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartMonitoreos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+        
+                                                <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
+                                                [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
+                                                [legend]="simpleDonutChartMonitoreos.legend" [dataLabels]="simpleDonutChartMonitoreos.dataLabels"
+                                                [colors]="simpleDonutChartMonitoreos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartMonitoreos.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                                            <div class="col-sm-3">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Otras obligaciones</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartOtros.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+        
+                                                <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
+                                                [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
+                                                [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
+                                                [colors]="simpleDonutChartOtros.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartOtros.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <h4>Información específica por área</h4>
+                                            
+                                            <div class="col-sm-12">
+                                                
+                                            <div class="card card-height-100">
+                                                <div class="card-header align-items-center d-flex">
+                                                    <h4 class="flex-grow-1">Gestión por área</h4><!--card-title mb-0 -->
+                                                    <div class="d-flex gap-1">
+                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
+                                                            Cuerpos
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('articulos')">
+                                                            Árticulos
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('instancias')">
+                                                            Instancias
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <div>
+                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
+                                                            [chart]="getChart(criticidad, basicBarChartGeneral.chart)" [dataLabels]="basicBarChartGeneral.dataLabels"
+                                                            [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr"
+                                                            [xaxis]="basicBarChartGeneral.xaxis" [stroke]="basicBarChartGeneral.stroke"
+                                                            [fill]="basicBarChartGeneral.fill" [title]="basicBarChartGeneral.title"
+                                                            [tooltip]="basicBarChartGeneral.tooltip" [legend]="basicBarChartGeneral.legend"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <div class="col-sm-6">
+                                                
+                                            <div class="card card-height-100">
+                                                <div class="card-body">
+                                                    
+                                                    <h4>Permisos por área</h4>
+        
+                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
+                                                        [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
+                                                            [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr"
+                                                            [xaxis]="basicBarChartPermisos.xaxis" [stroke]="basicBarChartPermisos.stroke"
+                                                            [fill]="basicBarChartPermisos.fill" [title]="basicBarChartPermisos.title"
+                                                            [tooltip]="basicBarChartPermisos.tooltip" [legend]="basicBarChartPermisos.legend"></apx-chart>
+                                                    
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                
+                                                <div class="card card-height-100">
+                                                    <div class="card-body">
+                                                        
+                                                        <h4>Reportes por área</h4>
+            
+                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
+                                                                [chart]="getChart(criticidad, basicBarChartReportes.chart)" [dataLabels]="basicBarChartReportes.dataLabels"
+                                                                [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" 
+                                                                [xaxis]="basicBarChartReportes.xaxis" [stroke]="basicBarChartReportes.stroke"
+                                                                [fill]="basicBarChartReportes.fill" [title]="basicBarChartReportes.title"
+                                                                [tooltip]="basicBarChartReportes.tooltip" [legend]="basicBarChartReportes.legend"></apx-chart>
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <div class="col-sm-6">
+                                                
+                                            <div class="card card-height-100">
+                                                <div class="card-body">
+                                                    
+                                                    <h4>Monitoreos por área</h4>
+        
+                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
+                                                            [chart]="getChart(criticidad, basicBarChartMonitoreos.chart)" [dataLabels]="basicBarChartMonitoreos.dataLabels"
+                                                            [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" 
+                                                            [xaxis]="basicBarChartMonitoreos.xaxis" [stroke]="basicBarChartMonitoreos.stroke"
+                                                            [fill]="basicBarChartMonitoreos.fill" [title]="basicBarChartMonitoreos.title"
+                                                            [tooltip]="basicBarChartMonitoreos.tooltip" [legend]="basicBarChartMonitoreos.legend"></apx-chart>
+                                                    
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                
+                                                <div class="card card-height-100">
+                                                    <div class="card-body">
+                                                        
+                                                        <h4>Otras Obligaciones por área</h4>
+            
+                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
+                                                                [chart]="getChart(criticidad, basicBarChartOtros.chart)" [dataLabels]="basicBarChartOtros.dataLabels"
+                                                                [plotOptions]="basicBarChartOtros.plotOptions" dir="ltr"
+                                                                [xaxis]="basicBarChartOtros.xaxis"  [stroke]="basicBarChartOtros.stroke"
+                                                                [fill]="basicBarChartOtros.fill" [title]="basicBarChartOtros.title"
+                                                                [tooltip]="basicBarChartOtros.tooltip" [legend]="basicBarChartOtros.legend"></apx-chart>
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>
+                                        </div>
+                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <h4>Ámbito normativo a gestionar</h4>
+                                            
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Cuerpos Legales</h4>
+                        
+                                                <apx-chart [series]="simpleDonutChartCuerposAmbito.series" [chart]="simpleDonutChartCuerposAmbito.chart"
+                                                [labels]="simpleDonutChartCuerposAmbito.labels" [responsive]="simpleDonutChartCuerposAmbito.responsive"
+                                                [legend]="simpleDonutChartCuerposAmbito.legend" [dataLabels]="simpleDonutChartCuerposAmbito.dataLabels"
+                                                [colors]="simpleDonutChartCuerposAmbito.colors" dir="ltr"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Artículos</h4>
+                                                
+                                                <apx-chart [series]="simpleDonutChartArticulosAmbito.series" [chart]="simpleDonutChartArticulosAmbito.chart"
+                                                [labels]="simpleDonutChartArticulosAmbito.labels" [responsive]="simpleDonutChartArticulosAmbito.responsive"
+                                                [legend]="simpleDonutChartArticulosAmbito.legend" [dataLabels]="simpleDonutChartArticulosAmbito.dataLabels"
+                                                [colors]="simpleDonutChartArticulosAmbito.colors" dir="ltr"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                            
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Instancias</h4>
+                                                <apx-chart [series]="simpleDonutChartInstanciasAmbito.series" [chart]="simpleDonutChartInstanciasAmbito.chart"
+                                                [labels]="simpleDonutChartInstanciasAmbito.labels" [responsive]="simpleDonutChartInstanciasAmbito.responsive"
+                                                [legend]="simpleDonutChartInstanciasAmbito.legend" [dataLabels]="simpleDonutChartInstanciasAmbito.dataLabels"
+                                                [colors]="simpleDonutChartInstanciasAmbito.colors" dir="ltr"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            
+                                            <h4>Información específica por Elemento y actividad</h4>
+                                            <div class="col-sm-12">
+                                                
+                                            <div class="card card-height-100">
+                                                <div class="card-header align-items-center d-flex">
+                                                    <h4 class="flex-grow-1">Gestión por Elemento y actividad</h4><!--card-title mb-0 -->
+                                                    <div class="d-flex gap-1">
+                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('cuerpoLegal')">
+                                                            Cuerpos
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('articulos')">
+                                                            Árticulos
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('instancias')">
+                                                            Instancias
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <div>
+                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
+                                                            [chart]="getChart(criticidad, basicBarChartGeneralInstallation.chart)" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
+                                                            [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr"
+                                                            [xaxis]="basicBarChartGeneralInstallation.xaxis" [stroke]="basicBarChartGeneralInstallation.stroke"
+                                                            [fill]="basicBarChartGeneralInstallation.fill" [title]="basicBarChartGeneralInstallation.title"
+                                                            [tooltip]="basicBarChartGeneralInstallation.tooltip" [legend]="basicBarChartGeneralInstallation.legend"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <div class="col-sm-6">
+                                                
+                                            <div class="card card-height-100">
+                                                <div class="card-body">
+                                                    
+                                                    <h4>Permisos por Elemento y actividad</h4>
+        
+                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
+                                                            [chart]="getChart(criticidad, basicBarChartPermisosInstallations.chart)" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
+                                                            [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" 
+                                                            [xaxis]="basicBarChartPermisosInstallations.xaxis" [stroke]="basicBarChartPermisosInstallations.stroke"
+                                                            [fill]="basicBarChartPermisosInstallations.fill" [title]="basicBarChartPermisosInstallations.title"
+                                                            [tooltip]="basicBarChartPermisosInstallations.tooltip" [legend]="basicBarChartPermisosInstallations.legend"></apx-chart>
+                                                    
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                
+                                                <div class="card card-height-100">
+                                                    <div class="card-body">
+                                                        
+                                                        <h4>Reportes por Elemento y actividad</h4>
+            
+                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
+                                                                [chart]="getChart(criticidad, basicBarChartReportesInstallations.chart)" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
+                                                                [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" 
+                                                                [xaxis]="basicBarChartReportesInstallations.xaxis" [stroke]="basicBarChartReportesInstallations.stroke"
+                                                                [fill]="basicBarChartReportesInstallations.fill" [title]="basicBarChartReportesInstallations.title"
+                                                                [tooltip]="basicBarChartReportesInstallations.tooltip" [legend]="basicBarChartReportesInstallations.legend"></apx-chart>
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <div class="col-sm-6">
+                                                
+                                            <div class="card card-height-100">
+                                                <div class="card-body">
+                                                    
+                                                    <h4>Monitoreos por Elemento y actividad</h4>
+        
+                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
+                                                            [chart]="getChart(criticidad, basicBarChartMonitoreosInstallations.chart)" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
+                                                            [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" 
+                                                            [xaxis]="basicBarChartMonitoreosInstallations.xaxis" [stroke]="basicBarChartMonitoreosInstallations.stroke"
+                                                            [fill]="basicBarChartMonitoreosInstallations.fill" [title]="basicBarChartMonitoreosInstallations.title"
+                                                            [tooltip]="basicBarChartMonitoreosInstallations.tooltip" [legend]="basicBarChartMonitoreosInstallations.legend"></apx-chart>
+                                                    
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                
+                                                <div class="card card-height-100">
+                                                    <div class="card-body">
+                                                        
+                                                        <h4>Otras Obligaciones por Elemento y actividad</h4>
+            
+                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
+                                                                [chart]="getChart(criticidad, basicBarChartOtrosInstallations.chart)" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
+                                                                [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" 
+                                                                [xaxis]="basicBarChartOtrosInstallations.xaxis" [stroke]="basicBarChartOtrosInstallations.stroke"
+                                                                [fill]="basicBarChartOtrosInstallations.fill" [title]="basicBarChartOtrosInstallations.title"
+                                                                [tooltip]="basicBarChartOtrosInstallations.tooltip" [legend]="basicBarChartOtrosInstallations.legend"></apx-chart>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                 
+                  </ng-template>
+                  </li>
+                  
+                  <li [ngbNavItem]="2">
+                    <a ngbNavLink>
+                      Cuerpos Legales
+                    </a>
+                    <ng-template ngbNavContent>
+                        
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="row mb-3">
@@ -113,6 +817,17 @@
                         <apx-chart [series]="simplePieChartArticulos.series" [chart]="simplePieChartArticulos.chart" [labels]="simplePieChartArticulos.labels" [legend]="simplePieChartArticulos.legend" [dataLabels]="simplePieChartArticulos.dataLabels" [responsive]="simplePieChartArticulos.responsive" [colors]="simplePieChartArticulos.colors" dir="ltr"></apx-chart>
                     </div>
                   </div>
+                    </ng-template>
+                  </li>
+                </ul>
+
+            </div>
+        </div>
+                
+                <div class="tab-content text-muted">
+                    <div [ngbNavOutlet]="Header"></div>
+                </div>
+                  
             </div><!-- end card-body -->
         </div><!-- end card -->
         </div><!--end col-->

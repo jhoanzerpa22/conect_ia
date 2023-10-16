@@ -696,6 +696,10 @@ layers = [
   goControl(){
     this._router.navigate(['/'+this.project_id+'/project-control']);
   }
+  
+  goDashboard(){
+    this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen']);
+  }
 
   terminar(){
 
