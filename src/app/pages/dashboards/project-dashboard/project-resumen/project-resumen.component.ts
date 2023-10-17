@@ -4,6 +4,7 @@ import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../core/services/projects.service';
 import { round } from 'lodash';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-project-resumen',
@@ -30,7 +31,9 @@ export class ProjectResumenComponent implements OnInit {
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
+  type: any = '';
   project: any = {};
+  projects: any = [];
   evaluations: any = {};
 
   installations_data: any = [];
@@ -59,6 +62,8 @@ export class ProjectResumenComponent implements OnInit {
   filtro_articulo: any;
   filtro_articuloId: any;
   filtro_atributo: any;
+  filtro_proyecto: any;
+  filtro_proyectoId: any;
   areas: any = [];
   areas_chart: any;
   areas_select_chart: any = [];
@@ -148,17 +153,16 @@ export class ProjectResumenComponent implements OnInit {
 
   articles_filter: any = [];
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private _location: Location) {
   }
 
   ngOnInit(): void {
+
     /**
      * BreadCrumb
      */
     this.breadCrumbItems = [
-      { label: 'Proyecto' },
-      { label: 'Evaluación' },
-      { label: 'Dashboard', active: true }
+      { label: 'Tablero', active: true }
     ];
 
     if (localStorage.getItem('toast')) {
@@ -166,12 +170,27 @@ export class ProjectResumenComponent implements OnInit {
     }
 
     this.route.params.subscribe(params => {
-      this.project_id = params['id'];
-      this.getProject(params['id']);    
-      this.getAreas(params['id']);
-      this.getEvaluations(params['id']);
-      this.getInstallations(params['id']);
-      this.getDashboard(params['id'])
+      /**
+     * BreadCrumb
+     */
+      this.breadCrumbItems = [
+        { label: 'Proyecto' },
+        { label: params['type'] == 'control' ? 'Control' : 'Evaluación' },
+        { label: 'Dashboard', active: true }
+      ];
+
+      this.type = params['type'];
+
+      if(params['id']){
+        this.project_id = params['id'];
+        this.getProject(params['id']);    
+        this.getAreas(params['id']);
+        this.getEvaluations(params['id']);
+        this.getInstallations(params['id']);
+        this.getDashboard(params['id'])
+      }else{
+        this.getProjects();
+      }
     });
 
     /**
@@ -188,8 +207,42 @@ export class ProjectResumenComponent implements OnInit {
     this.setChart();
   }
 
-  ngAfterViewInit() {
-    //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+  private getProjects() {
+    
+    this.showPreLoader();
+      this.projectsService.get().pipe().subscribe(
+        (data: any) => {
+          let resp: any = data.data;
+          let proyectos: any = [];
+
+          for (var j = 0; j < resp.length; j++) {
+            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3){
+              proyectos.push(resp[j]);
+            }
+          }
+          this.projects = proyectos;
+
+          if(proyectos.length > 0){
+            const proyecto = proyectos[0].id;
+            this.filtro_proyectoId = proyecto;
+            this.filtro_proyecto = proyectos[0].nombre;
+            this.project_id = proyecto;
+            
+            this.getProject(proyecto);    
+            this.getAreas(proyecto);
+            this.getEvaluations(proyecto);
+            this.getInstallations(proyecto);
+            this.getDashboard(proyecto)
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
   }
 
   goDetail(id: any){
@@ -198,6 +251,10 @@ export class ProjectResumenComponent implements OnInit {
   
   goControl(){
     this._router.navigate(['/'+this.project_id+'/project-control']);
+  }
+
+  regresar() {
+    this._location.back();
   }
 
   getProject(idProject?: any){
@@ -4636,8 +4693,8 @@ getChart(criticidad: any, config: any){
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
-    this.getDashboardArea(project_id, 'articulos', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
-    this.getDashboardInstalaciones(project_id, 'articulos', refresh, undefined, areaId, undefined, criticidad);
+    //this.getDashboardArea(project_id, 'articulos', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
+    //this.getDashboardInstalaciones(project_id, 'articulos', refresh, undefined, areaId, undefined, criticidad);
 
   }
 
@@ -4773,6 +4830,30 @@ getChart(criticidad: any, config: any){
         this.articulos_chart = [];
     }*/
 
+  }
+  
+  selectProjectFiltro(id?: any, nombre?: any){
+    this.filtro_proyectoId = id > 0 ? id : null;
+    this.filtro_proyecto = id > 0 ? nombre : null;
+    
+    if(id > 0){
+      
+      this.project_id = id;
+            
+      this.getProject(id);    
+      this.getAreas(id);
+      this.getEvaluations(id);
+      this.getInstallations(id);
+      
+      this.resetFiltro(this.project_id, true, this.filtro_area, this. criticidad);
+    
+      this.setChart();
+    }else{
+      
+      /*this.resetFiltro(this.project_id, true, this.filtro_area, this. criticidad);
+    
+      this.setChart();*/
+    }
   }
 
   selectArticuloFiltro(id?: any, articulo?: any){

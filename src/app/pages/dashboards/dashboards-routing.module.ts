@@ -16,6 +16,10 @@ import { ProjectResumenComponent } from './project-dashboard//project-resumen/pr
 
 const routes: Routes = [
   {
+    path: "",
+    component: ProjectResumenComponent
+  },
+  {
     path: "analytics",
     component: AnalyticsComponent
   },
@@ -52,7 +56,7 @@ const routes: Routes = [
     component: ProjectEvaluationsComponent
   },
   {
-    path: ":id/project-dashboard/resumen",
+    path: ":id/project-dashboard/resumen/:type",
     component: ProjectResumenComponent
   },
   {

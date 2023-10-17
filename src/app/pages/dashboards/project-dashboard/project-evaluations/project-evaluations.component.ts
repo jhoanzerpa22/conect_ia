@@ -698,7 +698,7 @@ layers = [
   }
   
   goDashboard(){
-    this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen']);
+    this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen/evaluation']);
   }
 
   terminar(){
