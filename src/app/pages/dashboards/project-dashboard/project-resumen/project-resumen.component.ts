@@ -913,11 +913,27 @@ layers = [
     return colors;
   }
 
-  getColorsCriticidad(criticidad?: any){
+  getColorsCriticidad(criticidad?: any, atributo?: any){
     let colors: any = [];
 
     if(!criticidad){
-        colors = '["--vz-info"]';
+      switch (atributo) {
+        case 'permiso':        
+          colors = '["--vz-success","--vz-success","--vz-warning","--vz-warning","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-gray"]';
+          break;
+        
+        case 'reporte':        
+          colors = '["--vz-success","--vz-success","--vz-warning","--vz-warning","--vz-warning","--vz-danger","--vz-gray"]';
+          break;
+        
+        case 'monitoreo':        
+          colors = '["--vz-success","--vz-success","--vz-warning","--vz-warning","--vz-warning","--vz-danger","--vz-danger","--vz-gray"]';
+          break;
+      
+        default:        
+          colors = '["--vz-info"]';
+          break;
+      }
     }else{
       switch (criticidad) {
           case 'Alta':
@@ -1687,7 +1703,7 @@ layers = [
     colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartOtros = {
-      series: this.getSeriesTipo('otros_gestionar','otros_definir','otros_alta','otros_media','otros_baja','otros_otros'),//[this.getDataDashboard('otros_gestionar'), this.getDataDashboard('otros_definir')],//this.countAtributoEstado('1'), this.countAtributoEstado('2')
+      series: [11,20,5,4],//this.getSeriesTipo('otros_gestionar','otros_definir','otros_alta','otros_media','otros_baja','otros_otros'),
       chart: {
         height: 300,
         type: "donut",
@@ -1700,7 +1716,7 @@ layers = [
           enabled: false,
         },
       },
-      labels: this.getCategories(),//["Gestionar","Por definir"],
+      labels: ['Cumple','Cumple Parcial','No Cumple','No evaluado'],//this.getCategories(),
       colors: colors,
     };
   }
@@ -2977,47 +2993,51 @@ layers = [
 
   private _basicBarChartAtributos(colors: any) {
     colors = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad));
+    let colors_permisos = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad, 'permiso'));
+    let colors_reportes = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad, 'reporte'));
+    let colors_monitoreos = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad, 'monitoreo'));
+
     this.basicBarChartPermisos = {
       series: [{
-          data: this.getDataDashboardArea('value','permisos'),
+          data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos'),
           name: 'Articulos',
       }],
       seriesCriticidad: [{
-        data: this.getDataDashboardArea('value','permisos','alta'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','alta'),
         name: 'Alta',
       },
       {
-        data: this.getDataDashboardArea('value','permisos','media'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','media'),
         name: 'Media',
       },
       {
-        data: this.getDataDashboardArea('value','permisos','baja'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','baja'),
         name: 'Baja',
       },
       {
-        data: this.getDataDashboardArea('value','permisos','otros'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','otros'),
         name: 'No especificado',
       }],
       seriesAlta: [{
-        data: this.getDataDashboardArea('value','permisos','alta'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','alta'),
         name: 'Alta',
       }],
       seriesMedia: [{
-        data: this.getDataDashboardArea('value','permisos','media'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','media'),
         name: 'Media',
       }],
       seriesBaja: [{
-        data: this.getDataDashboardArea('value','permisos','baja'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','baja'),
         name: 'Baja',
       }],
       seriesOtros: [{
-        data: this.getDataDashboardArea('value','permisos','otros'),
+        data: [1, 3, 4, 1, 1, 5, 2, 2, 6, 1, 0, 0],//this.getDataDashboardArea('value','permisos','otros'),
         name: 'No especificado',
       }],
       chart: {
           type: 'bar',
-          height: this.getDataDashboardArea('label','permisos').length > 20 ? 800 : 400,      
-          stacked: true,
+          height: 400,//this.getDataDashboardArea('label','permisos').length > 20 ? 800 : 400,      
+          //stacked: true,
           //stackType: "100%",
           toolbar: {
               show: false,
@@ -3027,8 +3047,8 @@ layers = [
           bar: {
               //borderRadius: 4,
               horizontal: true,
-              /*distributed: true,
-              dataLabels: {
+              distributed: true,
+              /*dataLabels: {
                   position: 'top',
               },*/
           }
@@ -3046,7 +3066,7 @@ layers = [
               colors: ['#adb5bd']
           }
       },
-      colors: colors,
+      colors: colors_permisos,
       tooltip: {
         y: {
           formatter: function (val:any) {
@@ -3059,57 +3079,57 @@ layers = [
       },
       legend: {
           position: "top",
-          //show: false,
+          show: false,
       },
       /*grid: {
           show: false,
       },*/
       xaxis: {
-          categories: this.getDataDashboardArea('label','permisos')
+          categories: ['Aprobado y vigente', 'Actualizado/Regularizado', 'Desmovilizado', 'Desactualizado', 'Rechazado', 'Caducado', 'Suspendido', 'Revocado', 'Por Gestionar', 'En elaboración', 'En trámite', 'No evaluado']//this.getDataDashboardArea('label','permisos')
       },
   };
   
   this.basicBarChartReportes = {
     series: [{
-        data: this.getDataDashboardArea('value','reportes'),
+        data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes'),
         name: 'Articulos',
     }],
     seriesCriticidad: [{
-      data: this.getDataDashboardArea('value','reportes','alta'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','alta'),
       name: 'Alta',
     },
     {
-      data: this.getDataDashboardArea('value','reportes','media'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','media'),
       name: 'Media',
     },
     {
-      data: this.getDataDashboardArea('value','reportes','baja'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','baja'),
       name: 'Baja',
     },
     {
-      data: this.getDataDashboardArea('value','reportes','otros'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','otros'),
       name: 'No especificado',
     }],
     seriesAlta: [{
-      data: this.getDataDashboardArea('value','reportes','alta'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','alta'),
       name: 'Alta',
     }],
     seriesMedia: [{
-      data: this.getDataDashboardArea('value','reportes','media'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','media'),
       name: 'Media',
     }],
     seriesBaja: [{
-      data: this.getDataDashboardArea('value','reportes','baja'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','baja'),
       name: 'Baja',
     }],
     seriesOtros: [{
-      data: this.getDataDashboardArea('value','reportes','otros'),
+      data: [3, 2, 3, 5, 1, 3, 1],//this.getDataDashboardArea('value','reportes','otros'),
       name: 'No especificado',
     }],
     chart: {
         type: 'bar',
-        height: this.getDataDashboardArea('label','reportes').length > 20 ? 800 : 400,      
-        stacked: true,
+        height: 400,//this.getDataDashboardArea('label','reportes').length > 20 ? 800 : 400,      
+        //stacked: true,
         //stackType: "100%",
         toolbar: {
             show: false,
@@ -3119,8 +3139,8 @@ layers = [
         bar: {
             //borderRadius: 4,
             horizontal: true,
-            /*distributed: true,
-            dataLabels: {
+            distributed: true,
+            /*dataLabels: {
                 position: 'top',
             },*/
         }
@@ -3138,7 +3158,7 @@ layers = [
             colors: ['#adb5bd']
         }
     },
-    colors: colors,
+    colors: colors_reportes,
     tooltip: {
       y: {
         formatter: function (val:any) {
@@ -3151,57 +3171,57 @@ layers = [
     },
     legend: {
         position: "top",
-        //show: false,
+        show: false,
     },
     /*grid: {
         show: false,
     },*/
     xaxis: {
-        categories: this.getDataDashboardArea('label','reportes')
+        categories: ['Reporte Regularizado', 'Reportado dentro del plazo sin desviaciones', 'Reportado fuera de plazo con desviaciones', 'Reportado fuera de plazo sin desviaciones', 'Reportado dentro del plazo con desviaciones', 'No reportado', 'No evaluado']//this.getDataDashboardArea('label','reportes')
     },
 };
 
 this.basicBarChartMonitoreos = {
   series: [{
-      data: this.getDataDashboardArea('value','monitoreos'),
+      data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos'),
       name: 'Articulos',
   }],
   seriesCriticidad: [{
-    data: this.getDataDashboardArea('value','monitoreos','alta'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','alta'),
     name: 'Alta',
   },
   {
-    data: this.getDataDashboardArea('value','monitoreos','media'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','media'),
     name: 'Media',
   },
   {
-    data: this.getDataDashboardArea('value','monitoreos','baja'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','baja'),
     name: 'Baja',
   },
   {
-    data: this.getDataDashboardArea('value','monitoreos','otros'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','otros'),
     name: 'No especificado',
   }],
   seriesAlta: [{
-    data: this.getDataDashboardArea('value','monitoreos','alta'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','alta'),
     name: 'Alta',
   }],
   seriesMedia: [{
-    data: this.getDataDashboardArea('value','monitoreos','media'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','media'),
     name: 'Media',
   }],
   seriesBaja: [{
-    data: this.getDataDashboardArea('value','monitoreos','baja'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','baja'),
     name: 'Baja',
   }],
   seriesOtros: [{
-    data: this.getDataDashboardArea('value','monitoreos','otros'),
+    data: [3, 7, 4, 2, 6, 1, 1, 0],//this.getDataDashboardArea('value','monitoreos','otros'),
     name: 'No especificado',
   }],
   chart: {
       type: 'bar',
-      height: this.getDataDashboardArea('label','monitoreos').length > 20 ? 800 : 400,      
-      stacked: true,
+      height: 400,//this.getDataDashboardArea('label','monitoreos').length > 20 ? 800 : 400,      
+      //stacked: true,
       //stackType: "100%",
       toolbar: {
           show: false,
@@ -3215,8 +3235,8 @@ this.basicBarChartMonitoreos = {
       bar: {
           //borderRadius: 4,
           horizontal: true,
-          /*distributed: true,
-          dataLabels: {
+          distributed: true,
+          /*dataLabels: {
               position: 'top',
           },*/
       }
@@ -3230,7 +3250,7 @@ this.basicBarChartMonitoreos = {
           colors: ['#adb5bd']
       }
   },
-  colors: colors,
+  colors: colors_monitoreos,
   tooltip: {
     y: {
       formatter: function (val:any) {
@@ -3243,13 +3263,13 @@ this.basicBarChartMonitoreos = {
   },
   legend: {
       position: "top",
-      //show: false,
+      show: false,
   },
   /*grid: {
       show: false,
   },*/
   xaxis: {
-      categories: this.getDataDashboardArea('label','monitoreos')
+      categories: ['Monitoreo Regularizado', 'Ejecutado dentro del plazo sin desviaciones', 'Ejecutado fuera de plazo con desviaciones', 'Ejecutado fuera de plazo sin desviaciones', 'Ejecutado dentro del plazo con desviaciones', 'No ejecutado', 'En evaluación', 'No evaluado']//this.getDataDashboardArea('label','monitoreos')
   },
 };
 

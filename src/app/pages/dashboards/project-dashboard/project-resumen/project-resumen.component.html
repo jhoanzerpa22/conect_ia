@@ -119,14 +119,14 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES EVALUADOS</p>
                                                 
                                                 <h4 class="fs-1">
-                                                    <span class="counter-value">
+                                                    <span class="counter-value" style="color: #405189;">
                                                         21/35
                                                         <!--{{getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir'))}}--></span>
                                                 </h4>
                                     </div>
-                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
-                                            <span class="counter-value">
+                                            <span class="counter-value text-success">
                                                 15%
                                             </span>
                                         </h4>
@@ -141,7 +141,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
                                                 
                                                 <h4 class="fs-1">
-                                                    <span class="counter-value"
+                                                    <span class="counter-value" style="color: #405189;"
                                                         ><!--{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}-->
                                                         4/30
                                                     </span>
@@ -150,9 +150,9 @@
                                         </div>-->
                                     </div>
                                     
-                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
-                                            <span class="counter-value">
+                                            <span class="counter-value text-success">
                                                 15%
                                             </span>
                                         </h4>
@@ -166,7 +166,7 @@
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                         <h4 class="fs-1">
-                                            <span class="counter-value"><!--{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}-->
+                                            <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}-->
                                                 20/20
                                             </span>
                                         </h4>
@@ -174,9 +174,9 @@
                                         </div>-->
                                     </div>
                                     
-                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
-                                            <span class="counter-value">
+                                            <span class="counter-value text-success">
                                                 15%
                                             </span>
                                         </h4>
@@ -192,7 +192,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
                                          
                                                 <h4 class="fs-1">
-                                                    <span class="counter-value"><!--{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}-->
+                                                    <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}-->
                                                     10/20
                                                     </span>
                                                 </h4>
@@ -200,9 +200,9 @@
                                         </div>-->
                                     </div>
                                     
-                                    <div class="card-footer align-self-center" style="text-align: center; width: 230px;">
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
-                                            <span class="counter-value">
+                                            <span class="counter-value text-success">
                                                 15%
                                             </span>
                                         </h4>
@@ -218,18 +218,20 @@
                                 <div class="card card-height-100">
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
-                                                
-                                        <!--<div class="d-flex align-items-center">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
-                                                    <i class="ri-money-dollar-circle-fill"></i>
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">-->
-                                                <h4 class="fs-1"><span class="counter-value"
-                                                        >{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('permisos')" [from]="0" [duration]="1" countAtributo('permiso')-->
-                                            <!--</div>
-                                        </div>-->
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        <!--{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}-->
+                                                        3/20
+                                                    </span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
                                     </div>
                                 </div>
                             </div>
@@ -238,18 +240,20 @@
                                 <div class="card card-height-100">
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
-                                                
-                                        <!--<div class="d-flex align-items-center">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
-                                                    <i class="ri-money-dollar-circle-fill"></i>
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">-->
-                                                <h4 class="fs-1"><span class="counter-value"
-                                                        >{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}</span></h4><!--[from]="0" [duration]="1" [CountTo]="getDataDashboard('reportes')" countAtributo('reporte')-->
-                                            <!--</div>
-                                        </div>-->
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        <!--{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}-->
+                                                        10/20
+                                                    </span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
                                     </div>
                                 </div>
                             </div>
@@ -258,18 +262,20 @@
                                 <div class="card card-height-100">
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
-                                                
-                                        <!--<div class="d-flex align-items-center">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
-                                                    <i class="ri-money-dollar-circle-fill"></i>
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">-->
-                                                <h4 class="fs-1"><span  class="counter-value"
-                                                        >{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('monitoreos')" [from]="0" [duration]="1" countAtributo('monitoreo')-->
-                                            <!--</div>
-                                        </div>-->
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        <!--{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}-->
+                                                        1/20
+                                                    </span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
                                     </div>
                                 </div>
                             </div>
@@ -279,18 +285,20 @@
                                 <div class="card card-height-100">
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
-                                                
-                                        <!--<div class="d-flex align-items-center">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <span class="avatar-title bg-soft-primary text-primary rounded-5 fs-2">
-                                                    <i class="ri-money-dollar-circle-fill"></i>
-                                                </span>
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">-->
-                                                <h4 class="fs-1"><span  class="counter-value"
-                                                        >{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}</span></h4><!--[CountTo]="getDataDashboard('otros')" [from]="0" [duration]="1" countAtributo()-->
-                                            <!--</div>
-                                        </div>-->
+                                                    <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        <!--{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}-->
+                                                        1/20
+                                                    </span>
+                                                    </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                15%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
                                     </div>
                                 </div>
                             </div>
@@ -364,354 +372,99 @@
                                         
                                         <div class="row mb-3 align-items-center justify-content-center">
                                             
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-6">
                                                 <div class="card">
                                                     <div class="card-body">
         
                                                 <h4>Permisos</h4>
                                                 
-                                                <div style="height: 266px;
+                                                <!--<div style="height: 266px;
                                                         display: grid;
                                                         place-items: center;" *ngIf="!getDataExist(simpleDonutChartPermisos.series)">
                                                         <h4>No existe información</h4>
-                                                </div>
+                                                </div>-->
                         
-                                                <apx-chart [series]="simpleDonutChartPermisos.series" [chart]="simpleDonutChartPermisos.chart"
-                                                [labels]="simpleDonutChartPermisos.labels" [responsive]="simpleDonutChartPermisos.responsive"
-                                                [legend]="simpleDonutChartPermisos.legend" [dataLabels]="simpleDonutChartPermisos.dataLabels"
-                                                [colors]="simpleDonutChartPermisos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartPermisos.series)"></apx-chart>
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
+                                                [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
+                                                    [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr"
+                                                    [xaxis]="basicBarChartPermisos.xaxis" [stroke]="basicBarChartPermisos.stroke"
+                                                    [fill]="basicBarChartPermisos.fill" [title]="basicBarChartPermisos.title"
+                                                    [tooltip]="basicBarChartPermisos.tooltip" [legend]="basicBarChartPermisos.legend"></apx-chart>
+
                                                     </div>
                                                 </div>
                         
                                             </div>
                         
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-6">
                                                 <div class="card">
                                                     <div class="card-body">
                         
                                                 <h4>Reportes</h4>
         
-                                                <div style="height: 266px;
+                                                <!--<div style="height: 266px;
                                                 display: grid;
                                                 place-items: center;" *ngIf="!getDataExist(simpleDonutChartReportes.series)">
                                                     <h4>No existe información</h4>
-                                                </div>
+                                                </div>-->
                                                 
-                                                <apx-chart [series]="simpleDonutChartReportes.series" [chart]="simpleDonutChartReportes.chart"
-                                                [labels]="simpleDonutChartReportes.labels" [responsive]="simpleDonutChartReportes.responsive"
-                                                [legend]="simpleDonutChartReportes.legend" [dataLabels]="simpleDonutChartReportes.dataLabels"
-                                                [colors]="simpleDonutChartReportes.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartReportes.series)"></apx-chart>
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
+                                                [chart]="getChart(criticidad, basicBarChartReportes.chart)" [dataLabels]="basicBarChartReportes.dataLabels"
+                                                [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" 
+                                                [xaxis]="basicBarChartReportes.xaxis" [stroke]="basicBarChartReportes.stroke"
+                                                [fill]="basicBarChartReportes.fill" [title]="basicBarChartReportes.title"
+                                                [tooltip]="basicBarChartReportes.tooltip" [legend]="basicBarChartReportes.legend"></apx-chart>
+
                                                     </div>
                                                 </div>
                         
                                             </div>
                         
                                             
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-6">
                                                 <div class="card">
                                                     <div class="card-body">
                         
                                                 <h4>Monitoreos</h4>
                                                 
-                                                <div style="height: 266px;
+                                                <!--<div style="height: 266px;
                                                         display: grid;
                                                         place-items: center;" *ngIf="!getDataExist(simpleDonutChartMonitoreos.series)">
                                                         <h4>No existe información</h4>
-                                                </div>
+                                                </div>-->
         
-                                                <apx-chart [series]="simpleDonutChartMonitoreos.series" [chart]="simpleDonutChartMonitoreos.chart"
-                                                [labels]="simpleDonutChartMonitoreos.labels" [responsive]="simpleDonutChartMonitoreos.responsive"
-                                                [legend]="simpleDonutChartMonitoreos.legend" [dataLabels]="simpleDonutChartMonitoreos.dataLabels"
-                                                [colors]="simpleDonutChartMonitoreos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartMonitoreos.series)"></apx-chart>
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
+                                                [chart]="getChart(criticidad, basicBarChartMonitoreos.chart)" [dataLabels]="basicBarChartMonitoreos.dataLabels"
+                                                [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" 
+                                                [xaxis]="basicBarChartMonitoreos.xaxis" [stroke]="basicBarChartMonitoreos.stroke"
+                                                [fill]="basicBarChartMonitoreos.fill" [title]="basicBarChartMonitoreos.title"
+                                                [tooltip]="basicBarChartMonitoreos.tooltip" [legend]="basicBarChartMonitoreos.legend"></apx-chart>
+
                                                     </div>
                                                 </div>
                         
                                             </div>
                         
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-6">
                                                 <div class="card">
                                                     <div class="card-body">
                         
                                                 <h4>Otras obligaciones</h4>
                                                 
-                                                <div style="height: 266px;
+                                                <!--<div style="height: 266px;
                                                         display: grid;
                                                         place-items: center;" *ngIf="!getDataExist(simpleDonutChartOtros.series)">
                                                         <h4>No existe información</h4>
-                                                </div>
-        
+                                                </div>-->
+                                                
                                                 <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
                                                 [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
                                                 [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
                                                 [colors]="simpleDonutChartOtros.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartOtros.series)"></apx-chart>
+
                                                     </div>
                                                 </div>
                         
-                                            </div>
-                                        </div>
-        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            <h4>Información específica por área</h4>
-                                            
-                                            <div class="col-sm-12">
-                                                
-                                            <div class="card card-height-100">
-                                                <div class="card-header align-items-center d-flex">
-                                                    <h4 class="flex-grow-1">Gestión por área</h4><!--card-title mb-0 -->
-                                                    <div class="d-flex gap-1">
-                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
-                                                            Cuerpos
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('articulos')">
-                                                            Árticulos
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('instancias')">
-                                                            Instancias
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body p-0">
-                                                    <div>
-                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
-                                                            [chart]="getChart(criticidad, basicBarChartGeneral.chart)" [dataLabels]="basicBarChartGeneral.dataLabels"
-                                                            [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr"
-                                                            [xaxis]="basicBarChartGeneral.xaxis" [stroke]="basicBarChartGeneral.stroke"
-                                                            [fill]="basicBarChartGeneral.fill" [title]="basicBarChartGeneral.title"
-                                                            [tooltip]="basicBarChartGeneral.tooltip" [legend]="basicBarChartGeneral.legend"></apx-chart>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            <div class="col-sm-6">
-                                                
-                                            <div class="card card-height-100">
-                                                <div class="card-body">
-                                                    
-                                                    <h4>Permisos por área</h4>
-        
-                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
-                                                        [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
-                                                            [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr"
-                                                            [xaxis]="basicBarChartPermisos.xaxis" [stroke]="basicBarChartPermisos.stroke"
-                                                            [fill]="basicBarChartPermisos.fill" [title]="basicBarChartPermisos.title"
-                                                            [tooltip]="basicBarChartPermisos.tooltip" [legend]="basicBarChartPermisos.legend"></apx-chart>
-                                                    
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                
-                                                <div class="card card-height-100">
-                                                    <div class="card-body">
-                                                        
-                                                        <h4>Reportes por área</h4>
-            
-                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
-                                                                [chart]="getChart(criticidad, basicBarChartReportes.chart)" [dataLabels]="basicBarChartReportes.dataLabels"
-                                                                [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" 
-                                                                [xaxis]="basicBarChartReportes.xaxis" [stroke]="basicBarChartReportes.stroke"
-                                                                [fill]="basicBarChartReportes.fill" [title]="basicBarChartReportes.title"
-                                                                [tooltip]="basicBarChartReportes.tooltip" [legend]="basicBarChartReportes.legend"></apx-chart>
-                                                        
-                                                    </div>
-                                                </div>
-                                                </div>
-                                        </div>
-                                        
-                                        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            <div class="col-sm-6">
-                                                
-                                            <div class="card card-height-100">
-                                                <div class="card-body">
-                                                    
-                                                    <h4>Monitoreos por área</h4>
-        
-                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
-                                                            [chart]="getChart(criticidad, basicBarChartMonitoreos.chart)" [dataLabels]="basicBarChartMonitoreos.dataLabels"
-                                                            [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" 
-                                                            [xaxis]="basicBarChartMonitoreos.xaxis" [stroke]="basicBarChartMonitoreos.stroke"
-                                                            [fill]="basicBarChartMonitoreos.fill" [title]="basicBarChartMonitoreos.title"
-                                                            [tooltip]="basicBarChartMonitoreos.tooltip" [legend]="basicBarChartMonitoreos.legend"></apx-chart>
-                                                    
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                
-                                                <div class="card card-height-100">
-                                                    <div class="card-body">
-                                                        
-                                                        <h4>Otras Obligaciones por área</h4>
-            
-                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
-                                                                [chart]="getChart(criticidad, basicBarChartOtros.chart)" [dataLabels]="basicBarChartOtros.dataLabels"
-                                                                [plotOptions]="basicBarChartOtros.plotOptions" dir="ltr"
-                                                                [xaxis]="basicBarChartOtros.xaxis"  [stroke]="basicBarChartOtros.stroke"
-                                                                [fill]="basicBarChartOtros.fill" [title]="basicBarChartOtros.title"
-                                                                [tooltip]="basicBarChartOtros.tooltip" [legend]="basicBarChartOtros.legend"></apx-chart>
-                                                        
-                                                    </div>
-                                                </div>
-                                                </div>
-                                        </div>
-                        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            <h4>Ámbito normativo a gestionar</h4>
-                                            
-                                            <div class="col-sm-4">
-                                                <div class="card">
-                                                    <div class="card-body">
-                        
-                                                <h4>Cuerpos Legales</h4>
-                        
-                                                <apx-chart [series]="simpleDonutChartCuerposAmbito.series" [chart]="simpleDonutChartCuerposAmbito.chart"
-                                                [labels]="simpleDonutChartCuerposAmbito.labels" [responsive]="simpleDonutChartCuerposAmbito.responsive"
-                                                [legend]="simpleDonutChartCuerposAmbito.legend" [dataLabels]="simpleDonutChartCuerposAmbito.dataLabels"
-                                                [colors]="simpleDonutChartCuerposAmbito.colors" dir="ltr"></apx-chart>
-                                                    </div>
-                                                </div>
-                                            </div>
-                        
-                                            <div class="col-sm-4">
-                                                <div class="card">
-                                                    <div class="card-body">
-                        
-                                                <h4>Artículos</h4>
-                                                
-                                                <apx-chart [series]="simpleDonutChartArticulosAmbito.series" [chart]="simpleDonutChartArticulosAmbito.chart"
-                                                [labels]="simpleDonutChartArticulosAmbito.labels" [responsive]="simpleDonutChartArticulosAmbito.responsive"
-                                                [legend]="simpleDonutChartArticulosAmbito.legend" [dataLabels]="simpleDonutChartArticulosAmbito.dataLabels"
-                                                [colors]="simpleDonutChartArticulosAmbito.colors" dir="ltr"></apx-chart>
-                                                    </div>
-                                                </div>
-                                            </div>
-                        
-                                            
-                                            <div class="col-sm-4">
-                                                <div class="card">
-                                                    <div class="card-body">
-                        
-                                                <h4>Instancias</h4>
-                                                <apx-chart [series]="simpleDonutChartInstanciasAmbito.series" [chart]="simpleDonutChartInstanciasAmbito.chart"
-                                                [labels]="simpleDonutChartInstanciasAmbito.labels" [responsive]="simpleDonutChartInstanciasAmbito.responsive"
-                                                [legend]="simpleDonutChartInstanciasAmbito.legend" [dataLabels]="simpleDonutChartInstanciasAmbito.dataLabels"
-                                                [colors]="simpleDonutChartInstanciasAmbito.colors" dir="ltr"></apx-chart>
-                                                    </div>
-                                                </div>
-                        
-                                            </div>
-                                        </div>
-        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            
-                                            <h4>Información específica por Elemento y actividad</h4>
-                                            <div class="col-sm-12">
-                                                
-                                            <div class="card card-height-100">
-                                                <div class="card-header align-items-center d-flex">
-                                                    <h4 class="flex-grow-1">Gestión por Elemento y actividad</h4><!--card-title mb-0 -->
-                                                    <div class="d-flex gap-1">
-                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('cuerpoLegal')">
-                                                            Cuerpos
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('articulos')">
-                                                            Árticulos
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('instancias')">
-                                                            Instancias
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body p-0">
-                                                    <div>
-                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
-                                                            [chart]="getChart(criticidad, basicBarChartGeneralInstallation.chart)" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
-                                                            [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr"
-                                                            [xaxis]="basicBarChartGeneralInstallation.xaxis" [stroke]="basicBarChartGeneralInstallation.stroke"
-                                                            [fill]="basicBarChartGeneralInstallation.fill" [title]="basicBarChartGeneralInstallation.title"
-                                                            [tooltip]="basicBarChartGeneralInstallation.tooltip" [legend]="basicBarChartGeneralInstallation.legend"></apx-chart>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            <div class="col-sm-6">
-                                                
-                                            <div class="card card-height-100">
-                                                <div class="card-body">
-                                                    
-                                                    <h4>Permisos por Elemento y actividad</h4>
-        
-                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
-                                                            [chart]="getChart(criticidad, basicBarChartPermisosInstallations.chart)" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
-                                                            [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" 
-                                                            [xaxis]="basicBarChartPermisosInstallations.xaxis" [stroke]="basicBarChartPermisosInstallations.stroke"
-                                                            [fill]="basicBarChartPermisosInstallations.fill" [title]="basicBarChartPermisosInstallations.title"
-                                                            [tooltip]="basicBarChartPermisosInstallations.tooltip" [legend]="basicBarChartPermisosInstallations.legend"></apx-chart>
-                                                    
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                
-                                                <div class="card card-height-100">
-                                                    <div class="card-body">
-                                                        
-                                                        <h4>Reportes por Elemento y actividad</h4>
-            
-                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
-                                                                [chart]="getChart(criticidad, basicBarChartReportesInstallations.chart)" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
-                                                                [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" 
-                                                                [xaxis]="basicBarChartReportesInstallations.xaxis" [stroke]="basicBarChartReportesInstallations.stroke"
-                                                                [fill]="basicBarChartReportesInstallations.fill" [title]="basicBarChartReportesInstallations.title"
-                                                                [tooltip]="basicBarChartReportesInstallations.tooltip" [legend]="basicBarChartReportesInstallations.legend"></apx-chart>
-                                                        
-                                                    </div>
-                                                </div>
-                                                </div>
-                                        </div>
-                                        
-                                        
-                                        <div class="row mb-3 align-items-center justify-content-center">
-                                            <div class="col-sm-6">
-                                                
-                                            <div class="card card-height-100">
-                                                <div class="card-body">
-                                                    
-                                                    <h4>Monitoreos por Elemento y actividad</h4>
-        
-                                                        <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
-                                                            [chart]="getChart(criticidad, basicBarChartMonitoreosInstallations.chart)" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
-                                                            [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" 
-                                                            [xaxis]="basicBarChartMonitoreosInstallations.xaxis" [stroke]="basicBarChartMonitoreosInstallations.stroke"
-                                                            [fill]="basicBarChartMonitoreosInstallations.fill" [title]="basicBarChartMonitoreosInstallations.title"
-                                                            [tooltip]="basicBarChartMonitoreosInstallations.tooltip" [legend]="basicBarChartMonitoreosInstallations.legend"></apx-chart>
-                                                    
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                
-                                                <div class="card card-height-100">
-                                                    <div class="card-body">
-                                                        
-                                                        <h4>Otras Obligaciones por Elemento y actividad</h4>
-            
-                                                            <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
-                                                                [chart]="getChart(criticidad, basicBarChartOtrosInstallations.chart)" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
-                                                                [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" 
-                                                                [xaxis]="basicBarChartOtrosInstallations.xaxis" [stroke]="basicBarChartOtrosInstallations.stroke"
-                                                                [fill]="basicBarChartOtrosInstallations.fill" [title]="basicBarChartOtrosInstallations.title"
-                                                                [tooltip]="basicBarChartOtrosInstallations.tooltip" [legend]="basicBarChartOtrosInstallations.legend"></apx-chart>
-                                                        
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                 
@@ -723,100 +476,317 @@
                       Cuerpos Legales
                     </a>
                     <ng-template ngbNavContent>
-                        
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="row mb-3">
-                            
-                            <div class="col-md-12">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Cuerpos legales aplicables</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countCuerposLegales()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                                <!--<p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0">[ngClass]=" { 'text-danger': profit === 'down'}"
-                                                        <i class="align-middle ri-arrow-up-line"></i>
-                                                        {{persantage}} %
-                                                    </span> vs. previous month</p>-->
-                                            </div>
-                                            <div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="row g-4 mb-3">    
+                            <div class="col-12">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo }}</button>    
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <!--<a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>-->
+                                        
+                                        <!--<ng-container *ngFor="let g of articles_proyects_group;">
+                                            
+                                        <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
 
-                        <div class="row mb-3">
+                                        </ng-container>-->
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                          <div class="row g-4 mb-3">
                             
-                            <div class="col-md-12">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Artículos aplicables</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countArticulos()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                            </div>
-                                            <div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo_cuerpo ? 'Tipo de Vinculación' : tipo_cuerpo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Gestionar' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Gestionar')">Gestionar</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Por definir' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Por definir')">Por definir</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                            
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo">{{ !criticidad_cuerpo ? 'Criticidad' : criticidad_cuerpo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
                             
-                            <div class="col-md-12">
-                                <div class="card card-animate bg-primary" style="color: #fff !important;">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium mb-0">Cumplimiento actual</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold" style="color: #fff !important;">
-                                                    <span [CountTo]="avance_evaluacion > 0 ? avance_evaluacion : 0" class="counter-value" [from]="0" [duration]="1"></span><span>{{avance_evaluacion > 0 ? '' : 0}}%</span>
-                                                </h2>
-                                                <p class="mb-0" style="font-style: italic;"><span class="badge bg-light mb-0" [ngClass]=" { 'text-danger': evaluations.cumplimiento < 25, 'text-warning': evaluations.cumplimiento > 25 && evaluations.cumplimiento < 75, 'text-success': evaluations.cumplimiento > 75}">
-                                                        {{evaluations ? evaluations.cumplimiento : 0}} %
-                                                    </span> Última evaluación</p>
-                                            </div>
-                                            <div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2" style="background-color: #fff !important;">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_atributo ? 'Seleccione el atributo' : filtro_atributo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reporte' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reporte')">Reporte</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreo' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreo')">Monitoreo</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>
                                     </div>
                                 </div>
+        
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <h4>Cuerpos Legales</h4>
-                        <apx-chart [series]="simplePieChartCuerpos.series" [chart]="simplePieChartCuerpos.chart" [labels]="simplePieChartCuerpos.labels" [legend]="simplePieChartCuerpos.legend" [dataLabels]="simplePieChartCuerpos.dataLabels" [responsive]="simplePieChartCuerpos.responsive" [colors]="simplePieChartCuerpos.colors" dir="ltr"></apx-chart>
-                    </div>
-                    
-                    <div class="col-sm-4">
-                        <h4>Artículos</h4>
-                        <apx-chart [series]="simplePieChartArticulos.series" [chart]="simplePieChartArticulos.chart" [labels]="simplePieChartArticulos.labels" [legend]="simplePieChartArticulos.legend" [dataLabels]="simplePieChartArticulos.dataLabels" [responsive]="simplePieChartArticulos.responsive" [colors]="simplePieChartArticulos.colors" dir="ltr"></apx-chart>
-                    </div>
-                  </div>
+
+                            
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo }}</button>
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
+
+                                        <ng-container *ngFor="let ach of articles_filter"><!--getArticulos()-->
+<!--articulos_chart-->                                                   
+                                            <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                          </div>
+                          <div class="row g-4 mb-3">
+                            <div class="col-12">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_area_cuerpo ? 'Selecciona el área' : filtro_area_cuerpo.nombre }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <!--<a class="dropdown-item" [ngClass]="!area_chart ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChart()">Todos</a>-->
+                                        <a class="dropdown-item" [ngClass]="!filtro_area_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo()">Todos</a>
+
+                                        <ng-container *ngFor="let ar of areas_chart;">
+                                            <a class="dropdown-item" [ngClass]="filtro_area_cuerpo && filtro_area_cuerpo.id == ar.id ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.id, ar.nombre)">{{ar.nombre}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+                          </div>
+        
+                          <div class="row">
+                              
+                              <div class="col-xl-4 col-md-4">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                                                  
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;"
+                                                          ><!--{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}-->
+                                                          4/30
+                                                      </span>
+                                                  </h4>
+                                              <!--</div>
+                                          </div>-->
+                                      </div>
+                                      
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col-xl-4 col-md-4">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
+                                          <h4 class="fs-1">
+                                              <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}-->
+                                                  20/20
+                                              </span>
+                                          </h4>
+                                              <!--</div>
+                                          </div>-->
+                                      </div>
+                                      
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              
+                              <div class="col-xl-4 col-md-4">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
+                                           
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}-->
+                                                      10/20
+                                                      </span>
+                                                  </h4>
+                                              <!--</div>
+                                          </div>-->
+                                      </div>
+                                      
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          
+                          </div>
+                                      
+                          <div class="row">
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                          <!--{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}-->
+                                                          3/20
+                                                      </span>
+                                                  </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                          <!--{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}-->
+                                                          10/20
+                                                      </span>
+                                                  </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                          <!--{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}-->
+                                                          1/20
+                                                      </span>
+                                                  </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                                                      <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                          <!--{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}-->
+                                                          1/20
+                                                      </span>
+                                                      </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                  15%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          
+                          </div>
+
+
                     </ng-template>
                   </li>
                 </ul>
