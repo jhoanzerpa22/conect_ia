@@ -3890,7 +3890,6 @@ validateIdparte(idParte: any){
             this.dashboardArea = data.data;
             if(refresh){
               this._basicBarChartGeneral('["--vz-info"]');
-              this._basicBarChartAtributos('["--vz-info"]');
             }
             //this.project = data.data;
         },
@@ -3905,10 +3904,9 @@ validateIdparte(idParte: any){
         (data: any) => {
           console.log('dataDashboardInstalaciones',data);
           this.dashboardInstallation = data.data;
-          //if(refresh){
+          if(refresh){
             this._basicBarChartGeneralInstallation('["--vz-info"]');
-            this._basicBarChartAtributosInstallations('["--vz-info"]');
-          //}
+          }
           //this.project = data.data;
       },
       (error: any) => {
@@ -6072,8 +6070,6 @@ validateIdparte(idParte: any){
   selectGestion(x: any) {
     this.select_gestion = x;
     this.getDashboardArea(this.project_id, x, true);
-    
-    this.setChart();
 
     /*if (x == 'all') {
         this.basicBarChart.series = [{
@@ -6098,7 +6094,6 @@ validateIdparte(idParte: any){
   selectGestionInstalacion(x: any) {
     this.select_gestion_instalacion = x;
     this.getDashboardInstalaciones(this.project_id, x, true);
-    this.setChart();
   }
   
   selectAreaChart(id?: any){
