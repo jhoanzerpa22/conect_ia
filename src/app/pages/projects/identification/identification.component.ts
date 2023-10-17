@@ -267,9 +267,9 @@ export class IdentificationComponent implements OnInit {
       this.getProject(params['id']);
       this.getAreas(params['id']);
       //this.getInstallations(params['id']);
-      this.getArticlesInstallation();
+      /*this.getArticlesInstallation();
       this.getArticleProyect(this.project_id);
-      this.getCuerpoInstallationsByProyect();
+      this.getCuerpoInstallationsByProyect();*/
       this.getNormas(0);
 
       this.refreshData();
