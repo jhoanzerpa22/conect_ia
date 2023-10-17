@@ -89,6 +89,11 @@ export class ProjectControlComponent implements OnInit {
   goDetail(id: any){
     this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/DetailAll']);
   }
+  
+  goDashboard(){
+    this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen/control']);
+  }
+
 
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
