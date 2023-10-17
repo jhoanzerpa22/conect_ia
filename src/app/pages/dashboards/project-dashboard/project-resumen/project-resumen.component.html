@@ -34,7 +34,7 @@
                                     <span style="color: #405189;"><b> Avance de la evaluación</b></span>
                                 </div>
                                 <div class="col-lg-8" style="text-align: right;">
-                                    <span style="color: #405189;"> 65% (977/1000) de instancias de cumplimiento evaluadas</span>
+                                    <span style="color: #405189;"> {{avance_evaluacion}}% (0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}) de instancias de cumplimiento evaluadas</span>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="progress">
@@ -133,8 +133,7 @@
                                                 
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        21/35
-                                                        <!--{{getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir'))}}--></span>
+                                                        0/{{getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir'))}}</span>
                                                 </h4>
                                     </div>
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
@@ -155,8 +154,9 @@
                                                 
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;"
-                                                        ><!--{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}-->
-                                                        4/30
+                                                        >
+                                                        0/{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}
+                                                        
                                                     </span>
                                                 </h4>
                                             <!--</div>
@@ -179,8 +179,9 @@
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                         <h4 class="fs-1">
-                                            <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}-->
-                                                20/20
+                                            <span class="counter-value" style="color: #405189;">
+                                                0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}
+                                                
                                             </span>
                                         </h4>
                                             <!--</div>
@@ -205,8 +206,9 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
                                          
                                                 <h4 class="fs-1">
-                                                    <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}-->
-                                                    10/20
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        0/{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}
+                                                    
                                                     </span>
                                                 </h4>
                                             <!--</div>
@@ -233,8 +235,8 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        <!--{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}-->
-                                                        3/20
+                                                        0/{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}
+                                                        
                                                     </span>
                                                 </h4>
                                     </div>
@@ -255,8 +257,8 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        <!--{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}-->
-                                                        10/20
+                                                        0/{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}
+                                                        
                                                     </span>
                                                 </h4>
                                     </div>
@@ -277,8 +279,8 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        <!--{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}-->
-                                                        1/20
+                                                        0/{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}
+                                                        
                                                     </span>
                                                 </h4>
                                     </div>
@@ -300,8 +302,8 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                     <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        <!--{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}-->
-                                                        1/20
+                                                        0/{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}
+                                                        
                                                     </span>
                                                     </h4>
                                     </div>
@@ -495,7 +497,7 @@
                                 <span style="color: #405189;"><b> Avance de la evaluación</b></span>
                             </div>
                             <div class="col-lg-8" style="text-align: right;">
-                                <span style="color: #405189;"> 65% (977/1000) de instancias de cumplimiento evaluadas</span>
+                                <span style="color: #405189;"> {{avance_evaluacion}}% (0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}) de instancias de cumplimiento evaluadas</span>
                             </div>
                             <div class="col-lg-12">
                                 <div class="progress">
@@ -650,8 +652,8 @@
                                                   
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;"
-                                                          ><!--{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}-->
-                                                          4/30
+                                                          >
+                                                          0/{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}
                                                       </span>
                                                   </h4>
                                               <!--</div>
@@ -674,8 +676,8 @@
                                       <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                           <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                           <h4 class="fs-1">
-                                              <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}-->
-                                                  20/20
+                                              <span class="counter-value" style="color: #405189;">
+                                                0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}
                                               </span>
                                           </h4>
                                               <!--</div>
@@ -700,8 +702,8 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
                                            
                                                   <h4 class="fs-1">
-                                                      <span class="counter-value" style="color: #405189;"><!--{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}-->
-                                                      10/20
+                                                      <span class="counter-value" style="color: #405189;">
+                                                        0/{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}
                                                       </span>
                                                   </h4>
                                               <!--</div>
@@ -728,8 +730,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                          <!--{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}-->
-                                                          3/20
+                                                        0/{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}
                                                       </span>
                                                   </h4>
                                       </div>
@@ -750,8 +751,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                          <!--{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}-->
-                                                          10/20
+                                                        0/{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}
                                                       </span>
                                                   </h4>
                                       </div>
@@ -772,8 +772,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                          <!--{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}-->
-                                                          1/20
+                                                        0/{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}
                                                       </span>
                                                   </h4>
                                       </div>
@@ -795,8 +794,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                       <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                          <!--{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}-->
-                                                          1/20
+                                                        0/{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}
                                                       </span>
                                                       </h4>
                                       </div>
@@ -812,7 +810,6 @@
                               </div>
                           
                           </div>
-
 
                     </ng-template>
                   </li>

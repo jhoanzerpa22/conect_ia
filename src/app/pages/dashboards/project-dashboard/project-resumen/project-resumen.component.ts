@@ -171,6 +171,7 @@ export class ProjectResumenComponent implements OnInit {
       this.getAreas(params['id']);
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
+      this.getDashboard(params['id'])
     });
 
     /**
@@ -4882,7 +4883,6 @@ getChart(criticidad: any, config: any){
 
   }
 
-  
   getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
     this.projectsService.getDashboard(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
       (data: any) => {
