@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{type ? project.nombre : 'Tablero'}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
  <div class="row project-wrapper">
@@ -9,9 +9,9 @@
     <div class="col-xxl-12">
         <!--<h5 class="mb-3">Header Justify Tabs</h5>-->
         <div class="card">
-            <div class="card-header align-items-xl-center d-xl-flex">
+            <div class="card-header align-items-xl-center d-xl-flex" *ngIf="type">
                 <div class="flex-grow-1 mb-xl-0">
-                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/{{project_id}}/project-dashboard/evaluations"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Evaluaciones</button>
+                    <button class="btn btn-primary btn-label waves-effect left waves-light" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> {{type == 'control' ? 'Control' : 'Evaluaciones'}}</button><!--routerLink="/{{project_id}}/project-dashboard/evaluations"-->
                 </div>
                 <!--<p class="text-muted flex-grow-1 mb-xl-0">Use <code>card-header-pills</code> class to create header justify tab.</p>-->
                 <!--<div class="flex-shrink-0">
@@ -29,6 +29,32 @@
                           Operaciones
                         </a>
                         <ng-template ngbNavContent>
+                            
+                            <div class="row g-4 mb-3" *ngIf="!type">
+                            
+                                <div class="col-12">
+    
+                                    <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                        
+                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
+                                        width: 100%;
+                                        text-align: left;
+                                    " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_proyecto ? 'Selecciona el Proyecto' : filtro_proyecto }}</button>    
+                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                        <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                            
+                                            <a class="dropdown-item" [ngClass]="!filtro_proyecto ? 'active' : ''" href="javascript:void(0);" (click)="selectProjectFiltro()">Todos</a>
+
+                                            <ng-container *ngFor="let p of projects;">
+                                                <a class="dropdown-item" [ngClass]="filtro_proyectoId && filtro_proyectoId == p.id ? 'active' : ''"  href="javascript:void(0);" (click)="selectProjectFiltro(p.id, p.nombre)">{{p.nombre}}</a>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                                
+                            </div>
+                            
                             <div class="row g-4 mb-3">
                                 <div class="col-lg-4">
                                     <span style="color: #405189;"><b> Avance de la evaluación</b></span>
@@ -42,8 +68,9 @@
                                     </div>
                                 </div>
                             </div>
+                           
                             
-                        <div class="row g-4 mb-3">
+                            <div class="row g-4 mb-3">
                     
                             <!--<div class="col-2">-->
                                 <div class="chip">

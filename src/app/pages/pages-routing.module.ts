@@ -7,10 +7,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from "./dashboards/home/home.component";
 
 const routes: Routes = [
-    {
+    /*{
         path: "",
         component: HomeComponent//ProjectsComponent//DashboardComponent
-    },
+    },*/
     /*{
       path: '', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule)
     },*/
