@@ -1878,11 +1878,21 @@ export class IdentificationComponent implements OnInit {
                 //borderRadius: 4,
                 horizontal: true,
                 columnWidth: '80%',
-                /*distributed: true,
+                /*distributed: true,*/
                 dataLabels: {
                     position: 'top',
-                },*/
-            }
+                    style: {
+                      colors: ['#f7b84b']
+                    }
+                },
+            },
+            dataLabels: {
+              enabled: true,
+              style: {
+                  colors: ['#1d60ba']//#adb5bd
+              },
+              offsetX: 32
+            },
         },
         stroke: {
           width: 1,
@@ -1892,8 +1902,8 @@ export class IdentificationComponent implements OnInit {
             enabled: true,
             offsetX: 32,
             style: {
-                fontSize: '12px',
-                fontWeight: 400,
+                //fontSize: '12px',
+                //fontWeight: 400,
                 colors: ['#adb5bd']
             }
         },
@@ -1917,9 +1927,24 @@ export class IdentificationComponent implements OnInit {
         },*/
         xaxis: {
             categories: this.getDataDashboardArea('label','general'),
-            width: 400,
-            columnWidth: '40%'
+            labels: {
+              show: true,
+              style: {
+                  //fontSize: '18px',
+                  //fontFamily: 'Helvetica, Arial, sans-serif',
+                  //fontWeight: 400,
+                  cssClass: 'apexcharts-xaxis-label',
+              },
+            }
         },
+        yaxis: {
+          show: true,
+          labels: {
+             show: true,
+             minWidth: 300,
+             maxWidth: 600
+          }
+        }
     };
   }
 
@@ -1982,18 +2007,28 @@ export class IdentificationComponent implements OnInit {
             bar: {
                 //borderRadius: 4,
                 horizontal: true,
-                /*distributed: true,
+                /*distributed: true,*/
                 dataLabels: {
                     position: 'top',
-                },*/
-            }
+                    style: {
+                      colors: ['#f7b84b']
+                    }
+                },
+            },
+            dataLabels: {
+              enabled: true,
+              style: {
+                  colors: ['#1d60ba']//#adb5bd
+              },
+              offsetX: 32
+            },
         },
         dataLabels: {
             enabled: true,
             offsetX: 32,
             style: {
-                fontSize: '12px',
-                fontWeight: 400,
+                //fontSize: '12px',
+                //fontWeight: 400,
                 colors: ['#adb5bd']
             }
         },
@@ -2016,8 +2051,25 @@ export class IdentificationComponent implements OnInit {
             show: false,
         },*/
         xaxis: {
-            categories: this.getDataDashboardInstallation('label','general')
+            categories: this.getDataDashboardInstallation('label','general'),
+            labels: {
+              show: true,
+              style: {
+                  //fontSize: '18px',
+                  //fontFamily: 'Helvetica, Arial, sans-serif',
+                  //fontWeight: 400,
+                  cssClass: 'apexcharts-xaxis-label',
+              },
+            }
         },
+        yaxis: {
+          show: true,
+          labels: {
+             show: true,
+             minWidth: 300,
+             maxWidth: 600
+          }
+        }
     };
   }
 
@@ -2073,11 +2125,21 @@ export class IdentificationComponent implements OnInit {
           bar: {
               //borderRadius: 4,
               horizontal: true,
-              /*distributed: true,
+              /*distributed: true,*/
               dataLabels: {
                   position: 'top',
-              },*/
-          }
+                  style: {
+                    colors: ['#f7b84b']
+                  }
+              },
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+                colors: ['#1d60ba']//#adb5bd
+            },
+            offsetX: 32
+          },
       },
       stroke: {
         width: 1,
@@ -2087,8 +2149,8 @@ export class IdentificationComponent implements OnInit {
           enabled: true,
           offsetX: 32,
           style: {
-              fontSize: '12px',
-              fontWeight: 400,
+              //fontSize: '12px',
+              //fontWeight: 400,
               colors: ['#adb5bd']
           }
       },
@@ -2111,8 +2173,25 @@ export class IdentificationComponent implements OnInit {
           show: false,
       },*/
       xaxis: {
-          categories: this.getDataDashboardArea('label','permisos')
+          categories: this.getDataDashboardArea('label','permisos'),
+          labels: {
+            show: true,
+            style: {
+                //fontSize: '18px',
+                //fontFamily: 'Helvetica, Arial, sans-serif',
+                //fontWeight: 400,
+                cssClass: 'apexcharts-xaxis-label',
+            },
+          }
       },
+      yaxis: {
+        show: true,
+        labels: {
+           show: true,
+           minWidth: 300,
+           maxWidth: 600
+        }
+      }
   };
   
   this.basicBarChartReportes = {
@@ -2165,11 +2244,21 @@ export class IdentificationComponent implements OnInit {
         bar: {
             //borderRadius: 4,
             horizontal: true,
-            /*distributed: true,
+            /*distributed: true,*/
             dataLabels: {
                 position: 'top',
-            },*/
-        }
+                style: {
+                  colors: ['#f7b84b']
+                }
+            },
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+              colors: ['#1d60ba']//#adb5bd
+          },
+          offsetX: 32
+        },
     },
     stroke: {
       width: 1,
@@ -2179,8 +2268,8 @@ export class IdentificationComponent implements OnInit {
         enabled: true,
         offsetX: 32,
         style: {
-            fontSize: '12px',
-            fontWeight: 400,
+            //fontSize: '12px',
+            //fontWeight: 400,
             colors: ['#adb5bd']
         }
     },
@@ -2203,8 +2292,25 @@ export class IdentificationComponent implements OnInit {
         show: false,
     },*/
     xaxis: {
-        categories: this.getDataDashboardArea('label','reportes')
+        categories: this.getDataDashboardArea('label','reportes'),
+        labels: {
+          show: true,
+          style: {
+              //fontSize: '18px',
+              //fontFamily: 'Helvetica, Arial, sans-serif',
+              //fontWeight: 400,
+              cssClass: 'apexcharts-xaxis-label',
+          },
+        }
     },
+    yaxis: {
+      show: true,
+      labels: {
+         show: true,
+         minWidth: 300,
+         maxWidth: 600
+      }
+    }
 };
 
 this.basicBarChartMonitoreos = {
@@ -2261,18 +2367,28 @@ this.basicBarChartMonitoreos = {
       bar: {
           //borderRadius: 4,
           horizontal: true,
-          /*distributed: true,
+          /*distributed: true,*/
           dataLabels: {
               position: 'top',
-          },*/
-      }
+              style: {
+                colors: ['#f7b84b']
+              }
+          },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+            colors: ['#1d60ba']//#adb5bd
+        },
+        offsetX: 32
+      },
   },
   dataLabels: {
       enabled: true,
       offsetX: 32,
       style: {
-          fontSize: '12px',
-          fontWeight: 400,
+          //fontSize: '12px',
+          //fontWeight: 400,
           colors: ['#adb5bd']
       }
   },
@@ -2295,8 +2411,25 @@ this.basicBarChartMonitoreos = {
       show: false,
   },*/
   xaxis: {
-      categories: this.getDataDashboardArea('label','monitoreos')
+      categories: this.getDataDashboardArea('label','monitoreos'),
+      labels: {
+        show: true,
+        style: {
+            //fontSize: '18px',
+            //fontFamily: 'Helvetica, Arial, sans-serif',
+            //fontWeight: 400,
+            cssClass: 'apexcharts-xaxis-label',
+        },
+      }
   },
+  yaxis: {
+    show: true,
+    labels: {
+       show: true,
+       minWidth: 300,
+       maxWidth: 600
+    }
+  }
 };
 
 this.basicBarChartOtros = {
@@ -2353,18 +2486,28 @@ seriesOtros: [{
       bar: {
           //borderRadius: 4,
           horizontal: true,
-          /*distributed: true,
+          /*distributed: true,*/
           dataLabels: {
               position: 'top',
-          },*/
-      }
+              style: {
+                colors: ['#f7b84b']
+              }
+          },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+            colors: ['#1d60ba']//#adb5bd
+        },
+        offsetX: 32
+      },
   },
   dataLabels: {
       enabled: true,
       offsetX: 32,
       style: {
-          fontSize: '12px',
-          fontWeight: 400,
+          //fontSize: '12px',
+          //fontWeight: 400,
           colors: ['#adb5bd']
       }
   },
@@ -2387,8 +2530,25 @@ seriesOtros: [{
       show: false,
   },*/
   xaxis: {
-      categories: this.getDataDashboardArea('label','otros')
+      categories: this.getDataDashboardArea('label','otros'),
+      labels: {
+        show: true,
+        style: {
+            //fontSize: '18px',
+            //fontFamily: 'Helvetica, Arial, sans-serif',
+            //fontWeight: 400,
+            cssClass: 'apexcharts-xaxis-label',
+        },
+      }
   },
+  yaxis: {
+    show: true,
+    labels: {
+       show: true,
+       minWidth: 300,
+       maxWidth: 600
+    }
+  }
 };
 
 }
@@ -2445,18 +2605,28 @@ seriesOtros: [{
         bar: {
             //borderRadius: 4,
             horizontal: true,
-            /*distributed: true,
+            /*distributed: true,*/
             dataLabels: {
                 position: 'top',
-            },*/
-        }
+                style: {
+                  colors: ['#1d60ba']//#adb5bd
+              },
+            },
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+              colors: ['#1d60ba']//#adb5bd
+          },
+          offsetX: 32
+        },
     },
     dataLabels: {
         enabled: true,
         offsetX: 32,
         style: {
-            fontSize: '12px',
-            fontWeight: 400,
+            //fontSize: '12px',
+            //fontWeight: 400,
             colors: ['#adb5bd']
         }
     },
@@ -2483,8 +2653,25 @@ seriesOtros: [{
         show: false,
     },*/
     xaxis: {
-        categories: this.getDataDashboardInstallation('label','permisos')
+        categories: this.getDataDashboardInstallation('label','permisos'),
+        labels: {
+          show: true,
+          style: {
+              //fontSize: '18px',
+              //fontFamily: 'Helvetica, Arial, sans-serif',
+              //fontWeight: 400,
+              cssClass: 'apexcharts-xaxis-label',
+          },
+        }
     },
+    yaxis: {
+      show: true,
+      labels: {
+         show: true,
+         minWidth: 300,
+         maxWidth: 600
+      }
+    }
 };
 
 this.basicBarChartReportesInstallations = {
@@ -2537,11 +2724,21 @@ seriesOtros: [{
       bar: {
           //borderRadius: 4,
           horizontal: true,
-          /*distributed: true,
+          /*distributed: true,*/
           dataLabels: {
               position: 'top',
-          },*/
-      }
+              style: {
+                colors: ['#1d60ba']//#adb5bd
+            },
+          },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+            colors: ['#1d60ba']//#adb5bd
+        },
+        offsetX: 32
+      },
   },
   dataLabels: {
       enabled: true,
@@ -2575,8 +2772,25 @@ seriesOtros: [{
       show: false,
   },*/
   xaxis: {
-      categories: this.getDataDashboardInstallation('label','reportes')
+      categories: this.getDataDashboardInstallation('label','reportes'),
+      labels: {
+        show: true,
+        style: {
+            //fontSize: '18px',
+            //fontFamily: 'Helvetica, Arial, sans-serif',
+            //fontWeight: 400,
+            cssClass: 'apexcharts-xaxis-label',
+        },
+      }
   },
+  yaxis: {
+    show: true,
+    labels: {
+       show: true,
+       minWidth: 300,
+       maxWidth: 600
+    }
+  }
 };
 
 this.basicBarChartMonitoreosInstallations = {
@@ -2629,11 +2843,21 @@ plotOptions: {
     bar: {
         //borderRadius: 4,
         horizontal: true,
-        /*distributed: true,
+        /*distributed: true,*/
         dataLabels: {
             position: 'top',
-        },*/
-    }
+            style: {
+              colors: ['#1d60ba']//#adb5bd
+          },
+        },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+          colors: ['#1d60ba']//#adb5bd
+      },
+      offsetX: 32
+    },
 },
 dataLabels: {
     enabled: true,
@@ -2667,8 +2891,25 @@ grid: {
     show: false,
 },*/
 xaxis: {
-    categories: this.getDataDashboardInstallation('label','monitoreos')
+    categories: this.getDataDashboardInstallation('label','monitoreos'),
+    labels: {
+      show: true,
+      style: {
+          //fontSize: '18px',
+          //fontFamily: 'Helvetica, Arial, sans-serif',
+          //fontWeight: 400,
+          cssClass: 'apexcharts-xaxis-label',
+      },
+    }
 },
+yaxis: {
+  show: true,
+  labels: {
+     show: true,
+     minWidth: 300,
+     maxWidth: 600
+  }
+}
 };
 
 this.basicBarChartOtrosInstallations = {
@@ -2721,11 +2962,21 @@ plotOptions: {
     bar: {
         //borderRadius: 4,
         horizontal: true,
-        /*distributed: true,
+        /*distributed: true,*/
         dataLabels: {
             position: 'top',
-        },*/
-    }
+            style: {
+              colors: ['#1d60ba']//#adb5bd
+          },
+        },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+          colors: ['#1d60ba']//#adb5bd
+      },
+      offsetX: 32
+    },
 },
 dataLabels: {
     enabled: true,
@@ -2759,8 +3010,25 @@ grid: {
     show: false,
 },*/
 xaxis: {
-    categories: this.getDataDashboardInstallation('label','otros')
+    categories: this.getDataDashboardInstallation('label','otros'),
+    labels: {
+      show: true,
+      style: {
+          //fontSize: '18px',
+          //fontFamily: 'Helvetica, Arial, sans-serif',
+          //fontWeight: 400,
+          cssClass: 'apexcharts-xaxis-label',
+      },
+    }
 },
+yaxis: {
+  show: true,
+  labels: {
+     show: true,
+     minWidth: 300,
+     maxWidth: 600
+  }
+}
 };
 
 }
@@ -2820,18 +3088,28 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           bar: {
               //borderRadius: 4,
               horizontal: true,
-              /*distributed: true,
+              /*distributed: true,*/
               dataLabels: {
-                  position: 'top',
-              },*/
-          }
+                position: 'top',
+                style: {
+                  colors: ['#f7b84b']
+                }
+              },
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+                colors: ['#1d60ba']//#adb5bd
+            },
+            offsetX: 32
+          },
       },
       dataLabels: {
           enabled: true,
           offsetX: 32,
           style: {
-              fontSize: '12px',
-              fontWeight: 400,
+              //fontSize: '12px',
+              //fontWeight: 400,
               colors: ['#adb5bd']
           }
       },
@@ -2858,8 +3136,25 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           show: false,
       },*/
       xaxis: {
-          categories: this.getDataDashboardAreaCuerpo('label','general')
+          categories: this.getDataDashboardAreaCuerpo('label','general'),
+          labels: {
+            show: true,
+            style: {
+                //fontSize: '18px',
+                //fontFamily: 'Helvetica, Arial, sans-serif',
+                //fontWeight: 400,
+                cssClass: 'apexcharts-xaxis-label',
+            },
+          }
       },
+      yaxis: {
+        show: true,
+        labels: {
+           show: true,
+           minWidth: 300,
+           maxWidth: 600
+        }
+      }
   };
 }
 
@@ -2916,21 +3211,31 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           }
       },
       plotOptions: {
-          bar: {
-              //borderRadius: 4,
-              horizontal: true,
-              /*distributed: true,
-              dataLabels: {
-                  position: 'top',
-              },*/
-          }
-      },
+        bar: {
+            //borderRadius: 4,
+            horizontal: true,
+            /*distributed: true,*/
+            dataLabels: {
+              position: 'top',
+              style: {
+                colors: ['#f7b84b']
+              }
+            },
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+              colors: ['#1d60ba']//#adb5bd
+          },
+          offsetX: 32
+        },
+    },
       dataLabels: {
           enabled: true,
           offsetX: 32,
           style: {
-              fontSize: '12px',
-              fontWeight: 400,
+              //fontSize: '12px',
+              //fontWeight: 400,
               colors: ['#adb5bd']
           }
       },
@@ -2957,8 +3262,25 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           show: false,
       },*/
       xaxis: {
-          categories: this.getDataDashboardInstallationCuerpo('label','general')
+          categories: this.getDataDashboardInstallationCuerpo('label','general'),
+          labels: {
+            show: true,
+            style: {
+                //fontSize: '18px',
+                //fontFamily: 'Helvetica, Arial, sans-serif',
+                //fontWeight: 400,
+                cssClass: 'apexcharts-xaxis-label',
+            },
+          }
       },
+      yaxis: {
+        show: true,
+        labels: {
+           show: true,
+           minWidth: 300,
+           maxWidth: 600
+        }
+      }
   };
 }
 
