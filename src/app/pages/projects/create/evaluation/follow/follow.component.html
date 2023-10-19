@@ -17,6 +17,10 @@
             <div class="card-body">
                                     <h4 class="mb-3" style="color: #405189;">{{cuerpoLegal}}</h4>
                                     <h6 class="card-title mb-3" style="color: #405189;">{{articulo.articulo}}</h6>  
+                                    
+                                    <span class="badge mb-3" [ngClass]="{
+                                        'text-bg-no-evaluado': articulo.project_article.articuloTipo == 'reporte','text-bg-primary': articulo.project_article.articuloTipo == 'permiso', 'text-bg-info': articulo.project_article.articuloTipo == 'monitoreo'}" *ngIf="articulo.project_article">{{articulo.project_article.articuloTipo.toUpperCase() }}</span>
+
                                     <p class="card-text mb-2" [style]="articulo.descripcion && articulo.descripcion.length > 850 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ articulo.descripcion && articulo.descripcion.length > 850 ? formatArticle(articulo.descripcion, articulo.articulo) : articulo.descripcion }}</p>
                                     
                                     <p class="card-text">

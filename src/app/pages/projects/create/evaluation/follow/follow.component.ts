@@ -227,6 +227,7 @@ export class EvaluationFollowComponent implements OnInit {
           });
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+          //console.log('ARTICULOS:', this.articulo);
           this.hidePreLoader();
       },
       (error: any) => {
