@@ -148,6 +148,8 @@
                                                         
                                                         <div class="col-lg-2 col">
                                                             <h6 style="color: #405189;">{{s.articulo}}</h6>
+                                                            <span class="badge" [ngClass]="{
+                                                                'text-bg-no-evaluado': s.project_article.articuloTipo == 'reporte','text-bg-primary': s.project_article.articuloTipo == 'permiso', 'text-bg-info': s.project_article.articuloTipo == 'monitoreo'}" *ngIf="s.project_article.articuloTipo">{{s.project_article.articuloTipo.toUpperCase() }}</span>
                                                         </div>
                                                         <div class="col-lg-5 col">
                                                             <!--class="team-profile-img"-->

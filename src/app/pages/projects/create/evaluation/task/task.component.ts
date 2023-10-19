@@ -231,6 +231,15 @@ export class EvaluationTaskComponent implements OnInit {
     this.evaluacionForm.get('estado_evaluacion')?.setValue(this.articulo.evaluations.estado);
     }
 
+    if(this.articulo.evaluations.evaluacionImg.length > 0){
+      this.articulo.evaluations.evaluacionImg.forEach((imagen: any) => {
+        var ruta = imagen.split('/');
+        var nombre = ruta[ruta.length - 1];
+
+        this.imgEvaluations.push({name: nombre, size: 1 + 'MB', imagen: imagen });
+      });
+    }
+
   }
 }
 

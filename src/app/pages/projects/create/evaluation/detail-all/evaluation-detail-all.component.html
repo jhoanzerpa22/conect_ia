@@ -148,6 +148,10 @@
                                                         
                                                         <div class="col-lg-2 col">
                                                             <h6 style="color: #405189;">{{s.articulo}}</h6>
+                                                            
+                                                            <span class="badge mb-3" [ngClass]="{
+                                                            'text-bg-no-evaluado': s.project_article.articuloTipo == 'reporte','text-bg-primary': s.project_article.articuloTipo == 'permiso', 'text-bg-info': s.project_article.articuloTipo == 'monitoreo'}" *ngIf="s.project_article">{{s.project_article.articuloTipo.toUpperCase() }}</span>
+
                                                         </div>
                                                         <div class="col-lg-5 col">
                                                             <!--class="team-profile-img"-->
@@ -172,8 +176,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-2 col">
-                                                            <span class="badge" [ngClass]="{
-                                                                'text-bg-danger': !s.evaluations.estado || (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO CUMPLE' }}</span>
+                                                            <!--<span class="badge" [ngClass]="{
+                                                                'text-bg-danger': !s.evaluations.estado || (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO CUMPLE' }}</span>-->
+                                                                <span class="badge" [ngClass]="{
+                                                                    'text-bg-no-evaluado': !s.evaluations.estado,'text-bg-danger': (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
