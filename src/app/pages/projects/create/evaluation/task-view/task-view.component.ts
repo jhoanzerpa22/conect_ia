@@ -30,6 +30,8 @@ import Swal from 'sweetalert2';
 import { round } from 'lodash';
 import * as moment from 'moment';
 
+import { estadosData } from '../../../estados';
+
 @Component({
   selector: 'app-task-view',
   templateUrl: './task-view.component.html',
@@ -114,6 +116,8 @@ export class EvaluationTaskViewComponent implements OnInit {
   myFiles:string [] = [];
   status: any;
   evaluation_id: any = '';
+
+  estados_default: any = estadosData;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private _location: Location) {
     this.recentData = service.recents$;
@@ -477,9 +481,28 @@ export class EvaluationTaskViewComponent implements OnInit {
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
+  
+ getCategoryStatus(estado?: any){
+  if(estado){  
+    const index = this.estados_default.findIndex(
+      (es: any) =>
+        es.value == estado
+    );
+
+    if(index != -1){
+      return this.estados_default[index].category;
+    }else{
+      return null;
+    }
+
+  }else{
+    return estado;
+  }
+  
+  }
 
   editEvaluation(){
-    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE')){
+    if(!this.status || (this.getCategoryStatus(this.status) != 'CUMPLE' && this.getCategoryStatus(this.status) != 'NO CUMPLE' && this.getCategoryStatus(this.status) != 'CUMPLE PARCIALMENTE')){
 
         Swal.fire({
           position: 'center',

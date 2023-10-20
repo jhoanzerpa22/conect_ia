@@ -26,6 +26,8 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+import { estadosData } from '../../../estados';
+
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { round } from 'lodash';
@@ -114,6 +116,42 @@ export class EvaluationFollowComponent implements OnInit {
 
   modelValueAsDate: Date = new Date();
 
+  estados_default: any = estadosData;
+  /*estados_default: any = [
+    //*DEFAULT
+    {value: 'CUMPLE', label: 'Cumple', type: null, category: 'CUMPLE'},
+    {value: 'CUMPLE PARCIALMENTE', label: 'Cumple parcial', type: null, category: 'CUMPLE PARCIALMENTE'},
+    {value: 'NO CUMPLE', label: 'No cumple', type: null, category: 'NO CUMPLE'},
+    //PERMISOS
+    {value: 'Aprobado y vigente', label: 'Aprobado y vigente', type: 'permiso', category: 'CUMPLE'},
+    {value: 'Actualizado/Regularizado', label: 'Actualizado/Regularizado', type: 'permiso', category: 'CUMPLE'},
+    {value: 'Desmovilizado', label: 'Desmovilizado', type: 'permiso', category: 'CUMPLE PARCIALMENTE'},
+    {value: 'Desactualizado', label: 'Desactualizado', type: 'permiso', category: 'CUMPLE PARCIALMENTE'}, 
+    {value: 'Rechazado', label: 'Rechazado', type: 'permiso', category: 'NO CUMPLE'},
+    {value: 'Caducado', label: 'Caducado', type: 'permiso', category: 'NO CUMPLE'},
+    {value: 'Suspendido', label: 'Suspendido', type: 'permiso', category: 'NO CUMPLE'},
+    {value: 'Revocado', label: 'Revocado', type: 'permiso', category: 'NO CUMPLE'},
+    {value: 'Por Gestionar', label: 'Por Gestionar', type: 'permiso', category: 'NO CUMPLE'},
+    {value: 'En elaboración', label: 'En elaboración', type: 'permiso', category: 'NO CUMPLE'},
+    {value: 'En trámite', label: 'En trámite', type: 'permiso', category: 'NO CUMPLE'},
+    //REPORTES
+    {value: 'Reporte Regularizado', label: 'Reporte Regularizado', type: 'reporte', category: 'CUMPLE'},
+    {value: 'Reportado dentro del plazo sin desviaciones', label: 'Reportado dentro del plazo sin desviaciones', type: 'reporte', category: 'CUMPLE'},
+    {value: 'Reportado fuera de plazo con desviaciones', label: 'Reportado fuera de plazo con desviaciones', type: 'reporte', category: 'CUMPLE PARCIALMENTE'},
+    {value: 'Reportado fuera de plazo sin desviaciones', label: 'Reportado fuera de plazo sin desviaciones', type: 'reporte', category: 'CUMPLE PARCIALMENTE'}, 
+    {value: 'Reportado dentro del plazo con desviaciones', label: 'Reportado dentro del plazo con desviaciones', type: 'reporte', category: 'CUMPLE PARCIALMENTE'}, 
+    {value: 'No reportado', label: 'No reportado', type: 'reporte', category: 'NO CUMPLE'},
+    //MONITOREOS
+    {value: 'Monitoreo Regularizado', label: 'Monitoreo Regularizado', type: 'monitoreo', category: 'CUMPLE'},
+    {value: 'Ejecutado dentro del plazo sin desviaciones', label: 'Ejecutado dentro del plazo sin desviaciones', type: 'monitoreo', category: 'CUMPLE'},
+    {value: 'Ejecutado fuera de plazo con desviaciones', label: 'Ejecutado fuera de plazo con desviaciones', type: 'monitoreo', category: 'CUMPLE PARCIALMENTE'},
+    {value: 'Ejecutado fuera de plazo sin desviaciones', label: 'Ejecutado fuera de plazo sin desviaciones', type: 'monitoreo', category: 'CUMPLE PARCIALMENTE'}, 
+    {value: 'Ejecutado dentro del plazo con desviaciones', label: 'Ejecutado dentro del plazo con desviaciones', type: 'monitoreo', category: 'CUMPLE PARCIALMENTE'}, 
+    {value: 'No reportado', label: 'No reportado', type: 'monitoreo', category: 'NO CUMPLE'}
+  ];*/
+
+  estados: any = [];
+
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location/*, private ref: ChangeDetectorRef*/) {
     this.recentData = service.recents$;
     this.total = service.total$;
@@ -173,6 +211,10 @@ export class EvaluationFollowComponent implements OnInit {
 
     this.HallazgosDatas = this.dataSource;
 
+    this.estados = this.estados_default.filter((estado: any) => {
+      return !estado.type;
+    });
+
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
       this.cuerpo_id = params['id'];
@@ -228,6 +270,13 @@ export class EvaluationFollowComponent implements OnInit {
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
           //console.log('ARTICULOS:', this.articulo);
+          
+          if(this.articulo.project_article && this.articulo.project_article.articuloTipo){
+            this.estados = this.estados_default.filter((estado: any) => {
+              return estado.type == this.articulo.project_article.articuloTipo;
+            });
+          }
+
           this.hidePreLoader();
       },
       (error: any) => {
@@ -328,11 +377,30 @@ export class EvaluationFollowComponent implements OnInit {
       this.modalService.dismissAll()
     }
   }
+  
+  getCategoryStatus(estado?: any){
+    if(estado){  
+      const index = this.estados_default.findIndex(
+        (es: any) =>
+          es.value == estado
+      );
+
+      if(index != -1){
+        return this.estados_default[index].category;
+      }else{
+        return null;
+      }
+
+    }else{
+      return estado;
+    }
+    
+  }
 
   saveEvaluation(){
-    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE') || (this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
+    if(!this.status || (this.getCategoryStatus(this.status) != 'CUMPLE' && this.getCategoryStatus(this.status) != 'NO CUMPLE' && this.getCategoryStatus(this.status) != 'CUMPLE PARCIALMENTE') || (this.getCategoryStatus(this.status) && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
 
-      if(this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
+      if(this.getCategoryStatus(this.status) && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
         Swal.fire({
           position: 'center',
           icon: 'error',

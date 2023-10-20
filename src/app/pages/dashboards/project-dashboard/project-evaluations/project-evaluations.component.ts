@@ -8,6 +8,8 @@ import { round } from 'lodash';
 // Sweet Alert
 import Swal from 'sweetalert2';
 
+import { estadosData } from '../../../projects/estados';
+
 @Component({
   selector: 'app-evaluations',
   templateUrl: './project-evaluations.component.html',
@@ -50,6 +52,8 @@ export class ProjectEvaluationsComponent implements OnInit {
   
   finalizeDate: Date = new Date();
   evaluations: any = {};
+  
+  estados_default: any = estadosData;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -118,6 +122,26 @@ export class ProjectEvaluationsComponent implements OnInit {
   });
 }
 
+
+getCategoryStatus(estado?: any){
+  if(estado){  
+    const index = this.estados_default.findIndex(
+      (es: any) =>
+        es.value == estado
+    );
+
+    if(index != -1){
+      return this.estados_default[index].category;
+    }else{
+      return null;
+    }
+
+  }else{
+    return estado;
+  }
+  
+  }
+
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
@@ -168,7 +192,7 @@ export class ProjectEvaluationsComponent implements OnInit {
                   //for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                     if(obj[i].installations_articles[j].evaluations.length > 0){
                       if(obj[i].installations_articles[j].evaluations[0].estado){
-                        switch (obj[i].installations_articles[j].evaluations[0].estado) {
+                        switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[0].estado)) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;
@@ -734,7 +758,7 @@ layers = [
           denyButton: 'order-3',
         }*/
           title: '¿Deseas finalizar la evaluación?',
-          text: 'Tienes obligaciones pendientes por evaluar. Si presionas continuar, las obligaciones pendientes pasarán a control como "No cumple", con un 0% de cumplimiento',
+          text: 'Tienes obligaciones pendientes por evaluar. Si presionas continuar, las obligaciones pendientes pasarán a control como "No Evaluado"',//"No cumple", con un 0% de cumplimiento
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#364574',

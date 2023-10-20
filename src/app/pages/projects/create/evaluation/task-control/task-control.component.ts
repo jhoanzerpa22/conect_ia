@@ -31,6 +31,8 @@ import Swal from 'sweetalert2';
 import { round } from 'lodash';
 import * as moment from 'moment';
 
+import { estadosData } from '../../../estados';
+
 @Component({
   selector: 'app-task-control',
   templateUrl: './task-control.component.html',
@@ -129,6 +131,9 @@ export class TaskControlComponent implements OnInit {
   status: any;
   evaluationDetail: any = {};
   showDetailEvaluation: boolean = false;
+  
+  estados_default: any = estadosData;
+  estados: any = [];
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
@@ -207,6 +212,10 @@ export class TaskControlComponent implements OnInit {
     
     this.HallazgosDatas = this.dataSource;
     this.TaskDatas = this.dataSource2;
+
+    this.estados = this.estados_default.filter((estado: any) => {
+      return !estado.type;
+    });
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
@@ -377,6 +386,12 @@ export class TaskControlComponent implements OnInit {
           });
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+          
+          if(this.articulo.project_article && this.articulo.project_article.articuloTipo){
+            this.estados = this.estados_default.filter((estado: any) => {
+              return estado.type == this.articulo.project_article.articuloTipo;
+            });
+          }
 
           this.hidePreLoader();
       },
@@ -503,11 +518,30 @@ export class TaskControlComponent implements OnInit {
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
   }
+  
+  getCategoryStatus(estado?: any){
+    if(estado){  
+      const index = this.estados_default.findIndex(
+        (es: any) =>
+          es.value == estado
+      );
+
+      if(index != -1){
+        return this.estados_default[index].category;
+      }else{
+        return null;
+      }
+
+    }else{
+      return estado;
+    }
+    
+  }
 
   saveEvaluation(){
-    if(!this.status || (this.status != 'CUMPLE' && this.status != 'NO CUMPLE' && this.status != 'CUMPLE PARCIALMENTE') || (this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
+    if(!this.status || (this.getCategoryStatus(this.status) != 'CUMPLE' && this.getCategoryStatus(this.status) != 'NO CUMPLE' && this.getCategoryStatus(this.status) != 'CUMPLE PARCIALMENTE') || (this.status && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
 
-      if(this.status && (this.status == 'NO CUMPLE' || this.status == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
+      if(this.status && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
         Swal.fire({
           position: 'center',
           icon: 'error',
