@@ -583,8 +583,8 @@ export class IdentificationComponent implements OnInit {
         position: "bottom",
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
@@ -615,8 +615,8 @@ export class IdentificationComponent implements OnInit {
         },
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
@@ -640,8 +640,8 @@ export class IdentificationComponent implements OnInit {
         position: "bottom",
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
@@ -665,8 +665,8 @@ export class IdentificationComponent implements OnInit {
         position: "bottom",
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
@@ -690,8 +690,8 @@ export class IdentificationComponent implements OnInit {
         position: "bottom",
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
@@ -716,8 +716,8 @@ export class IdentificationComponent implements OnInit {
         position: "bottom",
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
@@ -742,8 +742,8 @@ export class IdentificationComponent implements OnInit {
         position: "bottom",
       },
       dataLabels: {
-        dropShadow: {
-          enabled: false,
+        formatter: function (val: any, opts: any) {
+            return opts.w.config.series[opts.seriesIndex]
         },
       },
       labels: this.getCategories(),//["Gestionar","Por definir"],
