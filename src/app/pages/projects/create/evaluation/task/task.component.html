@@ -54,9 +54,13 @@
                         <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" formControlName="estado_evaluacion" data-choices data-choices-search-false
                                     id="choices-priority-input2" (change)="changeStatus($event)">
                                     <option value="" selected>Seleccione Cumplimiento</option>
-                                    <option value="CUMPLE">Cumple</option>
+                                    
+                                    <ng-container *ngFor="let estado of estados">
+                                        <option value="{{estado.value}}">{{estado.label}}</option>
+                                    </ng-container>
+                                    <!--<option value="CUMPLE">Cumple</option>
                                     <option value="CUMPLE PARCIALMENTE">Cumple parcial</option>
-                                    <option value="NO CUMPLE">No cumple</option>
+                                    <option value="NO CUMPLE">No cumple</option>-->
                         </select>
                     </div>
                 </div>

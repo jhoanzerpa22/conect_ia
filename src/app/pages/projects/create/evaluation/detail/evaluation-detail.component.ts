@@ -17,6 +17,8 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 
 import { TokenStorageService } from '../../../../../core/services/token-storage.service';
 
+import { estadosData } from '../../../estados';
+
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { round } from 'lodash';
@@ -94,6 +96,8 @@ export class EvaluationDetailComponent implements OnInit {
   total_articulos: number = 0;
 
   evaluations: any = {};
+  
+  estados_default: any = estadosData;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -664,7 +668,26 @@ getArticlesCuerpo(articulos: any){
 
   validateCuerpo(cuerpo: any){
     return this.cuerpo_select == cuerpo;
- }
+  }
+
+  getCategoryStatus(estado?: any){
+    if(estado){  
+      const index = this.estados_default.findIndex(
+        (es: any) =>
+          es.value == estado
+      );
+
+      if(index != -1){
+        return this.estados_default[index].category;
+      }else{
+        return null;
+      }
+
+    }else{
+      return estado;
+    }
+    
+  }
 
   private getArticlesByInstallationBody(installation_id: any){
 
@@ -725,7 +748,7 @@ getArticlesCuerpo(articulos: any){
                   total += 1;
                   procede = true;
                   if(articulos[i].articulos[j].evaluations.estado){
-                    switch (articulos[i].articulos[j].evaluations.estado) {
+                    switch (this.getCategoryStatus(articulos[i].articulos[j].evaluations.estado)) {
                       case 'CUMPLE':
                         cumple ++;
                         cuerpo_cumple ++;
