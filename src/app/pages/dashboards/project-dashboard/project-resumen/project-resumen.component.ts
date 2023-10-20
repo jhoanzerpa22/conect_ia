@@ -6,6 +6,8 @@ import { ProjectsService } from '../../../../core/services/projects.service';
 import { round } from 'lodash';
 import {Location} from '@angular/common';
 
+import { estadosData } from '../../../projects/estados';
+
 @Component({
   selector: 'app-project-resumen',
   templateUrl: './project-resumen.component.html',
@@ -152,6 +154,8 @@ export class ProjectResumenComponent implements OnInit {
   select_gestion_instalacion: any = 'articulos';
 
   articles_filter: any = [];
+  
+  estados_default: any = estadosData;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private _location: Location) {
   }
@@ -279,6 +283,25 @@ export class ProjectResumenComponent implements OnInit {
        });
     }
 
+ getCategoryStatus(estado?: any){
+  if(estado){  
+    const index = this.estados_default.findIndex(
+      (es: any) =>
+        es.value == estado
+    );
+
+    if(index != -1){
+      return this.estados_default[index].category;
+    }else{
+      return null;
+    }
+
+  }else{
+    return estado;
+  }
+  
+  }
+
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
@@ -318,7 +341,7 @@ export class ProjectResumenComponent implements OnInit {
 
                   for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                       if(obj[i].installations_articles[j].evaluations[v].estado){
-                        switch (obj[i].installations_articles[j].evaluations[v].estado) {
+                        switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[v].estado)) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;

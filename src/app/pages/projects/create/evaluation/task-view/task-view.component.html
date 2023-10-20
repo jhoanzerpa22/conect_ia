@@ -50,7 +50,7 @@
                     <h6 style="color: #405189;"><b>ESTADO</b></h6>
                     
                     <div class="col-lg-2 col">
-                        <span class="badge" [ngClass]="{'text-bg-danger': (!articulo.evaluations || !articulo.evaluations.estado) || (articulo.evaluations && articulo.evaluations.estado  == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado  ? articulo.evaluations.estado  : 'NO EVALUADO' }}</span>
+                        <span class="badge" [ngClass]="{'text-bg-no-evaluado': (!articulo.evaluations || !articulo.evaluations.estado), 'text-bg-danger': (articulo.evaluations && getCategoryStatus(articulo.evaluations.estado) == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado  && getCategoryStatus(articulo.evaluations.estado)  == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado && getCategoryStatus(articulo.evaluations.estado) == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado  ? articulo.evaluations.estado  : 'NO EVALUADO' }}</span>
                     </div>
             </div>
             

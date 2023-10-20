@@ -43,7 +43,7 @@
                     <h6>CUMPLIMIENTO</h6>
                     
                     <div class="col-lg-12 col">
-                        <span class="badge" [ngClass]="{'text-bg-no-evaluado': (!articulo.evaluations || !articulo.evaluations.estado),'text-bg-danger': (articulo.evaluations && articulo.evaluations.estado && articulo.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado  && articulo.evaluations.estado  == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado  ? articulo.evaluations.estado  : 'NO EVALUADO' }}</span>
+                        <span class="badge" [ngClass]="{'text-bg-no-evaluado': (!articulo.evaluations || !articulo.evaluations.estado),'text-bg-danger': (articulo.evaluations && articulo.evaluations.estado && getCategoryStatus(articulo.evaluations.estado) == 'NO CUMPLE'), 'text-bg-success': articulo.evaluations && articulo.evaluations.estado && getCategoryStatus(articulo.evaluations.estado) == 'CUMPLE', 'text-bg-warning': articulo.evaluations && articulo.evaluations.estado && getCategoryStatus(articulo.evaluations.estado) == 'CUMPLE PARCIALMENTE'}">{{ articulo.evaluations && articulo.evaluations.estado ? articulo.evaluations.estado  : 'NO EVALUADO' }}</span>
                     </div>
             </div>
             
@@ -100,9 +100,13 @@
                         <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
                                     id="choices-priority-input2" (change)="changeStatus($event)">
                                     <option value="" selected>Seleccione Cumplimiento</option>
-                                    <option value="CUMPLE">Cumple</option>
+                                    
+                                    <ng-container *ngFor="let estado of estados">
+                                        <option value="{{estado.value}}">{{estado.label}}</option>
+                                    </ng-container>
+                                    <!--<option value="CUMPLE">Cumple</option>
                                     <option value="CUMPLE PARCIALMENTE">Cumple parcial</option>
-                                    <option value="NO CUMPLE">No cumple</option>
+                                    <option value="NO CUMPLE">No cumple</option>-->
                         </select>
                     </div>
                 </div>
@@ -270,7 +274,7 @@
 
                                                         <div class="col-lg-2 col">
                                                             
-                                                            <span class="badge" [ngClass]="{'text-bg-danger': h.estado  == 'NO CUMPLE', 'text-bg-success': h.estado == 'CUMPLE', 'text-bg-warning': h.estado == 'CUMPLE PARCIALMENTE'}">{{ h.estado ? h.estado : 'NO EVALUADO' }}</span>
+                                                            <span class="badge" [ngClass]="{'text-bg-danger': getCategoryStatus(h.estado) == 'NO CUMPLE', 'text-bg-success': getCategoryStatus(h.estado) == 'CUMPLE', 'text-bg-warning': getCategoryStatus(h.estado) == 'CUMPLE PARCIALMENTE'}">{{ h.estado ? h.estado : 'NO EVALUADO' }}</span>
 
                                                         </div>
                                                     </div>
@@ -292,7 +296,7 @@
                                                     <h6 style="color: #405189;"><b>ESTADO</b></h6>
                                                     
                                                     <div class="col-lg-2 col">
-                                                        <span class="badge" [ngClass]="{'text-bg-danger': evaluationDetail.estado  == 'NO CUMPLE', 'text-bg-success': evaluationDetail.estado == 'CUMPLE', 'text-bg-warning': evaluationDetail.estado == 'CUMPLE PARCIALMENTE'}">{{ evaluationDetail.estado ? evaluationDetail.estado  : 'NO EVALUADO' }}</span>
+                                                        <span class="badge" [ngClass]="{'text-bg-danger': getCategoryStatus(evaluationDetail.estado) == 'NO CUMPLE', 'text-bg-success': getCategoryStatus(evaluationDetail.estado) == 'CUMPLE', 'text-bg-warning': getCategoryStatus(evaluationDetail.estado) == 'CUMPLE PARCIALMENTE'}">{{ evaluationDetail.estado ? evaluationDetail.estado  : 'NO EVALUADO' }}</span>
                                                     </div>
                                             </div>
                                             

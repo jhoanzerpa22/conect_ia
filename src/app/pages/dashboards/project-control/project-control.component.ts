@@ -5,6 +5,8 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
 
+import { estadosData } from '../../projects/estados';
+
 @Component({
   selector: 'app-project-control',
   templateUrl: './project-control.component.html',
@@ -45,6 +47,8 @@ export class ProjectControlComponent implements OnInit {
   cuerpo_cumple: number = 0;
   cuerpo_nocumple: number = 0;
   cuerpo_parcial: number = 0;
+  
+  estados_default: any = estadosData;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -117,6 +121,25 @@ export class ProjectControlComponent implements OnInit {
        });
     }
 
+ getCategoryStatus(estado?: any){
+  if(estado){  
+    const index = this.estados_default.findIndex(
+      (es: any) =>
+        es.value == estado
+    );
+
+    if(index != -1){
+      return this.estados_default[index].category;
+    }else{
+      return null;
+    }
+
+  }else{
+    return estado;
+  }
+  
+  }
+
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
@@ -156,7 +179,7 @@ export class ProjectControlComponent implements OnInit {
 
                   for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                       if(obj[i].installations_articles[j].evaluations[v].estado){
-                        switch (obj[i].installations_articles[j].evaluations[v].estado) {
+                        switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[v].estado)) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;

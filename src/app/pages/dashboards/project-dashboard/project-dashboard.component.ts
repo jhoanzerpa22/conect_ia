@@ -8,6 +8,7 @@ import { round } from 'lodash';
 // Sweet Alert
 import Swal from 'sweetalert2';
 
+import { estadosData } from '../../projects/estados';
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
@@ -50,6 +51,8 @@ export class ProjectDashboardComponent implements OnInit {
   cuerpo_nocumple: number = 0;
   cuerpo_parcial: number = 0;
   showData: boolean = false;
+  
+  estados_default: any = estadosData;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
   }
@@ -117,6 +120,26 @@ export class ProjectDashboardComponent implements OnInit {
          //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
        });
     }
+    
+
+ getCategoryStatus(estado?: any){
+  if(estado){  
+    const index = this.estados_default.findIndex(
+      (es: any) =>
+        es.value == estado
+    );
+
+    if(index != -1){
+      return this.estados_default[index].category;
+    }else{
+      return null;
+    }
+
+  }else{
+    return estado;
+  }
+  
+  }
 
   getInstallations(idProject?: any) {
     this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
@@ -157,7 +180,7 @@ export class ProjectDashboardComponent implements OnInit {
 
                   for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                       if(obj[i].installations_articles[j].evaluations[v].estado){
-                        switch (obj[i].installations_articles[j].evaluations[v].estado) {
+                        switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[v].estado)) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;
