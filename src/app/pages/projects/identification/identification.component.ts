@@ -439,8 +439,8 @@ export class IdentificationComponent implements OnInit {
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
-    this.getDashboardArea(project_id, this.select_gestion, refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
-    this.getDashboardInstalaciones(project_id, this.select_gestion_instalacion, refresh, undefined, areaId, undefined, criticidad);
+    this.getDashboardArea(project_id, 'default', this.select_gestion, refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
+    this.getDashboardInstalaciones(project_id, 'default', this.select_gestion_instalacion, refresh, undefined, areaId, undefined, criticidad);
 
   }
 
@@ -4205,12 +4205,15 @@ validateIdparte(idParte: any){
         });
      }
 
-    getDashboardArea(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+    getDashboardArea(idProject?: any, selection?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
         this.projectsService.getDashboardArea(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
           (data: any) => {
             console.log('dataDashboardArea',data);
             this.dashboardArea = data.data;
-            if(refresh){
+            if(refresh && selection == 'default'){
+              this._basicBarChartGeneral('["--vz-info"]');
+              this._basicBarChartAtributos('["--vz-info"]');
+            }else if(refresh && selection == 'select'){
               this._basicBarChartGeneral('["--vz-info"]');
             }
             //this.project = data.data;
@@ -4221,12 +4224,15 @@ validateIdparte(idParte: any){
         });
      }
      
-    getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+    getDashboardInstalaciones(idProject?: any, selection?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
       this.projectsService.getDashboardInstalations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
         (data: any) => {
           console.log('dataDashboardInstalaciones',data);
           this.dashboardInstallation = data.data;
-          if(refresh){
+          if(refresh && selection == 'default'){
+            this._basicBarChartGeneralInstallation('["--vz-info"]');
+            this._basicBarChartAtributosInstallations('["--vz-info"]');
+          }else if(refresh && selection == 'select'){
             this._basicBarChartGeneralInstallation('["--vz-info"]');
           }
           //this.project = data.data;
@@ -6391,7 +6397,7 @@ validateIdparte(idParte: any){
   
   selectGestion(x: any) {
     this.select_gestion = x;
-    this.getDashboardArea(this.project_id, x, true);
+    this.getDashboardArea(this.project_id, 'select', x, true, undefined, this.filtro_area, undefined, this.criticidad);
 
     /*if (x == 'all') {
         this.basicBarChart.series = [{
@@ -6415,7 +6421,7 @@ validateIdparte(idParte: any){
 
   selectGestionInstalacion(x: any) {
     this.select_gestion_instalacion = x;
-    this.getDashboardInstalaciones(this.project_id, x, true);
+    this.getDashboardInstalaciones(this.project_id, 'select', x, true, undefined, this.filtro_area, undefined, this.criticidad);
   }
   
   selectAreaChart(id?: any){
@@ -7399,8 +7405,8 @@ validateIdparte(idParte: any){
 
   refreshChart(){
     this.getDashboard(this.project_id, false);
-    this.getDashboardArea(this.project_id, this.select_gestion);
-    this.getDashboardInstalaciones(this.project_id, this.select_gestion_instalacion);
+    this.getDashboardArea(this.project_id, 'default', this.select_gestion);
+    this.getDashboardInstalaciones(this.project_id, 'default', this.select_gestion_instalacion);
 
     this.setChart();
   }
