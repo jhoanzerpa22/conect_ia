@@ -565,12 +565,14 @@
                                     width: 100%;
                                     text-align: left;
                                     background: white;
-                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo_cuerpo ? 'Tipo de Vinculación' : tipo_cuerpo }}</button>    
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo_cuerpo ? 'Cumplimiento' : tipo_cuerpo }}</button>    
                                     <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                     <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                         <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
-                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Gestionar' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Gestionar')">Gestionar</a>
-                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Por definir' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Por definir')">Por definir</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple')">Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple Parcial' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple Parcial')">Cumple Parcial</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Cumple')">No Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Evaluado' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Evaluado')">No Evaluado</a>
                                     </div>
                                 </div>
         
@@ -680,7 +682,7 @@
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;"
                                                           >
-                                                          0/{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}
+                                                          {{getDataDashboardCuerpo('articulos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('articulos_evaluados')}}/{{getDataDashboardCuerpo('articulos') < 1 ? 0 : getDataDashboardCuerpo('articulos')}}
                                                       </span>
                                                   </h4>
                                               <!--</div>
@@ -690,7 +692,7 @@
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('articulos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('articulos_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -704,7 +706,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                           <h4 class="fs-1">
                                               <span class="counter-value" style="color: #405189;">
-                                                0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}
+                                                {{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboardCuerpo('instancias') < 1 ? 0 : getDataDashboardCuerpo('instancias')}}
                                               </span>
                                           </h4>
                                               <!--</div>
@@ -714,7 +716,7 @@
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('instancias_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('instancias_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -730,7 +732,7 @@
                                            
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}
+                                                        {{getDataDashboardCuerpo('elementos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('elementos_evaluados')}}/{{getDataDashboardCuerpo('elementos') < 1 ? 0 : getDataDashboardCuerpo('elementos')}}
                                                       </span>
                                                   </h4>
                                               <!--</div>
@@ -740,7 +742,7 @@
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('elementos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('elementos_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -757,14 +759,14 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}
+                                                        {{getDataDashboardCuerpo('permisos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('permisos_evaluados')}}/{{getDataDashboardCuerpo('permisos') < 1 ? 0 : getDataDashboardCuerpo('permisos')}}
                                                       </span>
                                                   </h4>
                                       </div>
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('permisos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('permisos_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -778,14 +780,14 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}
+                                                        {{getDataDashboardCuerpo('reportes_evaluados') < 1 ? 0 : getDataDashboardCuerpo('reportes_evaluados')}}/{{getDataDashboardCuerpo('reportes') < 1 ? 0 : getDataDashboardCuerpo('reportes')}}
                                                       </span>
                                                   </h4>
                                       </div>
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('reportes_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('reportes_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -799,14 +801,14 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}
+                                                        {{getDataDashboardCuerpo('monitoreos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('monitoreos_evaluados')}}/{{getDataDashboardCuerpo('monitoreos') < 1 ? 0 : getDataDashboardCuerpo('monitoreos')}}
                                                       </span>
                                                   </h4>
                                       </div>
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('monitoreos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('monitoreos_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -821,14 +823,14 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                       <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}
+                                                        {{getDataDashboardCuerpo('otros_evaluados') < 1 ? 0 : getDataDashboardCuerpo('otros_evaluados')}}/{{getDataDashboardCuerpo('otros') < 1 ? 0 : getDataDashboardCuerpo('otros')}}
                                                       </span>
                                                       </h4>
                                       </div>
                                       <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                           <h4 class="fs-1">
                                               <span class="counter-value text-success">
-                                                  15%
+                                                {{getDataDashboardCuerpo('otros_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('otros_cumplimiento')}}%
                                               </span>
                                           </h4>
                                           <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
