@@ -191,8 +191,9 @@ export class ProjectResumenComponent implements OnInit {
         this.getAreas(params['id']);
         this.getEvaluations(params['id']);
         this.getInstallations(params['id']);
-        this.getDashboard(params['id'])
-        this.getDashboardCuerpo(params['id'])
+        this.getDashboard(params['id']);
+        this.getDashboardCuerpo(params['id']);
+        this.getDashboardAreaCuerpo(params['id']);
       }else{
         this.getProjects();
       }
@@ -239,6 +240,7 @@ export class ProjectResumenComponent implements OnInit {
             this.getInstallations(proyecto);
             this.getDashboard(proyecto);
             this.getDashboardCuerpo(proyecto);
+            this.getDashboardAreaCuerpo(proyecto);
           }
           this.hidePreLoader();
       },
@@ -4171,6 +4173,14 @@ getChart(criticidad: any, config: any){
         case 'cuerpos':
           return this.dashboard.tarjetas.countCuerpoLegal;
           break;
+          
+          case 'cuerpos_evaluados':
+            return this.dashboard.estadoCuerposLegales.countEvaluados;
+            break;
+          
+          case 'cuerpos_cumplimiento':
+            return ((this.dashboard.estadoCuerposLegales.countEvaluados * 100) / this.dashboard.tarjetas.countCuerpoLegal).toFixed();
+            break;
         
         case 'articulos':
           return this.dashboard.tarjetas.countArticulos;
@@ -4182,6 +4192,14 @@ getChart(criticidad: any, config: any){
         
         case 'elementos':
           return this.dashboard.tarjetas.countInstalaciones;
+          break;
+          
+        case 'elementos_evaluados':
+          return this.dashboard.tarjetas.countElementosEvaluados;
+          break;
+        
+        case 'elementos_cumplimiento':
+          return ((this.dashboard.tarjetas.countElementosEvaluados * 100) / this.dashboard.tarjetas.countInstalaciones).toFixed();
           break;
         
         case 'permisos':
@@ -4208,6 +4226,14 @@ getChart(criticidad: any, config: any){
             return this.dashboard.tarjetas.countArticulosDefinir;
             break;
 
+        case 'articulos_evaluados':
+            return this.dashboard.tarjetas.countArticulosEvaluados;
+            break;
+                
+        case 'articulos_cumplimiento':
+            return ((this.dashboard.tarjetas.countArticulosEvaluados * 100) / this.dashboard.tarjetas.countArticulos).toFixed();
+            break;
+
         case 'articulos_alta':
               return this.dashboard.tarjetas.countArticulosAlta;
               break;
@@ -4230,6 +4256,14 @@ getChart(criticidad: any, config: any){
           
         case 'instancias_definir':
             return this.dashboard.tarjetas.countInstanciasDefinir;
+            break;
+
+        case 'instancias_evaluadas':
+              return this.dashboard.tarjetas.countInstanciasEvaluadas;
+              break;
+  
+        case 'instancias_cumplimiento':
+            return ((this.dashboard.tarjetas.countInstanciasEvaluadas * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed();
             break;
 
         case 'cuerpos_gestionar':
@@ -4264,6 +4298,14 @@ getChart(criticidad: any, config: any){
             return this.dashboard.obligacionesAplicabilidad.permiso.countDefinir;
             break;
 
+        case 'permisos_evaluados':
+            return this.dashboard.obligacionesAplicabilidad.permiso.countEvaluados;
+            break;
+      
+        case 'permisos_cumplimiento':
+            return ((this.dashboard.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboard.tarjetas.countPermisos).toFixed();
+            break;
+
         case 'permisos_alta':
             return this.dashboard.obligacionesAplicabilidad.permiso.countAlta;
             break;
@@ -4287,7 +4329,15 @@ getChart(criticidad: any, config: any){
         case 'reportes_definir':
             return this.dashboard.obligacionesAplicabilidad.reporte.countDefinir;
             break;
-            
+        
+        case 'reportes_evaluados':
+            return this.dashboard.obligacionesAplicabilidad.reporte.countEvaluados;
+            break;
+        
+        case 'reportes_cumplimiento':
+            return ((this.dashboard.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboard.tarjetas.countReportes).toFixed();
+            break;
+      
         case 'reportes_alta':
             return this.dashboard.obligacionesAplicabilidad.reporte.countAlta;
             break;
@@ -4310,6 +4360,14 @@ getChart(criticidad: any, config: any){
       
         case 'monitoreos_definir':
             return this.dashboard.obligacionesAplicabilidad.monitoreo.countDefinir;
+            break;
+        
+        case 'monitoreos_evaluados':
+            return this.dashboard.obligacionesAplicabilidad.monitoreo.countEvaluados;
+            break;
+            
+        case 'monitoreos_cumplimiento':
+            return ((this.dashboard.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboard.tarjetas.countMonitoreos).toFixed();
             break;
       
         case 'monitoreos_alta':
@@ -4335,7 +4393,15 @@ getChart(criticidad: any, config: any){
         case 'otros_definir':
             return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
             break;
-        
+
+        case 'otros_evaluados':
+          return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
+          break;
+    
+        case 'otros_cumplimiento':
+          return ((this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboard.tarjetas.countOtrasObligaciones).toFixed();
+          break;
+
         case 'otros_alta':
             return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countAlta;
             break;
@@ -5130,7 +5196,7 @@ getChart(criticidad: any, config: any){
   }
 
   getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
-    this.projectsService.getDashboard(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
+    this.projectsService.getDashboardEvaluations(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
       (data: any) => {
        console.log('dataDashboard',data);
        this.dashboard = data.data;
@@ -5162,7 +5228,7 @@ getChart(criticidad: any, config: any){
   }
 
  getDashboardArea(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
-     this.projectsService.getDashboardArea(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
+     this.projectsService.getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
        (data: any) => {
          console.log('dataDashboardArea',data);
          this.dashboardArea = data.data;
@@ -5196,7 +5262,7 @@ getChart(criticidad: any, config: any){
 }
 
   getDashboardAreaCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-      this.projectsService./*getDashboardAreaByCuerpo*/getDashboardArea(idProject, type, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
+      this.projectsService./*getDashboardAreaByCuerpo*/getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
         (data: any) => {
           console.log('dataDashboardAreaCuerpo',data);
           this.dashboardAreaCuerpo = data.data;

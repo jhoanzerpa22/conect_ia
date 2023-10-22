@@ -60,7 +60,7 @@
                                     <span style="color: #405189;"><b> Avance de la evaluación</b></span>
                                 </div>
                                 <div class="col-lg-8" style="text-align: right;">
-                                    <span style="color: #405189;"> {{avance_evaluacion}}% (0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}) de instancias de cumplimiento evaluadas</span>
+                                    <span style="color: #405189;"> {{avance_evaluacion}}% ({{getDataDashboard('instancias_evaluadas') < 1 ? 0 : getDataDashboard('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="progress">
@@ -160,13 +160,13 @@
                                                 
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos' : (tipo == 'Gestionar' ? 'cuerpos_gestionar' : 'cuerpos_definir'))}}</span>
+                                                        {{getDataDashboard('cuerpos_evaluados') < 1 ? 0 : getDataDashboard('cuerpos_evaluados')}}/{{getDataDashboard('cuerpos') < 1 ? 0 : getDataDashboard('cuerpos')}}</span>
                                                 </h4>
                                     </div>
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('cuerpos_cumplimiento') < 1 ? 0 : getDataDashboard('cuerpos_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -182,7 +182,7 @@
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;"
                                                         >
-                                                        0/{{getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos' : (tipo == 'Gestionar' ? 'articulos_gestionar' : 'articulos_definir'))}}
+                                                        {{getDataDashboard('articulos_evaluados') < 1 ? 0 : getDataDashboard('articulos_evaluados')}}/{{getDataDashboard('articulos') < 1 ? 0 : getDataDashboard('articulos')}}
                                                         
                                                     </span>
                                                 </h4>
@@ -193,7 +193,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('articulos_cumplimiento') < 1 ? 0 : getDataDashboard('articulos_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -207,7 +207,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                         <h4 class="fs-1">
                                             <span class="counter-value" style="color: #405189;">
-                                                0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}
+                                                {{getDataDashboard('instancias_evaluadas') < 1 ? 0 : getDataDashboard('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}
                                                 
                                             </span>
                                         </h4>
@@ -218,7 +218,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('instancias_cumplimiento') < 1 ? 0 : getDataDashboard('instancias_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -234,7 +234,7 @@
                                          
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}
+                                                        {{getDataDashboard('elementos_evaluados') < 1 ? 0 : getDataDashboard('elementos_evaluados')}}/{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}
                                                     
                                                     </span>
                                                 </h4>
@@ -245,7 +245,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('elementos_cumplimiento') < 1 ? 0 : getDataDashboard('elementos_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -262,7 +262,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos' : (tipo == 'Gestionar' ? 'permisos_gestionar' : 'permisos_definir'))}}
+                                                        {{getDataDashboard('permisos_evaluados') < 1 ? 0 : getDataDashboard('permisos_evaluados')}}/{{getDataDashboard('permisos') < 1 ? 0 : getDataDashboard('permisos')}}
                                                         
                                                     </span>
                                                 </h4>
@@ -270,7 +270,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('permisos_cumplimiento') < 1 ? 0 : getDataDashboard('permisos_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -284,7 +284,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes' : (tipo == 'Gestionar' ? 'reportes_gestionar' : 'reportes_definir'))}}
+                                                        {{getDataDashboard('reportes_evaluados') < 1 ? 0 : getDataDashboard('reportes_evaluados')}}/{{getDataDashboard('reportes') < 1 ? 0 : getDataDashboard('reportes')}}
                                                         
                                                     </span>
                                                 </h4>
@@ -292,7 +292,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('reportes_cumplimiento') < 1 ? 0 : getDataDashboard('reportes_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -306,7 +306,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos' : (tipo == 'Gestionar' ? 'monitoreos_gestionar' : 'monitoreos_definir'))}}
+                                                        {{getDataDashboard('monitoreos_evaluados') < 1 ? 0 : getDataDashboard('monitoreos_evaluados')}}/{{getDataDashboard('monitoreos') < 1 ? 0 : getDataDashboard('monitoreos')}}
                                                         
                                                     </span>
                                                 </h4>
@@ -314,7 +314,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('monitoreos_cumplimiento') < 1 ? 0 : getDataDashboard('monitoreos_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -322,14 +322,13 @@
                                 </div>
                             </div>
                             
-                            
                             <div class="col-xl-3 col-md-3">
                                 <div class="card card-height-100">
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
                                         <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                     <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        0/{{getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros' : (tipo == 'Gestionar' ? 'otros_gestionar' : 'otros_definir'))}}
+                                                        {{getDataDashboard('otros_evaluados') < 1 ? 0 : getDataDashboard('otros_evaluados')}}/{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}
                                                         
                                                     </span>
                                                     </h4>
@@ -337,7 +336,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                15%
+                                                {{getDataDashboard('otros_cumplimiento') < 1 ? 0 : getDataDashboard('otros_cumplimiento')}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -524,7 +523,7 @@
                                 <span style="color: #405189;"><b> Avance de la evaluación</b></span>
                             </div>
                             <div class="col-lg-8" style="text-align: right;">
-                                <span style="color: #405189;"> {{avance_evaluacion}}% (0/{{getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias' : (tipo == 'Gestionar' ? 'instancias_gestionar' : 'instancias_definir'))}}) de instancias de cumplimiento evaluadas</span>
+                                <span style="color: #405189;"> {{avance_evaluacion}}% ({{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
                             </div>
                             <div class="col-lg-12">
                                 <div class="progress">
@@ -839,6 +838,26 @@
                               </div>
                           
                           </div>
+
+                          <div class="row mb-3 align-items-center justify-content-center">
+                            <div class="col-sm-12">
+                                
+                            <div class="card card-height-100">
+                                <div class="card-body">
+                                    
+                                    <h4>Instancias de cumplimiento por área</h4>
+        
+                                        <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
+                                            [chart]="getChart(criticidad, basicBarChartGeneralCuerpos.chart)" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
+                                            [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr"
+                                            [xaxis]="basicBarChartGeneralCuerpos.xaxis" [yaxis]="basicBarChartGeneralCuerpos.yaxis" [stroke]="basicBarChartGeneralCuerpos.stroke"
+                                            [fill]="basicBarChartGeneralCuerpos.fill" [title]="basicBarChartGeneralCuerpos.title"
+                                            [tooltip]="basicBarChartGeneralCuerpos.tooltip" [legend]="basicBarChartGeneralCuerpos.legend"></apx-chart>
+                                    
+                                </div>
+                            </div>
+                            </div>
+                        </div>
 
                     </ng-template>
                   </li>
