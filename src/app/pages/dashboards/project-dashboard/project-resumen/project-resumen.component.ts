@@ -191,7 +191,7 @@ export class ProjectResumenComponent implements OnInit {
         this.getAreas(params['id']);
         this.getEvaluations(params['id']);
         this.getInstallations(params['id']);
-        this.getDashboard(params['id']);
+        this.getDashboard(params['id'], true);
         this.getDashboardCuerpo(params['id']);
         this.getDashboardAreaCuerpo(params['id']);
       }else{
@@ -930,13 +930,13 @@ layers = [
     }
   }
   
-  getSeriesTipo(gestionar: any, por_definir: any, media?: any, alta?: any, baja?: any, otros?: any){
+  getSeriesTipo(cumple?: any, cumple_parcial?: any, no_cumple?: any, no_evaluados?: any, alta?: any, baja?: any, otros?: any){
     let series: any = [];
 
-    if(!this.tipo){
-        series =  [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
+    //if(!this.tipo){
+        series =  [this.getDataDashboard(cumple),this.getDataDashboard(cumple_parcial),this.getDataDashboard(no_cumple),this.getDataDashboard(no_evaluados) ];
       
-    }else{
+    /*}else{
       switch (this.tipo) {
         case 'Gestionar':
             if(this.criticidad == 'Todos'){
@@ -957,7 +957,7 @@ layers = [
             series = [this.getDataDashboard(gestionar),this.getDataDashboard(por_definir)];
           break;
       }
-    }
+    }*/
 
     return series;
   }
@@ -1629,7 +1629,7 @@ layers = [
     colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartCuerpos = {
-      series: /*this.getSeriesTipo('cuerpos_gestionar','cuerpos_definir', 'cuerpos_alta', 'cuerpos_media', 'cuerpos_baja', 'cuerpos_otros'),*/[4,5,10,2],
+      series: this.getSeriesTipo('cuerpos_cumple','cuerpos_cumple_parcial','cuerpos_no_cumple','cuerpos_no_evaluados'/*, 'cuerpos_alta', 'cuerpos_media', 'cuerpos_baja', 'cuerpos_otros'*/),
       chart: {
         height: 300,
         type: "donut",
@@ -1654,7 +1654,7 @@ layers = [
     colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartArticulos = {
-      series: [11,20,5,4],//this.getSeriesTipo('articulos_gestionar','articulos_definir', 'articulos_alta', 'articulos_media', 'articulos_baja', 'articulos_otros'),
+      series: this.getSeriesTipo('articulos_cumple','articulos_cumple_parcial','articulos_no_cumple','articulos_no_evaluados'/*, 'articulos_alta', 'articulos_media', 'articulos_baja', 'articulos_otros'*/),
       chart: {
         height: 300,
         type: "donut",
@@ -1686,7 +1686,7 @@ layers = [
     colors = this.getColorsTipo();
     colors = this.getChartColorsArray(colors);
     this.simpleDonutChartInstancias = {
-      series: [2,30,12,2],//this.getSeriesTipo('instancias_gestionar','instancias_definir', 'alta', 'media', 'baja', 'sin_criticidad'),
+      series: this.getSeriesTipo('instancias_cumple','instancias_cumple_parcial','instancias_no_cumple','instancias_no_evaluadas'/*, 'instancias_alta', 'instancias_media', 'instancias_baja', 'instancias_otros'*/),
       chart: {
         height: 300,
         type: "donut",
@@ -4166,7 +4166,6 @@ getChart(criticidad: any, config: any){
     }
   }
 
-  
   getDataDashboard(type: any){
     if(this.dashboard){
       switch (type) {
@@ -4174,12 +4173,28 @@ getChart(criticidad: any, config: any){
           return this.dashboard.tarjetas.countCuerpoLegal;
           break;
           
-          case 'cuerpos_evaluados':
+        case 'cuerpos_evaluados':
             return this.dashboard.estadoCuerposLegales.countEvaluados;
             break;
           
-          case 'cuerpos_cumplimiento':
-            return ((this.dashboard.estadoCuerposLegales.countEvaluados * 100) / this.dashboard.tarjetas.countCuerpoLegal).toFixed();
+        case 'cuerpos_no_evaluados':
+            return this.dashboard.estadoCuerposLegales.countNoEvaluados;
+            break;
+        
+        case 'cuerpos_cumple':
+            return this.dashboard.estadoCuerposLegales.countCumple;
+            break;
+        
+        case 'cuerpos_no_cumple':
+            return this.dashboard.estadoCuerposLegales.countNoCumple;
+            break;
+        
+        case 'cuerpos_cumple_parcial':
+            return this.dashboard.estadoCuerposLegales.countCumpleParcial;
+            break;
+          
+        case 'cuerpos_cumplimiento':
+            return this.dashboard.tarjetas.countCuerpoLegal > 0 ? ((this.dashboard.estadoCuerposLegales.countEvaluados * 100) / this.dashboard.tarjetas.countCuerpoLegal).toFixed() : 0;
             break;
         
         case 'articulos':
@@ -4199,7 +4214,7 @@ getChart(criticidad: any, config: any){
           break;
         
         case 'elementos_cumplimiento':
-          return ((this.dashboard.tarjetas.countElementosEvaluados * 100) / this.dashboard.tarjetas.countInstalaciones).toFixed();
+          return this.dashboard.tarjetas.countInstalaciones > 0 ? ((this.dashboard.tarjetas.countElementosEvaluados * 100) / this.dashboard.tarjetas.countInstalaciones).toFixed() : 0;
           break;
         
         case 'permisos':
@@ -4231,8 +4246,24 @@ getChart(criticidad: any, config: any){
             break;
                 
         case 'articulos_cumplimiento':
-            return ((this.dashboard.tarjetas.countArticulosEvaluados * 100) / this.dashboard.tarjetas.countArticulos).toFixed();
+            return this.dashboard.tarjetas.countArticulos > 0 ? ((this.dashboard.tarjetas.countArticulosEvaluados * 100) / this.dashboard.tarjetas.countArticulos).toFixed() : 0;
             break;
+          
+        case 'articulos_no_evaluados':
+              return this.dashboard.tarjetas.countArticulosNoEvaluados;
+              break;
+          
+        case 'articulos_cumple':
+              return this.dashboard.tarjetas.countArticulosCumple;
+              break;
+          
+        case 'articulos_no_cumple':
+              return this.dashboard.tarjetas.countArticulosNoCumple;
+              break;
+          
+        case 'articulos_cumple_parcial':
+              return this.dashboard.tarjetas.countArticulosCumpleParcial;
+              break;
 
         case 'articulos_alta':
               return this.dashboard.tarjetas.countArticulosAlta;
@@ -4263,8 +4294,24 @@ getChart(criticidad: any, config: any){
               break;
   
         case 'instancias_cumplimiento':
-            return ((this.dashboard.tarjetas.countInstanciasEvaluadas * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed();
+            return this.dashboard.tarjetas.countInstanciasCumplimiento > 0 ? ((this.dashboard.tarjetas.countInstanciasEvaluadas * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
             break;
+
+        case 'instancias_no_evaluadas':
+              return this.dashboard.tarjetas.countInstanciasNoEvaluadas;
+              break;
+          
+        case 'instancias_cumple':
+              return this.dashboard.tarjetas.countInstanciasCumple;
+              break;
+          
+        case 'instancias_no_cumple':
+              return this.dashboard.tarjetas.countInstanciasNoCumple;
+              break;
+          
+        case 'instancias_cumple_parcial':
+              return this.dashboard.tarjetas.countInstanciasCumpleParcial;
+              break;
 
         case 'cuerpos_gestionar':
             return this.dashboard.estadoCuerposLegales.countGestionar;
@@ -4303,7 +4350,7 @@ getChart(criticidad: any, config: any){
             break;
       
         case 'permisos_cumplimiento':
-            return ((this.dashboard.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboard.tarjetas.countPermisos).toFixed();
+            return this.dashboard.tarjetas.countPermisos > 0 ? ((this.dashboard.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboard.tarjetas.countPermisos).toFixed() : 0;
             break;
 
         case 'permisos_alta':
@@ -4335,7 +4382,7 @@ getChart(criticidad: any, config: any){
             break;
         
         case 'reportes_cumplimiento':
-            return ((this.dashboard.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboard.tarjetas.countReportes).toFixed();
+            return this.dashboard.tarjetas.countReportes > 0 ? ((this.dashboard.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboard.tarjetas.countReportes).toFixed() : 0;
             break;
       
         case 'reportes_alta':
@@ -4367,7 +4414,7 @@ getChart(criticidad: any, config: any){
             break;
             
         case 'monitoreos_cumplimiento':
-            return ((this.dashboard.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboard.tarjetas.countMonitoreos).toFixed();
+            return this.dashboard.tarjetas.countMonitoreos > 0 ? ((this.dashboard.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboard.tarjetas.countMonitoreos).toFixed() : 0;
             break;
       
         case 'monitoreos_alta':
@@ -4399,7 +4446,7 @@ getChart(criticidad: any, config: any){
           break;
     
         case 'otros_cumplimiento':
-          return ((this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboard.tarjetas.countOtrasObligaciones).toFixed();
+          return this.dashboard.tarjetas.countOtrasObligaciones > 0 ? ((this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboard.tarjetas.countOtrasObligaciones).toFixed() : 0;
           break;
 
         case 'otros_alta':
@@ -4523,7 +4570,7 @@ getChart(criticidad: any, config: any){
           break;
         
         case 'elementos_cumplimiento':
-          return ((this.dashboardCuerpo.tarjetas.countElementosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed();
+          return this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((this.dashboardCuerpo.tarjetas.countElementosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
           break;
         
         case 'permisos':
@@ -4547,7 +4594,7 @@ getChart(criticidad: any, config: any){
           break;
             
         case 'articulos_cumplimiento':
-          return ((this.dashboardCuerpo.tarjetas.countArticulosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed();
+          return this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((this.dashboardCuerpo.tarjetas.countArticulosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
           break;
         
         case 'articulos_gestionar':
@@ -4563,7 +4610,7 @@ getChart(criticidad: any, config: any){
             break;
 
         case 'instancias_cumplimiento':
-          return ((this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed();
+          return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
           break;
         
         case 'instancias_gestionar':
@@ -4583,7 +4630,7 @@ getChart(criticidad: any, config: any){
             break;
       
         case 'permisos_cumplimiento':
-            return ((this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed();
+            return this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
             break;
           
         case 'permisos_definir':
@@ -4603,7 +4650,7 @@ getChart(criticidad: any, config: any){
             break;
       
         case 'reportes_cumplimiento':
-            return ((this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed();
+            return this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
             break;
 
         case 'monitoreos_gestionar':
@@ -4619,7 +4666,7 @@ getChart(criticidad: any, config: any){
             break;
         
         case 'monitoreos_cumplimiento':
-            return ((this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed();
+            return this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
             break;
 
         case 'otros_gestionar':
@@ -4635,7 +4682,7 @@ getChart(criticidad: any, config: any){
             break;
       
           case 'otros_cumplimiento':
-            return ((this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed();
+            return this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
             break;
 
         case 'cuerpo_ma':
