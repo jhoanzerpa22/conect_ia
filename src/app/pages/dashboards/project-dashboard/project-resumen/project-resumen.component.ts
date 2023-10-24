@@ -194,7 +194,7 @@ export class ProjectResumenComponent implements OnInit {
         this.project_id = params['id'];
         this.getProject(params['id']);    
         this.getAreas(params['id']);
-        //this.getArticleProyect(params['id']);
+        this.getArticleProyect(params['id']);
         this.getEvaluations(params['id']);
         this.getInstallations(params['id']);
         this.getDashboard(params['id'], true);
@@ -244,7 +244,7 @@ export class ProjectResumenComponent implements OnInit {
             
             this.getProject(proyecto);    
             this.getAreas(proyecto);
-            //this.getArticleProyect(proyecto);
+            this.getArticleProyect(proyecto);
             this.getEvaluations(proyecto);
             this.getInstallations(proyecto);
             this.getDashboard(proyecto);
