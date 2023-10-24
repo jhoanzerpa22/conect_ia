@@ -1882,16 +1882,16 @@ export class IdentificationComponent implements OnInit {
                 dataLabels: {
                     position: 'top',
                     style: {
-                      colors: ['#f7b84b']
+                      colors: [this.criticidad ? '#ffffff' : '#f7b84b']
                     }
                 },
             },
             dataLabels: {
               enabled: true,
               style: {
-                  colors: ['#1d60ba']//#adb5bd
+                  colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
               },
-              offsetX: 32
+              offsetX: this.criticidad ? 0 : 32
             },
         },
         stroke: {
@@ -1900,11 +1900,11 @@ export class IdentificationComponent implements OnInit {
         },
         dataLabels: {
             enabled: true,
-            offsetX: 32,
+            offsetX: this.criticidad ? 0 : 32,
             style: {
                 //fontSize: '12px',
                 //fontWeight: 400,
-                colors: ['#adb5bd']
+                colors: [this.criticidad ? '#ffffff' : '#adb5bd']
             }
         },
         colors: colors,  
@@ -2011,25 +2011,25 @@ export class IdentificationComponent implements OnInit {
                 dataLabels: {
                     position: 'top',
                     style: {
-                      colors: ['#f7b84b']
+                      colors: [this.criticidad ? '#ffffff' : '#f7b84b']
                     }
                 },
             },
             dataLabels: {
               enabled: true,
               style: {
-                  colors: ['#1d60ba']//#adb5bd
+                  colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
               },
-              offsetX: 32
+              offsetX: this.criticidad ? 0 : 32
             },
         },
         dataLabels: {
             enabled: true,
-            offsetX: 32,
+            offsetX: this.criticidad ? 0 : 32,
             style: {
                 //fontSize: '12px',
                 //fontWeight: 400,
-                colors: ['#adb5bd']
+                colors: [this.criticidad ? '#ffffff' : '#adb5bd']
             }
         },
         tooltip: {
@@ -2129,16 +2129,16 @@ export class IdentificationComponent implements OnInit {
               dataLabels: {
                   position: 'top',
                   style: {
-                    colors: ['#f7b84b']
+                    colors: [this.criticidad ? '#ffffff' : '#f7b84b']
                   }
               },
           },
           dataLabels: {
             enabled: true,
             style: {
-                colors: ['#1d60ba']//#adb5bd
+                colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
             },
-            offsetX: 32
+            offsetX: this.criticidad ? 0 : 32
           },
       },
       stroke: {
@@ -2147,11 +2147,11 @@ export class IdentificationComponent implements OnInit {
       },
       dataLabels: {
           enabled: true,
-          offsetX: 32,
+          offsetX: this.criticidad ? 0 : 32,
           style: {
               //fontSize: '12px',
               //fontWeight: 400,
-              colors: ['#adb5bd']
+              colors: [this.criticidad ? '#ffffff' : '#adb5bd']
           }
       },
       colors: colors,
@@ -2248,16 +2248,16 @@ export class IdentificationComponent implements OnInit {
             dataLabels: {
                 position: 'top',
                 style: {
-                  colors: ['#f7b84b']
+                  colors: [this.criticidad ? '#ffffff' : '#f7b84b']
                 }
             },
         },
         dataLabels: {
           enabled: true,
           style: {
-              colors: ['#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
           },
-          offsetX: 32
+          offsetX: this.criticidad ? 0 : 32
         },
     },
     stroke: {
@@ -2266,11 +2266,11 @@ export class IdentificationComponent implements OnInit {
     },
     dataLabels: {
         enabled: true,
-        offsetX: 32,
+        offsetX: this.criticidad ? 0 : 32,
         style: {
             //fontSize: '12px',
             //fontWeight: 400,
-            colors: ['#adb5bd']
+            colors: [this.criticidad ? '#ffffff' : '#adb5bd']
         }
     },
     colors: colors,
@@ -2371,25 +2371,25 @@ this.basicBarChartMonitoreos = {
           dataLabels: {
               position: 'top',
               style: {
-                colors: ['#f7b84b']
+                colors: [this.criticidad ? '#ffffff' : '#f7b84b']
               }
           },
       },
       dataLabels: {
         enabled: true,
         style: {
-            colors: ['#1d60ba']//#adb5bd
+            colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
         },
-        offsetX: 32
+        offsetX: this.criticidad ? 0 : 32
       },
   },
   dataLabels: {
       enabled: true,
-      offsetX: 32,
+      offsetX: this.criticidad ? 0 : 32,
       style: {
           //fontSize: '12px',
           //fontWeight: 400,
-          colors: ['#adb5bd']
+          colors: [this.criticidad ? '#ffffff' : '#adb5bd']
       }
   },
   colors: colors,
@@ -2490,25 +2490,25 @@ seriesOtros: [{
           dataLabels: {
               position: 'top',
               style: {
-                colors: ['#f7b84b']
+                colors: [this.criticidad ? '#ffffff' : '#f7b84b']
               }
           },
       },
       dataLabels: {
         enabled: true,
         style: {
-            colors: ['#1d60ba']//#adb5bd
+            colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
         },
-        offsetX: 32
+        offsetX: this.criticidad ? 0 : 32
       },
   },
   dataLabels: {
       enabled: true,
-      offsetX: 32,
+      offsetX: this.criticidad ? 0 : 32,
       style: {
           //fontSize: '12px',
           //fontWeight: 400,
-          colors: ['#adb5bd']
+          colors: [this.criticidad ? '#ffffff' : '#adb5bd']
       }
   },
   colors: colors,
@@ -2609,25 +2609,25 @@ seriesOtros: [{
             dataLabels: {
                 position: 'top',
                 style: {
-                  colors: ['#1d60ba']//#adb5bd
+                  colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
               },
             },
         },
         dataLabels: {
           enabled: true,
           style: {
-              colors: ['#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
           },
-          offsetX: 32
+          offsetX: this.criticidad ? 0 : 32
         },
     },
     dataLabels: {
         enabled: true,
-        offsetX: 32,
+        offsetX: this.criticidad ? 0 : 32,
         style: {
             //fontSize: '12px',
             //fontWeight: 400,
-            colors: ['#adb5bd']
+            colors: [this.criticidad ? '#ffffff' : '#adb5bd']
         }
     },
     colors: colors,  
@@ -2728,25 +2728,25 @@ seriesOtros: [{
           dataLabels: {
               position: 'top',
               style: {
-                colors: ['#1d60ba']//#adb5bd
+                colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
             },
           },
       },
       dataLabels: {
         enabled: true,
         style: {
-            colors: ['#1d60ba']//#adb5bd
+            colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
         },
-        offsetX: 32
+        offsetX: this.criticidad ? 0 : 32
       },
   },
   dataLabels: {
       enabled: true,
-      offsetX: 32,
+      offsetX: this.criticidad ? 0 : 32,
       style: {
-          fontSize: '12px',
-          fontWeight: 400,
-          colors: ['#adb5bd']
+          //fontSize: '12px',
+          //fontWeight: 400,
+          colors: [this.criticidad ? '#ffffff' : '#adb5bd']
       }
   },
   colors: colors,
@@ -2847,25 +2847,25 @@ plotOptions: {
         dataLabels: {
             position: 'top',
             style: {
-              colors: ['#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
           },
         },
     },
     dataLabels: {
       enabled: true,
       style: {
-          colors: ['#1d60ba']//#adb5bd
+          colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
       },
-      offsetX: 32
+      offsetX: this.criticidad ? 0 : 32
     },
 },
 dataLabels: {
     enabled: true,
-    offsetX: 32,
+    offsetX: this.criticidad ? 0 : 32,
     style: {
-        fontSize: '12px',
-        fontWeight: 400,
-        colors: ['#adb5bd']
+        //fontSize: '12px',
+        //fontWeight: 400,
+        colors: [this.criticidad ? '#ffffff' : '#adb5bd']
     }
 },
 colors: colors,
@@ -2966,25 +2966,25 @@ plotOptions: {
         dataLabels: {
             position: 'top',
             style: {
-              colors: ['#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
           },
         },
     },
     dataLabels: {
       enabled: true,
       style: {
-          colors: ['#1d60ba']//#adb5bd
+          colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
       },
-      offsetX: 32
+      offsetX: this.criticidad ? 0 : 32
     },
 },
 dataLabels: {
     enabled: true,
-    offsetX: 32,
+    offsetX: this.criticidad ? 0 : 32,
     style: {
-        fontSize: '12px',
-        fontWeight: 400,
-        colors: ['#adb5bd']
+        //fontSize: '12px',
+        //fontWeight: 400,
+        colors: [this.criticidad ? '#ffffff' : '#adb5bd']
     }
 },
 colors: colors,
