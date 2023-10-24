@@ -247,7 +247,7 @@ export class ProjectResumenComponent implements OnInit {
             this.getArticleProyect(proyecto);
             this.getEvaluations(proyecto);
             this.getInstallations(proyecto);
-            this.getDashboard(proyecto);
+            this.getDashboard(proyecto, true);
             this.getDashboardArea(proyecto, 'default', true);
             this.getDashboardInstalaciones(proyecto, 'articulos', true);
             //this.getDashboardCuerpo(proyecto);
@@ -1164,7 +1164,7 @@ layers = [
           break;
       
         default:        
-          colors = '["--vz-info","--vz-success","--vz-warning","--vz-danger","--vz-gray"]';
+          colors = '["--vz-success","--vz-warning","--vz-danger","--vz-gray"]';
           break;
       }
     }else{
@@ -4861,9 +4861,22 @@ xaxis: {
 private _basicBarChartGeneralCuerpos(colors: any) {
   colors = this.getChartColorsArray(this.getColorsCriticidadCuerpo(this.criticidad_cuerpo));
   this.basicBarChartGeneralCuerpos = {
-      series: [{
-          data: [17,23],//this.getDataDashboardAreaCuerpo('value','general'),
-          name: 'Articulos',
+      series: [
+      {
+        data: this.getDataHorizontalCuerpoCumplimiento('general', 'Cumple'),
+        name: 'Cumple',
+      },
+      {
+        data: this.getDataHorizontalCuerpoCumplimiento('general', 'Cumple Parcial'),
+        name: 'Cumple Parcial',
+      },
+      {
+        data: this.getDataHorizontalCuerpoCumplimiento('general', 'No Cumple'),
+        name: 'No Cumple',
+      },
+      {
+        data: this.getDataHorizontalCuerpoCumplimiento('general', 'No Evaluado'),
+        name: 'No Evaluado',
       }],
       seriesCriticidad: [{
         data: this.getDataDashboardAreaCuerpo('value','general','alta'),
@@ -4910,29 +4923,29 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           bar: {
               //borderRadius: 4,
               horizontal: true,
-              //distributed: true,
+              distributed: false,
               dataLabels: {
                 position: 'top',
                 style: {
-                  colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                  colors: [this.criticidad ? '#ffffff' : '#ffffff']
                 }
               },
           },
           dataLabels: {
             enabled: true,
             style: {
-            colors: [this.criticidad ? '#ffffff' : '#ffffff'/*'#adb5bd'*/]
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']
             },
-            offsetX: this.criticidad ? 0 : 32
+            offsetX: this.criticidad ? 0 : 0
           },
       },
       dataLabels: {
           enabled: true,
-          offsetX: 32,
+          offsetX: 0,
           style: {
-              fontSize: '12px',
-              fontWeight: 400,
-              colors: ['#adb5bd']
+              //fontSize: '12px',
+              //fontWeight: 400,
+              colors: ['#ffffff']
           }
       },
       stroke: {
@@ -4952,7 +4965,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
       },
       legend: {
           position: "top",
-          //show: false,
+          show: true,
       },/*
       grid: {
           show: false,
@@ -4970,8 +4983,20 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
   colors = this.getChartColorsArray(this.getColorsCriticidadCuerpo(this.criticidad_cuerpo));
   this.basicBarChartGeneralCuerposInstallation = {
       series: [{
-          data: this.getDataDashboardInstallationCuerpo('value','general'),
-          name: 'Articulos',
+        data: this.getDataHorizontalInstallationCuerpoCumplimiento('general', 'Cumple'),
+        name: 'Cumple',
+      },
+      {
+        data: this.getDataHorizontalInstallationCuerpoCumplimiento('general', 'Cumple Parcial'),
+        name: 'Cumple Parcial',
+      },
+      {
+        data: this.getDataHorizontalInstallationCuerpoCumplimiento('general', 'No Cumple'),
+        name: 'No Cumple',
+      },
+      {
+        data: this.getDataHorizontalInstallationCuerpoCumplimiento('general', 'No Evaluado'),
+        name: 'No Evaluado',
       }],
       
       seriesCriticidad: [{
@@ -5027,18 +5052,18 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           dataLabels: {
             enabled: true,
             style: {
-            colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']
             },
-            offsetX: this.criticidad ? 0 : 32
+            offsetX: this.criticidad ? 0 : 0
           },
       },
       dataLabels: {
           enabled: true,
-          offsetX: 32,
+          offsetX: 0,
           style: {
               fontSize: '12px',
               fontWeight: 400,
-              colors: ['#adb5bd']
+              colors: ['#ffffff']
           }
       },
       colors: colors,
@@ -5064,7 +5089,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           show: false,
       },*/
       xaxis: {
-          categories: this.getDataDashboardInstallationCuerpo('label','general')
+          categories: /*['Bodega de residuos peligrosos', 'Transporte de residuos peligrosos']*/this.getDataCategoryHorizontalInstallationCuerpoCumplimiento('general')
       },
   };
 }
@@ -5169,6 +5194,123 @@ getChart(criticidad: any, config: any){
     }*/
 
     return data;
+  }
+  
+  getDataHorizontalCuerpoCumplimiento(atributo?: any, cumplimiento?: any){
+    let data: any = [];
+    switch (atributo) {
+
+      case 'general':
+
+        switch (cumplimiento) {
+          case 'Cumple':
+            if(this.filtro_atributo){
+              data = [0,0];
+            }else{
+              data = [10,2];
+            }
+            break;
+
+            case 'Cumple Parcial':
+              if(this.filtro_atributo){
+                data = [0,0];
+              }else{
+                data = [7,7];
+              }
+              break;
+              
+            case 'No Cumple':
+              if(this.filtro_atributo){
+                data = [0,0];
+              }else{
+                data = [0,2];
+              }
+              break;
+              
+            case 'No Evaluado':
+              if(this.filtro_atributo){
+                data = [0,1];
+              }else{
+                data = [0,12];
+              }
+              break;
+        
+          default:
+            data = [10,35];
+            break;
+        }
+        
+        break;
+    
+      default:
+        break;
+    }
+    return data;
+
+  }
+
+  getDataCategoryHorizontalInstallationCuerpoCumplimiento(atributo?: any){
+    let data : any = ['Bodega de residuos peligrosos', 'Transporte de residuos peligrosos'];
+
+    if(this.filtro_atributo){
+      data = ['Bodega de residuos peligrosos'];
+    }
+    
+    return data;
+  }
+
+  
+  getDataHorizontalInstallationCuerpoCumplimiento(atributo?: any, cumplimiento?: any){
+    let data: any = [];
+    switch (atributo) {
+
+      case 'general':
+
+        switch (cumplimiento) {
+          case 'Cumple':
+            if(this.filtro_atributo){
+              data = [0];
+            }else{
+              data = [2,10];
+            }
+            break;
+
+            case 'Cumple Parcial':
+              if(this.filtro_atributo){
+                data = [0];
+              }else{
+                data = [7,7];
+              }
+              break;
+              
+            case 'No Cumple':
+              if(this.filtro_atributo){
+                data = [0];
+              }else{
+                data = [2,0];
+              }
+              break;
+              
+            case 'No Evaluado':
+              if(this.filtro_atributo){
+                data = [1];
+              }else{
+                data = [12,0];
+              }
+              break;
+        
+          default:
+            data = [10,35];
+            break;
+        }
+        
+        break;
+    
+      default:
+        break;
+    }
+    return data;
+
   }
 
   getDataHorizontalCumplimiento(atributo?: any, cumplimiento?: any){
