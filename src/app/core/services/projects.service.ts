@@ -377,6 +377,32 @@ export class ProjectsService {
         } }, this.getToken());
     }
     
+    getDashboardDaniel(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+        
+        switch (criticidad) {
+            case 'Alta':
+                criticidad = 'construccion';                
+                break;
+            case 'Media':
+                criticidad = 'operacion';                
+                break;
+            case 'Baja':
+                criticidad = 'cierre';                
+                break;
+        
+            default:            
+                criticidad = undefined;
+                break;
+        }
+
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, areaId, filters: {
+            articuloTipo: atributo,
+            criticidad: criticidad,
+            normaId: cuerpoId,
+            articuloId: articuloId
+        } }, this.getToken());
+    }
+    
     getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
