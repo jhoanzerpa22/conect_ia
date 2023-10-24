@@ -1145,6 +1145,53 @@ layers = [
 
     return colors;
   }
+
+  getColorsCriticidadCuerpo(criticidad?: any, atributo?: any){
+    let colors: any = [];
+
+    if(!criticidad){
+      switch (atributo) {
+        case 'permiso':        
+          colors = '["--vz-success","--vz-success","--vz-warning","--vz-warning","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-danger","--vz-gray"]';
+          break;
+        
+        case 'reporte':        
+          colors = '["--vz-success","--vz-success","--vz-warning","--vz-warning","--vz-warning","--vz-danger","--vz-gray"]';
+          break;
+        
+        case 'monitoreo':        
+          colors = '["--vz-success","--vz-success","--vz-warning","--vz-warning","--vz-warning","--vz-danger","--vz-danger","--vz-gray"]';
+          break;
+      
+        default:        
+          colors = '["--vz-info","--vz-success","--vz-warning","--vz-danger","--vz-gray"]';
+          break;
+      }
+    }else{
+      switch (criticidad) {
+          case 'Alta':
+            colors = '["--vz-danger"]';
+          break;
+          case 'Media':
+              colors = '["--vz-warning"]';
+            break;
+            
+          case 'Baja':
+            colors = '["--vz-success"]';
+          break;
+          
+          case 'No especificado':
+            colors = '["--vz-info"]';
+          break;
+      
+        default:
+          colors = '["--vz-danger", "--vz-warning", "--vz-success", "--vz-gray"]';
+          break;
+      }
+    }
+
+    return colors;
+  }
   
   getColorsAtributosCriticidad(criticidad?: any, atributo?: any){
     let colors: any = [];
@@ -4812,10 +4859,10 @@ xaxis: {
    * Basic Bar Chart Cuerpos
    */
 private _basicBarChartGeneralCuerpos(colors: any) {
-  colors = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad_cuerpo));
+  colors = this.getChartColorsArray(this.getColorsCriticidadCuerpo(this.criticidad_cuerpo));
   this.basicBarChartGeneralCuerpos = {
       series: [{
-          data: this.getDataDashboardAreaCuerpo('value','general'),
+          data: [17,23],//this.getDataDashboardAreaCuerpo('value','general'),
           name: 'Articulos',
       }],
       seriesCriticidad: [{
@@ -4863,11 +4910,21 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           bar: {
               //borderRadius: 4,
               horizontal: true,
-              /*distributed: true,
+              //distributed: true,
               dataLabels: {
-                  position: 'top',
-              },*/
-          }
+                position: 'top',
+                style: {
+                  colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                }
+              },
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+            colors: [this.criticidad ? '#ffffff' : '#ffffff'/*'#adb5bd'*/]
+            },
+            offsetX: this.criticidad ? 0 : 32
+          },
       },
       dataLabels: {
           enabled: true,
@@ -4901,7 +4958,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           show: false,
       },*/
       xaxis: {
-          categories: this.getDataDashboardAreaCuerpo('label','general')
+          categories: ['Operación 2', 'Operación RM']//this.getDataDashboardAreaCuerpo('label','general')
       },
   };
 }
@@ -4910,7 +4967,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
    * Basic Bar Chart Cuerpos
    */
 private _basicBarChartGeneralCuerposInstallation(colors: any) {
-  colors = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad_cuerpo));
+  colors = this.getChartColorsArray(this.getColorsCriticidadCuerpo(this.criticidad_cuerpo));
   this.basicBarChartGeneralCuerposInstallation = {
       series: [{
           data: this.getDataDashboardInstallationCuerpo('value','general'),
@@ -4962,11 +5019,18 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
           bar: {
               //borderRadius: 4,
               horizontal: true,
-              /*distributed: true,
+              distributed: false,
               dataLabels: {
                   position: 'top',
-              },*/
-          }
+              },
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+            colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+            },
+            offsetX: this.criticidad ? 0 : 32
+          },
       },
       dataLabels: {
           enabled: true,
@@ -6044,47 +6108,80 @@ getChart(criticidad: any, config: any){
           break;
         
         case 'articulos':
-          return this.dashboardCuerpo.tarjetas.countArticulos;
+          if(this.filtro_articulo){
+            return 1;
+          }
+          return 28;//this.dashboardCuerpo.tarjetas.countArticulos;
           break;
         
         case 'instancias':
-          return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento;
+          if(this.filtro_articulo){
+            return 1;
+          }
+          return 40;//this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento;
           break;
         
         case 'elementos':
+          if(this.filtro_articulo){
+            return 1;
+          }
           return this.dashboardCuerpo.tarjetas.countInstalaciones;
           break;
 
         case 'elementos_evaluados':
+          if(this.filtro_articulo){
+            return 0;
+          }
           return this.dashboardCuerpo.tarjetas.countElementosEvaluados;
           break;
         
         case 'elementos_cumplimiento':
+          if(this.filtro_articulo){
+            return 0;
+          }
           return this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((this.dashboardCuerpo.tarjetas.countElementosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
           break;
         
         case 'permisos':
-          return this.dashboardCuerpo.tarjetas.countPermisos;
+          if(this.filtro_articulo){
+            return 1;
+          }
+          return 4;//this.dashboardCuerpo.tarjetas.countPermisos;
           break;
         
         case 'monitoreos':
-            return this.dashboardCuerpo.tarjetas.countMonitoreos;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 1;//this.dashboardCuerpo.tarjetas.countMonitoreos;
             break;
         
         case 'reportes':
-            return this.dashboardCuerpo.tarjetas.countReportes;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 3;//this.dashboardCuerpo.tarjetas.countReportes;
             break;
         
         case 'otros':
-            return this.dashboardCuerpo.tarjetas.countOtrasObligaciones;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 32;//this.dashboardCuerpo.tarjetas.countOtrasObligaciones;
             break;
             
         case 'articulos_evaluados':
-          return this.dashboardCuerpo.tarjetas.countArticulosEvaluados;
+          if(this.filtro_articulo){
+            return 0;
+          }
+          return 18;//this.dashboardCuerpo.tarjetas.countArticulosEvaluados;
           break;
             
         case 'articulos_cumplimiento':
-          return this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((this.dashboardCuerpo.tarjetas.countArticulosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
+          if(this.filtro_articulo){
+            return 0;
+          }
+          return 53;//this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((this.dashboardCuerpo.tarjetas.countArticulosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
           break;
         
         case 'articulos_gestionar':
@@ -6096,11 +6193,17 @@ getChart(criticidad: any, config: any){
             break;
         
         case 'instancias_evaluadas':
-            return this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 32;//this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
             break;
 
         case 'instancias_cumplimiento':
-          return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
+          if(this.filtro_articulo){
+            return 0;
+          }
+          return 67;//this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
           break;
         
         case 'instancias_gestionar':
@@ -6116,11 +6219,17 @@ getChart(criticidad: any, config: any){
             break;
 
         case 'permisos_evaluados':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 3;//this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados;
             break;
       
         case 'permisos_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 75;//this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
             break;
           
         case 'permisos_definir':
@@ -6136,11 +6245,17 @@ getChart(criticidad: any, config: any){
             break;
   
         case 'reportes_evaluados':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 3;//this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados;
             break;
       
         case 'reportes_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
+          if(this.filtro_articulo){
+            return '-';
+          }
+            return 100;//this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
             break;
 
         case 'monitoreos_gestionar':
@@ -6152,11 +6267,17 @@ getChart(criticidad: any, config: any){
             break;
         
         case 'monitoreos_evaluados':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 0;//this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados;
             break;
         
         case 'monitoreos_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
+          if(this.filtro_articulo){
+            return '-';
+          }
+            return 0;//this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
             break;
 
         case 'otros_gestionar':
@@ -6168,11 +6289,17 @@ getChart(criticidad: any, config: any){
             break;
         
         case 'otros_evaluados':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
+          if(this.filtro_articulo){
+            return 0;
+          }
+            return 13;//this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
             break;
       
           case 'otros_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
+            if(this.filtro_articulo){
+              return '-';
+            }
+            return 31;//this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
             break;
 
         case 'cuerpo_ma':
