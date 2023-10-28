@@ -658,7 +658,7 @@
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" placeholder="Buscar Elemento..." formControlName="search" [(ngModel)]="term5"><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" placeholder="Buscar Elemento..." formControlName="search" [(ngModel)]="term5" (input)="changeBuscador1()"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -704,7 +704,7 @@
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" formControlName="search" placeholder="Buscar Cuerpo Legal..." [(ngModel)]="term6"><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" formControlName="search" placeholder="Buscar Cuerpo Legal..." [(ngModel)]="term6" (input)="changeBuscador2()"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -1006,7 +1006,7 @@
 
                                 </ng-template>
 
-                                <ng-container *ngFor="let g of articles_proyects_group;let impar = odd;let par = even;">
+                                <ng-container *ngFor="let g of articles_proyects_group | filter:term3 ;let impar = odd;let par = even;">
 
                                 <div class="card" style="box-shadow: none !important;">
                                     <!--<div class="card-header">
@@ -1036,7 +1036,7 @@
                                             <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && validatShow3(g.normaId)" (click)="hideText3(g.normaId)"><b>Ocultar texto completo</b></small>
                                         </p>
                                     <ng-container *ngIf="!validateShowArticles(g.normaId)">
-                                    <ng-container *ngFor="let s of g.articulos | filter:term3">
+                                    <ng-container *ngFor="let s of g.articulos">
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
                                         [ngTemplateOutletContext] ="{s:s }">
