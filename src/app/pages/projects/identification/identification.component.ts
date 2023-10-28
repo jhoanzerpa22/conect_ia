@@ -4442,6 +4442,18 @@ validateIdparte(idParte: any){
     }, 1400);
    }
 
+   changeBuscador1(){
+    setTimeout(() => {
+      this.validChecked(true);
+    }, 1400);
+   }
+   
+   changeBuscador2(){
+    setTimeout(() => {
+      this.validChecked2(true);
+    }, 1400);
+   }
+
   openModal2(content: any, type: any, data?: any) {
     this.submitted = false;
     
@@ -4824,7 +4836,7 @@ validateIdparte(idParte: any){
     
     this.projectsService.setAttributesArticle(id, article_attribute).pipe().subscribe(
       (data: any) => {     
-       
+       this.refreshChart();
       /*Swal.fire({
         position: 'center',
         icon: 'success',
@@ -6515,8 +6527,9 @@ validateIdparte(idParte: any){
     this.validCheckedInitial(add);
   }
 
-  validChecked(){
+  validChecked(refresh?: boolean){
     var checkboxes: any = document.getElementsByName('checkAll');
+
     for (var j = 0; j < checkboxes.length; j++) {
       checkboxes[j].checked = false;
       for (var nor = 0; nor < this.normaIdSelect.length; nor++) {
@@ -6535,10 +6548,12 @@ validateIdparte(idParte: any){
             (ins2: any) =>
               ins2.id == checkboxes[j].id
           );
-
+          
           if(index2 != -1 && index3 == -1){
             checkboxes[j].checked = true;
             this.selectChecked.push(this.installations_data[index2]);
+          }else if(index2 != -1 && refresh){
+            checkboxes[j].checked = true;
           }
         }/*else{
           checkboxes[j].checked = false;
@@ -6547,7 +6562,7 @@ validateIdparte(idParte: any){
     }
   }
   
-  validChecked2(){
+  validChecked2(refresh?: boolean){
     var checkboxes: any = document.getElementsByName('checkAll2');
 
     for (var j = 0; j < checkboxes.length; j++) {
@@ -6574,7 +6589,9 @@ validateIdparte(idParte: any){
         if(index2 != -1 && index3 == -1){
           checkboxes[j].checked = true;
           this.selectChecked2.push(this.articles_proyects_group[index2]);
-        }
+        }else if(index2 != -1 && refresh){
+          checkboxes[j].checked = true;
+        } 
       }/*else{
         checkboxes[j].checked = false;
       }*/
