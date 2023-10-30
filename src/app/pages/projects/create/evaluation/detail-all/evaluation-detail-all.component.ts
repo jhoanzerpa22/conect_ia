@@ -45,6 +45,7 @@ export class EvaluationDetailAllComponent implements OnInit {
   detail: any = [];
   cuerpos_articulos: any = [];
   articles_proyects_group: any = [];
+  articles_proyects_group_all: any = [];
   installations: any = [];
   installations_articles: any = [];
 
@@ -97,6 +98,8 @@ export class EvaluationDetailAllComponent implements OnInit {
   total_articulos: number = 0;
 
   estados_default: any = estadosData;
+
+  term:any;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -627,15 +630,25 @@ getArticlesCuerpo(articulos: any){
     return index == -1;
   }
 
-  selectCuerpo(cuerpo: any){
-    
-    this.showPreLoader();
-    this.cuerpo_select = cuerpo;
+  selectCuerpo(e: any){
+    //this.showPreLoader();
+    let cuerpo: any = e.target.value;
+    /*this.cuerpo_select = cuerpo;
     this.articulosDatas = this.detail.data.filter((data: any) => {
       return data.cuerpoLegal === cuerpo;
-    })[0].articulos;
+    })[0].articulos;*/
+
+    if(cuerpo){
+
+      this.articles_proyects_group = this.articles_proyects_group_all.filter((data: any) => {
+        return data.cuerpoLegal === cuerpo;
+      });
+
+    }else{
+      this.articles_proyects_group = this.articles_proyects_group_all;
+    }
     
-    this.hidePreLoader();
+    //this.hidePreLoader();
   }
 
   validateCuerpo(cuerpo: any){
@@ -671,6 +684,7 @@ getArticlesCuerpo(articulos: any){
           let cuerpo_articulos: any = [];
           
           this.articles_proyects_group = [];
+          this.articles_proyects_group_all = [];
 
           //this.installations_articles = data.data;
 
@@ -862,6 +876,7 @@ getArticlesCuerpo(articulos: any){
           this.cuerpo_select = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].cuerpoLegal : '';
           this.cuerpos_articulos = cuerpo_articulos;
           this.articles_proyects_group = cuerpo_articulos;
+          this.articles_proyects_group_all = cuerpo_articulos;
           /*cuerpo_articulos.forEach((x: any) => {
 
             console.log('cuerpo_articulos',x);
