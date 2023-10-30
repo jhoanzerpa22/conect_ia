@@ -394,7 +394,7 @@
                             <div class="list-group">
                                     <h5 style="color: #405189;">CUERPOS LEGALES SELECCIONADOS</h5>
 
-                                    <ng-container *ngFor="let s of articles_proyects_group | filter:term2">
+                                    <ng-container *ngFor="let s of articles_proyects_group | filter_cuerpo:term2">
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
@@ -711,7 +711,7 @@
 
             <div class="mb-3">
                 <div class="list-group">
-                    <ng-container *ngFor="let pg of articles_proyects_group | filter:term6">
+                    <ng-container *ngFor="let pg of articles_proyects_group | filter_cuerpo:term6">
                         <label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{pg.normaId}}" name="checkAll2" formControlName="checkAll2"
                         id="{{pg.normaId}}" (change)="onCheckboxChange2($event)"><!--checked-->
@@ -995,7 +995,7 @@
                                     
                                         <ng-container *ngIf="s.hijas">
             
-                                            <div class="col-xxl-12" *ngFor="let item of s.hijas | filter:term3">
+                                            <div class="col-xxl-12" *ngFor="let item of s.hijas">
 
                                                 <ng-container [ngTemplateOutlet]="myArticles" 
                                                 [ngTemplateOutletContext] ="{s: item }">
@@ -1006,7 +1006,7 @@
 
                                 </ng-template>
 
-                                <ng-container *ngFor="let g of articles_proyects_group | filter:term3 ;let impar = odd;let par = even;">
+                                <ng-container *ngFor="let g of articles_proyects_group | filter_cuerpo:term3 ;let impar = odd;let par = even;">
 
                                 <div class="card" style="box-shadow: none !important;">
                                     <!--<div class="card-header">
@@ -2418,7 +2418,7 @@
            
             <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
             
-            <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let s of articles_proyects_group | filter:term4" id="pl1_{{s.normaId}}">
+            <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let s of articles_proyects_group | filter_cuerpo:term4" id="pl1_{{s.normaId}}">
                 <div class="card card-height-100 ribbon-box border right" [ngClass]="{'card-border-success': validateIdCuerpo(s.normaId) == 1, 'card-border-warning': validateIdCuerpo(s.normaId) == 2, 'card-border-danger': !validateIdCuerpo(s.normaId)}">
                     <div class="card-body">
                         <div class="ribbon ribbon-success round-shape" style="font-size: 14px;" *ngIf="validateIdCuerpo(s.normaId) == 1">Gestionar</div>
