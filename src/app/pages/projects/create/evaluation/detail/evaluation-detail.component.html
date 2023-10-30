@@ -108,15 +108,14 @@
             </div>
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
-                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cuerpo Legal" data-choices data-choices-search-false
-                                id="choices-priority-input2">
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cuerpo Legal" data-choices data-choices-search-false id="choices-priority-input2" (change)="selectCuerpo($event)">
                                 <option value="" selected>Seleccione Cuerpo legal</option>
                                 <option value="{{c.cuerpoLegal}}" *ngFor="let c of cuerpos_articulos; let i = index;">
                                     {{c.cuerpoLegal}}
                                 </option>
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;margin-right: 39px;" placeholder="Buscar artículo" ><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;margin-right: 39px;" placeholder="Buscar artículo" [(ngModel)]="term"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     
@@ -211,7 +210,7 @@
                                         </h6>                              
                                         <p class="card-subtitle text-muted mb-3">{{g.organismo}}</p>
                                                                 
-                                    <ng-container *ngFor="let s of getArticlesCuerpo(g.articulos)"><!-- | filter:term3-->
+                                    <ng-container *ngFor="let s of getArticlesCuerpo(g.articulos) | filter:term;">
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
                                         [ngTemplateOutletContext] ="{s:s }">
