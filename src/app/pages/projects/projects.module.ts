@@ -6,6 +6,8 @@ import { NgbTooltipModule, NgbProgressbarModule, NgbDropdownModule, NgbNavModule
 // Ng Search 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
+import { FilterPipe } from './filter.pipe';
+
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
@@ -143,7 +145,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     EvaluationTaskViewComponent,
     EvaluationDetailAllComponent,
     TaskControlComponent,
-    TaskControlComponent
+    TaskControlComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,
