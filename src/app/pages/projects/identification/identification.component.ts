@@ -101,6 +101,8 @@ export class IdentificationComponent implements OnInit {
   term5:any;
   term6:any;
   term7:any;
+  term8:any;
+  termResumen:any;
   
   articles_proyects: any = [];
   articles_proyects_group: any = [];
@@ -4510,6 +4512,34 @@ validateIdparte(idParte: any){
 
     //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
     this.vinculacionForm.controls['ids'].setValue(/*listData[0].*/ids);
+  }
+
+  openModalResumen(content: any, type: any, data?: any) {
+    this.submitted = false;
+    
+    this.installations_filter = [];
+    this.selectChecked3 = [];
+    this.articuloSelect = [];
+
+    this.modalService.open(content, { size: 'lg', centered: true });
+    
+    let ids: any = [];
+    
+      ids.push(data.articuloId);
+      this.articuloSelect.push(data);
+    
+    this.normaIdSelect2 = ids;
+
+    const add: boolean = data ? (this.byArticuloVinculacion(data.articuloId) > 0 ? false : true) : true;
+
+    this.validInstallations(add);
+
+    //var listData = this.areas_all.filter((data: { id: any; }) => data.id === id);
+    this.vinculacionForm.controls['ids'].setValue(/*listData[0].*/ids);
+  }
+
+  viewResumen(normaId?: any){
+    this.termResumen = normaId;
   }
   
   async saveInstallation(){ 

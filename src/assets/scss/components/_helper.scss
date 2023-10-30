@@ -320,7 +320,7 @@ code {
     bottom: 100px;
     right: 28px;
     transition: all 0.5s ease;
-    display: none;
+    //display: none;
     z-index: 1000;
     &:hover {
         animation: fade-up 1.5s infinite linear;
