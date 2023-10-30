@@ -5,6 +5,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// Ng Search 
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
@@ -73,7 +75,8 @@ import { ProjectResumenComponent } from './project-dashboard//project-resumen/pr
     NgbTypeaheadModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    Ng2SearchPipeModule
   ]
 })
 export class DashboardsModule { }
