@@ -77,4 +77,18 @@ export class VerticalComponent implements OnInit {
     }
   }
 
+  /**
+   * Window scroll method
+   */
+  // tslint:disable-next-line: typedef
+  windowScroll() {
+
+    // Top Btn Set
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      (document.getElementById("back-to-top") as HTMLElement).style.display = "block"
+    } else {
+      (document.getElementById("back-to-top") as HTMLElement).style.display = "none"
+    }
+  }
+
 }
