@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   NgbToastModule
@@ -41,6 +41,10 @@ import { ProjectControlComponent } from './project-control/project-control.compo
 import { HomeComponent } from "./home/home.component";
 import { ProjectResumenComponent } from './project-dashboard//project-resumen/project-resumen.component';
 
+// Load Icon
+import { defineElement } from 'lord-icon-element';
+import lottie from 'lottie-web';
+
 @NgModule({
   declarations: [
     AnalyticsComponent,
@@ -77,6 +81,11 @@ import { ProjectResumenComponent } from './project-dashboard//project-resumen/pr
     ReactiveFormsModule,
     NgbTooltipModule,
     Ng2SearchPipeModule
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class DashboardsModule { }
+export class DashboardsModule {
+  constructor() {
+  defineElement(lottie.loadAnimation);
+  } 
+}
