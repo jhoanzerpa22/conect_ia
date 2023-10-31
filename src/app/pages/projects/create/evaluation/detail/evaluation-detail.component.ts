@@ -100,6 +100,7 @@ export class EvaluationDetailComponent implements OnInit {
   
   estados_default: any = estadosData;
   term:any;
+  id_evaluation: any;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -1058,6 +1059,23 @@ getArticlesCuerpo(articulos: any){
         r == rol
     ) != -1;
   }
+  
+  homologar(content: any, id: any){
+    this.id_evaluation = id;
+    
+    this.modalService.open(content, { centered: true });
+  }
+  
+  saveHomologar(contentProgress: any, contentSuccess: any){
+    this.modalService.dismissAll();
+
+    this.modalService.open(contentProgress, { centered: true });
+    setTimeout(() => {
+      this.modalService.dismissAll();
+      this.modalService.open(contentSuccess, { centered: true });
+    }, 3000);
+  }
+
 
   // PreLoader
   showPreLoader() {
