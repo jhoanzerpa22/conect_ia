@@ -103,6 +103,7 @@ export class IdentificationComponent implements OnInit {
   term7:any;
   term8:any;
   termResumen:any;
+  search: any;
   
   articles_proyects: any = [];
   articles_proyects_group: any = [];
@@ -4277,12 +4278,12 @@ validateIdparte(idParte: any){
         });
      }
    
-  private getNormas(page: number, ambito?: any) {
+  private getNormas(page: number, ambito?: any, search?: any) {
     
     this.showPreLoader();
     this.list_paginate = [];
 
-      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito).pipe().subscribe(
+      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito, search).pipe().subscribe(
         (data: any) => {
           
           this.normasListWidgets = data.data.normas;
@@ -7039,7 +7040,21 @@ validateIdparte(idParte: any){
   
   setPage(page: number){
     this.page = page;
-    this.getNormas(page, this.ambito);
+    this.getNormas(page, this.ambito, this.search);
+  }
+
+  searchChange(search?: any){
+    //console.log('Busqueda====>',event.target.value);
+    //const search: any = event.target.value;
+    if(search){
+      //if(search.length > 4){
+        //this.search = search;
+        this.getNormas(this.page, this.ambito, search);
+      //}
+    }else{
+      //this.search = search;
+      this.getNormas(this.page, this.ambito, null);
+    }
   }
 
   setFilterAmbito(ambito?: any){
@@ -7052,21 +7067,21 @@ validateIdparte(idParte: any){
     if(index != -1){
       this.page = 0;
       this.ambito = undefined;
-      this.ambitos.splice(index, 1);    
-      this.getNormas(0);
+      this.ambitos.splice(index, 1);
+      this.getNormas(0, null, this.search);
     }else{
       this.page = 0;
       this.ambitos = [];
       this.ambito = ambito;
       this.ambitos.push(ambito);
-      this.getNormas(0,ambito);
+      this.getNormas(0,ambito, this.search);
     }
   }else{
     
     this.page = 0;
     this.ambito = undefined;
     this.ambitos = [];    
-    this.getNormas(0);
+    this.getNormas(0, null, this.search);
 
   }
 
