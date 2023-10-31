@@ -9,6 +9,7 @@ import { round } from 'lodash';
 import Swal from 'sweetalert2';
 
 import { estadosData } from '../../../projects/estados';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-evaluations',
@@ -54,8 +55,9 @@ export class ProjectEvaluationsComponent implements OnInit {
   evaluations: any = {};
   
   estados_default: any = estadosData;
+  id_evaluation: any;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -877,6 +879,22 @@ layers = [
       });
     }
   }
+  }
+
+  homologar(content: any, id: any){
+    this.id_evaluation = id;
+    
+    this.modalService.open(content, { centered: true });
+  }
+  
+  saveHomologar(contentProgress: any, contentSuccess: any){
+    this.modalService.dismissAll();
+
+    this.modalService.open(contentProgress, { centered: true });
+    setTimeout(() => {
+      this.modalService.dismissAll();
+      this.modalService.open(contentSuccess, { centered: true });
+    }, 3000);
   }
 
   // PreLoader

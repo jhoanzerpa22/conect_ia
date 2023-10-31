@@ -4,11 +4,13 @@ import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
 
 import { estadosData } from '../../projects/estados';
+import { timeout } from 'rxjs';
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
@@ -53,8 +55,9 @@ export class ProjectDashboardComponent implements OnInit {
   showData: boolean = false;
   
   estados_default: any = estadosData;
+  id_evaluation: any;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -736,6 +739,32 @@ layers = [
         timer: 5000,
       });
     });
+  }
+
+  homologar(content: any, id: any){
+    /*Swal.fire({
+      title: '¿Está segur@ que desea realizar la homologación?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#364574',
+      cancelButtonColor: 'rgb(243, 78, 78)',
+      confirmButtonText: 'Homologar',
+      cancelButtonText: 'Cancelar'
+    });*/
+    this.id_evaluation = id;
+    
+    this.modalService.open(content, { centered: true });
+  }
+  
+  saveHomologar(contentProgress: any, contentSuccess: any){
+    this.modalService.dismissAll();
+
+    this.modalService.open(contentProgress, { centered: true });
+    setTimeout(() => {
+      this.modalService.dismissAll();
+      this.modalService.open(contentSuccess, { centered: true });
+    }, 3000);
   }
 
   terminar(){

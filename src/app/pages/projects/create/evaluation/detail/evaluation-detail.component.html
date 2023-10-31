@@ -138,19 +138,19 @@
                         <div class="list-group">
 
                                 <ng-template #myArticles let-s="s">
-                                    <div class="team-list list-view-filter row" style="cursor: pointer;" (click)="goEvaluation(s.id, s.evaluations)" *ngIf="s.proyectoId == project_id">
+                                    <div class="team-list list-view-filter row" style="cursor: pointer;">
                                         <div class="col">
                                             <div class="card team-box">
                                                 
                                                 <div class="card-body p-4">                
                                                     <div class="row align-items-center team-row">
                                                         
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col text-center" (click)="goEvaluation(s.id, s.evaluations)" *ngIf="s.proyectoId == project_id">
                                                             <h6 style="color: #405189;">{{s.articulo}}</h6>
                                                             <span class="badge" [ngClass]="{
                                                                 'text-bg-no-evaluado': s.project_article.articuloTipo == 'reporte','text-bg-primary': s.project_article.articuloTipo == 'permiso', 'text-bg-info': s.project_article.articuloTipo == 'monitoreo'}" *ngIf="s.project_article && s.project_article.articuloTipo">{{s.project_article.articuloTipo.toUpperCase() }}</span>
                                                         </div>
-                                                        <div class="col-lg-5 col">
+                                                        <div class="col-lg-4 col" (click)="goEvaluation(s.id, s.evaluations)" *ngIf="s.proyectoId == project_id">
                                                             <!--class="team-profile-img"-->
                                                                 <p class="card-text mb-2 align-self-center"><!--[style]="s.descripcion && s.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'"-->{{s.descripcion ? (s.descripcion.length > 450 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}} 
                                                                     <small [ngClass]="!validateIdparte(s.articuloId) ? 'text-success' : 'text-success'" style="cursor: pointer;" *ngIf="s.descripcion && s.descripcion.length > 450 && !validatShow(s.articuloId)" (click)="showText(s.articuloId)"><b>Leer más</b></small>
@@ -159,7 +159,7 @@
                                                                 </p>-->
                                                         </div>
 
-                                                        <div class="col-lg-3 col">
+                                                        <div class="col-lg-3 col" (click)="goEvaluation(s.id, s.evaluations)" *ngIf="s.proyectoId == project_id">
                                                             <div class="row text-muted text-center">
                                                                 <div class="col-6 border-end border-end-dashed">
                                                                     <h5 class="mb-1">{{s.evaluations.fecha_evaluacion ? (s.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : '-' }}</h5>
@@ -171,9 +171,15 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col text-center" (click)="goEvaluation(s.id, s.evaluations)" *ngIf="s.proyectoId == project_id">
                                                             <span class="badge" [ngClass]="{
                                                                 'text-bg-no-evaluado': !s.evaluations.estado,'text-bg-danger': (s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
+                                                        </div>
+                                                        <div class="col-lg-1 col text-center">
+                                                            <span 
+                                                            [style.cursor]="'pointer'" (click)="homologar(homoContent, evaluations.id)">
+                                                            <i class="ri-git-merge-fill"></i>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -232,5 +238,53 @@
 </div>
 </div>
 </div>
+
+<ng-template #homoContent let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body text-center">
+        <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
+        <div class="mt-4 pt-2 fs-15 ">
+            <h4>¿Está segur@ que desea realizar la homologación?</h4>
+            <p class="text-muted mx-4 mb-0">Esta acción no se puede deshacer</p>
+        </div>
+        <div class="d-flex align-items-start gap-2 mt-4 mb-2"><!--justify-content-center-->
+                <button type="button" class="swal2-cancel btn btn-danger w-xs mb-1 previestab" aria-label="" style="display: inline-block;" (click)="modal.close('Close click')">Cancelar</button>
+                <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1 right ms-auto nexttab" aria-label="" style="display: inline-block;" (click)="saveHomologar(homoProgressContent, homoSuccessContent)">Homologar</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #homoProgressContent let-modal>
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
+        <div class="mt-4 pt-2 fs-15 ">
+            <h4>Realizando homologación del elemento...</h4>
+            <p class="text-muted mx-4 mb-0">Podras ver los cambios en la siguiente etapa de Seguimiento y Control</p>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #homoSuccessContent let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body text-center">
+        <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#0ab39c,secondary:#405189" style="width:120px;height:120px"></lord-icon>
+        <div class="mt-4 pt-2 fs-15">
+            <h4>Homologación Completa!</h4>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+            <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1" aria-label="" style="display: inline-block;" (click)="modal.close('Close click')">Salir</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
 
 <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
