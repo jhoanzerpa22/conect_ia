@@ -25,6 +25,10 @@ const routes: Routes = [
     component: ProfileComponent
   },
   {
+    path: 'profileUser',
+    component: ProfileComponent
+  },
+  {
     path: 'profile-setting',
     component: SettingsComponent
   },
