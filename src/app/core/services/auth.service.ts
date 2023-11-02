@@ -51,7 +51,7 @@ export class AuthenticationService {
             "telefono": telefono,*/
             "password": password,
             "confirm_password": confirm_password,
-            "rol": [1]
+            "rol": [2]
           }, httpOptions);
     }
 
