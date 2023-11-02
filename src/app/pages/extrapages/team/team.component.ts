@@ -243,7 +243,7 @@ export class TeamComponent {
 
   irPerfil(userData: any){
     this.TokenStorageService.saveUserProfile(userData);
-    this.router.navigate(['/pages/profile']);
+    this.router.navigate(['/pages/profileUser']);
   }
 
 }

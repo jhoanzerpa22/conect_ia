@@ -51,7 +51,7 @@ export class AuthenticationService {
             "telefono": telefono,*/
             "password": password,
             "confirm_password": confirm_password,
-            "rol": [1]
+            "rol": [2]
           }, httpOptions);
     }
 
@@ -86,6 +86,7 @@ export class AuthenticationService {
         // logout the user
         // return getFirebaseBackend()!.logout();
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('Profile');
         localStorage.removeItem('token');
         this.currentUserSubject.next(null!);
     }

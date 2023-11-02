@@ -43,7 +43,13 @@ export class ProfileComponent {
    }
 
   ngOnInit(): void {
-    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();  
+    
+    if(location.pathname === '/pages/profileUser'){
+      this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
+    }else{
+      this.userData =  this.TokenStorageService.getUser();
+    }
+      
     /**
      * Fetches the data
      */
