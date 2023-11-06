@@ -6406,7 +6406,7 @@ getChart(criticidad: any, config: any){
   }
 
   getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
-    this.projectsService.getDashboardDaniel(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
+    this.projectsService.getDashboardEvaluations(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
       (data: any) => {
        console.log('dataDashboard',data);
        this.dashboard = data.data;
