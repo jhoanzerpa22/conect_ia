@@ -16,7 +16,7 @@
       <div>
           <!--<a routerLink="/projects/create" class="btn btn-success">-->
             <!--<i class="ri-add-line align-bottom me-1"></i> --><!--Crea un Proyecto</a>-->
-          <button type="button" class="btn btn-success btn-label waves-effect left waves-light" routerLink="/projects/create"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear un Proyecto</button>
+          <button type="button" class="btn btn-success btn-label waves-effect left waves-light" routerLink="/projects/create" *ngIf="validateRol(1) || validateRol(2)"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear un Proyecto</button>
       </div>
   </div>
   <div class="col-sm">
@@ -45,8 +45,8 @@
 <div class="row">
  
   <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
-  
-  <div class="col-xxl-3 col-sm-6 project-card" *ngFor="let data of projectListWidgets | filter:term" id="pl1_{{data.id}}">
+
+  <div class="col-xxl-3 col-sm-6 project-card" id="pl1_{{data.id}}" *ngFor="let data of projectListWidgets | filter:term">
       <div class="card card-height-100" style="cursor: pointer;" (click)="comenzar(data.id, data.estado)">
           <div class="card-body">
               <div class="d-flex flex-column h-100">
@@ -144,6 +144,7 @@
           </div>
       </div>
   </div>
+  
   <div *ngIf="!projectListWidgets || projectListWidgets.length == 0">
     <!--<div style="text-align: center;width: 100%;">
         <img src="assets/images/file.png" width="300" height="200"/>

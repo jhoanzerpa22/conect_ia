@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-header align-items-xl-center d-xl-flex">
                 <div class="flex-grow-1 mb-xl-0">
-                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/{{project_id}}/project-dashboard"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Evaluación</button>
+                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/{{project_id}}/project-dashboard"  *ngIf="validateRol(1) || validateRol(2)"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Evaluación</button>
                 </div>
                 <!--<p class="text-muted flex-grow-1 mb-xl-0">Use <code>card-header-pills</code> class to create header justify tab.</p>-->
                 <div class="flex-shrink-0">
