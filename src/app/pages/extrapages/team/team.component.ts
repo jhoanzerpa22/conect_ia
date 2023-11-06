@@ -86,6 +86,9 @@ export class TeamComponent {
    * @param content modal content
    */
    openModal(content: any) {
+    
+    this.teamForm.reset();
+
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
   }
