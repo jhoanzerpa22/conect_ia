@@ -93,7 +93,7 @@ export class ComplianceDetailComponent implements OnInit {
 
     document.body.classList.add('file-detail-show');
 
-    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
+    this.userData = this.TokenStorageService.getUser();
 
     /**
      * Form Validation

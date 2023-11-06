@@ -4,6 +4,7 @@ import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 import { estadosData } from '../../projects/estados';
 
@@ -51,7 +52,7 @@ export class ProjectControlComponent implements OnInit {
   estados_default: any = estadosData;
   term:any;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -62,6 +63,8 @@ export class ProjectControlComponent implements OnInit {
       { label: 'Proyecto' },
       { label: 'Control', active: true }
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
@@ -89,6 +92,13 @@ export class ProjectControlComponent implements OnInit {
 
   ngAfterViewInit() {
     //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
   }
 
   goDetail(id: any){
