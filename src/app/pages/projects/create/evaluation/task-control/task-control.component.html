@@ -11,7 +11,6 @@
     </div>
   </div>
 
-
   <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -370,7 +369,7 @@
                 </div>
                 <div class="col-lg-auto">
                     <button class="btn btn-primary showModal createTask" type="button" data-bs-toggle="modal"
-                        data-bs-target="#showModal" (click)="openModal(content)">
+                        data-bs-target="#showModal" (click)="openModal(content)" *ngIf="validateRol(1) || validateRol(2) || validateRol(4)">
                         <i class="ri-add-fill align-bottom"></i> Crear Hallazgo
                     </button>
                 </div>
@@ -479,7 +478,7 @@
                 </div>
                 <div class="col-lg-auto">
                     <button class="btn btn-danger showModal createTask" type="button" data-bs-toggle="modal"
-                        data-bs-target="#showModal" (click)="openModal(content2)">
+                        data-bs-target="#showModal" (click)="openModal(content2)" *ngIf="validateRol(1) || validateRol(2) || validateRol(4)">
                         <i class="ri-add-fill align-bottom"></i> Crear Tarea
                     </button>
                 </div>

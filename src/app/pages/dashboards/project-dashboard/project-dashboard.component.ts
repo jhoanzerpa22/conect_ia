@@ -5,12 +5,14 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
 
 import { estadosData } from '../../projects/estados';
 import { timeout } from 'rxjs';
+
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
@@ -57,7 +59,7 @@ export class ProjectDashboardComponent implements OnInit {
   estados_default: any = estadosData;
   id_evaluation: any;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal, private TokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -68,6 +70,8 @@ export class ProjectDashboardComponent implements OnInit {
       { label: 'Proyecto' },
       { label: 'Evaluación', active: true }
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
@@ -95,6 +99,13 @@ export class ProjectDashboardComponent implements OnInit {
 
   ngAfterViewInit() {
     //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
   }
 
   goDetail(id: any){

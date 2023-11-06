@@ -10,6 +10,7 @@ import { ProjectsService } from '../../../core/services/projects.service';
 import { first } from 'rxjs/operators';
 import { ToastService } from '../toast-service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 import { round } from 'lodash';
 
@@ -35,9 +36,10 @@ export class ListComponent implements OnInit {
   sellers?: any;
   pagLength?: number = 0;
   term:any;
+  userData: any;
 
   constructor(private modalService: NgbModal,
-    public service: listService, private projectsService: ProjectsService, public toastService: ToastService,private _router: Router) {
+    public service: listService, private projectsService: ProjectsService, public toastService: ToastService,private _router: Router, private TokenStorageService: TokenStorageService) {
     //this.projectmodel = service.companies$;
     this.total = service.total$;
   }
@@ -50,6 +52,8 @@ export class ListComponent implements OnInit {
       { label: 'Requisitos legales' },
       { label: 'Lista de Proyectos', active: true }
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     /**
      * Fetches the data
@@ -81,7 +85,7 @@ export class ListComponent implements OnInit {
           let proyectos: any = [];
 
           for (var j = 0; j < resp.length; j++) {
-            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3){
+            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3 && ((this.validateRol(1) || this.validateRol(2)) || this.validateShowProject(resp[j].estado))){
               proyectos.push(resp[j]);
             }
           }
@@ -128,6 +132,33 @@ export class ListComponent implements OnInit {
   formatDate(fecha_d: Date){
     const fecha: Date = new Date(fecha_d);
     return fecha.getDate()+'/'+(fecha.getMonth()+1)+'/'+fecha.getFullYear();
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
+  
+  validateShowProject(estado?:any){
+    const rol_evaluador: boolean = this.userData.rol.findIndex(
+      (r: any) =>
+        r == 3
+    ) != -1;
+
+    const rol_control: boolean = this.userData.rol.findIndex(
+      (r: any) =>
+        r == 4 || r == 5
+    ) != -1;
+
+    if((rol_evaluador && estado == 2) || (rol_control && estado > 2)){
+      return true;
+    }else{
+      return false;
+    }
+
+      return true;
   }
 
   comenzar(proyecto_id: any, estado?: number){
