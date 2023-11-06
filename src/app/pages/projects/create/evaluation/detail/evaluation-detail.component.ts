@@ -122,7 +122,7 @@ export class EvaluationDetailComponent implements OnInit {
 
     document.body.classList.add('file-detail-show');
 
-    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
+    this.userData = this.TokenStorageService.getUser();
 
     //this._basicRadialbarChart('["--vz-warning"]', 75);
     this._customAngleChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');

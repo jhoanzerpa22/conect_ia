@@ -236,6 +236,13 @@ export class TaskControlComponent implements OnInit {
     // Data Get Function
     //this._fetchData();
   }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
   
   getProject(){
     this.projectsService.getById(this.project_id).pipe().subscribe(
