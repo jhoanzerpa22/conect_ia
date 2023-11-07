@@ -320,14 +320,14 @@ export class IdentificationComponent implements OnInit {
       switch (this.tipo) {
         case 'Gestionar':
             if(this.criticidad == 'Todos'){
-              return ['Gestionar', 'Alta', 'Media', 'Baja', 'Otros'];
+              return [/*'Gestionar', */'Alta', 'Media', 'Baja', 'No especificado'];
             }else{
               return ['Gestionar'];
             }
           break;
         case 'Por definir':
             if(this.criticidad == 'Todos'){
-              return ['Por definir', 'Alta', 'Media', 'Baja', 'Otros'];
+              return [/*'Por definir', */'Alta', 'Media', 'Baja', 'No especificado'];
             }else{
               return ['Por definir'];
             }
@@ -350,14 +350,14 @@ export class IdentificationComponent implements OnInit {
       switch (this.tipo) {
         case 'Gestionar':
             if(this.criticidad == 'Todos'){
-              series = [this.getDataDashboard(gestionar), this.getDataDashboard(alta),this.getDataDashboard(media),this.getDataDashboard(baja)];
+              series = [/*this.getDataDashboard(gestionar), */this.getDataDashboard(alta),this.getDataDashboard(media),this.getDataDashboard(baja),this.getDataDashboard(otros)];
             }else{
               series =  [this.getDataDashboard(gestionar)];
             }
           break;
         case 'Por definir':
           if(this.criticidad == 'Todos'){
-            series = [this.getDataDashboard(por_definir), this.getDataDashboard(alta),this.getDataDashboard(media),this.getDataDashboard(baja)];
+            series = [/*this.getDataDashboard(por_definir), */this.getDataDashboard(alta),this.getDataDashboard(media),this.getDataDashboard(baja),this.getDataDashboard(otros)];
           }else{
             series = [this.getDataDashboard(por_definir)];
           }
@@ -385,14 +385,14 @@ export class IdentificationComponent implements OnInit {
       switch (this.tipo) {
         case 'Gestionar':
           if(this.criticidad == 'Todos'){
-            colors =  '["--vz-primary", "--vz-danger", "--vz-warning", "--vz-success", "--vz-info"]';
+            colors =  '["--vz-danger", "--vz-warning", "--vz-success", "--vz-info"]';
           }else{
             colors =  '["--vz-success", "--vz-warning", "--vz-danger"]';
           }
           break;
           case 'Por definir':  
               if(this.criticidad == 'Todos'){
-                colors =  '["--vz-primary", "--vz-danger", "--vz-warning", "--vz-success", "--vz-info"]';
+                colors =  '["--vz-danger", "--vz-warning", "--vz-success", "--vz-info"]';
               }else{
               colors =  '["--vz-warning", "--vz-danger"]';
               }
