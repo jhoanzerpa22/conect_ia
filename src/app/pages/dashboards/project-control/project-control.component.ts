@@ -109,7 +109,6 @@ export class ProjectControlComponent implements OnInit {
     this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen/control']);
   }
 
-
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {

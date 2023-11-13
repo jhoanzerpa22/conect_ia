@@ -37,6 +37,7 @@ export class ProjectEvaluationsComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  idEvaluation: any = '';
 
   installations_data: any = [];
   installations_articles: any = [];
@@ -76,6 +77,7 @@ export class ProjectEvaluationsComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
+      this.idEvaluation = params['idEvaluation'];
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
@@ -99,7 +101,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   }
 
   goDetail(id: any){
-    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/Detail']);
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/Detail/'+this.idEvaluation]);
   }
 
   getProject(idProject?: any){
@@ -116,7 +118,12 @@ export class ProjectEvaluationsComponent implements OnInit {
  getEvaluations(idProject?: any){
   this.projectsService.getEvaluations(idProject).pipe().subscribe(
     (data: any) => {
-      this.evaluations = data.data;
+      const evaluation_data = data.data;
+      const index = evaluation_data.findIndex(
+        (ev: any) =>
+          ev.id == this.idEvaluation
+      );
+      this.evaluations = index != -1 ? evaluation_data[index] : {};
   },
   (error: any) => {
     //this.error = error ? error : '';
@@ -193,8 +200,17 @@ getCategoryStatus(estado?: any){
 
                   //for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                     if(obj[i].installations_articles[j].evaluations.length > 0){
-                      if(obj[i].installations_articles[j].evaluations[0].estado){
-                        switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[0].estado)) {
+                      const evaluaciones = obj[i].installations_articles[j].evaluations;
+                      
+                      const index_evaluation = evaluaciones.findIndex(
+                        (ev: any) =>
+                          ev.evaluationProyectId == this.idEvaluation
+                      );
+                      const evaluation_active = index_evaluation != -1 ? evaluaciones[index_evaluation] : {};
+
+                      if(/*obj[i].installations_articles[j].evaluations[0].estado*/evaluation_active && evaluation_active.estado){
+
+                        switch (this.getCategoryStatus(evaluation_active.estado/*obj[i].installations_articles[j].evaluations[0].estado*/)) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;

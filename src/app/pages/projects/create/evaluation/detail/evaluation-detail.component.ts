@@ -40,6 +40,8 @@ export class EvaluationDetailComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  idEvaluation: any = '';
+
   installation_id: any = null;
   detail: any = [];
   cuerpos_articulos: any = [];
@@ -149,6 +151,7 @@ export class EvaluationDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
       this.installation_id = params['id'];
+      this.idEvaluation = params['idEvaluation'];
 
         this.getArticlesByInstallationBody(this.installation_id);
         this.getProject();
@@ -568,7 +571,12 @@ export class EvaluationDetailComponent implements OnInit {
  getEvaluations(){
   this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
     (data: any) => {
-      this.evaluations = data.data;
+      const evaluation_data = data.data;
+      const index = evaluation_data.findIndex(
+        (ev: any) =>
+          ev.id == this.idEvaluation
+      );
+      this.evaluations = index != -1 ? evaluation_data[index] : {};
   },
   (error: any) => {
     //this.error = error ? error : '';
@@ -578,14 +586,22 @@ export class EvaluationDetailComponent implements OnInit {
 
  goEvaluation(id: any, evaluation: any){
   if(!this.evaluations.fechaFinalizacion){
-    if(evaluation.estado){
+    if(evaluation.evaluationProyectId == this.idEvaluation && evaluation.estado){
       this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowEdit/'+id]);
     }else{
-      this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id]);
+      this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id+'/'+this.idEvaluation]);
     }
   }else{
     this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowView/'+id]);
   }
+}
+
+getFindings(findings: any){
+  const findings_filter = findings.filter((f: any) => {
+    return f.evaluationId === this.evaluations.id;
+  });
+
+  return findings_filter;
 }
 
 getArticlesCuerpo(articulos: any){
@@ -597,8 +613,13 @@ getArticlesCuerpo(articulos: any){
         co.articuloId == articulos[j].articuloId
     );
 
-    if(index == -1){
+    if(index == -1 && articulos[j].proyectoId == this.project_id && (!articulos[j].evaluations || !articulos[j].evaluations.evaluationProyectId || (articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation))
+      ){
       articulosData.push(articulos[j]);
+    }else if(index != -1 && articulos[j].proyectoId == this.project_id){
+      if(!articulosData[index].evaluations.evaluationProyectId && articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation){
+        articulosData[index] = articulos[j];
+      }
     }
   }
 
@@ -759,10 +780,13 @@ getArticlesCuerpo(articulos: any){
               
                   if(index == -1){
                     articulos_group.push(articulos[i].articulos[j].articuloId);
-                  total += 1;
-                  procede = true;
-                  if(articulos[i].articulos[j].evaluations.estado){
-                    switch (this.getCategoryStatus(articulos[i].articulos[j].evaluations.estado)) {
+                    total += 1;
+                    procede = true;
+
+                  const evaluation_active = articulos[i].articulos[j].evaluations;
+                      
+                  if(/*articulos[i].articulos[j].evaluations.estado*/evaluation_active && evaluation_active.estado && evaluation_active.evaluationProyectId == this.idEvaluation){
+                    switch (this.getCategoryStatus(/*articulos[i].articulos[j].evaluations.estado*/evaluation_active.estado)) {
                       case 'CUMPLE':
                         cumple ++;
                         cuerpo_cumple ++;
@@ -894,6 +918,7 @@ getArticlesCuerpo(articulos: any){
           this.cuerpos_articulos = cuerpo_articulos;
           this.articles_proyects_group_all = cuerpo_articulos;
           this.articles_proyects_group = cuerpo_articulos;
+
           /*cuerpo_articulos.forEach((x: any) => {
 
             console.log('cuerpo_articulos',x);
@@ -1060,10 +1085,12 @@ getArticlesCuerpo(articulos: any){
     ) != -1;
   }
   
-  homologar(content: any, id: any){
-    this.id_evaluation = id;
+  homologar(content: any, evaluation: any){
+    if(evaluation && !evaluation.active){
+      this.id_evaluation = evaluation.id;
     
-    this.modalService.open(content, { centered: true });
+      this.modalService.open(content, { centered: true });
+    }
   }
   
   saveHomologar(contentProgress: any, contentSuccess: any){
