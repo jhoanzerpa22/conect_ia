@@ -103,6 +103,7 @@ export class EvaluationDetailComponent implements OnInit {
   estados_default: any = estadosData;
   term:any;
   id_evaluation: any;
+  id_article: any;
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
@@ -777,14 +778,19 @@ getArticlesCuerpo(articulos: any){
                     (ar: any) =>
                       ar == articulos[i].articulos[j].articuloId
                   );
+
+                  const index_articulo = articulos[i].articulos.findIndex(
+                    (ar: any) =>
+                      ar.evaluations && ar.evaluations.evaluationProyectId && ar.evaluations.evaluationProyectId == this.idEvaluation
+                  );
               
-                  if(index == -1){
+                  if(index == -1 && (index_articulo == -1 || (index_articulo != -1 && articulos[i].articulos[j].evaluations && articulos[i].articulos[j].evaluations.evaluationProyectId && articulos[i].articulos[j].evaluations.evaluationProyectId == this.idEvaluation))){
                     articulos_group.push(articulos[i].articulos[j].articuloId);
                     total += 1;
                     procede = true;
 
                   const evaluation_active = articulos[i].articulos[j].evaluations;
-                      
+
                   if(/*articulos[i].articulos[j].evaluations.estado*/evaluation_active && evaluation_active.estado && evaluation_active.evaluationProyectId == this.idEvaluation){
                     switch (this.getCategoryStatus(/*articulos[i].articulos[j].evaluations.estado*/evaluation_active.estado)) {
                       case 'CUMPLE':
@@ -1088,19 +1094,33 @@ getArticlesCuerpo(articulos: any){
   homologar(content: any, evaluation: any){
     if(evaluation && !evaluation.active){
       this.id_evaluation = evaluation.id;
+      this.id_article = evaluation.installationArticleId;
     
       this.modalService.open(content, { centered: true });
     }
   }
   
   saveHomologar(contentProgress: any, contentSuccess: any){
-    this.modalService.dismissAll();
-
     this.modalService.open(contentProgress, { centered: true });
-    setTimeout(() => {
+    
+    this.projectsService.homologarEvaluationByArticle(this.id_evaluation ,this.project_id, this.id_article).pipe().subscribe(
+      (data: any) => {
+        
+        this.getArticlesByInstallationBody(this.installation_id);      
+        this.modalService.dismissAll();
+        this.modalService.open(contentSuccess, { centered: true });
+    },
+    (error: any) => {
+      
       this.modalService.dismissAll();
-      this.modalService.open(contentSuccess, { centered: true });
-    }, 3000);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
   }
 
 

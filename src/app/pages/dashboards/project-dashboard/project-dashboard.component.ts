@@ -285,7 +285,14 @@ export class ProjectDashboardComponent implements OnInit {
 
   createEvaluation(){
     this.showPreLoader();
-    this.projectsService.createEvaluation(this.project_id).pipe().subscribe(
+    const index = this.evaluations.findIndex(
+      (ev: any) =>
+        ev.active == true
+    );
+
+    const active = index != -1 ? false : true;
+
+    this.projectsService.createEvaluation(this.project_id, active).pipe().subscribe(
       (data: any) => {
         this.hidePreLoader();
         this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations/'+data.data.id]);
@@ -322,13 +329,28 @@ export class ProjectDashboardComponent implements OnInit {
   }
   
   saveHomologar(contentProgress: any, contentSuccess: any){
-    this.modalService.dismissAll();
-
     this.modalService.open(contentProgress, { centered: true });
-    setTimeout(() => {
+    
+    this.projectsService.homologarEvaluation(this.id_evaluation ,this.project_id).pipe().subscribe(
+      (data: any) => {
+        
+        this.getEvaluations(this.project_id);
+        
+        this.modalService.dismissAll();
+        this.modalService.open(contentSuccess, { centered: true });
+    },
+    (error: any) => {
+      
       this.modalService.dismissAll();
-      this.modalService.open(contentSuccess, { centered: true });
-    }, 3000);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
+    
   }
 
   terminar(){

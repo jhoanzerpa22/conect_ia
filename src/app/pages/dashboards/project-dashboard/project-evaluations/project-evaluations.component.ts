@@ -57,6 +57,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   
   estados_default: any = estadosData;
   id_evaluation: any;
+  id_installation: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal) {
   }
@@ -201,6 +202,8 @@ getCategoryStatus(estado?: any){
                   //for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                     if(obj[i].installations_articles[j].evaluations.length > 0){
                       const evaluaciones = obj[i].installations_articles[j].evaluations;
+
+                      console.log('Evaluations', evaluaciones);
                       
                       const index_evaluation = evaluaciones.findIndex(
                         (ev: any) =>
@@ -897,20 +900,34 @@ layers = [
   }
   }
 
-  homologar(content: any, id: any){
+  homologar(content: any, id: any, installation_id: any){
     this.id_evaluation = id;
+    this.id_installation = installation_id;
     
     this.modalService.open(content, { centered: true });
   }
   
   saveHomologar(contentProgress: any, contentSuccess: any){
-    this.modalService.dismissAll();
-
     this.modalService.open(contentProgress, { centered: true });
-    setTimeout(() => {
+    
+    this.projectsService.homologarEvaluationByInstallation(this.id_evaluation ,this.project_id, this.id_installation).pipe().subscribe(
+      (data: any) => {
+        
+        this.getInstallations(this.project_id);
+        this.modalService.dismissAll();
+        this.modalService.open(contentSuccess, { centered: true });
+    },
+    (error: any) => {
+      
       this.modalService.dismissAll();
-      this.modalService.open(contentSuccess, { centered: true });
-    }, 3000);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
   }
 
   // PreLoader
