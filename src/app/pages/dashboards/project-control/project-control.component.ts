@@ -123,7 +123,10 @@ export class ProjectControlComponent implements OnInit {
    getEvaluations(idProject?: any){
        this.projectsService.getEvaluations(idProject).pipe().subscribe(
          (data: any) => {
-           this.evaluations = data.data;
+           this.evaluations = data.data.filter(
+            (ev: any) =>
+              ev.active == true
+          )[0];
        },
        (error: any) => {
          //this.error = error ? error : '';

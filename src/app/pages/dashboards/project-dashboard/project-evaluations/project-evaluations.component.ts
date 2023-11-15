@@ -795,7 +795,7 @@ layers = [
         "fechaFinalizacion": this.finalizeDate
       };
 
-      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
+      this.projectsService.updateEvaluation(this.idEvaluation, evaluation).pipe().subscribe(
         (data: any) => {
 
           this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
@@ -852,7 +852,7 @@ layers = [
         "fechaFinalizacion": this.finalizeDate
       };
 
-      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
+      this.projectsService.updateEvaluation(this.idEvaluation, evaluation).pipe().subscribe(
         (data: any) => {
 
           this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
