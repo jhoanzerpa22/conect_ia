@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="{{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{type ? project.nombre : 'Tablero'}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
  <div class="row project-wrapper">
@@ -9,110 +9,1109 @@
     <div class="col-xxl-12">
         <!--<h5 class="mb-3">Header Justify Tabs</h5>-->
         <div class="card">
-            <div class="card-header align-items-xl-center d-xl-flex">
+            <div class="card-header align-items-xl-center d-xl-flex" *ngIf="type">
                 <div class="flex-grow-1 mb-xl-0">
-                    <button class="btn btn-primary btn-label waves-effect left waves-light" routerLink="/{{project_id}}/project-dashboard"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> Evaluaciones</button>
+                    <button class="btn btn-primary btn-label waves-effect left waves-light" (click)="regresar()"><i class="ri-arrow-left-line label-icon align-middle fs-16"></i> {{type == 'control' ? 'Control' : 'Evaluaciones'}}</button><!--routerLink="/{{project_id}}/project-dashboard/evaluations"-->
                 </div>
                 <!--<p class="text-muted flex-grow-1 mb-xl-0">Use <code>card-header-pills</code> class to create header justify tab.</p>-->
-                <div class="flex-shrink-0">
+                <!--<div class="flex-shrink-0">
                     <button type="button" class="btn btn-primary btn-label right waves-effect waves-light" [disabled]="project.estado < 3" (click)="goControl()"><i class="ri-arrow-right-line label-icon align-middle fs-16"></i> Control</button>
-                </div>
+                </div>-->
             </div><!-- end card header -->
             <div class="card-body">
-                
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="row mb-3">
+
+                <div class="align-items-xl-center d-xl-flex mb-3">
+                    <p class="text-muted flex-grow-1 mb-xl-0"></p>
+                    <div class="flex-shrink-0">
+                <ul ngbNav #Header="ngbNav" [activeId]="1" class="nav nav-pills card-header-pills">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink>
+                          Operaciones
+                        </a>
+                        <ng-template ngbNavContent>
                             
-                            <div class="col-md-12">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Cuerpos legales aplicables</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countCuerposLegales()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                                <!--<p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0">[ngClass]=" { 'text-danger': profit === 'down'}"
-                                                        <i class="align-middle ri-arrow-up-line"></i>
-                                                        {{persantage}} %
-                                                    </span> vs. previous month</p>-->
-                                            </div>
-                                            <div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
+                            <div class="row g-4 mb-3" *ngIf="!type">
+                            
+                                <div class="col-12">
+    
+                                    <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                        
+                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
+                                        width: 100%;
+                                        text-align: left;
+                                    " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_proyecto ? 'Selecciona el Proyecto' : filtro_proyecto }}</button>    
+                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                        <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                            
+                                            <a class="dropdown-item" [ngClass]="!filtro_proyecto ? 'active' : ''" href="javascript:void(0);" (click)="selectProjectFiltro()">Todos</a>
+
+                                            <ng-container *ngFor="let p of projects;">
+                                                <a class="dropdown-item" [ngClass]="filtro_proyectoId && filtro_proyectoId == p.id ? 'active' : ''"  href="javascript:void(0);" (click)="selectProjectFiltro(p.id, p.nombre)">{{p.nombre}}</a>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row g-4 mb-3">
+                                <div class="col-lg-4">
+                                    <span style="color: #405189;"><b> Avance de la evaluación</b></span>
+                                </div>
+                                <div class="col-lg-8" style="text-align: right;">
+                                    <span style="color: #405189;"> {{avance_evaluacion}}% ({{getDataDashboard('instancias_evaluadas') < 1 ? 0 : getDataDashboard('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" [style]="avance_evaluacion > 0 ? 'width:'+avance_evaluacion+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{avance_evaluacion}}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            
+                            <div class="row g-4 mb-3">
+                    
+                            <!--<div class="col-2">-->
+                                <div class="chip">
+                                    Corporativo
+                                    <!--<span class="closebtn" onclick="this.parentElement.style.display='none'">&times;</span>-->
+                                </div>
+                            <!--</div>-->
+                            <ng-container *ngFor="let arc of areas_select_chart;">
+                                <!--<div class="col-2">-->
+                                    <div class="chip">
+                                        {{arc.nombre}}
+                                        <span class="closebtn" (click)="deleteAreaChart(arc.id)">&times;</span><!-- onclick="this.parentElement.style.display='none'"-->
+                                    </div>
+                                <!--</div>-->
+                            </ng-container>
+                          </div>
+
+                          <div class="row g-4 mb-3">
+                            
+                            <div class="col-12">
+
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-primary" style="
+                                    width: 100%;
+                                    text-align: left;
+                                ">Selecciona el área</button>    
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <ng-container *ngFor="let ar of areas_chart;">
+                                            <a class="dropdown-item" href="javascript:void(0);" (click)="selectAreaChart(ar.id)">{{ar.nombre}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                            <div class="col-6">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo ? 'Cumplimiento' : tipo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!tipo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo()">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Cumple')">Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'Cumple Parcial' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('Cumple Parcial')">Cumple Parcial</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'No Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('No Cumple')">No Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo && tipo == 'No Evaluado' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipo('No Evaluado')">No Evaluado</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                            
+                            <div class="col-6">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light  dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo">{{ !criticidad ? 'Criticidad' : criticidad }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo"></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad()">Ninguno</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Todos')">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Alta')">Alta</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Media')">Media</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('Baja')">Baja</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidad('No especificado')">No especificado</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                          </div>
+        
+                        <div class="row">
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES EVALUADOS</p>
+                                                
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboard(!tipo ? 'cuerpos_evaluados' : getTipoTag(tipo, 'cuerpos')) < 1 ? 0 : getDataDashboard(!tipo ? 'cuerpos_evaluados' : getTipoTag(tipo, 'cuerpos'))}}/{{getDataDashboard('cuerpos') < 1 ? 0 : getDataDashboard('cuerpos')}}</span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('cuerpos_cumplimiento') < 1 ? 0 : getDataDashboard('cuerpos_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                                                
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;"
+                                                        >
+                                                        {{getDataDashboard(!tipo ? 'articulos_evaluados' : getTipoTag(tipo, 'articulos')) < 1 ? 0 : getDataDashboard(!tipo ? 'articulos_evaluados' : getTipoTag(tipo, 'articulos'))}}/{{getDataDashboard('articulos') < 1 ? 0 : getDataDashboard('articulos')}}
+                                                        
                                                     </span>
+                                                </h4>
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                    
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('articulos_cumplimiento') < 1 ? 0 : getDataDashboard('articulos_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
+                                        <h4 class="fs-1">
+                                            <span class="counter-value" style="color: #405189;">
+                                                {{getDataDashboard(!tipo ? 'instancias_evaluadas' : getTipoTag(tipo, 'instancias')) < 1 ? 0 : getDataDashboard(!tipo ? 'instancias_evaluadas' : getTipoTag(tipo, 'instancias'))}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}
+                                                
+                                            </span>
+                                        </h4>
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                    
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('instancias_cumplimiento') < 1 ? 0 : getDataDashboard('instancias_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
+                                         
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboard(!tipo ? 'elementos_evaluados' : getTipoTag(tipo, 'elementos')) < 1 ? 0 : getDataDashboard(!tipo ? 'elementos_evaluados' : getTipoTag(tipo, 'elementos'))}}/{{getDataDashboard('elementos') < 1 ? 0 : getDataDashboard('elementos')}}
+                                                    
+                                                    </span>
+                                                </h4>
+                                            <!--</div>
+                                        </div>-->
+                                    </div>
+                                    
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('elementos_cumplimiento') < 1 ? 0 : getDataDashboard('elementos_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                                    
+                        <div class="row">
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboard(!tipo ? 'permisos_evaluados' : getTipoTag(tipo, 'permisos')) < 1 ? 0 : getDataDashboard(!tipo ? 'permisos_evaluados' : getTipoTag(tipo, 'permisos'))}}/{{getDataDashboard('permisos') < 1 ? 0 : getDataDashboard('permisos')}}
+                                                        
+                                                    </span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('permisos_cumplimiento') < 1 ? 0 : getDataDashboard('permisos_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboard(!tipo ? 'reportes_evaluados' : getTipoTag(tipo, 'reportes')) < 1 ? 0 : getDataDashboard(!tipo ? 'reportes_evaluados' : getTipoTag(tipo, 'reportes'))}}/{{getDataDashboard('reportes') < 1 ? 0 : getDataDashboard('reportes')}}
+                                                        
+                                                    </span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('reportes_cumplimiento') < 1 ? 0 : getDataDashboard('reportes_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
+                                                <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboard(!tipo ? 'monitoreos_evaluados' : getTipoTag(tipo, 'monitoreos')) < 1 ? 0 : getDataDashboard(!tipo ? 'monitoreos_evaluados' : getTipoTag(tipo, 'monitoreos'))}}/{{getDataDashboard('monitoreos') < 1 ? 0 : getDataDashboard('monitoreos')}}
+                                                        
+                                                    </span>
+                                                </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('monitoreos_cumplimiento') < 1 ? 0 : getDataDashboard('monitoreos_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xl-3 col-md-3">
+                                <div class="card card-height-100">
+                                    <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                        <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                                                    <h4 class="fs-1">
+                                                    <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboard(!tipo ? 'otros_evaluados' : getTipoTag(tipo, 'otros')) < 1 ? 0 : getDataDashboard(!tipo ? 'otros_evaluados' : getTipoTag(tipo, 'otros'))}}/{{getDataDashboard('otros') < 1 ? 0 : getDataDashboard('otros')}}
+                                                        
+                                                    </span>
+                                                    </h4>
+                                    </div>
+                                    <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                        <h4 class="fs-1">
+                                            <span class="counter-value text-success">
+                                                {{getDataDashboard('otros_cumplimiento') < 1 ? 0 : getDataDashboard('otros_cumplimiento')}}%
+                                            </span>
+                                        </h4>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            <h4>Cumplimiento</h4>
+                        
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Cuerpos Legales</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartCuerpos.series)">
+                                                        <h4>No existe información</h4>
                                                 </div>
+                        
+                                                <apx-chart [series]="simpleDonutChartCuerpos.series" [chart]="simpleDonutChartCuerpos.chart"
+                                                [labels]="simpleDonutChartCuerpos.labels" [responsive]="simpleDonutChartCuerpos.responsive"
+                                                [legend]="simpleDonutChartCuerpos.legend" [dataLabels]="simpleDonutChartCuerpos.dataLabels"
+                                                [colors]="simpleDonutChartCuerpos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartCuerpos.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Artículos</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartArticulos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+        
+                                                <apx-chart [series]="simpleDonutChartArticulos.series" [chart]="simpleDonutChartArticulos.chart"
+                                                [labels]="simpleDonutChartArticulos.labels" [responsive]="simpleDonutChartArticulos.responsive"
+                                                [legend]="simpleDonutChartArticulos.legend" [dataLabels]="simpleDonutChartArticulos.dataLabels"
+                                                [colors]="simpleDonutChartArticulos.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartArticulos.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                          
+                                            <div class="col-sm-4">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                
+                                                <h4>Instancias de cumplimiento</h4>
+                                                
+                                                <div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartInstancias.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>
+        
+                                                <apx-chart [series]="simpleDonutChartInstancias.series" [chart]="simpleDonutChartInstancias.chart"
+                                                [labels]="simpleDonutChartInstancias.labels" [responsive]="simpleDonutChartInstancias.responsive"
+                                                [legend]="simpleDonutChartInstancias.legend" [dataLabels]="simpleDonutChartInstancias.dataLabels"
+                                                [colors]="simpleDonutChartInstancias.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartInstancias.series)"></apx-chart>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3 align-items-center justify-content-center">
+                                            
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+        
+                                                <h4>Permisos</h4>
+                                                
+                                                <!--<div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartPermisos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>-->
+                        
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosCumplimiento)" [colors]="basicBarChartPermisosCumplimiento.colors"
+                                                [chart]="getChart(criticidad, basicBarChartPermisosCumplimiento.chart)" [dataLabels]="basicBarChartPermisosCumplimiento.dataLabels"
+                                                    [plotOptions]="basicBarChartPermisosCumplimiento.plotOptions" dir="ltr"
+                                                    [xaxis]="basicBarChartPermisosCumplimiento.xaxis" [yaxis]="basicBarChartPermisosCumplimiento.yaxis" [stroke]="basicBarChartPermisosCumplimiento.stroke"
+                                                    [fill]="basicBarChartPermisosCumplimiento.fill" [title]="basicBarChartPermisosCumplimiento.title"
+                                                    [tooltip]="basicBarChartPermisosCumplimiento.tooltip" [legend]="basicBarChartPermisosCumplimiento.legend"></apx-chart>
+
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Reportes</h4>
+        
+                                                <!--<div style="height: 266px;
+                                                display: grid;
+                                                place-items: center;" *ngIf="!getDataExist(simpleDonutChartReportes.series)">
+                                                    <h4>No existe información</h4>
+                                                </div>-->
+                                                
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartReportesCumplimiento)" [colors]="basicBarChartReportesCumplimiento.colors"
+                                                [chart]="getChart(criticidad, basicBarChartReportesCumplimiento.chart)" [dataLabels]="basicBarChartReportesCumplimiento.dataLabels"
+                                                [plotOptions]="basicBarChartReportesCumplimiento.plotOptions" dir="ltr" 
+                                                [xaxis]="basicBarChartReportesCumplimiento.xaxis" [yaxis]="basicBarChartReportesCumplimiento.yaxis" [stroke]="basicBarChartReportesCumplimiento.stroke"
+                                                [fill]="basicBarChartReportesCumplimiento.fill" [title]="basicBarChartReportesCumplimiento.title"
+                                                [tooltip]="basicBarChartReportesCumplimiento.tooltip" [legend]="basicBarChartReportesCumplimiento.legend"></apx-chart>
+
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                                            
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Monitoreos</h4>
+                                                
+                                                <!--<div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartMonitoreos.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>-->
+        
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosCumplimiento)" [colors]="basicBarChartMonitoreosCumplimiento.colors"
+                                                [chart]="getChart(criticidad, basicBarChartMonitoreosCumplimiento.chart)" [dataLabels]="basicBarChartMonitoreosCumplimiento.dataLabels"
+                                                [plotOptions]="basicBarChartMonitoreosCumplimiento.plotOptions" dir="ltr" 
+                                                [xaxis]="basicBarChartMonitoreosCumplimiento.xaxis" [yaxis]="basicBarChartMonitoreosCumplimiento.yaxis" [stroke]="basicBarChartMonitoreosCumplimiento.stroke"
+                                                [fill]="basicBarChartMonitoreosCumplimiento.fill" [title]="basicBarChartMonitoreosCumplimiento.title"
+                                                [tooltip]="basicBarChartMonitoreosCumplimiento.tooltip" [legend]="basicBarChartMonitoreosCumplimiento.legend"></apx-chart>
+
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                        
+                                            <div class="col-sm-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                        
+                                                <h4>Otras obligaciones</h4>
+                                                
+                                                <!--<div style="height: 266px;
+                                                        display: grid;
+                                                        place-items: center;" *ngIf="!getDataExist(simpleDonutChartOtros.series)">
+                                                        <h4>No existe información</h4>
+                                                </div>-->
+                                                
+                                                <apx-chart [series]="simpleDonutChartOtros.series" [chart]="simpleDonutChartOtros.chart"
+                                                [labels]="simpleDonutChartOtros.labels" [responsive]="simpleDonutChartOtros.responsive"
+                                                [legend]="simpleDonutChartOtros.legend" [dataLabels]="simpleDonutChartOtros.dataLabels"
+                                                [colors]="simpleDonutChartOtros.colors" dir="ltr" *ngIf="getDataExist(simpleDonutChartOtros.series)"></apx-chart>
+
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+
+                                        
+                                <div class="row mb-3 align-items-center justify-content-center">
+                                    <h4>Información específica por área</h4>
+                                    
+                                    <div class="col-sm-12">
+                                        
+                                    <div class="card card-height-100">
+                                        <div class="card-header align-items-center d-flex">
+                                            <h4 class="flex-grow-1">Gestión por área</h4><!--card-title mb-0 -->
+                                            <div class="d-flex gap-1">
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
+                                                    Cuerpos
+                                                </button>
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('articulos')">
+                                                    Árticulos
+                                                </button>
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('instancias')">
+                                                    Instancias
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div>
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
+                                                    [chart]="getChart(criticidad, basicBarChartGeneral.chart)" [dataLabels]="basicBarChartGeneral.dataLabels"
+                                                    [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr"
+                                                    [xaxis]="basicBarChartGeneral.xaxis" [yaxis]="basicBarChartGeneral.yaxis" [stroke]="basicBarChartGeneral.stroke"
+                                                    [fill]="basicBarChartGeneral.fill" [title]="basicBarChartGeneral.title"
+                                                    [tooltip]="basicBarChartGeneral.tooltip" [legend]="basicBarChartGeneral.legend"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3 align-items-center justify-content-center">
+                                    <div class="col-sm-6">
+                                        
+                                    <div class="card card-height-100">
+                                        <div class="card-body">
+                                            
+                                            <h4>Permisos por área</h4>
+
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
+                                                [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
+                                                    [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr"
+                                                    [xaxis]="basicBarChartPermisos.xaxis" [yaxis]="basicBarChartPermisos.yaxis" [stroke]="basicBarChartPermisos.stroke"
+                                                    [fill]="basicBarChartPermisos.fill" [title]="basicBarChartPermisos.title"
+                                                    [tooltip]="basicBarChartPermisos.tooltip" [legend]="basicBarChartPermisos.legend"></apx-chart>
+                                            
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                
+                                                <h4>Reportes por área</h4>
+    
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
+                                                        [chart]="getChart(criticidad, basicBarChartReportes.chart)" [dataLabels]="basicBarChartReportes.dataLabels"
+                                                        [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" 
+                                                        [xaxis]="basicBarChartReportes.xaxis" [yaxis]="basicBarChartReportes.yaxis" [stroke]="basicBarChartReportes.stroke"
+                                                        [fill]="basicBarChartReportes.fill" [title]="basicBarChartReportes.title"
+                                                        [tooltip]="basicBarChartReportes.tooltip" [legend]="basicBarChartReportes.legend"></apx-chart>
+                                                
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+                                
+                                
+                                <div class="row mb-3 align-items-center justify-content-center">
+                                    <div class="col-sm-6">
+                                        
+                                    <div class="card card-height-100">
+                                        <div class="card-body">
+                                            
+                                            <h4>Monitoreos por área</h4>
+
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
+                                                    [chart]="getChart(criticidad, basicBarChartMonitoreos.chart)" [dataLabels]="basicBarChartMonitoreos.dataLabels"
+                                                    [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" 
+                                                    [xaxis]="basicBarChartMonitoreos.xaxis" [yaxis]="basicBarChartMonitoreos.yaxis" [stroke]="basicBarChartMonitoreos.stroke"
+                                                    [fill]="basicBarChartMonitoreos.fill" [title]="basicBarChartMonitoreos.title"
+                                                    [tooltip]="basicBarChartMonitoreos.tooltip" [legend]="basicBarChartMonitoreos.legend"></apx-chart>
+                                            
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                
+                                                <h4>Otras Obligaciones por área</h4>
+    
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
+                                                        [chart]="getChart(criticidad, basicBarChartOtros.chart)" [dataLabels]="basicBarChartOtros.dataLabels"
+                                                        [plotOptions]="basicBarChartOtros.plotOptions" dir="ltr"
+                                                        [xaxis]="basicBarChartOtros.xaxis" [yaxis]="basicBarChartOtros.yaxis" [stroke]="basicBarChartOtros.stroke"
+                                                        [fill]="basicBarChartOtros.fill" [title]="basicBarChartOtros.title"
+                                                        [tooltip]="basicBarChartOtros.tooltip" [legend]="basicBarChartOtros.legend"></apx-chart>
+                                                
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+
+                                
+
+                                <div class="row mb-3 align-items-center justify-content-center">
+                                    
+                                    <h4>Información específica por Elemento y actividad</h4>
+                                    <div class="col-sm-12">
+                                        
+                                    <div class="card card-height-100">
+                                        <div class="card-header align-items-center d-flex">
+                                            <h4 class="flex-grow-1">Gestión por Elemento y actividad</h4><!--card-title mb-0 -->
+                                            <div class="d-flex gap-1">
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('cuerpoLegal')">
+                                                    Cuerpos
+                                                </button>
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('articulos')">
+                                                    Árticulos
+                                                </button>
+                                                <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('instancias')">
+                                                    Instancias
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div>
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
+                                                    [chart]="getChart(criticidad, basicBarChartGeneralInstallation.chart)" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
+                                                    [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr"
+                                                    [xaxis]="basicBarChartGeneralInstallation.xaxis" [yaxis]="basicBarChartGeneralInstallation.yaxis" [stroke]="basicBarChartGeneralInstallation.stroke"
+                                                    [fill]="basicBarChartGeneralInstallation.fill" [title]="basicBarChartGeneralInstallation.title"
+                                                    [tooltip]="basicBarChartGeneralInstallation.tooltip" [legend]="basicBarChartGeneralInstallation.legend"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3 align-items-center justify-content-center">
+                                    <div class="col-sm-6">
+                                        
+                                    <div class="card card-height-100">
+                                        <div class="card-body">
+                                            
+                                            <h4>Permisos por Elemento y actividad</h4>
+
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
+                                                    [chart]="getChart(criticidad, basicBarChartPermisosInstallations.chart)" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
+                                                    [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" 
+                                                    [xaxis]="basicBarChartPermisosInstallations.xaxis" [yaxis]="basicBarChartPermisosInstallations.yaxis" [stroke]="basicBarChartPermisosInstallations.stroke"
+                                                    [fill]="basicBarChartPermisosInstallations.fill" [title]="basicBarChartPermisosInstallations.title"
+                                                    [tooltip]="basicBarChartPermisosInstallations.tooltip" [legend]="basicBarChartPermisosInstallations.legend"></apx-chart>
+                                            
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                
+                                                <h4>Reportes por Elemento y actividad</h4>
+    
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
+                                                        [chart]="getChart(criticidad, basicBarChartReportesInstallations.chart)" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
+                                                        [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" 
+                                                        [xaxis]="basicBarChartReportesInstallations.xaxis" [yaxis]="basicBarChartReportesInstallations.yaxis" [stroke]="basicBarChartReportesInstallations.stroke"
+                                                        [fill]="basicBarChartReportesInstallations.fill" [title]="basicBarChartReportesInstallations.title"
+                                                        [tooltip]="basicBarChartReportesInstallations.tooltip" [legend]="basicBarChartReportesInstallations.legend"></apx-chart>
+                                                
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+                                
+                                
+                                <div class="row mb-3 align-items-center justify-content-center">
+                                    <div class="col-sm-6">
+                                        
+                                    <div class="card card-height-100">
+                                        <div class="card-body">
+                                            
+                                            <h4>Monitoreos por Elemento y actividad</h4>
+
+                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
+                                                    [chart]="getChart(criticidad, basicBarChartMonitoreosInstallations.chart)" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
+                                                    [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" 
+                                                    [xaxis]="basicBarChartMonitoreosInstallations.xaxis" [yaxis]="basicBarChartMonitoreosInstallations.yaxis" [stroke]="basicBarChartMonitoreosInstallations.stroke"
+                                                    [fill]="basicBarChartMonitoreosInstallations.fill" [title]="basicBarChartMonitoreosInstallations.title"
+                                                    [tooltip]="basicBarChartMonitoreosInstallations.tooltip" [legend]="basicBarChartMonitoreosInstallations.legend"></apx-chart>
+                                            
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        
+                                        <div class="card card-height-100">
+                                            <div class="card-body">
+                                                
+                                                <h4>Otras Obligaciones por Elemento y actividad</h4>
+    
+                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
+                                                        [chart]="getChart(criticidad, basicBarChartOtrosInstallations.chart)" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
+                                                        [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" 
+                                                        [xaxis]="basicBarChartOtrosInstallations.xaxis" [yaxis]="basicBarChartOtrosInstallations.yaxis" [stroke]="basicBarChartOtrosInstallations.stroke"
+                                                        [fill]="basicBarChartOtrosInstallations.fill" [title]="basicBarChartOtrosInstallations.title"
+                                                        [tooltip]="basicBarChartOtrosInstallations.tooltip" [legend]="basicBarChartOtrosInstallations.legend"></apx-chart>
+                                                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                
+                  </ng-template>
+                  </li>
+                  
+                  <li [ngbNavItem]="2">
+                    <a ngbNavLink>
+                      Cuerpos Legales
+                    </a>
+                    <ng-template ngbNavContent>
+                        
+                        <div class="row g-4 mb-3">
+                            <div class="col-lg-4">
+                                <span style="color: #405189;"><b> Avance de la evaluación</b></span>
+                            </div>
+                            <div class="col-lg-8" style="text-align: right;">
+                                <span style="color: #405189;"> {{avance_evaluacion}}% ({{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" [style]="avance_evaluacion > 0 ? 'width:'+avance_evaluacion+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{avance_evaluacion}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4 mb-3">    
+                            <div class="col-12">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo }}</button>    
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>
+                                        
+                                        <ng-container *ngFor="let g of articles_proyects_group;">
+                                            
+                                        <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
+
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                          <div class="row g-4 mb-3">
+                            
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo_cuerpo ? 'Cumplimiento' : tipo_cuerpo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple')">Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple Parcial' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple Parcial')">Cumple Parcial</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Cumple')">No Cumple</a>
+                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Evaluado' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Evaluado')">No Evaluado</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                            
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo">{{ !criticidad_cuerpo ? 'Criticidad' : criticidad_cuerpo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
+                                        <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_atributo ? 'Seleccione el atributo' : filtro_atributo }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reporte' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reporte')">Reporte</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreo' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreo')">Monitoreo</a>
+                                        
+                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                            
+                            <div class="col-3">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo }}</button>
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
+
+                                        <ng-container *ngFor="let ach of articles_filter"><!--getArticulos()-->
+<!--articulos_chart-->                                                   
+                                            <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+
+                          </div>
+                          <div class="row g-4 mb-3">
+                            <div class="col-12">
+        
+                                <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                    width: 100%;
+                                    text-align: left;
+                                    background: white;
+                                " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_area_cuerpo ? 'Selecciona el área' : filtro_area_cuerpo.nombre }}</button>    
+                                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                    <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                        <!--<a class="dropdown-item" [ngClass]="!area_chart ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChart()">Todos</a>-->
+                                        <a class="dropdown-item" [ngClass]="!filtro_area_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo()">Todos</a>
+
+                                        <ng-container *ngFor="let ar of areas_chart;">
+                                            <a class="dropdown-item" [ngClass]="filtro_area_cuerpo && filtro_area_cuerpo.id == ar.id ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.id, ar.nombre)">{{ar.nombre}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+        
+                            </div>
+                          </div>
+        
+                          <div class="row">
+                              
+                              <div class="col-xl-4 col-md-4">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                                                  
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;"
+                                                          >
+                                                          {{getDataDashboardCuerpo('articulos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('articulos_evaluados')}}/{{getDataDashboardCuerpo('articulos') < 1 ? 0 : getDataDashboardCuerpo('articulos')}}
+                                                      </span>
+                                                  </h4>
+                                              <!--</div>
+                                          </div>-->
+                                      </div>
+                                      
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('articulos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('articulos_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col-xl-4 col-md-4">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
+                                          <h4 class="fs-1">
+                                              <span class="counter-value" style="color: #405189;">
+                                                {{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboardCuerpo('instancias') < 1 ? 0 : getDataDashboardCuerpo('instancias')}}
+                                              </span>
+                                          </h4>
+                                              <!--</div>
+                                          </div>-->
+                                      </div>
+                                      
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('instancias_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('instancias_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              
+                              <div class="col-xl-4 col-md-4">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">ELEMENTOS Y ACTIVIDADES</p>
+                                           
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboardCuerpo('elementos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('elementos_evaluados')}}/{{getDataDashboardCuerpo('elementos') < 1 ? 0 : getDataDashboardCuerpo('elementos')}}
+                                                      </span>
+                                                  </h4>
+                                              <!--</div>
+                                          </div>-->
+                                      </div>
+                                      
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('elementos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('elementos_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          
+                          </div>
+                                      
+                          <div class="row">
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboardCuerpo('permisos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('permisos_evaluados')}}/{{getDataDashboardCuerpo('permisos') < 1 ? 0 : getDataDashboardCuerpo('permisos')}}
+                                                      </span>
+                                                  </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('permisos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('permisos_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboardCuerpo('reportes_evaluados') < 1 ? 0 : getDataDashboardCuerpo('reportes_evaluados')}}/{{getDataDashboardCuerpo('reportes') < 1 ? 0 : getDataDashboardCuerpo('reportes')}}
+                                                      </span>
+                                                  </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('reportes_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('reportes_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
+                                                  <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboardCuerpo('monitoreos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('monitoreos_evaluados')}}/{{getDataDashboardCuerpo('monitoreos') < 1 ? 0 : getDataDashboardCuerpo('monitoreos')}}
+                                                      </span>
+                                                  </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('monitoreos_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('monitoreos_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              
+                              <div class="col-xl-3 col-md-3">
+                                  <div class="card card-height-100">
+                                      <div class="card-body align-self-center" style="text-align: center; width: 230px;">
+                                          <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                                                      <h4 class="fs-1">
+                                                      <span class="counter-value" style="color: #405189;">
+                                                        {{getDataDashboardCuerpo('otros_evaluados') < 1 ? 0 : getDataDashboardCuerpo('otros_evaluados')}}/{{getDataDashboardCuerpo('otros') < 1 ? 0 : getDataDashboardCuerpo('otros')}}
+                                                      </span>
+                                                      </h4>
+                                      </div>
+                                      <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
+                                          <h4 class="fs-1">
+                                              <span class="counter-value text-success">
+                                                {{getDataDashboardCuerpo('otros_cumplimiento') < 1 ? 0 : getDataDashboardCuerpo('otros_cumplimiento')}}%
+                                              </span>
+                                          </h4>
+                                          <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          
+                          </div>
+
+                          <div class="row mb-3 align-items-center justify-content-center">
+                            <div class="col-sm-12">
+                                
+                            <div class="card card-height-100">
+                                <div class="card-body">
+                                    
+                                    <h4>Instancias de cumplimiento por área</h4>
+        
+                                        <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
+                                            [chart]="getChart(criticidad, basicBarChartGeneralCuerpos.chart)" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
+                                            [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr"
+                                            [xaxis]="basicBarChartGeneralCuerpos.xaxis" [yaxis]="basicBarChartGeneralCuerpos.yaxis" [stroke]="basicBarChartGeneralCuerpos.stroke"
+                                            [fill]="basicBarChartGeneralCuerpos.fill" [title]="basicBarChartGeneralCuerpos.title"
+                                            [tooltip]="basicBarChartGeneralCuerpos.tooltip" [legend]="basicBarChartGeneralCuerpos.legend"></apx-chart>
+                                    
+                                </div>
+                            </div>
+
+                            
+                <div class="row mb-3 align-items-center justify-content-center">
+                    <div class="col-sm-12">
+                        
+                    <div class="card card-height-100">
+                        <div class="card-body">
+                                <h4>Instancias de cumplimiento por Elemento y actividad</h4>
+                            
+                                <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation)" [colors]="basicBarChartGeneralCuerposInstallation.colors"
+                                    [chart]="getChart(criticidad, basicBarChartGeneralCuerposInstallation.chart)" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
+                                    [plotOptions]="basicBarChartGeneralCuerposInstallation.plotOptions" dir="ltr"
+                                    [xaxis]="basicBarChartGeneralCuerposInstallation.xaxis" [yaxis]="basicBarChartGeneralCuerposInstallation.yaxis" [stroke]="basicBarChartGeneralCuerposInstallation.stroke"
+                                    [fill]="basicBarChartGeneralCuerposInstallation.fill" [title]="basicBarChartGeneralCuerposInstallation.title"
+                                    [tooltip]="basicBarChartGeneralCuerposInstallation.tooltip" [legend]="basicBarChartGeneralCuerposInstallation.legend"></apx-chart>
+                            
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            
-                            <div class="col-md-12">
-                                <div class="card card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium text-muted mb-0">Artículos aplicables</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold">
-                                                    <span [CountTo]="countArticulos()" class="counter-value" [from]="0" [duration]="1"></span>
-                                                </h2>
-                                            </div>
-                                            <div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            
-                            <div class="col-md-12">
-                                <div class="card card-animate bg-primary" style="color: #fff !important;">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <p class="fw-medium mb-0">Cumplimiento actual</p>
-                                                <h2 class="mt-4 ff-secondary fw-semibold" style="color: #fff !important;">
-                                                    <span [CountTo]="avance_evaluacion > 0 ? avance_evaluacion : 0" class="counter-value" [from]="0" [duration]="1"></span><span>{{avance_evaluacion > 0 ? '' : 0}}%</span>
-                                                </h2>
-                                                <p class="mb-0" style="font-style: italic;"><span class="badge bg-light mb-0" [ngClass]=" { 'text-danger': evaluations.cumplimiento < 25, 'text-warning': evaluations.cumplimiento > 25 && evaluations.cumplimiento < 75, 'text-success': evaluations.cumplimiento > 75}">
-                                                        {{evaluations ? evaluations.cumplimiento : 0}} %
-                                                    </span> Última evaluación</p>
-                                            </div>
-                                            <div>
-                                                <div class="avatar-sm flex-shrink-0">
-                                                    <span class="avatar-title bg-soft-info rounded-circle fs-2" style="background-color: #fff !important;">
-                                                        <i-feather name="users" class="text-info feather-icon-align"></i-feather>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <h4>Cuerpos Legales</h4>
-                        <apx-chart [series]="simplePieChartCuerpos.series" [chart]="simplePieChartCuerpos.chart" [labels]="simplePieChartCuerpos.labels" [legend]="simplePieChartCuerpos.legend" [dataLabels]="simplePieChartCuerpos.dataLabels" [responsive]="simplePieChartCuerpos.responsive" [colors]="simplePieChartCuerpos.colors" dir="ltr"></apx-chart>
-                    </div>
-                    
-                    <div class="col-sm-4">
-                        <h4>Artículos</h4>
-                        <apx-chart [series]="simplePieChartArticulos.series" [chart]="simplePieChartArticulos.chart" [labels]="simplePieChartArticulos.labels" [legend]="simplePieChartArticulos.legend" [dataLabels]="simplePieChartArticulos.dataLabels" [responsive]="simplePieChartArticulos.responsive" [colors]="simplePieChartArticulos.colors" dir="ltr"></apx-chart>
-                    </div>
-                  </div>
+                    </ng-template>
+                  </li>
+                </ul>
+
+            </div>
+        </div>
+                
+                <div class="tab-content text-muted">
+                    <div [ngbNavOutlet]="Header"></div>
+                </div>
+                  
             </div><!-- end card-body -->
         </div><!-- end card -->
         </div><!--end col-->

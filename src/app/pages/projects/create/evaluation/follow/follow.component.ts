@@ -49,6 +49,9 @@ export class EvaluationFollowComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  idEvaluation: any = '';
+  evaluations: any = '';
+  count_evaluations: number = 0;
   cuerpo_id: any = '';
   cuerpoLegal: any = '';
   installation_id: any = null;
@@ -220,12 +223,31 @@ export class EvaluationFollowComponent implements OnInit {
       this.cuerpo_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
+      this.idEvaluation = params['idEvaluation'];
 
         this.getArticlesByInstallationBody(this.installation_id);
         this.getProject();
+        this.getEvaluations();
       
     });
   }
+  
+ getEvaluations(){
+  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
+    (data: any) => {
+      const evaluation_data = data.data;
+      const index = evaluation_data.findIndex(
+        (ev: any) =>
+          ev.id == this.idEvaluation
+      );
+      this.count_evaluations = evaluation_data.lenght;
+      this.evaluations = index != -1 ? evaluation_data[index] : {};
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
   getProject(){
     this.projectsService.getById(this.project_id).pipe().subscribe(
@@ -460,7 +482,9 @@ export class EvaluationFollowComponent implements OnInit {
       //hallazgoImg: hallazgoImg
       //articuloId: this.cuerpo_id,
       //installationId: this.installation_id,
-      //projectId: this.project_id
+      projectId: this.project_id,
+      evaluationProyectId: this.idEvaluation,
+      active: this.evaluations.active || this.count_evaluations < 2 ? true : false
     };
 
     const formData = new FormData();
