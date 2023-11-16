@@ -153,11 +153,11 @@ const routes: Routes = [
     component: ComplianceTaskComponent
   },
   {
-    path: ":idProject/evaluation/:id/Detail",
+    path: ":idProject/evaluation/:id/Detail/:idEvaluation",
     component: EvaluationDetailComponent
   },
   {
-    path: ":idProject/evaluation/:idInstallation/Follow/:id",
+    path: ":idProject/evaluation/:idInstallation/Follow/:id/:idEvaluation",
     component: EvaluationFollowComponent
   },
   {

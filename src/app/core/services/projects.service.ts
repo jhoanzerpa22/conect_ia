@@ -344,13 +344,25 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluacionProyecto/'+project_id, this.getToken());
     }
 
-    createEvaluation(project_id: any): Observable<any> {
+    createEvaluation(project_id: any, active?: boolean): Observable<any> {
         return this.http.post(API_URL_BACK + 'evaluacionProyecto', {"proyectoId": project_id,
-        "cumplimiento": 0}, this.getToken());
+        "cumplimiento": 0, active: active}, this.getToken());
     }
     
-    updateEvaluation(project_id: any, data: any): Observable<any> {
-        return this.http.put(API_URL_BACK + 'evaluacionProyecto/'+project_id, data, this.getToken());
+    updateEvaluation(idEvaluation: any, data: any): Observable<any> {
+        return this.http.put(API_URL_BACK + 'evaluacionProyecto/'+idEvaluation, data, this.getToken());
+    }
+
+    homologarEvaluation(idEvaluation: any, project_id: any){
+        return this.http.get(API_URL_BACK + 'evaluacionProyecto/homologar/'+idEvaluation+'/'+project_id, this.getToken());
+    }
+    
+    homologarEvaluationByInstallation(idEvaluation: any, project_id: any, installation_id: any){
+        return this.http.get(API_URL_BACK + 'evaluacionProyecto/homologar/'+idEvaluation+'/'+project_id+'/installation/'+installation_id, this.getToken());
+    }
+    
+    homologarEvaluationByArticle(idEvaluation: any, project_id: any, installation_article_id: any){
+        return this.http.get(API_URL_BACK + 'evaluacionProyecto/homologar/'+idEvaluation+'/'+project_id+'/article/'+installation_article_id, this.getToken());
     }
 
     getDashboard(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
@@ -379,9 +391,9 @@ export class ProjectsService {
         } }, this.getToken());
     }
     
-    getDashboardDaniel(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+    getDashboardEvaluationsNew(project_id: any, filter?: any/*cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any*/){
         
-        switch (criticidad) {
+        /*switch (criticidad) {
             case 'Alta':
                 criticidad = 'construccion';                
                 break;
@@ -395,14 +407,14 @@ export class ProjectsService {
             default:            
                 criticidad = undefined;
                 break;
-        }
+        }*/
 
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, /*areaId,*/ filters: filter/*{
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
             articuloId: articuloId
-        } }, this.getToken());
+        }*/ }, this.getToken());
     }
     
     getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
