@@ -391,9 +391,9 @@ export class ProjectsService {
         } }, this.getToken());
     }
     
-    getDashboardDaniel(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+    getDashboardEvaluationsNew(project_id: any, filter?: any/*cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any*/){
         
-        switch (criticidad) {
+        /*switch (criticidad) {
             case 'Alta':
                 criticidad = 'construccion';                
                 break;
@@ -407,14 +407,14 @@ export class ProjectsService {
             default:            
                 criticidad = undefined;
                 break;
-        }
+        }*/
 
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, /*areaId,*/ filters: filter/*{
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
             articuloId: articuloId
-        } }, this.getToken());
+        }*/ }, this.getToken());
     }
     
     getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
