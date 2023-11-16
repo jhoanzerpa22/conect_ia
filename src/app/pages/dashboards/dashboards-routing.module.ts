@@ -52,7 +52,7 @@ const routes: Routes = [
     component: ProjectDashboardComponent
   },
   {
-    path: ":id/project-dashboard/evaluations",
+    path: ":id/project-dashboard/evaluations/:idEvaluation",
     component: ProjectEvaluationsComponent
   },
   {
