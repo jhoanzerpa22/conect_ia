@@ -37,6 +37,7 @@ export class ProjectEvaluationsComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  idEvaluation: any = '';
 
   installations_data: any = [];
   installations_articles: any = [];
@@ -56,6 +57,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   
   estados_default: any = estadosData;
   id_evaluation: any;
+  id_installation: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal) {
   }
@@ -76,6 +78,7 @@ export class ProjectEvaluationsComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
+      this.idEvaluation = params['idEvaluation'];
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
@@ -99,7 +102,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   }
 
   goDetail(id: any){
-    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/Detail']);
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/Detail/'+this.idEvaluation]);
   }
 
   getProject(idProject?: any){
@@ -116,7 +119,12 @@ export class ProjectEvaluationsComponent implements OnInit {
  getEvaluations(idProject?: any){
   this.projectsService.getEvaluations(idProject).pipe().subscribe(
     (data: any) => {
-      this.evaluations = data.data;
+      const evaluation_data = data.data;
+      const index = evaluation_data.findIndex(
+        (ev: any) =>
+          ev.id == this.idEvaluation
+      );
+      this.evaluations = index != -1 ? evaluation_data[index] : {};
   },
   (error: any) => {
     //this.error = error ? error : '';
@@ -193,8 +201,19 @@ getCategoryStatus(estado?: any){
 
                   //for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
                     if(obj[i].installations_articles[j].evaluations.length > 0){
-                      if(obj[i].installations_articles[j].evaluations[0].estado){
-                        switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[0].estado)) {
+                      const evaluaciones = obj[i].installations_articles[j].evaluations;
+
+                      console.log('Evaluations', evaluaciones);
+                      
+                      const index_evaluation = evaluaciones.findIndex(
+                        (ev: any) =>
+                          ev.evaluationProyectId == this.idEvaluation
+                      );
+                      const evaluation_active = index_evaluation != -1 ? evaluaciones[index_evaluation] : {};
+
+                      if(/*obj[i].installations_articles[j].evaluations[0].estado*/evaluation_active && evaluation_active.estado){
+
+                        switch (this.getCategoryStatus(evaluation_active.estado/*obj[i].installations_articles[j].evaluations[0].estado*/)) {
                           case 'CUMPLE':
                             cumple ++;
                             cuerpo_cumple ++;
@@ -776,7 +795,7 @@ layers = [
         "fechaFinalizacion": this.finalizeDate
       };
 
-      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
+      this.projectsService.updateEvaluation(this.idEvaluation, evaluation).pipe().subscribe(
         (data: any) => {
 
           this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
@@ -833,7 +852,7 @@ layers = [
         "fechaFinalizacion": this.finalizeDate
       };
 
-      this.projectsService.updateEvaluation(this.project_id, evaluation).pipe().subscribe(
+      this.projectsService.updateEvaluation(this.idEvaluation, evaluation).pipe().subscribe(
         (data: any) => {
 
           this.projectsService.estadoProyecto(3, this.project_id).pipe().subscribe(
@@ -881,20 +900,34 @@ layers = [
   }
   }
 
-  homologar(content: any, id: any){
+  homologar(content: any, id: any, installation_id: any){
     this.id_evaluation = id;
+    this.id_installation = installation_id;
     
     this.modalService.open(content, { centered: true });
   }
   
   saveHomologar(contentProgress: any, contentSuccess: any){
-    this.modalService.dismissAll();
-
     this.modalService.open(contentProgress, { centered: true });
-    setTimeout(() => {
+    
+    this.projectsService.homologarEvaluationByInstallation(this.id_evaluation ,this.project_id, this.id_installation).pipe().subscribe(
+      (data: any) => {
+        
+        this.getInstallations(this.project_id);
+        this.modalService.dismissAll();
+        this.modalService.open(contentSuccess, { centered: true });
+    },
+    (error: any) => {
+      
       this.modalService.dismissAll();
-      this.modalService.open(contentSuccess, { centered: true });
-    }, 3000);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
   }
 
   // PreLoader

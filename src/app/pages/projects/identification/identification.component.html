@@ -99,7 +99,7 @@
     <div class="col-sm">
         <div class="d-flex justify-content-sm-end gap-2">
             <div class="search-box ms-2">
-                <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="search"><!--"service.searchTerm"-->
+                <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" (keydown.enter)="searchChange(search)" [(ngModel)]="search"><!--"service.searchTerm"-->
                 <i class="ri-search-line search-icon"></i>
             </div>
             <div>

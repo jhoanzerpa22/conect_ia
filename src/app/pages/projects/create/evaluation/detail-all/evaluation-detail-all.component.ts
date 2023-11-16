@@ -567,7 +567,10 @@ export class EvaluationDetailAllComponent implements OnInit {
  getEvaluations(){
   this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
     (data: any) => {
-      this.evaluations = data.data;
+      this.evaluations = data.data.filter(
+        (ev: any) =>
+          ev.active == true
+      )[0];
   },
   (error: any) => {
     //this.error = error ? error : '';
