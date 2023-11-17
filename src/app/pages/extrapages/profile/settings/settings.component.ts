@@ -137,7 +137,8 @@ export class SettingsComponent implements OnInit {
         telefono: this.userForm.get('telefono')?.value,
         email: this.userForm.get('email')?.value
       };
-      this.userService.update(this.userData.id, data).pipe().subscribe(
+      const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
+      this.userService.update(id, data).pipe().subscribe(
         (data: any) => {
           this.router.navigate(['/pages/profile']);
         },

@@ -67,7 +67,7 @@ export class UserProfileService {
     }
 
     update(id: any, data: any): Observable<any> {
-        return this.http.put(API_URL_BACK + 'user/'+id+'/update', data);
+        return this.http.put(API_URL_BACK + 'user/'+id+'/update', data, this.getToken());
     }
 
     delete(id: any): Observable<any> {
