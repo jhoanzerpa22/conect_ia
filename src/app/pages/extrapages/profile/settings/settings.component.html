@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div><!--end card-->
-        <div class="card">
+        <!--<div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center mb-5">
                     <div class="flex-grow-1">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!--<div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center mb-4">
@@ -232,40 +232,57 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="2" class="nav-item">
-                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab" (click)="setRules()">
                             <i class="far fa-user"></i>
                             Cambiar Contraseña
                         </a>
                         <ng-template ngbNavContent>
-                            <form action="javascript:void(0);">
+                            <form [formGroup]="passresetForm" (ngSubmit)="onSubmit()">
                                 <div class="row g-2">
-                                    <div class="col-lg-4">
+                                    <!--<div class="col-lg-4">
                                         <div>
                                             <label for="oldpasswordInput" class="form-label">Actual Contraseña*</label>
                                             <input type="password" class="form-control" id="oldpasswordInput"
                                                 placeholder="Ingrese actual contraseña">
                                         </div>
-                                    </div><!--end col-->
+                                    </div--><!--end col-->
                                     <div class="col-lg-4">
                                         <div>
-                                            <label for="newpasswordInput" class="form-label">Nueva Contraseña*</label>
-                                            <input type="password" class="form-control" id="newpasswordInput"
-                                                placeholder="Ingrese nueva contraseña">
+                                            <label for="password-input" class="form-label">Nueva Contraseña*</label>
+                                            <input type="password" class="form-control password-input" id="password-input" placeholder="Ingrese nueva contraseña" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required formControlName="password"
+                                            [ngClass]="{ 'is-invalid': submitted && r['password'].errors }">
+                                            
+                                            <div *ngIf="submitted && r['password'].errors" class="invalid-feedback">
+                                                <span *ngIf="r['password'].errors['required']">Contraseña es requerida</span>
+                                            </div>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-4">
                                         <div>
-                                            <label for="confirmpasswordInput" class="form-label">Confirmar Contraseña*</label>
-                                            <input type="password" class="form-control" id="confirmpasswordInput"
-                                                placeholder="Confirmar contraseña">
+                                            <label for="confirm-password-input" class="form-label">Confirmar Contraseña*</label>
+                                            <input type="password" class="form-control confirm-password-input" id="confirm-password-input" placeholder="Confirmar contraseña" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required formControlName="cpassword"
+                                            [ngClass]="{ 'is-invalid': submitted && f['cpassword'].errors }">
+                                            <div *ngIf="submitted && f['cpassword'].errors" class="invalid-feedback">
+                                                <span *ngIf="f['cpassword'].errors['required']">Confirmar contraseña es requerida</span>
+                                            </div>
                                         </div>
                                     </div><!--end col-->
-                                    <div class="col-lg-12">
+                                    
+                                    <div class="col-lg-4">
+                                        <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                                            <h5 class="fs-13">La contraseña debe contener:</h5>
+                                            <p id="pass-length" class="invalid fs-12 mb-2">Minimo <b>8 caracteres</b></p>
+                                            <p id="pass-lower" class="invalid fs-12 mb-2">En letra <b>minúscula</b>(a-z)</p>
+                                            <p id="pass-upper" class="invalid fs-12 mb-2">Aunque sea una letra <b>mayúscula</b> (A-Z)</p>
+                                            <p id="pass-number" class="invalid fs-12 mb-0">Un <b>número</b> (0-9)</p>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-lg-12">
                                         <div class="mb-3">
                                             <a href="javascript:void(0);"
                                                 class="link-primary text-decoration-underline">Olvido su contraseña?</a>
                                         </div>
-                                    </div><!--end col-->
+                                    </div>--><!--end col-->
                                     <div class="col-lg-12">
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
@@ -273,7 +290,7 @@
                                     </div><!--end col-->
                                 </div><!--end row-->
                             </form>
-                            <div class="mt-4 mb-3 border-bottom pb-2">
+                            <!--<div class="mt-4 mb-3 border-bottom pb-2">
                                 <div class="float-end">
                                     <a href="javascript:void(0);" class="link-primary">Todas las sesiones</a>
                                 </div>
@@ -334,7 +351,7 @@
                                 <div>
                                     <a href="javascript:void(0);">Logout</a>
                                 </div>
-                            </div>
+                            </div>-->
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="3" class="nav-item">

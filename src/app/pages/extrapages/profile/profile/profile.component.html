@@ -14,12 +14,12 @@
             <div class="p-2">
                 <h3 class="text-white mb-1">{{userData.nombre}} {{userData.apellido}}</h3>
                 <p class="text-white-75">{{getRol(userData.rol)}}</p><!--userData.role-->
-                <div class="hstack text-white-50 gap-1">
+                <!--<div class="hstack text-white-50 gap-1">
                     <div class="me-2"><i
                             class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-middle"></i>{{userData.city}},
                         {{userData.country}}</div>
                     <div><i class="ri-building-line me-1 text-white-75 fs-16 align-middle"></i>Themesbrand</div>
-                </div>
+                </div>-->
             </div>
         </div><!--end col-->
         <div class="col-12 col-lg-auto order-last order-lg-0">
@@ -57,7 +57,7 @@
                         <ng-template ngbNavContent>
                             <div class="row">
                                 <div class="col-xxl-3">
-                                    <div class="card">
+                                    <!--<div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title mb-5">Completa tu Perfil</h5>
                                             <div class="progress animated-progess custom-progress progress-label">
@@ -68,7 +68,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="card">
                                         <div class="card-body">
@@ -87,13 +87,13 @@
                                                         </tr>
                                                         <tr>
                                                             <th class="ps-0" scope="row">Cargo :</th>
-                                                            <td class="text-muted">{{userData.cargo}}</td>
+                                                            <td class="text-muted">{{getRol(userData.rol)}}</td>
                                                         </tr>
                                                         <tr>
                                                             <th class="ps-0" scope="row">Correo Electrónico :</th>
                                                             <td class="text-muted">{{userData.email}}</td>
                                                         </tr>
-                                                        <tr>
+                                                        <!--<tr>
                                                             <th class="ps-0" scope="row">Dirección :</th>
                                                             <td class="text-muted">{{userData.city}},
                                                                 {{userData.country}}</td>
@@ -101,7 +101,7 @@
                                                         <tr>
                                                             <th class="ps-0" scope="row">Dia de Ingreso</th>
                                                             <td class="text-muted">{{userData.joining_date}}</td>
-                                                        </tr>
+                                                        </tr>-->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -355,7 +355,11 @@
                                                                     role="tab">
                                                                     Hoy
                                                                 </a>
+                                                                
                                                                 <ng-template ngbNavContent>
+                                                                    <div>No existe historial de actividades</div>
+                                                                </ng-template>
+                                                                <!--<ng-template ngbNavContent>
                                                                     <div class="profile-timeline order-status">
                                                                         <ngb-accordion #acc="ngbAccordion"
                                                                             activeIds="static-1" [closeOthers]="true">
@@ -658,9 +662,9 @@
                                                                             </ngb-panel>
                                                                         </ngb-accordion>
                                                                     </div>
-                                                                </ng-template>
+                                                                </ng-template>-->
                                                             </li>
-                                                            <li [ngbNavItem]="2" class="nav-item">
+                                                            <li [ngbNavItem]="2" class="nav-item" [disabled]="true">
                                                                 <a ngbNavLink class="nav-link" data-bs-toggle="tab"
                                                                     role="tab">
                                                                     Semana
@@ -905,7 +909,7 @@
 
                                                                 </ng-template>
                                                             </li>
-                                                            <li [ngbNavItem]="3" class="nav-item">
+                                                            <li [ngbNavItem]="3" class="nav-item" [disabled]="true">
                                                                 <a ngbNavLink class="nav-link" data-bs-toggle="tab"
                                                                     role="tab">
                                                                     Mes
@@ -1279,10 +1283,10 @@
                                         </div><!-- end col -->
                                     </div><!-- end row -->
 
-                                    <div class="card">
+                                    <!--<div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Projects</h5>
-                                            <!-- Swiper -->
+                                            
                                             <div class="swiper project-swiper mt-n4">
                                                 <swiper [config]="config">
                                                     <div class="swiper-wrapper">
@@ -1350,9 +1354,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- end card body -->
+                                                                
                                                             </div>
-                                                            <!-- end card -->
+                                                            
                                                         </div>
                                                         <div class="swiper-slide">
                                                             <div
@@ -1403,9 +1407,9 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div><!-- end card body -->
-                                                            </div><!-- end card -->
-                                                        </div><!-- end slide item -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="swiper-slide">
                                                             <div
                                                                 class="card profile-project-card shadow-none profile-project-info mb-0">
@@ -1447,9 +1451,9 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div><!-- end card body -->
-                                                            </div><!-- end card -->
-                                                        </div><!-- end slide item -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="swiper-slide">
                                                             <div
                                                                 class="card profile-project-card shadow-none profile-project-danger mb-0">
@@ -1500,11 +1504,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- end card body -->
+                                                                
                                                             </div>
-                                                            <!-- end card -->
+                                                            
                                                         </div>
-                                                        <!-- end slide item -->
+                                                        
                                                         <div class="swiper-slide">
                                                             <div
                                                                 class="card profile-project-card shadow-none profile-project-warning mb-0">
@@ -1562,13 +1566,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- end card body -->
+                                                                
                                                             </div>
-                                                            <!-- end card -->
+                                                            
                                                         </div>
-                                                        <!-- end slide item -->
                                                     </div>
-                                                    <!-- Add Arrows -->
                                                     <div class="swiper-button-next"></div>
                                                     <div class="swiper-button-prev"></div>
                                                 </swiper>
@@ -1576,14 +1578,13 @@
                                             </div>
 
                                         </div>
-                                        <!-- end card body -->
-                                    </div><!-- end card -->
+                                    </div>-->
 
                                 </div><!--end col-->
                             </div><!--end row-->
                         </ng-template>
                     </li>
-                    <li [ngbNavItem]="2" class="nav-item">
+                    <li [ngbNavItem]="2" class="nav-item" [disabled]="true">
                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
                             <i class="ri-list-unordered d-inline-block d-md-none"></i> <span
                                 class="d-none d-md-inline-block">Actividades</span>
@@ -1673,16 +1674,16 @@
                                                             <div class="col-4">
                                                                 <img src="assets/images/small/img-2.jpg" alt=""
                                                                     class="img-fluid rounded" />
-                                                            </div><!--end col-->
+                                                            </div>
                                                             <div class="col-4">
                                                                 <img src="assets/images/small/img-3.jpg" alt=""
                                                                     class="img-fluid rounded" />
-                                                            </div><!--end col-->
+                                                            </div>
                                                             <div class="col-4">
                                                                 <img src="assets/images/small/img-4.jpg" alt=""
                                                                     class="img-fluid rounded" />
-                                                            </div><!--end col-->
-                                                        </div><!--end row-->
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -1762,8 +1763,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div><!--end card-body-->
-                            </div><!--end card-->
+                                </div>
+                            </div>
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="3" class="nav-item">
@@ -1843,7 +1844,7 @@
                             </div><!--end card-->
                         </ng-template>
                     </li>
-                    <li [ngbNavItem]="4" class="nav-item">
+                    <li [ngbNavItem]="4" class="nav-item" [disabled]="true">
                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
                             <i class="ri-folder-4-line d-inline-block d-md-none"></i> <span
                                 class="d-none d-md-inline-block">Documentos</span>
