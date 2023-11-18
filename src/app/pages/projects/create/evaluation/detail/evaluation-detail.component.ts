@@ -614,11 +614,17 @@ getArticlesCuerpo(articulos: any){
         co.articuloId == articulos[j].articuloId
     );
 
-    if(index == -1 && articulos[j].proyectoId == this.project_id && (!articulos[j].evaluations || !articulos[j].evaluations.evaluationProyectId || (articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation))
+    if(index == -1 && articulos[j].proyectoId == this.project_id/* && (!articulos[j].evaluations || !articulos[j].evaluations.evaluationProyectId || (articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation))*/
       ){
+
+        if(articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId != this.idEvaluation)
+        {
+          articulos[j].evaluations = {};
+        }
+
       articulosData.push(articulos[j]);
     }else if(index != -1 && articulos[j].proyectoId == this.project_id){
-      if(!articulosData[index].evaluations.evaluationProyectId && articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation){
+      if((!articulosData[index].evaluations || !articulosData[index].evaluations.evaluationProyectId) && articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation){
         articulosData[index] = articulos[j];
       }
     }
