@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -58,7 +58,7 @@ const TREE_DATA: FoodNode[] = [
 /**
  * Listjs table Component
  */
-export class InstallationsComponent {
+export class InstallationsComponent implements OnInit{
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -83,6 +83,8 @@ export class InstallationsComponent {
   subtitle: any = 'Elementos y actividades';//'Instalaciones y procesos';
 
   items: any = [];
+  tree_data: any = [];
+  filtro: string = '';
 
   // Table data
   InstallationList!: Observable<InstallationsModel[]>;
@@ -200,6 +202,11 @@ export class InstallationsComponent {
     this.installationForm.reset();
     this.area_id = '';
     this.area_select = [];
+
+    for (let at in this.areas_template) {
+      this.areas_template[at].valor = null;
+      this.areas_template[at].disabled = false;
+    }
 
     if(this.areas_all.length < 1){
       Swal.fire({
@@ -454,6 +461,7 @@ export class InstallationsComponent {
               
               tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }
+          this.tree_data = tree_data;
           this.service.installations_data = tree_data;    
           this.dataSource.data = tree_data;
           //console.log('data',tree_data);
@@ -467,6 +475,11 @@ export class InstallationsComponent {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
+  }
+
+  aplicarFiltro() {
+    let filterText = this.filtro;
+    this.dataSource.data = this.tree_data.filter((t: any) => t.nombre.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
   }
   
   private getHijas(hijos: any){

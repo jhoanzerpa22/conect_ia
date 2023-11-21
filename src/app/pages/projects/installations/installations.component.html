@@ -31,7 +31,7 @@
                             <div class="d-flex justify-content-sm-end">
                                 <div class="search-box ms-2">
                                     <input type="text" class="form-control" style="width: 300px;" placeholder="Buscar..."
-                                        [(ngModel)]="service.searchTerm">
+                                        [(ngModel)]="filtro" (ngModelChange)="aplicarFiltro()"><!--service.searchTerm-->
                                     <i class="ri-search-line search-icon"></i>
                                 </div>
                                 
