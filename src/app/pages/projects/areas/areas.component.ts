@@ -237,7 +237,7 @@ export class AreasComponent {
 
   aplicarFiltro() {
     let filterText = this.filtro;
-    this.dataSource.data = this.tree_data.filter((t: any) => t.nombre.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
+    this.dataSource.data = this.tree_data.filter((t: any) => t.nombre.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1 || t.descripcion.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
   }
 
   /**
