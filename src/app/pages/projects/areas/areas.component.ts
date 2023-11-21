@@ -73,6 +73,8 @@ export class AreasComponent {
   AreaDatas: any;
   userData: any;
   areas_all: any = [];
+  tree_data: any = [];
+  filtro: string = '';
 
   project_id: any = '';
   area_id: any = '';
@@ -233,6 +235,11 @@ export class AreasComponent {
     this._router.navigate(['/projects/config/'+this.project_id+'/areas/'+data.id+'/'+name_format]);
   }
 
+  aplicarFiltro() {
+    let filterText = this.filtro;
+    this.dataSource.data = this.tree_data.filter((t: any) => t.nombre.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
+  }
+
   /**
    * Form data get
    */
@@ -296,7 +303,8 @@ export class AreasComponent {
               tree_data_org.push({ id: padre.id, label: padre.nombre, areaId: padre.areaId, expanded: padre.hijas.length > 0 ? true : false, children: padre.hijas.length > 0 ? this.getHijasOrg(padre.hijas) : null });
           }
 
-          this.service.areas_data = tree_data;    
+          this.tree_data = tree_data;
+          this.service.areas_data = tree_data;
           this.dataSource.data = tree_data;
           const tree_data_organization: any = [{ id: 0, label: 'Corporativo', expanded: true, children: tree_data_org }];
           this.data = tree_data_organization;
