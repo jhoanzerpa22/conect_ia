@@ -23,6 +23,7 @@ interface FoodNode {
   id: number;
   nombre: string;
   area?: string;
+  area_principal?: string;
   descripcion?: string;
   children?: FoodNode[];
 }
@@ -91,7 +92,7 @@ export class InstallationsComponent implements OnInit{
   total: Observable<number>;
   @ViewChildren(NgbdInstallationsSortableHeader) headers!: QueryList<NgbdInstallationsSortableHeader>;
 
-  displayedColumns: string[] = ['nombre', 'area', 'descripcion', 'accion'];
+  displayedColumns: string[] = ['nombre','area_principal', 'area', 'descripcion', 'accion'];
 
   private transformer = (node: FoodNode, level: number) => {
     return {
@@ -100,6 +101,7 @@ export class InstallationsComponent implements OnInit{
       nombre: node.nombre,
       area: node.area,
       descripcion: node.descripcion,
+      area_principal: node.area_principal,
       level: level
     };
   }
@@ -421,6 +423,24 @@ export class InstallationsComponent implements OnInit{
     //console.log('setAreaTemplate',this.areas_template);
   }
 
+  getAreaPrincipal(area: any): Promise<any>{
+    const index = this.areas_all.findIndex(
+      (co: any) =>
+        co.id == area
+    );
+  
+    if(index != -1){
+      if(this.areas_all[index].padre){
+        return this.getAreaPrincipal(this.areas_all[index].padre);
+      }else{
+        return this.areas_all[index].nombre;
+      }
+    }
+
+    return area;
+
+  }
+
   isSelected(i: number, valor: number){
     const index = this.areas_template.findIndex(
       (co: any) =>
@@ -456,10 +476,12 @@ export class InstallationsComponent implements OnInit{
           this.installations_all = [];
           for (let c in obj) {
             let padre: any = obj[c].padre;
+
+            let area_principal: any = padre.area ? this.getAreaPrincipal(padre.area.id) : '';
             
-              this.installations_all.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', descripcion: padre.descripcion });
+              this.installations_all.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', area_principal: area_principal, descripcion: padre.descripcion });
               
-              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              tree_data.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', area_principal: area_principal, descripcion: padre.descripcion, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
           }
           this.tree_data = tree_data;
           this.service.installations_data = tree_data;    
@@ -479,16 +501,18 @@ export class InstallationsComponent implements OnInit{
 
   aplicarFiltro() {
     let filterText = this.filtro;
-    this.dataSource.data = this.tree_data.filter((t: any) => t.nombre.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
+    this.dataSource.data = this.tree_data.filter((t: any) => t.nombre.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1 || t.descripcion.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1 || t.area.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1 || t.area_principal.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
   }
   
   private getHijas(hijos: any){
     let tree_data: any = [];
     for (let d in hijos) {
+      
+      let area_principal: any = hijos[d].area ? this.getAreaPrincipal(hijos[d].area.id) : '';
 
-        this.installations_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', descripcion: hijos[d].descripcion });
+        this.installations_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', area_principal: area_principal,descripcion: hijos[d].descripcion });
 
-        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', area_principal: area_principal, descripcion: hijos[d].descripcion, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
     }
     return tree_data;
   }
