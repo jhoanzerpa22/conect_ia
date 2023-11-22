@@ -391,25 +391,29 @@ export class ProjectsService {
         } }, this.getToken());
     }
     
-    getDashboardEvaluationsNew(project_id: any, filter?: any/*cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any*/){
+    getDashboardEvaluationsNew(project_id: any, filter?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
         
-        /*switch (criticidad) {
+        switch (criticidad) {
             case 'Alta':
-                criticidad = 'construccion';                
+                criticidad = 'alta';//'construccion';                
                 break;
             case 'Media':
-                criticidad = 'operacion';                
+                criticidad = 'media';//'operacion';                
                 break;
             case 'Baja':
-                criticidad = 'cierre';                
+                criticidad = 'baja';//'cierre';                
                 break;
         
             default:            
                 criticidad = undefined;
                 break;
-        }*/
+        }
 
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, /*areaId,*/ filters: filter/*{
+        if(filter){
+            filter = filter.toLowerCase();
+        }
+
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, /*areaId,*/ filters: filter, criticity: criticidad/*{
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
