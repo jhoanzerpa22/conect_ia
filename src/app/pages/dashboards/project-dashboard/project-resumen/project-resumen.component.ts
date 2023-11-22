@@ -6474,6 +6474,8 @@ getChart(criticidad: any, config: any){
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
 
+    this.getDashboardNew(this.project_id, true, this.filtro_area, criticidad, this.tipo);
+
     this.resetFiltro(this.project_id, true, this.filtro_area, /*this.tipo,*/ criticidad);
     
     this.setChart();
@@ -6684,7 +6686,7 @@ getChart(criticidad: any, config: any){
 
     const filter = cumplimiento ? cumplimiento : undefined;
 
-    this.projectsService.getDashboardEvaluationsNew(idProject, filter/*, undefined, areaId, undefined, criticidad*/).pipe().subscribe(
+    this.projectsService.getDashboardEvaluationsNew(idProject, filter, undefined, areaId, undefined, criticidad).pipe().subscribe(
       (data: any) => {
        console.log('dataDashboardNew',data);
        this.dashboard_new = data.data;
