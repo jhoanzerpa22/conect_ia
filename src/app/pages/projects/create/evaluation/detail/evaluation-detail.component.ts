@@ -227,7 +227,7 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "12px",
           position: "left",
-          offsetX: 50,
+          offsetX: 20,
           offsetY: -10,
           labels: {
               useSeriesColors: true,
@@ -292,7 +292,7 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "12px",
           position: "left",
-          offsetX: 50,
+          offsetX: 20,
           offsetY: -10,
           labels: {
               useSeriesColors: true,
@@ -357,7 +357,7 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "12px",
           position: "left",
-          offsetX: 50,
+          offsetX: 20,
           offsetY: -10,
           labels: {
               useSeriesColors: true,
@@ -422,7 +422,7 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "12px",
           position: "left",
-          offsetX: 50,
+          offsetX: 20,
           offsetY: -10,
           labels: {
               useSeriesColors: true,
@@ -487,7 +487,7 @@ export class EvaluationDetailComponent implements OnInit {
           floating: true,
           fontSize: "12px",
           position: "left",
-          offsetX: 50,
+          offsetX: 20,
           offsetY: -10,
           labels: {
               useSeriesColors: true,
