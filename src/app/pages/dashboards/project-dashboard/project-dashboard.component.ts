@@ -284,30 +284,50 @@ export class ProjectDashboardComponent implements OnInit {
   }
 
   createEvaluation(){
-    this.showPreLoader();
-    const index = this.evaluations.findIndex(
-      (ev: any) =>
-        ev.active == true
-    );
-
-    const active = index != -1 ? false : true;
-
-    this.projectsService.createEvaluation(this.project_id, active).pipe().subscribe(
-      (data: any) => {
-        this.hidePreLoader();
-        this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations/'+data.data.id]);
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();      
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-    });
+    
+    Swal.fire({
+        title: '¿Desea crear una nueva evaluación?',
+        text: 'Se mostraran todas las instancias de cumplimientos asociadas al proyecto para su respectiva evaluación',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#364574',
+        cancelButtonColor: 'rgb(243, 78, 78)',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'Cancelar',
+        denyButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+  
+        this.showPreLoader();
+        const index = this.evaluations.findIndex(
+          (ev: any) =>
+            ev.active == true
+        );
+    
+        const active = index != -1 ? false : true;
+    
+        this.projectsService.createEvaluation(this.project_id, active).pipe().subscribe(
+          (data: any) => {
+            this.hidePreLoader();
+            this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations/'+data.data.id]);
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();      
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+        });
+  
+  } else if (result.isDenied) {
+            
+  }
+  });
+    
   }
 
   homologar(content: any, evaluation: any){

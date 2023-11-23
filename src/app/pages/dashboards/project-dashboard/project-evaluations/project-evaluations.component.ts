@@ -748,7 +748,7 @@ layers = [
 
   terminar(){
 
-    if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
+    /*if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
       
       Swal.fire({
         title: 'Evaluación finalizada!',
@@ -762,7 +762,7 @@ layers = [
         timer: 5000
       });
       this._router.navigate(['/'+this.project_id+'/project-dashboard']);
-    }else{
+    }else{*/
 
       if(this.avance_evaluacion < 90){
 
@@ -784,6 +784,7 @@ layers = [
           showCancelButton: true,
           confirmButtonColor: '#364574',
           cancelButtonColor: 'rgb(243, 78, 78)',
+          cancelButtonText: 'Cancelar',
           confirmButtonText: 'Si',
           denyButtonText: 'No'
       }).then((result) => {
@@ -897,7 +898,7 @@ layers = [
         });
       });
     }
-  }
+  //}
   }
 
   homologar(content: any, id: any, installation_id: any){
