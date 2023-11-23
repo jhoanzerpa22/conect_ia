@@ -413,7 +413,7 @@ export class ProjectsService {
             filter = filter.toLowerCase();
         }
 
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, /*areaId,*/ filters: filter, criticity: criticidad/*{
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/installations', { projectId: project_id, /*areaId,*/ filters: filter, criticity: criticidad, areaId: areaId/*{
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
