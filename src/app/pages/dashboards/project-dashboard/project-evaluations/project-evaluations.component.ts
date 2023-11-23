@@ -784,6 +784,7 @@ layers = [
           showCancelButton: true,
           confirmButtonColor: '#364574',
           cancelButtonColor: 'rgb(243, 78, 78)',
+          cancelButtonText: 'Cancelar',
           confirmButtonText: 'Si',
           denyButtonText: 'No'
       }).then((result) => {
