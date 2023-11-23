@@ -71,7 +71,7 @@ export class TeamComponent {
       email: ['', [,Validators.required, Validators.email]],
       rol: ['', [Validators.required]],/*
       designation: ['', [Validators.required]],*/
-      projects: [[''], [Validators.required]],/*
+      projects: [['']/*, [Validators.required]*/],/*
       tasks: ['', [Validators.required]]*/
     });
     

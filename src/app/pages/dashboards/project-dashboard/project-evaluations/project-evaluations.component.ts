@@ -748,7 +748,7 @@ layers = [
 
   terminar(){
 
-    if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
+    /*if(this.project.estado && this.project.estado != null && this.project.estado != undefined && this.project.estado > 2){
       
       Swal.fire({
         title: 'Evaluación finalizada!',
@@ -762,7 +762,7 @@ layers = [
         timer: 5000
       });
       this._router.navigate(['/'+this.project_id+'/project-dashboard']);
-    }else{
+    }else{*/
 
       if(this.avance_evaluacion < 90){
 
@@ -897,7 +897,7 @@ layers = [
         });
       });
     }
-  }
+  //}
   }
 
   homologar(content: any, id: any, installation_id: any){
