@@ -6337,6 +6337,7 @@ getChart(criticidad: any, config: any){
 
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
+    this.getDashboardNew(project_id, refresh, areaId, criticidad, this.tipo);
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
     this.getDashboardArea(project_id, 'articulos', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
     this.getDashboardInstalaciones(project_id, 'articulos', refresh, undefined, areaId, undefined, criticidad);
@@ -6473,8 +6474,6 @@ getChart(criticidad: any, config: any){
 
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
-
-    this.getDashboardNew(this.project_id, true, this.filtro_area, criticidad, this.tipo);
 
     this.resetFiltro(this.project_id, true, this.filtro_area, /*this.tipo,*/ criticidad);
     
