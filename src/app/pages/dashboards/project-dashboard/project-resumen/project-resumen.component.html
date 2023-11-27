@@ -160,13 +160,13 @@
                                                 
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{dashboard_new && dashboard_new.cuadro1 && dashboard_new.cuadro1.cuerposLegalesEvaluados > 0 ? dashboard_new.cuadro1.cuerposLegalesEvaluados : 0}}/{{dashboard_new && dashboard_new.cuadro1 && dashboard_new.cuadro1.cuerposLegalesTotal > 0 ? dashboard_new.cuadro1.cuerposLegalesTotal : 0}}</span>
+                                                        {{getDataDashboard('cuerpos_evaluados') > 0 ? getDataDashboard('cuerpos_evaluados') : 0}}/{{getDataDashboard('cuerpos') > 0 ? getDataDashboard('cuerpos') : 0}}</span>
                                                 </h4>
                                     </div>
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro1 && dashboard_new.cuadro1.porcentajeCumplimientoCuerposLegales > 0 ? dashboard_new.cuadro1.porcentajeCumplimientoCuerposLegales : 0}}%
+                                                {{getDataDashboard('cuerpos_cumplimiento') > 0 ? getDataDashboard('cuerpos_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -182,7 +182,7 @@
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;"
                                                         >
-                                                        {{dashboard_new && dashboard_new.cuadro2 && dashboard_new.cuadro2.cantidadArticulosEvaluados > 0 ? dashboard_new.cuadro2.cantidadArticulosEvaluados : 0}}/{{dashboard_new && dashboard_new.cuadro2 && dashboard_new.cuadro2.articulosEvaluadosTotal > 0 ? dashboard_new.cuadro2.articulosEvaluadosTotal : 0}}
+                                                        {{getDataDashboard('articulos_evaluados') > 0 ? getDataDashboard('articulos_evaluados') : 0}}/{{getDataDashboard('articulos') > 0 ? getDataDashboard('articulos') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -193,7 +193,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro2 && dashboard_new.cuadro2.porcentajeCumplimientoArticulos > 0 ? dashboard_new.cuadro2.porcentajeCumplimientoArticulos : 0}}%
+                                                {{getDataDashboard('articulos_cumplimiento') > 0 ? getDataDashboard('articulos_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -207,7 +207,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                         <h4 class="fs-1">
                                             <span class="counter-value" style="color: #405189;">
-                                                {{dashboard_new && dashboard_new.cuadro3 && dashboard_new.cuadro3.instanciasDeCumplimientoEvaluadas > 0 ? dashboard_new.cuadro3.instanciasDeCumplimientoEvaluadas : 0}}/{{dashboard_new && dashboard_new.cuadro3 && dashboard_new.cuadro3.instanciasDeCumplimientoEvaluadasTotal > 0 ? dashboard_new.cuadro3.instanciasDeCumplimientoEvaluadasTotal : 0}}
+                                                {{getDataDashboard('instancias_evaluadas') > 0 ? getDataDashboard('instancias_evaluadas') : 0}}/{{getDataDashboard('instancias') > 0 ? getDataDashboard('instancias') : 0}}
                                                 
                                             </span>
                                         </h4>
@@ -218,7 +218,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro3 && dashboard_new.cuadro3.porcentajeCumplimientoInstanciasCumplimiento > 0 ? dashboard_new.cuadro3.porcentajeCumplimientoInstanciasCumplimiento : 0}}%
+                                                {{getDataDashboard('instancias_cumplimiento') > 0 ? getDataDashboard('instancias_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -234,7 +234,7 @@
                                          
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{dashboard_new && dashboard_new.cuadro8 && dashboard_new.cuadro8.elementosYactividadesEvaluadas > 0 ? dashboard_new.cuadro8.elementosYactividadesEvaluadas : 0}}/{{dashboard_new && dashboard_new.cuadro8 && dashboard_new.cuadro8.elementosYactividadesEvaluadasTotal > 0 ? dashboard_new.cuadro8.elementosYactividadesEvaluadasTotal : 0}}
+                                                        {{getDataDashboard('elementos_evaluados') > 0 ? getDataDashboard('elementos_evaluados') : 0}}/{{getDataDashboard('elementos') > 0 ? getDataDashboard('elementos') : 0}}
                                                     
                                                     </span>
                                                 </h4>
@@ -245,7 +245,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro8 && dashboard_new.cuadro8.porcentajeCumplimientoElementosYactividades > 0 ? dashboard_new.cuadro8.porcentajeCumplimientoElementosYactividades : 0}}%
+                                                {{getDataDashboard('elementos_cumplimiento') > 0 ? getDataDashboard('elementos_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -262,7 +262,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{dashboard_new && dashboard_new.cuadro4 && dashboard_new.cuadro4.permisosEvaluados > 0 ? dashboard_new.cuadro4.permisosEvaluados : 0}}/{{dashboard_new && dashboard_new.cuadro4 && dashboard_new.cuadro4.permisosEvaluadosTotal > 0 ? dashboard_new.cuadro4.permisosEvaluadosTotal : 0}}
+                                                        {{getDataDashboard('permisos_evaluados') > 0 ? getDataDashboard('permisos_evaluados') : 0}}/{{getDataDashboard('permisos') > 0 ? getDataDashboard('permisos') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -270,7 +270,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro4 && dashboard_new.cuadro4.porcentajeCumplimientoPermisos > 0 ? dashboard_new.cuadro4.porcentajeCumplimientoPermisos : 0}}%
+                                                {{getDataDashboard('permisos_cumplimiento') > 0 ? getDataDashboard('permisos_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -284,7 +284,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{dashboard_new && dashboard_new.cuadro5 && dashboard_new.cuadro5.reportesEvaluados > 0 ? dashboard_new.cuadro5.reportesEvaluados : 0}}/{{dashboard_new && dashboard_new.cuadro5 && dashboard_new.cuadro5.reportesEvaluadosTotal > 0 ? dashboard_new.cuadro5.reportesEvaluadosTotal : 0}}
+                                                        {{getDataDashboard('reportes_evaluados') > 0 ? getDataDashboard('reportes_evaluados') : 0}}/{{getDataDashboard('reportes') > 0 ? getDataDashboard('reportes') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -292,7 +292,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro5 && dashboard_new.cuadro5.porcentajeCumplimientoReportes > 0 ? dashboard_new.cuadro5.porcentajeCumplimientoReportes : 0}}%
+                                                {{getDataDashboard('reportes_cumplimiento') > 0 ? getDataDashboard('reportes_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -306,7 +306,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{dashboard_new && dashboard_new.cuadro6 && dashboard_new.cuadro6.monitoreosEvaluados > 0 ? dashboard_new.cuadro6.monitoreosEvaluados : 0}}/{{dashboard_new && dashboard_new.cuadro6 && dashboard_new.cuadro6.monitoreosEvaluadosTotal > 0 ? dashboard_new.cuadro6.monitoreosEvaluadosTotal : 0}}
+                                                        {{getDataDashboard('monitoreos_evaluados') > 0 ? getDataDashboard('monitoreos_evaluados') : 0}}/{{getDataDashboard('monitoreos') > 0 ? getDataDashboard('monitoreos') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -314,7 +314,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro6 && dashboard_new.cuadro6.porcentajeCumplimientoMonitoreos > 0 ? dashboard_new.cuadro6.porcentajeCumplimientoMonitoreos : 0}}%
+                                                {{getDataDashboard('monitoreos_cumplimiento') > 0 ? getDataDashboard('monitoreos_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
@@ -328,7 +328,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                     <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{dashboard_new && dashboard_new.cuadro7 && dashboard_new.cuadro7.otrasObligacionesEvaluadas > 0 ? dashboard_new.cuadro7.otrasObligacionesEvaluadas : 0}}/{{dashboard_new && dashboard_new.cuadro7 && dashboard_new.cuadro7.otrasObligacionesEvaluadosTotal > 0 ? dashboard_new.cuadro7.otrasObligacionesEvaluadosTotal : 0}}
+                                                        {{getDataDashboard('otros_evaluados') > 0 ? getDataDashboard('otros_evaluados') : 0}}/{{getDataDashboard('otros') > 0 ? getDataDashboard('otros') : 0}}
                                                         
                                                     </span>
                                                     </h4>
@@ -336,7 +336,7 @@
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
                                         <h4 class="fs-1">
                                             <span class="counter-value text-success">
-                                                {{dashboard_new && dashboard_new.cuadro7 && dashboard_new.cuadro7.porcentajeCumplimientoOtrasObligaciones > 0 ? dashboard_new.cuadro7.porcentajeCumplimientoOtrasObligaciones : 0}}%
+                                                {{getDataDashboard('otros_cumplimiento') > 0 ? getDataDashboard('otros_cumplimiento') : 0}}%
                                             </span>
                                         </h4>
                                         <p class="text-uppercase fw-medium text-muted mb-3">Cumplimiento</p>
