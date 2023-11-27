@@ -198,7 +198,7 @@ export class ProjectResumenComponent implements OnInit {
         this.getArticleProyect(params['id']);
         this.getEvaluations(params['id']);
         this.getInstallations(params['id']);
-        this.getDashboardNew(params['id'], true);
+        //this.getDashboardNew(params['id'], true);
         this.getDashboard(params['id'], true);
         this.getDashboardArea(params['id'], 'default', true);
         this.getDashboardInstalaciones(params['id'], 'articulos', true);
@@ -249,7 +249,7 @@ export class ProjectResumenComponent implements OnInit {
             this.getArticleProyect(proyecto);
             this.getEvaluations(proyecto);
             this.getInstallations(proyecto);
-            this.getDashboardNew(proyecto, true);
+            //this.getDashboardNew(proyecto, true);
             this.getDashboard(proyecto, true);
             this.getDashboardArea(proyecto, 'default', true);
             this.getDashboardInstalaciones(proyecto, 'articulos', true);
@@ -5422,19 +5422,19 @@ getChart(criticidad: any, config: any){
             break;
           
         case 'cuerpos_no_evaluados':
-            return this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.noEvaluado > 0 ? this.dashboard_new.torta1.noEvaluado : 0;//this.dashboard.estadoCuerposLegales.countNoEvaluados;
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.noEvaluado > 0 ? this.dashboard_new.torta1.noEvaluado : 0;*/this.dashboard.estadoCuerposLegales.countNoEvaluados;
             break;
         
         case 'cuerpos_cumple':
-            return this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.cumple > 0 ? this.dashboard_new.torta1.cumple : 0;//this.dashboard.estadoCuerposLegales.countCumple;
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.cumple > 0 ? this.dashboard_new.torta1.cumple : 0;*/this.dashboard.estadoCuerposLegales.countCumple;
             break;
         
         case 'cuerpos_no_cumple':
-            return this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.noCumple > 0 ? this.dashboard_new.torta1.noCumple : 0;//this.dashboard.estadoCuerposLegales.countNoCumple;
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.noCumple > 0 ? this.dashboard_new.torta1.noCumple : 0;*/this.dashboard.estadoCuerposLegales.countNoCumple;
             break;
         
         case 'cuerpos_cumple_parcial':
-            return this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.cumpleParcial > 0 ? this.dashboard_new.torta1.cumpleParcial : 0;//this.dashboard.estadoCuerposLegales.countCumpleParcial;
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.cumpleParcial > 0 ? this.dashboard_new.torta1.cumpleParcial : 0;*/this.dashboard.estadoCuerposLegales.countCumpleParcial;
             break;
           
         case 'cuerpos_cumplimiento':
@@ -5511,19 +5511,19 @@ getChart(criticidad: any, config: any){
             break;
           
         case 'articulos_no_evaluados':
-              return this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloNoEvaluado > 0 ? this.dashboard_new.torta2.articuloNoEvaluado : 0;//this.dashboard.tarjetas.countArticulosNoEvaluados;
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloNoEvaluado > 0 ? this.dashboard_new.torta2.articuloNoEvaluado : 0;*/this.dashboard.tarjetas.countArticulosNoEvaluados;
               break;
           
         case 'articulos_cumple':
-              return this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloCumple > 0 ? this.dashboard_new.torta2.articuloCumple : 0;//this.dashboard.tarjetas.countArticulosCumple;
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloCumple > 0 ? this.dashboard_new.torta2.articuloCumple : 0;*/this.dashboard.tarjetas.countArticulosCumple;
               break;
           
         case 'articulos_no_cumple':
-              return this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloNoCumple > 0 ? this.dashboard_new.torta2.articuloNoCumple : 0;//this.dashboard.tarjetas.countArticulosNoCumple;
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloNoCumple > 0 ? this.dashboard_new.torta2.articuloNoCumple : 0;*/this.dashboard.tarjetas.countArticulosNoCumple;
               break;
           
         case 'articulos_cumple_parcial':
-              return this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloCumpleParcial > 0 ? this.dashboard_new.torta2.articuloCumpleParcial : 0;//this.dashboard.tarjetas.countArticulosCumpleParcial;
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloCumpleParcial > 0 ? this.dashboard_new.torta2.articuloCumpleParcial : 0;*/this.dashboard.tarjetas.countArticulosCumpleParcial;
               break;
 
         case 'articulos_alta':
@@ -5559,19 +5559,19 @@ getChart(criticidad: any, config: any){
             break;
 
         case 'instancias_no_evaluadas':
-              return this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noEvaluado > 0 ? this.dashboard_new.torta3.noEvaluado : 0;//this.dashboard.tarjetas.countInstanciasNoEvaluadas;
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noEvaluado > 0 ? this.dashboard_new.torta3.noEvaluado : 0;*/this.dashboard.tarjetas.countInstanciasNoEvaluadas;
               break;
           
         case 'instancias_cumple':
-              return this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumple > 0 ? this.dashboard_new.torta3.cumple : 0;//this.dashboard.tarjetas.countInstanciasCumple;
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumple > 0 ? this.dashboard_new.torta3.cumple : 0;*/this.dashboard.tarjetas.countInstanciasCumple;
               break;
           
         case 'instancias_no_cumple':
-              return this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noCumple > 0 ? this.dashboard_new.torta3.noCumple : 0;//this.dashboard.tarjetas.countInstanciasNoCumple;
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noCumple > 0 ? this.dashboard_new.torta3.noCumple : 0;*/this.dashboard.tarjetas.countInstanciasNoCumple;
               break;
           
         case 'instancias_cumple_parcial':
-              return this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumpleParcial > 0 ? this.dashboard_new.torta3.cumpleParcial : 0;//this.dashboard.tarjetas.countInstanciasCumpleParcial;
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumpleParcial > 0 ? this.dashboard_new.torta3.cumpleParcial : 0;*/this.dashboard.tarjetas.countInstanciasCumpleParcial;
               break;
 
         case 'cuerpos_gestionar':
@@ -6337,7 +6337,7 @@ getChart(criticidad: any, config: any){
 
   private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
-    this.getDashboardNew(project_id, refresh, areaId, criticidad, this.tipo);
+    //this.getDashboardNew(project_id, refresh, areaId, criticidad, this.tipo);
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
     this.getDashboardArea(project_id, 'articulos', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
     this.getDashboardInstalaciones(project_id, 'articulos', refresh, undefined, areaId, undefined, criticidad);
@@ -6491,7 +6491,7 @@ getChart(criticidad: any, config: any){
   selectTipo(tipo?: any){
     this.tipo = tipo;
 
-    this.getDashboardNew(this.project_id, true, this.filtro_area, this.criticidad, tipo);
+    //this.getDashboardNew(this.project_id, true, this.filtro_area, this.criticidad, tipo);
 
     this.setChart();
     //this.getDashboard(this.project_id, this.filtro_area, tipo, this.criticidad);
