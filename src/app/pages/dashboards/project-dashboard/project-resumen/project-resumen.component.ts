@@ -5104,15 +5104,15 @@ getCategoryCumplimientoAtributo(atributo?: any){
   if(!this.tipo){
           switch (atributo) {
             case 'permisos':
-              data = ['Aprobado y vigente', 'Actualizado/Regularizado', 'Desmovilizado', 'Desactualizado', 'Rechazado', 'Caducado', 'Suspendido', 'Revocado', 'Por Gestionar', 'En elaboraciÃ³n', 'En trÃ¡mite', 'No evaluado'];
+              data = ['Aprobado y vigente', 'Actualizado/Regularizado', 'Desmovilizado', 'Desactualizado', 'Rechazado', 'Caducado', 'Suspendido', 'Revocado', 'Por Gestionar', 'En elaboración', 'En trámite', 'No evaluado'];
               break;
     
               case 'reportes':
-                data = ['Reporte Regularizado', 'Reportado dentro del plazo sin esviaciones', 'Reportado fuera de plazo con desviaciones', 'Reportado fuera de plazo sin desviaciones', 'Reportado dentro del plazo con desviaciones', 'No reportado', 'No evaluado'];
+                data = ['Reporte Regularizado', 'Reportado dentro del plazo sin desviaciones', 'Reportado fuera de plazo con desviaciones', 'Reportado fuera de plazo sin desviaciones', 'Reportado dentro del plazo con desviaciones', 'No reportado', 'No evaluado'];
                 break;
     
                 case 'monitoreos':
-                  data = ['Monitoreo Regularizado', 'Ejecutado dentro del plazo sin desviaciones', 'Ejecutado fuera de plazo con desviaciones', 'Ejecutado fuera de plazo sin desviaciones', 'Ejecutado dentro del plazo con desviaciones', 'No ejecutado', 'En ejecuciÃ³n', 'No evaluado'];
+                  data = ['Monitoreo Regularizado', 'Ejecutado dentro del plazo sin desviaciones', 'Ejecutado fuera de plazo con desviaciones', 'Ejecutado fuera de plazo sin desviaciones', 'Ejecutado dentro del plazo con desviaciones', 'No ejecutado', 'En ejecución', 'No evaluado'];
                   break;
                   
                 case 'otros':
@@ -5136,7 +5136,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
                 break;
     
               case 'No Cumple':
-                data = ['Rechazado', 'Caducado', 'Suspendido', 'Revocado', 'Por estionar', 'En elaboraciÃ³n', 'En trÃ¡mite']
+                data = ['Rechazado', 'Caducado', 'Suspendido', 'Revocado', 'Por gestionar', 'En elaboración', 'En trámite']
                 break;
     
               case 'No Evaluado':
@@ -5151,7 +5151,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
 
               switch (this.tipo) {
                 case 'Cumple':
-                  data = ['Reporte Regularizado', 'Reportado dentro del plazo sin esviaciones'];
+                  data = ['Reporte Regularizado', 'Reportado dentro del plazo sin desviaciones'];
                   break;
                 case 'Cumple Parcial':
                   data = ['Reportado fuera de plazo con desviaciones', 'Reportado fuera de plazo sin desviaciones', 'Reportado dentro del plazo con desviaciones'];
@@ -5173,14 +5173,14 @@ getCategoryCumplimientoAtributo(atributo?: any){
 
               switch (this.tipo) {
                 case 'Cumple':
-                  data = ['Monitoreo Regularizado', 'Ejecutado dentro del plazo sin esviaciones'];
+                  data = ['Monitoreo Regularizado', 'Ejecutado dentro del plazo sin desviaciones'];
                   break;
                 case 'Cumple Parcial':
                   data = ['Ejecutado fuera de plazo con desviaciones', 'Ejecutado fuera de plazo sin desviaciones', 'Ejecutado dentro del plazo con desviaciones'];
                   break;
 
                 case 'No Cumple':
-                  data = ['No ejecutado', 'En ejecuciÃ³n'];
+                  data = ['No ejecutado', 'En ejecución'];
                   break;
 
                 case 'No Evaluado':
@@ -5205,19 +5205,46 @@ getCategoryCumplimientoAtributo(atributo?: any){
     return data;
 }
 
+validExistData(atributo: any, estado: any){
+  /*Por aquellos estados no reportados en monitoreo que fueron mala carga*/
+  let estado_fallido = atributo == 'monitoreo' && estado == 'No ejecutado' ? 'No reportado' : estado;
+  const index = this.dashboard.obligacionesAplicabilidadDetalle[atributo].findIndex((a: any) => 
+    a.label == estado || a.label == estado_fallido
+  );
+
+  return index != -1 ? this.dashboard.obligacionesAplicabilidadDetalle[atributo][index].countTotal : 0;
+}
+
 getDataCumplimientoAtributo(atributo?: any){
       let data: any = [];
-      if(!this.tipo){
+      let valor: any = 0;
+            
+      //if(!this.tipo){
         switch (atributo) {
           case 'permisos':
-            data = [6, 5, 7, 20, 3, 1, 2, 2, 2, 3, 2, 55];
+            //data = [6, 5, 7, 20, 3, 1, 2, 2, 2, 3, 2, 55];
+            let permisos = this.getCategoryCumplimientoAtributo('permisos');
+            for (let p = 0; p < permisos.length; p++) {
+              valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('permiso',permisos[p]) : 0;
+              data.push(valor);
+            }
             break;
             case 'reportes':
-              data = [6, 3, 5, 15, 4, 13, 50];
+              //data = [6, 3, 5, 15, 4, 13, 50];
+              let reportes = this.getCategoryCumplimientoAtributo('reportes');
+              for (let r = 0; r < reportes.length; r++) {
+                valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('reporte',reportes[r]) : 0;
+                data.push(valor);
+              }
               break;
               
             case 'monitoreos':
               data = [0, 1, 1, 1, 2, 1, 1, 5];
+              /*let monitoreos = this.getCategoryCumplimientoAtributo('monitoreos');
+              for (let m = 0; m < monitoreos.length; m++) {
+                valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('monitoreo',monitoreos[m]) : 0;
+                data.push(valor);
+              }*/
               break;
   
             case 'otros':
@@ -5227,7 +5254,7 @@ getDataCumplimientoAtributo(atributo?: any){
           default:
             break;
         }
-      }else{
+      /*}else{
         switch (atributo) {
           case 'permisos':
             switch (this.tipo) {
@@ -5317,13 +5344,13 @@ getDataCumplimientoAtributo(atributo?: any){
             }
             break;
                    
-                     default:
-                       break;
+            default:
+            break;
                    
-                     }
-                 }
+          }
+        }*/
 
-                 return data;
+        return data;
 
   }
 
@@ -5748,19 +5775,19 @@ getChart(criticidad: any, config: any){
               break;
          
            case 'otros_no_evaluados':
-               return 10;//this.dashboard.tarjetas.countInstanciasNoEvaluadas;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
                break;
            
            case 'otros_cumple':
-              return 1;//this.dashboard.tarjetas.countInstanciasCumple;
+              return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumple;
                break;
            
          case 'otros_no_cumple':
-               return 28;//this.dashboard.tarjetas.countInstanciasNoCumple;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
                break;
            
          case 'otros_cumple_parcial':
-               return 5;//this.dashboard.tarjetas.countInstanciasCumpleParcial;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
                break;
         
             case 'otros_cumplimiento':
