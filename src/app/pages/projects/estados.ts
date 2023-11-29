@@ -31,7 +31,8 @@ const estadosData = [
   {value: 'Ejecutado fuera de plazo con desviaciones', label: 'Ejecutado fuera de plazo con desviaciones', type: 'monitoreo', category: 'CUMPLE PARCIALMENTE'},
   {value: 'Ejecutado fuera de plazo sin desviaciones', label: 'Ejecutado fuera de plazo sin desviaciones', type: 'monitoreo', category: 'CUMPLE PARCIALMENTE'}, 
   {value: 'Ejecutado dentro del plazo con desviaciones', label: 'Ejecutado dentro del plazo con desviaciones', type: 'monitoreo', category: 'CUMPLE PARCIALMENTE'}, 
-  {value: 'No reportado', label: 'No reportado', type: 'monitoreo', category: 'NO CUMPLE'}
+  {value: 'No ejecutado', label: 'No ejecutado', type: 'monitoreo', category: 'NO CUMPLE'}, 
+  {value: 'En ejecución', label: 'En ejecución', type: 'monitoreo', category: 'NO CUMPLE'}
 ];
 
 export { estadosData };
