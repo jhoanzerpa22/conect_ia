@@ -3401,35 +3401,35 @@ layers = [
         name: 'Articulos',
       }],
       seriesCriticidad: [{
-        data: [2, 1, 0, 2, 1, 2, 0],//this.getDataDashboardArea('value','permisos','alta'),
+        data: this.getDataCumplimientoAtributo('permisos','alta'),//[2, 1, 0, 2, 1, 2, 0],//this.getDataDashboardArea('value','permisos','alta'),
         name: 'Alta',
       },
       {
-        data: [1, 0, 0, 0, 1, 1, 0],//this.getDataDashboardArea('value','permisos','media'),
+        data: this.getDataCumplimientoAtributo('permisos','media'),//[1, 0, 0, 0, 1, 1, 0],//this.getDataDashboardArea('value','permisos','media'),
         name: 'Media',
       },
       {
-        data: [0, 0, 0, 0, 0, 1, 2],//this.getDataDashboardArea('value','permisos','baja'),
+        data: this.getDataCumplimientoAtributo('permisos','baja'),//[0, 0, 0, 0, 0, 1, 2],//this.getDataDashboardArea('value','permisos','baja'),
         name: 'Baja',
       },
       {
-        data: [0, 0, 2, 0, 0, 0, 0],//this.getDataDashboardArea('value','permisos','otros'),
+        data: this.getDataCumplimientoAtributo('permisos','otros'),//[0, 0, 2, 0, 0, 0, 0],//this.getDataDashboardArea('value','permisos','otros'),
         name: 'No especificado',
       }],
       seriesAlta: [{
-        data: this.getDataDashboardArea('value','permisos','alta'),
+        data: this.getDataCumplimientoAtributo('permisos','alta'),//,//this.getDataDashboardArea('value','permisos','alta'),
         name: 'Alta',
       }],
       seriesMedia: [{
-        data: this.getDataDashboardArea('value','permisos','media'),
+        data: this.getDataCumplimientoAtributo('permisos','media'),//,//this.getDataDashboardArea('value','permisos','media'),
         name: 'Media',
       }],
       seriesBaja: [{
-        data: this.getDataDashboardArea('value','permisos','baja'),
+        data: this.getDataCumplimientoAtributo('permisos','baja'),//,//this.getDataDashboardArea('value','permisos','baja'),
         name: 'Baja',
       }],
       seriesOtros: [{
-        data: this.getDataDashboardArea('value','permisos','otros'),
+        data: this.getDataCumplimientoAtributo('permisos','otros'),//,//this.getDataDashboardArea('value','permisos','otros'),
         name: 'No especificado',
       }],
       chart: {
@@ -3522,35 +3522,35 @@ layers = [
         name: 'Articulos',
     }],
     seriesCriticidad: [{
-      data: [6],//this.getDataDashboardArea('value','reportes','alta'),
+      data: this.getDataCumplimientoAtributo('reportes','alta'),//[6],//this.getDataDashboardArea('value','reportes','alta'),
       name: 'Alta',
     },
     {
-      data: [2],//this.getDataDashboardArea('value','reportes','media'),
+      data: this.getDataCumplimientoAtributo('reportes','media'),//[2],//this.getDataDashboardArea('value','reportes','media'),
       name: 'Media',
     },
     {
-      data: [3],//this.getDataDashboardArea('value','reportes','baja'),
+      data: this.getDataCumplimientoAtributo('reportes','baja'),//[3],//this.getDataDashboardArea('value','reportes','baja'),
       name: 'Baja',
     },
     {
-      data: [2],//this.getDataDashboardArea('value','reportes','otros'),
+      data: this.getDataCumplimientoAtributo('reportes','otros'),//[2],//this.getDataDashboardArea('value','reportes','otros'),
       name: 'No especificado',
     }],
     seriesAlta: [{
-      data: [6],//this.getDataDashboardArea('value','reportes','alta'),
+      data: this.getDataCumplimientoAtributo('reportes','alta'),//[6],//this.getDataDashboardArea('value','reportes','alta'),
       name: 'Alta',
     }],
     seriesMedia: [{
-      data: [2],//this.getDataDashboardArea('value','reportes','media'),
+      data: this.getDataCumplimientoAtributo('reportes','media'),//[2],//this.getDataDashboardArea('value','reportes','media'),
       name: 'Media',
     }],
     seriesBaja: [{
-      data: [3],//this.getDataDashboardArea('value','reportes','baja'),
+      data: this.getDataCumplimientoAtributo('reportes','baja'),//[3],//this.getDataDashboardArea('value','reportes','baja'),
       name: 'Baja',
     }],
     seriesOtros: [{
-      data: [2],//this.getDataDashboardArea('value','reportes','otros'),
+      data: this.getDataCumplimientoAtributo('reportes','otros'),//[2],//this.getDataDashboardArea('value','reportes','otros'),
       name: 'No especificado',
     }],
     chart: {
@@ -3641,35 +3641,35 @@ this.basicBarChartMonitoreosCumplimiento = {
       name: 'Articulos',
   }],
   seriesCriticidad: [{
-    data: [0,1],//this.getDataDashboardArea('value','monitoreos','alta'),
+    data: this.getDataCumplimientoAtributo('monitoreos','alta'),//[0,1],//this.getDataDashboardArea('value','monitoreos','alta'),
     name: 'Alta',
   },
   {
-    data: [1,0],//this.getDataDashboardArea('value','monitoreos','media'),
+    data: this.getDataCumplimientoAtributo('monitoreos','media'),//[1,0],//this.getDataDashboardArea('value','monitoreos','media'),
     name: 'Media',
   },
   {
-    data: [0,0],//this.getDataDashboardArea('value','monitoreos','baja'),
+    data: this.getDataCumplimientoAtributo('monitoreos','baja'),//[0,0],//this.getDataDashboardArea('value','monitoreos','baja'),
     name: 'Baja',
   },
   {
-    data: [1,0],//this.getDataDashboardArea('value','monitoreos','otros'),
+    data: this.getDataCumplimientoAtributo('monitoreos','otros'),//[1,0],//this.getDataDashboardArea('value','monitoreos','otros'),
     name: 'No especificado',
   }],
   seriesAlta: [{
-    data: [0,1],//this.getDataDashboardArea('value','monitoreos','alta'),
+    data: this.getDataCumplimientoAtributo('monitoreos','alta'),//[0,1],//this.getDataDashboardArea('value','monitoreos','alta'),
     name: 'Alta',
   }],
   seriesMedia: [{
-    data: [1,0],//this.getDataDashboardArea('value','monitoreos','media'),
+    data: this.getDataCumplimientoAtributo('monitoreos','media'),//[1,0],//this.getDataDashboardArea('value','monitoreos','media'),
     name: 'Media',
   }],
   seriesBaja: [{
-    data: [0,0],//this.getDataDashboardArea('value','monitoreos','baja'),
+    data: this.getDataCumplimientoAtributo('monitoreos','baja'),//[0,0],//this.getDataDashboardArea('value','monitoreos','baja'),
     name: 'Baja',
   }],
   seriesOtros: [{
-    data: [1,0],//this.getDataDashboardArea('value','monitoreos','otros'),
+    data: this.getDataCumplimientoAtributo('monitoreos','otros'),//[1,0],//this.getDataDashboardArea('value','monitoreos','otros'),
     name: 'No especificado',
   }],
   chart: {
@@ -5205,17 +5205,44 @@ getCategoryCumplimientoAtributo(atributo?: any){
     return data;
 }
 
-validExistData(atributo: any, estado: any){
+getTotalAtributo(obligacion: any, criticidad?: any){
+
+  let dato = obligacion.countTotal;
+
+  if(criticidad){
+    switch (criticidad) {
+      case 'alta':
+        dato = obligacion.countAlta;
+        break;
+        case 'media':
+          dato = obligacion.countMedia;
+          break;
+          case 'baja':
+            dato = obligacion.countBaja;
+            break;
+            case 'otros':
+              dato = obligacion.countOtros;
+              break;
+    
+      default:
+        break;
+    }
+  }
+
+  return dato;
+}
+
+validExistData(atributo: any, estado: any, criticidad?: any){
   /*Por aquellos estados no reportados en monitoreo que fueron mala carga*/
   let estado_fallido = atributo == 'monitoreo' && estado == 'No ejecutado' ? 'No reportado' : estado;
   const index = this.dashboard.obligacionesAplicabilidadDetalle[atributo].findIndex((a: any) => 
     a.label == estado || a.label == estado_fallido
   );
 
-  return index != -1 ? this.dashboard.obligacionesAplicabilidadDetalle[atributo][index].countTotal : 0;
+  return index != -1 ? this.getTotalAtributo(this.dashboard.obligacionesAplicabilidadDetalle[atributo][index], criticidad) : 0;
 }
 
-getDataCumplimientoAtributo(atributo?: any){
+getDataCumplimientoAtributo(atributo?: any, criticidad?: any){
       let data: any = [];
       let valor: any = 0;
             
@@ -5225,7 +5252,7 @@ getDataCumplimientoAtributo(atributo?: any){
             //data = [6, 5, 7, 20, 3, 1, 2, 2, 2, 3, 2, 55];
             let permisos = this.getCategoryCumplimientoAtributo('permisos');
             for (let p = 0; p < permisos.length; p++) {
-              valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('permiso',permisos[p]) : 0;
+              valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('permiso',permisos[p], criticidad) : 0;
               data.push(valor);
             }
             break;
@@ -5233,18 +5260,18 @@ getDataCumplimientoAtributo(atributo?: any){
               //data = [6, 3, 5, 15, 4, 13, 50];
               let reportes = this.getCategoryCumplimientoAtributo('reportes');
               for (let r = 0; r < reportes.length; r++) {
-                valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('reporte',reportes[r]) : 0;
+                valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('reporte',reportes[r], criticidad) : 0;
                 data.push(valor);
               }
               break;
               
             case 'monitoreos':
-              data = [0, 1, 1, 1, 2, 1, 1, 5];
-              /*let monitoreos = this.getCategoryCumplimientoAtributo('monitoreos');
+              //data = [0, 1, 1, 1, 2, 1, 1, 5];
+              let monitoreos = this.getCategoryCumplimientoAtributo('monitoreos');
               for (let m = 0; m < monitoreos.length; m++) {
-                valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('monitoreo',monitoreos[m]) : 0;
+                valor = this.dashboard && this.dashboard.obligacionesAplicabilidadDetalle ? this.validExistData('monitoreo',monitoreos[m], criticidad) : 0;
                 data.push(valor);
-              }*/
+              }
               break;
   
             case 'otros':
