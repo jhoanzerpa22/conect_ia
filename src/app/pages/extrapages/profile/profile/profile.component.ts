@@ -14,6 +14,7 @@ import { projectList, document } from './data';
 import { projectListModel, documentModel } from './profile.model';
 import { ProfileService } from './profile.service';
 import { NgbdProfileSortableHeader, SortEvent } from './profile-sortable.directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -33,13 +34,13 @@ export class ProfileComponent {
   roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
 
   // Table data
-  ListJsList!: Observable<projectListModel[]>;
-  total: Observable<number>;
+  //ListJsList!: Observable<projectListModel[]>;
+  //total: Observable<number>;
   @ViewChildren(NgbdProfileSortableHeader) headers!: QueryList<NgbdProfileSortableHeader>;
 
-  constructor( private formBuilder: UntypedFormBuilder, private modalService: NgbModal,private TokenStorageService : TokenStorageService, public service: ProfileService) {
-    this.ListJsList = service.countries$;
-    this.total = service.total$;
+  constructor( private formBuilder: UntypedFormBuilder, private modalService: NgbModal,private TokenStorageService : TokenStorageService, public service: ProfileService, private router: Router) {
+    //this.ListJsList = service.countries$;
+    //this.total = service.total$;
    }
 
   ngOnInit(): void {
@@ -103,6 +104,13 @@ export class ProfileComponent {
     }else{
       return "Super Admin";
     }
+  }
+  
+  editarPerfil(){
+    
+    this.TokenStorageService.saveUserProfile(this.userData);
+
+    this.router.navigate(['/pages/profile-setting']);
   }
 
 }
