@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../../../../core/services/token-storage.service';import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 import { UserProfileService } from '../../../../core/services/user.service';import { AuthenticationService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import {Location} from '@angular/common';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -26,7 +27,7 @@ export class SettingsComponent implements OnInit {
   
   roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
 
-  constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService) { }
+  constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location) { }
 
   ngOnInit(): void {
     this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile(); 
@@ -160,11 +161,15 @@ export class SettingsComponent implements OnInit {
    this.showPreLoader();
 
    let token: any = localStorage.getItem('token') ? localStorage.getItem('token') : ''; 
+   
+   const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
 
     //Change Password
-    this.authenticationService.updatePassword(this.r['password'].value,this.r['cpassword'].value, token).subscribe(
+    this.authenticationService.updatePasswordProfile(this.r['password'].value,this.r['cpassword'].value, token, id).subscribe(
      (data: any) => {
        this.hidePreLoader();
+       this.submitted = false;
+       
        Swal.fire({
         title: 'Contraseña Actualizada!',
         icon: 'success',
@@ -202,6 +207,10 @@ export class SettingsComponent implements OnInit {
     }else{
       return "Super Admin";
     }
+  }
+
+  regresar() {
+    this._location.back();
   }
 
    // PreLoader
