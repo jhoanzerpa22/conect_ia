@@ -129,5 +129,17 @@ export class AuthenticationService {
         }, httpOptionsToken);
     }
 
+    
+    updatePasswordProfile(password: string, cpassword: string, token: string, id: number) {
+        var httpOptionsToken = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` })
+          };
+
+        return this.http.put(AUTH_API + 'update-pass-profile/'+id, {
+            "password": password,
+            "confirm_password": cpassword
+        }, httpOptionsToken);
+    }
+
 }
 
