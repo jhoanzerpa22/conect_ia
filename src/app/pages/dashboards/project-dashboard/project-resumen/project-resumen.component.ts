@@ -5686,19 +5686,19 @@ getChart(criticidad: any, config: any){
           break;  
 
         case 'elementos_no_evaluados':
-            return 3;
-            break;
+          return this.dashboard.tarjetas.countElementosNoEvaluados;
+          break;
         
         case 'elementos_cumple':
-              return 2;
+          return this.dashboard.tarjetas.countElementosCumple;
               break;
           
         case 'elementos_no_cumple':
-              return this.dashboard.tarjetas.countInstanciasNoCumple;
+          return this.dashboard.tarjetas.countElementosNoCumple;
               break;
           
         case 'elementos_cumple_parcial':
-              return 3;
+          return this.dashboard.tarjetas.countElementosCumpleParcial;
               break;
             break;
           
@@ -5992,19 +5992,19 @@ getChart(criticidad: any, config: any){
               break;
     
             case 'otros_alta':
-               return 10;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countAlta;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countAlta;//10;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countAlta;
                 break;
                         
             case 'otros_media':
-               return 10;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countMedia;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countMedia;//10;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countMedia;
                 break;
           
             case 'otros_baja':
-               return 4;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countBaja;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countBaja;//4;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countBaja;
                 break;
                             
             case 'otros_otros':
-               return 4;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countOtros;
+               return this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countOtros;//4;//this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countOtros;
                 break;
         
         /*case 'otros_gestionar':
