@@ -6699,7 +6699,7 @@ getChart(criticidad: any, config: any){
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
 
-    this.resetFiltro(this.project_id, true, this.filtro_area, /*this.tipo,*/ criticidad);
+    //this.resetFiltro(this.project_id, true, this.filtro_area, /*this.tipo,*/ criticidad);
     
     this.setChart();
   }
