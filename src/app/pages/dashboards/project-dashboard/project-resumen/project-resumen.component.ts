@@ -5381,6 +5381,176 @@ getDataCumplimientoAtributo(atributo?: any, criticidad?: any){
 
   }
 
+  getDataTipo(tipo: any, dato: any){
+    switch (dato) {
+      case 'cuerpos':
+        switch (tipo) {
+          case 'Cumple':
+            return 'cuerpos_cumple';
+            break;
+            case 'No Cumple':
+              return 'cuerpos_no_cumple';
+              break;
+              case 'Cumple Parcial':
+                return 'cuerpos_cumple_parcial';
+                break;
+                case 'No Evaluado':
+                  return 'cuerpos_no_evaluados';
+                  break;
+        
+          default:
+            break;
+        }
+        break;
+        
+      case 'articulos':
+        switch (tipo) {
+          case 'Cumple':
+            return 'articulos_cumple';
+            break;
+            case 'No Cumple':
+              return 'articulos_no_cumple';
+              break;
+              case 'Cumple Parcial':
+                return 'articulos_cumple_parcial';
+                break;
+                case 'No Evaluado':
+                  return 'articulos_no_evaluados';
+                  break;
+        
+          default:
+            break;
+        }
+        break;
+        
+        case 'instancias':
+          switch (tipo) {
+            case 'Cumple':
+              return 'instancias_cumple';
+              break;
+              case 'No Cumple':
+                return 'instancias_no_cumple';
+                break;
+                case 'Cumple Parcial':
+                  return 'instancias_cumple_parcial';
+                  break;
+                  case 'No Evaluado':
+                    return 'instancias_no_evaluadas';
+                    break;
+          
+            default:
+              break;
+          }
+          break;
+          
+        
+        case 'elementos':
+          switch (tipo) {
+            case 'Cumple':
+              return 'elementos_cumple';
+              break;
+              case 'No Cumple':
+                return 'elementos_no_cumple';
+                break;
+                case 'Cumple Parcial':
+                  return 'elementos_cumple_parcial';
+                  break;
+                  case 'No Evaluado':
+                    return 'elementos_no_evaluados';
+                    break;
+          
+            default:
+              break;
+          }
+          break;
+
+          case 'permisos':
+            switch (tipo) {
+              case 'Cumple':
+                return 'permisos_cumple';
+                break;
+                case 'No Cumple':
+                  return 'permisos_no_cumple';
+                  break;
+                  case 'Cumple Parcial':
+                    return 'permisos_cumple_parcial';
+                    break;
+                    case 'No Evaluado':
+                      return 'permisos_no_evaluados';
+                      break;
+            
+              default:
+                break;
+            }
+            break;
+
+            case 'reportes':
+              switch (tipo) {
+                case 'Cumple':
+                  return 'reportes_cumple';
+                  break;
+                  case 'No Cumple':
+                    return 'reportes_no_cumple';
+                    break;
+                    case 'Cumple Parcial':
+                      return 'reportes_cumple_parcial';
+                      break;
+                      case 'No Evaluado':
+                        return 'reportes_no_evaluados';
+                        break;
+              
+                default:
+                  break;
+              }
+              break;
+
+              case 'monitoreos':
+                switch (tipo) {
+                  case 'Cumple':
+                    return 'monitoreos_cumple';
+                    break;
+                    case 'No Cumple':
+                      return 'monitoreos_no_cumple';
+                      break;
+                      case 'Cumple Parcial':
+                        return 'monitoreos_cumple_parcial';
+                        break;
+                        case 'No Evaluado':
+                          return 'monitoreos_no_evaluados';
+                          break;
+                
+                  default:
+                    break;
+                }
+                break;
+
+                case 'otros':
+                  switch (tipo) {
+                    case 'Cumple':
+                      return 'otros_cumple';
+                      break;
+                      case 'No Cumple':
+                        return 'otros_no_cumple';
+                        break;
+                        case 'Cumple Parcial':
+                          return 'otros_cumple_parcial';
+                          break;
+                          case 'No Evaluado':
+                            return 'otros_no_evaluados';
+                            break;
+                  
+                    default:
+                      break;
+                  }
+                  break;
+    
+      default:
+        break;
+    }
+
+    return dato+'_evaluados';
+  }
+
 getChart(criticidad: any, config: any){
   let objeto: any = config;
 

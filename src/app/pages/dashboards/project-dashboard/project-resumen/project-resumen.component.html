@@ -156,11 +156,11 @@
                             <div class="col-xl-3 col-md-3">
                                 <div class="card card-height-100">
                                     <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                        <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES EVALUADOS</p>
+                                        <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES EVALUADOS </p>
                                                 
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboard('cuerpos_evaluados') > 0 ? getDataDashboard('cuerpos_evaluados') : 0}}/{{getDataDashboard('cuerpos') > 0 ? getDataDashboard('cuerpos') : 0}}</span>
+                                                        {{getDataDashboard(!tipo ? 'cuerpos_evaluados' : getDataTipo(tipo, 'cuerpos')) > 0 ? getDataDashboard(!tipo ? 'cuerpos_evaluados' : getDataTipo(tipo, 'cuerpos')) : 0}}/{{getDataDashboard('cuerpos') > 0 ? getDataDashboard('cuerpos') : 0}}</span>
                                                 </h4>
                                     </div>
                                     <div class="card-footer align-self-center text-success" style="text-align: center; width: 230px;">
@@ -182,7 +182,7 @@
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;"
                                                         >
-                                                        {{getDataDashboard('articulos_evaluados') > 0 ? getDataDashboard('articulos_evaluados') : 0}}/{{getDataDashboard('articulos') > 0 ? getDataDashboard('articulos') : 0}}
+                                                        {{getDataDashboard(!tipo ? 'articulos_evaluados' : getDataTipo(tipo, 'articulos')) > 0 ? getDataDashboard(!tipo ? 'articulos_evaluados' : getDataTipo(tipo, 'articulos')) : 0}}/{{getDataDashboard('articulos') > 0 ? getDataDashboard('articulos') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -207,7 +207,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                         <h4 class="fs-1">
                                             <span class="counter-value" style="color: #405189;">
-                                                {{getDataDashboard('instancias_evaluadas') > 0 ? getDataDashboard('instancias_evaluadas') : 0}}/{{getDataDashboard('instancias') > 0 ? getDataDashboard('instancias') : 0}}
+                                                {{getDataDashboard(!tipo ? 'instancias_evaluadas' : getDataTipo(tipo, 'instancias')) > 0 ? getDataDashboard(!tipo ? 'instancias_evaluadas' : getDataTipo(tipo, 'instancias')) : 0}}/{{getDataDashboard('instancias') > 0 ? getDataDashboard('instancias') : 0}}
                                                 
                                             </span>
                                         </h4>
@@ -234,7 +234,7 @@
                                          
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboard('elementos_evaluados') > 0 ? getDataDashboard('elementos_evaluados') : 0}}/{{getDataDashboard('elementos') > 0 ? getDataDashboard('elementos') : 0}}
+                                                        {{getDataDashboard(!tipo ? 'elementos_evaluados' : getDataTipo(tipo, 'elementos')) > 0 ? getDataDashboard(!tipo ? 'elementos_evaluados' : getDataTipo(tipo, 'elementos')) : 0}}/{{getDataDashboard('elementos') > 0 ? getDataDashboard('elementos') : 0}}
                                                     
                                                     </span>
                                                 </h4>
@@ -262,7 +262,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboard('permisos_evaluados') > 0 ? getDataDashboard('permisos_evaluados') : 0}}/{{getDataDashboard('permisos') > 0 ? getDataDashboard('permisos') : 0}}
+                                                        {{getDataDashboard(!tipo ? 'permisos_evaluados' : getDataTipo(tipo, 'permisos')) > 0 ? getDataDashboard(!tipo ? 'permisos_evaluados' : getDataTipo(tipo, 'permisos')) : 0}}/{{getDataDashboard('permisos') > 0 ? getDataDashboard('permisos') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -284,7 +284,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboard('reportes_evaluados') > 0 ? getDataDashboard('reportes_evaluados') : 0}}/{{getDataDashboard('reportes') > 0 ? getDataDashboard('reportes') : 0}}
+                                                        {{getDataDashboard(!tipo ? 'reportes_evaluados' : getDataTipo(tipo, 'reportes')) > 0 ? getDataDashboard(!tipo ? 'reportes_evaluados' : getDataTipo(tipo, 'reportes')) : 0}}/{{getDataDashboard('reportes') > 0 ? getDataDashboard('reportes') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -306,7 +306,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                 <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboard('monitoreos_evaluados') > 0 ? getDataDashboard('monitoreos_evaluados') : 0}}/{{getDataDashboard('monitoreos') > 0 ? getDataDashboard('monitoreos') : 0}}
+                                                        {{getDataDashboard(!tipo ? 'monitoreos_evaluados' : getDataTipo(tipo, 'monitoreos')) > 0 ? getDataDashboard(!tipo ? 'monitoreos_evaluados' : getDataTipo(tipo, 'monitoreos')) : 0}}/{{getDataDashboard('monitoreos') > 0 ? getDataDashboard('monitoreos') : 0}}
                                                         
                                                     </span>
                                                 </h4>
@@ -328,7 +328,7 @@
                                         <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                     <h4 class="fs-1">
                                                     <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboard('otros_evaluados') > 0 ? getDataDashboard('otros_evaluados') : 0}}/{{getDataDashboard('otros') > 0 ? getDataDashboard('otros') : 0}}
+                                                        {{getDataDashboard(!tipo ? 'otros_evaluados' : getDataTipo(tipo, 'otros')) > 0 ? getDataDashboard(!tipo ? 'otros_evaluados' : getDataTipo(tipo, 'otros')) : 0}}/{{getDataDashboard('otros') > 0 ? getDataDashboard('otros') : 0}}
                                                         
                                                     </span>
                                                     </h4>
