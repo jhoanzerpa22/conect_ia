@@ -43,7 +43,7 @@
                                         <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                         <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
                                             
-                                            <a class="dropdown-item" [ngClass]="!filtro_proyecto ? 'active' : ''" href="javascript:void(0);" (click)="selectProjectFiltro()">Todos</a>
+                                            <!--<a class="dropdown-item" [ngClass]="!filtro_proyecto ? 'active' : ''" href="javascript:void(0);" (click)="selectProjectFiltro()">Todos</a>-->
 
                                             <ng-container *ngFor="let p of projects;">
                                                 <a class="dropdown-item" [ngClass]="filtro_proyectoId && filtro_proyectoId == p.id ? 'active' : ''"  href="javascript:void(0);" (click)="selectProjectFiltro(p.id, p.nombre)">{{p.nombre}}</a>
