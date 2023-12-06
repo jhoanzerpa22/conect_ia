@@ -200,8 +200,8 @@ export class ProjectResumenComponent implements OnInit {
         this.getInstallations(params['id']);
         //this.getDashboardNew(params['id'], true);
         this.getDashboard(params['id'], true);
-        this.getDashboardArea(params['id'], 'default', true);
-        this.getDashboardInstalaciones(params['id'], 'articulos', true);
+        this.getDashboardArea(params['id'], 'instancias', true);
+        this.getDashboardInstalaciones(params['id'], 'instancias', true);
         //this.getDashboardCuerpo(params['id']);
         //this.getDashboardAreaCuerpo(params['id']);
       }else{
@@ -251,8 +251,8 @@ export class ProjectResumenComponent implements OnInit {
             this.getInstallations(proyecto);
             //this.getDashboardNew(proyecto, true);
             this.getDashboard(proyecto, true);
-            this.getDashboardArea(proyecto, 'default', true);
-            this.getDashboardInstalaciones(proyecto, 'articulos', true);
+            this.getDashboardArea(proyecto, 'instancias', true);
+            this.getDashboardInstalaciones(proyecto, 'instancias', true);
             //this.getDashboardCuerpo(proyecto);
             //this.getDashboardAreaCuerpo(proyecto);
           }
@@ -1094,7 +1094,6 @@ layers = [
       
         default:
             colors = '["--vz-success", "--vz-warning", "--vz-danger","--vz-gray"]';
-          
           break;
       }
     }
@@ -1142,6 +1141,7 @@ layers = [
               break;
           
             default:
+              colors = '["--vz-success"]';
               break;
           }
         }
@@ -1243,6 +1243,7 @@ layers = [
                 break;
           
             default:
+              colors = '["--vz-success"]';
               break;
           }
           }else{
@@ -1268,6 +1269,7 @@ layers = [
                 break;
           
             default:
+              colors = '["--vz-success"]';
               break;
           }
           }else{
@@ -1293,6 +1295,7 @@ layers = [
               break;
         
           default:
+            colors = '["--vz-success"]';
             break;
         }
         }else{
@@ -3169,9 +3172,9 @@ layers = [
     colors = this.getChartColorsArray(this.getColorsCriticidad(this.criticidad));
     this.basicBarChartGeneral = {
         series: [/*{
-            data: this.getDataDashboardArea('value','general'),
+            data: [2,3,1],//this.getDataDashboardArea('value','general'),
             name: 'Articulos',
-        }*/
+        },*/
         {
           data: this.getDataDashboardArea('value','general','cumple'),
           name: 'Cumple',
@@ -5305,6 +5308,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
                   break;
            
             default:
+              data = ['Cumple', 'Cumple Parcial', 'No Cumple', 'No evaluado'];
               break;
           }
         }else{
@@ -5329,6 +5333,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
                 break;
             
               default:
+                data = ['Cumple', 'Cumple Parcial', 'No Cumple', 'No evaluado'];
                 break;
             }
             break;
@@ -5351,6 +5356,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
                   break;
               
                 default:
+                  data = ['Cumple', 'Cumple Parcial', 'No Cumple', 'No evaluado'];
                   break;
               }
             break;
@@ -5373,6 +5379,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
                   break;
               
                 default:
+                  data = ['Cumple', 'Cumple Parcial', 'No Cumple', 'No evaluado'];
                   break;
               }
             break;
@@ -5383,6 +5390,7 @@ getCategoryCumplimientoAtributo(atributo?: any){
             break;
       
         default:
+          data = ['Cumple', 'Cumple Parcial', 'No Cumple', 'No evaluado'];
           break;
       }
     }
@@ -6544,6 +6552,7 @@ getChart(criticidad: any, config: any){
           break;
             
         default:
+          return 0;
           break;
       }
     } else {
@@ -6715,6 +6724,7 @@ getChart(criticidad: any, config: any){
             break;
             
         default:
+          return 0;
           break;
       }
     } else {
@@ -6727,6 +6737,7 @@ getChart(criticidad: any, config: any){
 
       let data: any = [];
       let data_type: any = [];
+      let valor: any = 0;
 
       switch (type) {
         case 'general':
@@ -6771,17 +6782,21 @@ getChart(criticidad: any, config: any){
             }else{*/
             if(this.tipo){
               switch (this.tipo) {
-                case 'Cumple':              
-                  data.push(data_type[x].total_cumple);
+                case 'Cumple':
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  data.push(valor);
                   break;
-                case 'Cumple Parcial':              
-                    data.push(data_type[x].total_cumple_parcial);
+                case 'Cumple Parcial':
+                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                    data.push(valor);
                     break;
-                case 'No Cumple':              
-                    data.push(data_type[x].total_no_cumple);
+                case 'No Cumple':   
+                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;           
+                    data.push(valor);
                     break;
-                case 'No Evaluado':              
-                    data.push(data_type[x].total_no_evaluado);
+                case 'No Evaluado': 
+                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                    data.push(valor);
                     break;
               
                 default:
@@ -6791,19 +6806,23 @@ getChart(criticidad: any, config: any){
             }else{
               switch (busqueda) {
                 case 'cumple':
-                  data.push(data_type[x].total_cumple);
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  data.push(valor);
                   break;
                   
                 case 'no_cumple':
-                  data.push(data_type[x].total_no_cumple);
+                  valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                  data.push(valor);
                   break;
               
                 case 'cumple_parcial':
-                  data.push(data_type[x].total_cumple_parcial);
+                  valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                  data.push(valor);
                   break;
                   
                 case 'no_evaluado':
-                  data.push(data_type[x].total_no_evaluado);
+                  valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                  data.push(valor);
                   break;
 
                 default:
@@ -6829,6 +6848,7 @@ getChart(criticidad: any, config: any){
 
       let data: any = [];
       let data_type: any = [];
+      let valor: any = 0;
 
       switch (type) {
         case 'general':
@@ -6866,17 +6886,21 @@ getChart(criticidad: any, config: any){
             }else{*/
             if(this.tipo){
               switch (this.tipo) {
-                case 'Cumple':              
-                  data.push(data_type[x].total_cumple);
+                case 'Cumple':
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;              
+                  data.push(valor);
                   break;
-                case 'Cumple Parcial':              
-                    data.push(data_type[x].total_cumple_parcial);
+                case 'Cumple Parcial':
+                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                    data.push(valor);
                     break;
-                case 'No Cumple':              
-                    data.push(data_type[x].total_no_cumple);
+                case 'No Cumple':    
+                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;          
+                    data.push(valor);
                     break;
-                case 'No Evaluado':              
-                    data.push(data_type[x].total_no_evaluado);
+                case 'No Evaluado': 
+                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                    data.push(valor);
                     break;
               
                 default:
@@ -6888,19 +6912,23 @@ getChart(criticidad: any, config: any){
 
               switch (busqueda) {
                 case 'cumple':
-                  data.push(data_type[x].total_cumple);
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  data.push(valor);
                   break;
                   
                 case 'no_cumple':
-                  data.push(data_type[x].total_no_cumple);
+                  valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                  data.push(valor);
                   break;
               
                 case 'cumple_parcial':
-                  data.push(data_type[x].total_cumple_parcial);
+                  valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                  data.push(valor);
                   break;
                   
                 case 'no_evaluado':
-                  data.push(data_type[x].total_no_evaluado);
+                  valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                  data.push(valor);
                   break;
 
                 default:
@@ -7428,10 +7456,10 @@ getChart(criticidad: any, config: any){
        (data: any) => {
          console.log('dataDashboardArea',data);
          this.dashboardArea = data.data;
-         if(refresh){
+         //if(refresh){
            this._basicBarChartGeneral('["--vz-info"]');
            this._basicBarChartAtributos('["--vz-info"]');
-         }
+         //}
          //this.project = data.data;
      },
      (error: any) => {
