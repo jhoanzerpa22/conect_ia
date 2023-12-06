@@ -3315,19 +3315,35 @@ layers = [
             data: this.getDataDashboardInstallation('value','general'),
             name: 'Articulos',
         }*/{
-          data: this.getDataDashboardInstallation('value','general','alta'),
+          data: this.getDataDashboardInstallation('value','general','cumple'),
           name: 'Cumple',
         },
         {
-          data: this.getDataDashboardInstallation('value','general','media'),
+          data: this.getDataDashboardInstallation('value','general','cumple_parcial'),
           name: 'Cumple Parcial',
         },
         {
-          data: this.getDataDashboardInstallation('value','general','baja'),
+          data: this.getDataDashboardInstallation('value','general','no_cumple'),
           name: 'No Cumple',
         },
         {
-          data: this.getDataDashboardInstallation('value','general','otros'),
+          data: this.getDataDashboardInstallation('value','general','no_evaluado'),
+          name: 'No Evaluado',
+        }],
+        seriesCumple: [{
+          data: this.getDataDashboardInstallation('value','general','cumple'),
+          name: 'Cumple',
+        }],
+        seriesCumpleParcial: [{
+        data: this.getDataDashboardInstallation('value','general','cumple_parcial'),
+        name: 'Cumple Parcial',
+      }],
+          seriesNoCumple: [{
+          data: this.getDataDashboardInstallation('value','general','no_cumple'),
+          name: 'No Cumple',
+        }],
+          seriesNoEvaluado: [{
+          data: this.getDataDashboardInstallation('value','general','no_evaluado'),
           name: 'No Evaluado',
         }],
         seriesCriticidad: [{
@@ -4499,21 +4515,37 @@ private _basicBarChartAtributosInstallations(colors: any) {
         data: this.getDataDashboardInstallation('value','permisos'),
         name: 'Articulos',
     }*/{
-          data: this.getDataDashboardInstallation('value','permisos','alta'),
+          data: this.getDataDashboardInstallation('value','permisos','cumple'),
           name: 'Cumple',
         },
         {
-          data: this.getDataDashboardInstallation('value','permisos','media'),
+          data: this.getDataDashboardInstallation('value','permisos','cumple_parcial'),
           name: 'Cumple Parcial',
         },
         {
-          data: this.getDataDashboardInstallation('value','permisos','baja'),
+          data: this.getDataDashboardInstallation('value','permisos','no_cumple'),
           name: 'No Cumple',
         },
         {
-          data: this.getDataDashboardInstallation('value','permisos','otros'),
+          data: this.getDataDashboardInstallation('value','permisos','no_evaluado'),
           name: 'No Evaluado',
         }], 
+        seriesCumple: [{
+          data: this.getDataDashboardInstallation('value','permisos','cumple'),
+          name: 'Cumple',
+        }],
+        seriesCumpleParcial: [{
+        data: this.getDataDashboardInstallation('value','permisos','cumple_parcial'),
+        name: 'Cumple Parcial',
+      }],
+          seriesNoCumple: [{
+          data: this.getDataDashboardInstallation('value','permisos','no_cumple'),
+          name: 'No Cumple',
+        }],
+          seriesNoEvaluado: [{
+          data: this.getDataDashboardInstallation('value','permisos','no_evaluado'),
+          name: 'No Evaluado',
+        }],
 seriesCriticidad: [{
   data: this.getDataDashboardInstallation('value','permisos','alta'),
   name: 'Alta',
@@ -4616,19 +4648,35 @@ this.basicBarChartReportesInstallations = {
       data: this.getDataDashboardInstallation('value','reportes'),
       name: 'Articulos',
   }*/{
-          data: this.getDataDashboardInstallation('value','reportes','alta'),
+          data: this.getDataDashboardInstallation('value','reportes','cumple'),
           name: 'Cumple',
         },
         {
-          data: this.getDataDashboardInstallation('value','reportes','media'),
+          data: this.getDataDashboardInstallation('value','reportes','cumple_parcial'),
           name: 'Cumple Parcial',
         },
         {
-          data: this.getDataDashboardInstallation('value','reportes','baja'),
+          data: this.getDataDashboardInstallation('value','reportes','no_cumple'),
           name: 'No Cumple',
         },
         {
-          data: this.getDataDashboardInstallation('value','reportes','otros'),
+          data: this.getDataDashboardInstallation('value','reportes','no_evaluado'),
+          name: 'No Evaluado',
+        }],
+        seriesCumple: [{
+          data: this.getDataDashboardInstallation('value','reportes','cumple'),
+          name: 'Cumple',
+        }],
+        seriesCumpleParcial: [{
+        data: this.getDataDashboardInstallation('value','reportes','cumple_parcial'),
+        name: 'Cumple Parcial',
+      }],
+          seriesNoCumple: [{
+          data: this.getDataDashboardInstallation('value','reportes','no_cumple'),
+          name: 'No Cumple',
+        }],
+          seriesNoEvaluado: [{
+          data: this.getDataDashboardInstallation('value','reportes','no_evaluado'),
           name: 'No Evaluado',
         }],
 seriesCriticidad: [{
@@ -4733,19 +4781,35 @@ series: [/*{
     data: this.getDataDashboardInstallation('value','monitoreos'),
     name: 'Articulos',
 }*/{
-  data: this.getDataDashboardInstallation('value','monitoreos','alta'),
+  data: this.getDataDashboardInstallation('value','monitoreos','cumple'),
   name: 'Cumple',
 },
 {
-  data: this.getDataDashboardInstallation('value','monitoreos','media'),
+  data: this.getDataDashboardInstallation('value','monitoreos','cumple_parcial'),
   name: 'Cumple Parcial',
 },
 {
-  data: this.getDataDashboardInstallation('value','monitoreos','baja'),
+  data: this.getDataDashboardInstallation('value','monitoreos','no_cumple'),
   name: 'No Cumple',
 },
 {
-  data: this.getDataDashboardInstallation('value','monitoreos','otros'),
+  data: this.getDataDashboardInstallation('value','monitoreos','no_evaluado'),
+  name: 'No Evaluado',
+}],
+seriesCumple: [{
+  data: this.getDataDashboardInstallation('value','monitoreos','cumple'),
+  name: 'Cumple',
+}],
+seriesCumpleParcial: [{
+data: this.getDataDashboardInstallation('value','monitoreos','cumple_parcial'),
+name: 'Cumple Parcial',
+}],
+  seriesNoCumple: [{
+  data: this.getDataDashboardInstallation('value','monitoreos','no_cumple'),
+  name: 'No Cumple',
+}],
+  seriesNoEvaluado: [{
+  data: this.getDataDashboardInstallation('value','monitoreos','no_evaluado'),
   name: 'No Evaluado',
 }],
 seriesCriticidad: [{
@@ -4850,19 +4914,35 @@ series: [/*{
     data: this.getDataDashboardInstallation('value','otros'),
     name: 'Articulos',
 }*/{
-  data: this.getDataDashboardInstallation('value','otros','alta'),
+  data: this.getDataDashboardInstallation('value','otros','cumple'),
   name: 'Cumple',
 },
 {
-  data: this.getDataDashboardInstallation('value','otros','media'),
+  data: this.getDataDashboardInstallation('value','otros','cumple_parcial'),
   name: 'Cumple Parcial',
 },
 {
-  data: this.getDataDashboardInstallation('value','otros','baja'),
+  data: this.getDataDashboardInstallation('value','otros','no_cumple'),
   name: 'No Cumple',
 },
 {
-  data: this.getDataDashboardInstallation('value','otros','otros'),
+  data: this.getDataDashboardInstallation('value','otros','no_evaluado'),
+  name: 'No Evaluado',
+}],
+seriesCumple: [{
+  data: this.getDataDashboardInstallation('value','otros','cumple'),
+  name: 'Cumple',
+}],
+seriesCumpleParcial: [{
+data: this.getDataDashboardInstallation('value','otros','cumple_parcial'),
+name: 'Cumple Parcial',
+}],
+  seriesNoCumple: [{
+  data: this.getDataDashboardInstallation('value','otros','no_cumple'),
+  name: 'No Cumple',
+}],
+  seriesNoEvaluado: [{
+  data: this.getDataDashboardInstallation('value','otros','no_evaluado'),
   name: 'No Evaluado',
 }],
 seriesCriticidad: [{
@@ -6744,7 +6824,7 @@ getChart(criticidad: any, config: any){
     }
   }
 
-  getDataDashboardInstallation(parametro: any, type?: any, criticidad?: any){
+  getDataDashboardInstallation(parametro: any, type?: any, busqueda?: any){
     if(this.dashboardInstallation){
 
       let data: any = [];
@@ -6776,31 +6856,54 @@ getChart(criticidad: any, config: any){
         switch (parametro) {
           case 'label':
             //if((criticidad && data_type[x].criticidad[criticidad] > 0) || (!criticidad && data_type[x].total > 0)){
-              data.push(data_type[x].nombre);
+              data.push(data_type[x].nombreArea);
             //}
             break;
           
           case 'value':
-            if(criticidad/* && data_type[x].criticidad[criticidad] > 0*/){
+            /*if(criticidad// && data_type[x].criticidad[criticidad] > 0){
               data.push(data_type[x].criticidad[criticidad]);
-            }else{
-              
+            }else{*/
+            if(this.tipo){
               switch (this.tipo) {
-                case 'Gestionar':              
-                    //if(data_type[x].total_gestionar > 0){
-                      data.push(data_type[x].total_gestionar);
-                    //}
+                case 'Cumple':              
+                  data.push(data_type[x].total_cumple);
                   break;
-                  case 'Por definir':              
-                      //if(data_type[x].total_definir > 0){
-                        data.push(data_type[x].total_definir);
-                      //}
+                case 'Cumple Parcial':              
+                    data.push(data_type[x].total_cumple_parcial);
+                    break;
+                case 'No Cumple':              
+                    data.push(data_type[x].total_no_cumple);
+                    break;
+                case 'No Evaluado':              
+                    data.push(data_type[x].total_no_evaluado);
                     break;
               
                 default:
-                    //if(data_type[x].total > 0){
-                    data.push(data_type[x].total);
-                    //}
+                  data.push(data_type[x].total);
+                  break;
+              
+              }
+            }else{
+
+              switch (busqueda) {
+                case 'cumple':
+                  data.push(data_type[x].total_cumple);
+                  break;
+                  
+                case 'no_cumple':
+                  data.push(data_type[x].total_no_cumple);
+                  break;
+              
+                case 'cumple_parcial':
+                  data.push(data_type[x].total_cumple_parcial);
+                  break;
+                  
+                case 'no_evaluado':
+                  data.push(data_type[x].total_no_evaluado);
+                  break;
+
+                default:
                   break;
               }
             }
@@ -7338,7 +7441,7 @@ getChart(criticidad: any, config: any){
   }
   
  getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
-   this.projectsService.getDashboardInstalations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
+   this.projectsService.getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
      (data: any) => {
        console.log('dataDashboardInstalaciones',data);
        this.dashboardInstallation = data.data;
