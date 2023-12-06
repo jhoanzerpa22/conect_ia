@@ -532,7 +532,7 @@
                                         </div>
                                         <div class="card-body p-0">
                                             <div>
-                                                <apx-chart [series]="getSeries(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
+                                                <apx-chart [series]="getSeriesArea(criticidad, basicBarChartGeneral)" [colors]="basicBarChartGeneral.colors"
                                                     [chart]="getChart(criticidad, basicBarChartGeneral.chart)" [dataLabels]="basicBarChartGeneral.dataLabels"
                                                     [plotOptions]="basicBarChartGeneral.plotOptions" dir="ltr"
                                                     [xaxis]="basicBarChartGeneral.xaxis" [yaxis]="basicBarChartGeneral.yaxis" [stroke]="basicBarChartGeneral.stroke"
@@ -552,7 +552,7 @@
                                             
                                             <h4>Permisos por área</h4>
 
-                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
+                                                <apx-chart [series]="getSeriesArea(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
                                                 [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
                                                     [plotOptions]="basicBarChartPermisos.plotOptions" dir="ltr"
                                                     [xaxis]="basicBarChartPermisos.xaxis" [yaxis]="basicBarChartPermisos.yaxis" [stroke]="basicBarChartPermisos.stroke"
@@ -569,7 +569,7 @@
                                                 
                                                 <h4>Reportes por área</h4>
     
-                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
+                                                    <apx-chart [series]="getSeriesArea(criticidad, basicBarChartReportes)" [colors]="basicBarChartReportes.colors"
                                                         [chart]="getChart(criticidad, basicBarChartReportes.chart)" [dataLabels]="basicBarChartReportes.dataLabels"
                                                         [plotOptions]="basicBarChartReportes.plotOptions" dir="ltr" 
                                                         [xaxis]="basicBarChartReportes.xaxis" [yaxis]="basicBarChartReportes.yaxis" [stroke]="basicBarChartReportes.stroke"
@@ -590,7 +590,7 @@
                                             
                                             <h4>Monitoreos por área</h4>
 
-                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
+                                                <apx-chart [series]="getSeriesArea(criticidad, basicBarChartMonitoreos)" [colors]="basicBarChartMonitoreos.colors"
                                                     [chart]="getChart(criticidad, basicBarChartMonitoreos.chart)" [dataLabels]="basicBarChartMonitoreos.dataLabels"
                                                     [plotOptions]="basicBarChartMonitoreos.plotOptions" dir="ltr" 
                                                     [xaxis]="basicBarChartMonitoreos.xaxis" [yaxis]="basicBarChartMonitoreos.yaxis" [stroke]="basicBarChartMonitoreos.stroke"
@@ -607,7 +607,7 @@
                                                 
                                                 <h4>Otras Obligaciones por área</h4>
     
-                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
+                                                    <apx-chart [series]="getSeriesArea(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
                                                         [chart]="getChart(criticidad, basicBarChartOtros.chart)" [dataLabels]="basicBarChartOtros.dataLabels"
                                                         [plotOptions]="basicBarChartOtros.plotOptions" dir="ltr"
                                                         [xaxis]="basicBarChartOtros.xaxis" [yaxis]="basicBarChartOtros.yaxis" [stroke]="basicBarChartOtros.stroke"
@@ -618,8 +618,6 @@
                                         </div>
                                         </div>
                                 </div>
-
-                                
 
                                 <div class="row mb-3 align-items-center justify-content-center">
                                     
@@ -643,7 +641,7 @@
                                         </div>
                                         <div class="card-body p-0">
                                             <div>
-                                                <apx-chart [series]="getSeries(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
+                                                <apx-chart [series]="getSeriesArea(criticidad, basicBarChartGeneralInstallation)" [colors]="basicBarChartGeneralInstallation.colors"
                                                     [chart]="getChart(criticidad, basicBarChartGeneralInstallation.chart)" [dataLabels]="basicBarChartGeneralInstallation.dataLabels"
                                                     [plotOptions]="basicBarChartGeneralInstallation.plotOptions" dir="ltr"
                                                     [xaxis]="basicBarChartGeneralInstallation.xaxis" [yaxis]="basicBarChartGeneralInstallation.yaxis" [stroke]="basicBarChartGeneralInstallation.stroke"
@@ -663,7 +661,7 @@
                                             
                                             <h4>Permisos por Elemento y actividad</h4>
 
-                                                <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
+                                                <apx-chart [series]="getSeriesArea(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
                                                     [chart]="getChart(criticidad, basicBarChartPermisosInstallations.chart)" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
                                                     [plotOptions]="basicBarChartPermisosInstallations.plotOptions" dir="ltr" 
                                                     [xaxis]="basicBarChartPermisosInstallations.xaxis" [yaxis]="basicBarChartPermisosInstallations.yaxis" [stroke]="basicBarChartPermisosInstallations.stroke"
@@ -680,7 +678,7 @@
                                                 
                                                 <h4>Reportes por Elemento y actividad</h4>
     
-                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
+                                                    <apx-chart [series]="getSeriesArea(criticidad, basicBarChartReportesInstallations)" [colors]="basicBarChartReportesInstallations.colors"
                                                         [chart]="getChart(criticidad, basicBarChartReportesInstallations.chart)" [dataLabels]="basicBarChartReportesInstallations.dataLabels"
                                                         [plotOptions]="basicBarChartReportesInstallations.plotOptions" dir="ltr" 
                                                         [xaxis]="basicBarChartReportesInstallations.xaxis" [yaxis]="basicBarChartReportesInstallations.yaxis" [stroke]="basicBarChartReportesInstallations.stroke"
@@ -701,7 +699,7 @@
                                             
                                             <h4>Monitoreos por Elemento y actividad</h4>
 
-                                                <apx-chart [series]="getSeries(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
+                                                <apx-chart [series]="getSeriesArea(criticidad, basicBarChartMonitoreosInstallations)" [colors]="basicBarChartMonitoreosInstallations.colors"
                                                     [chart]="getChart(criticidad, basicBarChartMonitoreosInstallations.chart)" [dataLabels]="basicBarChartMonitoreosInstallations.dataLabels"
                                                     [plotOptions]="basicBarChartMonitoreosInstallations.plotOptions" dir="ltr" 
                                                     [xaxis]="basicBarChartMonitoreosInstallations.xaxis" [yaxis]="basicBarChartMonitoreosInstallations.yaxis" [stroke]="basicBarChartMonitoreosInstallations.stroke"
@@ -718,7 +716,7 @@
                                                 
                                                 <h4>Otras Obligaciones por Elemento y actividad</h4>
     
-                                                    <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
+                                                    <apx-chart [series]="getSeriesArea(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
                                                         [chart]="getChart(criticidad, basicBarChartOtrosInstallations.chart)" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
                                                         [plotOptions]="basicBarChartOtrosInstallations.plotOptions" dir="ltr" 
                                                         [xaxis]="basicBarChartOtrosInstallations.xaxis" [yaxis]="basicBarChartOtrosInstallations.yaxis" [stroke]="basicBarChartOtrosInstallations.stroke"
