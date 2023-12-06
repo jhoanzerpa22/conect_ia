@@ -7607,7 +7607,6 @@ getChart(criticidad: any, config: any){
               switch (busqueda) {
                 case 'cumple':
                   valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
-                  console.log('VALOR',valor);
                   data.push(valor);
                   break;
                   
@@ -7746,7 +7745,6 @@ getChart(criticidad: any, config: any){
           }
 
         });
-        console.log('Articulo_agrupado',this.articles_proyects_group);
 
         //if(refresh){
           this.setChartCuerpo();
@@ -7857,12 +7855,14 @@ getChart(criticidad: any, config: any){
             
       this.getProject(id);    
       this.getAreas(id);
+      this.getArticleProyect(id);
       this.getEvaluations(id);
       this.getInstallations(id);
       
       this.resetFiltro(this.project_id, true, this.filtro_area, this. criticidad);
     
       this.setChart();
+      this.setChartCuerpo();
     }else{
       
       /*this.resetFiltro(this.project_id, true, this.filtro_area, this. criticidad);
