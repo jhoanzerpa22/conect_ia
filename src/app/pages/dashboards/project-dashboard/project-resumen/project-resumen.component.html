@@ -900,7 +900,7 @@
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;"
                                                           >
-                                                          {{getDataDashboardCuerpo('articulos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('articulos_evaluados')}}/{{getDataDashboardCuerpo('articulos') < 1 ? 0 : getDataDashboardCuerpo('articulos')}}
+                                                          {{getDataDashboardCuerpo(!tipo_cuerpo ? 'articulos_evaluados' : getDataTipo(tipo_cuerpo, 'articulos')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'articulos_evaluados' : getDataTipo(tipo_cuerpo, 'articulos')) : 0}}/{{getDataDashboardCuerpo('articulos') > 0 ? getDataDashboardCuerpo('articulos') : 0}}
                                                       </span>
                                                   </h4>
                                               <!--</div>
@@ -924,7 +924,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">INSTANCIAS DE CUMPLIMIENTO</p>
                                           <h4 class="fs-1">
                                               <span class="counter-value" style="color: #405189;">
-                                                {{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboardCuerpo('instancias') < 1 ? 0 : getDataDashboardCuerpo('instancias')}}
+                                                {{getDataDashboardCuerpo(!tipo_cuerpo ? 'instancias_evaluadas' : getDataTipo(tipo_cuerpo, 'instancias')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'instancias_evaluadas' : getDataTipo(tipo_cuerpo, 'instancias')) : 0}}/{{getDataDashboardCuerpo('instancias') > 0 ? getDataDashboardCuerpo('instancias') : 0}}
                                               </span>
                                           </h4>
                                               <!--</div>
@@ -950,7 +950,7 @@
                                            
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboardCuerpo('elementos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('elementos_evaluados')}}/{{getDataDashboardCuerpo('elementos') < 1 ? 0 : getDataDashboardCuerpo('elementos')}}
+                                                        {{getDataDashboardCuerpo(!tipo_cuerpo ? 'elementos_evaluados' : getDataTipo(tipo_cuerpo, 'elementos')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'elementos_evaluados' : getDataTipo(tipo_cuerpo, 'elementos')) : 0}}/{{getDataDashboardCuerpo('elementos') > 0 ? getDataDashboardCuerpo('elementos') : 0}}
                                                       </span>
                                                   </h4>
                                               <!--</div>
@@ -977,7 +977,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboardCuerpo('permisos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('permisos_evaluados')}}/{{getDataDashboardCuerpo('permisos') < 1 ? 0 : getDataDashboardCuerpo('permisos')}}
+                                                        {{getDataDashboardCuerpo(!tipo_cuerpo ? 'permisos_evaluados' : getDataTipo(tipo_cuerpo, 'permisos')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'permisos_evaluados' : getDataTipo(tipo_cuerpo, 'permisos')) : 0}}/{{getDataDashboardCuerpo('permisos') > 0 ? getDataDashboardCuerpo('permisos') : 0}}
                                                       </span>
                                                   </h4>
                                       </div>
@@ -998,7 +998,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">REPORTES</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboardCuerpo('reportes_evaluados') < 1 ? 0 : getDataDashboardCuerpo('reportes_evaluados')}}/{{getDataDashboardCuerpo('reportes') < 1 ? 0 : getDataDashboardCuerpo('reportes')}}
+                                                        {{getDataDashboardCuerpo(!tipo_cuerpo ? 'reportes_evaluados' : getDataTipo(tipo_cuerpo, 'reportes')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'reportes_evaluados' : getDataTipo(tipo_cuerpo, 'reportes')) : 0}}/{{getDataDashboardCuerpo('reportes') > 0 ? getDataDashboardCuerpo('reportes') : 0}}
                                                       </span>
                                                   </h4>
                                       </div>
@@ -1019,7 +1019,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">MONITOREOS</p>
                                                   <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboardCuerpo('monitoreos_evaluados') < 1 ? 0 : getDataDashboardCuerpo('monitoreos_evaluados')}}/{{getDataDashboardCuerpo('monitoreos') < 1 ? 0 : getDataDashboardCuerpo('monitoreos')}}
+                                                        {{getDataDashboardCuerpo(!tipo_cuerpo ? 'monitoreos_evaluados' : getDataTipo(tipo_cuerpo, 'monitoreos')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'monitoreos_evaluados' : getDataTipo(tipo_cuerpo, 'monitoreos')) : 0}}/{{getDataDashboardCuerpo('monitoreos') > 0 ? getDataDashboardCuerpo('monitoreos') : 0}}
                                                       </span>
                                                   </h4>
                                       </div>
@@ -1041,7 +1041,7 @@
                                           <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
                                                       <h4 class="fs-1">
                                                       <span class="counter-value" style="color: #405189;">
-                                                        {{getDataDashboardCuerpo('otros_evaluados') < 1 ? 0 : getDataDashboardCuerpo('otros_evaluados')}}/{{getDataDashboardCuerpo('otros') < 1 ? 0 : getDataDashboardCuerpo('otros')}}
+                                                        {{getDataDashboardCuerpo(!tipo_cuerpo ? 'otros_evaluados' : getDataTipo(tipo_cuerpo, 'otros')) > 0 ? getDataDashboardCuerpo(!tipo_cuerpo ? 'otros_evaluados' : getDataTipo(tipo_cuerpo, 'otros')) : 0}}/{{getDataDashboardCuerpo('otros') > 0 ? getDataDashboardCuerpo('otros') : 0}}
                                                       </span>
                                                       </h4>
                                       </div>
@@ -1066,7 +1066,7 @@
                                     
                                     <h4>Instancias de cumplimiento por área</h4>
         
-                                        <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
+                                        <apx-chart [series]="getSeriesArea(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
                                             [chart]="getChart(criticidad, basicBarChartGeneralCuerpos.chart)" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
                                             [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr"
                                             [xaxis]="basicBarChartGeneralCuerpos.xaxis" [yaxis]="basicBarChartGeneralCuerpos.yaxis" [stroke]="basicBarChartGeneralCuerpos.stroke"
@@ -1084,8 +1084,8 @@
                         <div class="card-body">
                                 <h4>Instancias de cumplimiento por Elemento y actividad</h4>
                             
-                                <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation)" [colors]="basicBarChartGeneralCuerposInstallation.colors"
-                                    [chart]="getChart(criticidad, basicBarChartGeneralCuerposInstallation.chart)" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
+                                <apx-chart [series]="getSeriesArea(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation)" [colors]="basicBarChartGeneralCuerposInstallation.colors"
+                                    [chart]="getChart(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation.chart)" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
                                     [plotOptions]="basicBarChartGeneralCuerposInstallation.plotOptions" dir="ltr"
                                     [xaxis]="basicBarChartGeneralCuerposInstallation.xaxis" [yaxis]="basicBarChartGeneralCuerposInstallation.yaxis" [stroke]="basicBarChartGeneralCuerposInstallation.stroke"
                                     [fill]="basicBarChartGeneralCuerposInstallation.fill" [title]="basicBarChartGeneralCuerposInstallation.title"

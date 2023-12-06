@@ -202,8 +202,8 @@ export class ProjectResumenComponent implements OnInit {
         this.getDashboard(params['id'], true);
         this.getDashboardArea(params['id'], 'instancias', true);
         this.getDashboardInstalaciones(params['id'], 'instancias', true);
-        //this.getDashboardCuerpo(params['id']);
-        //this.getDashboardAreaCuerpo(params['id']);
+        //this.getDashboardCuerpo(params['id'], true);
+        //this.getDashboardAreaCuerpo(params['id'], 'instancias', true);
       }else{
         this.getProjects();
       }
@@ -253,8 +253,8 @@ export class ProjectResumenComponent implements OnInit {
             this.getDashboard(proyecto, true);
             this.getDashboardArea(proyecto, 'instancias', true);
             this.getDashboardInstalaciones(proyecto, 'instancias', true);
-            //this.getDashboardCuerpo(proyecto);
-            //this.getDashboardAreaCuerpo(proyecto);
+            //this.getDashboardCuerpo(proyecto, true);
+            //this.getDashboardAreaCuerpo(proyecto, 'instancias', true);
           }
           this.hidePreLoader();
       },
@@ -5070,6 +5070,22 @@ private _basicBarChartGeneralCuerpos(colors: any) {
         data: this.getDataDashboardAreaCuerpo('value','general','no_evaluado'),
         name: 'No Evaluado',
       }],
+      seriesCumple: [{
+        data: this.getDataDashboardAreaCuerpo('value','general','cumple'),
+        name: 'Cumple',
+      }],
+      seriesCumpleParcial: [{
+      data: this.getDataDashboardAreaCuerpo('value','general','cumple_parcial'),
+      name: 'Cumple Parcial',
+    }],
+        seriesNoCumple: [{
+        data: this.getDataDashboardAreaCuerpo('value','general','no_cumple'),
+        name: 'No Cumple',
+      }],
+        seriesNoEvaluado: [{
+        data: this.getDataDashboardAreaCuerpo('value','general','no_evaluado'),
+        name: 'No Evaluado',
+      }],
       seriesCriticidad: [{
         data: this.getDataDashboardAreaCuerpo('value','general','alta'),
         name: 'Alta',
@@ -5115,6 +5131,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
           bar: {
               //borderRadius: 4,
               horizontal: true,
+              columnWidth: '80%',
               distributed: false,
               dataLabels: {
                 position: 'top',
@@ -5190,7 +5207,22 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
         data: this.getDataDashboardInstallationCuerpo('value','general','no_evaluado'),
         name: 'No Evaluado',
       }],
-      
+      seriesCumple: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','cumple'),
+        name: 'Cumple',
+      }],
+      seriesCumpleParcial: [{
+      data: this.getDataDashboardInstallationCuerpo('value','general','cumple_parcial'),
+      name: 'Cumple Parcial',
+    }],
+        seriesNoCumple: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','no_cumple'),
+        name: 'No Cumple',
+      }],
+        seriesNoEvaluado: [{
+        data: this.getDataDashboardInstallationCuerpo('value','general','no_evaluado'),
+        name: 'No Evaluado',
+      }],
       seriesCriticidad: [{
         data: this.getDataDashboardInstallationCuerpo('value','general','alta'),
         name: 'Alta',
@@ -5232,6 +5264,10 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
               show: false,
           }
       },
+      stroke: {
+        width: 1,
+        colors: ["#fff"],
+      },
       plotOptions: {
           bar: {
               //borderRadius: 4,
@@ -5239,30 +5275,29 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
               distributed: false,
               dataLabels: {
                   position: 'top',
+                  style: {
+                  colors: [this.criticidad_cuerpo ? '#ffffff' : '#ffffff'/*'#f7b84b'*/]
+                  }
               },
           },
           dataLabels: {
             enabled: true,
             style: {
-            colors: [this.criticidad ? '#ffffff' : '#ffffff']
+            colors: [this.criticidad_cuerpo ? '#ffffff' : '#ffffff']
             },
-            offsetX: this.criticidad ? 0 : 0
+            offsetX: this.criticidad_cuerpo ? 0 : 0
           },
       },
       dataLabels: {
           enabled: true,
-          offsetX: 0,
+          offsetX: this.criticidad_cuerpo ? 0 : 0,
           style: {
-              fontSize: '12px',
-              fontWeight: 400,
-              colors: ['#ffffff']
+              //fontSize: '12px',
+              //fontWeight: 400,
+              colors: [this.criticidad_cuerpo ? '#ffffff' : '#ffffff']
           }
       },
       colors: colors,
-      stroke: {
-        width: 1,
-        colors: ["#fff"],
-      },
       tooltip: {
         y: {
           formatter: function (val:any) {
@@ -6561,11 +6596,59 @@ getChart(criticidad: any, config: any){
   }
 
   getDataDashboardCuerpo(type: any){
+    let evaluado = 0;
     if(this.dashboardCuerpo){
       switch (type) {
         case 'cuerpos':
           return this.dashboardCuerpo.tarjetas.countCuerpoLegal;
           break;
+          
+        case 'cuerpos_evaluados':
+            return this.dashboardCuerpo.estadoCuerposLegales.countEvaluados;
+            break;
+          
+        case 'cuerpos_no_evaluados':
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.noEvaluado > 0 ? this.dashboard_new.torta1.noEvaluado : 0;*/this.dashboardCuerpo.estadoCuerposLegales.countNoEvaluados;
+            break;
+        
+        case 'cuerpos_cumple':
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.cumple > 0 ? this.dashboard_new.torta1.cumple : 0;*/this.dashboardCuerpo.estadoCuerposLegales.countCumple;
+            break;
+        
+        case 'cuerpos_no_cumple':
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.noCumple > 0 ? this.dashboard_new.torta1.noCumple : 0;*/this.dashboardCuerpo.estadoCuerposLegales.countNoCumple;
+            break;
+        
+        case 'cuerpos_cumple_parcial':
+            return /*this.dashboard_new && this.dashboard_new.torta1 && this.dashboard_new.torta1.cumpleParcial > 0 ? this.dashboard_new.torta1.cumpleParcial : 0;*/this.dashboardCuerpo.estadoCuerposLegales.countCumpleParcial;
+            break;
+          
+        case 'cuerpos_cumplimiento':
+            
+            evaluado = this.dashboardCuerpo.estadoCuerposLegales.countEvaluados;
+
+            if(this.tipo_cuerpo){
+              switch (this.tipo_cuerpo) {
+                case 'Cumple':
+                  evaluado = this.dashboardCuerpo.estadoCuerposLegales.countCumple;
+                  break;
+                  case 'Cumple Parcial':
+                    evaluado = this.dashboardCuerpo.estadoCuerposLegales.countCumpleParcial;
+                    break;
+                    case 'No Cumple':
+                      evaluado = this.dashboardCuerpo.estadoCuerposLegales.countNoCumple;
+                      break;
+                      case 'No Evaluado':
+                        evaluado = this.dashboardCuerpo.estadoCuerposLegales.countNoEvaluados;
+                        break;
+              
+                default:
+                  break;
+              }
+            }
+
+            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countCuerpoLegal > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countCuerpoLegal).toFixed() : 0;
+            break;
         
         case 'articulos':
           return this.dashboardCuerpo.tarjetas.countArticulos;
@@ -6578,15 +6661,54 @@ getChart(criticidad: any, config: any){
         case 'elementos':
           return this.dashboardCuerpo.tarjetas.countInstalaciones;
           break;
-
+          
         case 'elementos_evaluados':
           return this.dashboardCuerpo.tarjetas.countElementosEvaluados;
           break;
         
         case 'elementos_cumplimiento':
-          return this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((this.dashboardCuerpo.tarjetas.countElementosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
+          
+        evaluado = this.dashboardCuerpo.tarjetas.countElementosEvaluados;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.tarjetas.countElementosCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.tarjetas.countElementosCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.tarjetas.countElementosNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.tarjetas.countElementosNoEvaluados;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+          return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
+          break;  
+
+        case 'elementos_no_evaluados':
+          return this.dashboardCuerpo.tarjetas.countElementosNoEvaluados;
           break;
         
+        case 'elementos_cumple':
+          return this.dashboardCuerpo.tarjetas.countElementosCumple;
+              break;
+          
+        case 'elementos_no_cumple':
+          return this.dashboardCuerpo.tarjetas.countElementosNoCumple;
+              break;
+          
+        case 'elementos_cumple_parcial':
+          return this.dashboardCuerpo.tarjetas.countElementosCumpleParcial;
+              break;
+            break;
+          
         case 'permisos':
           return this.dashboardCuerpo.tarjetas.countPermisos;
           break;
@@ -6602,14 +6724,6 @@ getChart(criticidad: any, config: any){
         case 'otros':
             return this.dashboardCuerpo.tarjetas.countOtrasObligaciones;
             break;
-            
-        case 'articulos_evaluados':
-          return this.dashboardCuerpo.tarjetas.countArticulosEvaluados;
-          break;
-            
-        case 'articulos_cumplimiento':
-          return this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((this.dashboardCuerpo.tarjetas.countArticulosEvaluados * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
-          break;
         
         case 'articulos_gestionar':
             return this.dashboardCuerpo.tarjetas.countArticulosGestionar;
@@ -6618,25 +6732,153 @@ getChart(criticidad: any, config: any){
         case 'articulos_definir':
             return this.dashboardCuerpo.tarjetas.countArticulosDefinir;
             break;
-        
-        case 'instancias_evaluadas':
-            return this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
-            break;
 
-        case 'instancias_cumplimiento':
-          return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
-          break;
+        case 'articulos_evaluados':
+            return this.dashboardCuerpo.tarjetas.countArticulosEvaluados;
+            break;
+                
+        case 'articulos_cumplimiento':
+          
+        evaluado = this.dashboardCuerpo.tarjetas.countArticulosEvaluados;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.tarjetas.countArticulosCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.tarjetas.countArticulosCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.tarjetas.countArticulosNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.tarjetas.countArticulosNoEvaluados;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
+            break;
+          
+        case 'articulos_no_evaluados':
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloNoEvaluado > 0 ? this.dashboard_new.torta2.articuloNoEvaluado : 0;*/this.dashboardCuerpo.tarjetas.countArticulosNoEvaluados;
+              break;
+          
+        case 'articulos_cumple':
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloCumple > 0 ? this.dashboard_new.torta2.articuloCumple : 0;*/this.dashboardCuerpo.tarjetas.countArticulosCumple;
+              break;
+          
+        case 'articulos_no_cumple':
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloNoCumple > 0 ? this.dashboard_new.torta2.articuloNoCumple : 0;*/this.dashboardCuerpo.tarjetas.countArticulosNoCumple;
+              break;
+          
+        case 'articulos_cumple_parcial':
+              return /*this.dashboard_new && this.dashboard_new.torta2 && this.dashboard_new.torta2.articuloCumpleParcial > 0 ? this.dashboard_new.torta2.articuloCumpleParcial : 0;*/this.dashboardCuerpo.tarjetas.countArticulosCumpleParcial;
+              break;
+
+        case 'articulos_alta':
+              return this.dashboardCuerpo.tarjetas.countArticulosAlta;
+              break;
+                
+        case 'articulos_media':
+              return this.dashboardCuerpo.tarjetas.countArticulosMedia;
+              break;
+  
+        case 'articulos_baja':
+              return this.dashboardCuerpo.tarjetas.countArticulosBaja;
+              break;
+                    
+        case 'articulos_otros':
+              return this.dashboardCuerpo.tarjetas.countArticulosOtros;
+              break;
         
         case 'instancias_gestionar':
             return this.dashboardCuerpo.tarjetas.countInstanciasGestionar;
             break;
-            
+          
         case 'instancias_definir':
             return this.dashboardCuerpo.tarjetas.countInstanciasDefinir;
             break;
 
+        case 'instancias_evaluadas':
+              return this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
+              break;
+  
+        case 'instancias_cumplimiento':
+          
+        evaluado = this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.tarjetas.countInstanciasCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.tarjetas.countInstanciasCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.tarjetas.countInstanciasNoEvaluadas;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
+            break;
+
+        case 'instancias_no_evaluadas':
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noEvaluado > 0 ? this.dashboard_new.torta3.noEvaluado : 0;*/this.dashboardCuerpo.tarjetas.countInstanciasNoEvaluadas;
+              break;
+          
+        case 'instancias_cumple':
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumple > 0 ? this.dashboard_new.torta3.cumple : 0;*/this.dashboardCuerpo.tarjetas.countInstanciasCumple;
+              break;
+          
+        case 'instancias_no_cumple':
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noCumple > 0 ? this.dashboard_new.torta3.noCumple : 0;*/this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              break;
+          
+        case 'instancias_cumple_parcial':
+              return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumpleParcial > 0 ? this.dashboard_new.torta3.cumpleParcial : 0;*/this.dashboardCuerpo.tarjetas.countInstanciasCumpleParcial;
+              break;
+
+        case 'cuerpos_gestionar':
+            return this.dashboardCuerpo.estadoCuerposLegales.countGestionar;
+            break;
+
+        case 'cuerpos_definir':
+            return this.dashboardCuerpo.estadoCuerposLegales.countDefinir;
+            break;
+        
+        case 'cuerpos_alta':
+            return this.dashboardCuerpo.estadoCuerposLegales.countAlta;
+            break;
+  
+        case 'cuerpos_media':
+            return this.dashboardCuerpo.estadoCuerposLegales.countMedia;
+            break;
+
+        case 'cuerpos_baja':
+            return this.dashboardCuerpo.estadoCuerposLegales.countBaja;
+            break;
+    
+        case 'cuerpos_otros':
+            return this.dashboardCuerpo.estadoCuerposLegales.countOtros;
+            break;
+
         case 'permisos_gestionar':
             return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countGestionar;
+            break;
+          
+        case 'permisos_definir':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countDefinir;
             break;
 
         case 'permisos_evaluados':
@@ -6644,11 +6886,61 @@ getChart(criticidad: any, config: any){
             break;
       
         case 'permisos_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
-            break;
           
-        case 'permisos_definir':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countDefinir;
+        evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluados;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
+            break;
+
+       case 'permisos_no_evaluados':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluados;
+              break;
+          
+        case 'permisos_cumple':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumple;
+              break;
+          
+        case 'permisos_no_cumple':
+              return this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              break;
+          
+        case 'permisos_cumple_parcial':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumpleParcial;
+              break;
+
+        case 'permisos_alta':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countAlta;
+            break;
+              
+        case 'permisos_media':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countMedia;
+            break;
+
+        case 'permisos_baja':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countBaja;
+            break;
+                  
+        case 'permisos_otros':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countOtros;
             break;
 
         case 'reportes_gestionar':
@@ -6658,13 +6950,67 @@ getChart(criticidad: any, config: any){
         case 'reportes_definir':
             return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countDefinir;
             break;
-  
+        
         case 'reportes_evaluados':
             return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados;
             break;
-      
+        
         case 'reportes_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
+          
+        evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluados;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
+        
+        case 'reportes_no_evaluados':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluados;
+              break;
+          
+        case 'reportes_cumple':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumple;
+              break;
+          
+        case 'reportes_no_cumple':
+              return this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              break;
+          
+        case 'reportes_cumple_parcial':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumpleParcial;
+              break;
+            break;
+      
+        case 'reportes_alta':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countAlta;
+            break;
+                
+        case 'reportes_media':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countMedia;
+            break;
+  
+        case 'reportes_baja':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countBaja;
+            break;
+                    
+        case 'reportes_otros':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countOtros;
             break;
 
         case 'monitoreos_gestionar':
@@ -6678,50 +7024,200 @@ getChart(criticidad: any, config: any){
         case 'monitoreos_evaluados':
             return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados;
             break;
-        
+            
         case 'monitoreos_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
+          
+        evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoEvaluados;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
             break;
 
-        case 'otros_gestionar':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countGestionar;
+        case 'monitoreos_no_evaluados':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoEvaluados;
+              break;
+          
+        case 'monitoreos_cumple':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumple;
+              break;
+          
+        case 'monitoreos_no_cumple':
+              return this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              break;
+          
+        case 'monitoreos_cumple_parcial':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumpleParcial;
+              break;
             break;
-      
-        case 'otros_definir':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countDefinir;
+    
+        case 'monitoreos_alta':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countAlta;
             break;
+                  
+        case 'monitoreos_media':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countMedia;
+            break;
+    
+        case 'monitoreos_baja':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countBaja;
+            break;
+                      
+        case 'monitoreos_otros':
+            return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countOtros;
+            break;
+
+            case 'otros_evaluados':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
+              break;
+         
+           case 'otros_no_evaluados':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
+               break;
+           
+           case 'otros_cumple':
+              return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumple;
+               break;
+           
+         case 'otros_no_cumple':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
+               break;
+           
+         case 'otros_cumple_parcial':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
+               break;
         
-        case 'otros_evaluados':
-            return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
-            break;
-      
-          case 'otros_cumplimiento':
-            return this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
-            break;
+            case 'otros_cumplimiento':
+              
+        evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
+
+        if(this.tipo_cuerpo){
+          switch (this.tipo_cuerpo) {
+            case 'Cumple':
+              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluados;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+             return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
+              break;
+    
+            case 'otros_alta':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countAlta;//10;//this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countAlta;
+                break;
+                        
+            case 'otros_media':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countMedia;//10;//this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countMedia;
+                break;
+          
+            case 'otros_baja':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countBaja;//4;//this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countBaja;
+                break;
+                            
+            case 'otros_otros':
+               return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countOtros;//4;//this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countOtros;
+                break;
+       
+        case 'cuerpo_general':
+              return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.GENERAL ? this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.GENERAL : 0;
+              break;
 
         case 'cuerpo_ma':
-            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.MA;
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.MA ? this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.MA : 0;
             break;
         
         case 'cuerpo_energia':
-            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.ENERGIA;
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.ENERGIA ? this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.ENERGIA : 0;
             break;
         
-        case 'cuerpo_sso':
-            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.SSO;
+        case 'cuerpo_sst':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.SST ? this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.SST : 0;
+            break;
+
+        case 'cuerpo_laboral':
+            return this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.LABORAL ? this.dashboardCuerpo.ambitoNormativo.cuerpoLegal.LABORAL : 0;
+            break;
+            
+        case 'general':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.GENERAL ? this.dashboardCuerpo.ambitoNormativo.articulos.GENERAL : 0;
             break;
             
         case 'ma':
-            return this.dashboardCuerpo.ambitoNormativo.articulos.MA;
+            return this.dashboardCuerpo.ambitoNormativo.articulos.MA ? this.dashboardCuerpo.ambitoNormativo.articulos.MA : 0;
             break;
       
         case 'energia':
-            return this.dashboardCuerpo.ambitoNormativo.articulos.ENERGIA;
+            return this.dashboardCuerpo.ambitoNormativo.articulos.ENERGIA ? this.dashboardCuerpo.ambitoNormativo.articulos.ENERGIA : 0;
             break;
       
-        case 'sso':
-            return this.dashboardCuerpo.ambitoNormativo.articulos.SSO;
+        case 'sst':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.SST ? this.dashboardCuerpo.ambitoNormativo.articulos.SST : 0;
             break;
+      
+        case 'laboral':
+            return this.dashboardCuerpo.ambitoNormativo.articulos.LABORAL ? this.dashboardCuerpo.ambitoNormativo.articulos.LABORAL : 0;
+            break;
+        
+        case 'instancias_general':
+              return this.dashboardCuerpo.ambitoNormativo.instancias.GENERAL ? this.dashboardCuerpo.ambitoNormativo.instancias.GENERAL : 0;
+              break;
+
+        case 'instancias_ma':
+            return this.dashboardCuerpo.ambitoNormativo.instancias.MA ? this.dashboardCuerpo.ambitoNormativo.instancias.MA : 0;
+            break;
+        
+        case 'instancias_energia':
+            return this.dashboardCuerpo.ambitoNormativo.instancias.ENERGIA ? this.dashboardCuerpo.ambitoNormativo.instancias.ENERGIA : 0;
+            break;
+        
+        case 'instancias_sst':
+            return this.dashboardCuerpo.ambitoNormativo.instancias.SST ? this.dashboardCuerpo.ambitoNormativo.instancias.SST : 0;
+            break;
+
+        case 'instancias_laboral':
+            return this.dashboardCuerpo.ambitoNormativo.instancias.LABORAL ? this.dashboardCuerpo.ambitoNormativo.instancias.LABORAL : 0;
+            break;
+            
+        case 'alta':
+          return this.dashboardCuerpo.criticidad.countCriticidadAlta;
+          break;
+        case 'media':
+          return this.dashboardCuerpo.criticidad.countCriticidadMedia;
+          break;
+        case 'baja':
+          return this.dashboardCuerpo.criticidad.countCriticidadBaja;
+          break;
+        case 'sin_criticidad':
+          return this.dashboardCuerpo.tarjetas.countArticulos - this.dashboardCuerpo.criticidad.countCriticidadBaja - this.dashboardCuerpo.criticidad.countCriticidadAlta - this.dashboardCuerpo.criticidad.countCriticidadMedia;
+          break;
             
         default:
           return 0;
@@ -6948,17 +7444,30 @@ getChart(criticidad: any, config: any){
     }
   }
 
-  getDataDashboardAreaCuerpo(parametro: any, type?: any, criticidad?: any){
+  getDataDashboardAreaCuerpo(parametro: any, type?: any, busqueda?: any){
     if(this.dashboardAreaCuerpo){
 
       let data: any = [];
       let data_type: any = [];
+      let valor: any = 0;
 
+      
       switch (type) {
         case 'general':
           data_type = this.dashboardAreaCuerpo.general;
           break;
-      
+        case 'permisos':
+          data_type = this.dashboardAreaCuerpo.permisos;
+          break;
+        case 'reportes':
+          data_type = this.dashboardAreaCuerpo.reportes;
+          break;
+        case 'monitoreos':
+          data_type = this.dashboardAreaCuerpo.monitoreos;
+          break;
+        case 'otros':
+          data_type = this.dashboardAreaCuerpo.otrasObligaciones;
+          break; 
         default:
           break;
       }
@@ -6971,20 +7480,52 @@ getChart(criticidad: any, config: any){
             break;
           
           case 'value':
-            if(criticidad){
-              data.push(data_type[x].criticidad[criticidad]);
-            }else{
-              
+            if(this.tipo_cuerpo){
               switch (this.tipo_cuerpo) {
-                case 'Gestionar':              
-                  data.push(data_type[x].total_gestionar);
+                case 'Cumple':
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  data.push(valor);
                   break;
-                  case 'Por definir':              
-                    data.push(data_type[x].total_definir);
+                case 'Cumple Parcial':
+                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                    data.push(valor);
+                    break;
+                case 'No Cumple':   
+                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;           
+                    data.push(valor);
+                    break;
+                case 'No Evaluado': 
+                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                    data.push(valor);
                     break;
               
                 default:
                   data.push(data_type[x].total);
+                  break;
+              }
+            }else{
+              switch (busqueda) {
+                case 'cumple':
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  data.push(valor);
+                  break;
+                  
+                case 'no_cumple':
+                  valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                  data.push(valor);
+                  break;
+              
+                case 'cumple_parcial':
+                  valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                  data.push(valor);
+                  break;
+                  
+                case 'no_evaluado':
+                  valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                  data.push(valor);
+                  break;
+
+                default:
                   break;
               }
             }
@@ -7001,15 +7542,28 @@ getChart(criticidad: any, config: any){
     }
   }
 
-  getDataDashboardInstallationCuerpo(parametro: any, type?: any, criticidad?: any){
+  getDataDashboardInstallationCuerpo(parametro: any, type?: any, busqueda?: any){
     if(this.dashboardInstallationCuerpo){
 
       let data: any = [];
       let data_type: any = [];
+      let valor: any = 0;
 
       switch (type) {
         case 'general':
           data_type = this.dashboardInstallationCuerpo.general;
+          break;
+        case 'permisos':
+          data_type = this.dashboardInstallationCuerpo.permisos;
+          break;
+        case 'reportes':
+          data_type = this.dashboardInstallationCuerpo.reportes;
+          break;
+        case 'monitoreos':
+          data_type = this.dashboardInstallationCuerpo.monitoreos;
+          break;
+        case 'otros':
+          data_type = this.dashboardInstallationCuerpo.otrasObligaciones;
           break;
       
         default:
@@ -7020,23 +7574,59 @@ getChart(criticidad: any, config: any){
         
         switch (parametro) {
           case 'label':
-            data.push(data_type[x].nombre);
+            data.push(data_type[x].nombreArea);
             break;
           
           case 'value':
-            if(criticidad){
-              data.push(data_type[x].criticidad[criticidad]);
-            }else{
+            if(this.tipo_cuerpo){
               switch (this.tipo_cuerpo) {
-                case 'Gestionar':              
-                  data.push(data_type[x].total_gestionar);
+                case 'Cumple':
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;              
+                  data.push(valor);
                   break;
-                  case 'Por definir':              
-                    data.push(data_type[x].total_definir);
+                case 'Cumple Parcial':
+                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                    data.push(valor);
+                    break;
+                case 'No Cumple':    
+                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;          
+                    data.push(valor);
+                    break;
+                case 'No Evaluado': 
+                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                    data.push(valor);
                     break;
               
                 default:
                   data.push(data_type[x].total);
+                  break;
+              
+              }
+            }else{
+
+              switch (busqueda) {
+                case 'cumple':
+                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  console.log('VALOR',valor);
+                  data.push(valor);
+                  break;
+                  
+                case 'no_cumple':
+                  valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                  data.push(valor);
+                  break;
+              
+                case 'cumple_parcial':
+                  valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                  data.push(valor);
+                  break;
+                  
+                case 'no_evaluado':
+                  valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                  data.push(valor);
+                  break;
+
+                default:
                   break;
               }
             }
@@ -7156,6 +7746,7 @@ getChart(criticidad: any, config: any){
           }
 
         });
+        console.log('Articulo_agrupado',this.articles_proyects_group);
 
         //if(refresh){
           this.setChartCuerpo();
@@ -7503,7 +8094,7 @@ getChart(criticidad: any, config: any){
    
 
    getDashboardInstallationCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-     this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalations(idProject, type, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
+     this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
        (data: any) => {
          console.log('dataDashboardInstallationCuerpo',data);
          this.dashboardInstallationCuerpo = data.data;
