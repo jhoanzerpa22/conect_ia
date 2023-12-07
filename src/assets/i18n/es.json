@@ -294,6 +294,9 @@
     "LIBRARY": {
       "TEXT": "Biblioteca"
     },
+    "RULES": {
+      "TEXT": "Normas"
+    },
     "COMMITMENTS": {
       "TEXT": "Compromisos"
     },
