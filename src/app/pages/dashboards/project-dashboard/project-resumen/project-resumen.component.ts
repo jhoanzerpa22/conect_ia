@@ -3628,7 +3628,7 @@ layers = [
         chart: {
             type: 'bar',
             height: this.getDataDashboardArea('label','general').length > 20 ? 800 : 400,            
-            stacked: true,
+            stacked: /*this.criticidad ? */true/* : false*/,
             //stackType: "100%",
             toolbar: {
                 show: false,
@@ -3639,7 +3639,7 @@ layers = [
                 //borderRadius: 4,
                 horizontal: true,
                 columnWidth: '80%',
-                distributed: false,
+                distributed: /*this.criticidad ? */false/* : true*/,
                 dataLabels: {
                   position: 'top',
                   style: {
@@ -3681,7 +3681,7 @@ layers = [
         },
         legend: {
             position: "top",
-            show: true,
+            show: this.criticidad ? true : true/*false*/,
         },
         /*grid: {
             show: false,
@@ -3689,8 +3689,22 @@ layers = [
         xaxis: {
             categories: this.getDataDashboardArea('label','general'),
             width: 400,
-            columnWidth: '40%'
+            columnWidth: '40%',
+            labels: {
+              show: true,
+              style: {
+                  cssClass: 'apexcharts-xaxis-label',
+              },
+            }
         },
+        yaxis: {
+          show: true,
+          labels: {
+             show: true,
+             minWidth: 300,
+             maxWidth: 600
+          }
+        }
     };
   }
 
@@ -3821,7 +3835,7 @@ layers = [
         },
         legend: {
             position: "top",
-            //show: false,
+            show: true,
         },
         colors: colors,
         /*grid: {
@@ -3830,6 +3844,14 @@ layers = [
         xaxis: {
             categories: this.getDataDashboardInstallation('label','general')
         },
+        yaxis: {
+          show: true,
+          labels: {
+             show: true,
+             minWidth: 300,
+             maxWidth: 600
+          }
+        }
     };
   }
 
@@ -5029,6 +5051,14 @@ seriesOtros: [{
     xaxis: {
         categories: this.getDataDashboardInstallation('label','permisos')
     },
+    yaxis: {
+      show: true,
+      labels: {
+         show: true,
+         minWidth: 300,
+         maxWidth: 600
+      }
+    }
 };
 
 this.basicBarChartReportesInstallations = {
@@ -5162,6 +5192,14 @@ seriesOtros: [{
   xaxis: {
       categories: this.getDataDashboardInstallation('label','reportes')
   },
+  yaxis: {
+    show: true,
+    labels: {
+       show: true,
+       minWidth: 300,
+       maxWidth: 600
+    }
+  }
 };
 
 this.basicBarChartMonitoreosInstallations = {
@@ -5295,6 +5333,14 @@ grid: {
 xaxis: {
     categories: this.getDataDashboardInstallation('label','monitoreos')
 },
+yaxis: {
+  show: true,
+  labels: {
+     show: true,
+     minWidth: 300,
+     maxWidth: 600
+  }
+}
 };
 
 this.basicBarChartOtrosInstallations = {
@@ -5428,6 +5474,14 @@ grid: {
 xaxis: {
     categories: this.getDataDashboardInstallation('label','otros')
 },
+yaxis: {
+  show: true,
+  labels: {
+     show: true,
+     minWidth: 300,
+     maxWidth: 600
+  }
+}
 };
 
 }
@@ -6306,7 +6360,7 @@ getChart(criticidad: any, config: any){
   }
 
   getSeriesArea(criticidad: any, objeto: any){
-    if(!this.tipo){
+    /*if(!this.tipo){
     switch (criticidad) {
       case 'Alta':
         return objeto.seriesAlta;
@@ -6332,29 +6386,125 @@ getChart(criticidad: any, config: any){
         return objeto.series;
         break;
     }
-  }else{
+  }else{*/
     switch (this.tipo) {
       case 'Cumple':
-        return objeto.seriesCumple;
+        switch (this.criticidad) {
+          case 'Alta':
+            return objeto.seriesAlta;
+            break;
+          
+          case 'Media':
+            return objeto.seriesMedia;
+            break;
+              
+          case 'Baja':
+            return objeto.seriesBaja;
+            break;
+              
+            case 'No especificado':
+              return objeto.seriesOtros;
+              break;
+              
+            case 'Todos':
+              return objeto.seriesCriticidad;
+              break;
+        
+          default:
+            return objeto.seriesCumple;
+            break;
+        }
         break;
       
       case 'Cumple Parcial':
-        return objeto.seriesCumpleParcial;
+        switch (this.criticidad) {
+          case 'Alta':
+            return objeto.seriesAlta;
+            break;
+          
+          case 'Media':
+            return objeto.seriesMedia;
+            break;
+              
+          case 'Baja':
+            return objeto.seriesBaja;
+            break;
+              
+            case 'No especificado':
+              return objeto.seriesOtros;
+              break;
+              
+            case 'Todos':
+              return objeto.seriesCriticidad;
+              break;
+        
+          default:
+            return objeto.seriesCumpleParcial;
+            break;
+        }
         break;
           
       case 'No Cumple':
-        return objeto.seriesNoCumple;
+        switch (this.criticidad) {
+          case 'Alta':
+            return objeto.seriesAlta;
+            break;
+          
+          case 'Media':
+            return objeto.seriesMedia;
+            break;
+              
+          case 'Baja':
+            return objeto.seriesBaja;
+            break;
+              
+            case 'No especificado':
+              return objeto.seriesOtros;
+              break;
+              
+            case 'Todos':
+              return objeto.seriesCriticidad;
+              break;
+        
+          default:
+            return objeto.seriesNoCumple;
+            break;
+        }
         break;
           
         case 'No Evaluado':
-          return objeto.seriesNoEvaluado;
+          switch (this.criticidad) {
+            case 'Alta':
+              return objeto.seriesAlta;
+              break;
+            
+            case 'Media':
+              return objeto.seriesMedia;
+              break;
+                
+            case 'Baja':
+              return objeto.seriesBaja;
+              break;
+                
+              case 'No especificado':
+                return objeto.seriesOtros;
+                break;
+                
+              case 'Todos':
+                return objeto.seriesCriticidad;
+                break;
+          
+            default:
+              return objeto.seriesNoEvaluado;
+              break;
+          }
           break;
     
       default:
         return objeto.series;
         break;
     }
-  }
+  //}
   }
 
   getTipoTag(type?: any, tag?: any){
@@ -7917,17 +8067,17 @@ getChart(criticidad: any, config: any){
             if(this.tipo){
               switch (this.tipo) {
                 case 'Cumple':
-                  switch (this.criticidad) {
-                    case 'Alta':
+                  switch (busqueda) {
+                    case 'alta':
                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple : 0;
                       break;
-                      case 'Media':
+                      case 'media':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple : 0;
                       break;
-                      case 'Baja':
+                      case 'baja':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple : 0;
                       break;
-                      case 'No especificado':
+                      case 'otros':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple : 0;
                       break;
                   
@@ -7938,17 +8088,17 @@ getChart(criticidad: any, config: any){
                   data.push(valor);
                   break;
                 case 'Cumple Parcial':
-                  switch (this.criticidad) {
-                    case 'Alta':
+                  switch (busqueda) {
+                    case 'alta':
                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple_parcial : 0;
                       break;
-                      case 'Media':
+                      case 'media':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple_parcial : 0;
                       break;
-                      case 'Baja':
+                      case 'baja':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple_parcial : 0;
                       break;
-                      case 'No especificado':
+                      case 'otros':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple_parcial : 0;
                       break;
                   
@@ -7960,17 +8110,17 @@ getChart(criticidad: any, config: any){
                     break;
                 case 'No Cumple':   
                 
-                switch (this.criticidad) {
-                  case 'Alta':
+                switch (busqueda) {
+                  case 'alta':
                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_cumple : 0;
                     break;
-                    case 'Media':
+                    case 'media':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_cumple : 0;
                     break;
-                    case 'Baja':
+                    case 'baja':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_cumple : 0;
                     break;
-                    case 'No especificado':
+                    case 'otros':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_cumple : 0;
                     break;
                 
@@ -7981,17 +8131,17 @@ getChart(criticidad: any, config: any){
                     data.push(valor);
                     break;
                 case 'No Evaluado': 
-                switch (this.criticidad) {
-                  case 'Alta':
+                switch (busqueda) {
+                  case 'alta':
                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_evaluadas : 0;
                     break;
-                    case 'Media':
+                    case 'media':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_evaluadas : 0;
                     break;
-                    case 'Baja':
+                    case 'baja':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_evaluadas : 0;
                     break;
-                    case 'No especificado':
+                    case 'otros':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_evaluadas : 0;
                     break;
                 
@@ -8090,17 +8240,17 @@ getChart(criticidad: any, config: any){
             if(this.tipo){
               switch (this.tipo) {
                 case 'Cumple':
-                  switch (this.criticidad) {
-                    case 'Alta':
+                  switch (busqueda) {
+                    case 'alta':
                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple : 0;
                       break;
-                      case 'Media':
+                      case 'media':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple : 0;
                       break;
-                      case 'Baja':
+                      case 'baja':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple : 0;
                       break;
-                      case 'No especificado':
+                      case 'otros':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple : 0;
                       break;
                   
@@ -8111,17 +8261,17 @@ getChart(criticidad: any, config: any){
                   data.push(valor);
                   break;
                 case 'Cumple Parcial':
-                  switch (this.criticidad) {
-                    case 'Alta':
+                  switch (busqueda) {
+                    case 'alta':
                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple_parcial : 0;
                       break;
-                      case 'Media':
+                      case 'media':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple_parcial : 0;
                       break;
-                      case 'Baja':
+                      case 'baja':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple_parcial : 0;
                       break;
-                      case 'No especificado':
+                      case 'otros':
                         valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple_parcial : 0;
                       break;
                   
@@ -8133,17 +8283,17 @@ getChart(criticidad: any, config: any){
                     break;
                 case 'No Cumple':   
                 
-                switch (this.criticidad) {
-                  case 'Alta':
+                switch (busqueda) {
+                  case 'alta':
                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_cumple : 0;
                     break;
-                    case 'Media':
+                    case 'media':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_cumple : 0;
                     break;
-                    case 'Baja':
+                    case 'baja':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_cumple : 0;
                     break;
-                    case 'No especificado':
+                    case 'otros':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_cumple : 0;
                     break;
                 
@@ -8154,17 +8304,17 @@ getChart(criticidad: any, config: any){
                     data.push(valor);
                     break;
                 case 'No Evaluado': 
-                switch (this.criticidad) {
-                  case 'Alta':
+                switch (busqueda) {
+                  case 'alta':
                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_evaluadas : 0;
                     break;
-                    case 'Media':
+                    case 'media':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_evaluadas : 0;
                     break;
-                    case 'Baja':
+                    case 'baja':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_evaluadas : 0;
                     break;
-                    case 'No especificado':
+                    case 'otros':
                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_evaluadas : 0;
                     break;
                 
@@ -8422,8 +8572,8 @@ getChart(criticidad: any, config: any){
     
     //this.getDashboardNew(project_id, refresh, areaId, criticidad, this.tipo);
     this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
-    this.getDashboardArea(project_id, 'articulos', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
-    this.getDashboardInstalaciones(project_id, 'articulos', refresh, undefined, areaId, undefined, criticidad);
+    this.getDashboardArea(project_id, 'instancias', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
+    this.getDashboardInstalaciones(project_id, 'instancias', refresh, undefined, areaId, undefined, criticidad);
 
   }
 
@@ -8790,7 +8940,7 @@ getChart(criticidad: any, config: any){
  }
 
   getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
-    this.projectsService.getDashboardEvaluations(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(
+    this.projectsService.getDashboardEvaluations(idProject, undefined, areaId, undefined, undefined).pipe().subscribe(
       (data: any) => {
        console.log('dataDashboard',data);
        this.dashboard = data.data;
@@ -8806,7 +8956,7 @@ getChart(criticidad: any, config: any){
  }
 
  getDashboardCuerpo(idProject?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-     this.projectsService.getDashboardEvaluations(idProject, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
+     this.projectsService.getDashboardEvaluations(idProject, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
        (data: any) => {
         console.log('dataDashboardCuerpo',data);
         this.dashboardCuerpo = data.data;
@@ -8822,7 +8972,7 @@ getChart(criticidad: any, config: any){
   }
 
  getDashboardArea(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
-     this.projectsService.getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
+     this.projectsService.getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined).pipe().subscribe(
        (data: any) => {
          console.log('dataDashboardArea',data);
          this.dashboardArea = data.data;
@@ -8839,7 +8989,7 @@ getChart(criticidad: any, config: any){
   }
   
  getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
-   this.projectsService.getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad).pipe().subscribe(
+   this.projectsService.getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined).pipe().subscribe(
      (data: any) => {
        console.log('dataDashboardInstalaciones',data);
        this.dashboardInstallation = data.data;
@@ -8856,7 +9006,7 @@ getChart(criticidad: any, config: any){
 }
 
   getDashboardAreaCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-      this.projectsService./*getDashboardAreaByCuerpo*/getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
+      this.projectsService./*getDashboardAreaByCuerpo*/getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
         (data: any) => {
           console.log('dataDashboardAreaCuerpo',data);
           this.dashboardAreaCuerpo = data.data;
@@ -8873,7 +9023,7 @@ getChart(criticidad: any, config: any){
    
 
    getDashboardInstallationCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-     this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, criticidad, articuloId).pipe().subscribe(
+     this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
        (data: any) => {
          console.log('dataDashboardInstallationCuerpo',data);
          this.dashboardInstallationCuerpo = data.data;
