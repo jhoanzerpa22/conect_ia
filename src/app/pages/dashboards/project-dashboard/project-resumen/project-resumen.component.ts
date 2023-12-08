@@ -7917,19 +7917,88 @@ getChart(criticidad: any, config: any){
             if(this.tipo){
               switch (this.tipo) {
                 case 'Cumple':
-                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  switch (this.criticidad) {
+                    case 'Alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple : 0;
+                      break;
+                      case 'Media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple : 0;
+                      break;
+                      case 'Baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple : 0;
+                      break;
+                      case 'No especificado':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                      break;
+                  }
                   data.push(valor);
                   break;
                 case 'Cumple Parcial':
-                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                  switch (this.criticidad) {
+                    case 'Alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple_parcial : 0;
+                      break;
+                      case 'Media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple_parcial : 0;
+                      break;
+                      case 'Baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple_parcial : 0;
+                      break;
+                      case 'No especificado':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple_parcial : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                      break;
+                  }
                     data.push(valor);
                     break;
                 case 'No Cumple':   
-                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;           
+                
+                switch (this.criticidad) {
+                  case 'Alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_cumple : 0;
+                    break;
+                    case 'Media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_cumple : 0;
+                    break;
+                    case 'Baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_cumple : 0;
+                    break;
+                    case 'No especificado':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_cumple : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                    break;
+                }
                     data.push(valor);
                     break;
                 case 'No Evaluado': 
-                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                switch (this.criticidad) {
+                  case 'Alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_evaluadas : 0;
+                    break;
+                    case 'Media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_evaluadas : 0;
+                    break;
+                    case 'Baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_evaluadas : 0;
+                    break;
+                    case 'No especificado':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_evaluadas : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                    break;
+                }            
                     data.push(valor);
                     break;
               
@@ -8021,26 +8090,94 @@ getChart(criticidad: any, config: any){
             if(this.tipo){
               switch (this.tipo) {
                 case 'Cumple':
-                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;              
+                  switch (this.criticidad) {
+                    case 'Alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple : 0;
+                      break;
+                      case 'Media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple : 0;
+                      break;
+                      case 'Baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple : 0;
+                      break;
+                      case 'No especificado':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                      break;
+                  }
                   data.push(valor);
                   break;
                 case 'Cumple Parcial':
-                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                  switch (this.criticidad) {
+                    case 'Alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple_parcial : 0;
+                      break;
+                      case 'Media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple_parcial : 0;
+                      break;
+                      case 'Baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple_parcial : 0;
+                      break;
+                      case 'No especificado':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple_parcial : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                      break;
+                  }
                     data.push(valor);
                     break;
-                case 'No Cumple':    
-                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;          
+                case 'No Cumple':   
+                
+                switch (this.criticidad) {
+                  case 'Alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_cumple : 0;
+                    break;
+                    case 'Media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_cumple : 0;
+                    break;
+                    case 'Baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_cumple : 0;
+                    break;
+                    case 'No especificado':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_cumple : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                    break;
+                }
                     data.push(valor);
                     break;
                 case 'No Evaluado': 
-                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                switch (this.criticidad) {
+                  case 'Alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_evaluadas : 0;
+                    break;
+                    case 'Media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_evaluadas : 0;
+                    break;
+                    case 'Baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_evaluadas : 0;
+                    break;
+                    case 'No especificado':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_evaluadas : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                    break;
+                }            
                     data.push(valor);
                     break;
               
                 default:
                   data.push(data_type[x].total);
                   break;
-              
               }
             }else{
 
