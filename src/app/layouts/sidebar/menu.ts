@@ -98,5 +98,12 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.PROFILE.TEXT',
     icon: 'ri-user-line',
     link: '/pages/profile'
+  },
+  {
+    id: 17,
+    label: 'MENUITEMS.RULES.TEXT',
+    icon: 'ri-zoom-in-line',
+    link: '/projects/normas',
+    onlySuperAdmin: true
   }
 ];
