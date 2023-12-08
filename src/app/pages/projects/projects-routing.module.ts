@@ -12,6 +12,7 @@ import { AreasComponent } from "./areas/areas.component";
 import { IdentificationComponent } from "./identification/identification.component";
 import { ConfigComponent } from "./config/config.component";
 import { InstallationsTypeComponent } from "./create/type/installations/installations.component";
+import { NormasComponent } from "./normas/normas.component";
 import { BodyLegalTypeComponent } from "./create/type/body-legal/body-legal.component";
 import { BodyLegalDetailComponent } from "./create/type/body-legal/detail/body-legal-detail.component";
 import { BodyLegalDetailIdComponent } from "./identification/detail/body-legal-detail.component";
@@ -175,6 +176,10 @@ const routes: Routes = [
   {
     path: ":idProject/evaluation/:idInstallation/TaskControl/:id",
     component: TaskControlComponent
+  },
+  {
+    path: "normas",
+    component: NormasComponent
   }
 ];
 
