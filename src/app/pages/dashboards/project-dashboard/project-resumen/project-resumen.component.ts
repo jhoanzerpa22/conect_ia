@@ -7570,18 +7570,64 @@ getChart(criticidad: any, config: any){
         case 'articulos_alta':
               return this.dashboardCuerpo.tarjetas.countArticulosAlta;
               break;
+              case 'articulos_alta_cumple':
+                    return this.dashboardCuerpo.tarjetas.countArticulosAltaCumple;
+                    break;
+                    case 'articulos_alta_no_cumple':
+                          return this.dashboardCuerpo.tarjetas.countArticulosAltaNoCumple;
+                          break;
+                          case 'articulos_alta_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.countArticulosAltaCumpleParcial;
+                                break;
+                                case 'articulos_alta_no_evaluadas':
+                                      return this.dashboardCuerpo.tarjetas.countArticulosAltaNoEvaluadas;
+                                      break;
                 
         case 'articulos_media':
               return this.dashboardCuerpo.tarjetas.countArticulosMedia;
               break;
-  
+              case 'articulos_media_cumple':
+                    return this.dashboardCuerpo.tarjetas.countArticulosMediaCumple;
+                    break;
+                    case 'articulos_media_no_cumple':
+                          return this.dashboardCuerpo.tarjetas.countArticulosMediaNoCumple;
+                          break;
+                          case 'articulos_media_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.countArticulosMediaCumpleParcial;
+                                break;
+                                case 'articulos_media_no_evaluadas':
+                                      return this.dashboardCuerpo.tarjetas.countArticulosMediaNoEvaluadas;
+                                      break;
         case 'articulos_baja':
               return this.dashboardCuerpo.tarjetas.countArticulosBaja;
               break;
-                    
+              case 'articulos_baja_cumple':
+                    return this.dashboardCuerpo.tarjetas.countArticulosBajaCumple;
+                    break;
+                    case 'articulos_baja_no_cumple':
+                          return this.dashboardCuerpo.tarjetas.countArticulosBajaNoCumple;
+                          break;
+                          case 'articulos_baja_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.countArticulosBajaCumpleParcial;
+                                break;
+                                case 'articulos_baja_no_evaluadas':
+                                      return this.dashboardCuerpo.tarjetas.countArticulosBajaNoEvaluadas;
+                                      break;
         case 'articulos_otros':
               return this.dashboardCuerpo.tarjetas.countArticulosOtros;
               break;
+              case 'articulos_otros_cumple':
+                    return this.dashboardCuerpo.tarjetas.countArticulosOtrosCumple;
+                    break;
+                    case 'articulos_otros_no_cumple':
+                          return this.dashboardCuerpo.tarjetas.countArticulosOtrosNoCumple;
+                          break;
+                          case 'articulos_otros_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.countArticulosOtrosCumpleParcial;
+                                break;
+                                case 'articulos_otros_no_evaluadas':
+                                      return this.dashboardCuerpo.tarjetas.countArticulosOtrosNoEvaluadas;
+                                      break;
         
         case 'instancias_gestionar':
             return this.dashboardCuerpo.tarjetas.countInstanciasGestionar;
@@ -7636,6 +7682,70 @@ getChart(criticidad: any, config: any){
         case 'instancias_cumple_parcial':
               return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.cumpleParcial > 0 ? this.dashboard_new.torta3.cumpleParcial : 0;*/this.dashboardCuerpo.tarjetas.countInstanciasCumpleParcial;
               break;
+
+              case 'instancias_alta':
+                return this.dashboardCuerpo.tarjetas.countInstanciasAlta;
+                break;
+                case 'instancias_alta_cumple':
+                  return this.dashboardCuerpo.tarjetas.countInstanciasAltaCumple;
+                  break;
+                  case 'instancias_alta_no_cumple':
+                    return this.dashboardCuerpo.tarjetas.countInstanciasAltaNoCumple;
+                    break;
+                    case 'instancias_alta_cumple_parcial':
+                      return this.dashboardCuerpo.tarjetas.countInstanciasAltaCumpleParcial;
+                      break;
+                      case 'instancias_alta_no_evaluadas':
+                        return this.dashboardCuerpo.tarjetas.countInstanciasAltaNoEvaluadas;
+                        break;
+                    
+                        case 'instancias_media':
+                          return this.dashboardCuerpo.tarjetas.countInstanciasMedia;
+                          break;
+                          case 'instancias_media_cumple':
+                            return this.dashboardCuerpo.tarjetas.countInstanciasMediaCumple;
+                            break;
+                            case 'instancias_media_no_cumple':
+                              return this.dashboardCuerpo.tarjetas.countInstanciasMediaNoCumple;
+                              break;
+                              case 'instancias_media_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.countInstanciasMediaCumpleParcial;
+                                break;
+                                case 'instancias_media_no_evaluadas':
+                                  return this.dashboardCuerpo.tarjetas.countInstanciasMediaNoEvaluadas;
+                                  break;
+                                  
+                        case 'instancias_baja':
+                          return this.dashboardCuerpo.tarjetas.countInstanciasBaja;
+                          break;
+                          case 'instancias_baja_cumple':
+                            return this.dashboardCuerpo.tarjetas.countInstanciasBajaCumple;
+                            break;
+                            case 'instancias_baja_no_cumple':
+                              return this.dashboardCuerpo.tarjetas.countInstanciasBajaNoCumple;
+                              break;
+                              case 'instancias_baja_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.countInstanciasBajaCumpleParcial;
+                                break;
+                                case 'instancias_baja_no_evaluadas':
+                                  return this.dashboardCuerpo.tarjetas.countInstanciasBajaNoEvaluadas;
+                                  break;
+                                  
+                        case 'instancias_otros':
+                          return this.dashboardCuerpo.tarjetas.countInstanciasOtros;
+                          break;
+                          case 'instancias_otros_cumple':
+                            return this.dashboardCuerpo.tarjetas.countInstanciasOtrosCumple;
+                            break;
+                            case 'instancias_otros_no_cumple':
+                              return this.dashboardCuerpo.tarjetas.countInstanciasOtrosNoCumple;
+                              break;
+                              case 'instancias_otros_cumple_parcial':
+                                return this.dashboardCuerpo.tarjetas.OtrosCumpleParcial;
+                                break;
+                                case 'instancias_otros_no_evaluadas':
+                                  return this.dashboardCuerpo.tarjetas.countInstanciasOtrosNoEvaluadas;
+                                  break;
 
         case 'cuerpos_gestionar':
             return this.dashboardCuerpo.estadoCuerposLegales.countGestionar;
@@ -8408,19 +8518,87 @@ getChart(criticidad: any, config: any){
             if(this.tipo_cuerpo){
               switch (this.tipo_cuerpo) {
                 case 'Cumple':
-                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                  switch (busqueda) {
+                    case 'alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple : 0;
+                      break;
+                      case 'media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple : 0;
+                      break;
+                      case 'baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple : 0;
+                      break;
+                      case 'otros':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                      break;
+                  }
                   data.push(valor);
                   break;
                 case 'Cumple Parcial':
-                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                  switch (busqueda) {
+                    case 'alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple_parcial : 0;
+                      break;
+                      case 'media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple_parcial : 0;
+                      break;
+                      case 'baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple_parcial : 0;
+                      break;
+                      case 'otros':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple_parcial : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                      break;
+                  }             
                     data.push(valor);
                     break;
                 case 'No Cumple':   
-                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;           
+                switch (busqueda) {
+                  case 'alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_cumple : 0;
+                    break;
+                    case 'media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_cumple : 0;
+                    break;
+                    case 'baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_cumple : 0;
+                    break;
+                    case 'otros':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_cumple : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                    break;
+                }          
                     data.push(valor);
                     break;
                 case 'No Evaluado': 
-                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                switch (busqueda) {
+                  case 'alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_evaluadas : 0;
+                    break;
+                    case 'media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_evaluadas : 0;
+                    break;
+                    case 'baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_evaluadas : 0;
+                    break;
+                    case 'otros':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_evaluadas : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                    break;
+                }                        
                     data.push(valor);
                     break;
               
@@ -8506,19 +8684,87 @@ getChart(criticidad: any, config: any){
             if(this.tipo_cuerpo){
               switch (this.tipo_cuerpo) {
                 case 'Cumple':
-                  valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;              
+                  switch (busqueda) {
+                    case 'alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple : 0;
+                      break;
+                      case 'media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple : 0;
+                      break;
+                      case 'baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple : 0;
+                      break;
+                      case 'otros':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple ? data_type[x].total_cumple : 0;
+                      break;
+                  }            
                   data.push(valor);
                   break;
                 case 'Cumple Parcial':
-                    valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;              
+                  switch (busqueda) {
+                    case 'alta':
+                       valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_cumple_parcial : 0;
+                      break;
+                      case 'media':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_cumple_parcial : 0;
+                      break;
+                      case 'baja':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_cumple_parcial : 0;
+                      break;
+                      case 'otros':
+                        valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_cumple_parcial : 0;
+                      break;
+                  
+                    default:                  
+                        valor = data_type[x] && data_type[x].total_cumple_parcial ? data_type[x].total_cumple_parcial : 0;
+                      break;
+                  }            
                     data.push(valor);
                     break;
                 case 'No Cumple':    
-                    valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;          
+                switch (busqueda) {
+                  case 'alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_cumple : 0;
+                    break;
+                    case 'media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_cumple : 0;
+                    break;
+                    case 'baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_cumple : 0;
+                    break;
+                    case 'otros':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_cumple : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_cumple ? data_type[x].total_no_cumple : 0;
+                    break;
+                }     
                     data.push(valor);
                     break;
                 case 'No Evaluado': 
-                    valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;             
+                switch (busqueda) {
+                  case 'alta':
+                     valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.alta_no_evaluadas : 0;
+                    break;
+                    case 'media':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.media_no_evaluadas : 0;
+                    break;
+                    case 'baja':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.baja_no_evaluadas : 0;
+                    break;
+                    case 'otros':
+                      valor = data_type[x] && data_type[x].criticidad ? data_type[x].criticidad.otros_no_evaluadas : 0;
+                    break;
+                
+                  default:                  
+                      valor = data_type[x] && data_type[x].total_no_evaluado ? data_type[x].total_no_evaluado : 0;
+                    break;
+                }                        
                     data.push(valor);
                     break;
               
