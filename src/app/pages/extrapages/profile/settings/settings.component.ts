@@ -41,7 +41,7 @@ export class SettingsComponent implements OnInit {
       rut: [this.userData.rut, [Validators.required]],
       telefono: [this.userData.telefono],
       email: [this.userData.email, [Validators.required, Validators.email]],
-      joinDate: ['']
+      //joinDate: ['']
     });
 
     this.passresetForm = this.formBuilder.group({
