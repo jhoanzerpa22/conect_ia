@@ -130,7 +130,7 @@ export class TeamComponent {
         cargo: this.teamForm.get('cargo')?.value,
         email: this.teamForm.get('email')?.value,
         rol: [2],
-        empresaId: this.userData.empresaId
+        empresaId: null//this.userData.empresaId
       };
       this.userService.create(data).pipe(first()).subscribe(
         (data: any) => {
