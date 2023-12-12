@@ -53,7 +53,7 @@ export class BodyLegalService {
 
   private _state: State = {
     page: 1,
-    pageSize: 20,
+    pageSize: 10,
     searchTerm: '',
     sortColumn: '',
     sortDirection: '',
@@ -127,7 +127,7 @@ export class BodyLegalService {
     if (this.endIndex > this.totalRecords) {
         this.endIndex = this.totalRecords;
     }
-    bodylegal = bodylegal.slice(this._state.startIndex - 1, this._state.endIndex);
+    //bodylegal = bodylegal.slice(this._state.startIndex - 1, this._state.endIndex);
     return of({bodylegal, total});
   }
 }
