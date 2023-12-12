@@ -121,9 +121,11 @@
                         <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page"
+                               <!-- <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
                                 </ngb-pagination>
+                            -->
+                                <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="pageChange($event)"></ngb-pagination>
                             </div>
                         </div>
                         <!-- End Pagination -->

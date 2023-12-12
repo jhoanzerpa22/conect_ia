@@ -82,30 +82,39 @@ export class BodyLegalTypeComponent {
     const search: any = this.route.snapshot.queryParams['search'];
     if(search && search != '' && search != undefined ? search : ''){
       const type_search: any = this.route.snapshot.queryParams['type_search'];
+      const paginate: any = this.route.snapshot.queryParams['paginate'];
       this.search = search;
       this.type_search = type_search;
-      this.busquedaNorma(search, type_search);
+      this.page = paginate;
+      this.busquedaNorma(search, type_search, paginate);
+    }else{
+      this.busquedaNorma('', 'by_texto', 1);
     }
     
   }
 
-  busquedaNorma(search?:any, type_search?: any){    
+  busquedaNorma(search?:any, type_search?: any, paginate?: any){    
     let busqueda: any = search ? search : this.busquedaForm.get('busqueda')?.value;
     let tipo_busqueda: any = type_search ? type_search : this.busquedaForm.get('tipo_busqueda')?.value;
-    if(busqueda && busqueda != '' && busqueda != undefined && busqueda != null){
+    let page = paginate ? paginate : this.page;
+
+    this.search = busqueda;
+    this.type_search = tipo_busqueda;
+    this.page = page;
+    //if(busqueda && busqueda != '' && busqueda != undefined && busqueda != null){
       this.showPreLoader();
       
-      this._router.navigate(['/library'], { queryParams: { search: busqueda, type_search: tipo_busqueda} });
+      this._router.navigate(['/library'], { queryParams: { search: busqueda, type_search: tipo_busqueda, paginate: page} });
 
       if(tipo_busqueda == 'by_texto'){
-      this.projectsService.getBodyLegalSearch(1, busqueda, 100).pipe().subscribe(
+      this.projectsService./*getBodyLegalSearch(1, busqueda, 100)*/getBodyLegalSearchChile(page, busqueda, 10).pipe().subscribe(
         (data: any) => {
           console.log(data.data);
           if(data && data.data){
-            this.service.bodylegal_data = data.data;
-            this.body_legal_data = data.data;
-            this.total_body = data.data.length > 0 ? data.data.length : 0;
-            this.total_paginate = data.data.length > 0 ? data.data.length : 0;
+            this.service.bodylegal_data = data.data ? data.data.items : [];
+            this.body_legal_data = data.data ? data.data.items : [];
+            this.total_body = data.data ? (data.data.items.length > 0 ? data.data.total : 0) : 0;
+            this.total_paginate = data.data ? (data.data.items.length > 0 ? data.data.total : 0) : 0;
             //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
           }else{
             this.service.bodylegal_data = [];
@@ -169,7 +178,7 @@ export class BodyLegalTypeComponent {
       }
 
       document.getElementById('elmLoader')?.classList.add('d-none')
-    }
+    //}
   }
 
   /**
@@ -202,8 +211,14 @@ export class BodyLegalTypeComponent {
   }
 
   pageTotal(totalRecords: any){
-    let tp: number = round((totalRecords / 20),0);
-    return (tp * 20) > totalRecords ? tp : (tp + 1);
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
+
+  pageChange(page: any){
+    //console.log('Pagina Cambiada',page);
+      this.page = page;
+      this.busquedaNorma(this.search, this.type_search, page);
   }
 
   // PreLoader

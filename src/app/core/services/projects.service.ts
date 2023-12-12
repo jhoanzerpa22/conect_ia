@@ -225,6 +225,10 @@ export class ProjectsService {
     getBodyLegalSearch(project_id: any, search: string, limit: number){
         return this.http.get(API_URL_BACK + 'norm/search?query='+search+'&limit='+limit, /*httpOptions*/this.getToken());
     }
+    
+    getBodyLegalSearchChile(page: number, search?: string, limit?: number){
+        return this.http.get(API_URL_BACK + 'norm/searchChile?query='+search+'&page='+page+'&limit='+limit, /*httpOptions*/this.getToken());
+    }
 
     conectArticleInstallation(installation_id: any, article: any){
         return this.http.post(API_URL_BACK + 'project/installation/article/'+installation_id, article, /*httpOptions*/this.getToken());
