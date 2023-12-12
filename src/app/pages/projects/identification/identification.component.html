@@ -281,12 +281,15 @@
     </div>
     <!-- end col -->
     <div class="col-sm-5">
-        <!--<div class="text-sm-right float-sm-end listjs-pagination">
-            <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page"
+        <div class="text-sm-right float-sm-end listjs-pagination">
+           <!-- <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page"
                 [pageSize]="service.pageSize">
             </ngb-pagination>
-        </div>-->
-        <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
+        -->
+            <ngb-pagination [collectionSize]="pagLength ? pagLength : 0" [(page)]="paginate" [maxSize]="5" [boundaryLinks]="true" (pageChange)="setPage($event - 1)"></ngb-pagination>
+        </div>
+        
+        <!--<ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
             <li class="page-item" [ngClass]="page > 0 ? '' : 'disabled'">
                 <a href="javascript:void(0);" class="page-link"  (click)="setPage(page - 1)">Anterior</a>
             </li>
@@ -300,7 +303,7 @@
             <li class="page-item" [ngClass]="page + 1 == pageTotal(pagLength) ? 'disabled' : ''">
                 <a href="javascript:void(0);" class="page-link" (click)="setPage(page + 1)">Siguiente</a>
               </li>
-          </ul>
+          </ul>-->
       </div><!-- end col -->
     </div><!-- end row -->
 </div>
