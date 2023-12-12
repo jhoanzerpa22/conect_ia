@@ -111,10 +111,10 @@ export class BodyLegalTypeComponent {
         (data: any) => {
           console.log(data.data);
           if(data && data.data){
-            this.service.bodylegal_data = data.data ? data.data.items : [];
-            this.body_legal_data = data.data ? data.data.items : [];
-            this.total_body = data.data ? (data.data.items.length > 0 ? data.data.total : 0) : 0;
-            this.total_paginate = data.data ? (data.data.items.length > 0 ? data.data.total : 0) : 0;
+            this.service.bodylegal_data = data.data ? data.data.normas : [];
+            this.body_legal_data = data.data ? data.data.normas : [];
+            this.total_body = data.data ? (data.data.normas.length > 0 ? data.data.total : 0) : 0;
+            this.total_paginate = data.data ? (data.data.normas.length > 0 ? data.data.total : 0) : 0;
             //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
           }else{
             this.service.bodylegal_data = [];
