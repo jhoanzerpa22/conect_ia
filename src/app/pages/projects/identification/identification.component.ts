@@ -151,6 +151,7 @@ export class IdentificationComponent implements OnInit {
   configs: any = [];
   total_paginate: number = 0;
   page: number = 0;
+  paginate: number = 1;
   list_paginate: any = [0];
 
   ambitos: any = [];
@@ -7040,6 +7041,7 @@ validateIdparte(idParte: any){
   
   setPage(page: number){
     this.page = page;
+    this.paginate = page + 1;
     this.getNormas(page, this.ambito, this.search);
   }
 
@@ -7066,11 +7068,13 @@ validateIdparte(idParte: any){
 
     if(index != -1){
       this.page = 0;
+      this.paginate = 1;
       this.ambito = undefined;
       this.ambitos.splice(index, 1);
       this.getNormas(0, null, this.search);
     }else{
       this.page = 0;
+      this.paginate = 1;
       this.ambitos = [];
       this.ambito = ambito;
       this.ambitos.push(ambito);
@@ -7079,6 +7083,7 @@ validateIdparte(idParte: any){
   }else{
     
     this.page = 0;
+    this.paginate = 1;
     this.ambito = undefined;
     this.ambitos = [];    
     this.getNormas(0, null, this.search);
