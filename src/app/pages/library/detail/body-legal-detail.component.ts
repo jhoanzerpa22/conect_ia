@@ -62,6 +62,8 @@ export class BodyLegalDetailComponent implements OnInit {
   @ViewChildren(NgbdRecentSortableHeader) headers!: QueryList<NgbdRecentSortableHeader>;
 
   htmlString: any = "";
+  htmlStringArticle: any = "";
+  tituloModal: any = "";
   showRow: any = [];
 
   items: any = [];
@@ -136,8 +138,6 @@ export class BodyLegalDetailComponent implements OnInit {
           this.detail = data.data;
           this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
           
-          this.htmlString = this.sanitizer.bypassSecurityTrustHtml((this.detail.encabezado ? this.detail.encabezado.texto.replace(/\n/gi,'<br>') : ''));
-
           console.log('detail',this.detail);
           console.log('detailData',this.articulosDatas);
           this.hidePreLoader();
@@ -157,6 +157,20 @@ export class BodyLegalDetailComponent implements OnInit {
   openModal(content: any) {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
+  }
+
+  showDetailArticle(titulo: any, texto: any, content: any) {
+      this.submitted = false;
+      this.modalService.open(content, {/* size: 'lg', */centered: true });
+
+      this.tituloModal = titulo;
+      this.htmlStringArticle = this.sanitizer.bypassSecurityTrustHtml((texto ? texto.replace(/\n/gi,'<br>') : ''));    
+  }
+
+  showDetailEncabezado(texto: any, content: any){
+    this.modalService.open(content, {/* size: 'lg', */centered: true});
+    this.htmlString = this.sanitizer.bypassSecurityTrustHtml((texto ? texto.replace(/\n/gi,'<br>') : ''));
+
   }
 
   /**
@@ -183,6 +197,10 @@ export class BodyLegalDetailComponent implements OnInit {
     );
 
     return index != -1 ? texto : texto.substr(0,450)+'...';
+  }
+  
+  formatEncabezado(texto:any){
+    return texto ? texto.substr(0,450)+'...' : '';
   }
 
   showText(idParte: any){

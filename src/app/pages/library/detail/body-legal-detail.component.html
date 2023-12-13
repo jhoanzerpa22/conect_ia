@@ -54,9 +54,12 @@
         
         <div class="card-body" *ngIf="showDetail">
             <div class="row">
-                <div class="col-xxl-12 col-lg-12">
+                <div class="col-xxl-12 col-lg-12 mb-3">
                     <p style="color: #405189;"><b>DESCRIPCIÓN</b></p>
-                    <div [innerHTML]="htmlString"></div>
+                    {{detail.encabezado ? (detail.encabezado.texto.length > 450 ? formatEncabezado(detail.encabezado.texto) : detail.encabezado.texto) : ''}}
+
+                    <small class="text-success" style="cursor: pointer;" *ngIf="detail.encabezado && detail.encabezado.texto.length > 450" data-bs-toggle="modal"
+                        id="article-btn" data-bs-target="#showModalEncabezado" (click)="showDetailEncabezado((detail.encabezado ? detail.encabezado.texto : ''), contentEncabezado)"><b>Leer más</b></small>
                 </div>
                 <div class="col-xxl-12 col-lg-12">
                     <div class="row justify-content-center">
@@ -194,7 +197,8 @@
                                 <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>
                                 <p class="card-text mb-2" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
                                 <p class="card-text">
-                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" (click)="showText(data.idParte)"><b>Leer más</b></small>
+                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" data-bs-toggle="modal"
+                                        id="article-btn" data-bs-target="#showModalArticle" (click)="showDetailArticle((data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte)), data.texto, contentArticle)"><b>Leer más</b></small><!--(click)="showText(data.idParte)"-->
                                     <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
                                 </p>
                             </div>
@@ -253,5 +257,35 @@
         <button class="btn btn-success edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;" (click)="cancelar()">Volver</button>
     </div>
 </div>
+
+<ng-template #contentArticle role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">{{tituloModal}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body" style="overflow: auto;max-height: 300px;">
+        <div [innerHTML]="htmlStringArticle"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+        (click)="modal.dismiss('Cross click')">Cerrar</button>
+      </div>
+</ng-template>
+
+<ng-template #contentEncabezado role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Descripción</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body" style="overflow: auto;max-height: 300px;">
+        <div [innerHTML]="htmlString"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+        (click)="modal.dismiss('Cross click')">Cerrar</button>
+      </div>
+</ng-template>
 
 <app-toastl aria-live="polite" aria-atomic="true"></app-toastl>
