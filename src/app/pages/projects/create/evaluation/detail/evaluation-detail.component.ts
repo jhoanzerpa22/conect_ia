@@ -793,6 +793,7 @@ getArticlesCuerpo(articulos: any){
                   if(index == -1 && (index_articulo == -1 || (index_articulo != -1 && articulos[i].articulos[j].evaluations && articulos[i].articulos[j].evaluations.evaluationProyectId && articulos[i].articulos[j].evaluations.evaluationProyectId == this.idEvaluation))){
                     articulos_group.push(articulos[i].articulos[j].articuloId);
                     total += 1;
+                    total_cuerpos += 1;
                     procede = true;
 
                   const evaluation_active = articulos[i].articulos[j].evaluations;
@@ -875,7 +876,7 @@ getArticlesCuerpo(articulos: any){
               }
               if(procede){
                 cuerpo_articulos.push(articulos[i]);
-                total_cuerpos = parseInt(articulos[i].articulos.length);
+                //total_cuerpos = parseInt(articulos[i].articulos.length);
 
                 if(cuerpo_cumple > 0 || cuerpo_parcial > 0 || cuerpo_nocumple > 0){
                   /*if(cuerpo_cumple > cuerpo_parcial && cuerpo_cumple > cuerpo_nocumple){

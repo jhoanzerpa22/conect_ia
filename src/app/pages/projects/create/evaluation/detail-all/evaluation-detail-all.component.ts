@@ -735,6 +735,7 @@ getArticlesCuerpo(articulos: any){
                   if(index == -1){
                     articulos_group.push(articulos[i].articulos[j].articuloId);
                     total += 1;
+                    total_cuerpos += 1;
 
                   procede = true;
                   if(articulos[i].articulos[j].evaluations.estado){
@@ -835,7 +836,7 @@ getArticlesCuerpo(articulos: any){
               }
               if(procede){
                 cuerpo_articulos.push(articulos[i]);
-                total_cuerpos = parseInt(articulos[i].articulos.length);
+                //total_cuerpos = parseInt(articulos[i].articulos.length);
 
                 if(cuerpo_cumple > 0 || cuerpo_parcial > 0 || cuerpo_nocumple > 0){
                   if(cuerpo_cumple == total_cuerpos){
