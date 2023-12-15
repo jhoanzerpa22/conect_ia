@@ -4332,6 +4332,7 @@ validateIdparte(idParte: any){
       this.projectsService.getArticleProyect(project_id).pipe().subscribe(
         (data: any) => {
           this.articles_proyects = data.data;
+          //console.log('articles_proyects',this.articles_proyects);
 
           this.articles_proyects_all = [];
           this.articles_proyects_group = [];
@@ -4370,6 +4371,7 @@ validateIdparte(idParte: any){
               this.articles_proyects_all[index2].articulos.push(x);
             }
           });
+          //console.log('Articles_proyect_group',this.articles_proyects_group);
 
           if(refresh){
             this.setChartCuerpo();
@@ -7191,11 +7193,13 @@ validateIdparte(idParte: any){
       (cu2: any) =>
         parseInt(cu2.normaId) == norma_id
     );
-    if(index2 == -1){
+    
     const index = this.articles_proyects_group.findIndex(
       (co: any) =>
         co.normaId == norma_id && co.proyectoId == this.project_id
-    );
+      );
+
+    if(index2 == -1 || (index2 != -1 && index == -1)){
 
     if(index != -1){
       this.articles_proyects_group.splice(index, 1);
@@ -7436,13 +7440,6 @@ validateIdparte(idParte: any){
   }
 
   changeTab(active: number){
-    this.activeTab = active;
-    this.restablecer();
-    
-    if(active == 4){
-      this.setChart();
-    }
-
     if (this.articles_proyects_group < 1) {
       
       /*Swal.fire({
@@ -7454,6 +7451,17 @@ validateIdparte(idParte: any){
       });*/
 
       return;
+    }
+
+    if(this.activeTab == 1 && active == 2){
+      this.saveCuerpos();
+    }
+
+    this.activeTab = active;
+    this.restablecer();
+    
+    if(active == 4){
+      this.setChart();
     }
   }
 
