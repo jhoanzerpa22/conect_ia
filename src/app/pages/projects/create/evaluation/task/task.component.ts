@@ -145,6 +145,9 @@ export class EvaluationTaskComponent implements OnInit {
 
     document.body.classList.add('file-detail-show');
 
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
     this.userData = this.TokenStorageService.getUser();
 
     /**
