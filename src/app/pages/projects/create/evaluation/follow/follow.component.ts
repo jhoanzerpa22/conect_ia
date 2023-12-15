@@ -180,6 +180,9 @@ export class EvaluationFollowComponent implements OnInit {
     ];
 
     document.body.classList.add('file-detail-show');
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 
     /**
      * Form Validation

@@ -209,8 +209,9 @@
                             <h5 class="mb-1 fs-15"><label style="color: #405189;"><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma+' '+data.identificador.numero : '') : ''}}</label></h5>
                             <p class="text-muted text-truncate-two-lines mb-3"><b>{{data.tituloNorma ? data.tituloNorma : ''}}</b></p>
                             <ng-container *ngFor="let org of data.organismos">
-                                <p class="card-subtitle text-muted mb-0">{{org}}</p>
+                                <p class="card-subtitle text-muted mb-3">{{org}}</p>
                             </ng-container>
+                            <p class="card-subtitle text-muted mb-3">FECHA PUBLICACIÓN: {{data.dates ? data.dates.fechaPublicacionNorma : ''}}</p>
                         </div>
                     </div>
                     <div class="mt-auto">
@@ -586,9 +587,10 @@
         </div>
     </div>
     
-<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 60%;" *ngIf="selectCheckedCuerpos.length > 0 && selectList">
+<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 60%;" *ngIf="selectCheckedCuerpos.length > 0 && selectList && !hideSelection">
     <div class="col-sm-7">
         <div style="background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden; width: 100%; height: 100%;">
+            <button type="button" class="btn-close" style="float: right;" aria-label="Cerrar" id="close-modal" (click)="hideModalSelection()"></button>
             <div class="col-sm-12">
                 <div class="row mb-3 mt-3 align-items-center team-row">
                     <div class="col-sm-1">
@@ -605,9 +607,10 @@
     </div>
 </div>
 
-<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 60%;" *ngIf="!selectList && selectCheckedInstalaciones.length > 0">
+<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: fixed;bottom: 75px;width: 60%;" *ngIf="!selectList && selectCheckedInstalaciones.length > 0 && !hideSelection">
     <div class="col-sm-7">
         <div style="background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden; width: 100%; height: 100%;">
+            <button type="button" class="btn-close" style="float: right;" aria-label="Cerrar" id="close-modal" (click)="hideModalSelection()"></button>
             <div class="col-sm-12">
                 <div class="row mb-3 mt-3 align-items-center team-row">
                     <div class="col-sm-1">
@@ -1071,9 +1074,10 @@
         </div>
     </div>
 
-<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: sticky;bottom: 75px;" *ngIf="selectCheckedVincular.length > 0">
+<div class="row g-0 text-center justify-content-end text-sm-start align-items-center mb-4" style="padding: 0px;position: sticky;bottom: 75px;" *ngIf="selectCheckedVincular.length > 0 && !hideSelection">
     <div class="col-sm-12 mb-3">
         <div style="background: #F7B84B; box-shadow: 0px 17px 35px rgba(64, 81, 137, 0.20); border-radius: 2px; overflow: hidden; width: 100%; height: 100%;">
+            <button type="button" class="btn-close" style="float: right;" aria-label="Cerrar" id="close-modal" (click)="hideModalSelection()"></button>
             <div class="col-sm-12">
                 <div class="row mb-3 mt-3 align-items-center team-row">
                     <div class="col-sm-1">
