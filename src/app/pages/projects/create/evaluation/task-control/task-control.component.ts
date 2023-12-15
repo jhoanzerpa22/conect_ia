@@ -164,6 +164,9 @@ export class TaskControlComponent implements OnInit {
     ];
 
     document.body.classList.add('file-detail-show');
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 
     this.userData = this.TokenStorageService.getUser();
 
@@ -393,7 +396,7 @@ export class TaskControlComponent implements OnInit {
           });
 
           this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
-          
+          //console.log('ARTICULO',this.articulo);
           if(this.articulo.project_article && this.articulo.project_article.articuloTipo){
             this.estados = this.estados_default.filter((estado: any) => {
               return estado.type == this.articulo.project_article.articuloTipo;
@@ -480,6 +483,7 @@ export class TaskControlComponent implements OnInit {
       this.projectsService.getTasksByFinding(finding_id).pipe().subscribe(
         (data: any) => {
           this.TaskDatas = data.data;
+          //console.log('TaskDatas', this.TaskDatas);
           this.hidePreLoader();
       },
       (error: any) => {
@@ -992,7 +996,7 @@ export class TaskControlComponent implements OnInit {
     this.projectsService.getEvaluationsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
       (data: any) => {
         this.evaluations = data.data;
-        console.log('evaluaciones',this.evaluations);
+        //console.log('evaluaciones',this.evaluations);
     },
     (error: any) => {
       this.hidePreLoader();

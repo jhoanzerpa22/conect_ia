@@ -216,6 +216,7 @@ export class IdentificationComponent implements OnInit {
   select_gestion_instalacion: any = 'articulos';
 
   articles_filter: any = [];
+  hideSelection: boolean = false;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -287,6 +288,10 @@ export class IdentificationComponent implements OnInit {
 
   ngAfterViewInit() {
     //this.scrollRef.SimpleBar.getScrollElement().scrollTop = 600;
+  }
+
+  hideModalSelection(){
+    this.hideSelection = true;
   }
 
   // Chart Colors Set
@@ -4002,6 +4007,7 @@ getChart(criticidad: any, config: any){
 
  onClickList(active: boolean){
     this.selectList = active;
+    this.hideSelection = false;
 
     if(!this.selectList){
       this.selectCheckedInstalaciones = [];
@@ -4015,6 +4021,7 @@ getChart(criticidad: any, config: any){
  //actualmente no se esta usando
  onChangeList(e: any){
     this.selectList = !this.selectList;
+    this.hideSelection = false;
 
     if(!this.selectList){
       this.selectCheckedInstalaciones = [];
@@ -4634,6 +4641,7 @@ validateIdparte(idParte: any){
           this.hidePreLoader();
           
           this.selectCheckedCuerpos = [];
+          this.hideSelection = false;
           this.refreshData();
             
           /*Swal.fire({
@@ -6884,6 +6892,7 @@ validateIdparte(idParte: any){
   }
 
   onCheckboxClickCuerpos(value: any) {
+    this.hideSelection = false;
     var checkedVal: any[] = [];
     var result
     for (var i = 0; i < this.articles_proyects_group.length; i++) {
@@ -6943,6 +6952,7 @@ validateIdparte(idParte: any){
 
   onCheckboxClickInstalaciones(value: any){
     var checkedVal: any[] = [];
+    this.hideSelection = false;
     var result
     for (var i = 0; i < this.installations_data.length; i++) {
         result = this.installations_data[i];
@@ -7004,6 +7014,7 @@ validateIdparte(idParte: any){
 
   onCheckboxClickVincular(value: any, data: any) {
     var checkedVal: any[] = [];
+    this.hideSelection = false;
     var result
 
         result = data;
@@ -7459,6 +7470,7 @@ validateIdparte(idParte: any){
     this.selectCheckedVincular = [];
     this.selectCheckedInstalaciones = [];
     this.selectCheckedCuerpos = [];
+    this.hideSelection = false;
     this.configs = [];
   }
 

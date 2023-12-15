@@ -176,6 +176,7 @@ getCategoryStatus(estado?: any){
               let cuerpo_nocumple: number = 0;
               let cuerpo_parcial: number = 0;
               let articulos_group: any = [];
+              let no_active: number = 0;
 
               for (var j = 0; j < obj[i].installations_articles.length; j++) { 
                 if(obj[i].installations_articles[j].proyectoId == this.project_id && (obj[i].installations_articles[j].estado == '1' || obj[i].installations_articles[j].estado == '2')){
@@ -203,15 +204,19 @@ getCategoryStatus(estado?: any){
                     if(obj[i].installations_articles[j].evaluations.length > 0){
                       const evaluaciones = obj[i].installations_articles[j].evaluations;
 
-                      console.log('Evaluations', evaluaciones);
+                      //console.log('Evaluations', evaluaciones);
                       
                       const index_evaluation = evaluaciones.findIndex(
                         (ev: any) =>
                           ev.evaluationProyectId == this.idEvaluation
                       );
                       const evaluation_active = index_evaluation != -1 ? evaluaciones[index_evaluation] : {};
-
+                        
                       if(/*obj[i].installations_articles[j].evaluations[0].estado*/evaluation_active && evaluation_active.estado){
+
+                        if(!evaluation_active.active){
+                          no_active += 1;
+                        }
 
                         switch (this.getCategoryStatus(evaluation_active.estado/*obj[i].installations_articles[j].evaluations[0].estado*/)) {
                           case 'CUMPLE':
@@ -246,6 +251,7 @@ getCategoryStatus(estado?: any){
               obj[i].total_cuerpos = total_cuerpos.length;
               let avance: any = total_articulos.length > 0 ? ((((cuerpo_cumple * 100) + (cuerpo_nocumple * 100/** 0*/) + (cuerpo_parcial * 100/** 50*/)) * 100) / (total_articulos.length * 100)) : 0;
               obj[i].avance = round(avance, 0);
+              obj[i].active = no_active > 0 ? false : true;
               if(total_articulos.length > 0){
                 avance_total += obj[i].avance > 0 ? obj[i].avance : 0;
                 lista.push(obj[i]);

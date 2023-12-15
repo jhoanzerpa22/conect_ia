@@ -124,7 +124,7 @@
                                                                         </div>
                                                                         
                                                                         <div class="col-lg-1 col text-center">
-                                                                            <span 
+                                                                            <span [ngClass]="evaluations.active ? 'text-success' : ''"
                                                                             [style.cursor]="'pointer'" (click)="homologar(homoContent, evaluations.id, v.id)">
                                                                             <i class="ri-git-merge-fill"></i>
                                                                             </span>
