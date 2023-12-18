@@ -7455,13 +7455,14 @@ validateIdparte(idParte: any){
 
     if(this.activeTab == 1 && active == 2){
       this.saveCuerpos();
-    }
+    }else{
 
     this.activeTab = active;
     this.restablecer();
     
     if(active == 4){
       this.setChart();
+    }
     }
   }
 
