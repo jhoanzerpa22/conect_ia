@@ -51,8 +51,8 @@ export class NormasAllService {
     
     }
 
-    update(id: any, data: any): Observable<any> {
-        return this.http.put(API_URL_BACK + 'norm/normas/'+id, data);
+    update(data: any, id: number): Observable<any> {
+        return this.http.put(API_URL_BACK + 'norm/normas/'+id, data, this.getToken());
     }
 
     delete(id: any): Observable<any> {
