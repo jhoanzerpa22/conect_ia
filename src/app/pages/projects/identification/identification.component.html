@@ -1157,6 +1157,37 @@
             <div class="mb-3">
                 <!--<div class="list-group">-->
                 <ul class="list-group">
+                    <li class="list-group-item mb-3 border" style="cursor: pointer;" [ngClass]="{'card-border-success': validCheckedAll() == 1, 'card-border-warning': validCheckedAll() == 2 }">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                            <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0"><!--avatar-xs-->
+                                   <i class="mdi align-middle lh-1 me-2" [ngClass]="{'mdi-check-circle text-success': validCheckedAll() == 1, 'mdi-alert-circle text-warning': validCheckedAll() == 2,'mdi-checkbox-blank-circle text-gray': validCheckedAll() == null || validCheckedAll() == 0 }"></i>
+                            </div>
+                            <div class="flex-shrink-0 ms-2">
+                                TODOS
+                            </div>
+                            </div>
+                            </div> 
+                            
+                            <div class="flex-shrink-0">
+                                <div class="form-check form-check-inline form-radio-danger">
+                                    <input class="form-check-input" type="radio" name="all-estado" id="all-estado0" value="all-0" (change)="onCheckboxChangeAll(0)" [checked]="validCheckedAll() == 0 || validCheckedAll() == null">
+                                    <label class="form-check-label" for="all-estado0">No gestionar</label>
+                                </div>
+                                <div class="form-check form-check-inline form-radio-warning">
+                                    <input class="form-check-input" type="radio" name="all-estado" id="all-estado2" value="all-2" (change)="onCheckboxChangeAll(2)" [checked]="validCheckedAll() == 2">
+                                    <label class="form-check-label" for="all-estado2">Por Definir</label>
+                                </div>
+                                <div class="form-check form-check-inline form-radio-success">
+                                    <input class="form-check-input" type="radio" name="all-estado" id="all-estado1" value="all-1" (change)="onCheckboxChangeAll(1)" [checked]="validCheckedAll() == 1">
+                                    <label class="form-check-label" for="all-estado1">Gestionar</label>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </li>
+
                     <ng-container *ngFor="let o of installations_filter | filter:term7">
                         <!--<label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll3"
