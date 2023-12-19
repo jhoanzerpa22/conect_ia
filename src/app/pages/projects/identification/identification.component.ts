@@ -217,6 +217,8 @@ export class IdentificationComponent implements OnInit {
 
   articles_filter: any = [];
   hideSelection: boolean = false;
+  
+  estadoAll: number = 1;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -6679,6 +6681,10 @@ validateIdparte(idParte: any){
       }
   }
 
+  validCheckedAll(){
+    return this.estadoAll;
+}
+
   async validCheckedInitial(add?: boolean){ 
 
     if(add){
@@ -6862,6 +6868,28 @@ validateIdparte(idParte: any){
             this.selectChecked3.push({estado: valor, data: this.installations_filter[i]});
           }
         }
+    }
+  }
+
+  onCheckboxChangeAll(valor?: any) {
+    this.estadoAll = valor;
+    var result
+    for (var i = 0; i < this.installations_filter.length; i++) {
+        result = this.installations_filter[i];          
+        const index = this.selectChecked3.findIndex(
+            (ch: any) =>
+              ch.data.id == this.installations_filter[i].id
+          );
+
+          if(index != - 1){
+            if(valor > 0){
+              this.selectChecked3[index].estado = valor;
+            }else{
+              this.selectChecked3.splice(index, 1);
+            }
+          }else{
+            this.selectChecked3.push({estado: valor, data: this.installations_filter[i]});
+          }
     }
   }
   
