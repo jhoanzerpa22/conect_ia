@@ -107,7 +107,7 @@
 
                                                                         <div class="col-lg-2 col">
                                                                             <div class="progress progress-xl">
-                                                                                <div class="progress-bar" [ngClass]="{'bg-danger': v.avance > 0 && v.avance < 25, 'bg-warning': v.avance > 25 && v.avance < 75, 'bg-success': v.avance > 75 }" role="progressbar" [style]="v.avance > 0 ? 'width:'+v.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{v.avance}}%</div>
+                                                                                <div class="progress-bar" [ngClass]="{'bg-danger': v.avance > 0 && v.avance < 25, 'bg-warning': v.avance > 25 && v.avance < 75, 'bg-success': v.avance > 75 }" role="progressbar" [style]="v.avance > 0 ? 'width:'+(v.avance > 100 ? 100 : v.avance)+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{(v.avance > 100 ? 100 : v.avance)}}%</div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
