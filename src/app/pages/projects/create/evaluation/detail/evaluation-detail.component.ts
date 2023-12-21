@@ -614,7 +614,7 @@ getArticlesCuerpo(articulos: any){
         co.articuloId == articulos[j].articuloId
     );
 
-    if(index == -1 && articulos[j].proyectoId == this.project_id/* && (!articulos[j].evaluations || !articulos[j].evaluations.evaluationProyectId || (articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation))*/
+    if(index == -1 && articulos[j].proyectoId == this.project_id && articulos[j].estado == '1'/* && (!articulos[j].evaluations || !articulos[j].evaluations.evaluationProyectId || (articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation))*/
       ){
 
         if(articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId != this.idEvaluation)
@@ -623,7 +623,7 @@ getArticlesCuerpo(articulos: any){
         }
 
       articulosData.push(articulos[j]);
-    }else if(index != -1 && articulos[j].proyectoId == this.project_id){
+    }else if(index != -1 && articulos[j].proyectoId == this.project_id && articulos[j].estado == '1'){
       if((!articulosData[index].evaluations || !articulosData[index].evaluations.evaluationProyectId) && articulos[j].evaluations && articulos[j].evaluations.evaluationProyectId && articulos[j].evaluations.evaluationProyectId == this.idEvaluation){
         articulosData[index] = articulos[j];
       }
@@ -778,8 +778,7 @@ getArticlesCuerpo(articulos: any){
               let articulos_group: any = [];
 
               for (var j = 0; j < articulos[i].articulos.length; j++) {
-                if(articulos[i].articulos[j].proyectoId == this.project_id && (articulos[i].articulos[j].estado == '1' || articulos[i].articulos[j].estado == '2')){
-                  
+                if(articulos[i].articulos[j].proyectoId == this.project_id && /*(*/articulos[i].articulos[j].estado == '1'/* || articulos[i].articulos[j].estado == '2')*/){
                   const index = articulos_group.findIndex(
                     (ar: any) =>
                       ar == articulos[i].articulos[j].articuloId
