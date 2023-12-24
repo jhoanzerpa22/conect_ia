@@ -26,12 +26,144 @@
                             
                             <div class="row g-4 mb-3">
                                 <div class="col-sm">
+                                    <div class="row g-4 mb-3">    
+                                        <div class="col-12">
+                                            <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
+                                                width: 100%;
+                                                text-align: left;" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo }}</button>    
+                                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                                <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                                    <a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>
+                                                    
+                                                    <ng-container *ngFor="let g of articles_proyects_group;">
+                                                        
+                                                    <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
             
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-4 mb-3">   
+                                          
+                                        <div class="col-3">
+                                            
+                                            <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                                
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                                width: 100%;
+                                                text-align: left;
+                                                background: white;
+                                            " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !tipo_cuerpo ? 'Cumplimiento' : tipo_cuerpo }}</button>    
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                                <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                                    <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple')">Cumple</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple Parcial' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple Parcial')">Cumple Parcial</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Cumple')">No Cumple</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Evaluado' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Evaluado')">No Evaluado</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+        
+                                            <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                                
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                                width: 100%;
+                                                text-align: left;
+                                                background: white;
+                                            " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo">{{ !criticidad_cuerpo ? 'Criticidad' : criticidad_cuerpo }}</button>    
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
+                                                <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
+                                                    <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
+                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
+                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
+                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
+                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
+                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-3">
+                    
+                                            <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                                
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                                width: 100%;
+                                                text-align: left;
+                                                background: white;
+                                            " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_atributo ? 'Seleccione el atributo' : filtro_atributo }}</button>    
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                                <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
+                                                    <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
+                                                    
+                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
+                                                    
+                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reporte' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reporte')">Reporte</a>
+                                                    
+                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreo' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreo')">Monitoreo</a>
+                                                    
+                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>
+                                                </div>
+                                            </div>
+                    
+                                        </div>
+            
+                                        
+                                        <div class="col-3">
+                    
+                                            <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                                
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                                width: 100%;
+                                                text-align: left;
+                                                background: white;
+                                            " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_articulo ? 'Seleccione el árticulo' : filtro_articulo }}</button>
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                                <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                                    <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
+            
+                                                    <ng-container *ngFor="let ach of articles_filter">
+                                                        <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                    
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-4 mb-3">
+            
+                                        <div class="col-12">
+                    
+                                            <div class="btn-group" style="width: 100%;" ngbDropdown>
+                                                
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-disable" style="
+                                                width: 100%;
+                                                text-align: left;
+                                                background: white;
+                                            " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_area_cuerpo ? 'Selecciona el área' : filtro_area_cuerpo }}</button>    
+                                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
+                                                <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
+                                                    
+                                                    <a class="dropdown-item" [ngClass]="!filtro_area_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo()">Todos</a>
+            
+                                                    <ng-container *ngFor="let ar of installations_group;">
+                                                        <a class="dropdown-item" [ngClass]="filtro_area_cuerpo && filtro_area_cuerpo == ar.area ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.area)">{{ar.area}}</a>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-auto">
                                     <div class="d-md-flex justify-content-sm-end gap-2">
                                         <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                                            <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="Buscar un Elemento" [(ngModel)]="term">
+                                            <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="Buscar un Elemento" [(ngModel)]="searchTerm" (input)="filterList(searchTerm)"><!-- [(ngModel)]="term"-->
                                             <i class="ri-search-line search-icon"></i>
                                         </div>
                                     </div>
@@ -46,7 +178,7 @@
                 
                                     <div *ngIf="installations_data.length > 0">            
                                             <div class="list-group">
-                                                <ng-container *ngFor="let ig of installations_group | filter:term;">
+                                                <ng-container *ngFor="let ig of installations_group_filter"><!-- | filter_control:search;  filter:term;-->
                                                     <h4 style="color: #405189;">{{ig.area}}</h4>
                                                     <p>{{ig.descripcion}}</p>
                 

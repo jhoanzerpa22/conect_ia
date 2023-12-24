@@ -39,6 +39,7 @@ export class ProjectControlComponent implements OnInit {
   installations_data: any = [];
   installations_articles: any = [];
   installations_group: any = [];
+  installations_group_filter: any = [];
   userData: any;
   avance_evaluacion: number = 0;
   
@@ -51,6 +52,20 @@ export class ProjectControlComponent implements OnInit {
   
   estados_default: any = estadosData;
   term:any;
+  searchTerm: any;
+  search: any = {texto: '', cuerpo: '', tipo: '', criticidad: '', atributo: '', articulo: '', area: ''};
+
+  filtro_cuerpo: any;
+  tipo_cuerpo: any;
+  filtro_cuerpoId: any;
+  criticidad_cuerpo: any;
+  filtro_atributo: any;
+  filtro_articulo: any;
+  filtro_articuloId: any;
+  filtro_area_cuerpo: any;
+  articles_filter: any = [];
+  articles_proyects_group: any = [];
+  articulos: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
   }
@@ -75,6 +90,7 @@ export class ProjectControlComponent implements OnInit {
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
+      this.getArticleProyect(params['id']);
     });
 
     /**
@@ -270,6 +286,8 @@ export class ProjectControlComponent implements OnInit {
               this.installations_group[index].instalaciones.push(x);
             }
           });
+          this.installations_group_filter = this.installations_group;
+          console.log('installations_group',this.installations_group);
           //console.log('lista_data', this.installations_group);
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;
           
@@ -709,7 +727,6 @@ layers = [
     circle([1.3, 103.8], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
   ];
 
-
   /**
    * Fetches the data
    */
@@ -718,6 +735,175 @@ layers = [
     this.ActiveProjects = ActiveProjects;
     this.MyTask = MyTask;
     this.TeamMembers = TeamMembers;
+  }
+  
+  getArticulos(){
+    this.articles_filter = [];
+    const filter: any = this.installations_articles.filter(
+      (ins: any) =>
+        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2') && ins.normaId == this.filtro_cuerpoId
+    );
+   // let articles_group: any = [];
+          filter.forEach((x: any) => {
+            
+            const index = /*articles_group*/this.articles_filter.findIndex(
+              (co: any) =>
+                co.id == x.articuloId
+            );
+
+            if(index == -1){
+              /*articles_group*/this.articles_filter.push({id: x.articuloId, articulo: x.articulo});
+            }
+          })
+    //return articles_group;
+  }
+  
+  private setArticulos(articulos: any){
+
+    articulos.forEach((x: any) => {
+      
+      this.articulos.push(x);
+      if(x.hijas){
+        this.setArticulos(x.hijas);
+      }
+    
+    });
+
+  }
+
+  private getArticleProyect(project_id: any, refresh?: boolean){
+
+    this.projectsService.getArticleProyect(project_id).pipe().subscribe(
+      (data: any) => {
+        const articles_proyects = data.data;
+
+        this.articles_proyects_group = [];
+        this.articulos = [];
+        articles_proyects.forEach((x: any) => {
+
+          this.articulos.push(x);
+          if(x.hijas){
+            this.setArticulos(x.hijas);
+          }
+          
+          const index = this.articles_proyects_group.findIndex(
+            (co: any) =>
+              co.normaId == x.normaId
+          );
+
+          if(index == -1){
+            this.articles_proyects_group.push({
+              cuerpoLegal: x.cuerpoLegal, organismo: x.organismo, normaId: x.normaId, encabezado: x.encabezado, tituloNorma: x.tituloNorma, ambito: x.ambito, proyectoId: x.proyectoId, articulos: [x]
+            });
+
+          }else{
+            this.articles_proyects_group[index].articulos.push(x);
+          }
+
+        });
+
+        //this.hidePreLoader();
+    },
+    (error: any) => {
+      //this.hidePreLoader();
+      //this.error = error ? error : '';
+    });
+}
+
+filterBusqueda() {
+  let items = this.installations_group;
+  let search = this.search;
+  console.log('Busqueda:',search);
+  if (!items) {
+    this.installations_group_filter = [];
+  }
+  if (!search) {
+    this.installations_group_filter = items;
+  }
+
+  if(!search.texto && (!search.cuerpo || search.cuerpo == undefined) && (!search.articulo || search.articulo == undefined) && (!search.tipo || search.tipo == undefined) && (!search.criticidad || search.criticidad == undefined) && (!search.atributo || search.atributo == undefined) && (!search.area || search.area == undefined)){
+    this.installations_group_filter = items;
+  }else{
+
+  let texto = '';
+  
+  if(search.texto){
+      texto = search.texto.toLowerCase();
+  }
+
+  this.installations_group_filter = items.filter((item: any) => {
+    
+    let search_installation = texto ? item.instalaciones.findIndex((i: any) =>{
+      return (i.nombre && i.nombre.toLowerCase().includes(texto)) || (i.descripcion && i.descripcion.toLowerCase().includes(texto));
+    }) : -1;
+    
+    let cuerpo_installation = search.cuerpo ? item.instalaciones.findIndex((c: any) =>{
+      return c.installations_articles.findIndex((ins: any) => {
+        return ins.normaId == search.cuerpo;
+      }) != -1;
+    }) : -1;
+    
+    let articulo_installation = search.articulo ? item.instalaciones.findIndex((a: any) =>{
+      return a.installations_articles.findIndex((ins2: any) => {
+        return ins2.articuloId == search.articulo;
+      }) != -1;
+    }) : -1;
+
+    let atributo_installation = search.atributo ? item.instalaciones.findIndex((at: any) =>{
+      return at.installations_articles.findIndex((ins3: any) => {
+        return ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+      }) != -1;
+    }) : -1;
+
+    return (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 || cuerpo_installation != -1 || articulo_installation != -1 || atributo_installation != -1 || (search.area && item.area && item.area == search.area)/* || item.normaId.includes(searchText)*/;
+  });
+  }
+}
+
+selectCuerpoFiltro(cuerpo?: any, normaId?: any){
+  this.filtro_cuerpo = cuerpo;
+  this.filtro_cuerpoId = normaId;
+  this.search.cuerpo = normaId;
+  this.filterBusqueda();
+  if(cuerpo){
+    this.getArticulos();    
+  }
+}
+
+  selectTipoCuerpo(tipo?: any){
+    this.tipo_cuerpo = tipo;
+    this.search.tipo = tipo;
+    this.filterBusqueda();
+  }
+  
+  selectAtributoFiltro(atributo?: any){
+    this.filtro_atributo = atributo;
+    this.search.atributo = atributo;
+    this.filterBusqueda();
+  }
+
+  selectCriticidadCuerpo(criticidad?: any){
+    this.criticidad_cuerpo = criticidad;
+    this.search.criticidad = criticidad;
+    this.filterBusqueda();
+  }
+
+  selectArticuloFiltro(id?: any, articulo?: any){
+    this.filtro_articuloId = id > 0 ? id : null;
+    this.filtro_articulo = id > 0 ? articulo : null;
+    this.search.articulo = id;
+    this.filterBusqueda();
+  }
+
+  selectAreaChartCuerpo(nombre?: any){
+    this.filtro_area_cuerpo = nombre;
+    this.search.area = nombre;
+    this.filterBusqueda();
+  }
+
+  filterList(text: any){
+    this.search.texto = text;
+    this.filterBusqueda();
   }
 
 }
