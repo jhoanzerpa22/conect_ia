@@ -837,8 +837,8 @@ filterBusqueda() {
       return (i.nombre && i.nombre.toLowerCase().includes(texto)) || (i.descripcion && i.descripcion.toLowerCase().includes(texto));
     }) : -1;
     
-    let cuerpo_installation = search.cuerpo ? item.instalaciones.findIndex((c: any) =>{
-      return c.installations_articles.findIndex((ins: any) => {
+    let cuerpo_installation = search.cuerpo ? item.instalaciones.findIndex((d: any) =>{
+      return d.installations_articles.findIndex((ins: any) => {
         return ins.normaId == search.cuerpo;
       }) != -1;
     }) : -1;
@@ -855,7 +855,21 @@ filterBusqueda() {
       }) != -1;
     }) : -1;
 
-    return (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 || cuerpo_installation != -1 || articulo_installation != -1 || atributo_installation != -1 || (search.area && item.area && item.area == search.area)/* || item.normaId.includes(searchText)*/;
+    let cumplimiento_installation = search.tipo ? item.instalaciones.findIndex((c: any) =>{
+      return c.installations_articles.findIndex((ins4: any) => {
+        return ins4.evaluations.findIndex((ev: any) => {
+          return this.getCategoryStatus(ev.estado) == search.tipo;
+        }) != -1;
+      }) != -1;
+    }) : -1;
+
+    let criticidad_installation = search.criticidad ? item.instalaciones.findIndex((cri: any) =>{
+      return cri.installations_articles.findIndex((ins5: any) => {
+        return (ins5.project_article.construccion == true && search.criticidad == 'Alta') || (ins5.project_article.operacion == true && search.criticidad == 'Media') || (ins5.project_article.cierre == true && search.criticidad == 'Baja') || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre && search.criticidad == 'No especificado');
+      }) != -1;
+    }) : -1;
+
+    return (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 || cuerpo_installation != -1 || articulo_installation != -1 || atributo_installation != -1 || (search.criticidad ? cumplimiento_installation != -1 && criticidad_installation != -1 : cumplimiento_installation != -1) || (search.area && item.area && item.area == search.area)/* || item.normaId.includes(searchText)*/;
   });
   }
 }

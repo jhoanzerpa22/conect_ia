@@ -60,10 +60,10 @@
                                                 <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                                 <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
-                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple')">Cumple</a>
-                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'Cumple Parcial' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('Cumple Parcial')">Cumple Parcial</a>
-                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Cumple' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Cumple')">No Cumple</a>
-                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'No Evaluado' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('No Evaluado')">No Evaluado</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'CUMPLE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('CUMPLE')">Cumple</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'CUMPLE PARCIALMENTE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('CUMPLE PARCIALMENTE')">Cumple Parcial</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'NO CUMPLE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('NO CUMPLE')">No Cumple</a>
+                                                    <!--<a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'NO EVALUADO' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('NO EVALUADO')">No Evaluado</a>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -79,7 +79,7 @@
                                                 <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
                                                 <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
-                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
+                                                    <!--<a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>-->
                                                     <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
                                                     <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
                                                     <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
