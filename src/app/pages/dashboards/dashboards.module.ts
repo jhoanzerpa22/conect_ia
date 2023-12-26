@@ -7,6 +7,7 @@ import { NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbNavModul
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Ng Search 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FilterControlPipe } from '../projects/filter_control.pipe';
 
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
@@ -58,7 +59,8 @@ import lottie from 'lottie-web';
     ProjectEvaluationsComponent,
     ProjectControlComponent,
     ProjectResumenComponent,
-    HomeComponent
+    HomeComponent,
+    FilterControlPipe
   ],
   imports: [
     CommonModule,
