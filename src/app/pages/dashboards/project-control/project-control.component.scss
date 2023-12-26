@@ -9,3 +9,7 @@
 .text-aplicables{
     font-size: 24px;
 }
+
+.dropdown-disable::after{
+    display: none !important;
+}
