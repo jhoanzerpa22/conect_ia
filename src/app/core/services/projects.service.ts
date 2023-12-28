@@ -348,9 +348,9 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluacionProyecto/'+project_id, this.getToken());
     }
 
-    createEvaluation(project_id: any, active?: boolean): Observable<any> {
+    createEvaluation(project_id: any, active?: boolean, auditoria?: boolean, auditor?: any, empresa?: any, comentario?: any): Observable<any> {
         return this.http.post(API_URL_BACK + 'evaluacionProyecto', {"proyectoId": project_id,
-        "cumplimiento": 0, active: active}, this.getToken());
+        "cumplimiento": 0, active: active, auditoria: auditoria, auditor: auditor, empresa: empresa, comentario: comentario}, this.getToken());
     }
     
     updateEvaluation(idEvaluation: any, data: any): Observable<any> {

@@ -31,21 +31,28 @@
                         <div class="col-sm">
                         </div>
                         <div class="col-sm-auto">
-                            <div>
-                                <button type="button" class="btn btn-success waves-effect waves-light" (click)="createEvaluation()"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i></button><!--[disabled]="evaluations"-->
-                            </div>
+                            <!--<div>-->
+                                <button type="button" class="btn btn-success waves-effect waves-light" (click)="createEvaluation()">Nueva Evaluación<!--<i class="ri-add-line label-icon align-middle fs-16"></i>--></button><!--[disabled]="evaluations"-->
+                                <button type="button" style="margin-left: 10px;" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+                                id="create-btn" data-bs-target="#showModal" (click)="openModal(content)">Nueva Auditoria</button>
+                            <!--</div>-->
                         </div>
                     </div>
-                    <!--<div class="card">
-                        <div class="card-body">-->
         
-                            <div *ngIf="!evaluations || evaluations.length < 1 || !showData" style="min-height: 400px !important;">
+                    <!--Evaluaciones-->
+                    <div class="row g-4 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Evaluaciones</h4>
+                            </div>
+                            <div class="card-body">
+                            <div *ngIf="!evaluations || evaluations.length < 1 || !showData" style="min-height: 350px !important;">
                                 <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
                                     Aún no tiene Evaluaciones
                                 </div>
                             </div>
         
-                            <div *ngIf="evaluations && evaluations.length > 0 && showData" style="min-height: 450px !important;">
+                            <div *ngIf="evaluations && evaluations.length > 0 && showData" style="min-height: 350px !important;">
                                 <ng-container *ngFor="let ev of evaluations">
                                     <div class="list-group">
                                         <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
@@ -121,8 +128,89 @@
                                     </div>
                                 </ng-container>
                                 </div>
-                            <!--</div>
-                    </div>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Auditorias-->
+                    <div class="row g-4 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Auditorias</h4>
+                            </div>
+                            <div class="card-body">
+                            <div *ngIf="!auditorias || auditorias.length < 1 || !showData" style="min-height: 350px !important;">
+                                <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                                    Aún no tiene Auditorias
+                                </div>
+                            </div>
+        
+                            <div *ngIf="auditorias && auditorias.length > 0 && showData" style="min-height: 350px !important;">
+                                <ng-container *ngFor="let au of auditorias">
+                                    <div class="list-group">
+                                        <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
+                          
+                                            <!--<ng-container *ngFor="let v of ig.instalaciones;">-->
+        
+                                            <div class="team-list list-view-filter row" style="cursor:pointer;">
+                                                <div class="col">
+                                                    <div class="card team-box">
+                                                        <div class="team-cover">
+                                                            
+                                                        </div>
+                                                        <div class="card-body p-4">                
+                                                            <div class="row align-items-center team-row">
+                                                                <div class="col team-settings">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1">{{ au.createdAt | date: 'd/M/yyyy' }}</h5>
+                                                                            <p class="text-muted mb-0">Inicio</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+        
+                                                                <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1">{{ au.auditor ? au.auditor : '-' }}</h5>
+                                                                            <p class="text-muted mb-0">Auditor</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-4 col" (click)="goEvaluation(au.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1"style="color: #405189;"><b>{{au.empresa}}</b></h5>
+                                                                            <p class="text-muted mb-0">Empresa</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-4 col" (click)="goEvaluation(au.id)">
+                                                                    {{au.comentario}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--end card-->
+                                                </div>
+                                            </div>
+                                            <!--</ng-container>
+                                        </ng-container>-->
+                                    </div>
+                                </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
               </div>
               </div>
@@ -180,4 +268,56 @@
         </div>
       </div>
     </div>
+</ng-template>
+
+
+<!-- Add ListJs Data -->
+<ng-template #content role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Auditoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveAuditoria()" [formGroup]="auditoriaForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label for="customername-field" class="form-label">Nombre Auditor</label>
+                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Auditor" required
+                    formControlName="auditor"
+                    [ngClass]="{ 'is-invalid': submitted && form['auditor'].errors }" />
+                <div class="invalid-feedback">Por favor ingresa un nombre de auditor.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="customername-field" class="form-label">Empresa Auditora</label>
+                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Empresa Auditora" required
+                    formControlName="empresa"
+                    [ngClass]="{ 'is-invalid': submitted && form['empresa'].errors }" />
+                <div class="invalid-feedback">Por favor ingresa una empresa auditora.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email-field" class="form-label">Comentario</label>
+                <textarea rows="3" id="email-field" class="form-control" placeholder="Ingresar Comentario" required
+                formControlName="comentario" [ngClass]="{ 'is-invalid': submitted && form['comentario'].errors }"></textarea>
+                <div class="invalid-feedback">Por favor ingresar comentario.</div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')">Cerrar</button>
+                <button type="submit" class="btn btn-success" id="add-btn">Continuar</button>
+            </div>
+        </div>
+    </form>
 </ng-template>
