@@ -175,7 +175,7 @@
                                                             <span class="badge" [ngClass]="{
                                                                 'text-bg-no-evaluado': !s.evaluations.estado || s.evaluations.evaluationProyectId != idEvaluation,'text-bg-danger': (s.evaluations.evaluationProyectId == idEvaluation && s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'NO CUMPLE'), 'text-bg-success': s.evaluations.evaluationProyectId == idEvaluation &&  s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'CUMPLE', 'text-bg-warning': s.evaluations.evaluationProyectId == idEvaluation &&  s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.evaluationProyectId == idEvaluation && s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
                                                         </div>
-                                                        <div class="col-lg-1 col text-center" *ngIf="s.proyectoId == project_id">
+                                                        <div class="col-lg-1 col text-center" *ngIf="s.proyectoId == project_id && !evaluations.auditoria">
                                                             <span [ngClass]="s.evaluations.evaluationProyectId == idEvaluation && s.evaluations.active ? 'text-success' : ''" 
                                                             [style.cursor]="'pointer'" (click)="homologar(homoContent, s.evaluations)">
                                                             <i class="ri-git-merge-fill"></i>
