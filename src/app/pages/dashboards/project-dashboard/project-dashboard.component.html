@@ -179,8 +179,8 @@
                                                                 <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">{{ au.fechaFinalizacion ? (au.fechaFinalizacion | date: 'd/M/yyyy') : '-' }}</h5>
-                                                                            <p class="text-muted mb-0">Término</p>
+                                                                            <h5 class="mb-1">{{ au.auditor ? au.auditor : '-' }}</h5>
+                                                                            <p class="text-muted mb-0">Auditor</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -188,27 +188,14 @@
                                                                 <div class="col-lg-4 col" (click)="goEvaluation(au.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1"style="color: #405189;"><b>{{au.aualuador.nombre}} {{au.aualuador.apellido ? au.evaluador.apellido : ''}}</b></h5>
-                                                                            <p class="text-muted mb-0">Responsable</p>
+                                                                            <h5 class="mb-1"style="color: #405189;"><b>{{au.empresa}}</b></h5>
+                                                                            <p class="text-muted mb-0">Empresa</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
-                                                                    <div class="progress progress-xl">
-                                                                        <div class="progress-bar" 
-                                                                        [ngClass]="{'bg-danger': au.cumplimiento > 0 && au.cumplimiento < 25, 'bg-warning': au.cumplimiento > 25 && au.cumplimiento < 75, 'bg-success': au.cumplimiento > 75 }" role="progressbar" [style]="au.cumplimiento > 0 ? 'width:'+au.cumplimiento+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{au.cumplimiento}}%</div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-1 col" (click)="goEvaluation(au.id)">
-                                                                    <span class="badge" [ngClass]="{'text-bg-success': au.fechaFinalizacion, 'text-bg-warning': !au.fechaFinalizacion}">{{au.fechaFinalizacion ? 'Finalizada' : 'En proceso'}}</span>
-                                                                </div>
-                                                                <div class="col-lg-1 col text-center">
-                                                                    <span [ngClass]="au.active ? 'text-success' : ''" 
-                                                                    [style.cursor]="'pointer'" (click)="homologar(homoContent, au)">
-                                                                    <i class="ri-git-merge-fill"></i>
-                                                                    </span>
+                                                                <div class="col-lg-4 col" (click)="goEvaluation(au.id)">
+                                                                    {{au.comentario}}
                                                                 </div>
                                                             </div>
                                                         </div>
