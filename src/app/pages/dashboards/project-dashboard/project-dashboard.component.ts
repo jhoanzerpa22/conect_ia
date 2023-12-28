@@ -6,6 +6,7 @@ import { ProjectsService } from '../../../core/services/projects.service';
 import { round } from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
+import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -40,7 +41,8 @@ export class ProjectDashboardComponent implements OnInit {
   project_id: any = '';
   project: any = {};
 
-  evaluations: any = {};
+  evaluations: any = [];
+  auditorias: any = [];
 
   installations_data: any = [];
   installations_articles: any = [];
@@ -58,8 +60,10 @@ export class ProjectDashboardComponent implements OnInit {
   
   estados_default: any = estadosData;
   id_evaluation: any;
+  submitted = false;
+  auditoriaForm!: UntypedFormGroup;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal, private TokenStorageService: TokenStorageService) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal, private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {
@@ -81,6 +85,16 @@ export class ProjectDashboardComponent implements OnInit {
       this.project_id = params['id'];
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
+    });
+    
+    /**
+     * Form Validation
+     */
+    this.auditoriaForm = this.formBuilder.group({
+      ids: [''],
+      auditor: ['', [Validators.required]],
+      empresa: ['', [Validators.required]],
+      comentario: ['', [Validators.required]]
     });
 
     /**
@@ -113,12 +127,32 @@ export class ProjectDashboardComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+   
+   /**
+   * Open modal
+   * @param content modal content
+   */
+  openModal(content: any) {
+    this.submitted = false;
+    this.auditoriaForm.reset();
+    
+      this.modalService.open(content, { size: 'lg', centered: true });
+    
+  }
 
    getEvaluations(idProject?: any){
        this.projectsService.getEvaluations(idProject).pipe().subscribe(
          (data: any) => {
            this.showData = true;
-           this.evaluations = data.data;
+           const evaluaciones_proyectos = data.data;
+            for (let ev in evaluaciones_proyectos) {
+
+              if(evaluaciones_proyectos[ev].auditoria == true){
+                this.auditorias.push(evaluaciones_proyectos[ev]);
+              }else{
+               this.evaluations.push(evaluaciones_proyectos[ev]);
+              }
+            }
        },
        (error: any) => {
          //this.error = error ? error : '';
@@ -262,6 +296,13 @@ export class ProjectDashboardComponent implements OnInit {
   }
 
   /**
+   * Form data get
+   */
+  get form() {
+    return this.auditoriaForm.controls;
+  }
+
+  /**
    * Fetches the data
    */
   private fetchData() {
@@ -281,6 +322,42 @@ export class ProjectDashboardComponent implements OnInit {
 
   goControl(){
     this._router.navigate(['/'+this.project_id+'/project-control']);
+  }
+
+  saveAuditoria(){
+    
+    if (this.auditoriaForm.valid) {
+    this.showPreLoader();
+    
+        const auditor = this.auditoriaForm.get('auditor')?.value;
+        const empresa = this.auditoriaForm.get('empresa')?.value;
+        const comentario = this.auditoriaForm.get('comentario')?.value;
+    
+        this.projectsService.createEvaluation(this.project_id,false, true, auditor, empresa, comentario).pipe().subscribe(
+          (data: any) => {
+            this.hidePreLoader();
+            this.modalService.dismissAll();
+            this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations/'+data.data.id]);
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();    
+          this.modalService.dismissAll();  
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+        });
+    }
+    
+    this.modalService.dismissAll();
+    setTimeout(() => {
+      this.auditoriaForm.reset();
+    }, 1000);
+    this.submitted = true
   }
 
   createEvaluation(){
