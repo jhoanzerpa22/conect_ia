@@ -36,11 +36,16 @@
                                                 <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>
                                                     
-                                                    <ng-container *ngFor="let g of articles_proyects_group;">
+                                                    <!--<ng-container *ngFor="let g of articles_proyects_group;">
                                                         
                                                     <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
             
-                                                    </ng-container>
+                                                    </ng-container>-->
+                                                    <ng-container *ngFor="let g of lista_cuerpos;">
+                                                        
+                                                        <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
+                
+                                                        </ng-container>
                                                 </div>
                                             </div>
                                         </div>
@@ -60,9 +65,14 @@
                                                 <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                                 <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!tipo_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo()">Todos</a>
-                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'CUMPLE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('CUMPLE')">Cumple</a>
+                                                    
+                                                    <ng-container *ngFor="let cum of lista_cumplimientos">
+                                                        <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == cum.cumplimiento ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo(cum.cumplimiento)">{{cum.cumplimiento}}</a>
+                                                    </ng-container>
+
+                                                    <!--<a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'CUMPLE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('CUMPLE')">Cumple</a>
                                                     <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'CUMPLE PARCIALMENTE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('CUMPLE PARCIALMENTE')">Cumple Parcial</a>
-                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'NO CUMPLE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('NO CUMPLE')">No Cumple</a>
+                                                    <a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'NO CUMPLE' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('NO CUMPLE')">No Cumple</a>-->
                                                     <!--<a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'NO EVALUADO' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('NO EVALUADO')">No Evaluado</a>-->
                                                 </div>
                                             </div>
@@ -80,10 +90,15 @@
                                                 <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
                                                     <!--<a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>-->
-                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
+                                                    
+                                                    <ng-container *ngFor="let crit of lista_criticidad">
+                                                        <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == crit.criticidad ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo(crit.criticidad)">{{crit.criticidad}}</a>
+                                                    </ng-container>
+                                                    
+                                                    <!--<a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
                                                     <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
                                                     <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
-                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>
+                                                    <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -101,13 +116,17 @@
                                                 <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
                                                     
-                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
+                                                    <ng-container *ngFor="let atr of lista_atributos">
+                                                        <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == atr.atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro(atr.atributo)">{{atr.atributo == 'Otros' ? 'Otras Obligaciones' : atr.atributo}}</a>
+                                                    </ng-container>
+                                                    
+                                                    <!--<a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
                                                     
                                                     <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reporte' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reporte')">Reporte</a>
                                                     
                                                     <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreo' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreo')">Monitoreo</a>
                                                     
-                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>
+                                                    <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>-->
                                                 </div>
                                             </div>
                     
@@ -127,7 +146,10 @@
                                                 <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
                                                     <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
             
-                                                    <ng-container *ngFor="let ach of articles_filter">
+                                                    <!--<ng-container *ngFor="let ach of articles_filter">
+                                                        <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
+                                                    </ng-container>-->
+                                                    <ng-container *ngFor="let ach of lista_articulos">
                                                         <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
                                                     </ng-container>
                                                 </div>
@@ -152,7 +174,10 @@
                                                     
                                                     <a class="dropdown-item" [ngClass]="!filtro_area_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo()">Todos</a>
             
-                                                    <ng-container *ngFor="let ar of installations_group;">
+                                                    <!--<ng-container *ngFor="let ar of installations_group;">
+                                                        <a class="dropdown-item" [ngClass]="filtro_area_cuerpo && filtro_area_cuerpo == ar.area ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.area)">{{ar.area}}</a>
+                                                    </ng-container>-->
+                                                    <ng-container *ngFor="let ar of lista_areas;">
                                                         <a class="dropdown-item" [ngClass]="filtro_area_cuerpo && filtro_area_cuerpo == ar.area ? 'active' : ''" href="javascript:void(0);" (click)="selectAreaChartCuerpo(ar.area)">{{ar.area}}</a>
                                                     </ng-container>
                                                 </div>

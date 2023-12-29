@@ -67,6 +67,14 @@ export class ProjectControlComponent implements OnInit {
   articles_proyects_group: any = [];
   articulos: any = [];
 
+  /**Lista de Filtros */
+  lista_cuerpos: any = [];
+  lista_cumplimientos: any = [];
+  lista_criticidad: any = [];
+  lista_atributos: any = [];
+  lista_articulos: any = [];
+  lista_areas: any = [];
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
   }
 
@@ -287,6 +295,7 @@ export class ProjectControlComponent implements OnInit {
             }
           });
           this.installations_group_filter = this.installations_group;
+          this.getListaFiltros();
           console.log('installations_group',this.installations_group);
           //console.log('lista_data', this.installations_group);
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;    
@@ -818,13 +827,13 @@ filterBusqueda() {
   console.log('Busqueda:',search);
   if (!items) {
     this.installations_group_filter = [];
-  }
-  if (!search) {
+    this.getListaFiltros();
+  } else if (!search) {
     this.installations_group_filter = items;
-  }
-
-  if(!search.texto && (!search.cuerpo || search.cuerpo == undefined) && (!search.articulo || search.articulo == undefined) && (!search.tipo || search.tipo == undefined) && (!search.criticidad || search.criticidad == undefined) && (!search.atributo || search.atributo == undefined) && (!search.area || search.area == undefined)){
+    this.getListaFiltros();
+  } else if(!search.texto && (!search.cuerpo || search.cuerpo == undefined) && (!search.articulo || search.articulo == undefined) && (!search.tipo || search.tipo == undefined) && (!search.criticidad || search.criticidad == undefined) && (!search.atributo || search.atributo == undefined) && (!search.area || search.area == undefined)){
     this.installations_group_filter = items;
+    this.getListaFiltros();
   }else{
 
   let texto = '';
@@ -877,8 +886,7 @@ filterBusqueda() {
       }) != -1;
     }) : -1;*/
 
-    //return (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 || cuerpo_installation != -1 || articulo_installation != -1 || atributo_installation != -1 || (search.criticidad ? cumplimiento_installation != -1 && criticidad_installation != -1 : cumplimiento_installation != -1) || (search.area && item.area && item.area == search.area)/* || item.normaId.includes(searchText)*/;
-    
+    //return (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 || cuerpo_installation != -1 || articulo_installation != -1 || atributo_installation != -1 || (search.criticidad ? cumplimiento_installation != -1 && criticidad_installation != -1 : cumplimiento_installation != -1) || (search.area && item.area && item.area == search.area)/* || item.normaId.includes(searchText)*/;    
     return search.cuerpo ? cuerpo_installation != -1 : true;
   });
 
@@ -917,7 +925,7 @@ filterBusqueda() {
 
     return search.tipo ? cumplimiento_installation != -1 : true;
   });
-  console.log('ITEMS',items);
+
   items = items.filter((item: any) => {
     
     //filtro por criticidad
@@ -934,7 +942,6 @@ filterBusqueda() {
     return search.area ? (item.area && item.area == search.area) : true;
   });
 
-  
   items = items.filter((item: any) => {
     
     //filtro por texto
@@ -946,8 +953,110 @@ filterBusqueda() {
   });
 
   this.installations_group_filter = items;
-
+  this.getListaFiltros();
   }
+}
+
+getListaFiltros(){
+
+  this.lista_cuerpos = [];
+  this.lista_cumplimientos = [];
+  this.lista_criticidad = [];
+  this.lista_atributos = [];
+  this.lista_articulos = [];
+  this.lista_areas = [];
+
+  this.installations_group_filter.forEach((x: any) => {
+    
+    const index_area = this.lista_areas.findIndex(
+      (lar: any) =>
+        lar.area == x.area
+    );
+    
+    if(index_area == -1){
+      this.lista_areas.push({area: x.area});
+    }
+
+      x.instalaciones.forEach((ic: any) => {
+        ic.installations_articles.forEach((ins: any) => {
+          if(ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')){
+                
+          const index_cuerpo = this.lista_cuerpos.findIndex(
+            (lc: any) =>
+              lc.normaId == ins.normaId
+          );
+
+          const index_articulo = this.lista_articulos.findIndex(
+            (la: any) =>
+              la.id == ins.articuloId
+          );
+
+          const index_atributo = this.lista_atributos.findIndex(
+            (latr: any) =>
+              latr.atributo == this.capitalizeText(ins.project_article.articuloTipo)
+          );
+
+          const index_criticidad = this.lista_criticidad.findIndex(
+            (lcrt: any) =>
+              (lcrt.criticidad == 'Alta' && ins.project_article.construccion && ins.project_article.construccion == true) || (lcrt.criticidad == 'Media' && ins.project_article.operacion && ins.project_article.operacion == true) || (lcrt.criticidad == 'Baja' && ins.project_article.cierre && ins.project_article.cierre == true) || (lcrt.criticidad == 'No especificado' && !ins.project_article.construccion && !ins.project_article.operacion && !ins.project_article.cierre)
+          );
+
+          if(index_cuerpo == -1){
+            this.lista_cuerpos.push({normaId: ins.normaId, cuerpoLegal: ins.cuerpoLegal});
+          }
+          
+          if(index_articulo == -1){
+            this.lista_articulos.push({id: ins.articuloId, articulo: ins.articulo});
+          }
+          
+          if(index_atributo == -1){
+            this.lista_atributos.push({atributo: this.capitalizeText(ins.project_article.articuloTipo)});
+          }
+          
+          if(index_criticidad == -1){
+            let criticidad_name = 'No especificado';
+            if (ins.project_article.construccion) {
+              criticidad_name = 'Alta';
+            }else if (ins.project_article.operacion) {
+              criticidad_name = 'Media';
+            }else if (ins.project_article.cierre) {
+              criticidad_name = 'Baja';
+            }
+
+            this.lista_criticidad.push({criticidad: criticidad_name});
+          }
+
+          ins.evaluations.forEach((ev: any) => {
+            //console.log('Evaluacion',this.getCategoryStatus(ev.estado), ev.active, ev.proyectoId, ev);
+            if(ev.active/* && ev.proyectoId == this.project_id*/){
+              const index_cumplimiento = this.lista_cumplimientos.findIndex(
+                (lcum: any) =>
+                  lcum.cumplimiento == this.getCategoryStatus(ev.estado)
+              );
+
+              if(index_cumplimiento == -1){
+                this.lista_cumplimientos.push({cumplimiento: this.getCategoryStatus(ev.estado)});
+              }
+
+            }
+          });
+        }
+
+        });
+      });
+
+  })
+
+}
+
+capitalizeText(text?: any){
+  if(!text){
+    return '';
+  }
+
+  const capitalized = text.charAt(0).toUpperCase() + text.slice(1);
+
+  return capitalized;
 }
 
 selectCuerpoFiltro(cuerpo?: any, normaId?: any){
@@ -956,7 +1065,7 @@ selectCuerpoFiltro(cuerpo?: any, normaId?: any){
   this.search.cuerpo = normaId;
   this.filterBusqueda();
   //if(cuerpo){
-    this.getArticulos();    
+    //this.getArticulos();    
   //}
 }
 
