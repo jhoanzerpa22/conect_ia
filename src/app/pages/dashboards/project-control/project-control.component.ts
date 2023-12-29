@@ -1059,6 +1059,21 @@ capitalizeText(text?: any){
   return capitalized;
 }
 
+clearFilters(){
+
+  this.filtro_cuerpo = '';
+  this.filtro_cuerpoId = '';
+  this.tipo_cuerpo = '';
+  this.criticidad_cuerpo = '';
+  this.filtro_atributo = '';
+  this.filtro_articuloId = '';
+  this.filtro_articulo = '';
+  this.filtro_area_cuerpo = '';
+  this.search = {texto: '', cuerpo: '', tipo: '', criticidad: '', atributo: '', articulo: '', area: ''};
+
+  this.filterBusqueda();
+}
+
 selectCuerpoFiltro(cuerpo?: any, normaId?: any){
   this.filtro_cuerpo = cuerpo;
   this.filtro_cuerpoId = normaId;
