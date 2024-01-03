@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'currentUser';
 const USER_PROFILE = 'profileUser';
+const FILTERS_CONTROL = 'filtersControl';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,19 @@ export class TokenStorageService {
     }
 
     return null;
+  }
+  
+  public saveFiltersControl(filters: any): void {
+    localStorage.removeItem('filtersControl');
+    localStorage.setItem('filtersControl', JSON.stringify(filters));
+  }
+  
+  public getFiltersControl(): any {
+    const filters = window.localStorage.getItem(FILTERS_CONTROL);    
+    if (filters) {
+      return JSON.parse(filters);
+    }
+
+    return {};
   }
 }

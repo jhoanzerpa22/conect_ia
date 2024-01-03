@@ -103,6 +103,12 @@ export class EvaluationDetailAllComponent implements OnInit {
 
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
+  search: any = {texto: '', cuerpo: '', tipo: '', criticidad: '', atributo: '', articulo: '', area: ''};
+  
+  filtro_tipo: any;
+  filtro_criticidad: any;
+  filtro_atributo: any;
+  filtro_cuerpo: any;
 
   constructor(private modalService: NgbModal/*, public service: RecentService*/, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private TokenStorageService : TokenStorageService) {
     //this.recentData = service.recents$;
@@ -122,7 +128,15 @@ export class EvaluationDetailAllComponent implements OnInit {
     document.body.classList.add('file-detail-show');
 
     this.userData = this.TokenStorageService.getUser();
+    if(localStorage.getItem('filtersControl')) {
+      this.search = this.TokenStorageService.getFiltersControl();
 
+      this.filtro_tipo = this.search.tipo;
+      this.filtro_criticidad = this.search.criticidad;
+      this.filtro_atributo = this.search.atributo;
+      this.filtro_cuerpo = this.search.cuerpoLegal;
+      this.term = this.search.articuloName;
+    }
     //this._basicRadialbarChart('["--vz-warning"]', 75);
     this._customAngleChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._customAngleChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
@@ -640,8 +654,9 @@ getArticlesCuerpo(articulos: any){
     this.articulosDatas = this.detail.data.filter((data: any) => {
       return data.cuerpoLegal === cuerpo;
     })[0].articulos;*/
-
-    if(cuerpo){
+    this.filtro_cuerpo = cuerpo;  
+    this.filterBusqueda();
+    /*if(cuerpo){
 
       this.articles_proyects_group = this.articles_proyects_group_all.filter((data: any) => {
         return data.cuerpoLegal === cuerpo;
@@ -649,10 +664,88 @@ getArticlesCuerpo(articulos: any){
 
     }else{
       this.articles_proyects_group = this.articles_proyects_group_all;
-    }
+    }*/
     
     //this.hidePreLoader();
   }
+  
+  selectCumplimiento(e: any){
+    let cumplimiento: any = e.target.value;
+    this.filtro_tipo = cumplimiento;  
+    this.filterBusqueda();
+  }
+  
+  selectCriticidad(e: any){
+    let criticidad: any = e.target.value;
+    this.filtro_criticidad = criticidad;  
+    this.filterBusqueda();
+  }
+  
+  selectAtributo(e: any){
+    let atributo: any = e.target.value;
+    this.filtro_atributo = atributo;  
+    this.filterBusqueda();
+  }
+  
+filterBusqueda() {
+  let items = this.articles_proyects_group_all;
+  //let search = this.search;
+console.log('ITems',items);  
+  if (!items) {
+    this.articles_proyects_group = [];
+  }/* else if (!search) {
+    this.articles_proyects_group = items;
+  } */else if((!this.filtro_cuerpo || this.filtro_cuerpo == undefined) && (!this.filtro_tipo || this.filtro_tipo == undefined) && (!this.filtro_criticidad || this.filtro_criticidad == undefined) && (!this.filtro_atributo || this.filtro_atributo == undefined)){
+    this.articles_proyects_group = items;
+  }else{
+
+  items = items.filter((data: any) => {
+    //filtro por cuerpo
+    return this.filtro_cuerpo ? data.cuerpoLegal === this.filtro_cuerpo : true;
+  });
+
+  console.log('Filtro_cuerpo',this.filtro_cuerpo,items);
+
+  items = items.filter((item: any) => {
+
+    let atributo_installation = this.filtro_atributo ? item.articulos.findIndex((at: any) =>{
+        return at.project_article.articuloTipo == (this.filtro_atributo == 'Otros' ? null : this.filtro_atributo.toLowerCase());
+    }) : -1;
+
+    return this.filtro_atributo ? atributo_installation != -1 : true;
+  });
+
+  console.log('Filtro_atributo',this.filtro_atributo,items);
+
+  items = items.filter((item: any) => {
+    
+    //filtro por cumplimiento
+    let cumplimiento_installation = this.filtro_tipo ? item.articulos.findIndex((c: any) =>{
+      //return c.evaluations.findIndex((ev: any) => {
+          return c.evaluations.estado && c.evaluations.estado != null ? this.getCategoryStatus(c.evaluations.estado) == this.filtro_tipo : false;
+        //}) != -1;
+    }) : -1;
+
+    return this.filtro_tipo ? cumplimiento_installation != -1 : true;
+  });
+
+  console.log('Filtro_tipo',this.filtro_tipo,items);
+
+  items = items.filter((item: any) => {
+    
+    //filtro por criticidad
+    let criticidad_installation = this.filtro_criticidad ? item.articulos.findIndex((ins5: any) =>{
+        return (ins5.project_article && ins5.project_article.construccion && ins5.project_article.construccion == true && this.filtro_criticidad == 'Alta') || (ins5.project_article && ins5.project_article.operacion &&  ins5.project_article.operacion == true && this.filtro_criticidad == 'Media') || (ins5.project_article && ins5.project_article.cierre && ins5.project_article.cierre == true && this.filtro_criticidad == 'Baja') || ((!ins5.project_article || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre)) && this.filtro_criticidad == 'No especificado');
+    }) : -1;
+
+    return this.filtro_criticidad ? criticidad_installation != -1 : true;
+  });
+
+  console.log('Filtro_criticidad',this.filtro_criticidad,items);
+
+  this.articles_proyects_group = items;
+  }
+}
 
   validateCuerpo(cuerpo: any){
     return this.cuerpo_select == cuerpo;
