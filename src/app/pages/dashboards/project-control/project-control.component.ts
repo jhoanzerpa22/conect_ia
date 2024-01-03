@@ -53,7 +53,7 @@ export class ProjectControlComponent implements OnInit {
   estados_default: any = estadosData;
   term:any;
   searchTerm: any;
-  search: any = {texto: '', cuerpo: '', tipo: '', criticidad: '', atributo: '', articulo: '', area: ''};
+  search: any = {texto: '', cuerpo: '', cuerpoLegal: '', tipo: '', criticidad: '', atributo: '', articulo: '', articuloName: '', area: ''};
 
   filtro_cuerpo: any;
   tipo_cuerpo: any;
@@ -126,6 +126,7 @@ export class ProjectControlComponent implements OnInit {
   }
 
   goDetail(id: any){
+    this.TokenStorageService.saveFiltersControl(this.search);
     this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+id+'/DetailAll']);
   }
   
@@ -295,6 +296,22 @@ export class ProjectControlComponent implements OnInit {
             }
           });
           this.installations_group_filter = this.installations_group;
+          
+
+          if(localStorage.getItem('filtersControl')) {
+            this.search = this.TokenStorageService.getFiltersControl();
+
+            this.tipo_cuerpo = this.search.tipo;
+            this.criticidad_cuerpo = this.search.criticidad;
+            this.filtro_atributo = this.search.atributo;
+            this.filtro_cuerpo = this.search.cuerpoLegal;
+            this.filtro_cuerpoId = this.search.cuerpo;
+            this.filtro_articuloId = this.search.articulo;
+            this.filtro_articulo = this.search.articuloName;
+            
+            this.filterBusqueda();
+          }
+          
           this.getListaFiltros();
           console.log('installations_group',this.installations_group);
           //console.log('lista_data', this.installations_group);
@@ -1069,7 +1086,7 @@ clearFilters(){
   this.filtro_articuloId = '';
   this.filtro_articulo = '';
   this.filtro_area_cuerpo = '';
-  this.search = {texto: '', cuerpo: '', tipo: '', criticidad: '', atributo: '', articulo: '', area: ''};
+  this.search = {texto: '', cuerpo: '', cuerpoLegal: '', tipo: '', criticidad: '', atributo: '', articulo: '', articuloName: '', area: ''};
 
   this.filterBusqueda();
 }
@@ -1078,6 +1095,7 @@ selectCuerpoFiltro(cuerpo?: any, normaId?: any){
   this.filtro_cuerpo = cuerpo;
   this.filtro_cuerpoId = normaId;
   this.search.cuerpo = normaId;
+  this.search.cuerpoLegal = cuerpo;
   this.filterBusqueda();
   //if(cuerpo){
     //this.getArticulos();    
@@ -1106,6 +1124,7 @@ selectCuerpoFiltro(cuerpo?: any, normaId?: any){
     this.filtro_articuloId = id > 0 ? id : null;
     this.filtro_articulo = id > 0 ? articulo : null;
     this.search.articulo = id;
+    this.search.articuloName = articulo;
     this.filterBusqueda();
   }
 
