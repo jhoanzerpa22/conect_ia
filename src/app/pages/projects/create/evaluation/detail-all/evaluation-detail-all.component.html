@@ -108,9 +108,54 @@
             </div>
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false id="choices-priority-input3" (change)="selectCumplimiento($event)">
+                        <option value="" [selected]="!filtro_tipo">Seleccione Cumplimiento</option>
+                        <option value="CUMPLE" [selected]="filtro_tipo == 'CUMPLE'">
+                            Cumple
+                        </option>
+                        <option value="CUMPLE PARCIALMENTE" [selected]="filtro_tipo == 'CUMPLE PARCIALMENTE'">
+                            Cumple Parcial
+                        </option>
+                        <option value="NO CUMPLE" [selected]="filtro_tipo == 'NO CUMPLE'">
+                            No Cumple
+                        </option>
+                    </select>
+                    
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Criticidad" data-choices data-choices-search-false id="choices-priority-input4" (change)="selectCriticidad($event)">
+                        <option value="" [selected]="!filtro_criticidad">Seleccione Criticidad</option>
+                        <option value="Alta" [selected]="filtro_criticidad == 'Alta'">
+                            Alta
+                        </option>
+                        <option value="Media" [selected]="filtro_criticidad == 'Media'">
+                            Media
+                        </option>
+                        <option value="Baja" [selected]="filtro_criticidad == 'Baja'">
+                            Baja
+                        </option>
+                        <option value="No especificado" [selected]="filtro_criticidad == 'No especificado'">
+                            No especificado
+                        </option>
+                    </select>
+                    
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione el Atributo" data-choices data-choices-search-false id="choices-priority-input5" (change)="selectAtributo($event)">
+                        <option value="" [selected]="!filtro_atributo">Seleccione Atributo</option>
+                        <option value="Permiso" [selected]="filtro_atributo == 'Permiso'">
+                            Permiso
+                        </option>
+                        <option value="Reporte" [selected]="filtro_atributo == 'Reporte'">
+                            Reporte
+                        </option>
+                        <option value="Monitoreo" [selected]="filtro_atributo == 'Monitoreo'">
+                            Monitoreo
+                        </option>
+                        <option value="Otros" [selected]="filtro_atributo == 'Otros'">
+                            Otras Obligaciones
+                        </option>
+                    </select>
+                    
                     <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cuerpo Legal" data-choices data-choices-search-false id="choices-priority-input2" (change)="selectCuerpo($event)">
-                                <option value="" selected>Seleccione Cuerpo legal</option>
-                                <option value="{{c.cuerpoLegal}}" *ngFor="let c of cuerpos_articulos; let i = index;">
+                                <option value="" [selected]="!filtro_cuerpo">Seleccione Cuerpo legal</option>
+                                <option value="{{c.cuerpoLegal}}" *ngFor="let c of cuerpos_articulos; let i = index;" [selected]="filtro_cuerpo == c.cuerpoLegal">
                                     {{c.cuerpoLegal}}
                                 </option>
                     </select>
