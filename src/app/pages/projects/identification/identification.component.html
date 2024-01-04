@@ -908,7 +908,7 @@
                                 <ng-template #myArticles let-s="s">
                                     <div class="team-list list-view-filter row" *ngIf="s.tipoParte == 'Artículo'">
                                         <div class="col">
-                                            <div class="card team-box border" [ngClass]="{'card-border-primary': onCheckVincular(s.articuloId),'card-border-success': byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId)}" id="{{s.articuloId}}">
+                                            <div class="card team-box border" [ngClass]="{'card-border-primary': onCheckVincular(s.articuloId),'card-border-success': byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId)}" id="{{s.articuloId}}" *ngIf="validEstadoFiltro(s.articuloId, [])">
                                                 <!--[ngClass]="byArticuloVinculacion(s.articuloId) > 0 ? 'card team-box border card-border-success' : 'card team-box'"-->
                                                 <div class="team-cover">
                                                     
