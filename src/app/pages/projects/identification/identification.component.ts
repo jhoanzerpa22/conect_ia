@@ -107,6 +107,7 @@ export class IdentificationComponent implements OnInit {
   
   articles_proyects: any = [];
   articles_proyects_group: any = [];
+  articles_proyects_group_filter: any = [];
   articles_proyects_all: any = [];
 
   cuerpo_select: any = 'Cuerpo Legal';
@@ -219,6 +220,7 @@ export class IdentificationComponent implements OnInit {
   hideSelection: boolean = false;
   
   estadoAll: number = 1;
+  filtro_estado: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -4338,6 +4340,7 @@ validateIdparte(idParte: any){
 
           this.articles_proyects_all = [];
           this.articles_proyects_group = [];
+          this.articles_proyects_group_filter = [];
           this.articulos = [];
           this.articles_proyects.forEach((x: any) => {
 
@@ -4373,6 +4376,8 @@ validateIdparte(idParte: any){
               this.articles_proyects_all[index2].articulos.push(x);
             }
           });
+
+          this.articles_proyects_group_filter = this.articles_proyects_group;
           //console.log('Articles_proyect_group',this.articles_proyects_group);
 
           if(refresh){
@@ -4959,6 +4964,43 @@ validateIdparte(idParte: any){
   
   }, 3000);
 
+  }
+  
+  selectEstado(e: any){
+    let estado: any = e.target.value;
+    this.filtro_estado = estado;
+
+    let items = this.articles_proyects_group;
+
+    if(estado){
+
+      items = items.filter((it: any) => {
+        let estado_articulos = this.filtro_estado ? it.articulos.findIndex((ar: any) => {
+          
+          const inst_article: any = this.installations_articles.findIndex(
+            (ins: any) =>
+              ins.articuloId == ar.articuloId && ins.estado == estado
+          );
+
+          return inst_article != -1;
+        }) : -1;
+
+        return this.filtro_estado ? estado_articulos != -1 : true;
+      });
+
+      items.forEach((aa: any) => {
+        aa.articulos = this.filtro_estado ? aa.articulos.filter((art: any) => {
+          const inst_article2: any = this.installations_articles.findIndex(
+            (ins2: any) =>
+              ins2.articuloId == art.articuloId && ins2.estado == estado
+          );
+          
+          return inst_article2 != -1;
+
+        }) : aa.articulos;
+      });
+    }
+    this.articles_proyects_group_filter = items;
   }
 
   async saveVinculacion () {
