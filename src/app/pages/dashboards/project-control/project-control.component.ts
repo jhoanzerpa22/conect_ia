@@ -53,7 +53,7 @@ export class ProjectControlComponent implements OnInit {
   estados_default: any = estadosData;
   term:any;
   searchTerm: any;
-  search: any = {texto: '', cuerpo: '', cuerpoLegal: '', tipo: '', criticidad: '', atributo: '', articulo: '', articuloName: '', area: ''};
+  search: any = {proyecto_id: '', texto: '', cuerpo: '', cuerpoLegal: '', tipo: '', criticidad: '', atributo: '', articulo: '', articuloName: '', area: ''};
 
   filtro_cuerpo: any;
   tipo_cuerpo: any;
@@ -95,6 +95,7 @@ export class ProjectControlComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
+      this.search.proyecto_id = params['id'];
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
@@ -299,17 +300,20 @@ export class ProjectControlComponent implements OnInit {
           
 
           if(localStorage.getItem('filtersControl')) {
-            this.search = this.TokenStorageService.getFiltersControl();
+            let storageSearch = this.TokenStorageService.getFiltersControl();
 
-            this.tipo_cuerpo = this.search.tipo;
-            this.criticidad_cuerpo = this.search.criticidad;
-            this.filtro_atributo = this.search.atributo;
-            this.filtro_cuerpo = this.search.cuerpoLegal;
-            this.filtro_cuerpoId = this.search.cuerpo;
-            this.filtro_articuloId = this.search.articulo;
-            this.filtro_articulo = this.search.articuloName;
-            
-            this.filterBusqueda();
+            if(storageSearch.proyecto_id == this.project_id){
+              this.search = storageSearch;
+              this.tipo_cuerpo = this.search.tipo;
+              this.criticidad_cuerpo = this.search.criticidad;
+              this.filtro_atributo = this.search.atributo;
+              this.filtro_cuerpo = this.search.cuerpoLegal;
+              this.filtro_cuerpoId = this.search.cuerpo;
+              this.filtro_articuloId = this.search.articulo;
+              this.filtro_articulo = this.search.articuloName;
+              
+              this.filterBusqueda();
+            }
           }
           
           this.getListaFiltros();

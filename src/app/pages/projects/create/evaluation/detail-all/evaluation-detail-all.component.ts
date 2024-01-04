@@ -128,15 +128,7 @@ export class EvaluationDetailAllComponent implements OnInit {
     document.body.classList.add('file-detail-show');
 
     this.userData = this.TokenStorageService.getUser();
-    if(localStorage.getItem('filtersControl')) {
-      this.search = this.TokenStorageService.getFiltersControl();
 
-      this.filtro_tipo = this.search.tipo;
-      this.filtro_criticidad = this.search.criticidad;
-      this.filtro_atributo = this.search.atributo;
-      this.filtro_cuerpo = this.search.cuerpoLegal;
-      this.term = this.search.articuloName;
-    }
     //this._basicRadialbarChart('["--vz-warning"]', 75);
     this._customAngleChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this._customAngleChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
@@ -743,6 +735,21 @@ console.log('ITems',items);
 
   console.log('Filtro_criticidad',this.filtro_criticidad,items);
 
+  items.forEach((aa: any) => {
+    aa.articulos = this.filtro_atributo ? aa.articulos.filter((art: any) => {
+      return art.project_article.articuloTipo == (this.filtro_atributo == 'Otros' ? null : this.filtro_atributo.toLowerCase());
+    }) : aa.articulos;
+
+    aa.articulos = this.filtro_tipo ? aa.articulos.filter((art2: any) => {
+      return art2.evaluations.estado && art2.evaluations.estado != null ? this.getCategoryStatus(art2.evaluations.estado) == this.filtro_tipo : false;
+    }) : aa.articulos;
+
+    aa.articulos = this.filtro_criticidad ? aa.articulos.filter((art3: any) => {
+      return (art3.project_article && art3.project_article.construccion && art3.project_article.construccion == true && this.filtro_criticidad == 'Alta') || (art3.project_article && art3.project_article.operacion && art3.project_article.operacion == true && this.filtro_criticidad == 'Media') || (art3.project_article && art3.project_article.cierre && art3.project_article.cierre == true && this.filtro_criticidad == 'Baja') || ((!art3.project_article || (!art3.project_article.construccion && !art3.project_article.operacion && !art3.project_article.cierre)) && this.filtro_criticidad == 'No especificado');
+    }) : aa.articulos;
+
+  });
+
   this.articles_proyects_group = items;
   }
 }
@@ -974,6 +981,19 @@ console.log('ITems',items);
           this.cuerpos_articulos = cuerpo_articulos;
           this.articles_proyects_group = cuerpo_articulos;
           this.articles_proyects_group_all = cuerpo_articulos;
+          
+          if(localStorage.getItem('filtersControl')) {
+            this.search = this.TokenStorageService.getFiltersControl();
+      
+            this.filtro_tipo = this.search.tipo;
+            this.filtro_criticidad = this.search.criticidad;
+            this.filtro_atributo = this.search.atributo;
+            this.filtro_cuerpo = this.search.cuerpoLegal;
+            this.term = this.search.articuloName;
+            
+            this.filterBusqueda();
+          }
+          
           /*cuerpo_articulos.forEach((x: any) => {
 
             console.log('cuerpo_articulos',x);
