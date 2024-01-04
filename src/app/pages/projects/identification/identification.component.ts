@@ -4965,6 +4965,39 @@ validateIdparte(idParte: any){
   }, 3000);
 
   }
+
+  findIndexHijas(hijas: any, estado: any){
+    return hijas.findIndex((h: any) => {
+      const hija: any = h.hijas && h.hijas.length > 0 ? this.findIndexHijas(h.hijas, estado) : this.installations_articles.findIndex(
+        (ins: any) =>
+          ins.articuloId == h.articuloId && ins.estado == estado
+      );
+
+      return hija != -1;
+    });
+  }
+
+  filterHijas(hijas: any, estado: any){
+
+    let items = hijas.filter((art2: any) => {
+      const inst_article3: any = art2.hijas && art2.hijas.length > 0 ? this.findIndexHijas(art2.hijas, estado) : this.installations_articles.findIndex(
+        (ins3: any) =>
+          ins3.articuloId == art2.articuloId && ins3.estado == estado
+      );
+      
+      return inst_article3 != -1;
+
+    });
+
+    items.forEach((cc: any) => {
+      if(cc.hijas && cc.hijas.length > 0){
+        cc.hijas = this.filterHijas(cc.hijas, estado);
+      }
+    });
+
+    return items;
+
+  }
   
   selectEstado(e: any){
     let estado: any = e.target.value;
@@ -4974,10 +5007,12 @@ validateIdparte(idParte: any){
 
     if(estado){
 
+      console.log('Items', items);
+
       items = items.filter((it: any) => {
         let estado_articulos = this.filtro_estado ? it.articulos.findIndex((ar: any) => {
           
-          const inst_article: any = this.installations_articles.findIndex(
+          const inst_article: any = ar.hijas && ar.hijas.length > 0 ? this.findIndexHijas(ar.hijas, estado) : this.installations_articles.findIndex(
             (ins: any) =>
               ins.articuloId == ar.articuloId && ins.estado == estado
           );
@@ -4988,9 +5023,11 @@ validateIdparte(idParte: any){
         return this.filtro_estado ? estado_articulos != -1 : true;
       });
 
+      console.log('Result',items);
+
       items.forEach((aa: any) => {
         aa.articulos = this.filtro_estado ? aa.articulos.filter((art: any) => {
-          const inst_article2: any = this.installations_articles.findIndex(
+          const inst_article2: any = art.hijas && art.hijas.length > 0 ? this.findIndexHijas(art.hijas, estado) : this.installations_articles.findIndex(
             (ins2: any) =>
               ins2.articuloId == art.articuloId && ins2.estado == estado
           );
@@ -4999,7 +5036,28 @@ validateIdparte(idParte: any){
 
         }) : aa.articulos;
       });
+
+      if(items.articulos && items.articulos.length > 0){
+      items.articulos.forEach((bb: any) => {
+        bb.hijas = this.filtro_estado ? bb.hijas.filter((art2: any) => {
+          const inst_article3: any = art2.hijas && art2.hijas.length > 0 ? this.findIndexHijas(art2.hijas, estado) : this.installations_articles.findIndex(
+            (ins3: any) =>
+              ins3.articuloId == art2.articuloId && ins3.estado == estado
+          );
+          
+          return inst_article3 != -1;
+
+        }) : bb.hijas;
+
+        bb.hijas.forEach((cc: any) => {
+          if(this.filtro_estado && cc.hijas && cc.hijas.length > 0){
+            cc.hijas = this.filterHijas(cc.hijas, estado);
+          }
+        });
+      });
+      }
     }
+    console.log('Final',items);
     this.articles_proyects_group_filter = items;
   }
 
@@ -6595,6 +6653,21 @@ validateIdparte(idParte: any){
         ins.articuloId == id
     );
     return filter.length;
+  }
+
+  validEstadoFiltro(id: any, hijas: any){
+
+    if(this.filtro_estado && (!hijas || hijas.length < 1)){
+      
+    const index: any = this.installations_articles.findIndex(
+      (ins: any) =>
+        ins.articuloId == id && ins.estado == this.filtro_estado
+    );
+    return index != -1;
+    
+    } else{
+      return true;
+    }
   }
 
   validInstallations(add?: boolean){
