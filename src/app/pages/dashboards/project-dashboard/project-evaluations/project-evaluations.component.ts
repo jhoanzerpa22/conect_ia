@@ -59,6 +59,8 @@ export class ProjectEvaluationsComponent implements OnInit {
   id_evaluation: any;
   id_installation: any;
 
+  evaluations_delete_installations: any = [];
+
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private modalService: NgbModal) {
   }
 
@@ -82,6 +84,7 @@ export class ProjectEvaluationsComponent implements OnInit {
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
+      this.getDeleteInstallations(this.idEvaluation);
     });
 
     /**
@@ -132,6 +135,16 @@ export class ProjectEvaluationsComponent implements OnInit {
   });
 }
 
+getDeleteInstallations(idEvaluation?: any){
+  this.projectsService.getDeleteInstallations(idEvaluation).pipe().subscribe(
+    (data: any) => {
+      this.evaluations_delete_installations = data.data;
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
 
 getCategoryStatus(estado?: any){
   if(estado){  
@@ -905,6 +918,52 @@ layers = [
       });
     }
   //}
+  }
+
+  validateDelete(id: any){
+    const index = this.evaluations_delete_installations.findIndex(
+      (ev: any) =>
+        ev.installationArticleId == id
+    );
+
+    return index != -1;
+  }
+
+  validateDeleteArea(instalaciones: any){
+    
+    const filter_ins = instalaciones.filter(
+      (ins: any) =>
+        !this.validateDelete(ins.id)
+    );
+
+    return filter_ins.length > 0;
+  }
+  
+  eliminar(content: any, id: any, installation_id: any){
+    this.id_evaluation = id;  
+    this.id_installation = installation_id;
+    
+    this.modalService.open(content, { centered: true });
+  }
+
+  deleteAuditoria(){
+    this.projectsService.deleteEvaluationInstallation(this.id_evaluation, this.id_installation).pipe().subscribe(
+      (data: any) => {
+        
+        this.getDeleteInstallations(this.id_evaluation);
+        this.modalService.dismissAll();
+    },
+    (error: any) => {
+      
+      this.modalService.dismissAll();
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
   }
 
   homologar(content: any, id: any, installation_id: any){

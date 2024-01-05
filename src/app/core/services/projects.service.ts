@@ -368,6 +368,14 @@ export class ProjectsService {
     homologarEvaluationByArticle(idEvaluation: any, project_id: any, installation_article_id: any){
         return this.http.get(API_URL_BACK + 'evaluacionProyecto/homologar/'+idEvaluation+'/'+project_id+'/article/'+installation_article_id, this.getToken());
     }
+    
+    getDeleteInstallations(idEvaluation: any){
+        return this.http.get(API_URL_BACK + 'evaluacionProyecto/getDeleteInstallations/'+idEvaluation, this.getToken());
+    }
+    
+    deleteEvaluationInstallation(idEvaluation: any, installation_article_id: any){
+        return this.http.get(API_URL_BACK + 'evaluacionProyecto/deleteEvaluationInstallation/'+idEvaluation+'/'+installation_article_id, this.getToken());
+    }
 
     getDashboard(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
         

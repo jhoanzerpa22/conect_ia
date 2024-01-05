@@ -64,12 +64,13 @@
                                     <div *ngIf="installations_data.length > 0">            
                                             <div class="list-group">
                                                 <ng-container *ngFor="let ig of installations_group"><!-- | filter:term2-->
+                                                    <ng-container *ngIf="!evaluations.auditoria || validateDeleteArea(ig.instalaciones)">
                                                     <h4 style="color: #405189;">{{ig.area}}</h4>
                                                     <p>{{ig.descripcion}}</p>
                 
                                                     <ng-container *ngFor="let v of ig.instalaciones;">
                 
-                                                    <div class="team-list list-view-filter row" style="cursor: pointer;">
+                                                    <div class="team-list list-view-filter row" style="cursor: pointer;" *ngIf="!evaluations.auditoria || !validateDelete(v.id)">
                                                         <div class="col">
                                                             <div class="card team-box">
                                                                 <div class="team-cover">
@@ -129,12 +130,19 @@
                                                                             <i class="ri-git-merge-fill"></i>
                                                                             </span>
                                                                         </div>
+                                                                        <div class="col-lg-1 col text-center" *ngIf="evaluations.auditoria">
+                                                                            <span
+                                                                            [style.cursor]="'pointer'" (click)="eliminar(deleteContent,evaluations.id, v.id)">
+                                                                            <i class="ri-delete-bin-line"></i>
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <!--end card-->
                                                         </div>
                                                     </div>
+                                                    </ng-container>
                                                     </ng-container>
                                                 </ng-container>
                                             </div>
@@ -195,6 +203,25 @@
         </div>
         <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
             <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1" aria-label="" style="display: inline-block;" (click)="modal.close('Close click')">Salir</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #deleteContent let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body text-center">
+        <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
+        <div class="mt-4 pt-2 fs-15 ">
+            <h4>¿Está segur@ que desea quitar este item?</h4>
+            <p class="text-muted mx-4 mb-0">Esta acción no se puede deshacer</p>
+        </div>
+        <div class="d-flex align-items-start gap-2 mt-4 mb-2"><!--justify-content-center-->
+                <button type="button" class="swal2-cancel btn btn-danger w-xs mb-1 previestab" aria-label="" style="display: inline-block;" (click)="modal.close('Close click')">Cancelar</button>
+                <button type="button" class="swal2-cancel btn btn-primary w-xs mb-1 right ms-auto nexttab" aria-label="" style="display: inline-block;" (click)="deleteAuditoria()">Aceptar</button>
         </div>
       </div>
     </div>
