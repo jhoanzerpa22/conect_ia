@@ -170,8 +170,16 @@
                                                                 <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">{{ au.createdAt | date: 'd/M/yyyy' }}</h5>
+                                                                            <h5 class="mb-1">{{ au.fechaInicio | date: 'd/M/yyyy' }}</h5>
                                                                             <p class="text-muted mb-0">Inicio</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1">{{ au.fechaFinalizacion | date: 'd/M/yyyy' }}</h5>
+                                                                            <p class="text-muted mb-0">Termino</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -189,14 +197,21 @@
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1"style="color: #405189;"><b>{{au.empresa}}</b></h5>
-                                                                            <p class="text-muted mb-0">Empresa</p>
+                                                                            <p class="text-muted mb-0">Entidad Auditora</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-lg-4 col" (click)="goEvaluation(au.id)">
-                                                                    {{au.comentario}}
+                                                                <div class="col-lg-2 col" (click)="goEvaluation(au.id)">
+                                                                    <div class="progress progress-xl">
+                                                                        <div class="progress-bar" 
+                                                                        [ngClass]="{'bg-danger': au.cumplimiento > 0 && au.cumplimiento < 25, 'bg-warning': au.cumplimiento > 25 && au.cumplimiento < 75, 'bg-success': au.cumplimiento > 75 }" role="progressbar" [style]="au.cumplimiento > 0 ? 'width:'+au.cumplimiento+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{au.cumplimiento}}%</div>
+                                                                    </div>
                                                                 </div>
+
+                                                                <!--<div class="col-lg-4 col" (click)="goEvaluation(au.id)">
+                                                                    {{au.comentario}}
+                                                                </div>-->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -288,30 +303,93 @@
                 <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
             </div>
 
-            <div class="mb-3">
-                <label for="customername-field" class="form-label">Nombre Auditor</label>
-                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Auditor" required
-                    formControlName="auditor"
-                    [ngClass]="{ 'is-invalid': submitted && form['auditor'].errors }" />
-                <div class="invalid-feedback">Por favor ingresa un nombre de auditor.</div>
-            </div>
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Nombre Auditoria</label>
+                    <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Nombre Auditoria" required
+                        formControlName="auditoria_nombre"
+                        [ngClass]="{ 'is-invalid': submitted && form['auditoria_nombre'].errors }" />
+                    <div class="invalid-feedback">Por favor ingresa un nombre de auditoria.</div>
+                </div>
 
-            <div class="mb-3">
-                <label for="customername-field" class="form-label">Empresa Auditora</label>
-                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Empresa Auditora" required
+                <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Nombre Auditor</label>
+                    <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Auditor" required
+                        formControlName="auditor"
+                        [ngClass]="{ 'is-invalid': submitted && form['auditor'].errors }" />
+                    <div class="invalid-feedback">Por favor ingresa un nombre de auditor.</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                
+            <div class="col-sm-6 mb-3">
+                <label for="customername-field" class="form-label">Entidad Auditora</label>
+                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Entidad Auditora" required
                     formControlName="empresa"
                     [ngClass]="{ 'is-invalid': submitted && form['empresa'].errors }" />
-                <div class="invalid-feedback">Por favor ingresa una empresa auditora.</div>
+                <div class="invalid-feedback">Por favor ingresa una entidad auditora.</div>
             </div>
 
-            <div class="mb-3">
-                <label for="email-field" class="form-label">Comentario</label>
-                <textarea rows="3" id="email-field" class="form-control" placeholder="Ingresar Comentario" required
-                formControlName="comentario" [ngClass]="{ 'is-invalid': submitted && form['comentario'].errors }"></textarea>
-                <div class="invalid-feedback">Por favor ingresar comentario.</div>
+            <div class="col-sm-6 mb-3">
+                <label for="customername-field" class="form-label">Ambito</label>
+                <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Ambito" required
+                    formControlName="auditoria_ambito"
+                    [ngClass]="{ 'is-invalid': submitted && form['auditoria_ambito'].errors }" />
+                <div class="invalid-feedback">Por favor ingresa un ambito.</div>
+            </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Fecha Inicio</label>
+                    <div class="form-icon right">
+                        <input class="form-control form-control-icon flatpickr-input" id="auditor-inicio-input" type="text" formControlName="fechaInicio" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <i class="ri-calendar-todo-fill"></i>
+                    </div>
+                    <div class="invalid-feedback">Por favor ingresa una fecha de inicio.</div>
+                </div>
+
+                <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Fecha Termino</label>
+                    <div class="form-icon right">
+                        <input class="form-control form-control-icon flatpickr-input" id="auditor-termino-input" type="text" formControlName="fechaFinalizacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <i class="ri-calendar-todo-fill"></i>
+                    </div>
+                    <div class="invalid-feedback">Por favor ingresa una fecha de termino.</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                
+                <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Tipo Auditoria</label>
+                    <select class="form-control form-select" aria-label="Rol" formControlName="auditoria_tipo" placeholder="Seleccione Tipo de auditoria" [ngClass]="{ 'is-invalid': submitted && form['auditoria_tipo'].errors }">
+                        <option value="" selected>Seleccione tipo de auditoria </option>
+                        <option value="Fiscalización">Fiscalización</option>
+                        <option value="Procedimiento sancionatorio">Procedimiento sancionatorio</option>
+                        <option value="Verificación Organismo Administrador de la Ley 16744">Verificación Organismo Administrador de la Ley 16744</option>
+                        <option value="Requerimiento de información de autoridad">Requerimiento de información de autoridad</option>
+                        <option value="Inspección legal interna">Inspección legal interna</option>
+                        <option value="Consulta legal interna">Consulta legal interna</option>
+                        <option value="Auditoría legal interna">Auditoría legal interna</option>
+                        <option value="Auditoría legal externa">Auditoría legal externa</option>
+                        <option value="Auditoría legal corporativa">Auditoría legal corporativa</option>
+                    </select>
+                    <div class="invalid-feedback">Por favor ingresa un tipo de auditoria.</div>
+                </div>
             </div>
 
+            <div class="row">
+                <div class="col-sm-12 mb-3">
+                    <label for="email-field" class="form-label">Descripción</label>
+                    <textarea rows="3" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
+                    formControlName="comentario" [ngClass]="{ 'is-invalid': submitted && form['comentario'].errors }"></textarea>
+                    <div class="invalid-feedback">Por favor ingresar descripción.</div>
+                </div>
+            </div>
         </div>
+
         <div class="modal-footer">
             <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal"
