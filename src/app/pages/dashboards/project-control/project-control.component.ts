@@ -305,7 +305,7 @@ export class ProjectControlComponent implements OnInit {
           this._simplePieChartCuerpos('["--vz-success", "--vz-warning", "--vz-danger"]');
           this._simplePieChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
 
-          if(localStorage.getItem('filtersControl')) {
+          /*if(localStorage.getItem('filtersControl')) {
             let storageSearch = this.TokenStorageService.getFiltersControl();
 
             if(storageSearch.proyecto_id == this.project_id){
@@ -322,10 +322,10 @@ export class ProjectControlComponent implements OnInit {
                 this.filterBusqueda();
               }, 1000);
             }
-          }else{          
+          }else{*/
             this.installations_group_filter = this.installations_group;
             this.getListaFiltros();
-          }
+          //}
 
       },
       (error: any) => {

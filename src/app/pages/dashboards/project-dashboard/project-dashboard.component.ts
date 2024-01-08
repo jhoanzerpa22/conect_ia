@@ -97,7 +97,7 @@ export class ProjectDashboardComponent implements OnInit {
       empresa: ['', [Validators.required]],
       auditoria_tipo: ['', [Validators.required]],
       auditoria_ambito: [''],
-      comentario: ['', [Validators.required]],
+      comentario: [''],
       fechaInicio: ['', [Validators.required]],
       fechaFinalizacion: ['', [Validators.required]]
     });
@@ -378,10 +378,10 @@ export class ProjectDashboardComponent implements OnInit {
         });
     }
     
-    this.modalService.dismissAll();
+    /*this.modalService.dismissAll();
     setTimeout(() => {
       this.auditoriaForm.reset();
-    }, 1000);
+    }, 1000);*/
     this.submitted = true
   }
 
