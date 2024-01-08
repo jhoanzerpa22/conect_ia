@@ -92,9 +92,14 @@ export class ProjectDashboardComponent implements OnInit {
      */
     this.auditoriaForm = this.formBuilder.group({
       ids: [''],
+      auditoria_nombre: ['', [Validators.required]],
       auditor: ['', [Validators.required]],
       empresa: ['', [Validators.required]],
-      comentario: ['', [Validators.required]]
+      auditoria_tipo: ['', [Validators.required]],
+      auditoria_ambito: [''],
+      comentario: ['', [Validators.required]],
+      fechaInicio: ['', [Validators.required]],
+      fechaFinalizacion: ['', [Validators.required]]
     });
 
     /**
@@ -332,8 +337,28 @@ export class ProjectDashboardComponent implements OnInit {
         const auditor = this.auditoriaForm.get('auditor')?.value;
         const empresa = this.auditoriaForm.get('empresa')?.value;
         const comentario = this.auditoriaForm.get('comentario')?.value;
+        const auditoria_nombre = this.auditoriaForm.get('auditoria_nombre')?.value;
+        const auditoria_tipo = this.auditoriaForm.get('auditoria_tipo')?.value;
+        const auditoria_ambito = this.auditoriaForm.get('auditoria_ambito')?.value;
+        const fecha_inicio = this.auditoriaForm.get('fechaInicio')?.value;
+        const fecha_termino = this.auditoriaForm.get('fechaFinalizacion')?.value;
+
+        const datos = {
+          "proyectoId": this.project_id,
+          "cumplimiento": 0, 
+          active: false, 
+          auditoria: true, 
+          auditor: auditor, 
+          empresa: empresa, 
+          comentario: comentario,
+          auditoria_nombre: auditoria_nombre,
+          auditoria_tipo: auditoria_tipo,
+          auditoria_ambito: auditoria_ambito,
+          fechaInicio: fecha_inicio,
+          fechaFinalizacion: fecha_termino
+        };
     
-        this.projectsService.createEvaluation(this.project_id,false, true, auditor, empresa, comentario).pipe().subscribe(
+        this.projectsService.createEvaluation(datos).pipe().subscribe(
           (data: any) => {
             this.hidePreLoader();
             this.modalService.dismissAll();
@@ -382,8 +407,13 @@ export class ProjectDashboardComponent implements OnInit {
         );
     
         const active = index != -1 ? false : true;
+
+        const datos = {
+          "proyectoId": this.project_id,
+         active: active
+        };
     
-        this.projectsService.createEvaluation(this.project_id, active).pipe().subscribe(
+        this.projectsService.createEvaluation(datos).pipe().subscribe(
           (data: any) => {
             this.hidePreLoader();
             this._router.navigate(['/'+this.project_id+'/project-dashboard/evaluations/'+data.data.id]);
