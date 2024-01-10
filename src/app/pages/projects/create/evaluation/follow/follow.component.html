@@ -377,6 +377,239 @@
     </div>
 </div>
 
+<div class="row" *ngIf="evaluation && evaluation.auditoria">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0" style="color: #405189;"><b>PLAN DE TRABAJO</b></h4><!-- -PT-001 {{nombreHallazgo}}-->
+            </div>
+
+            <div class="card-body">
+                <div id="customerList">
+                    
+        <div class="p-3 bg-light rounded mb-4">
+            <div class="row g-2">
+                <div class="col-lg">
+                    <div class="search-box">
+                        <input type="text" id="searchTaskList2" class="form-control search"
+                            placeholder="Buscar Tarea" [(ngModel)]="term2">
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                </div>
+                <div class="col-lg-auto">
+                    <button class="btn btn-danger showModal createTask" type="button" data-bs-toggle="modal"
+                        data-bs-target="#showModal" (click)="openModal(content2)" *ngIf="validateRol(1) || validateRol(2) || validateRol(4)">
+                        <i class="ri-add-fill align-bottom"></i> Crear Tarea
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="todo-content position-relative px-4 mx-n4" style="height: auto;" id="todo-content2">
+            <div class="todo-task" id="todo-task2">
+                <div class="table-responsive mt-3 mb-1">
+                    <table mat-table #dataTable2 [dataSource]="TaskDatas | filter:term2" class="table align-middle position-relative table-nowrap" style="border: lightgray !important;">
+                        <ng-container matColumnDef="nombre">
+                            <th scope="col" style="width: 40%;" mat-header-cell *matHeaderCellDef> Tarea </th>
+                            <td *matCellDef="let element">
+                                    <label class="form-check-label" for="todo15">{{element.nombre}}</label>      
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="responsable">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Responsable </th>
+                            <td *matCellDef="let element">
+                                {{element.responsable ? element.responsable.nombre : '' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fecha_termino">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Fecha término </th>
+                            <td *matCellDef="let element">
+                                {{element.fecha_termino | date: 'd/M/yyyy' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">    
+                            <th scope="col" style="width: 10%;" mat-header-cell *matHeaderCellDef> Estado </th>
+                            <td *matCellDef="let element" class="status">
+                                <span
+                                            class="badge badge-soft-{{element.estado && element.estado == 'COMPLETADA' ? 'success' : (element.estado && element.estado == 'INICIADA' ? 'primary' : 'warning')}} text-uppercase" style="cursor:pointer;" (click)="changeStatusTask($event, element.id, element.estado)">{{element.estado ? element.estado : 'CREADA'}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="prioridad">    
+                            <th scope="col" style="width: 10%;" mat-header-cell *matHeaderCellDef> Prioridad </th>
+                            <td *matCellDef="let element" class="status">
+                                
+                                <span
+                                class="badge text-bg-{{element.prioridad && element.prioridad == 'BAJA' ? 'primary' : (element.prioridad && element.prioridad == 'MEDIA' ? 'warning' : 'danger')}} text-uppercase">{{element.prioridad ? element.prioridad : 'BAJA'}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th scope="col" mat-header-cell *matHeaderCellDef> Acción </th>
+                            <td *matCellDef="let element">
+                                <div class="hstack gap-2">
+                                    <button class="btn btn-sm btn-soft-danger remove-list" data-bs-toggle="modal"
+                                        data-bs-target="#deleteRecordModal" data-remove-id="1"
+                                        (click)="confirm(deleteModel2,element.id)">
+                                        <i class="ri-delete-bin-5-fill align-bottom"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2; let i = index;" cdkDrag
+                            id="row-{{i+1}}"></tr>
+
+                        <div *cdkDragPlaceholder></div>
+
+                    </table>
+                </div>
+            </div>
+            <div class="py-4 mt-4 text-center" id="noresult" style="display: none;">
+                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                    colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px"></lord-icon>
+                <h5 class="mt-4">No posee tareas</h5>
+            </div>
+            
+            <div *ngIf="!TaskDatas || TaskDatas.length == 0">
+                <div style="text-align: center;width: 100%;font-size: 20px;">
+                    No hay datos para mostrar
+                </div>
+            </div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add ListJs Data -->
+<ng-template #content2 role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Tarea</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="saveTask()" [formGroup]="taskForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <input type="hidden" name="id" value="" formControlName="ids" />
+            <div class="row">
+            <div class="col-12">    
+            <div class="mb-3" id="modal-id" style="display: none;">
+                <label for="id-field" class="form-label">ID</label>
+                <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+            </div>
+            </div> 
+            <div class="col-12">    
+            <div class="mb-3">
+                <label for="nombre-field" class="form-label">Tarea</label>
+                <input type="text" id="nombre-field" class="form-control" placeholder="Ingresar Tarea" required
+                    formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }" />
+                <div class="invalid-feedback">Por favor ingresar tarea.</div>
+            </div>
+            </div>
+
+            <div class="col-6">
+            <div class="mb-3">
+                <label for="termino-field" class="form-label">Fecha Vencimiento</label>
+                    <div class="form-icon right">
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Vencimiento" required
+                        formControlName="fecha_termino" [ngClass]="{ 'is-invalid': submitted && form['fecha_termino'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <i class="ri-calendar-todo-fill"></i>
+                    </div>
+                <div class="invalid-feedback">Por favor ingresar Fecha Vencimiento.</div>
+            </div>
+            </div>
+
+            <div class="col-6">    
+            <div class="mb-3">
+                <label for="user-field" class="form-label">Responsable</label>
+                <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
+                    <option selected>Seleccione Responsable </option>
+                    <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{ r.apellido ? r.apellido : ''}}</option>
+                </select>
+            <div class="invalid-feedback">Por favor ingresar responsable.</div>
+            </div>
+            </div>
+
+            <div class="col-6">    
+            <div class="mb-3">
+                <label for="hallazgo-field" class="form-label">Hallazgo</label>
+                <select class="form-select mb-3" aria-label="Hallazgo" formControlName="evaluationFindingId" placeholder="Seleccione Hallazgo">
+                    <option selected>Seleccione Hallazgo </option>
+                    <option *ngFor="let h of hallazgos;" value="{{h.id}}">{{'('+h.id.toString().padStart(6,"H-000")+')'+removeTags(h.nombre)}}</option>
+                </select>
+            <div class="invalid-feedback">Por favor ingresar hallazgo.</div>
+            </div>
+            </div>
+
+            <div class="col-6">    
+                <div class="mb-3">
+                    <label for="user-field" class="form-label">Prioridad</label>
+                    <select class="form-select mb-3" aria-label="Prioridad" formControlName="prioridad" placeholder="Seleccione Prioridad">
+                        <option selected>Seleccione Prioridad </option>
+                        <option value="BAJA">BAJA</option>
+                        <option value="MEDIA">MEDIA</option>
+                        <option value="ALTA">ALTA</option>
+                    </select>
+                <div class="invalid-feedback">Por favor ingresar prioridad.</div>
+                </div>
+            </div>
+
+            <div class="col-12">    
+            <div class="mb-3">
+                <label for="descripcion-field" class="form-label">Descripción</label>
+                <ckeditor [editor]="Editor" data="" formControlName="descripcion"></ckeditor>
+                <!--<input type="text" id="descripcion-field" class="form-control" placeholder="Ingresar Descripción" required
+                    formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />-->
+                <div class="invalid-feedback">Por favor ingresar descripción.</div>
+            </div>
+            </div>
+
+            </div>
+
+        </div>
+        
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-primary" id="add-btn">Guardar</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<!-- removeItemModal2 -->
+<ng-template #deleteModel2 let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center">
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                    colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                    <h4>Está a punto de eliminar este registro</h4>
+                    <p class="text-muted mx-4 mb-0">Eliminar su registro eliminará toda su información de nuestro
+sistema.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
+                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Cerrar</button>
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                    (click)="modal.close('Close click')">Si, Remover!</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
 <!-- Add Hallazgo -->
 <ng-template #content role="document" let-modal>
     <div class="modal-header bg-light p-3">

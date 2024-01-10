@@ -15,12 +15,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './follow.model';
+import { DetailModel, recentModel, ArticulosModel, HallazgoModel, TaskModel } from './follow.model';
 import { folderData } from './data';
 import { RecentService } from './follow.service';
 import { NgbdRecentSortableHeader, SortEvent } from './follow-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
+import { UserProfileService } from '../../../../../core/services/user.service';
+import { TokenStorageService } from '../../../../../core/services/token-storage.service';
+
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
@@ -31,6 +34,7 @@ import { estadosData } from '../../../estados';
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { round } from 'lodash';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-follow-evaluation',
@@ -64,6 +68,7 @@ export class EvaluationFollowComponent implements OnInit {
   folderData!: DetailModel[];
   submitted = false;
   folderForm!: UntypedFormGroup;
+  taskForm!: UntypedFormGroup;
   hallazgoForm!: UntypedFormGroup;
   evaluacionForm!: UntypedFormGroup;
   folderDatas: any;
@@ -90,6 +95,7 @@ export class EvaluationFollowComponent implements OnInit {
   hallazgosList!: HallazgoModel[];
   HallazgosDatas: any/* = []*/;
   term: any;
+  term2: any;
 
   status: any;
 
@@ -103,6 +109,8 @@ export class EvaluationFollowComponent implements OnInit {
   //pdfURL: any;
   imgEvaluations: any = [];
   imgHallazgos: any = {};
+  TaskData!: DetailModel[];
+  TaskDatas: any/* = []*/;
 
   //imageChangedEvent: any = '';
   //imgView: any;
@@ -154,8 +162,9 @@ export class EvaluationFollowComponent implements OnInit {
   ];*/
 
   estados: any = [];
+  evaluation: any = {};
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location/*, private ref: ChangeDetectorRef*/) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2,private _location: Location/*, private ref: ChangeDetectorRef*/, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
 
@@ -166,6 +175,14 @@ export class EvaluationFollowComponent implements OnInit {
   table!: MatTable<HallazgoModel>;
   displayedColumns: string[] = ['nombre', 'fecha', 'estado', 'action'];
   dataSource = [];
+  
+  @ViewChild('dataTable2')
+  table2!: MatTable<TaskModel>;
+  displayedColumns2: string[] = ['nombre', 'responsable', 'fecha_termino', 'estado', 'prioridad', 'action'];
+  dataSource2 = [];
+
+  responsables: any = [];
+  userData: any;
 
   inlineDatePicker: Date = new Date();
 
@@ -184,6 +201,7 @@ export class EvaluationFollowComponent implements OnInit {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 
+    this.userData = this.TokenStorageService.getUser();
     /**
      * Form Validation
     */
@@ -206,6 +224,19 @@ export class EvaluationFollowComponent implements OnInit {
       //monitoreo: [''],
       //permiso: ['']
     });
+    
+    this.taskForm = this.formBuilder.group({
+      ids: [''],
+      responsable: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      //fecha_inicio: [''],
+      fecha_termino: [''],
+      prioridad: [''],
+      evaluationFindingId: [''],
+      //is_image: [''],
+      //is_file: ['']
+    });
 
     /**
      * Recent Validation
@@ -216,6 +247,7 @@ export class EvaluationFollowComponent implements OnInit {
     });
 
     this.HallazgosDatas = this.dataSource;
+    this.TaskDatas = this.dataSource2;
 
     this.estados = this.estados_default.filter((estado: any) => {
       return !estado.type;
@@ -229,8 +261,11 @@ export class EvaluationFollowComponent implements OnInit {
       this.idEvaluation = params['idEvaluation'];
 
         this.getArticlesByInstallationBody(this.installation_id);
-        this.getProject();
         this.getEvaluations();
+        this.getEvaluationsByInstallationArticle();
+        this.getFindingsByInstallationArticle();
+        this.getResponsables();
+        this.getProject();
       
     });
   }
@@ -244,7 +279,7 @@ export class EvaluationFollowComponent implements OnInit {
           ev.id == this.idEvaluation
       );
       this.count_evaluations = evaluation_data.lenght;
-      this.evaluations = index != -1 ? evaluation_data[index] : {};
+      this.evaluation = index != -1 ? evaluation_data[index] : {};
   },
   (error: any) => {
     //this.error = error ? error : '';
@@ -312,6 +347,72 @@ export class EvaluationFollowComponent implements OnInit {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  private getEvaluationsByInstallationArticle(){
+    this.projectsService.getEvaluationsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+      (data: any) => {
+        this.evaluations = data.data;
+    },
+    (error: any) => {
+      this.hidePreLoader();
+      //this.error = error ? error : '';
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+    document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getFindingsByInstallationArticle(){
+
+    this.showPreLoader();
+      this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+        (data: any) => {
+          this.hallazgos = data.data;
+          
+          let tareas: any = [];
+          for (var i = 0; i < this.hallazgos.length; i++) {
+                    this.HallazgosDatas.push({id: this.hallazgos[i].id, nombre: this.hallazgos[i].nombre, fecha: this.hallazgos[i].createdAt, estado: this.hallazgos[i].estado, installationArticleId: this.hallazgos[i].installationArticleId});
+                
+                if(this.hallazgos[i].tasks.id != null){
+                    tareas.push(this.hallazgos[i].tasks);
+                }
+          }
+
+          this.TaskDatas = tareas;
+          this.table.renderRows();
+          this.table2.renderRows();
+          
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  private getResponsables() {
+
+    this.showPreLoader();
+      this.userService.getCoworkers().pipe().subscribe(
+        (data: any) => {
+          this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
+
   validateIdparte(idParte: any){
     const index = this.installations_articles.findIndex(
       (co: any) =>
@@ -364,6 +465,54 @@ export class EvaluationFollowComponent implements OnInit {
     }
   }
   
+  changeStatusTask(e: any, id: number, estado: any){
+    
+    //this.showPreLoader();
+    const index = this.TaskDatas.findIndex(
+      (t: any) =>
+        t.id == id
+    );
+    
+    let new_estado: any = estado == 'CREADA' ? 'INICIADA' : (estado == 'INICIADA' ? 'COMPLETADA' : 'INICIADA');
+
+    this.TaskDatas[index].estado = new_estado;
+
+    const task: any = {
+      estado: new_estado
+    };
+
+    const formData = new FormData();
+    
+    formData.append('data', JSON.stringify(task));
+    
+    this.projectsService.updateTaskStatus(id, formData).pipe().subscribe(
+      (data: any) => {     
+       //this.hidePreLoader();
+       
+        /*Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Tarea actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });*/
+
+    },
+    (error: any) => {
+      
+      //this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
+
+  }
+  
   saveHallazgo(){
     
     if (this.hallazgoForm.valid) {
@@ -400,6 +549,138 @@ export class EvaluationFollowComponent implements OnInit {
       });*/
       this.hallazgoForm.reset();
       this.modalService.dismissAll()
+    }
+  }
+
+  /**
+  * Save saveTask
+  */
+  saveTask() {
+    if (this.taskForm.valid) {
+      
+      this.showPreLoader();
+      if (this.taskForm.get('ids')?.value) {
+        this.hidePreLoader();
+        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
+      } else {
+        const responsable = this.taskForm.get('responsable')?.value;
+        const nombre = this.taskForm.get('nombre')?.value;
+        const descripcion = this.taskForm.get('descripcion')?.value;
+        const fecha_inicio = new Date();//this.taskForm.get('fecha_inicio')?.value;
+        const fecha_termino = this.taskForm.get('fecha_termino')?.value;
+        const prioridad = this.taskForm.get('prioridad')?.value;
+        const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
+        //const is_image = this.taskForm.get('is_image')?.value;
+        //const is_file = this.taskForm.get('is_file')?.value;
+
+        const index = this.TaskDatas/*.length > 0*/ ? this.TaskDatas.findIndex(
+          (t: any) =>
+            (/*moment(*/fecha_inicio/*).format()*/ > t.fecha_inicio && /*moment(*/fecha_inicio/*).format()*/ < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (/*moment(*/fecha_inicio/*).format()*/ < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
+        ) : -1;
+
+        if(index != -1){
+          
+          this.hidePreLoader();
+          Swal.fire({
+            title: 'Existe otra tarea creada en el rango de fecha ingresado. Desea continuar?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Si',
+            denyButtonText: 'No',
+            customClass: {
+              actions: 'my-actions',
+              //cancelButton: 'order-1 right-gap',
+              confirmButton: 'order-2',
+              denyButton: 'order-3',
+            }
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+              this.showPreLoader();
+
+              const task: any = {
+                responsableId: responsable,
+                nombre: nombre,
+                descripcion: descripcion,
+                fecha_inicio: fecha_inicio,
+                fecha_termino: fecha_termino,
+                evaluationFindingId: evaluationFindingId,
+                estado: 'CREADA',
+                prioridad: prioridad,
+                type: 'findingTaks',
+                installationId: this.installation_id,
+                proyectoId: this.project_id,
+                empresaId: this.userData.empresaId
+              };
+              
+              this.projectsService.createTask(task).pipe().subscribe(
+                (data: any) => {     
+                 this.hidePreLoader();
+                 this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+      
+                 //this.getTasksByFinding(this.idHallazgo);
+                 this.getFindingsByInstallationArticle();
+      
+                 this.modalService.dismissAll();
+              },
+              (error: any) => {
+                
+                this.hidePreLoader();
+                this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+                this.modalService.dismissAll()
+              });
+
+              this.modalService.dismissAll();
+              setTimeout(() => {
+                this.taskForm.reset();
+              }, 1000);
+              this.submitted = true
+            } else if (result.isDenied) {
+              
+            }
+          });
+        }else{
+                
+        const task: any = {
+          responsableId: responsable,
+          nombre: nombre,
+          descripcion: descripcion,
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+          estado: 'CREADA',
+          prioridad: prioridad,
+          type: 'findingTaks',
+          installationId: this.installation_id,
+          proyectoId: this.project_id,
+          empresaId: this.userData.empresaId
+        };
+        
+        this.projectsService.createTask(task).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           //this.getTasksByFinding(this.idHallazgo);
+           this.getFindingsByInstallationArticle();
+
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+        
+          this.modalService.dismissAll();
+          setTimeout(() => {
+            this.taskForm.reset();
+          }, 1000);
+          this.submitted = true
+        }
+
+      }
     }
   }
   
@@ -738,6 +1019,11 @@ imgError(ev: any){
   todoTable(event: CdkDragDrop<HallazgoModel[]>): void {
     moveItemInArray(this.HallazgosDatas, event.previousIndex, event.currentIndex);
     this.table.renderRows();
+  }
+
+  todoTable2(event: CdkDragDrop<HallazgoModel[]>): void {
+    moveItemInArray(this.TaskDatas, event.previousIndex, event.currentIndex);
+    this.table2.renderRows();
   }
 
   // Checked Selected

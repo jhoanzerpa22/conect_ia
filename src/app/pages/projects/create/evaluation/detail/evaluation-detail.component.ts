@@ -586,7 +586,7 @@ export class EvaluationDetailComponent implements OnInit {
 }
 
  goEvaluation(id: any, evaluation: any){
-  if(!this.evaluations.fechaFinalizacion){
+  if(!this.evaluations.fechaFinalizacion || this.evaluations.auditoria){
     if(evaluation.evaluationProyectId == this.idEvaluation && evaluation.estado){
       this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowEdit/'+id]);
     }else{
