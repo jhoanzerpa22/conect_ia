@@ -1437,19 +1437,20 @@ selectCuerpoFiltro(cuerpo?: any, normaId?: any){
 
     if(this.areas_select_chart.length > 0){
       
-      this.filterBusqueda();
       this.filtro_area = this.areas_select_chart[(this.areas_select_chart.length - 1)].id;
       this.filtro_area_cuerpo = this.areas_select_chart[(this.areas_select_chart.length - 1)].nombre;
       this.search.area = this.areas_select_chart[(this.areas_select_chart.length - 1)].nombre;
-
+      this.filterBusqueda();
+      
       this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
     }else{
-      this.filterBusqueda();
       this.filtro_area = undefined;
       this.filtro_area_cuerpo = undefined;
       this.search.area = '';
 
       this.areas_chart = this.areas;
+      this.filterBusqueda();
+      
     }
   }
 
