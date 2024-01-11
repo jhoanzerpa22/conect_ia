@@ -62,6 +62,7 @@ export class ProjectControlComponent implements OnInit {
   filtro_atributo: any;
   filtro_articulo: any;
   filtro_articuloId: any;
+  filtro_area: any;
   filtro_area_cuerpo: any;
   articles_filter: any = [];
   articles_proyects_group: any = [];
@@ -74,6 +75,13 @@ export class ProjectControlComponent implements OnInit {
   lista_atributos: any = [];
   lista_articulos: any = [];
   lista_areas: any = [];
+  
+  areas_all: any = [];
+  areas_tree: any = [];
+  tree_data: any = [];
+  areas: any = [];
+  areas_chart: any;
+  areas_select_chart: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
   }
@@ -97,6 +105,8 @@ export class ProjectControlComponent implements OnInit {
       this.project_id = params['id'];
       this.search.proyecto_id = params['id'];
       this.getProject(params['id']);
+      this.getAreas();
+      this.getAreasTree();
       this.getEvaluations(params['id']);
       this.getInstallations(params['id']);
       this.getArticleProyect(params['id']);
@@ -124,6 +134,128 @@ export class ProjectControlComponent implements OnInit {
       (r: any) =>
         r == rol
     ) != -1;
+  }
+
+  async validateAreaChildren(tree_data: any, instalaciones: any): Promise<boolean>{
+    let valid: boolean = false;
+    
+    for (let index = 0; index < tree_data.length; index++) {
+      const tree: any = tree_data[index];
+    
+      let valid_area: boolean = this.validIndexArea(instalaciones, tree.nombre);
+      //console.log('Busque Hijo: ', tree.nombre, valid_area);
+      if(valid_area){
+        //console.log('HIjo =>', tree.nombre);
+        return true;
+      }else if(tree.children){
+        valid = await this.validateAreaChildren(tree.children, instalaciones);
+        //console.log('Hijos 2', valid);
+        if(valid){
+          return true;
+        }
+      }
+
+    }
+
+    return valid;
+  } 
+
+  validDataArea(tree_data: any, instalaciones: any, type: any){
+    
+    let valid = this.validIndexArea(instalaciones, tree_data.nombre);
+    
+    if(valid){
+      return true;
+    }else if(tree_data.children){
+
+      return tree_data.children.findIndex((tree: any) => {
+
+        let index = this.validIndexArea(instalaciones, tree.nombre);
+  
+        if(index){
+          return true;
+        }else if(tree.children){
+    
+            return tree.children.findIndex((tree2: any) => {
+
+              let index2 = this.validIndexArea(instalaciones, tree2.nombre);
+        
+              if(index2){
+                return true;
+              }else if(tree2.children){
+                return tree2.children.findIndex((tree3: any) => {
+
+                  let index3 = this.validIndexArea(instalaciones, tree3.nombre);
+            
+                  if(index3){
+                    return true;
+                  }else{
+                    return false;
+                  }
+                }) != -1;
+              }else{
+              return false;
+              }
+            }) != -1;
+
+        }else{
+          return false;
+        }
+      }) != -1;
+
+    }
+
+      return false;
+    
+    //let valid = true;
+
+    /*let valid_area: boolean = this.validIndexArea(instalaciones, tree_data.nombre);
+    //console.log('BUSCANDO',tree_data.nombre);
+    if(valid_area){
+      //console.log('ENTRO', type ,tree_data.nombre);
+      return true;
+    }else if(tree_data.children){
+
+    valid = await this.validateAreaChildren(tree_data.children, instalaciones);
+    //console.log('Hijos de =>', tree_data.nombre, valid);
+    }*/
+
+    //return valid;
+  }
+  
+  /*getValidChildrenDataArea(tree_data: any, instalaciones: any): boolean{
+    let valid: boolean = false;
+
+    for (let index = 0; index < tree_data.length; index++) {
+      const tree: any = tree_data[index];
+
+      let valid_area: boolean = this.validIndexArea(instalaciones, tree.nombre);
+      
+      if(!valid){
+        valid = valid_area;
+      }
+
+      if(!valid && tree.children){
+        valid = this.getValidChildrenDataArea(tree.children, instalaciones);
+      }
+
+    }
+
+    return valid;
+  }*/
+
+  validIndexArea(instalaciones: any, area: any){
+    return instalaciones.findIndex(
+      (ins: any) =>
+        ins.area == area
+    ) != -1;
+  }
+
+  getFilterArea(instalaciones: any, area: any){
+    return instalaciones.filter(
+      (ins: any) =>
+        ins.area == area
+    );
   }
 
   goDetail(id: any){
@@ -177,6 +309,59 @@ export class ProjectControlComponent implements OnInit {
     return estado;
   }
   
+  }
+
+  private getAreasTree(){
+    this.showPreLoader();
+      this.projectsService.getAreasAll(this.project_id).pipe().subscribe(
+        (data: any) => {
+          let obj: any = data.data;
+          let tree_data: any = [];
+          let tree_data_org: any = [];
+          this.areas_all = [];
+          
+          for (let c in obj) {
+            let padre: any = obj[c].padre;
+
+              this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion, areaId: padre.areaId });
+              
+              tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, areaId: padre.areaId, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              
+              tree_data_org.push({ id: padre.id, label: padre.nombre, areaId: padre.areaId, expanded: padre.hijas.length > 0 ? true : false, children: padre.hijas.length > 0 ? this.getHijasOrg(padre.hijas) : null });
+          }
+
+          this.tree_data = tree_data;
+          this.areas_tree = tree_data_org;
+
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        //this.hidePreLoader();
+        //this.error = error ? error : '';
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
+  }
+
+  private getHijas(hijos: any){
+    let tree_data: any = [];
+    for (let d in hijos) {
+        this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId });
+
+        tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+    }
+    return tree_data;
+  }
+
+  private getHijasOrg(hijos: any){
+    let tree_data: any = [];
+    
+    for (let d in hijos) {
+      this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId });
+      
+      tree_data.push({ id: hijos[d].id, label: hijos[d].nombre, areaId: hijos[d].areaId, expanded: hijos[d].hijas.length > 0 ? true : false, children: hijos[d].hijas.length > 0 ? this.getHijasOrg(hijos[d].hijas) : null });
+    }
+    return tree_data;
   }
 
   getInstallations(idProject?: any) {
@@ -1213,10 +1398,113 @@ selectCuerpoFiltro(cuerpo?: any, normaId?: any){
     this.search.area = nombre;
     this.filterBusqueda();
   }
+  
+  selectAreaChart(id?: any, nombre?: any){
+    const existe_area = this.areas_chart.findIndex(
+      (arc: any) =>
+        arc.id == id
+    );
+
+    this.filtro_area = id;
+    this.filtro_area_cuerpo = nombre;
+    this.search.area = nombre;
+
+    if(existe_area != -1){
+      
+      this.filterBusqueda();
+      
+      this.areas_select_chart.push({id: id, nombre: this.areas_chart[existe_area].nombre});
+      this.getChildrenChart(id);
+    }else{
+      this.filterBusqueda();
+    }
+  }
+
+  deleteAreaChart(id: any){
+    
+    const existe_area = this.areas_select_chart.findIndex(
+      (arc: any) =>
+        arc.id == id
+    );
+
+    const chart_length: any = this.areas_select_chart.length;
+
+    //for (let p = 0; p < chart_length; p++) {
+      //if(p >= existe_area){
+        this.areas_select_chart.splice(existe_area, chart_length - existe_area/*1*/);
+      //}
+    //}
+
+    if(this.areas_select_chart.length > 0){
+      
+      this.filtro_area = this.areas_select_chart[(this.areas_select_chart.length - 1)].id;
+      this.filtro_area_cuerpo = this.areas_select_chart[(this.areas_select_chart.length - 1)].nombre;
+      this.search.area = this.areas_select_chart[(this.areas_select_chart.length - 1)].nombre;
+      this.filterBusqueda();
+      
+      this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
+    }else{
+      this.filtro_area = undefined;
+      this.filtro_area_cuerpo = undefined;
+      this.search.area = '';
+
+      this.areas_chart = this.areas;
+      this.filterBusqueda();
+      
+    }
+  }
+
+  getAreas() {
+    this.projectsService.getAreasUser().pipe().subscribe(
+        (data: any) => {
+          this.areas = data.data;
+          this.areas_chart = data.data;
+      },
+      (error: any) => {
+      });
+  }
+
+  getChildrenChart(padre_id: any){
+    this.areas_chart = [];
+    if(padre_id > 0){
+      this.showPreLoader();
+      this.projectsService.getAreasItems(padre_id).pipe().subscribe(
+        (data: any) => {
+          if(data.data.length > 0){
+            this.areas_chart = data.data;
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    }
+  }
 
   filterList(text: any){
     this.search.texto = text;
     this.filterBusqueda();
   }
+  
+  // PreLoader
+  showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
+  }
+
 
 }
