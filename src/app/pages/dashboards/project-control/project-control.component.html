@@ -306,7 +306,7 @@
                                         </div>
                                     </ng-template>
                                     
-                                    <ng-template #myAreas let-s="s" let-type="type">
+                                    <ng-template #myAreas let-s="s" let-type="type" let-index="index">
                                         <div class="list-group">
                                             <h4 style="color: #405189;" [ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}">{{s.nombre}}</h4>
                                             <p [ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}">{{s.descripcion}}</p>
@@ -329,8 +329,8 @@
             
                                                     <div class="col-xxl-12" *ngFor="let it of s.children">
         
-                                                        <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(it,installations_group_filter,'HIJO 2')">
-                                                            <ng-container [ngTemplateOutlet]="myAreas" [ngTemplateOutletContext]="{s: it, type: 2 }">
+                                                        <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(it,installations_group_filter,'HIJO 2') && (!areas_select_chart[index] || areas_select_chart[index].nombre == it.nombre)">
+                                                            <ng-container [ngTemplateOutlet]="myAreas" [ngTemplateOutletContext]="{s: it, type: 2, index: index+1 }">
                                                             </ng-container>
                                                         </ng-container>
                                                     
@@ -340,7 +340,7 @@
                                     </ng-template>         
                                         <div class="list-group">
                                             <ng-container *ngFor="let td of tree_data">
-                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(td,installations_group_filter,'PADRE')">
+                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(td,installations_group_filter,'PADRE') && (!areas_select_chart[0] || areas_select_chart[0].nombre == td.nombre)">
                                                 
                                                 <h4 style="color: #405189;">{{td.nombre}}</h4>
                                                 <p>{{td.descripcion}}</p>
@@ -363,9 +363,9 @@
             
                                             <div class="col-xxl-12" *ngFor="let item of td.children">
                                                 
-                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(item,installations_group_filter,'HIJO 1')">
+                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(item,installations_group_filter,'HIJO 1') && (!areas_select_chart[1] || areas_select_chart[1].nombre == item.nombre)">
                                                 
-                                                    <ng-container [ngTemplateOutlet]="myAreas" [ngTemplateOutletContext]="{s: item, type: 1 }">
+                                                    <ng-container [ngTemplateOutlet]="myAreas" [ngTemplateOutletContext]="{s: item, type: 1, index: 2 }">
                                                     </ng-container>
                                                 </ng-container>
                                             
