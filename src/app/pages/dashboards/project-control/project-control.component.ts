@@ -1153,9 +1153,9 @@ filterBusqueda() {
     return search.criticidad ? criticidad_installation != -1 : true;
   });
   
-  items = items.filter((item: any) => {
+  /*items = items.filter((item: any) => {
     return search.area ? (item.area && item.area == search.area) : true;
-  });
+  });*/
 
   items = items.filter((item: any) => {
     
