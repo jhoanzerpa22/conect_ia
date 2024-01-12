@@ -2,18 +2,12 @@
 <app-breadcrumbs title="Plan de Trabajo - {{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
- <div class="row project-wrapper">
+ <!--<div class="row project-wrapper">
     <div class="col-xxl-12">
         
         <div class="row">
             <div class="col-xl-12">
-
-                <!--<div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">-->
-                                <!-- Nav tabs -->
-                                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger mb-3"><!--nav nav-tabs-->
+                                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger mb-3">
                                     <li [ngbNavItem]="1">
                                         <a ngbNavLink class="nav-link">
                                             <span class="d-sm-block">Plan de Trabajo</span>
@@ -31,16 +25,16 @@
                                         </ng-template>
                                     </li>
                                 </ul>
-                                <!-- Tab panes -->
+                                
                                 <div class="tab-content  text-muted">
                                     <div [ngbNavOutlet]="nav"></div>
                                 </div>
                             </div>
                         </div>
                 </div>
-                </div>
+                </div>-->
 
-<ng-template #TabContent>
+<!--<ng-template #TabContent>-->
     <!--<app-compliance></app-compliance>-->
 <div class="row">
     <div class="col-lg-12">
@@ -82,6 +76,7 @@
                                     <th class="sort" data-sort="responsable" style="width: 300px;">Responsable</th>
                                     <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>
                                     <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Vencimiento</th>
+                                    <th class="sort" data-sort="dias_retrado" style="width: 80px;">Dias Retraso</th>
                                     <th class="sort" style="width: 100px;">Estado</th>
                                     <th class="sort" style="width: 100px;">Acción</th>
                                 </tr>
@@ -327,7 +322,7 @@ sistema.</p>
 
 <app-toastspl aria-live="polite" aria-atomic="true"></app-toastspl>
 
-</ng-template>
+<!--</ng-template>
 
 <ng-template #TabContent2>
-</ng-template>
+</ng-template>-->

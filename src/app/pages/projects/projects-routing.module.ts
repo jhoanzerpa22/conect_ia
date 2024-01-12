@@ -166,7 +166,7 @@ const routes: Routes = [
     component: EvaluationTaskViewComponent
   },
   {
-    path: ":idProject/evaluation/:idInstallation/FollowEdit/:id",
+    path: ":idProject/evaluation/:idInstallation/FollowEdit/:id/:idEvaluation",
     component: EvaluationTaskComponent
   },
   {
