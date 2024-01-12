@@ -347,6 +347,14 @@ export class ProjectsService {
     getEvaluations(project_id: any){
         return this.http.get(API_URL_BACK + 'evaluacionProyecto/'+project_id, this.getToken());
     }
+    
+    getEvaluationsAll(projects_ids: any){
+        return this.http.post(API_URL_BACK + 'evaluacionProyecto/proyectos', {proyectosIds: JSON.stringify(projects_ids)}, this.getToken());
+    }
+    
+    getTasksAll(projects_ids: any){
+        return this.http.post(API_URL_BACK + 'evaluation/tasks', {proyectosIds: JSON.stringify(projects_ids)}, this.getToken());
+    }
 
     createEvaluation(data: any/*project_id: any, active?: boolean, auditoria?: boolean, auditor?: any, empresa?: any, comentario?: any*/): Observable<any> {
         return this.http.post(API_URL_BACK + 'evaluacionProyecto', data, this.getToken());

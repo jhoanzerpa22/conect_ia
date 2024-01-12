@@ -35,6 +35,9 @@ export class ListComponent implements OnInit {
   sellers?: any;
   pagLength?: number = 0;
   term:any;
+  evaluations: any;
+  tareas: any;
+  proyectos_all: any = [];
 
   constructor(private modalService: NgbModal,
     public service: listService, private projectsService: ProjectsService, public toastService: ToastService,private _router: Router) {
@@ -68,7 +71,7 @@ export class ListComponent implements OnInit {
   private fetchData() {
     
     this.showPreLoader();
-    // this.projectListWidgets = projectListWidgets;
+    //this.projectListWidgets = projectListWidgets;
     //this.projectListWidgets1 = projectListWidgets1;
     //this.projectListWidgets2 = projectListWidgets2;
     //setTimeout(() => {
@@ -79,15 +82,20 @@ export class ListComponent implements OnInit {
         (data: any) => {
           let resp: any = data.data;
           let proyectos: any = [];
+          let proyectos_other: any = [];
 
           for (var j = 0; j < resp.length; j++) {
             if(!resp[j].tipoProyectoId || resp[j].tipoProyectoId == '' || resp[j].tipoProyectoId == null){
               proyectos.push(resp[j]);
+            }else{
+              this.proyectos_all.push(resp[j]);
+              proyectos_other.push(resp[j].id);
             }
           }
 
           this.projectListWidgets = proyectos;
           this.pagLength = proyectos.length;
+          this.getEvaluationsAll(proyectos_other);
           this.hidePreLoader();
       },
       (error: any) => {
@@ -97,6 +105,58 @@ export class ListComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
+  }
+  
+  getEvaluationsAll(proyectos_ids: any){
+    //if(proyectos_ids.lenght > 0){
+    this.projectsService.getEvaluationsAll(proyectos_ids).pipe().subscribe(
+      (data: any) => {
+        this.evaluations = data.data;
+        this.getTasksAll(proyectos_ids);
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+    //}
+  }
+  
+  getTasksAll(proyectos_ids: any){
+    //if(proyectos_ids.lenght > 0){
+    this.projectsService.getTasksAll(proyectos_ids).pipe().subscribe(
+      (data: any) => {
+        this.tareas = data.data;
+        this.validateAuditorias();
+    },
+    (error: any) => {
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    });
+    //}
+  }
+
+  validateAuditorias(){
+    let proyectos: any = this.projectListWidgets;
+
+          for (var j = 0; j < this.proyectos_all.length; j++) {
+            let is_auditoria: boolean = this.evaluations.findIndex((ev: any) => 
+              ev.proyectoId == this.proyectos_all[j].id && ev.auditoria == true
+            ) != -1;
+            
+            if(is_auditoria){
+              
+              let is_task: boolean = this.tareas.findIndex((task: any) => 
+                task.proyectoId == this.proyectos_all[j].id
+              ) != -1;
+
+              if(is_task){
+                proyectos.push(this.proyectos_all[j]);              
+              }
+            }
+          }
+
+          this.projectListWidgets = proyectos;
+          this.pagLength = proyectos.length;
   }
 
   /**
