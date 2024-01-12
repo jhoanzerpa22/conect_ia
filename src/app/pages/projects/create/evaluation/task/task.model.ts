@@ -49,3 +49,15 @@ export interface HallazgoModel {
   estado?: any;
   installationArticleId?: any;
 }
+
+/** 
+ * Task Model
+*/
+export interface TaskModel {
+  id?: any;
+  nombre?: any;
+  responsable?: any;
+  fecha_termino?: any;
+  estado?: any;
+  prioridad?: any;
+}

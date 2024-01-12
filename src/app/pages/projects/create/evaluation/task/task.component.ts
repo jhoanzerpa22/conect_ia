@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators, FormArray } from '@angular/forms';
 
-import { DetailModel, recentModel, ArticulosModel, HallazgoModel } from './task.model';
+import { DetailModel, recentModel, ArticulosModel, HallazgoModel, TaskModel } from './task.model';
 import { folderData } from './data';
 import { RecentService } from './task.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
@@ -49,6 +49,7 @@ export class EvaluationTaskComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  idEvaluation: any = '';
   cuerpo_id: any = '';
   cuerpoLegal: any = '';
   installation_id: any = null;
@@ -90,6 +91,7 @@ export class EvaluationTaskComponent implements OnInit {
   hallazgosList!: HallazgoModel[];
   HallazgosDatas: any/* = []*/;
   term: any;
+  term2: any;
 
   nombreHallazgo: any = '';
   idHallazgo: any = null;
@@ -119,6 +121,9 @@ export class EvaluationTaskComponent implements OnInit {
   
   estados_default: any = estadosData;
   estados: any = [];
+  evaluation: any = {};
+  evaluations: any = '';
+  count_evaluations: number = 0;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private _location: Location) {
     this.recentData = service.recents$;
@@ -132,6 +137,11 @@ export class EvaluationTaskComponent implements OnInit {
   table!: MatTable<HallazgoModel>;
   displayedColumns: string[] = ['nombre', 'fecha', 'estado', 'action'];
   dataSource = [];
+  
+  @ViewChild('dataTable2')
+  table2!: MatTable<TaskModel>;
+  displayedColumns2: string[] = ['nombre', 'responsable', 'fecha_termino', 'estado', 'prioridad', 'action'];
+  dataSource2 = [];
 
   ngOnInit(): void {
     /**
@@ -171,11 +181,11 @@ export class EvaluationTaskComponent implements OnInit {
       responsable: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      fecha_inicio: [''],
+      //fecha_inicio: [''],
       fecha_termino: [''],
       evaluationFindingId: [''],
-      is_image: [''],
-      is_file: ['']
+      //is_image: [''],
+      //is_file: ['']
     });
   
     this.hallazgoForm = this.formBuilder.group({
@@ -194,6 +204,7 @@ export class EvaluationTaskComponent implements OnInit {
     });
     
     this.HallazgosDatas = this.dataSource;
+    this.TaskDatas = this.dataSource2;
 
     this.estados = this.estados_default.filter((estado: any) => {
       return !estado.type;
@@ -204,18 +215,37 @@ export class EvaluationTaskComponent implements OnInit {
       this.cuerpo_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
+      this.idEvaluation = params['idEvaluation'];
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
+        this.getEvaluations();
         this.getFindingsByInstallationArticle();
         //this.getTasksByProyect();
-        //this.getResponsables(); 
+        this.getResponsables(); 
         this.getProject();
     });
 
     // Data Get Function
     //this._fetchData();
   }
+  
+ getEvaluations(){
+  this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
+    (data: any) => {
+      const evaluation_data = data.data;
+      const index = evaluation_data.findIndex(
+        (ev: any) =>
+          ev.id == this.idEvaluation
+      );
+      this.count_evaluations = evaluation_data.lenght;
+      this.evaluation = index != -1 ? evaluation_data[index] : {};
+  },
+  (error: any) => {
+    //this.error = error ? error : '';
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+  });
+}
   
   getProject(){
     this.projectsService.getById(this.project_id).pipe().subscribe(
@@ -290,7 +320,6 @@ export class EvaluationTaskComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
-  
   // Delete Data
   deleteData(id: any) {
     if (id) {
@@ -389,6 +418,14 @@ export class EvaluationTaskComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
+
 
   validateIdparte(idParte: any){
     const index = this.installations_articles.findIndex(
@@ -415,6 +452,54 @@ export class EvaluationTaskComponent implements OnInit {
     }else{
       checkboxes.checked = false;
     }
+  }
+  
+  changeStatusTask(e: any, id: number, estado: any){
+    
+    //this.showPreLoader();
+    const index = this.TaskDatas.findIndex(
+      (t: any) =>
+        t.id == id
+    );
+    
+    let new_estado: any = estado == 'CREADA' ? 'INICIADA' : (estado == 'INICIADA' ? 'COMPLETADA' : 'INICIADA');
+
+    this.TaskDatas[index].estado = new_estado;
+
+    const task: any = {
+      estado: new_estado
+    };
+
+    const formData = new FormData();
+    
+    formData.append('data', JSON.stringify(task));
+    
+    this.projectsService.updateTaskStatus(id, formData).pipe().subscribe(
+      (data: any) => {     
+       //this.hidePreLoader();
+       
+        /*Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Tarea actualizada',
+          showConfirmButton: true,
+          timer: 5000,
+        });*/
+
+    },
+    (error: any) => {
+      
+      //this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    });
+
   }
   
   private getInstallations() {
@@ -680,8 +765,8 @@ export class EvaluationTaskComponent implements OnInit {
                 evaluationFindingId: evaluationFindingId,//this.idHallazgo,
                 estado: 'CREADA',
                 type: 'findingTaks',
-                is_image: is_image,
-                is_file: is_file,
+                //is_image: is_image,
+                //is_file: is_file,
                 installationId: this.installation_id,
                 proyectoId: this.project_id,
                 empresaId: this.userData.empresaId
@@ -733,8 +818,8 @@ export class EvaluationTaskComponent implements OnInit {
           evaluationFindingId: evaluationFindingId,//this.idHallazgo,
           estado: 'CREADA',
           type: 'findingTaks',
-          is_image: is_image,
-          is_file: is_file,
+          //is_image: is_image,
+          //is_file: is_file,
           installationId: this.installation_id,
           proyectoId: this.project_id,
           empresaId: this.userData.empresaId
