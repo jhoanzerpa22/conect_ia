@@ -308,11 +308,12 @@
                                     
                                     <ng-template #myAreas let-s="s" let-type="type" let-index="index">
                                         <div class="list-group">
-                                            <h4 style="color: #405189;" [ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}">{{s.nombre}}</h4>
-                                            <p [ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}">{{s.descripcion}}</p>
                                                       
-                                            <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, s.nombre)">            
-                                                <div class="list-group">
+                                            <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, s.nombre)">
+
+                                                <h4 style="color: #405189;" [ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}">{{s.nombre}}</h4>
+                                                <p [ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}">{{s.descripcion}}</p>
+                                                                                                                                        <div class="list-group">
                                                     <ng-container *ngFor="let ig of getFilterArea(installations_group_filter, s.nombre)">
                                                         <!--<h4 style="color: #405189;">{{ig.area}}</h4>
                                                         <p>{{ig.descripcion}}</p>-->
@@ -342,11 +343,11 @@
                                             <ng-container *ngFor="let td of tree_data">
                                                 <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(td,installations_group_filter,'PADRE') && (!areas_select_chart[0] || areas_select_chart[0].nombre == td.nombre)">
                                                 
-                                                <h4 style="color: #405189;">{{td.nombre}}</h4>
-                                                <p>{{td.descripcion}}</p>
-                                                
-                                                
-                                    <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, td.nombre)">            
+                                    <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, td.nombre)">
+                                        
+                                        <h4 style="color: #405189;">{{td.nombre}}</h4>
+                                        <p>{{td.descripcion}}</p> 
+                                            
                                             <div class="list-group">
                                                 <ng-container *ngFor="let ig of getFilterArea(installations_group_filter, td.nombre)">
                                                     <!--<h4 style="color: #405189;">{{ig.area}}</h4>
