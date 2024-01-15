@@ -158,8 +158,8 @@ export class ProjectControlComponent implements OnInit {
     }
 
     return valid;
-  } 
-
+  }
+  
   validDataArea(tree_data: any, instalaciones: any, type: any){
     
     let valid = this.validIndexArea(instalaciones, tree_data.nombre);
