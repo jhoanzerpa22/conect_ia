@@ -7,9 +7,10 @@ import { projectListModel/*, projectListModel1, projectListModel2*/ } from './li
 import { listService } from './list.service';
 import { DecimalPipe } from '@angular/common';
 import { ProjectsService } from '../../../core/services/projects.service';
+import { WorkPlanService } from '../../../core/services/workPlan.service';
 import { first } from 'rxjs/operators';
 import { ToastService } from '../toast-service';
-import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
 import { round } from 'lodash';
 
@@ -28,6 +29,7 @@ export class ListComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   projectListWidgets!: projectListModel[];
+  workPlan_group: any = [];
   //projectListWidgets1!: projectListModel1[];
   //projectListWidgets2!: projectListModel2[];
   //projectmodel!: Observable<projectListModel2[]>;
@@ -38,9 +40,13 @@ export class ListComponent implements OnInit {
   evaluations: any;
   tareas: any;
   proyectos_all: any = [];
+  auditorias: any = [];
+
+  submitted = false;
+  plansForm!: UntypedFormGroup;
 
   constructor(private modalService: NgbModal,
-    public service: listService, private projectsService: ProjectsService, public toastService: ToastService,private _router: Router) {
+    public service: listService, private projectsService: ProjectsService, private workPlanService: WorkPlanService, public toastService: ToastService,private _router: Router, private formBuilder: UntypedFormBuilder) {
     //this.projectmodel = service.companies$;
     this.total = service.total$;
   }
@@ -57,14 +63,89 @@ export class ListComponent implements OnInit {
     /**
      * Fetches the data
      */
-    this.fetchData();
+    //this.fetchData();
+    this.getWorkPlans();
 
     if (localStorage.getItem('toast')) {
       this.toastService.show('Plan de trabajo Creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
       localStorage.removeItem('toast');
     }
+    
+    /**
+     * Form Validation
+     */
+    this.plansForm = this.formBuilder.group({
+      ids: [''],
+      installationId: [''],
+      cuerpoId: [''],
+      fechaInicio: ['', [Validators.required]],
+      fechaFinalizacion: ['', [Validators.required]]
+    });
+
   }
 
+   /**
+   * Open modal
+   * @param content modal content
+   */
+   openModal(content: any) {
+    this.submitted = false;
+    this.plansForm.reset();
+    
+      this.modalService.open(content, { size: 'xl', centered: true });    
+  }
+
+  /**
+   * Form data get
+   */
+  get form() {
+    return this.plansForm.controls;
+  }
+
+  /**
+   * Work plan data
+   */
+  private getWorkPlans() {
+    
+    this.showPreLoader();
+      this.workPlanService.get().pipe().subscribe(
+        (data: any) => {
+          let resp: any = data.data;
+          let workPlans: any = [];
+          this.workPlan_group = [];
+          let auditorias: any = [];
+
+          for (var j = 0; j < resp.length; j++) {
+            //if(!resp[j].type || resp[j].type == '' || resp[j].type == null || resp[j].type == 'workPlan'){
+              const index_work = workPlans.findIndex(
+                (w: any) =>
+                  w.normaId == resp[j].normaId && w.articuloId == resp[j].articuloId
+              );
+
+              if(index_work != -1){
+                workPlans[index_work].planes.push(resp[j]);
+              }else{
+                workPlans.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal, articulo: resp[j].articulo, planes: [resp[j]] });
+              }
+            /*}else if(resp[j].type && resp[j].type != '' && resp[j].type != null && resp[j].type == 'auditoria'){
+              this.auditorias.push(resp[j]);
+            }*/
+          }
+
+          //this.projectListWidgets = workPlans;
+          this.workPlan_group = workPlans;
+          this.pagLength = workPlans.length;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    //}, 1200);
+  }
+  
   /**
    * Fetches the data
    */
@@ -194,6 +275,63 @@ export class ListComponent implements OnInit {
         
             this._router.navigate(['/plans-work/'+proyecto_id+'/plans-work-anality']);
 }
+
+savePlans(){
+    
+  if (this.plansForm.valid) {
+  /*this.showPreLoader();
+  
+      const auditor = this.auditoriaForm.get('auditor')?.value;
+      const empresa = this.auditoriaForm.get('empresa')?.value;
+      const comentario = this.auditoriaForm.get('comentario')?.value;
+      const auditoria_nombre = this.auditoriaForm.get('auditoria_nombre')?.value;
+      const auditoria_tipo = this.auditoriaForm.get('auditoria_tipo')?.value;
+      const auditoria_ambito = this.auditoriaForm.get('auditoria_ambito')?.value;
+      const fecha_inicio = this.auditoriaForm.get('fechaInicio')?.value;
+      const fecha_termino = this.auditoriaForm.get('fechaFinalizacion')?.value;
+
+      const datos = {
+        "proyectoId": this.project_id,
+        "cumplimiento": 0, 
+        active: false, 
+        auditoria: true, 
+        auditor: auditor, 
+        empresa: empresa, 
+        comentario: comentario,
+        auditoria_nombre: auditoria_nombre,
+        auditoria_tipo: auditoria_tipo,
+        auditoria_ambito: auditoria_ambito,
+        fechaInicio: fecha_inicio,
+        fechaFinalizacion: fecha_termino
+      };
+  
+      this.projectsService.createEvaluation(datos).pipe().subscribe(
+        (data: any) => {
+          this.hidePreLoader();
+          this.modalService.dismissAll();
+          this.fetchData();
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();    
+        this.modalService.dismissAll();  
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Ha ocurrido un error..',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      });*/
+  }
+  
+  /*this.modalService.dismissAll();
+  setTimeout(() => {
+    this.auditoriaForm.reset();
+  }, 1000);*/
+  this.submitted = true
+}
+
 
   // PreLoader
   showPreLoader() {

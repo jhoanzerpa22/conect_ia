@@ -6,6 +6,7 @@ export interface projectListModel {
   caption?: string;
   nombre: string;
   descripcion: string;
+  installationId?: any;
   number?: string;
   progressBar?: any;
   date?: string;
@@ -17,6 +18,9 @@ export interface projectListModel {
     profile?: string;
     variant?: string;
   }>;
+  installation_work_plan: {
+    nombre?: string;
+  };
   isIcon?: any;
 }
 
