@@ -144,6 +144,133 @@
         </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-xxl-12">
+        
+        <div class="card">
+            <div class="card-header">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm">
+                        <b>LISTADO DE PLANES DE TRABAJO AUDITORIAS</b>
+                        </div>
+                        <div class="col-sm-auto">
+                        </div>
+                    </div>
+        
+                    <!--Planes de trabajo de Auditoria-->
+                    <div class="row g-4 mb-3">
+                        <div class="card">
+                            <div *ngIf="!workPlan_auditoria_group || workPlan_auditoria_group.length < 1" style="min-height: 350px !important;">
+                                
+                                <div class="card-body">
+                                <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                                    Aún no tiene Planes de trabajo de auditorias
+                                </div>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="workPlan_auditoria_group && workPlan_auditoria_group.length > 0" style="min-height: 350px !important;">
+                                
+                                <ng-container *ngFor="let au of workPlan_auditoria_group">
+                                <div class="card-header">
+                                    <h4 style="color: #405189;">{{au.cuerpoLegal}}</h4>
+                                    <p>{{au.articulo}}</p>
+                                </div>
+                                <div class="card-body">
+                                <ng-container *ngFor="let data2 of au.planes">
+                                    <div class="list-group">
+        
+                                            <div class="team-list list-view-filter row" style="cursor:pointer;">
+                                                <div class="col">
+                                                    <div class="card team-box">
+                                                        <div class="team-cover">
+                                                            
+                                                        </div>
+                                                        <div class="card-body p-4">                
+                                                            <div class="row align-items-center team-row">
+                                                                <div class="col team-settings">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data2.id.toString().padStart(6,"PT-000")}}</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-3 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data2.installationId > 0 ? data2.installation_work_plan.nombre
+                                                                                 : ''}}</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;">{{ data2.createdAt | date: 'd/M/yyyy' }}</h5>
+                                                                            <p class="text-muted mb-0">Inicio</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="progress progress-xl">
+                                                                        <div class="progress-bar" 
+                                                                        [ngClass]="{'bg-danger': data2.id > 0 && data2.id < 25, 'bg-warning': data2.id > 25 && data2.id < 75, 'bg-success': data2.id > 75 }" role="progressbar" [style]="data2.id > 0 ? 'width:'+data2.id+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data2.id}}1%</div>
+                                                                    </div>
+                                                                </div>
+        
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;">{{ data2.updatedAt ? (data2.updatedAt | date: 'd/M/yyyy') : '-' }}</h5>
+                                                                            <p class="text-muted mb-0">Término</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-1 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-center">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="font-size: 24px;"><b>0%</b></h5>
+                                                                            <p>Avance</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                    </div>
+                                </ng-container>
+                                </div>
+                            </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
     </div>
 </div>
   

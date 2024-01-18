@@ -30,6 +30,7 @@ export class ListComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   projectListWidgets!: projectListModel[];
   workPlan_group: any = [];
+  workPlan_auditoria_group: any = [];
   //projectListWidgets1!: projectListModel1[];
   //projectListWidgets2!: projectListModel2[];
   //projectmodel!: Observable<projectListModel2[]>;
@@ -113,10 +114,11 @@ export class ListComponent implements OnInit {
           let resp: any = data.data;
           let workPlans: any = [];
           this.workPlan_group = [];
+          this.workPlan_auditoria_group = [];
           let auditorias: any = [];
 
           for (var j = 0; j < resp.length; j++) {
-            //if(!resp[j].type || resp[j].type == '' || resp[j].type == null || resp[j].type == 'workPlan'){
+            if(!resp[j].type || resp[j].type == '' || resp[j].type == null || resp[j].type == 'workPlan'){
               const index_work = workPlans.findIndex(
                 (w: any) =>
                   w.normaId == resp[j].normaId && w.articuloId == resp[j].articuloId
@@ -127,13 +129,23 @@ export class ListComponent implements OnInit {
               }else{
                 workPlans.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal, articulo: resp[j].articulo, planes: [resp[j]] });
               }
-            /*}else if(resp[j].type && resp[j].type != '' && resp[j].type != null && resp[j].type == 'auditoria'){
-              this.auditorias.push(resp[j]);
-            }*/
+            }else if(resp[j].type && resp[j].type != '' && resp[j].type != null && resp[j].type == 'auditoria'){
+              const index_auditoria = auditorias.findIndex(
+                (au: any) =>
+                  au.normaId == resp[j].normaId && au.articuloId == resp[j].articuloId
+              );
+
+              if(index_auditoria != -1){
+                auditorias[index_auditoria].planes.push(resp[j]);
+              }else{
+                auditorias.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal, articulo: resp[j].articulo, planes: [resp[j]] });
+              }
+            }
           }
 
           //this.projectListWidgets = workPlans;
           this.workPlan_group = workPlans;
+          this.workPlan_auditoria_group = auditorias;
           this.pagLength = workPlans.length;
           this.hidePreLoader();
       },
