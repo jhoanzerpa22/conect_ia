@@ -848,6 +848,8 @@ export class TaskControlComponent implements OnInit {
                   normaId: this.articulo.normaId,
                   articuloId: this.articulo.articuloId,
                   installationId: this.installation_id,
+                  responsableId: this.userData.id,
+                  descripcion: null,
                   proyectoId: this.project_id,
                   empresaId: this.userData.empresaId
                 };

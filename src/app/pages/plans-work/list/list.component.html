@@ -378,6 +378,29 @@
                 </div>
 
             </div>
+            
+            <div class="row">
+                
+                <div class="col-sm-6 mb-3">
+                    <label for="user-field" class="form-label">Responsable</label>
+                    <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
+                        <option selected>Seleccione Responsable </option>
+                        <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{ r.apellido ? r.apellido : ''}}</option>
+                    </select>
+                <div class="invalid-feedback">Por favor ingresar responsable.</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                
+            <div class="col-sm-12 mb-3">
+                <label for="email-field" class="form-label">Descripción</label>
+                <textarea rows="3" id="email-field" class="form-control" placeholder="Ingresar Descripción" required
+                formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }"></textarea>
+                <div class="invalid-feedback">Por favor ingresar descripción.</div>
+            </div>
+
+            </div>
 
             <div class="row" style="margin-top: 24px;">
 
