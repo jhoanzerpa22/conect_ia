@@ -8,6 +8,7 @@ import { listService } from './list.service';
 import { DecimalPipe } from '@angular/common';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { WorkPlanService } from '../../../core/services/workPlan.service';
+import { UserProfileService } from '../../../core/services/user.service';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 import { first } from 'rxjs/operators';
@@ -73,11 +74,13 @@ export class ListComponent implements OnInit {
   lista_articulos: any = [];
   lista_articulos_filter: any = [];
   lista_areas: any = [];
+
+  responsables: any = [];
   
   userData: any;
 
   constructor(private modalService: NgbModal,
-    public service: listService, private projectsService: ProjectsService, private workPlanService: WorkPlanService, public toastService: ToastService,private _router: Router, private formBuilder: UntypedFormBuilder, private TokenStorageService: TokenStorageService) {
+    public service: listService, private projectsService: ProjectsService, private workPlanService: WorkPlanService, public toastService: ToastService,private _router: Router, private formBuilder: UntypedFormBuilder, private TokenStorageService: TokenStorageService, private userService: UserProfileService) {
     //this.projectmodel = service.companies$;
     this.total = service.total$;
   }
@@ -98,6 +101,7 @@ export class ListComponent implements OnInit {
      */
     this.fetchData();
     this.getWorkPlans();
+    this.getResponsables();
 
     if (localStorage.getItem('toast')) {
       this.toastService.show('Plan de trabajo Creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
@@ -115,7 +119,9 @@ export class ListComponent implements OnInit {
       cuerpoId: [''],
       search: [''],
       fechaInicio: ['', [Validators.required]],
-      fechaFinalizacion: ['', [Validators.required]]
+      fechaFinalizacion: ['', [Validators.required]],
+      responsable: ['', [Validators.required]],
+      descripcion: ['']
     });
 
   }
@@ -231,6 +237,22 @@ export class ListComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
+  }
+  
+  private getResponsables() {
+
+    this.showPreLoader();
+      this.userService.getCoworkers().pipe().subscribe(
+        (data: any) => {
+          this.responsables = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
   }
   
   private getHijas(hijos: any){
@@ -604,7 +626,9 @@ savePlans(){
     const proyectoId = this.plansForm.get('proyectoId')?.value;
     const installationId = this.plansForm.get('installationId')?.value;
     const cuerpoId = this.plansForm.get('cuerpoId')?.value;
-
+    const responsable = this.plansForm.get('responsable')?.value;
+    const descripcion = this.plansForm.get('descripcion')?.value;
+    
     const dataWorkPlan: any = {
       fecha_inicio: fecha_inicio,
       fecha_termino: fecha_termino,
@@ -614,6 +638,8 @@ savePlans(){
       normaId: cuerpoId,      
       articuloId: cuerpoId && this.selectChecked3[0].id ? this.selectChecked3[0].id : null,
       installationId: installationId,
+      responsableId: responsable,
+      descripcion: descripcion,
       proyectoId: proyectoId,
       empresaId: this.userData.empresaId
     };
