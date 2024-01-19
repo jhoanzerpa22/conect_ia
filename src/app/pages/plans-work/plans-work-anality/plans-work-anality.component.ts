@@ -3,6 +3,7 @@ import { statData, ActiveProjects, MyTask, TeamMembers } from './data';
 import { circle, latLng, tileLayer } from 'leaflet';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
+import { WorkPlanService } from '../../../core/services/workPlan.service';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 import { DecimalPipe } from '@angular/common';
@@ -50,6 +51,8 @@ export class PlansWorkAnalityComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  workPlan: any = {};
+  workPlan_id: any = '';
 
   installations_data: any = [];
   areas_data: any = [];
@@ -70,7 +73,7 @@ export class PlansWorkAnalityComponent implements OnInit {
   public Editor = ClassicEditor;
   total: Observable<number>;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private TokenStorageService: TokenStorageService, private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.total = service.total$;
   }
 
@@ -90,8 +93,9 @@ export class PlansWorkAnalityComponent implements OnInit {
     }
 
     this.route.params.subscribe(params => {
-      this.project_id = params['id'];
-      this.getProject(params['id']);
+      this.workPlan_id = params['id'];
+      //this.getProject(params['id']);
+      this.getWorkPlan(params['id']);
     });
     
     /**
@@ -105,6 +109,7 @@ export class PlansWorkAnalityComponent implements OnInit {
       fecha_inicio: [''],
       fecha_termino: [''],
       evaluationFindingId: [''],
+      prioridad: [''],
       is_image: [''],
       is_file: ['']
     });
@@ -112,7 +117,7 @@ export class PlansWorkAnalityComponent implements OnInit {
     /**
      * Fetches the data
      */
-    this.fetchData();
+    //this.fetchData();
     this.getResponsables();
     this.getTasks();
     this.getFindings();
@@ -172,6 +177,7 @@ export class PlansWorkAnalityComponent implements OnInit {
         const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
+        const prioridad = this.taskForm.get('prioridad')?.value;
         const is_image = this.taskForm.get('is_image')?.value;
         const is_file = this.taskForm.get('is_file')?.value;
 
@@ -216,10 +222,12 @@ export class PlansWorkAnalityComponent implements OnInit {
                 fecha_termino: fecha_termino,
                 evaluationFindingId: evaluationFindingId,//this.idHallazgo,
                 estado: 'CREADA',
+                prioridad: prioridad,
                 type: 'workPlanTask',
                 is_image: is_image,
                 is_file: is_file,
-                proyectoId: this.project_id,
+                proyectoId: this.project_id ? this.project_id : null,
+                workPlanId: this.workPlan_id,
                 empresaId: this.userData.empresaId
               };
               
@@ -267,10 +275,12 @@ export class PlansWorkAnalityComponent implements OnInit {
           fecha_termino: fecha_termino,
           evaluationFindingId: evaluationFindingId,
           estado: 'CREADA',
+          prioridad: prioridad,
           type: 'workPlanTask',
           is_image: is_image,
           is_file: is_file,
-          proyectoId: this.project_id,
+          proyectoId: this.project_id ? this.project_id : null,
+          workPlanId: this.workPlan_id,
           empresaId: this.userData.empresaId
         };
         
@@ -326,12 +336,16 @@ export class PlansWorkAnalityComponent implements OnInit {
           let tasks: any = [];
 
           for (var j = 0; j < resp.length; j++) {
-            if(resp[j].proyectoId == this.project_id){
+            if(/*resp[j].proyectoId*/resp[j].workPlanId == this.workPlan_id){
+              this.project_id = resp[j].proyectoId;
               tasks.push(resp[j]);
             }
           }
 
           this.TaskDatas = tasks;
+          if(this.project_id && this.project_id != null){
+            this.getProject(this.project_id);
+          }
 
           this.hidePreLoader();
       },
@@ -392,7 +406,6 @@ export class PlansWorkAnalityComponent implements OnInit {
     this.renderer.appendChild(this.zone?.nativeElement, select);
   }
 
-
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
@@ -403,6 +416,17 @@ export class PlansWorkAnalityComponent implements OnInit {
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
       });
    }
+
+   getWorkPlan(idWorkPlan?: any){
+       this.workPlanService.getById(idWorkPlan).pipe().subscribe(
+         (data: any) => {
+           this.workPlan = data.data;
+       },
+       (error: any) => {
+         //this.error = error ? error : '';
+         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+       });
+    }
 
   // Chart Colors Set
   private getChartColorsArray(colors: any) {

@@ -19,6 +19,7 @@ import { RecentService } from './task-control.service';
 import { NgbdRecentSortableHeader, SortEvent } from './task-control-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
+import { WorkPlanService } from '../../../../../core/services/workPlan.service';
 import { UserProfileService } from '../../../../../core/services/user.service';
 import { TokenStorageService } from '../../../../../core/services/token-storage.service';
 import { ToastService } from '../../../toast-service';
@@ -134,8 +135,9 @@ export class TaskControlComponent implements OnInit {
   
   estados_default: any = estadosData;
   estados: any = [];
+  workPlan: any = {};
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
     
@@ -257,6 +259,17 @@ export class TaskControlComponent implements OnInit {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
     });
  }
+
+ getWorkPlan(){
+   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId).pipe().subscribe(
+     (data: any) => {
+       this.workPlan = data.data;
+   },
+   (error: any) => {
+     //this.error = error ? error : '';
+     //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+   });
+}
 
  getEvaluations(){
   this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
@@ -403,6 +416,7 @@ export class TaskControlComponent implements OnInit {
             });
           }
 
+          this.getWorkPlan();
           this.hidePreLoader();
       },
       (error: any) => {
@@ -711,6 +725,31 @@ export class TaskControlComponent implements OnInit {
       }
   }
 
+  sendTask(task: any){
+    this.projectsService.createTask(task).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           //this.getTasksByFinding(this.idHallazgo);
+           this.getFindingsByInstallationArticle();
+
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+        
+          this.modalService.dismissAll();
+          setTimeout(() => {
+            this.taskForm.reset();
+          }, 1000);
+          this.submitted = true
+  }
+
   /**
   * Save saveTask
   */
@@ -725,7 +764,7 @@ export class TaskControlComponent implements OnInit {
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
-        const fecha_inicio = new Date();//this.taskForm.get('fecha_inicio')?.value;
+        const fecha_inicio = Date.now();//this.taskForm.get('fecha_inicio')?.value;
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         const prioridad = this.taskForm.get('prioridad')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
@@ -734,8 +773,26 @@ export class TaskControlComponent implements OnInit {
 
         const index = this.TaskDatas/*.length > 0*/ ? this.TaskDatas.findIndex(
           (t: any) =>
-            (/*moment(*/fecha_inicio/*).format()*/ > t.fecha_inicio && /*moment(*/fecha_inicio/*).format()*/ < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (/*moment(*/fecha_inicio/*).format()*/ < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
+            (moment(fecha_inicio).format() > t.fecha_inicio && moment(fecha_inicio).format() < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (moment(fecha_inicio).format() < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
         ) : -1;
+
+        const task: any = {
+          responsableId: responsable,
+          nombre: nombre,
+          descripcion: descripcion,
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+          estado: 'CREADA',
+          prioridad: prioridad,
+          type: 'findingTaks',
+          //is_image: is_image,
+          //is_file: is_file,
+          installationId: this.installation_id,
+          proyectoId: this.project_id,
+          workPlanId: this.workPlan ? this.workPlan.id : null,
+          empresaId: this.userData.empresaId
+        };
 
         if(index != -1){
           
@@ -764,46 +821,8 @@ export class TaskControlComponent implements OnInit {
                 fecha_termino,
                 evaluationFindingId
               });*/
-              
-              const task: any = {
-                responsableId: responsable,
-                nombre: nombre,
-                descripcion: descripcion,
-                fecha_inicio: fecha_inicio,
-                fecha_termino: fecha_termino,
-                evaluationFindingId: evaluationFindingId,//this.idHallazgo,
-                estado: 'CREADA',
-                prioridad: prioridad,
-                type: 'findingTaks',
-                //is_image: is_image,
-                //is_file: is_file,
-                installationId: this.installation_id,
-                proyectoId: this.project_id,
-                empresaId: this.userData.empresaId
-              };
-              
-              this.projectsService.createTask(task).pipe().subscribe(
-                (data: any) => {     
-                 this.hidePreLoader();
-                 this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-      
-                 //this.getTasksByFinding(this.idHallazgo);
-                 this.getFindingsByInstallationArticle();
-      
-                 this.modalService.dismissAll();
-              },
-              (error: any) => {
-                
-                this.hidePreLoader();
-                this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-                this.modalService.dismissAll()
-              });
-
-              this.modalService.dismissAll();
-              setTimeout(() => {
-                this.taskForm.reset();
-              }, 1000);
-              this.submitted = true
+          
+              this.sendTask(task);
             } else if (result.isDenied) {
               
             }
@@ -818,46 +837,36 @@ export class TaskControlComponent implements OnInit {
           fecha_termino,
           evaluationFindingId
         });*/
-        
-        const task: any = {
-          responsableId: responsable,
-          nombre: nombre,
-          descripcion: descripcion,
-          fecha_inicio: fecha_inicio,
-          fecha_termino: fecha_termino,
-          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
-          estado: 'CREADA',
-          prioridad: prioridad,
-          type: 'findingTaks',
-          //is_image: is_image,
-          //is_file: is_file,
-          installationId: this.installation_id,
-          proyectoId: this.project_id,
-          empresaId: this.userData.empresaId
-        };
-        
-        this.projectsService.createTask(task).pipe().subscribe(
-          (data: any) => {     
-           this.hidePreLoader();
-           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+        if(!this.workPlan || !this.workPlan.id){
 
-           //this.getTasksByFinding(this.idHallazgo);
-           this.getFindingsByInstallationArticle();
-
-           this.modalService.dismissAll();
-        },
-        (error: any) => {
-          
-          this.hidePreLoader();
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-          this.modalService.dismissAll()
-        });
-        
-          this.modalService.dismissAll();
-          setTimeout(() => {
-            this.taskForm.reset();
-          }, 1000);
-          this.submitted = true
+          const dataWorkPlan: any = {
+                  fecha_inicio: fecha_inicio,
+                  fecha_termino: fecha_termino,
+                  type: 'auditoria',      
+                  articulo: this.articulo.articulo,
+                  cuerpoLegal: this.cuerpoLegal,
+                  normaId: this.articulo.normaId,
+                  articuloId: this.articulo.articuloId,
+                  installationId: this.installation_id,
+                  proyectoId: this.project_id,
+                  empresaId: this.userData.empresaId
+                };
+            
+            this.workPlanService.create(dataWorkPlan).pipe().subscribe(
+            (data: any) => {
+              this.workPlan = data.data;
+              this.saveTask();
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+            this.modalService.dismissAll()
+          });
+  
+          }else{
+            this.sendTask(task);
+          }
         }
 
       }
