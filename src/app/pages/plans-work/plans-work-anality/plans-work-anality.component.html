@@ -40,17 +40,17 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Plan de Trabajo - {{project.nombre}}</h4>
-                <p>{{project.descripcion}}</p>
+                <h4 class="card-title mb-0" style="color: #405189;">PLAN DE TRABAJO {{workPlan && workPlan.id ? workPlan.id.toString().padStart(6,"PT-000") : ''}}</h4>
+                <!--<p>{{project.descripcion}}</p>-->
             </div>
 
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
-                            <div class="d-flex gap-1">
+                            <!--<div class="d-flex gap-1">
                                 <h4 class="card-title mb-0">Tareas</h4>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
@@ -60,9 +60,9 @@
                                     <i class="ri-search-line search-icon"></i>
                                 </div>
                                 
-                                <button type="button" style="margin-left:20px;" class="btn btn-success add-btn" data-bs-toggle="modal"
+                                <button type="button" style="margin-left:20px;" class="btn btn-danger add-btn" data-bs-toggle="modal"
                                     id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
-                                        class="ri-add-line align-bottom me-1"></i> Nueva Tarea</button>
+                                        class="ri-add-line align-bottom me-1"></i> Crear Tarea</button>
                             </div>
                         </div>
                     </div>
@@ -71,30 +71,35 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th class="sort" data-sort="id" style="width: 60px;">Id</th>
-                                    <th class="sort" data-sort="nombre" style="width: 200px;">Nombre</th>
-                                    <th class="sort" data-sort="responsable" style="width: 300px;">Responsable</th>
-                                    <th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>
-                                    <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha Vencimiento</th>
-                                    <th class="sort" data-sort="dias_retrado" style="width: 80px;">Dias Retraso</th>
-                                    <th class="sort" style="width: 100px;">Estado</th>
-                                    <th class="sort" style="width: 100px;">Acción</th>
+                                    <!--<th class="sort" data-sort="id" style="width: 60px;">Id</th>-->
+                                    <th class="sort" data-sort="nombre" style="width: 300px;">Tarea</th>
+                                    <th class="sort" data-sort="responsable" style="width: 200px;">Responsable</th>
+                                    <!--<th class="sort" data-sort="fecha_inicio" style="width: 150px;">Fecha Creación</th>-->
+                                    <th class="sort" data-sort="fecha_termino" style="width: 150px;">Fecha término</th>
+                                    <th class="sort" data-sort="dias_retrado" style="width: 100px;">Dias Retraso</th>
+                                    <th class="sort" style="width: 130px;">Estado</th>
+                                    <th class="sort" style="width: 130px;">Prioridad</th>
+                                    <th class="sort" style="width: 130px;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of TaskDatas" id="lj_{{data.id}}">
-                                    <td><ngb-highlight [result]="data.id"
-                                            [term]="service.searchTerm"></ngb-highlight></td>
+                                    <!--<td><ngb-highlight [result]="data.id"
+                                            [term]="service.searchTerm"></ngb-highlight></td>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
                                     <td><ngb-highlight [result]="data.responsable.nombre"
                                         [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td>{{ data.fecha_inicio | date: 'd/M/yy' }}
-                                    </td>
+                                    <!--<td>{{ data.fecha_inicio | date: 'd/M/yy' }}
+                                    </td>-->
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
                                     <td>{{getRetraso(data.fecha_termino)}}</td>
                                     <td class="status"><span
                                         class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger')}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada')) : 'Creada'}}</span>
+                                    </td>
+                                    <td class="status">
+                                        <span
+                                        class="badge text-bg-{{data.prioridad && data.prioridad == 'BAJA' ? 'primary' : (data.prioridad && data.prioridad == 'MEDIA' ? 'warning' : 'danger')}} text-uppercase">{{data.prioridad ? data.prioridad : 'BAJA'}}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex gap-2">
@@ -160,14 +165,14 @@
             </div> 
             <div class="col-12">    
             <div class="mb-3">
-                <label for="nombre-field" class="form-label">Titulo</label>
-                <input type="text" id="nombre-field" class="form-control" placeholder="Ingresar Titulo" required
+                <label for="nombre-field" class="form-label">Tarea</label>
+                <input type="text" id="nombre-field" class="form-control" placeholder="Ingresar Tarea" required
                     formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && form['nombre'].errors }" />
-                <div class="invalid-feedback">Por favor ingresar titulo.</div>
+                <div class="invalid-feedback">Por favor ingresar tarea.</div>
             </div>
             </div>
             
-            <div class="col-6">
+            <!--<div class="col-6">
             <div class="mb-3">
                 <label for="inicio-field" class="form-label">Fecha Inicio</label>
                     <div class="form-icon right">
@@ -177,7 +182,7 @@
                     </div>
                 <div class="invalid-feedback">Por favor ingresar Fecha inicio.</div>
             </div>
-            </div>
+            </div>-->
 
             <div class="col-6">
             <div class="mb-3">
@@ -243,6 +248,19 @@
             </div>
             </div>
 
+            <div class="col-6">    
+                <div class="mb-3">
+                    <label for="user-field" class="form-label">Prioridad</label>
+                    <select class="form-select mb-3" aria-label="Prioridad" formControlName="prioridad" placeholder="Seleccione Prioridad">
+                        <option selected>Seleccione Prioridad </option>
+                        <option value="BAJA">BAJA</option>
+                        <option value="MEDIA">MEDIA</option>
+                        <option value="ALTA">ALTA</option>
+                    </select>
+                <div class="invalid-feedback">Por favor ingresar prioridad.</div>
+                </div>
+            </div>
+
             <div class="col-12">    
             <div class="mb-3">
                 <label for="descripcion-field" class="form-label">Descripción</label>
@@ -286,7 +304,7 @@
             <div class="hstack gap-2 justify-content-end">
                 <!--<button type="button" class="btn btn-light" data-bs-dismiss="modal"
                     (click)="modal.close('Close click')">Cerrar</button>-->
-                <button type="submit" class="btn btn-success" id="add-btn">Agregar</button>
+                <button type="submit" class="btn btn-success" id="add-btn">Crear</button>
             </div>
         </div>
     </form>
@@ -305,8 +323,7 @@
                     colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                 <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                     <h4>Está a punto de eliminar este registro</h4>
-                    <p class="text-muted mx-4 mb-0">Eliminar su registro eliminará toda su información de nuestro
-sistema.</p>
+                    <p class="text-muted mx-4 mb-0">Eliminar su registro eliminará toda su información de nuestro sistema.</p>
                 </div>
             </div>
             <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
@@ -318,7 +335,6 @@ sistema.</p>
         </div>
     </div><!-- /.modal-content -->
 </ng-template>
-
 
 <app-toastspl aria-live="polite" aria-atomic="true"></app-toastspl>
 
