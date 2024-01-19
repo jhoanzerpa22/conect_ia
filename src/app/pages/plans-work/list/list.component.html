@@ -21,7 +21,6 @@
             <div class="card-header">
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="row g-4 mb-3">
                         <div class="col-sm">
                         <b>LISTADO DE PLANES DE TRABAJO</b>
@@ -336,21 +335,100 @@
             <div class="row">
                 
                 <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Proyecto</label>
+                    <select class="form-control form-select" aria-label="Proyecto" formControlName="proyectoId" placeholder="Seleccione Proyecto" (change)="selectProyecto($event)" [ngClass]="{ 'is-invalid': submitted && form['proyectoId'].errors }">
+                        <option value="" selected>Seleccione Proyecto </option>
+                        <option *ngFor="let p of projectListWidgets" value="{{p.id}}">{{p.nombre}}
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">Por favor ingresa un proyecto.</div>
+                </div>
+                
+                <div class="col-sm-6 mb-3">
+                    <label for="customername-field" class="form-label">Area</label>
+                    <select class="form-control form-select" aria-label="Area" formControlName="areaId" placeholder="Seleccione Area" (change)="selectArea($event)" [ngClass]="{ 'is-invalid': submitted && form['areaId'].errors }">
+                        <option value="" selected>Seleccione Area </option>
+                        <ng-container *ngFor="let area of installations_group_filter">
+                            <option value="{{area.area}}">{{area.area}}</option>
+                        </ng-container>
+                    </select>
+                    <div class="invalid-feedback">Por favor ingresa un Area.</div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-sm-6 mb-3">
                     <label for="customername-field" class="form-label">Instalación</label>
                     <select class="form-control form-select" aria-label="Instalación" formControlName="installationId" placeholder="Seleccione Instalación" [ngClass]="{ 'is-invalid': submitted && form['installationId'].errors }">
-                        <option value="" selected>Seleccione Instalación </option>
+                        <option value="" selected="">Seleccione Instalación </option>
+                        <option *ngFor="let ig of installations_select;" value="{{ig.id}}">{{ig.nombre}} </option>
                     </select>
                     <div class="invalid-feedback">Por favor ingresa una instalación.</div>
                 </div>
                 
                 <div class="col-sm-6 mb-3">
                     <label for="customername-field" class="form-label">Cuerpo legal</label>
-                    <select class="form-control form-select" aria-label="Cuerpo legal" formControlName="cuerpoId" placeholder="Seleccione Cuerpo legal" [ngClass]="{ 'is-invalid': submitted && form['cuerpoId'].errors }">
+                    <select class="form-control form-select" aria-label="Cuerpo legal" (change)="selectCuerpo($event)" formControlName="cuerpoId" placeholder="Seleccione Cuerpo legal" [ngClass]="{ 'is-invalid': submitted && form['cuerpoId'].errors }">
                         <option value="" selected>Seleccione Cuerpo Legal </option>
+                        <option *ngFor="let c of lista_cuerpos;" value="{{c.normaId}}">{{c.cuerpoLegal}}</option>
                     </select>
                     <div class="invalid-feedback">Por favor ingresa un Cuerpo legal.</div>
                 </div>
 
+            </div>
+
+            <div class="row" style="margin-top: 24px;">
+
+                <div class="col-sm-12 mb-3" *ngIf="!cuerpoId">
+                    <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                        Aún no ha seleccionado un Cuerpo Legal
+                    </div>
+                </div>
+
+                <div class="col-sm-12 mb-3" *ngIf="cuerpoId">
+                    
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm">
+                        <h5 class="mb-1 fs-15"><label><b>{{cuerpoLegal.cuerpoLegal}} {{cuerpoLegal.project_article ? ' - '+cuerpoLegal.project_article.tituloNorma : ''}}</b></label></h5><!--style="color: #405189;"-->
+                        <p class="text-muted text-truncate-two-lines mb-3"><b>{{cuerpoLegal.project_article ? cuerpoLegal.project_article.organismo : ''}}</b></p>
+                        </div>
+                        <div class="col-sm-auto">
+                            <div class="search-box">
+                                <input type="text" class="form-control" placeholder="Buscar artículo..." formControlName="search" [(ngModel)]="term3"><!--"service.searchTerm"-->
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="mb-3">
+                        <!--<div class="list-group">-->
+                        <ul class="list-group">
+                            
+                            <ng-container *ngFor="let o of lista_articulos_filter | filter:term3">
+
+                                    <li class="list-group-item mb-3 border" style="cursor: pointer;" [ngClass]="{'card-border-success': validChecked4(o.id) }" (click)="selectArticulo(o)">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                            <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0">
+                                                   <i class="mdi align-middle lh-1 me-2"  [ngClass]="{'mdi-check-circle text-success': validChecked4(o.id),'mdi-checkbox-blank-circle text-gray': !validChecked4(o.id) }"></i>
+                                            </div>
+                                            <div class="flex-shrink-0 ms-2">
+                                                {{o.articulo}}
+                                            </div>
+                                            </div>
+                                            </div>
+                                        
+                                        </div>
+                                    </li>
+                                        
+                            </ng-container>
+                        </ul>
+                    </div>
+        
+                </div>
             </div>
 
         </div>

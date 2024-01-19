@@ -20,7 +20,8 @@ import { NgbdRecentSortableHeader, SortEvent } from './task-sortable.directive';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../../../core/services/projects.service';
 import { WorkPlanService } from '../../../../../core/services/workPlan.service';
-import { UserProfileService } from '../../../../../core/services/user.service';import { TokenStorageService } from '../../../../../core/services/token-storage.service';
+import { UserProfileService } from '../../../../../core/services/user.service';
+import { TokenStorageService } from '../../../../../core/services/token-storage.service';
 import { ToastService } from '../../../toast-service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 // Ck Editer
