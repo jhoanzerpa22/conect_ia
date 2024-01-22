@@ -137,6 +137,8 @@ export class TaskControlComponent implements OnInit {
   estados: any = [];
   workPlan: any = {};
 
+  active_notify: boolean = false;
+
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
@@ -1320,6 +1322,39 @@ parseHtmlString(texto: any){
       this.changeStatusHallazgo(e, id, 2); 
       status.innerHTML = '<span class="badge text-uppercase badge-soft-warning">Pendiente</span>'
     }
+  }
+  
+  activeNotify(event: any, evaluation_id: any) {  
+    this.active_notify = !this.active_notify;
+    
+    const dataNotify: any = {
+      notificaciones: this.active_notify
+    };
+
+      this.projectsService.saveNotify(evaluation_id,dataNotify).pipe().subscribe(
+      (data: any) => {
+      
+        Swal.fire({
+          title: 'Notificacion guardada!',
+          //text: 'You clicked the button!',
+          icon: 'success',
+          showConfirmButton: true,
+          showCancelButton: false,
+          confirmButtonColor: '#364574',
+          cancelButtonColor: 'rgb(243, 78, 78)',
+          confirmButtonText: 'OK',
+          timer: 2000
+        });
+        this.hidePreLoader();
+      
+      },
+      (error: any) => {
+
+        this.hidePreLoader();
+        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        this.modalService.dismissAll()
+      });
+
   }
 
   // PreLoader
