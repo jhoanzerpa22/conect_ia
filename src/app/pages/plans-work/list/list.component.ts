@@ -159,6 +159,29 @@ export class ListComponent implements OnInit {
           let auditorias: any = [];
 
           for (var j = 0; j < resp.length; j++) {
+            let avance = 0;
+              
+            if(resp[j].tasks_workPlan){
+              for (let x = 0; x < resp[j].tasks_workPlan.length; x++) {
+                switch (resp[j].tasks_workPlan[x].estado) {
+                  /*case 'CREADA':
+                    break;*/
+                  case 'INICIADA':
+                    avance += avance + 0.5;
+                    break;
+                  case 'COMPLETADA':
+                    avance ++;
+                    break;
+                
+                  default:
+                    break;
+                }
+              }
+
+              resp[j].avance = resp[j].tasks_workPlan.length > 0 ? (avance * 100) / resp[j].tasks_workPlan.length : 0;
+
+            }
+            
             if(!resp[j].type || resp[j].type == '' || resp[j].type == null || resp[j].type == 'workPlan'){
               const index_work = workPlans.findIndex(
                 (w: any) =>
@@ -187,6 +210,7 @@ export class ListComponent implements OnInit {
           //this.projectListWidgets = workPlans;
           this.workPlan_group = workPlans;
           this.workPlan_auditoria_group = auditorias;
+          console.log('PLANES',this.workPlan_group, this.workPlan_auditoria_group);
           this.pagLength = workPlans.length;
           this.hidePreLoader();
       },
