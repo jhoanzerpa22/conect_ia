@@ -565,5 +565,13 @@ export class ProjectsService {
             articuloId: articuloId
         } }, this.getToken());
     }
+    
+    saveNotify(evaluation_id: any, data: any): Observable<any> {
+        const httpOptions5 = {
+            headers: new HttpHeaders({ /*'Content-Type': 'multipart/form-data',*/'Authorization': `Bearer ${localStorage.getItem('token')}`, "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.put(API_URL_BACK + 'evaluation/notify/'+evaluation_id, data, httpOptions5);
+    }
 
 }
