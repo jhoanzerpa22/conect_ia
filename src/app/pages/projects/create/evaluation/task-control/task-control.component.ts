@@ -63,12 +63,14 @@ export class TaskControlComponent implements OnInit {
 
   folderData!: DetailModel[];
   submitted = false;
+  submittedNotify = false;
   folderForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
   taskForm!: UntypedFormGroup;
   hallazgoForm!: UntypedFormGroup;
   evaluacionForm!: UntypedFormGroup;
+  notifyForm!: UntypedFormGroup;
   TaskData!: DetailModel[];
   recentDatas: any;
   articulosDatas: any;
@@ -138,6 +140,7 @@ export class TaskControlComponent implements OnInit {
   workPlan: any = {};
 
   active_notify: boolean = false;
+  evaluation_id: any = '';
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
@@ -207,6 +210,10 @@ export class TaskControlComponent implements OnInit {
       nombre: ['', [Validators.required]],
       //descripcion: [''],
       //fileHallazgo: ['']
+    });
+    
+    this.notifyForm = this.formBuilder.group({
+      fecha_vencimiento: ['', [Validators.required]],
     });
 
     /**
@@ -416,6 +423,12 @@ export class TaskControlComponent implements OnInit {
             this.estados = this.estados_default.filter((estado: any) => {
               return estado.type == this.articulo.project_article.articuloTipo;
             });
+          }
+
+          if(this.articulo && this.articulo.evaluations && this.articulo.evaluations.notificaciones) {
+            this.active_notify = this.articulo.evaluations.notificaciones;
+          }else{
+            this.active_notify = false;
           }
 
           this.getWorkPlan();
@@ -1324,14 +1337,54 @@ parseHtmlString(texto: any){
     }
   }
   
-  activeNotify(event: any, evaluation_id: any) {  
-    this.active_notify = !this.active_notify;
+  verifyNotify(event: any, evaluation_id: any, contentNotify: any) {  
+    const active: boolean = !this.active_notify;
     
-    const dataNotify: any = {
-      notificaciones: this.active_notify
-    };
+    if(active){
+      this.active_notify = true;
 
-      this.projectsService.saveNotify(evaluation_id,dataNotify).pipe().subscribe(
+      this.submittedNotify = false;
+      this.evaluation_id = evaluation_id;
+      this.modalService.open(contentNotify, { size: 'sm', centered: true });
+
+    }else{
+      
+      this.active_notify = false;
+          
+      const dataNotify: any = {
+        notificaciones: false,
+        fecha_vencimiento: null
+      };
+
+      this.saveNotify(evaluation_id, dataNotify);
+
+    }
+
+  }
+  
+  activeNotify() {  
+    if (this.notifyForm.valid) {
+      
+      const fecha_vencimiento = this.notifyForm.get('fecha_vencimiento')?.value;
+    
+      const dataNotify: any = {
+        notificaciones: true,
+        fecha_vencimiento: fecha_vencimiento
+      };
+
+      this.saveNotify(this.evaluation_id, dataNotify);
+  
+    }
+    
+    this.submitted = true
+
+  }
+
+  saveNotify(evaluation_id: any, dataNotify: any){
+    
+    this.showPreLoader();
+    
+    this.projectsService.saveNotify(evaluation_id,dataNotify).pipe().subscribe(
       (data: any) => {
       
         Swal.fire({
@@ -1346,13 +1399,14 @@ parseHtmlString(texto: any){
           timer: 2000
         });
         this.hidePreLoader();
+        this.modalService.dismissAll();
       
       },
       (error: any) => {
 
         this.hidePreLoader();
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-        this.modalService.dismissAll()
+        this.modalService.dismissAll();
       });
 
   }
