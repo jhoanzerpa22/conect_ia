@@ -92,7 +92,7 @@
                                                                 <div class="col-lg-2 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1" style="color: #405189;">{{ data.createdAt | date: 'd/M/yyyy' }}</h5>
+                                                                            <h5 class="mb-1" style="color: #405189;">{{ data.fecha_inicio | date: 'd/M/yyyy' }}</h5>
                                                                             <p class="text-muted mb-0">Inicio</p>
                                                                         </div>
                                                                     </div>
@@ -108,7 +108,7 @@
                                                                 <div class="col-lg-2 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1" style="color: #405189;">{{ data.updatedAt ? (data.updatedAt | date: 'd/M/yyyy') : '-' }}</h5>
+                                                                            <h5 class="mb-1" style="color: #405189;">{{ data.fecha_termino ? (data.fecha_termino | date: 'd/M/yyyy') : '-' }}</h5>
                                                                             <p class="text-muted mb-0">Término</p>
                                                                         </div>
                                                                     </div>

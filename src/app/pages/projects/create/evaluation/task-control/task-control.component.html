@@ -38,7 +38,7 @@
         <div class="card-body">
           
           <div class="row g-0 mb-3 text-center">
-            <div class="col-md-3">
+            <div class="col-md-4">
                     <h6>CUMPLIMIENTO</h6>
                     
                     <div class="col-lg-12 col">
@@ -46,22 +46,14 @@
                     </div>
             </div>
             
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <h6>FECHA EVALUACIÓN</h6>
                 {{articulo.evaluations && articulo.evaluations.fecha_evaluacion ? (articulo.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : (evaluation.fechaFinalizacion | date:"dd-MM-yy") }}
             </div>
             
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <h6>RESPONSABLE</h6>
                 {{articulo.evaluations && articulo.evaluations.evaluador && articulo.evaluations.evaluador.nombre ? articulo.evaluations.evaluador.nombre + ' ' + articulo.evaluations.evaluador.apellido : (evaluation.evaluador && evaluation.evaluador.nombre ? evaluation.evaluador.nombre + ' ' + evaluation.evaluador.apellido : '-') }}
-            </div>
-
-            <div class="col-md-3">
-                <h6>NOTIFICACIONES</h6>
-                <div class="form-check form-switch form-switch-right form-switch-md">
-                    <label for="default" class="form-label text-muted">Activar</label>
-                    <input class="form-check-input code-switcher" type="checkbox" id="default" [checked]="active_notify" (click)="verifyNotify($event, articulo.evaluations.id, contentNotify)">
-                </div>
             </div>
             
           </div>
@@ -101,7 +93,7 @@
               </div>-->
               
               <div class="row g-0">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="card-body">
                         <h6>1. Determina el estado del cumplimiento.</h6>
                         <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cumplimiento" data-choices data-choices-search-false
@@ -120,12 +112,23 @@
               <!--</div>
     
               <div class="row g-0">-->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="card-body">
                         <h6>2. Define una fecha de evaluación.</h6>
                         <div class="form-icon right" style="width: 400px;">
                             <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Fecha de evaluación" formControlName="fecha_evaluacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true" [dateFormat]="'d-m-y'" [maxDate]="modelValueAsDate">
                             <i class="ri-calendar-todo-fill"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card-body">
+                        
+                        <h6>Notificaciones</h6>
+                        <div class="form-check form-switch form-switch-right form-switch-md">
+                            <label for="default" class="form-label text-muted">Activar</label>
+                            <input class="form-check-input code-switcher" type="checkbox" id="default" [checked]="active_notify" (click)="verifyNotify($event, articulo.evaluations.id, contentNotify)">
                         </div>
                     </div>
                 </div>
@@ -933,9 +936,45 @@ sistema.</p>
                 <div class="invalid-feedback">Por favor ingresar Fecha Vencimiento.</div>
             </div>
 
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mt-4 mt-lg-0">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="periocidad" id="periocidad" formControlName="periocidad" value="7">
+                            <label class="form-check-label" for="periocidad">7 días</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="periocidad" id="periocidad" formControlName="periocidad" value="30">
+                            <label class="form-check-label" for="periocidad">30 días</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="periocidad" id="periocidad" formControlName="periocidad" value="180">
+                            <label class="form-check-label" for="periocidad">180 días</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="mt-4 mt-lg-0">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="periocidad" id="periocidad" formControlName="periocidad" value="15">
+                            <label class="form-check-label" for="periocidad">15 días</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="periocidad" id="periocidad" formControlName="periocidad" value="60">
+                            <label class="form-check-label" for="periocidad">60 días</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="periocidad" id="periocidad" formControlName="periocidad" value="365">
+                            <label class="form-check-label" for="periocidad">365 días</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="modal-footer">
-            <div class="hstack gap-2 justify-content-end">
+        <div class="modal-footer" style="justify-content: center !important;">
+            <div class="hstack gap-2 justify-content-center">
                 <button type="submit" class="btn btn-primary" id="add-btn">Activar</button>
             </div>
         </div>
