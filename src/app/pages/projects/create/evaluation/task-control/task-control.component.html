@@ -60,7 +60,7 @@
                 <h6>NOTIFICACIONES</h6>
                 <div class="form-check form-switch form-switch-right form-switch-md">
                     <label for="default" class="form-label text-muted">Activar</label>
-                    <input class="form-check-input code-switcher" type="checkbox" id="default" [checked]="articulo && articulo.evaluations && articulo.evaluations.notificaciones ? articulo.evaluations.notificaciones : false " (click)="activeNotify($event, articulo.evaluations.id)">
+                    <input class="form-check-input code-switcher" type="checkbox" id="default" [checked]="active_notify" (click)="verifyNotify($event, articulo.evaluations.id, contentNotify)">
                 </div>
             </div>
             
@@ -911,6 +911,35 @@ sistema.</p>
             </div>
         </div>
     </div><!-- /.modal-content -->
+</ng-template>
+
+<!-- Add Notificacion -->
+<ng-template #contentNotify role="document" let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Activar Notificación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form (ngSubmit)="activeNotify()" [formGroup]="notifyForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="vencimiento-field" class="form-label">Fecha Vencimiento</label>
+                    <div class="form-icon right">
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Vencimiento" required
+                        formControlName="fecha_vencimiento" [ngClass]="{ 'is-invalid': submittedNotify && form['fecha_vencimiento'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <i class="ri-calendar-todo-fill"></i>
+                    </div>
+                <div class="invalid-feedback">Por favor ingresar Fecha Vencimiento.</div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-primary" id="add-btn">Activar</button>
+            </div>
+        </div>
+    </form>
 </ng-template>
 
 <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
