@@ -214,7 +214,7 @@ export class TaskControlComponent implements OnInit {
     
     this.notifyForm = this.formBuilder.group({
       fecha_vencimiento: ['', [Validators.required]],
-      periocidad: ['30', [Validators.required]]
+      periodicidad: ['30', [Validators.required]]
     });
 
     /**
@@ -1362,7 +1362,7 @@ parseHtmlString(texto: any){
         fecha_notificacion15: null,
         fecha_notificacion30: null,
         fecha_notificada: null,
-        periocidad: null,
+        periodicidad: null,
         fecha: null
       };
 
@@ -1388,15 +1388,15 @@ parseHtmlString(texto: any){
     if (this.notifyForm.valid) {
       
       const fecha_vencimiento = this.notifyForm.get('fecha_vencimiento')?.value;
-      const periocidad = this.notifyForm.get('periocidad')?.value;
+      const periodicidad = this.notifyForm.get('periodicidad')?.value;
 
       const fecha_active = Date.now();
-      const fecha_notificacion = this.addDays(parseInt(periocidad));
+      const fecha_notificacion = this.addDays(parseInt(periodicidad));
       console.log('fecha_notificacion',fecha_notificacion);
-      const dias30 = Math.floor(periocidad * 30 / 100);
-      const dias15 = Math.floor(periocidad * 15 / 100);
-      const dias10 = Math.floor(periocidad * 10 / 100);
-      const dias5 = Math.floor(periocidad * 5 / 100); 
+      const dias30 = Math.floor(periodicidad * 30 / 100);
+      const dias15 = Math.floor(periodicidad * 15 / 100);
+      const dias10 = Math.floor(periodicidad * 10 / 100);
+      const dias5 = Math.floor(periodicidad * 5 / 100); 
 
       const fecha_notificacion30 = this.deleteDays(fecha_notificacion, dias30);
       const fecha_notificacion15 = this.deleteDays(fecha_notificacion, dias15);
@@ -1413,7 +1413,7 @@ parseHtmlString(texto: any){
         fecha_notificacion15: fecha_notificacion15 > new Date(fecha_active) ? fecha_notificacion15 : null,
         fecha_notificacion30: fecha_notificacion30 > new Date(fecha_active) ? fecha_notificacion30 : null,
         fecha_notificada: null,
-        periocidad: periocidad
+        periodicidad: periodicidad
       };
 
       this.saveNotify(this.evaluation_id, dataNotify, true);

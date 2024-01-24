@@ -316,19 +316,20 @@
                 <div class="col-sm-6 mb-3">
                     <label for="customername-field" class="form-label">Fecha Inicio</label>
                     <div class="form-icon right">
-                        <input class="form-control form-control-icon flatpickr-input" id="plans-inicio-input" type="text" formControlName="fechaInicio" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <input [ngClass]="{ 'is-invalid': submitted && form['fechaInicio'].errors }" class="form-control form-control-icon flatpickr-input" id="plans-inicio-input" type="text" formControlName="fechaInicio" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
                         <i class="ri-calendar-todo-fill"></i>
+                        
+                        <div class="invalid-feedback">Por favor ingresa una fecha de inicio.</div>
                     </div>
-                    <div class="invalid-feedback">Por favor ingresa una fecha de inicio.</div>
                 </div>
 
                 <div class="col-sm-6 mb-3">
                     <label for="customername-field" class="form-label">Fecha Termino</label>
                     <div class="form-icon right">
-                        <input class="form-control form-control-icon flatpickr-input" id="plans-termino-input" type="text" formControlName="fechaFinalizacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                        <input [ngClass]="{ 'is-invalid': submitted && form['fechaFinalizacion'].errors }" class="form-control form-control-icon flatpickr-input" id="plans-termino-input" type="text" formControlName="fechaFinalizacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
                         <i class="ri-calendar-todo-fill"></i>
+                        <div class="invalid-feedback">Por favor ingresa una fecha de termino.</div>
                     </div>
-                    <div class="invalid-feedback">Por favor ingresa una fecha de termino.</div>
                 </div>
             </div>
 
@@ -383,7 +384,7 @@
                 
                 <div class="col-sm-6 mb-3">
                     <label for="user-field" class="form-label">Responsable</label>
-                    <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable">
+                    <select class="form-select mb-3" aria-label="Responsable" formControlName="responsable" placeholder="Seleccione Responsable" [ngClass]="{ 'is-invalid': submitted && form['responsable'].errors }">
                         <option selected>Seleccione Responsable </option>
                         <option *ngFor="let r of responsables;" value="{{r.id}}">{{r.nombre}} {{ r.apellido ? r.apellido : ''}}</option>
                     </select>
