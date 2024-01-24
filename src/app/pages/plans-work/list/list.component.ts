@@ -121,7 +121,7 @@ export class ListComponent implements OnInit {
       fechaInicio: ['', [Validators.required]],
       fechaFinalizacion: ['', [Validators.required]],
       responsable: ['', [Validators.required]],
-      descripcion: ['']
+      descripcion: ['', [Validators.required]]
     });
 
   }
