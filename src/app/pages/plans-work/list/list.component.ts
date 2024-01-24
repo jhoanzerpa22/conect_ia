@@ -615,7 +615,20 @@ getArticulos(){
 
   // Delete Data
   deleteData(id: any) {
-    document.getElementById('pl1_' + id)?.remove();
+    if (id) {
+      this.workPlanService.delete(id)
+      .subscribe(
+        response => {
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+          this.getWorkPlans();
+          //document.getElementById('lj_'+id)?.remove();
+        },
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        });
+    }
   }
   
   pageTotal(totalRecords: any){
