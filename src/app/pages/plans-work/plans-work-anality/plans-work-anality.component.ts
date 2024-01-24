@@ -50,6 +50,7 @@ export class PlansWorkAnalityComponent implements OnInit {
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
+  installationId: any = '';
   project: any = {};
   workPlan: any = {};
   workPlan_id: any = '';
@@ -83,7 +84,7 @@ export class PlansWorkAnalityComponent implements OnInit {
      */
     this.breadCrumbItems = [
       { label: 'Planes de trabajo' },
-      { label: 'Plan de Trabajo', active: true }
+      { label: 'Tareas', active: true }
     ];
 
     this.userData = this.TokenStorageService.getUser();
@@ -96,6 +97,7 @@ export class PlansWorkAnalityComponent implements OnInit {
       this.workPlan_id = params['id'];
       //this.getProject(params['id']);
       this.getWorkPlan(params['id']);
+      this.getTasks();
     });
     
     /**
@@ -119,7 +121,6 @@ export class PlansWorkAnalityComponent implements OnInit {
      */
     //this.fetchData();
     this.getResponsables();
-    this.getTasks();
     this.getFindings();
 
     // Chart Color Data Get Function
@@ -160,6 +161,30 @@ export class PlansWorkAnalityComponent implements OnInit {
     }
   }
 
+  sendTask(task: any){
+    this.projectsService.createTask(task).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getTasks();
+
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.modalService.dismissAll()
+        });
+        
+          this.modalService.dismissAll();
+          setTimeout(() => {
+            this.taskForm.reset();
+          }, 1000);
+          this.submitted = true
+  }
+
   /**
   * Save saveTask
   */
@@ -174,7 +199,8 @@ export class PlansWorkAnalityComponent implements OnInit {
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
         const descripcion = this.taskForm.get('descripcion')?.value;
-        const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        //const fecha_inicio = this.taskForm.get('fecha_inicio')?.value;
+        const fecha_inicio = Date.now();
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
         const prioridad = this.taskForm.get('prioridad')?.value;
@@ -185,6 +211,24 @@ export class PlansWorkAnalityComponent implements OnInit {
           (t: any) =>
             (moment(fecha_inicio).format() > t.fecha_inicio && moment(fecha_inicio).format() < t.fecha_termino) || (moment(fecha_termino).format() > t.fecha_inicio && moment(fecha_termino).format() < t.fecha_termino) || (moment(fecha_inicio).format() < t.fecha_inicio && moment(fecha_termino).format() > t.fecha_termino)
         );
+
+        const task: any = {
+          responsableId: responsable,
+          nombre: nombre,
+          descripcion: descripcion,
+          fecha_inicio: fecha_inicio,
+          fecha_termino: fecha_termino,
+          evaluationFindingId: evaluationFindingId,//this.idHallazgo,
+          estado: 'CREADA',
+          prioridad: prioridad,
+          type: 'workPlanTask',
+          is_image: is_image,
+          is_file: is_file,
+          installationId: this.installationId ? this.installationId : null,
+          proyectoId: this.project_id ? this.project_id : null,
+          workPlanId: this.workPlan_id,
+          empresaId: this.userData.empresaId
+        };
 
         if(index != -1){
           
@@ -214,44 +258,7 @@ export class PlansWorkAnalityComponent implements OnInit {
                 evaluationFindingId
               });*/
               
-              const task: any = {
-                responsableId: responsable,
-                nombre: nombre,
-                descripcion: descripcion,
-                fecha_inicio: fecha_inicio,
-                fecha_termino: fecha_termino,
-                evaluationFindingId: evaluationFindingId,//this.idHallazgo,
-                estado: 'CREADA',
-                prioridad: prioridad,
-                type: 'workPlanTask',
-                is_image: is_image,
-                is_file: is_file,
-                proyectoId: this.project_id ? this.project_id : null,
-                workPlanId: this.workPlan_id,
-                empresaId: this.userData.empresaId
-              };
-              
-              this.projectsService.createTask(task).pipe().subscribe(
-                (data: any) => {     
-                 this.hidePreLoader();
-                 this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-      
-                 this.getTasks();
-      
-                 this.modalService.dismissAll();
-              },
-              (error: any) => {
-                
-                this.hidePreLoader();
-                this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-                this.modalService.dismissAll()
-              });
-
-              this.modalService.dismissAll();
-              setTimeout(() => {
-                this.taskForm.reset();
-              }, 1000);
-              this.submitted = true
+              this.sendTask(task);
             } else if (result.isDenied) {
               
             }
@@ -267,44 +274,7 @@ export class PlansWorkAnalityComponent implements OnInit {
           evaluationFindingId
         });*/
         
-        const task: any = {
-          responsableId: responsable,
-          nombre: nombre,
-          descripcion: descripcion,
-          fecha_inicio: fecha_inicio,
-          fecha_termino: fecha_termino,
-          evaluationFindingId: evaluationFindingId,
-          estado: 'CREADA',
-          prioridad: prioridad,
-          type: 'workPlanTask',
-          is_image: is_image,
-          is_file: is_file,
-          proyectoId: this.project_id ? this.project_id : null,
-          workPlanId: this.workPlan_id,
-          empresaId: this.userData.empresaId
-        };
-        
-        this.projectsService.createTask(task).pipe().subscribe(
-          (data: any) => {     
-           this.hidePreLoader();
-           this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-
-           this.getTasks();
-
-           this.modalService.dismissAll();
-        },
-        (error: any) => {
-          
-          this.hidePreLoader();
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-          this.modalService.dismissAll()
-        });
-       
-          this.modalService.dismissAll();
-          setTimeout(() => {
-            this.taskForm.reset();
-          }, 1000);
-          this.submitted = true
+        this.sendTask(task);
       }
 
       }
@@ -337,15 +307,15 @@ export class PlansWorkAnalityComponent implements OnInit {
 
           for (var j = 0; j < resp.length; j++) {
             if(/*resp[j].proyectoId*/resp[j].workPlanId == this.workPlan_id){
-              this.project_id = resp[j].proyectoId;
+              //this.project_id = resp[j].proyectoId;
               tasks.push(resp[j]);
             }
           }
 
           this.TaskDatas = tasks;
-          if(this.project_id && this.project_id != null){
+          /*if(this.project_id && this.project_id != null){
             this.getProject(this.project_id);
-          }
+          }*/
 
           this.hidePreLoader();
       },
@@ -421,6 +391,12 @@ export class PlansWorkAnalityComponent implements OnInit {
        this.workPlanService.getById(idWorkPlan).pipe().subscribe(
          (data: any) => {
            this.workPlan = data.data;
+           this.project_id = data.data.proyectoId;
+           this.installationId = data.data.installationId;
+           
+           if(this.project_id){
+            this.getProject(this.project_id);
+           }
        },
        (error: any) => {
          //this.error = error ? error : '';

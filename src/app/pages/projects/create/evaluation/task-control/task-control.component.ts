@@ -214,6 +214,7 @@ export class TaskControlComponent implements OnInit {
     
     this.notifyForm = this.formBuilder.group({
       fecha_vencimiento: ['', [Validators.required]],
+      periocidad: ['30', [Validators.required]]
     });
 
     /**
@@ -1353,7 +1354,16 @@ parseHtmlString(texto: any){
           
       const dataNotify: any = {
         notificaciones: false,
-        fecha_vencimiento: null
+        fecha_active: null,
+        fecha_vencimiento: null,
+        fecha_notificacion: null,
+        fecha_notificacion5: null,
+        fecha_notificacion10: null,
+        fecha_notificacion15: null,
+        fecha_notificacion30: null,
+        fecha_notificada: null,
+        periocidad: null,
+        fecha: null
       };
 
       this.saveNotify(evaluation_id, dataNotify);
@@ -1361,18 +1371,52 @@ parseHtmlString(texto: any){
     }
 
   }
+
+  addDays(days: number): Date {
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + days);
+    return newDate;
+  }
+  
+  deleteDays(date: Date, days: number): Date {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() - days);
+    return newDate;
+  }
   
   activeNotify() {  
     if (this.notifyForm.valid) {
       
       const fecha_vencimiento = this.notifyForm.get('fecha_vencimiento')?.value;
+      const periocidad = this.notifyForm.get('periocidad')?.value;
+
+      const fecha_active = Date.now();
+      const fecha_notificacion = this.addDays(parseInt(periocidad));
+      console.log('fecha_notificacion',fecha_notificacion);
+      const dias30 = Math.floor(periocidad * 30 / 100);
+      const dias15 = Math.floor(periocidad * 15 / 100);
+      const dias10 = Math.floor(periocidad * 10 / 100);
+      const dias5 = Math.floor(periocidad * 5 / 100); 
+
+      const fecha_notificacion30 = this.deleteDays(fecha_notificacion, dias30);
+      const fecha_notificacion15 = this.deleteDays(fecha_notificacion, dias15);
+      const fecha_notificacion10 = this.deleteDays(fecha_notificacion, dias10);
+      const fecha_notificacion5 = this.deleteDays(fecha_notificacion, dias5);
     
       const dataNotify: any = {
         notificaciones: true,
-        fecha_vencimiento: fecha_vencimiento
+        fecha_active: fecha_active,
+        fecha_vencimiento: fecha_vencimiento,
+        fecha_notificacion: fecha_notificacion,
+        fecha_notificacion5: fecha_notificacion5 > new Date(fecha_active) ? fecha_notificacion5 : null,
+        fecha_notificacion10: fecha_notificacion10 > new Date(fecha_active) ? fecha_notificacion10 : null,
+        fecha_notificacion15: fecha_notificacion15 > new Date(fecha_active) ? fecha_notificacion15 : null,
+        fecha_notificacion30: fecha_notificacion30 > new Date(fecha_active) ? fecha_notificacion30 : null,
+        fecha_notificada: null,
+        periocidad: periocidad
       };
 
-      this.saveNotify(this.evaluation_id, dataNotify);
+      this.saveNotify(this.evaluation_id, dataNotify, true);
   
     }
     
@@ -1380,33 +1424,39 @@ parseHtmlString(texto: any){
 
   }
 
-  saveNotify(evaluation_id: any, dataNotify: any){
+  saveNotify(evaluation_id: any, dataNotify: any, modal?: boolean){
     
     this.showPreLoader();
     
     this.projectsService.saveNotify(evaluation_id,dataNotify).pipe().subscribe(
       (data: any) => {
       
-        Swal.fire({
-          title: 'Notificacion guardada!',
-          //text: 'You clicked the button!',
-          icon: 'success',
-          showConfirmButton: true,
-          showCancelButton: false,
-          confirmButtonColor: '#364574',
-          cancelButtonColor: 'rgb(243, 78, 78)',
-          confirmButtonText: 'OK',
-          timer: 2000
-        });
+        if(modal){
+          Swal.fire({
+            title: 'Notificacion guardada!',
+            //text: 'You clicked the button!',
+            icon: 'success',
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#364574',
+            cancelButtonColor: 'rgb(243, 78, 78)',
+            confirmButtonText: 'OK',
+            timer: 2000
+          });
+          this.modalService.dismissAll();
+        }
         this.hidePreLoader();
-        this.modalService.dismissAll();
       
       },
       (error: any) => {
+        
+        if(modal){
+          this.modalService.dismissAll();
+        }
 
         this.hidePreLoader();
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
-        this.modalService.dismissAll();
+        
       });
 
   }

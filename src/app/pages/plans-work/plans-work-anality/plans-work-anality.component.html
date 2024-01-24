@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Plan de Trabajo - {{project.nombre}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Plan de Trabajo" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
  <!--<div class="row project-wrapper">
@@ -104,9 +104,9 @@
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
-                                                <a href="javascript:void(0);" class="link-primary"
+                                                <!--<a href="javascript:void(0);" class="link-primary"
                                                 title="Dar cumplimiento"
-                                                routerLink="/plans-work/{{project_id}}/Assess/{{data.id}}"><i class="ri-eye-line"></i></a>
+                                                routerLink="/plans-work/{{project_id}}/Assess/{{data.id}}"><i class="ri-eye-line"></i></a>-->
 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
@@ -186,13 +186,13 @@
 
             <div class="col-6">
             <div class="mb-3">
-                <label for="termino-field" class="form-label">Fecha Termino</label>
+                <label for="termino-field" class="form-label">Fecha Vencimiento</label>
                     <div class="form-icon right">
-                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Termino" required
+                        <input class="form-control form-control-icon flatpickr-input" type="text" placeholder="Ingresar Fecha Vencimiento" required
                         formControlName="fecha_termino" [ngClass]="{ 'is-invalid': submitted && form['fecha_termino'].errors }" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
                         <i class="ri-calendar-todo-fill"></i>
                     </div>
-                <div class="invalid-feedback">Por favor ingresar Fecha Termino.</div>
+                <div class="invalid-feedback">Por favor ingresar Fecha Vencimiento.</div>
             </div>
             </div>
 
