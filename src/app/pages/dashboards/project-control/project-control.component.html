@@ -310,9 +310,9 @@
                                         <div class="list-group">
                                                       
                                             <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, s.nombre)">
-                                                <div style="background: #405189;width: fit-content;padding: 5px;">
+                                                <div style="background: #405189;padding: 5px;border-radius: 0.25rem;width: fit-content;">
                                                     <h4 style="color: #fff;">{{s.nombre}}</h4>
-                                                    <p style="color: #fff;">{{s.descripcion}}</p>
+                                                    <!--<p style="color: #fff;">{{s.descripcion}}</p>-->
                                                 </div><!--[ngClass]="{'sub-item': type == 1, 'sub-item2': type == 2}"-->
                                                                                                                                         <div class="list-group">
                                                     <ng-container *ngFor="let ig of getFilterArea(installations_group_filter, s.nombre)">
@@ -346,10 +346,10 @@
                                                 
                                     <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, td.nombre)">
                                         
-                                        <div style="background: #405189;width: fit-content;padding: 5px;">    
+                                            <div style="background: #405189;padding: 5px;border-radius: 0.25rem;width: fit-content;">
                                             <h4 style="color: #fff;">{{td.nombre}}</h4>
-                                            <p style="color: #fff;">{{td.descripcion}}</p> 
-                                        </div>
+                                            <!--<p style="color: #fff;">{{td.descripcion}}</p>--> 
+                                            </div>
                                             
                                             <div class="list-group">
                                                 <ng-container *ngFor="let ig of getFilterArea(installations_group_filter, td.nombre)">
