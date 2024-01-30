@@ -85,17 +85,20 @@
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
                                 Mostrando página
-                                {{service.startIndex}} de
-                                <!--{{service.endIndex}}-->{{(service.totalRecords > 0 ? service.pageTotal : 1)}} de {{service.totalRecords}}
+                                {{page}}<!--{{service.startIndex}}--> de
+                                <!--{{service.endIndex}}--><!--{{(service.totalRecords > 0 ? service.pageTotal : 1)}}-->{{pageTotal(service.totalRecords)}} de {{service.totalRecords}}
                                 registros
                             </div>
                         </div>
                         <!-- Pagination -->
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
-                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
+                                <!--<ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page"
                                     [pageSize]="service.pageSize">
-                                </ngb-pagination>
+                                </ngb-pagination>-->
+                                
+                                <ngb-pagination [collectionSize]="(total | async)!" [(page)]="service.page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="pageChange($event)"></ngb-pagination>
+
                             </div>
                         </div>
                         <!-- End Pagination -->
