@@ -1273,14 +1273,14 @@ getListaFiltros(){
               la.id == ins.articuloId
           );
 
-          const index_atributo = this.lista_atributos.findIndex(
+          const index_atributo = ins.project_article ? this.lista_atributos.findIndex(
             (latr: any) =>
               latr.atributo == this.capitalizeText(ins.project_article.articuloTipo)
-          );
+          ) : -1;
 
           const index_criticidad = this.lista_criticidad.findIndex(
             (lcrt: any) =>
-              (lcrt.criticidad == 'Alta' && ins.project_article.construccion && ins.project_article.construccion == true) || (lcrt.criticidad == 'Media' && ins.project_article.operacion && ins.project_article.operacion == true) || (lcrt.criticidad == 'Baja' && ins.project_article.cierre && ins.project_article.cierre == true) || (lcrt.criticidad == 'No especificado' && !ins.project_article.construccion && !ins.project_article.operacion && !ins.project_article.cierre)
+              (ins.project_article && (lcrt.criticidad == 'Alta' && ins.project_article.construccion && ins.project_article && ins.project_article.construccion == true) || (lcrt.criticidad == 'Media' && ins.project_article && ins.project_article.operacion && ins.project_article.operacion == true) || (lcrt.criticidad == 'Baja' && ins.project_article && ins.project_article.cierre && ins.project_article.cierre == true)) || (lcrt.criticidad == 'No especificado' && !ins.project_article && !ins.project_article.construccion && !ins.project_article.operacion && !ins.project_article.cierre)
           );
 
           if(index_cuerpo == -1){
@@ -1292,16 +1292,16 @@ getListaFiltros(){
           }
           
           if(index_atributo == -1){
-            this.lista_atributos.push({atributo: this.capitalizeText(ins.project_article.articuloTipo)});
+            this.lista_atributos.push({atributo:  ins.project_article ? this.capitalizeText(ins.project_article.articuloTipo) : ''});
           }
           
           if(index_criticidad == -1){
             let criticidad_name = 'No especificado';
-            if (ins.project_article.construccion) {
+            if (ins.project_article && ins.project_article.construccion) {
               criticidad_name = 'Alta';
-            }else if (ins.project_article.operacion) {
+            }else if (ins.project_article && ins.project_article.operacion) {
               criticidad_name = 'Media';
-            }else if (ins.project_article.cierre) {
+            }else if (ins.project_article && ins.project_article.cierre) {
               criticidad_name = 'Baja';
             }
 
