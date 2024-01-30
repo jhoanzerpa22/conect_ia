@@ -9,7 +9,7 @@
             <div class="col-sm-4">
                 <div class="search-box">
                     <input type="text" class="form-control"
-                        placeholder="Buscar por nombre, proyectos o algo..." [(ngModel)]="term">
+                        placeholder="Buscar por nombre o correo..." [(ngModel)]="term">
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="team-list list-view-filter row">
-                                    <div class="col" *ngFor="let data of Team" id="t_{{data.id}}">
+                                    <div class="col" *ngFor="let data of Team | filter:term" id="t_{{data.id}}">
                                         <div class="card team-box">
                                             <div class="team-cover">
                                                 <img src="{{data.backgroundImg}}" alt="" class="img-fluid" />
@@ -236,7 +236,7 @@
                             </ng-template>
                         </li>
                     </ul>
-                    <button type="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false"
+                    <!--<button type="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false"
                         class="btn btn-soft-info btn-icon fs-14 arrow-none" ngbDropdownToggle><i
                             class="ri-more-2-fill"></i></button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1" ngbDropdownMenu>
@@ -244,7 +244,7 @@
                         <li><a class="dropdown-item" href="javascript:void(0);">Ultima semana</a></li>
                         <li><a class="dropdown-item" href="javascript:void(0);">Ultimo mes</a></li>
                         <li><a class="dropdown-item" href="javascript:void(0);">Ultimo año</a></li>
-                    </ul>
+                    </ul>-->
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addmembers"
                         (click)="openModal(content)"><i class="ri-add-fill me-1 align-bottom"></i> Agregar Usuario</button>
                 </div>
