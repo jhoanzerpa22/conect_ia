@@ -47,20 +47,20 @@ export const MENU: MenuItem[] = [
     id: 6,
     label: 'MENUITEMS.COMMITMENTS.TEXT',
     icon: 'ri-auction-line',
-    link: '/pages/coming-soon'
+    //link: '/pages/coming-soon'
   },
   {
     id: 7,
     label: 'MENUITEMS.MONITORING.TEXT',
     icon: 'ri-zoom-in-line',
-    link: '/pages/coming-soon'
-  },
+    //link: '/pages/coming-soon'
+  },/*
   {
     id: 8,
     label: 'MENUITEMS.AUDITS.TEXT',
     icon: 'ri-clipboard-line',
     link: '/auditor'
-  },
+  },*/
   {
     id: 9,
     label: 'MENUITEMS.LIBRARY.TEXT',
@@ -75,13 +75,13 @@ export const MENU: MenuItem[] = [
       {
         id: 11,
         label: 'MENUITEMS.PYS.LIST.QUOTE',
-        link: '/pages/coming-soon',//'/analytics',
+        //link: '/pages/coming-soon',//'/analytics',
         parentId: 5
       },
       {
         id: 12,
         label: 'MENUITEMS.PYS.LIST.REQUEST',
-        link: '/pages/coming-soon',//'/crm',
+        //link: '/pages/coming-soon',//'/crm',
         parentId: 5
       }
     ]
