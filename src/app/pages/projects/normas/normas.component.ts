@@ -18,6 +18,7 @@ import { TokenStorageService } from '../../../core/services/token-storage.servic
 
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import { round } from 'lodash';
 
 interface FoodNode {
   id: number;
@@ -64,6 +65,8 @@ export class NormasComponent implements OnInit{
   items: any = [];
   filtro: string = '';
   term:any;
+  page: number = 1;
+  total_paginate: number = 0;
 
   // Table data
   NormaList!: Observable<NormasModel[]>;
@@ -145,6 +148,7 @@ export class NormasComponent implements OnInit{
           }
           //this.dataSource.data = this.normas_all;
           this.service.normas_data = this.normas_all;
+          this.total_paginate = this.normas_all.lenght > 0 ? this.normas_all.lenght : 0;
 
           this.hidePreLoader();
       },
@@ -351,6 +355,15 @@ export class NormasComponent implements OnInit{
     this.normaForm.controls['name'].setValue(listData[0].name);
     this.normaForm.controls['ambito'].setValue(listData[0].ambito);
     this.normaForm.controls['ids'].setValue(listData[0].id);
+  }
+
+  pageTotal(totalRecords: any){
+    let tp: number = round((totalRecords / 10),0);
+    return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
+
+  pageChange(page: any){
+      this.page = page;
   }
 
   // PreLoader

@@ -3702,7 +3702,7 @@ layers = [
           labels: {
              show: true,
              minWidth: 300,
-             maxWidth: 600
+             maxWidth: 350
           }
         }
     };
@@ -3849,7 +3849,7 @@ layers = [
           labels: {
              show: true,
              minWidth: 300,
-             maxWidth: 600
+             maxWidth: 350
           }
         }
     };
@@ -3977,7 +3977,7 @@ layers = [
         labels: {
            show: true,
            minWidth: 300,
-           maxWidth: 600
+           maxWidth: 350
         }
       }
   };
@@ -4096,7 +4096,7 @@ layers = [
       labels: {
          show: true,
          minWidth: 300,
-         maxWidth: 600
+         maxWidth: 350
       }
     }
 };
@@ -4217,7 +4217,7 @@ this.basicBarChartMonitoreosCumplimiento = {
     labels: {
        show: true,
        minWidth: 300,
-       maxWidth: 600
+       maxWidth: 350
     }
   }
 };
@@ -4459,7 +4459,7 @@ this.basicBarChartPermisos = {
     labels: {
        show: true,
        minWidth: 300,
-       maxWidth: 600
+       maxWidth: 350
     }
   }
 };
@@ -4610,7 +4610,7 @@ yaxis: {
   labels: {
      show: true,
      minWidth: 300,
-     maxWidth: 600
+     maxWidth: 350
   }
 }
 };
@@ -4760,7 +4760,7 @@ show: true,
 labels: {
    show: true,
    minWidth: 300,
-   maxWidth: 600
+   maxWidth: 350
 }
 }
 };
@@ -4911,7 +4911,7 @@ show: true,
 labels: {
    show: true,
    minWidth: 300,
-   maxWidth: 600
+   maxWidth: 350
 }
 }
 };
@@ -5056,7 +5056,7 @@ seriesOtros: [{
       labels: {
          show: true,
          minWidth: 300,
-         maxWidth: 600
+         maxWidth: 350
       }
     }
 };
@@ -5197,7 +5197,7 @@ seriesOtros: [{
     labels: {
        show: true,
        minWidth: 300,
-       maxWidth: 600
+       maxWidth: 350
     }
   }
 };
@@ -5338,7 +5338,7 @@ yaxis: {
   labels: {
      show: true,
      minWidth: 300,
-     maxWidth: 600
+     maxWidth: 350
   }
 }
 };
@@ -5479,7 +5479,7 @@ yaxis: {
   labels: {
      show: true,
      minWidth: 300,
-     maxWidth: 600
+     maxWidth: 350
   }
 }
 };
