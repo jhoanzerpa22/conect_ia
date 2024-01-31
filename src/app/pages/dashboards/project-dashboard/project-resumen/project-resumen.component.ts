@@ -9061,7 +9061,7 @@ getChart(criticidad: any, config: any){
   
   selectGestion(x: any) {
     this.select_gestion = x;
-    this.getDashboardArea(this.project_id, x, true);
+    this.getDashboardArea(this.project_id, x, true, undefined, this.filtro_area, undefined, this.criticidad);
     /*if (x == 'all') {
         this.basicBarChart.series = [{
             data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
@@ -9084,7 +9084,7 @@ getChart(criticidad: any, config: any){
 
   selectGestionInstalacion(x: any) {
     this.select_gestion_instalacion = x;
-    this.getDashboardInstalaciones(this.project_id, x, true);
+    this.getDashboardInstalaciones(this.project_id, x, true, undefined, this.filtro_area, undefined, this.criticidad);
   }
   
   selectAreaChart(id?: any){
