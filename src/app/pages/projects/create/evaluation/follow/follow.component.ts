@@ -770,7 +770,7 @@ export class EvaluationFollowComponent implements OnInit {
       //hallazgoImg: hallazgoImg
       //articuloId: this.cuerpo_id,
       //installationId: this.installation_id,
-      projectId: this.project_id,
+      proyectoId: this.project_id,
       evaluationProyectId: this.idEvaluation,
       active: this.evaluations.active || this.count_evaluations < 2 ? true : false
     };

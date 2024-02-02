@@ -271,7 +271,7 @@ export class TaskControlComponent implements OnInit {
  }
 
  getWorkPlan(){
-   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId).pipe().subscribe(
+   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, this.evaluation_id).pipe().subscribe(
      (data: any) => {
        this.workPlan = data.data;
    },
@@ -625,6 +625,9 @@ export class TaskControlComponent implements OnInit {
       estado: this.status,
       installationArticleId: this.cuerpo_id,
       comentario: comentario,
+      proyectoId: this.project_id,
+      evaluationProyectId: this.evaluation_id,
+      active: true
     };
 
     const formData = new FormData();
@@ -854,6 +857,8 @@ export class TaskControlComponent implements OnInit {
           evaluationFindingId
         });*/
         if(!this.workPlan || !this.workPlan.id){
+          
+          const user_id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
 
           const dataWorkPlan: any = {
                   fecha_inicio: fecha_inicio,
@@ -864,9 +869,10 @@ export class TaskControlComponent implements OnInit {
                   normaId: this.articulo.normaId,
                   articuloId: this.articulo.articuloId,
                   installationId: this.installation_id,
-                  responsableId: this.userData.id,
+                  responsableId: user_id,
                   descripcion: null,
                   proyectoId: this.project_id,
+                  evaluationProyectId: this.evaluation_id,
                   empresaId: this.userData.empresaId
                 };
             

@@ -38,8 +38,8 @@ export class WorkPlanService {
         return this.http.get(API_URL_BACK + 'work-plan/'+id, /*httpOptions*/this.getToken());
     }
 
-    getByParams(project_id: any, installation_id: any, cuerpo_id: any){
-        return this.http.get(API_URL_BACK + 'work-plan/project/'+project_id+'/'+installation_id+'/'+cuerpo_id, /*httpOptions*/this.getToken());
+    getByParams(project_id: any, installation_id: any, cuerpo_id: any, evaluation_id: any){
+        return this.http.get(API_URL_BACK + 'work-plan/project/'+project_id+'/'+installation_id+'/'+cuerpo_id+'/'+evaluation_id, /*httpOptions*/this.getToken());
     }
 
     create(data: any): Observable<any> {
