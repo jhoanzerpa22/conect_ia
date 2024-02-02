@@ -1038,17 +1038,28 @@ export class TaskControlComponent implements OnInit {
     this.showPreLoader();
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
-          this.hallazgos = data.data;
+          const hallazgos_data = data.data;
           //console.log('hallazgos', this.hallazgos);
           //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
           let tareas: any = [];
-          for (var i = 0; i < this.hallazgos.length; i++) {
-                    this.HallazgosDatas.push({id: this.hallazgos[i].id, nombre: this.hallazgos[i].nombre, fecha: this.hallazgos[i].createdAt, estado: this.hallazgos[i].estado, installationArticleId: this.hallazgos[i].installationArticleId});
-                
-                if(this.hallazgos[i].tasks.id != null){
-                    tareas.push(this.hallazgos[i].tasks);          
+          for (var i = 0; i < hallazgos_data.length; i++) {
+            
+            const index = this.HallazgosDatas.findIndex(
+              (h: any) =>
+                h.id == hallazgos_data[i].id
+            );
+      
+            if(index == -1){
+            
+                    this.hallazgos.push(hallazgos_data[i]);
+                    
+                    this.HallazgosDatas.push({id: hallazgos_data[i].id, nombre: hallazgos_data[i].nombre, fecha: hallazgos_data[i].createdAt, estado: hallazgos_data[i].estado, installationArticleId: hallazgos_data[i].installationArticleId});
+            }    
+
+                if(hallazgos_data[i].tasks.id != null){
+                    tareas.push(hallazgos_data[i].tasks);          
                     //this.TaskDatas.push({id: this.hallazgos[i].tasks.id, nombre: this.hallazgos[i].tasks.nombre, responsable: this.hallazgos[i].tasks.responsable ? this.hallazgos[i].tasks.responsable.nombre : '', fecha_termino: this.hallazgos[i].tasks.fecha_termino, estado: this.hallazgos[i].tasks.estado, prioridad: this.hallazgos[i].tasks.prioridad});
                 }
           }
