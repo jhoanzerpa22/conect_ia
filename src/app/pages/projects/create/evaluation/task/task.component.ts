@@ -163,7 +163,6 @@ export class EvaluationTaskComponent implements OnInit {
     document.documentElement.scrollTop = 0;
 
     this.userData = this.TokenStorageService.getUser();
-
     /**
      * Form Validation
     */
@@ -263,7 +262,7 @@ export class EvaluationTaskComponent implements OnInit {
  }
   
  getWorkPlan(){
-   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId).pipe().subscribe(
+   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, this.idEvaluation).pipe().subscribe(
      (data: any) => {
        this.workPlan = data.data;
    },
@@ -417,7 +416,11 @@ export class EvaluationTaskComponent implements OnInit {
             return data.id === parseInt(this.cuerpo_id);
           });
 
-          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+          const articulos_filtrado = articulo_filter.findIndex((a: any) => {
+            return a.evaluations.evaluationProyectId == this.idEvaluation;
+          });
+
+          this.articulo = articulo_filter.length > 0 ? articulos_filtrado != -1 ? articulo_filter[articulos_filtrado] : articulo_filter[0] : {};
 
           if(this.articulo.project_article && this.articulo.project_article.articuloTipo){
             this.estados = this.estados_default.filter((estado: any) => {
@@ -836,6 +839,8 @@ export class EvaluationTaskComponent implements OnInit {
         
         if(!this.workPlan || !this.workPlan.id){
 
+          const user_id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
+
         const dataWorkPlan: any = {
                 fecha_inicio: fecha_inicio,
                 fecha_termino: fecha_termino,
@@ -845,9 +850,10 @@ export class EvaluationTaskComponent implements OnInit {
                 normaId: this.articulo.normaId,
                 articuloId: this.articulo.articuloId,
                 installationId: this.installation_id,
-                responsableId: this.userData.id,
+                responsableId: user_id,
                 descripcion: null,
                 proyectoId: this.project_id,
+                evaluationProyectId: this.idEvaluation,
                 empresaId: this.userData.empresaId
               };
           
