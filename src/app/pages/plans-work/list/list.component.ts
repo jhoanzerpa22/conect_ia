@@ -76,6 +76,7 @@ export class ListComponent implements OnInit {
   lista_areas: any = [];
 
   responsables: any = [];
+  evaluationProyectId: any;
   
   userData: any;
 
@@ -352,6 +353,14 @@ selectArticulo(articulo: any) {
   }else{
       this.selectChecked3 = [];
       this.selectChecked3.push(articulo);
+      const ins_article = this.installations_articles.findIndex((ins: any) => {
+        return ins.proyectoId == this.proyecto_id && ins.instalacionId == this.plansForm.get('installationId')?.value && ins.articuloId == articulo.id;
+      });
+      if(ins_article != -1){
+        this.evaluationProyectId = this.installations_articles[ins_article].evaluations ? this.installations_articles[ins_article].evaluations[0].evaluationProyectId : null;
+        console.log('evaluationProyectId', this.evaluationProyectId);
+      }
+
   }
 }
 
@@ -678,6 +687,7 @@ savePlans(){
       responsableId: responsable,
       descripcion: descripcion,
       proyectoId: proyectoId,
+      evaluationProyectId: this.evaluationProyectId,
       empresaId: this.userData.empresaId
     };
 
