@@ -358,7 +358,6 @@ selectArticulo(articulo: any) {
       });
       if(ins_article != -1){
         this.evaluationProyectId = this.installations_articles[ins_article].evaluations ? this.installations_articles[ins_article].evaluations[0].evaluationProyectId : null;
-        console.log('evaluationProyectId', this.evaluationProyectId);
       }
 
   }
