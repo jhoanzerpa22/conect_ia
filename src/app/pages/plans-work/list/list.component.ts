@@ -145,6 +145,13 @@ export class ListComponent implements OnInit {
     return this.plansForm.controls;
   }
 
+  obtenerPrimeras3Palabras(texto: string): string {
+    const palabras = texto.split(' ');
+    const primeras3Palabras = palabras.slice(0, 3);
+    const resultado = primeras3Palabras.join(' ');
+    return resultado;
+  }
+
   /**
    * Work plan data
    */
@@ -192,7 +199,7 @@ export class ListComponent implements OnInit {
               if(index_work != -1){
                 workPlans[index_work].planes.push(resp[j]);
               }else{
-                workPlans.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal ? resp[j].cuerpoLegal : (resp[j].descripcion ? resp[j].descripcion.substring(0, 3) : resp[j].descripcion), articulo: resp[j].articulo, planes: [resp[j]] });
+                workPlans.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal ? resp[j].cuerpoLegal : (resp[j].descripcion ? this.obtenerPrimeras3Palabras(resp[j].descripcion) : resp[j].descripcion), articulo: resp[j].articulo, planes: [resp[j]] });
               }
             }else if(resp[j].type && resp[j].type != '' && resp[j].type != null && resp[j].type == 'auditoria'){
               const index_auditoria = auditorias.findIndex(
