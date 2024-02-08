@@ -36,7 +36,7 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.DASHBOARD.LIST.PROJECTS',
     icon: 'ri-scales-line',
     link: '/projects'
-  },
+  },/*
   {
     id: 5,
     label: 'MENUITEMS.PLANS.TEXT',
@@ -54,7 +54,7 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.MONITORING.TEXT',
     icon: 'ri-zoom-in-line',
     //link: '/pages/coming-soon'
-  },/*
+  },
   {
     id: 8,
     label: 'MENUITEMS.AUDITS.TEXT',
@@ -66,7 +66,7 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.LIBRARY.TEXT',
     icon: 'ri-zoom-in-line',
     link: '/library'
-  },
+  },/*
   {
     id: 10,
     label: 'MENUITEMS.PYS.TEXT',
@@ -85,7 +85,7 @@ export const MENU: MenuItem[] = [
         parentId: 5
       }
     ]
-  },
+  },*/
   {
     id: 13,
     label: 'MENUITEMS.DASHBOARD.LIST.USERS',
