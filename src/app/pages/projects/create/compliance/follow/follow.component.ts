@@ -197,7 +197,7 @@ export class ComplianceFollowComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
@@ -238,7 +238,7 @@ export class ComplianceFollowComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
@@ -269,7 +269,7 @@ export class ComplianceFollowComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
@@ -285,7 +285,7 @@ export class ComplianceFollowComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
@@ -363,7 +363,7 @@ export class ComplianceFollowComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     }
@@ -724,7 +724,7 @@ imgError(ev: any){
         /*},
         error => {
           console.log(error);
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
         });*/
     }
   }

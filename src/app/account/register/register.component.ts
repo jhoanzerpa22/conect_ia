@@ -74,7 +74,7 @@ export class RegisterComponent implements OnInit {
       }else{
         
         this.hidePreLoader();
-        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
       }
     },
     (error: any) => {
@@ -88,7 +88,7 @@ export class RegisterComponent implements OnInit {
         timer: 5000,
       });
       //this.error = error ? error : '';
-      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
 
     // stop here if form is invalid

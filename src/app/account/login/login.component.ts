@@ -97,12 +97,12 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']);
       } else {
         this.hidePreLoader();
-        this.toastService.show(data.data, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(data.data, { classname: 'bg-danger text-white', delay: 5000 });
       }
     },
     (error: any) => {
       this.hidePreLoader();
-      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
 
     // stop here if form is invalid
