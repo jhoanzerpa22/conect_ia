@@ -87,7 +87,7 @@ export class Step1Component implements OnInit {
     },
     (error: any) => {
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
    }
 
@@ -101,7 +101,7 @@ export class Step1Component implements OnInit {
       },
       (error: any) => {
         //this.error = error ? error : '';
-        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
     }
    }
@@ -113,7 +113,7 @@ export class Step1Component implements OnInit {
     },
     (error: any) => {
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
    }
 
@@ -145,7 +145,7 @@ export class Step1Component implements OnInit {
     (error: any) => {
       this.hidePreLoader();
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
    }
 
@@ -169,7 +169,7 @@ export class Step1Component implements OnInit {
     (error: any) => {
       this.hidePreLoader();
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
    }
 
@@ -214,7 +214,7 @@ export class Step1Component implements OnInit {
       /*},
       (error: any) => {
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });*/
     }else{
       const index3 = this.respuestas.findIndex(
@@ -254,7 +254,7 @@ export class Step1Component implements OnInit {
         },
         (error: any) => {
           //this.error = error ? error : '';
-          this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+          this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
         });
       }
     }

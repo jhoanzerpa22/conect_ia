@@ -274,7 +274,7 @@ export class ProjectControlComponent implements OnInit {
       },
       (error: any) => {
         //this.error = error ? error : '';
-        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
    }
 
@@ -288,7 +288,7 @@ export class ProjectControlComponent implements OnInit {
        },
        (error: any) => {
          //this.error = error ? error : '';
-         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
        });
     }
 

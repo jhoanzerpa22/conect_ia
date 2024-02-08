@@ -565,7 +565,7 @@ export class EvaluationDetailComponent implements OnInit {
     },
     (error: any) => {
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
  }
  
@@ -581,7 +581,7 @@ export class EvaluationDetailComponent implements OnInit {
   },
   (error: any) => {
     //this.error = error ? error : '';
-    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
   });
 }
 
@@ -672,7 +672,7 @@ getArticlesCuerpo(articulos: any){
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
@@ -965,7 +965,7 @@ getArticlesCuerpo(articulos: any){
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
