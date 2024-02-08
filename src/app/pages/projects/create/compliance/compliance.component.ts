@@ -161,7 +161,7 @@ export class ComplianceComponent {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
@@ -187,7 +187,7 @@ export class ComplianceComponent {
         },
         error => {
           console.log(error);
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
         });
   }
 

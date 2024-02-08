@@ -145,7 +145,7 @@ export class BodyLegalDetailComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }

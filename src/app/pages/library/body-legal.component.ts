@@ -137,7 +137,7 @@ export class BodyLegalTypeComponent {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       }else{
         this.projectsService.getBodyLegalByNorma(busqueda).pipe().subscribe(
@@ -173,7 +173,7 @@ export class BodyLegalTypeComponent {
         (error: any) => {
           this.hidePreLoader();
           //this.error = error ? error : '';
-          this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+          this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
         });
       }
 
@@ -205,7 +205,7 @@ export class BodyLegalTypeComponent {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }

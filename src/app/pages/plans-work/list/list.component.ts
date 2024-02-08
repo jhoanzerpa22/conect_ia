@@ -225,7 +225,7 @@ export class ListComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
@@ -265,7 +265,7 @@ export class ListComponent implements OnInit {
       (error: any) => {
         //this.hidePreLoader();
         //this.error = error ? error : '';
-        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}, 1200);
@@ -282,7 +282,7 @@ export class ListComponent implements OnInit {
       (error: any) => {
         this.hidePreLoader();
         //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
@@ -576,7 +576,7 @@ getArticulos(){
     },
     (error: any) => {
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
     //}
   }
@@ -590,7 +590,7 @@ getArticulos(){
     },
     (error: any) => {
       //this.error = error ? error : '';
-      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
     //}
   }
@@ -641,7 +641,7 @@ getArticulos(){
         },
         error => {
           console.log(error);
-          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
         });
     }
   }
@@ -707,7 +707,7 @@ savePlans(){
       (error: any) => {
 
         this.hidePreLoader();
-        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
         this.modalService.dismissAll()
       });
         

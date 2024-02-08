@@ -132,7 +132,7 @@ export class BasicComponent implements OnInit {
         
         this.hidePreLoader();
         console.log('error',error);
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
 
    }

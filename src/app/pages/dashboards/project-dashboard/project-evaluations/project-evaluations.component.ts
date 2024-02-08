@@ -115,7 +115,7 @@ export class ProjectEvaluationsComponent implements OnInit {
       },
       (error: any) => {
         //this.error = error ? error : '';
-        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+        //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
    }
 
@@ -131,7 +131,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   },
   (error: any) => {
     //this.error = error ? error : '';
-    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
   });
 }
 
@@ -142,7 +142,7 @@ getDeleteInstallations(idEvaluation?: any){
   },
   (error: any) => {
     //this.error = error ? error : '';
-    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 15000 });
+    //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
   });
 }
 
