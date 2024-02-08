@@ -45,6 +45,7 @@ export class TeamComponent {
 
   pagLength?: number = 0;
   userData: any;
+  perfil: any;
 
   constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService, private projectsService: ProjectsService) { }
 
@@ -343,19 +344,23 @@ export class TeamComponent {
     var teamData = this.Team.filter((team:any) => {     
       return team.id === id;
     });
+    this.perfil = teamData[0];
     var profile_img = teamData[0].userImage ? 
       `<img src="`+teamData[0].userImage+`" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto">`:
       `<div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0 mx-auto fs-20">
         <div class="avatar-title bg-soft-danger text-danger rounded-circle">`+teamData[0].nombre[0]+`</div>
       </div>`
     var img_data = (document.querySelector('.profile-offcanvas .team-cover img') as HTMLImageElement);
-    img_data.src = teamData[0].backgroundImg;
+    img_data.src = 'assets/images/logo_conect_ia.png';//teamData[0].backgroundImg;
     var profile = (document.querySelector('.profileImg') as HTMLImageElement);
     profile.innerHTML = profile_img;
     (document.querySelector('.profile-offcanvas .p-3 .mt-3 h5') as HTMLImageElement).innerHTML = teamData[0].nombre;
     (document.querySelector('.profile-offcanvas .p-3 .mt-3 p') as HTMLImageElement).innerHTML = teamData[0].email;
-    (document.querySelector('.project_count') as HTMLImageElement).innerHTML = teamData[0].projectCount;
-    (document.querySelector('.task_count') as HTMLImageElement).innerHTML = teamData[0].taskCount;
+    (document.querySelector('.telefono') as HTMLImageElement).innerHTML = teamData[0].telefono ? teamData[0].telefono : '';
+    (document.querySelector('.rut') as HTMLImageElement).innerHTML = teamData[0].rut ? teamData[0].rut : '';
+    (document.querySelector('.cargo') as HTMLImageElement).innerHTML = teamData[0].cargo ? teamData[0].cargo : '';
+    (document.querySelector('.project_count') as HTMLImageElement).innerHTML = teamData[0].projectCount > 0 ? teamData[0].projectCount : '0';
+    (document.querySelector('.task_count') as HTMLImageElement).innerHTML = teamData[0].taskCount > 0 ? teamData[0].taskCount : '0';
   }
 
   openEnd(content: TemplateRef<any>) {
