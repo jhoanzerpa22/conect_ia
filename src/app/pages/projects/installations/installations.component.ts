@@ -423,7 +423,7 @@ export class InstallationsComponent implements OnInit{
     //console.log('setAreaTemplate',this.areas_template);
   }
 
-  getAreaPrincipal(area: any): Promise<any>{
+  getAreaPrincipal(area: any, area_nombre?: any): Promise<any>{
     const index = this.areas_all.findIndex(
       (co: any) =>
         co.id == area
@@ -431,13 +431,13 @@ export class InstallationsComponent implements OnInit{
   
     if(index != -1){
       if(this.areas_all[index].padre){
-        return this.getAreaPrincipal(this.areas_all[index].padre);
+        return this.getAreaPrincipal(this.areas_all[index].padre, this.areas_all[index].nombre);
       }else{
         return this.areas_all[index].nombre;
       }
+    }else{
+      return area_nombre ? area_nombre : '';
     }
-
-    return area;
 
   }
 
@@ -477,7 +477,7 @@ export class InstallationsComponent implements OnInit{
           for (let c in obj) {
             let padre: any = obj[c].padre;
 
-            let area_principal: any = padre.area ? this.getAreaPrincipal(padre.area.id) : '';
+            let area_principal: any = padre.area ? this.getAreaPrincipal(padre.area.id, padre.area.nombre) : '';
             
               this.installations_all.push({ id: padre.id, nombre: padre.nombre, area: padre.area ? padre.area.nombre : '', area_id: padre.area ? padre.area.id : '', area_principal: area_principal, descripcion: padre.descripcion });
               
@@ -508,7 +508,7 @@ export class InstallationsComponent implements OnInit{
     let tree_data: any = [];
     for (let d in hijos) {
       
-      let area_principal: any = hijos[d].area ? this.getAreaPrincipal(hijos[d].area.id) : '';
+      let area_principal: any = hijos[d].area ? this.getAreaPrincipal(hijos[d].area.id, hijos[d].area.nombre) : '';
 
         this.installations_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, area: hijos[d].area ? hijos[d].area.nombre : '', area_id: hijos[d].area ? hijos[d].area.id : '', area_principal: area_principal,descripcion: hijos[d].descripcion });
 
