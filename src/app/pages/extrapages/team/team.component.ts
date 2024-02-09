@@ -13,6 +13,7 @@ import { Team } from './data';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../toast-service';
+import { ProjectsService } from '../../../core/services/projects.service';
 // Sweet Alert
 import Swal from 'sweetalert2';
 
@@ -36,8 +37,15 @@ export class TeamComponent {
   showLoad: boolean = false;
   userData: any;
   perfil: any;
+  rol: any = 2;
 
-  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService) { }
+  areas: any = [];
+  area_id_select: any = [];
+  projects: any = [];
+  roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
+  items: any = [];
+
+  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService, private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
     /**
@@ -59,11 +67,15 @@ export class TeamComponent {
       rut: ['', [Validators.required]],
       telefono: [''],
       cargo: [''],
-      email: ['', [,Validators.required, Validators.email]],/*
-      designation: ['', [Validators.required]],
-      projects: ['', [Validators.required]],
+      email: ['', [,Validators.required, Validators.email]],
+      rol: ['', [Validators.required]],/*
+      designation: ['', [Validators.required]],*/
+      projects: ['']/*,
       tasks: ['', [Validators.required]]*/
     });
+    
+    this.getAreas();
+    this.getProjects();
 
      // Chat Data Get Function
      this._fetchData();
@@ -80,6 +92,120 @@ export class TeamComponent {
         this.showLoad = false;
       }
     )
+  }  
+
+  private getProjects(){
+    
+    this.showPreLoader();
+      this.projectsService.get().pipe().subscribe(
+        (data: any) => {        
+          this.projects = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+}
+
+  private getAreas() {
+    
+    this.showPreLoader();
+      this.projectsService.getAreasUser()/*getAreas(this.project_id)*/.pipe().subscribe(
+        (data: any) => {
+          //this.service.bodylegal_data = data.data;
+          this.areas = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  selectRol(event: any){
+    this.rol = event.target.value > 0 ? event.target.value : 2; 
+  }
+
+  selectArea(event: any){
+
+    if(this.area_id_select.length > 0){
+    
+    let vacio = event.target.value > 0 ? 1 : 0;
+    
+    this.area_id_select.splice(0 + vacio, (this.area_id_select.length-(1+vacio)));
+    
+      if(event.target.value > 0){
+        
+        const index = this.areas.findIndex(
+          (co: any) =>
+            co.id == event.target.value
+        );
+
+        let nombre = this.areas[index].nombre;
+
+        this.area_id_select[0] = {value: event.target.value, label: nombre};
+      }
+
+    }else{
+      
+      const index2 = this.areas.findIndex(
+        (co: any) =>
+          co.id == event.target.value
+      );
+
+      let nombre2 = this.areas[index2].nombre;
+      this.area_id_select.push({value: event.target.value, label: nombre2});
+    }
+
+    //this.area_id_select = event.target.value;
+      this.items = [];
+      this.getChildren(event.target.value);
+  }
+
+  selectAreaChildren(event: any, parent?: any){
+    //this.addElement(parent);
+      let vacio = event.target.value > 0 ? 2 : 1;
+    
+      this.area_id_select.splice((parent+vacio), (this.area_id_select.length-(parent+vacio)));
+
+      if(event.target.value > 0){
+        
+        const index = this.items[parent].options.findIndex(
+          (co: any) =>
+            co.id == event.target.value
+        );
+
+        let nombre = this.items[parent].options[index].nombre;
+
+        this.area_id_select[parent+1] = {value: event.target.value, label: nombre};
+      }
+
+    //this.area_id_select = event.target.value;
+      this.items.splice((parent+1), (this.items.length-(parent+1)));
+      this.items[parent].value = event.target.value;
+      this.getChildren(event.target.value);
+  }
+
+  getChildren(padre_id: any){
+    if(padre_id > 0){
+      this.showPreLoader();
+      this.projectsService.getAreasItems(padre_id).pipe().subscribe(
+        (data: any) => {
+          if(data.data.length > 0){
+            this.items.push({value: null, options: data.data});
+          }
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+    }
   }
 
   /**
@@ -99,6 +225,19 @@ export class TeamComponent {
    */
     get form() {
       return this.teamForm.controls;
+    }
+
+    getRol(rol: any){
+      if(rol && rol[0] != 1){
+        const index = this.roles.findIndex(
+          (r: any) =>
+            r.id == rol[0]
+        );
+    
+        return index != -1 ? this.roles[index].nombre : 'Super Admin';
+      }else{
+        return "Super Admin";
+      }
     }
 
   /**
@@ -123,6 +262,9 @@ export class TeamComponent {
         projectCount,
         taskCount
       });*/
+      
+      let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
+
       const data = {
         nombre: this.teamForm.get('nombre')?.value,
         apellido: this.teamForm.get('apellido')?.value,
@@ -130,7 +272,10 @@ export class TeamComponent {
         telefono: this.teamForm.get('telefono')?.value,
         cargo: this.teamForm.get('cargo')?.value,
         email: this.teamForm.get('email')?.value,
-        rol: [2],
+        //rol: [2],
+        rol: [this.teamForm.get('rol')?.value],
+        projects: this.teamForm.get('projects')?.value,
+        areas: area_id ? area_id : null,
         empresaId: null//this.userData.empresaId
       };
       this.userService.create(data).pipe(first()).subscribe(
@@ -252,6 +397,24 @@ export class TeamComponent {
   irPerfil(userData: any){
     this.TokenStorageService.saveUserProfile(userData);
     this.router.navigate(['/pages/profileUser']);
+  }
+
+   // PreLoader
+   showPreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0.8";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // PreLoader
+  hidePreLoader() {
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+        (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
+        (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
   }
 
 }
