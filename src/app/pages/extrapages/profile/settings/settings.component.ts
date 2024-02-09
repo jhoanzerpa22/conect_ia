@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../../../../core/services/token-storage.service';import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 import { UserProfileService } from '../../../../core/services/user.service';import { AuthenticationService } from '../../../../core/services/auth.service';
+import { ProjectsService } from '../../../../core/services/projects.service';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
 
@@ -18,6 +19,7 @@ import Swal from 'sweetalert2';
  */
 export class SettingsComponent implements OnInit {
   userData:any;
+  userLogin:any;
   
   submitted = false;
   userForm!: UntypedFormGroup;
@@ -26,21 +28,35 @@ export class SettingsComponent implements OnInit {
   passresetForm!: UntypedFormGroup;
   
   roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
+  rol: any = 2;
+  rol_user: any;
 
-  constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location) { }
+  areas: any = [];
+  area_id_select: any = [];
+  projects: any = [];
+  items: any = [];
+
+  constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location, private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
-    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile(); 
+    this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
+    this.userLogin =  this.TokenStorageService.getUser(); 
+
+    //console.log('UserProfile',this.TokenStorageService.getUserProfile());
+    //console.log('User',this.TokenStorageService.getUser());
     
     /**
      * Form Validation
      */
+    
     this.userForm = this.formBuilder.group({
       nombre: [this.userData.nombre, [Validators.required]],
       apellido: [this.userData.apellido, [Validators.required]],
       rut: [this.userData.rut, [Validators.required]],
       telefono: [this.userData.telefono],
       email: [this.userData.email, [Validators.required, Validators.email]],
+      rol: [this.userData.rol[0].toString(), [Validators.required]],
+      projects: [['']/*, [Validators.required]*/],
       //joinDate: ['']
     });
 
@@ -48,6 +64,12 @@ export class SettingsComponent implements OnInit {
       password: ['', [Validators.required]],
       cpassword: ['', [Validators.required]]
     });
+
+    this.rol = this.userData.rol[0];
+    this.rol_user = this.userLogin.rol[0];
+
+    this.getAreas();
+    this.getProjects();
 
   }
 
@@ -126,22 +148,152 @@ export class SettingsComponent implements OnInit {
     };
   }
 
+  private getProjects(){
+    
+    this.showPreLoader();
+      this.projectsService.get().pipe().subscribe(
+        (data: any) => {        
+          this.projects = data.data;
+          this.hidePreLoader();
+      },
+      (error: any) => {
+        this.hidePreLoader();
+      });
+      document.getElementById('elmLoader')?.classList.add('d-none')
+}
+
+private getAreas() {
+  
+  this.showPreLoader();
+    this.projectsService.getAreasUser()/*getAreas(this.project_id)*/.pipe().subscribe(
+      (data: any) => {
+        //this.service.bodylegal_data = data.data;
+        this.areas = data.data;
+        this.hidePreLoader();
+    },
+    (error: any) => {
+      this.hidePreLoader();
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+    });
+    document.getElementById('elmLoader')?.classList.add('d-none')
+}
+
+selectRol(event: any){
+  this.rol = event.target.value > 0 ? event.target.value : 2; 
+}
+
+selectArea(event: any){
+
+  if(this.area_id_select.length > 0){
+  
+  let vacio = event.target.value > 0 ? 1 : 0;
+  
+  this.area_id_select.splice(0 + vacio, (this.area_id_select.length-(1+vacio)));
+  
+    if(event.target.value > 0){
+      
+      const index = this.areas.findIndex(
+        (co: any) =>
+          co.id == event.target.value
+      );
+
+      let nombre = this.areas[index].nombre;
+
+      this.area_id_select[0] = {value: event.target.value, label: nombre};
+    }
+
+  }else{
+    
+    const index2 = this.areas.findIndex(
+      (co: any) =>
+        co.id == event.target.value
+    );
+
+    let nombre2 = this.areas[index2].nombre;
+    this.area_id_select.push({value: event.target.value, label: nombre2});
+  }
+
+  //this.area_id_select = event.target.value;
+    this.items = [];
+    this.getChildren(event.target.value);
+}
+
+selectAreaChildren(event: any, parent?: any){
+  //this.addElement(parent);
+    let vacio = event.target.value > 0 ? 2 : 1;
+  
+    this.area_id_select.splice((parent+vacio), (this.area_id_select.length-(parent+vacio)));
+
+    if(event.target.value > 0){
+      
+      const index = this.items[parent].options.findIndex(
+        (co: any) =>
+          co.id == event.target.value
+      );
+
+      let nombre = this.items[parent].options[index].nombre;
+
+      this.area_id_select[parent+1] = {value: event.target.value, label: nombre};
+    }
+
+  //this.area_id_select = event.target.value;
+    this.items.splice((parent+1), (this.items.length-(parent+1)));
+    this.items[parent].value = event.target.value;
+    this.getChildren(event.target.value);
+}
+
+getChildren(padre_id: any){
+  if(padre_id > 0){
+    this.showPreLoader();
+    this.projectsService.getAreasItems(padre_id).pipe().subscribe(
+      (data: any) => {
+        if(data.data.length > 0){
+          this.items.push({value: null, options: data.data});
+        }
+        this.hidePreLoader();
+    },
+    (error: any) => {
+      this.hidePreLoader();
+      //this.error = error ? error : '';
+      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+    });
+    document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+}
+
    /**
   * Update User
   */
    updateUser() {
     if (this.userForm.valid) {
+      
+      let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
+
       const data = {
         nombre: this.userForm.get('nombre')?.value,
         apellido: this.userForm.get('apellido')?.value,
         rut: this.userForm.get('rut')?.value,
         telefono: this.userForm.get('telefono')?.value,
-        email: this.userForm.get('email')?.value
+        email: this.userForm.get('email')?.value,
+        rol: [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user],
+        projects: this.userForm.get('projects')?.value,
+        areas: area_id ? area_id : null,
       };
       const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
       this.userService.update(id, data).pipe().subscribe(
         (data: any) => {
-          this.router.navigate(['/pages/profile']);
+          
+      this.userData.nombre = this.userForm.get('nombre')?.value;
+      this.userData.apellido = this.userForm.get('apellido')?.value;
+      this.userData.rut = this.userForm.get('rut')?.value;
+      this.userData.telefono = this.userForm.get('telefono')?.value;
+      this.userData.email = this.userForm.get('email')?.value;
+      this.userData.rol = [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user];
+
+          //this.router.navigate(['/pages/profile']);    
+          this.TokenStorageService.saveUserProfile(this.userData);
+          this.regresar();
         },
       (error: any) => {
         console.log(error);
