@@ -36,13 +36,13 @@ export const MENU: MenuItem[] = [
     label: 'MENUITEMS.DASHBOARD.LIST.PROJECTS',
     icon: 'ri-scales-line',
     link: '/projects'
-  },/*
+  },
   {
     id: 5,
     label: 'MENUITEMS.PLANS.TEXT',
     icon: 'ri-building-line',
     link: '/plans-work'
-  },
+  },/*
   {
     id: 6,
     label: 'MENUITEMS.COMMITMENTS.TEXT',
