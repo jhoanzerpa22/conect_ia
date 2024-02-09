@@ -67,9 +67,10 @@ export class TeamComponent {
       rut: ['', [Validators.required]],
       telefono: [''],
       cargo: [''],
-      email: ['', [,Validators.required, Validators.email]],/*
-      designation: ['', [Validators.required]],
-      projects: ['', [Validators.required]],
+      email: ['', [,Validators.required, Validators.email]],
+      rol: ['', [Validators.required]],/*
+      designation: ['', [Validators.required]],*/
+      projects: ['']/*,
       tasks: ['', [Validators.required]]*/
     });
     

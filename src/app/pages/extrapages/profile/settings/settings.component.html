@@ -162,7 +162,55 @@
                                                     Correo Electrónico requerido
                                                 </div>
                                         </div>
-                                    </div><!--end col-->
+                                    </div>
+    
+                                    <div class="col-lg-6" *ngIf="rol_user == 1 || rol_user == 2">
+                                    <div class="mb-3">
+                                        <label for="teammembersRol" class="form-label">Rol</label>
+                                        <select class="form-control form-select" aria-label="Rol" formControlName="rol" placeholder="Seleccione Rol" [ngClass]="{ 'is-invalid': submitted && f['rol'].errors }" (change)="selectRol($event)">
+                                            <option value="" selected>Seleccione Rol </option>
+                                            <option *ngFor="let rl of roles;" value="{{rl.id}}">{{rl.nombre}}</option>
+                                        </select>
+                                        <div class="invalid-feedback">Por favor ingresar proyectos.</div>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6" *ngIf="rol == 3 && (rol_user == 1 || rol_user == 2)">
+                                    <div class="mb-3">
+                                        <label for="teammembersProjects" class="form-label">Proyectos</label>
+                                        <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && f['projects'].errors }" multiple>
+                                            <option value="" selected>Todos </option>
+                                            <option *ngFor="let p of projects;" value="{{p.id}}">{{p.nombre}}</option>
+                                        </select>
+                                        <div class="invalid-feedback">Por favor ingresar proyectos.</div>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6" *ngIf="rol != 2 && rol != 1 && (rol_user == 1 || rol_user == 2) ">
+                                    <div class="mb-3">
+                                        <label for="teammembersAreas" class="form-label">Areas Administrativas</label>
+                                        <select class="form-control form-select" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
+                                        (change)="selectArea($event)" multiple>
+                                            <option value="" selected>Todas</option>
+                                            <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
+                                        </select>
+                                        <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
+                                    </div>
+                                    </div>
+    
+                                    <ng-container *ngFor="let item of items;let i = index;">                                    
+                                        <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="area-field" class="form-label">Sub Area Administrativa</label>
+                                            <select class="form-control form-select mb-3" placeholder="Seleccione Sub Area Administrativa" (change)="selectAreaChildren($event, i)">
+                                                                <option value="" selected>Seleccione Sub Area Administrativa</option>
+                                                                <option *ngFor="let o of item.options;" value="{{o.id}}">{{o.nombre}}</option>
+                                            </select>
+                                            <div class="invalid-feedback">Por favor ingresar sub-area administrativa.</div>
+                                        </div>
+                                        </div>
+                                    </ng-container>
+                                    
                                     <!--<div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">Dia de Ingreso</label>
