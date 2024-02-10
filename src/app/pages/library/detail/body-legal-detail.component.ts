@@ -73,6 +73,7 @@ export class BodyLegalDetailComponent implements OnInit {
   
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
+  buscar: any;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location) {
     this.recentData = service.recents$;
@@ -304,6 +305,23 @@ export class BodyLegalDetailComponent implements OnInit {
         return this.isCollapsed == 'r-'+id;
         break;
     }
+  }
+
+  onFindPage($event: any){
+  const searchText = this.buscar.toLowerCase();
+  // Recorrer todos los elementos de la página.
+  const elements: any = document.querySelectorAll('.articles');
+
+  // Comparar el texto del elemento de entrada con el texto de cada elemento.
+  for (let i = 0; i < elements.length; i++) {
+    const elementText = elements[i].textContent.toLowerCase();
+
+    // Si el texto del elemento de entrada coincide con el texto de un elemento de la página, resalta ese elemento.
+    if (elementText.includes(searchText)) {
+      elements[i].style.backgroundColor = '#d9e1fd';
+    }
+  }
+
   }
 
   /**
