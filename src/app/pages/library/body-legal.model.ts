@@ -2,6 +2,7 @@ export interface BodyLegalTypeModel {
   normaId: any;
   idNorma?: any;
   TituloNorma?: string;
+  Encabezado?: any;
   encabezado?: any;
   organismos?: any;
   dates?: any;

@@ -22,7 +22,7 @@
 
                     <div class="col-xxl-3 col-lg-3">
                         <div class="search-box">
-                            <input type="text" class="form-control bg-light border-light" placeholder="Buscar...">
+                            <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." [(ngModel)]="buscar" (keyup.enter)="onFindPage($event)">
                             <i class="ri-search-2-line search-icon"></i>
                         </div>
                     </div>
@@ -65,16 +65,16 @@
                     <div class="row justify-content-center">
                         <!--<p><b>Características</b></p>-->
                         <div class="col-xxl-3 col-lg-3">
-                            <div style="font-size: 14px;">PUBLICADO:</div> <h5>{{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</h5>
+                            <div style="font-size: 14px;">PUBLICACIÓN:</div> <h5>{{detail.dates && detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '-'}}</h5>
                         </div>
                         <div class="col-xxl-3 col-lg-3">
-                        <div style="font-size: 14px;">ENTRADA EN VIGENCIA:</div><h5> {{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</h5>
+                        <div style="font-size: 14px;">PROMULGACIÓN:</div><h5> {{detail.dates && detail.dates.fechaPromulgacionNorma ? detail.dates.fechaPromulgacionNorma : '-'}}</h5>
                         </div>
                         <div class="col-xxl-3 col-lg-3">
-                        <div style="font-size: 14px;">ÚLTIMA MODIFICACIÓN: </div><h5>{{detail.dates ? detail.dates.fechaPublicacionNorma : ''}}</h5>
+                        <div style="font-size: 14px;">ÚLTIMA MODIFICACIÓN: </div><h5>{{detail.dates && detail.dates.fechaVersionNorma ? detail.dates.fechaVersionNorma : '-'}}</h5>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <!--<div class="row justify-content-center">
                         <div class="col-xxl-3 col-lg-3">
                         <div style="font-size: 14px;">VIGENCIA:</div>
                         </div>
@@ -82,10 +82,10 @@
                         <div style="font-size: 14px;">ÁMBITO:</div>
                         </div>
                         <div class="col-xxl-3 col-lg-3">
-                        <div style="font-size: 14px;">ALCANCE TERRITORIAL:</div><!--
-                        <p>Cuerpos legales relacionados:</p>-->
+                        <div style="font-size: 14px;">ALCANCE TERRITORIAL:</div>
+                        <p>Cuerpos legales relacionados:</p>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -117,6 +117,7 @@
                 <i class="ri-search-2-line search-icon"></i>
             </div>-->
             <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll" *ngIf="showMenu">
+                <div class="menu-sidebar" style="overflow: auto;">
                 <!-- Menu --->
                 <ul class="list-unstyled file-manager-menu">
                     <!--<li>
@@ -131,6 +132,7 @@
                         </ng-container>
                     </li>
                 </ul>
+                </div>
             </ngx-simplebar>
             
             
@@ -194,12 +196,12 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 
-                                <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>
-                                <p class="card-text mb-2" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
+                                <h5 class="card-title mb-0 articles">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>
+                                <p class="card-text mb-2 articles" [style]="data.texto && data.texto.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.texto ? (data.texto.length > 450 ? formatArticle(data.texto, data.idParte) : data.texto) : data.tipoParte}}</p>
                                 <p class="card-text">
-                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" data-bs-toggle="modal"
+                                    <small class="text-success articles" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && !validatShow(data.idParte)" data-bs-toggle="modal"
                                         id="article-btn" data-bs-target="#showModalArticle" (click)="showDetailArticle((data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte)), data.texto, contentArticle)"><b>Leer más</b></small><!--(click)="showText(data.idParte)"-->
-                                    <small class="text-success" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
+                                    <small class="text-success articles" style="cursor: pointer;" *ngIf="data.texto && data.texto.length > 450 && validatShow(data.idParte)" (click)="hideText(data.idParte)"><b>Ocultar texto completo</b></small>
                                 </p>
                             </div>
                         </div>
@@ -215,7 +217,7 @@
                         <div class="row g-0">
                             <div class="col-md-12">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>  
+                                    <h5 class="card-title mb-0 articles">{{data.tituloParte ? data.tituloParte : (data.nombreParte ? data.tipoParte+' '+data.nombreParte : data.tipoParte) }}</h5>  
                                 </div>
                                 
                                 <div class="card-body">

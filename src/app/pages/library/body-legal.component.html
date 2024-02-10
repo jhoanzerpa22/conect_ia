@@ -41,7 +41,7 @@
                     
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box">
-                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." formControlName="busqueda" value="" [(ngModel)]="search">
+                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." formControlName="busqueda" value="" [(ngModel)]="search" (keyup.enter)="busquedaNorma()">
                         <i class="ri-search-2-line search-icon"></i>
                     </div>
                     <div>
@@ -80,9 +80,10 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted">
-                                    <th class="sort" data-sort="nombre">Cuerpo Legal</th>
-                                    <th class="sort" data-sort="carecteristicas">Características</th>
-                                    <th class="sort">Acción</th>
+                                    <th class="sort" data-sort="nombre" style="width: 250px;">Cuerpo Legal</th>
+                                    <th class="sort" data-sort="encabezado">Encabezado</th>
+                                    <th style="width: 200px;">Características</th>
+                                    <th style="width: 100px;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,6 +91,9 @@
                                     <td>
                                         <h4>{{data.TipoNumero ? data.TipoNumero.Compuesto : ''}}</h4>
                                         <h5>{{data.TituloNorma ? data.TituloNorma : ''}}</h5>
+                                    </td>
+                                    <td>
+                                        <h4>{{data.Encabezado ? data.Encabezado : ''}}</h4>
                                     </td>
                                     <td>
                                         Publicado el {{data ? data.FechaPublicacion : ''}}<br>
