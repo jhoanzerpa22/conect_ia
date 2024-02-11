@@ -55,10 +55,9 @@
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div class="search-box ms-2">
-                                    <input type="text" class="form-control search" placeholder="Buscar..."
-                                        [(ngModel)]="service.searchTerm">
+                                    <input type="text" class="form-control search" placeholder="Buscar..." [(ngModel)]="term">
                                     <i class="ri-search-line search-icon"></i>
-                                </div>
+                                </div><!--[(ngModel)]="service.searchTerm"-->
                                 
                                 <button type="button" style="margin-left:20px;" class="btn btn-danger add-btn" data-bs-toggle="modal"
                                     id="create-btn" data-bs-target="#showModal" (click)="openModal(content)"><i
@@ -79,23 +78,23 @@
                                     <th class="sort" data-sort="dias_retrado" style="width: 100px;">Dias Retraso</th>
                                     <th class="sort" style="width: 130px;">Estado</th>
                                     <th class="sort" style="width: 130px;">Prioridad</th>
-                                    <th class="sort" style="width: 130px;">Acción</th>
+                                    <th style="width: 130px;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of TaskDatas" id="lj_{{data.id}}">
+                                <tr *ngFor="let data of TaskDatas | filter:term" id="lj_{{data.id}}">
                                     <!--<td><ngb-highlight [result]="data.id"
                                             [term]="service.searchTerm"></ngb-highlight></td>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.responsable.nombre"
+                                    <td><ngb-highlight [result]="data.responsable.nombre+' '+data.responsable.apellido"
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                     <!--<td>{{ data.fecha_inicio | date: 'd/M/yy' }}
                                     </td>-->
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
                                     <td>{{getRetraso(data.fecha_termino)}}</td>
                                     <td class="status"><span
-                                        class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger')}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada')) : 'Creada'}}</span>
+                                        class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (getRetraso(data.fecha_termino) > 0 ? 'danger' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger'))}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (getRetraso(data.fecha_termino) > 0 ? 'Atrasada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada'))) : 'Creada'}}</span>
                                     </td>
                                     <td class="status">
                                         <span
@@ -120,7 +119,7 @@
                         </table>
                     </div>
 
-                    <div class="row justify-content-md-between align-items-md-center">
+                    <!--<div class="row justify-content-md-between align-items-md-center">
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
                                 Mostrando página 1 de
@@ -128,7 +127,7 @@
                                 registros
                             </div>
                         </div>
-                        <!-- Pagination -->
+                        
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
                                 <ngb-pagination [collectionSize]="TaskDatas ? TaskDatas.length : 0" [(page)]="service.page"
@@ -136,8 +135,7 @@
                                 </ngb-pagination>
                             </div>
                         </div>
-                        <!-- End Pagination -->
-                    </div>
+                    </div>-->
                 </div>
             </div><!-- end card -->
         </div>
@@ -271,7 +269,7 @@
             </div>
             </div>
 
-            <div class="col-12">
+            <!--<div class="col-12">
                 <div class="mb-3">
                     <label for="criterio-field" class="form-label">Selecciona si para el cumplimiento de esta tarea es necesario subir un archivo o imagen</label>
                     
@@ -296,7 +294,7 @@
                     </div>
                         
                 </div>
-            </div>
+            </div>-->
             </div>
 
         </div>
