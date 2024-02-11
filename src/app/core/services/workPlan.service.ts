@@ -56,4 +56,8 @@ export class WorkPlanService {
         return this.http.delete(API_URL_BACK + 'work-plan/'+id, /*httpOptions*/this.getToken());
     }
 
+    deleteTask(id: any): Observable<any> {
+        return this.http.delete(API_URL_BACK + 'work-plan/task/'+id, /*httpOptions*/this.getToken());
+    }
+
 }

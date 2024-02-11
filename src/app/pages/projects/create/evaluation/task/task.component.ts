@@ -361,6 +361,31 @@ export class EvaluationTaskComponent implements OnInit {
     }
   }
 
+  // Delete Task
+  deleteTask(id: any) {
+    if (id) {
+      this.workPlanService.deleteTask(id)
+      .subscribe(
+        response => {
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+        
+          const index = this.TaskDatas.findIndex(
+            (co: any) =>
+              co.id == id
+          );
+
+          this.TaskDatas.splice(index, 1);
+          
+          //document.getElementById('lj_'+id)?.remove();
+          this.table2.renderRows();
+        },
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+        });
+    }
+  }
+
   /**
    * Fetches the data
    */
@@ -768,8 +793,8 @@ export class EvaluationTaskComponent implements OnInit {
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
         const prioridad = this.taskForm.get('prioridad')?.value;
-        const is_image = this.taskForm.get('is_image')?.value;
-        const is_file = this.taskForm.get('is_file')?.value;        
+        //const is_image = this.taskForm.get('is_image')?.value;
+        //const is_file = this.taskForm.get('is_file')?.value;        
 
         const index = this.TaskDatas.findIndex(
           (t: any) =>
@@ -798,7 +823,7 @@ export class EvaluationTaskComponent implements OnInit {
           
           this.hidePreLoader();
           Swal.fire({
-            title: 'Existe otra tarea creada en el rango de fecha ingresado. Desea continuar?',
+            title: 'Existe otra tarea creada en el rango de fecha ingresado. ¿Desea continuar?',
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: 'Si',

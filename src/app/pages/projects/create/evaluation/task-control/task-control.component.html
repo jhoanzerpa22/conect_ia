@@ -510,7 +510,7 @@
                         <ng-container matColumnDef="responsable">
                             <th scope="col" mat-header-cell *matHeaderCellDef> Responsable </th>
                             <td *matCellDef="let element">
-                                {{element.responsable ? element.responsable.nombre : '' }}
+                                {{element.responsable ? element.responsable.nombre+' '+element.responsable.apellido : '' }}
                             </td>
                         </ng-container>
 
@@ -821,7 +821,7 @@ sistema.</p>
             <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
                 <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
                     (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Cerrar</button>
-                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)"
+                <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteTask(deleteId)"
                     (click)="modal.close('Close click')">Si, Remover!</button>
             </div>
         </div>
