@@ -73,6 +73,7 @@ export class PlansWorkAnalityComponent implements OnInit {
 
   public Editor = ClassicEditor;
   total: Observable<number>;
+  term: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private TokenStorageService: TokenStorageService, private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.total = service.total$;
@@ -112,8 +113,8 @@ export class PlansWorkAnalityComponent implements OnInit {
       fecha_termino: [''],
       evaluationFindingId: [''],
       prioridad: [''],
-      is_image: [''],
-      is_file: ['']
+      //is_image: [''],
+      //is_file: ['']
     });
 
     /**
@@ -143,21 +144,20 @@ export class PlansWorkAnalityComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
-  
   // Delete Data
   deleteData(id: any) {
     if (id) {
-      /*this.projectsService.deleteInstallation(id)
+      this.workPlanService.deleteTask(id)
       .subscribe(
-        response => {*/
+        response => {
           this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
           
           document.getElementById('lj_'+id)?.remove();
-        /*},
+        },
         error => {
           console.log(error);
           this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
-        });*/
+        });
     }
   }
 
@@ -204,8 +204,8 @@ export class PlansWorkAnalityComponent implements OnInit {
         const fecha_termino = this.taskForm.get('fecha_termino')?.value;
         const evaluationFindingId = this.taskForm.get('evaluationFindingId')?.value;
         const prioridad = this.taskForm.get('prioridad')?.value;
-        const is_image = this.taskForm.get('is_image')?.value;
-        const is_file = this.taskForm.get('is_file')?.value;
+        //const is_image = this.taskForm.get('is_image')?.value;
+        //const is_file = this.taskForm.get('is_file')?.value;
 
         const index = this.TaskDatas.findIndex(
           (t: any) =>
@@ -222,8 +222,8 @@ export class PlansWorkAnalityComponent implements OnInit {
           estado: 'CREADA',
           prioridad: prioridad,
           type: 'workPlanTask',
-          is_image: is_image,
-          is_file: is_file,
+          //is_image: is_image,
+          //is_file: is_file,
           installationId: this.installationId ? this.installationId : null,
           proyectoId: this.project_id ? this.project_id : null,
           workPlanId: this.workPlan_id,
@@ -234,7 +234,7 @@ export class PlansWorkAnalityComponent implements OnInit {
           
           this.hidePreLoader();
           Swal.fire({
-            title: 'Existe otra tarea creada en el rango de fecha ingresado. Desea continuar?',
+            title: 'Existe otra tarea creada en el rango de fecha ingresado. ¿Desea continuar?',
             showDenyButton: true,
             showCancelButton: false,
             confirmButtonText: 'Si',

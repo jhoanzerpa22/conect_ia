@@ -419,7 +419,7 @@
                         <ng-container matColumnDef="responsable">
                             <th scope="col" mat-header-cell *matHeaderCellDef> Responsable </th>
                             <td *matCellDef="let element">
-                                {{element.responsable ? element.responsable.nombre : '' }}
+                                {{element.responsable ? element.responsable.nombre+' '+element.responsable.apellido : '' }}
                             </td>
                         </ng-container>
 

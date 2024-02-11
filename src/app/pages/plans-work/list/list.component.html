@@ -80,7 +80,7 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                <div class="col-lg-3 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-left">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;"><b>{{data.installationId > 0 ? data.installation_work_plan.nombre
@@ -97,13 +97,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
-                                                                    <div class="progress progress-xl">
-                                                                        <div class="progress-bar" 
-                                                                        [ngClass]="{'bg-danger': data.avance > 0 && data.avance < 25, 'bg-warning': data.avance > 25 && data.avance < 75, 'bg-success': data.avance > 75 }" role="progressbar" [style]="data.avance > 0 ? 'width:'+data.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data.avance}}%</div>
-                                                                    </div>
-                                                                </div>
         
                                                                 <div class="col-lg-2 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-center">
@@ -114,14 +107,21 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-lg-1 col" (click)="comenzar(data.id)">
+                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                    <div class="progress progress-xl">
+                                                                        <div class="progress-bar" 
+                                                                        [ngClass]="{'bg-danger': data.avance > 0 && data.avance < 25, 'bg-warning': data.avance > 25 && data.avance < 75, 'bg-success': data.avance > 75 }" role="progressbar" [style]="data.avance > 0 ? 'width:'+data.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data.avance}}%</div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!--<div class="col-lg-1 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="font-size: 24px;"><b>{{data.avance}}%</b></h5>
                                                                             <p>Avance</p>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>-->
                                                                 
                                                                 <div class="col-lg-1 col text-center">
                                                                     <span
@@ -214,7 +214,7 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                <div class="col-lg-3 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-left">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;"><b>{{data2.installationId > 0 ? data2.installation_work_plan.nombre
@@ -231,13 +231,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
-                                                                    <div class="progress progress-xl">
-                                                                        <div class="progress-bar" 
-                                                                        [ngClass]="{'bg-danger': data2.avance > 0 && data2.avance < 25, 'bg-warning': data2.avance > 25 && data2.avance < 75, 'bg-success': data2.avance > 75 }" role="progressbar" [style]="data2.avance > 0 ? 'width:'+data2.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data2.avance}}%</div>
-                                                                    </div>
-                                                                </div>
         
                                                                 <div class="col-lg-2 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-center">
@@ -247,15 +240,22 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="progress progress-xl">
+                                                                        <div class="progress-bar" 
+                                                                        [ngClass]="{'bg-danger': data2.avance > 0 && data2.avance < 25, 'bg-warning': data2.avance > 25 && data2.avance < 75, 'bg-success': data2.avance > 75 }" role="progressbar" [style]="data2.avance > 0 ? 'width:'+data2.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data2.avance}}%</div>
+                                                                    </div>
+                                                                </div>
 
-                                                                <div class="col-lg-1 col" (click)="comenzar(data2.id)">
+                                                                <!--<div class="col-lg-1 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="font-size: 24px;"><b>{{data2.avance.toFixed(0)}}%</b></h5>
                                                                             <p>Avance</p>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>-->
                                                                 
                                                                 <div class="col-lg-1 col text-center">
                                                                     <span
