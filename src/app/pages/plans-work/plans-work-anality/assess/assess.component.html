@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Paso 5: Evaluar Cumplimiento" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Registrar Cumplimiento" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!--preloader-->
@@ -17,7 +17,7 @@
             <div class="card-header">
                 
                 <span class="float-end">
-                    Fecha Inicio: {{tarea.fecha_inicio | date: 'd/M/yy'}} - Fecha Termino: {{ tarea.fecha_termino | date: 'd/M/yy'}}
+                    <!--Fecha Inicio: {{tarea.fecha_inicio | date: 'd/M/yy'}} - -->Fecha Termino: {{ tarea.fecha_termino | date: 'd/M/yy'}}
                 </span>
 
                     Detalle de Tarea
@@ -28,7 +28,7 @@
                 <div class="col-xxl-12">
                         <div class="row g-0">
                             <div class="col-md-12">
-                                    <p class="mb-2" [style]="tarea.descripcion && tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'">{{ tarea.descripcion && tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion.replace('<', '').replace("/", '').replace('p>', '').replace('<', '').replace('p>', '') }}</p>
+                                    <p class="mb-2" [style]="tarea.descripcion ? tarea.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;' : 'min-height: 80px;'">{{ tarea.descripcion ? tarea.descripcion.length > 450 ? formatTask2(tarea.descripcion, tarea.id) : tarea.descripcion.replace('<', '').replace("/", '').replace('p>', '').replace('<', '').replace('p>', '') : '' }}</p>
                                     
                                     <p>
                                         <small class="text-success" style="cursor: pointer;" *ngIf="tarea.descripcion && tarea.descripcion.length > 450 && !validatShow3(tarea.id)" (click)="showText3(tarea.id)"><b>Leer más</b></small>
@@ -98,7 +98,7 @@
 <div class="row">
     <div class="col-12">
         
-        <!--<div class="col-md-3" style="float:left;">
+        <div class="col-md-3" style="float:left;">
             <div class="btn-group dropdown" ngbDropdown>
                 <button type="button" class="btn btn-primary" style="min-width:150px;" *ngIf="!status">Sin estado</button>
                 <button type="button" class="btn btn-success" style="min-width:150px;" *ngIf="status == 'COMPLETADA'">Completada</button>
@@ -115,9 +115,9 @@
                 <a class="dropdown-item" href="javascript:void(0);" (click)="changeStatus('CREADA')">Creada</a>
                 </div>
             </div>
-            </div>-->
+         </div>
             
-            <div class="col-md-12" style="float:left;">
+            <div class="col-md-9" style="float:left;">
                 <button class="btn btn-primary edit-item-btn d-sm-flex align-items-center justify-content-end" style="float:right;"  (click)="editTask()"
                 >Guardar</button>
             </div>
