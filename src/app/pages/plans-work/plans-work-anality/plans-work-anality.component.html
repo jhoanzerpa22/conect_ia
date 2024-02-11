@@ -87,25 +87,25 @@
                                             [term]="service.searchTerm"></ngb-highlight></td>-->
                                     <td><ngb-highlight [result]="data.nombre"
                                             [term]="service.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="data.responsable.nombre+' '+data.responsable.apellido"
+                                    <td><ngb-highlight [result]="data.responsable"
                                         [term]="service.searchTerm"></ngb-highlight></td>
                                     <!--<td>{{ data.fecha_inicio | date: 'd/M/yy' }}
                                     </td>-->
                                     <td>{{ data.fecha_termino | date: 'd/M/yy' }}</td>
-                                    <td>{{getRetraso(data.fecha_termino)}}</td>
+                                    <td>{{data.retraso}}</td>
                                     <td class="status"><span
-                                        class="badge badge-soft-{{data.estado && data.estado == 'COMPLETADA' ? 'success' : (getRetraso(data.fecha_termino) > 0 ? 'danger' : (data.estado && data.estado == 'INICIADA' ? 'warning' : 'danger'))}} text-uppercase">{{data.estado ? (data.estado == 'COMPLETADA' ? 'Completada' : (getRetraso(data.fecha_termino) > 0 ? 'Atrasada' : (data.estado == 'INICIADA' ? 'Iniciada' : 'Creada'))) : 'Creada'}}</span>
+                                        class="badge badge-soft-{{data.estado_class}} text-uppercase">{{data.estado}}</span>
                                     </td>
                                     <td class="status">
                                         <span
-                                        class="badge text-bg-{{data.prioridad && data.prioridad == 'BAJA' ? 'primary' : (data.prioridad && data.prioridad == 'MEDIA' ? 'warning' : 'danger')}} text-uppercase">{{data.prioridad ? data.prioridad : 'BAJA'}}</span>
+                                        class="badge text-bg-{{data.prioridad && data.prioridad == 'BAJA' ? 'primary' : (data.prioridad && data.prioridad == 'MEDIA' ? 'warning' : 'danger')}} text-uppercase">{{data.prioridad}}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="hstack gap-3 fs-15">
-                                                <!--<a href="javascript:void(0);" class="link-primary"
+                                                <a href="javascript:void(0);" class="link-primary"
                                                 title="Dar cumplimiento"
-                                                routerLink="/plans-work/{{project_id}}/Assess/{{data.id}}"><i class="ri-eye-line"></i></a>-->
+                                                routerLink="/plans-work/{{project_id}}/Assess/{{data.id}}"><i class="ri-eye-line"></i></a>
 
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"

@@ -296,6 +296,38 @@ export class PlansWorkAnalityComponent implements OnInit {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+
+  getEstado(estado: any, retraso: any){
+    if(estado){
+      if(estado == 'COMPLETADA'){
+        return 'Completada';
+      }else if(retraso > 0){
+        return 'Atrasada';
+      }else if(estado == 'INICIADA'){
+        return 'Iniciada';
+      }else{
+        return 'Creada';
+      }
+    }else{
+      return 'Creada';
+    }
+  }
+  
+  getEstadoClass(estado: any, retraso: any){
+    if(estado){
+      if(estado == 'COMPLETADA'){
+        return 'success';
+      }else if(retraso > 0){
+        return 'danger';
+      }else if(estado == 'INICIADA'){
+        return 'warning';
+      }else{
+        return 'danger';
+      }
+    }else{
+      return 'danger';
+    }
+  }
   
   private getTasks() {
 
@@ -308,7 +340,9 @@ export class PlansWorkAnalityComponent implements OnInit {
           for (var j = 0; j < resp.length; j++) {
             if(/*resp[j].proyectoId*/resp[j].workPlanId == this.workPlan_id){
               //this.project_id = resp[j].proyectoId;
-              tasks.push(resp[j]);
+              //tasks.push(resp[j]);
+              const retraso = this.getRetraso(resp[j].fecha_termino);
+              tasks.push({id: resp[j].id, nombre: resp[j].nombre, responsable: resp[j].responsable.nombre+' '+resp[j].responsable.apellido, fecha_termino: resp[j].fecha_termino, retraso: retraso, estado: this.getEstado(resp[j].estado,retraso), estado_class: this.getEstadoClass(resp[j].estado,retraso), prioridad: resp[j].prioridad ? resp[j].prioridad : 'BAJA' });
             }
           }
 

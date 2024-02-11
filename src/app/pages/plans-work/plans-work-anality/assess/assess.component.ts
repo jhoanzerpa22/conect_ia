@@ -64,7 +64,7 @@ export class PlansAssessComponent implements OnInit {
 
   items: any = [];
 
-  status: any = 'COMPLETADA';//'CREADA', 'INICIADA', 'COMPLETADA';
+  status: any = 'CREADA';//'CREADA', 'INICIADA', 'COMPLETADA';
 
   PlaceInput: any;
   public imagePath: any;
@@ -142,6 +142,7 @@ export class PlansAssessComponent implements OnInit {
       this.projectsService.getTaskById(tarea_id).pipe().subscribe(
         (data: any) => {
           this.tarea = data.data;
+          this.status = data.data.estado;
           
           this.hidePreLoader();
       },
