@@ -13,7 +13,7 @@ export class FilterPipe implements PipeTransform {
     }
     searchText = searchText.toLowerCase();
     return items.filter(item => {
-      return (item.cuerpoLegal && item.cuerpoLegal.toLowerCase().includes(searchText)) || (item.tituloNorma && item.tituloNorma.toLowerCase().includes(searchText))/* || item.normaId.includes(searchText)*/;
+      return (item.cuerpoLegal && item.cuerpoLegal.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (item.tituloNorma && item.tituloNorma.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (item.normaId && item.normaId.replace(/[\n\r]/g, ' ').includes(searchText));
     });
   }
 }
