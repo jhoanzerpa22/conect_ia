@@ -193,7 +193,7 @@ export class ListComponent implements OnInit {
             if(!resp[j].type || resp[j].type == '' || resp[j].type == null || resp[j].type == 'workPlan'){
               const index_work = workPlans.findIndex(
                 (w: any) =>
-                  w.normaId == resp[j].normaId && w.articuloId == resp[j].articuloId
+                w.normaId && w.articuloId && w.normaId == resp[j].normaId && w.articuloId == resp[j].articuloId
               );
 
               if(index_work != -1){
