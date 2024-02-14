@@ -58,7 +58,7 @@
                                                 padding: 10px;
                                                 background: #c4cadc;
                                             "></i>
-                                            Gestiona</span>
+                                            Conecta</span>
                                         </a>
                                         <ng-template ngbNavContent>
                                             <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
@@ -491,10 +491,10 @@
 
                     <div *ngIf="installations_data.length > 0">            
                             <div class="list-group">
-                                <ng-container *ngFor="let ig of installations_group | filter:term2">
+                                <ng-container *ngFor="let ig of installations_group | filter_area:term2;">
                                     <h4 style="color: #405189;">{{ig.area}}</h4>
 
-                                    <ng-container *ngFor="let v of ig.instalaciones;">
+                                    <ng-container *ngFor="let v of ig.instalaciones | filter_instalaciones:term2;">
 
                                     <div class="team-list list-view-filter row">
                                         <div class="col">
@@ -675,11 +675,11 @@
             <div class="mb-3">
                 <div class="list-group">
                     
-                    <ng-container *ngFor="let o of installations | filter:term5">
+                    <ng-container *ngFor="let o of installations | filter_instalaciones:term5">
                         <label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll" formControlName="checkAll"
                         id="{{o.id}}" (change)="onCheckboxChange($event)"><!--checked-->
-                        {{o.nombre}}
+                        {{o.nombre}} | {{o.descripcion}}
                         </label>
                     </ng-container>
                 </div>
@@ -999,7 +999,7 @@
                                                         </div>-->
                                                         <div class="col-lg-2 col">
                                                                 <button
-                                                                    [ngClass]="byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'" style="width: 100%;" data-bs-target="#showModal" (click)="openModal3(content3, 'single', s)">{{byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'Modificar elementos' : 'Configurar elementos'}}</button>
+                                                                    [ngClass]="byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'" style="width: 100%;" data-bs-target="#showModal" (click)="openModal3(content3, 'single', s)">{{byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'Modificar elementos' : 'Conectar elementos'}}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1128,7 +1128,7 @@
                                 class="btn view-btn mb-2" style="width: 100%;" [ngClass]="validateAttributeAll('cierre', 'cierre') ? 'btn-success' :'btn-light'" (click)="setAttributeAll('cierre', 'cierre')">Baja</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;margin:auto;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Configurar Elementos</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;margin:auto;" data-bs-target="#showModal" (click)="openModal3(content3, 'multiple')">Conectar Elementos</button>
                     </div>
                     <div class="col-sm-2" style="border-left: 3px solid #fff;display: grid;">
                         <button type="button" class="btn btn-success waves-effect waves-light" style="font-family: Poppins;border-radius: 24px;margin: auto;" (click)="setAttributeArticleAll()">Aplicar a todos</button>
@@ -1198,7 +1198,7 @@
                         </div>
                     </li>
 
-                    <ng-container *ngFor="let o of installations_filter | filter:term7">
+                    <ng-container *ngFor="let o of installations_filter | filter_instalaciones:term7">
                         <!--<label class="list-group-item">
                         <input class="form-check-input me-1" type="checkbox" value="{{o.id}}" name="checkAll3"
                         id="{{o.id}}" (change)="onCheckboxChange3($event)">checked
@@ -1215,7 +1215,7 @@
                                            <i class="mdi align-middle lh-1 me-2"  [ngClass]="{'mdi-check-circle text-success': validChecked4(o.id) == 1, 'mdi-alert-circle text-warning': validChecked4(o.id) == 2,'mdi-checkbox-blank-circle text-gray': validChecked4(o.id) == null || validChecked4(o.id) == 0 }"></i>
                                     </div>
                                     <div class="flex-shrink-0 ms-2">
-                                        {{o.nombre}}
+                                        {{o.nombre}} | {{o.descripcion}}
                                     </div>
                                     </div>
                                     </div> 
@@ -2619,7 +2619,7 @@
 
                                                                 <div class="col-lg-2 col">
                                                                         <button
-                                                                            [ngClass]="byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'" style="width: 100%;" data-bs-target="#showModal" (click)="openModalResumen(contentResumen, 'single', s)">{{byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'Ver elementos' : 'Configurar elementos'}}</button>
+                                                                            [ngClass]="byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'" style="width: 100%;" data-bs-target="#showModal" (click)="openModalResumen(contentResumen, 'single', s)">{{byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'Ver elementos' : 'Conectar elementos'}}</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2645,7 +2645,7 @@
         
                                         </ng-template>
         
-                                        <ng-container *ngFor="let g of articles_proyects_group | filter_cuerpo:termResumen ;let impar = odd;let par = even;">
+                                        <ng-container *ngFor="let g of articles_proyects_group | filter_cuerpo:termResumen;let impar = odd;let par = even;">
         
                                         <div class="card" style="box-shadow: none !important;">
                                             <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
