@@ -4844,16 +4844,18 @@ validateIdparte(idParte: any){
   setAttribute(type: any, id: any, valor?: any){
     const index = this.attributes.findIndex(
       (p: any) =>
-        p.type == type && p.id == id
+        ((type == 'construccion' || type == 'operacion' || type == 'cierre') ? (p.type == 'construccion' || p.type == 'operacion' || p.type == 'cierre') : p.type == type) && p.id == id
     );
-
+ 
     if(index != -1){
-      if(type == 'articuloTipo' && this.attributes[index].valor != valor){
-        this.attributes[index].valor = valor;
-        this.setAttributeArticle(id, type, valor);
+      if((type == 'articuloTipo' && this.attributes[index].valor != valor) || ((type == 'construccion' || type == 'operacion' || type == 'cierre') && type != this.attributes[index].type)){
+        const valor_new = type == 'articuloTipo' ? valor : true;
+        this.attributes[index].type = type;
+        this.attributes[index].valor = valor_new;
+        this.setAttributeArticle(id, type, valor_new);
       }else{
         //this.attributes.splice(index, 1);
-        this.attributes[index].valor = false;
+        this.attributes[index].valor = type == 'articuloTipo' ? false : !this.attributes[index].valor;
         this.setAttributeArticle(id, type, type == 'articuloTipo' ? null : false);
       }
       
@@ -4867,11 +4869,11 @@ validateIdparte(idParte: any){
   validateAttribute(type: any, id: any, valor_old?: any, valor?: any){
     const index = this.attributes.findIndex(
           (p: any) =>
-            p.type == type && p.id == id
+            ((type == 'construccion' || type == 'operacion' || type == 'cierre') ? (p.type == 'construccion' || p.type == 'operacion' || p.type == 'cierre') : p.type == type) && p.id == id
         );
 
       if(index != -1){
-        return type == 'articuloTipo' ? valor == this.attributes[index].valor : this.attributes[index].valor;
+        return type == 'articuloTipo' ? valor == this.attributes[index].valor : (type == this.attributes[index].type ? this.attributes[index].valor : false);
       }else{
         return type == 'articuloTipo' ? valor_old == valor : valor_old;
       }
