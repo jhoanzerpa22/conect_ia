@@ -1895,16 +1895,16 @@ export class IdentificationComponent implements OnInit {
                 dataLabels: {
                     position: 'top',
                     style: {
-                      colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                      colors: [this.criticidad ? '#ffffff' : '#ffffff']
                     }
                 },
             },
             dataLabels: {
               enabled: true,
               style: {
-                  colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+                  colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
               },
-              offsetX: this.criticidad ? 0 : 32
+              offsetX: this.criticidad ? 0 : 0
             },
         },
         stroke: {
@@ -1913,11 +1913,11 @@ export class IdentificationComponent implements OnInit {
         },
         dataLabels: {
             enabled: true,
-            offsetX: this.criticidad ? 0 : 32,
+            offsetX: this.criticidad ? 0 : 0,
             style: {
                 //fontSize: '12px',
                 //fontWeight: 400,
-                colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+                colors: [this.criticidad ? '#ffffff' : '#ffffff']
             }
         },
         colors: colors,  
@@ -1940,6 +1940,8 @@ export class IdentificationComponent implements OnInit {
         },*/
         xaxis: {
             categories: this.getDataDashboardArea('label','general'),
+            width: 400,
+            columnWidth: '40%',
             labels: {
               show: true,
               style: {
@@ -1955,7 +1957,7 @@ export class IdentificationComponent implements OnInit {
           labels: {
              show: true,
              minWidth: 300,
-             maxWidth: 600
+             maxWidth: 350
           }
         }
     };
@@ -2024,25 +2026,25 @@ export class IdentificationComponent implements OnInit {
                 dataLabels: {
                     position: 'top',
                     style: {
-                      colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                      colors: [this.criticidad ? '#ffffff' : '#ffffff']
                     }
                 },
             },
             dataLabels: {
               enabled: true,
               style: {
-                  colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+                  colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
               },
-              offsetX: this.criticidad ? 0 : 32
+              offsetX: this.criticidad ? 0 : 0
             },
         },
         dataLabels: {
             enabled: true,
-            offsetX: this.criticidad ? 0 : 32,
+            offsetX: this.criticidad ? 0 : 0,
             style: {
                 //fontSize: '12px',
                 //fontWeight: 400,
-                colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+                colors: [this.criticidad ? '#ffffff' : '#ffffff']
             }
         },
         tooltip: {
@@ -2080,7 +2082,7 @@ export class IdentificationComponent implements OnInit {
           labels: {
              show: true,
              minWidth: 300,
-             maxWidth: 600
+             maxWidth: 350
           }
         }
     };
@@ -2142,16 +2144,16 @@ export class IdentificationComponent implements OnInit {
               dataLabels: {
                   position: 'top',
                   style: {
-                    colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                    colors: [this.criticidad ? '#ffffff' : '#ffffff']
                   }
               },
           },
           dataLabels: {
             enabled: true,
             style: {
-                colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+                colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
             },
-            offsetX: this.criticidad ? 0 : 32
+            offsetX: this.criticidad ? 0 : 0
           },
       },
       stroke: {
@@ -2160,11 +2162,11 @@ export class IdentificationComponent implements OnInit {
       },
       dataLabels: {
           enabled: true,
-          offsetX: this.criticidad ? 0 : 32,
+          offsetX: this.criticidad ? 0 : 0,
           style: {
               //fontSize: '12px',
               //fontWeight: 400,
-              colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+              colors: [this.criticidad ? '#ffffff' : '#ffffff']
           }
       },
       colors: colors,
@@ -2202,7 +2204,7 @@ export class IdentificationComponent implements OnInit {
         labels: {
            show: true,
            minWidth: 300,
-           maxWidth: 600
+           maxWidth: 350
         }
       }
   };
@@ -2261,16 +2263,16 @@ export class IdentificationComponent implements OnInit {
             dataLabels: {
                 position: 'top',
                 style: {
-                  colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                  colors: [this.criticidad ? '#ffffff' : '#ffffff']
                 }
             },
         },
         dataLabels: {
           enabled: true,
           style: {
-              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
           },
-          offsetX: this.criticidad ? 0 : 32
+          offsetX: this.criticidad ? 0 : 0
         },
     },
     stroke: {
@@ -2279,11 +2281,11 @@ export class IdentificationComponent implements OnInit {
     },
     dataLabels: {
         enabled: true,
-        offsetX: this.criticidad ? 0 : 32,
+        offsetX: this.criticidad ? 0 : 0,
         style: {
             //fontSize: '12px',
             //fontWeight: 400,
-            colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']
         }
     },
     colors: colors,
@@ -2321,7 +2323,7 @@ export class IdentificationComponent implements OnInit {
       labels: {
          show: true,
          minWidth: 300,
-         maxWidth: 600
+         maxWidth: 350
       }
     }
 };
@@ -2384,25 +2386,25 @@ this.basicBarChartMonitoreos = {
           dataLabels: {
               position: 'top',
               style: {
-                colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                colors: [this.criticidad ? '#ffffff' : '#ffffff']
               }
           },
       },
       dataLabels: {
         enabled: true,
         style: {
-            colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
         },
-        offsetX: this.criticidad ? 0 : 32
+        offsetX: this.criticidad ? 0 : 0
       },
   },
   dataLabels: {
       enabled: true,
-      offsetX: this.criticidad ? 0 : 32,
+      offsetX: this.criticidad ? 0 : 0,
       style: {
           //fontSize: '12px',
           //fontWeight: 400,
-          colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+          colors: [this.criticidad ? '#ffffff' : '#ffffff']
       }
   },
   colors: colors,
@@ -2440,7 +2442,7 @@ this.basicBarChartMonitoreos = {
     labels: {
        show: true,
        minWidth: 300,
-       maxWidth: 600
+       maxWidth: 350
     }
   }
 };
@@ -2503,25 +2505,25 @@ seriesOtros: [{
           dataLabels: {
               position: 'top',
               style: {
-                colors: [this.criticidad ? '#ffffff' : '#f7b84b']
+                colors: [this.criticidad ? '#ffffff' : '#ffffff']
               }
           },
       },
       dataLabels: {
         enabled: true,
         style: {
-            colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
         },
-        offsetX: this.criticidad ? 0 : 32
+        offsetX: this.criticidad ? 0 : 0
       },
   },
   dataLabels: {
       enabled: true,
-      offsetX: this.criticidad ? 0 : 32,
+      offsetX: this.criticidad ? 0 : 0,
       style: {
           //fontSize: '12px',
           //fontWeight: 400,
-          colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+          colors: [this.criticidad ? '#ffffff' : '#ffffff']
       }
   },
   colors: colors,
@@ -2559,7 +2561,7 @@ seriesOtros: [{
     labels: {
        show: true,
        minWidth: 300,
-       maxWidth: 600
+       maxWidth: 350
     }
   }
 };
@@ -2622,25 +2624,25 @@ seriesOtros: [{
             dataLabels: {
                 position: 'top',
                 style: {
-                  colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+                  colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
               },
             },
         },
         dataLabels: {
           enabled: true,
           style: {
-              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
           },
-          offsetX: this.criticidad ? 0 : 32
+          offsetX: this.criticidad ? 0 : 0
         },
     },
     dataLabels: {
         enabled: true,
-        offsetX: this.criticidad ? 0 : 32,
+        offsetX: this.criticidad ? 0 : 0,
         style: {
             //fontSize: '12px',
             //fontWeight: 400,
-            colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']
         }
     },
     colors: colors,  
@@ -2682,7 +2684,7 @@ seriesOtros: [{
       labels: {
          show: true,
          minWidth: 300,
-         maxWidth: 600
+         maxWidth: 350
       }
     }
 };
@@ -2741,25 +2743,25 @@ seriesOtros: [{
           dataLabels: {
               position: 'top',
               style: {
-                colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+                colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
             },
           },
       },
       dataLabels: {
         enabled: true,
         style: {
-            colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+            colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
         },
-        offsetX: this.criticidad ? 0 : 32
+        offsetX: this.criticidad ? 0 : 0
       },
   },
   dataLabels: {
       enabled: true,
-      offsetX: this.criticidad ? 0 : 32,
+      offsetX: this.criticidad ? 0 : 0,
       style: {
           //fontSize: '12px',
           //fontWeight: 400,
-          colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+          colors: [this.criticidad ? '#ffffff' : '#ffffff']
       }
   },
   colors: colors,
@@ -2801,7 +2803,7 @@ seriesOtros: [{
     labels: {
        show: true,
        minWidth: 300,
-       maxWidth: 600
+       maxWidth: 350
     }
   }
 };
@@ -2860,25 +2862,25 @@ plotOptions: {
         dataLabels: {
             position: 'top',
             style: {
-              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
           },
         },
     },
     dataLabels: {
       enabled: true,
       style: {
-          colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+          colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
       },
-      offsetX: this.criticidad ? 0 : 32
+      offsetX: this.criticidad ? 0 : 0
     },
 },
 dataLabels: {
     enabled: true,
-    offsetX: this.criticidad ? 0 : 32,
+    offsetX: this.criticidad ? 0 : 0,
     style: {
         //fontSize: '12px',
         //fontWeight: 400,
-        colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+        colors: [this.criticidad ? '#ffffff' : '#ffffff']
     }
 },
 colors: colors,
@@ -2920,7 +2922,7 @@ yaxis: {
   labels: {
      show: true,
      minWidth: 300,
-     maxWidth: 600
+     maxWidth: 350
   }
 }
 };
@@ -2979,25 +2981,25 @@ plotOptions: {
         dataLabels: {
             position: 'top',
             style: {
-              colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+              colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
           },
         },
     },
     dataLabels: {
       enabled: true,
       style: {
-          colors: [this.criticidad ? '#ffffff' : '#1d60ba']//#adb5bd
+          colors: [this.criticidad ? '#ffffff' : '#ffffff']//#adb5bd
       },
-      offsetX: this.criticidad ? 0 : 32
+      offsetX: this.criticidad ? 0 : 0
     },
 },
 dataLabels: {
     enabled: true,
-    offsetX: this.criticidad ? 0 : 32,
+    offsetX: this.criticidad ? 0 : 0,
     style: {
         //fontSize: '12px',
         //fontWeight: 400,
-        colors: [this.criticidad ? '#ffffff' : '#adb5bd']
+        colors: [this.criticidad ? '#ffffff' : '#ffffff']
     }
 },
 colors: colors,
@@ -3039,7 +3041,7 @@ yaxis: {
   labels: {
      show: true,
      minWidth: 300,
-     maxWidth: 600
+     maxWidth: 350
   }
 }
 };
@@ -3105,25 +3107,25 @@ private _basicBarChartGeneralCuerpos(colors: any) {
               dataLabels: {
                 position: 'top',
                 style: {
-                  colors: ['#f7b84b']
+                  colors: ['#ffffff']
                 }
               },
           },
           dataLabels: {
             enabled: true,
             style: {
-                colors: ['#1d60ba']//#adb5bd
+                colors: ['#ffffff']//#adb5bd
             },
-            offsetX: 32
+            offsetX: 0
           },
       },
       dataLabels: {
           enabled: true,
-          offsetX: 32,
+          offsetX: 0,
           style: {
               //fontSize: '12px',
               //fontWeight: 400,
-              colors: ['#adb5bd']
+              colors: ['#ffffff']
           }
       },
       stroke: {
@@ -3165,7 +3167,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
         labels: {
            show: true,
            minWidth: 300,
-           maxWidth: 600
+           maxWidth: 350
         }
       }
   };
@@ -3231,25 +3233,25 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
             dataLabels: {
               position: 'top',
               style: {
-                colors: ['#f7b84b']
+                colors: ['#ffffff']
               }
             },
         },
         dataLabels: {
           enabled: true,
           style: {
-              colors: ['#1d60ba']//#adb5bd
+              colors: ['#ffffff']//#adb5bd
           },
-          offsetX: 32
+          offsetX: 0
         },
     },
       dataLabels: {
           enabled: true,
-          offsetX: 32,
+          offsetX: 0,
           style: {
               //fontSize: '12px',
               //fontWeight: 400,
-              colors: ['#adb5bd']
+              colors: ['#ffffff']
           }
       },
       colors: colors,
@@ -3291,7 +3293,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
         labels: {
            show: true,
            minWidth: 300,
-           maxWidth: 600
+           maxWidth: 350
         }
       }
   };
