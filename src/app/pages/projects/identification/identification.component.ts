@@ -199,6 +199,7 @@ export class IdentificationComponent implements OnInit {
   filtro_area_cuerpo: any;
   filtro_cuerpo: any;
   filtro_cuerpoId: any;
+  filtro_cuerpoTitulo: any;
   filtro_articulo: any;
   filtro_articuloId: any;
   filtro_atributo: any;
@@ -3617,7 +3618,7 @@ getChart(criticidad: any, config: any){
           return this.dashboard.criticidad.countCriticidadBaja;
           break;
         case 'sin_criticidad':
-          return this.dashboard.tarjetas.countArticulos - this.dashboard.criticidad.countCriticidadBaja - this.dashboard.criticidad.countCriticidadAlta - this.dashboard.criticidad.countCriticidadMedia;
+          return this.dashboard.criticidad.countCriticidadOtro;//this.dashboard.tarjetas.countArticulos - this.dashboard.criticidad.countCriticidadBaja - this.dashboard.criticidad.countCriticidadAlta - this.dashboard.criticidad.countCriticidadMedia;
           break;
             
         default:
@@ -6519,8 +6520,9 @@ validateIdparte(idParte: any){
     }
   }
 
-  selectCuerpoFiltro(cuerpo?: any, normaId?: any){
+  selectCuerpoFiltro(cuerpo?: any, normaId?: any, titulo?: any){
     this.filtro_cuerpo = cuerpo;
+    this.filtro_cuerpoTitulo = titulo;
     this.filtro_cuerpoId = normaId;
   
     if(cuerpo){
@@ -7649,6 +7651,7 @@ validateIdparte(idParte: any){
   setChartCuerpo(){
     if(this.articles_proyects_group.length > 0){
       this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
+      this.filtro_cuerpoTitulo = this.articles_proyects_group[0].tituloNorma;
       this.filtro_cuerpoId = this.articles_proyects_group[0].normaId;
 
       this.getArticulos();

@@ -58,6 +58,7 @@ export class ProjectControlComponent implements OnInit {
   filtro_cuerpo: any;
   tipo_cuerpo: any;
   filtro_cuerpoId: any;
+  filtro_cuerpoTitulo: any;
   criticidad_cuerpo: any;
   filtro_atributo: any;
   filtro_articulo: any;
@@ -1284,7 +1285,7 @@ getListaFiltros(){
           );
 
           if(index_cuerpo == -1){
-            this.lista_cuerpos.push({normaId: ins.normaId, cuerpoLegal: ins.cuerpoLegal});
+            this.lista_cuerpos.push({normaId: ins.normaId, cuerpoLegal: ins.cuerpoLegal, tituloNorma: ins.project_article.tituloNorma});
           }
           
           if(index_articulo == -1){
@@ -1345,6 +1346,7 @@ clearFilters(){
 
   this.filtro_cuerpo = '';
   this.filtro_cuerpoId = '';
+  this.filtro_cuerpoTitulo = '';
   this.tipo_cuerpo = '';
   this.criticidad_cuerpo = '';
   this.filtro_atributo = '';
@@ -1356,9 +1358,10 @@ clearFilters(){
   this.filterBusqueda();
 }
 
-selectCuerpoFiltro(cuerpo?: any, normaId?: any){
+selectCuerpoFiltro(cuerpo?: any, normaId?: any, titulo?: any){
   this.filtro_cuerpo = cuerpo;
   this.filtro_cuerpoId = normaId;
+  this.filtro_cuerpoTitulo = titulo;
   this.search.cuerpo = normaId;
   this.search.cuerpoLegal = cuerpo;
   this.filterBusqueda();
