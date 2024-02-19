@@ -630,7 +630,17 @@ getArticlesCuerpo(articulos: any){
     }
   }
 
-  let order: any = articulosData.sort((a: any, b: any) => a.articulo.localeCompare(b.articulo));
+  //let order: any = articulosData.sort((a: any, b: any) => a.articulo.toString().trim().toLowerCase().localeCompare(b.articulo.toString().trim().toLowerCase()));
+  let order: any = articulosData.sort((a: any, b: any) => {
+    const numeroA = parseInt(a.articulo.toString().trim().toLowerCase().split(' ')[1]);
+    const numeroB = parseInt(b.articulo.toString().trim().toLowerCase().split(' ')[1]);
+
+    if(numeroA > 0 || numeroB > 0){
+      return numeroA - numeroB;
+    }else{
+      return a.articulo.toString().trim().toLowerCase().localeCompare(b.articulo.toString().trim().toLowerCase());
+    }
+});
   
   return order;
   //return articulosData.sort((a: any, b: any) => a.articulo.localeCompare(b.articulo, { sensitivity: 'base' }));
@@ -736,6 +746,7 @@ getArticlesCuerpo(articulos: any){
       this.projectsService.getArticlesByInstallationBody(installation_id).pipe().subscribe(
         (data: any) => {
           this.detail = data.data;
+
           let articulos: any = data.data.data.length > 0 ? data.data.data : [];
           let cuerpo_articulos: any = [];
           

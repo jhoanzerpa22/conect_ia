@@ -156,7 +156,7 @@
                     <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cuerpo Legal" data-choices data-choices-search-false id="choices-priority-input2" (change)="selectCuerpo($event)">
                                 <option value="" [selected]="!filtro_cuerpo">Seleccione Cuerpo legal</option>
                                 <option value="{{c.cuerpoLegal}}" *ngFor="let c of cuerpos_articulos; let i = index;" [selected]="filtro_cuerpo == c.cuerpoLegal">
-                                    {{c.cuerpoLegal}}
+                                    {{c.cuerpoLegal}} | {{c.tituloNorma}}
                                 </option>
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
@@ -193,7 +193,7 @@
                                                         <div class="col-lg-2 col">
                                                             <h6 style="color: #405189;">{{s.articulo}}</h6>
                                                             
-                                                            <span class="badge mb-3" [ngClass]="{
+                                                            <span class="badge mb-3" style="min-width: 170px;" [ngClass]="{
                                                             'text-bg-no-evaluado': s.project_article.articuloTipo == 'reporte','text-bg-primary': s.project_article.articuloTipo == 'permiso', 'text-bg-info': s.project_article.articuloTipo == 'monitoreo'}" *ngIf="s.project_article && s.project_article.articuloTipo">{{s.project_article.articuloTipo.toUpperCase() }}</span>
 
                                                         </div>
@@ -222,7 +222,7 @@
                                                         <div class="col-lg-2 col">
                                                             <!--<span class="badge" [ngClass]="{
                                                                 'text-bg-danger': !s.evaluations.estado || (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO CUMPLE' }}</span>-->
-                                                                <span class="badge" [ngClass]="{
+                                                                <span class="badge" style="min-width: 170px;" [ngClass]="{
                                                                     'text-bg-no-evaluado': !s.evaluations.estado,'text-bg-danger': (s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && getCategoryStatus(s.evaluations.estado) == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO EVALUADO' }}</span>
                                                         </div>
                                                     </div>
@@ -254,7 +254,7 @@
                                     </div>-->
                                     <div class="card-body">
                                         
-                                        <h6 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}}
+                                        <h6 class="flex-grow-1 fw-semibold mb-0" style="color: #405189;">{{g.cuerpoLegal}} | {{g.tituloNorma}}
                                             <!--<span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(g.normaId)" *ngIf="!validateShowArticles(g.normaId)"></i></span>
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(g.normaId)" *ngIf="validateShowArticles(g.normaId)"><i class=" ri-arrow-down-s-line"></i></span>-->
                                         </h6>                              
