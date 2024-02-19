@@ -2005,14 +2005,14 @@
                                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
-                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo }}</button>    
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo +' | '+filtro_cuerpoTitulo }}</button>    
                                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
                                                 <!--<a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>-->
                                                 
                                                 <ng-container *ngFor="let g of articles_proyects_group;">
                                                     
-                                                <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId, g.tituloNorma)">{{g.cuerpoLegal}} | {{g.tituloNorma}}</a>
 
                                                 </ng-container>
                                             </div>
@@ -2053,11 +2053,11 @@
                                             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split ml-auto" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle [disabled]="!tipo_cuerpo"></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!criticidad_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo()">Ninguno</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
+                                                <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Todos' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Todos')">Todos</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Alta' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Alta')">Alta</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Media' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Media')">Media</a>
                                                 <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'Baja' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('Baja')">Baja</a>
-                                                <a class="dropdown-item" [ngClass]="criticidad && criticidad == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>
+                                                <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>
                                             </div>
                                         </div>
                                     </div>
@@ -2291,7 +2291,7 @@
                             <h4>Instancias de cumplimiento por área</h4>
 
                                 <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerpos)" [colors]="basicBarChartGeneralCuerpos.colors"
-                                    [chart]="getChart(criticidad, basicBarChartGeneralCuerpos.chart)" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
+                                    [chart]="getChart(criticidad_cuerpo, basicBarChartGeneralCuerpos.chart)" [dataLabels]="basicBarChartGeneralCuerpos.dataLabels"
                                     [plotOptions]="basicBarChartGeneralCuerpos.plotOptions" dir="ltr"
                                     [xaxis]="basicBarChartGeneralCuerpos.xaxis" [yaxis]="basicBarChartGeneralCuerpos.yaxis" [stroke]="basicBarChartGeneralCuerpos.stroke"
                                     [fill]="basicBarChartGeneralCuerpos.fill" [title]="basicBarChartGeneralCuerpos.title"
@@ -2324,7 +2324,7 @@
                                 <h4>Instancias de cumplimiento por Elemento y actividad</h4>
                             
                                 <apx-chart [series]="getSeries(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation)" [colors]="basicBarChartGeneralCuerposInstallation.colors"
-                                    [chart]="getChart(criticidad, basicBarChartGeneralCuerposInstallation.chart)" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
+                                    [chart]="getChart(criticidad_cuerpo, basicBarChartGeneralCuerposInstallation.chart)" [dataLabels]="basicBarChartGeneralCuerposInstallation.dataLabels"
                                     [plotOptions]="basicBarChartGeneralCuerposInstallation.plotOptions" dir="ltr"
                                     [xaxis]="basicBarChartGeneralCuerposInstallation.xaxis" [yaxis]="basicBarChartGeneralCuerposInstallation.yaxis" [stroke]="basicBarChartGeneralCuerposInstallation.stroke"
                                     [fill]="basicBarChartGeneralCuerposInstallation.fill" [title]="basicBarChartGeneralCuerposInstallation.title"
