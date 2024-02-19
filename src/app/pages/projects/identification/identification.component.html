@@ -2101,7 +2101,7 @@
                                             <div class="dropdown-menu dropdown-menu-left dropdown-menu-dark" style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!filtro_articulo ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro()">Todos</a>
 
-                                                <ng-container *ngFor="let ach of articles_filter"><!--getArticulos()-->
+                                                <ng-container *ngFor="let ach of orderByArticles(articles_filter)"><!--getArticulos()-->
  <!--articulos_chart-->                                                   
                                                     <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
                                                 </ng-container>

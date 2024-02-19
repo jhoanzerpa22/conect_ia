@@ -6480,6 +6480,21 @@ validateIdparte(idParte: any){
     //return articles_group;
   }
 
+  orderByArticles(articles: any){
+    let order: any = articles.sort((a: any, b: any) => {
+      const numeroA = parseInt(a.articulo.toString().trim().toLowerCase().split(' ')[1]);
+      const numeroB = parseInt(b.articulo.toString().trim().toLowerCase().split(' ')[1]);
+  
+      if(numeroA > 0 || numeroB > 0){
+        return numeroA - numeroB;
+      }else{
+        return a.articulo.toString().trim().toLowerCase().localeCompare(b.articulo.toString().trim().toLowerCase());
+      }
+  });
+    
+    return order;
+  }
+
   selectCriticidad(criticidad?: any){
     this.criticidad = criticidad;
 
