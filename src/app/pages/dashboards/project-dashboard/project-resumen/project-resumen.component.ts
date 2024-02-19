@@ -61,6 +61,7 @@ export class ProjectResumenComponent implements OnInit {
   filtro_area_cuerpo: any;
   filtro_cuerpo: any;
   filtro_cuerpoId: any;
+  filtro_cuerpoTitulo: any;
   filtro_articulo: any;
   filtro_articuloId: any;
   filtro_atributo: any;
@@ -6501,7 +6502,7 @@ getChart(criticidad: any, config: any){
           break;
     
       default:
-        return objeto.series;
+        return objeto ? objeto.series : [];
         break;
     }
   //}
@@ -8996,9 +8997,10 @@ getChart(criticidad: any, config: any){
     }
   }
 
-  selectCuerpoFiltro(cuerpo?: any, normaId?: any){
+  selectCuerpoFiltro(cuerpo?: any, normaId?: any, titulo?: any){
     this.filtro_cuerpo = cuerpo;
     this.filtro_cuerpoId = normaId;
+    this.filtro_cuerpoTitulo = titulo;
   
     if(cuerpo){
   
@@ -9158,6 +9160,7 @@ getChart(criticidad: any, config: any){
     if(this.articles_proyects_group.length > 0){
       this.filtro_cuerpo = this.articles_proyects_group[0].cuerpoLegal;
       this.filtro_cuerpoId = this.articles_proyects_group[0].normaId;
+      this.filtro_cuerpoTitulo = this.articles_proyects_group[0].tituloNorma;
 
       this.getArticulos();
       this.getDashboardCuerpo(this.project_id, this.articles_proyects_group[0].normaId);
