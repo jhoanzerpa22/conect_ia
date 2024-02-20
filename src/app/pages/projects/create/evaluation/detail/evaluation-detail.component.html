@@ -166,8 +166,8 @@
                                                                     <p class="text-muted mb-0">Fecha evaluación</p>
                                                                 </div>
                                                                 <div class="col-6">
-                                                                    <h5 class="mb-1">{{s.evaluations && s.evaluations.evaluationProyectId == idEvaluation  && s.evaluations.findings ? getFindings(s.evaluations.findings).length : 0}}</h5>
-                                                                    <p class="text-muted mb-0">{{s.evaluations && s.evaluations.evaluationProyectId == idEvaluation && s.evaluations.findings ? (getFindings(s.evaluations.findings).length == 1 ? 'Hallazgo' : 'Hallazgos') : 'Hallazgos'}}</p>
+                                                                    <h5 class="mb-1">{{s.evaluations && s.evaluations.evaluationProyectId == idEvaluation  && s.evaluations.findings ? getFindings(s.evaluations.findings, s.evaluations.id).length : 0}}</h5>
+                                                                    <p class="text-muted mb-0">{{s.evaluations && s.evaluations.evaluationProyectId == idEvaluation && s.evaluations.findings ? (getFindings(s.evaluations.findings, s.evaluations.id).length == 1 ? 'Hallazgo' : 'Hallazgos') : 'Hallazgos'}}</p>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -162,7 +162,7 @@ const routes: Routes = [
     component: EvaluationFollowComponent
   },
   {
-    path: ":idProject/evaluation/:idInstallation/FollowView/:id",
+    path: ":idProject/evaluation/:idInstallation/FollowView/:id/:idEvaluation",
     component: EvaluationTaskViewComponent
   },
   {
