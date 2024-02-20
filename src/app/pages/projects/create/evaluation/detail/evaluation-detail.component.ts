@@ -593,13 +593,13 @@ export class EvaluationDetailComponent implements OnInit {
       this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/Follow/'+id+'/'+this.idEvaluation]);
     }
   }else{
-    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowView/'+id]);
+    this._router.navigate(['/projects/'+this.project_id+'/evaluation/'+this.installation_id+'/FollowView/'+id+'/'+this.idEvaluation]);
   }
 }
 
-getFindings(findings: any){
-  const findings_filter = findings.filter((f: any) => {
-    return f.evaluationId === this.evaluations.id;
+getFindings(findings: any, evaluation_id: any){
+ const findings_filter = findings.filter((f: any) => {
+    return f.evaluationId === evaluation_id/*this.evaluations.id*/;
   });
 
   return findings_filter;
