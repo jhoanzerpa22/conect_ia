@@ -7601,6 +7601,9 @@ validateIdparte(idParte: any){
       }
     }
     
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    
   }
 
   changeTab(active: number){
@@ -7637,6 +7640,9 @@ validateIdparte(idParte: any){
       this.setChart();
     }
     this.restablecer();
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 
   restablecer(){
