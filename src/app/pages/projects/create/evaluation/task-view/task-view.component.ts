@@ -49,6 +49,7 @@ export class EvaluationTaskViewComponent implements OnInit {
 
   project_id: any = '';
   project: any = {};
+  idEvaluation: any = '';
   cuerpo_id: any = '';
   cuerpoLegal: any = '';
   installation_id: any = null;
@@ -199,10 +200,11 @@ export class EvaluationTaskViewComponent implements OnInit {
       this.cuerpo_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
+      this.idEvaluation = params['idEvaluation'];
 
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);
-        this.getFindingsByInstallationArticle();
+        //this.getFindingsByInstallationArticle();
         //this.getTasksByProyect();
         //this.getResponsables(); 
         this.getProject();
@@ -226,6 +228,8 @@ export class EvaluationTaskViewComponent implements OnInit {
  setValue(){
   if(this.articulo.evaluations){
     this.evaluation_id = this.articulo.evaluations.id;
+    
+    this.getFindingsByInstallationArticle();
 
     if(this.articulo.evaluations.fecha_evaluacion){
       this.evaluacionForm.get('fecha_evaluacion')?.setValue(this.articulo.evaluations.fecha_evaluacion);
@@ -360,8 +364,13 @@ export class EvaluationTaskViewComponent implements OnInit {
           let articulo_filter: any = this.articulosDatas.filter((data: any) => {
             return data.id === parseInt(this.cuerpo_id);
           });
+          
+          const articulos_filtrado = articulo_filter.findIndex((a: any) => {
+            return a.evaluations.evaluationProyectId == this.idEvaluation;
+          });
 
-          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+          this.articulo = articulo_filter.length > 0 ? articulos_filtrado != -1 ? articulo_filter[articulos_filtrado] : articulo_filter[0] : {};
+
           this.setValue();
           this.hidePreLoader();
       },
@@ -831,17 +840,31 @@ export class EvaluationTaskViewComponent implements OnInit {
     this.showPreLoader();
       this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
         (data: any) => {
-          this.hallazgos = data.data;
+          const hallazgos_data = data.data;
           //this.HallazgosDatas = data.data;
           //console.log('hallazgosDatas',this.HallazgosDatas);
 
           let tareas: any = [];
-          for (var i = 0; i < this.hallazgos.length; i++) {
-                    this.HallazgosDatas.push({id: this.hallazgos[i].id, nombre: this.hallazgos[i].nombre, fecha: this.hallazgos[i].createdAt, estado: this.hallazgos[i].estado, installationArticleId: this.hallazgos[i].installationArticleId});
+          console.log('EVALUACION======>',this.evaluation_id);
+          for (var i = 0; i < hallazgos_data.length; i++) {
                 
-                if(this.hallazgos[i].tasks.id != null){
-                    tareas.push(this.hallazgos[i].tasks);
+              if(hallazgos_data[i].evaluationId == this.evaluation_id){
+                
+                const index = this.HallazgosDatas.findIndex(
+                  (h: any) =>
+                    h.id == hallazgos_data[i].id
+                );
+          
+                if(index == -1){
+                    this.hallazgos.push(hallazgos_data[i]);
+
+                    this.HallazgosDatas.push({id: hallazgos_data[i].id, nombre: hallazgos_data[i].nombre, fecha: this.hallazgos[i].createdAt, estado: hallazgos_data[i].estado, installationArticleId: hallazgos_data[i].installationArticleId});
                 }
+                
+                if(hallazgos_data[i].tasks.id != null){
+                    tareas.push(hallazgos_data[i].tasks);
+                }
+              }
           }
 
           this.table.renderRows();
