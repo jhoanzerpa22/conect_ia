@@ -91,7 +91,7 @@
                     <div class="col-md-12">
                         <div class="card-body">
                             <h6>4. Carga tu evidencia.</h6>
-                            <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" [config]="{ previewsContainer: '#myPreviewsContainer' }" (success)="onFileSelectedEvaluation($event)">
+                            <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" [config]="{ previewsContainer: '#myPreviewsContainer', acceptedFiles: 'image/*,application/*' }" (success)="onFileSelectedEvaluation($event)">
                             </dropzone>
                             <div class="table table-striped files" style="display: none;" id="myPreviewsContainer">
                             </div>
@@ -104,7 +104,7 @@
                                             <div _ngcontent-eyd-c348="" class="flex-shrink-0">
                                                 <div _ngcontent-eyd-c348="" class="avatar-xs">
                                                     <div _ngcontent-eyd-c348="" class="avatar-title">
-                                                        <img src="{{im.imagen}}" width="32" height="32" style="width: 32px; height: 32px;" />
+                                                        <img (error)="imgError($event)"  src="{{im.imagen}}" width="32" height="32" style="width: 32px; height: 32px;" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -503,7 +503,7 @@ sistema.</p>
 
             <div class="mb-3">
                 <label for="area-field" class="form-label"><h6>2. Carga evidencia.</h6></label>
-                <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" [config]="{ previewsContainer: '#myPreviewsContainer2' }" (success)="onFileSelected($event)">
+                <dropzone class="dropzone_sec" [message]="'Haz Click o arrastra la imagen a cargar'" [config]="{ previewsContainer: '#myPreviewsContainer2', acceptedFiles: 'image/*,application/*' }" (success)="onFileSelected($event)">
                 </dropzone>
                 <div class="table table-striped files" style="display: none;" id="myPreviewsContainer2">
                 </div>
@@ -516,7 +516,7 @@ sistema.</p>
                                 <div _ngcontent-eyd-c348="" class="flex-shrink-0">
                                     <div _ngcontent-eyd-c348="" class="avatar-xs">
                                         <div _ngcontent-eyd-c348="" class="avatar-title">
-                                            <img src="{{imgHallazgos.imagen}}" width="32" height="32" style="width: 32px; height: 32px;" />
+                                            <img (error)="imgError($event)" src="{{imgHallazgos.imagen}}" width="32" height="32" style="width: 32px; height: 32px;" />
                                         </div>
                                     </div>
                                 </div>
