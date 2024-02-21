@@ -842,8 +842,12 @@ var reader = new FileReader();
     this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
     }
 }
+onUploadError(event: any){
+  console.log(event);
+}
   
 onFileSelectedEvaluation(event: any){
+  console.log('Cargando archivo');
   let selectedFileEvaluationNow: any = <File>event[0];
   this.selectedFileEvaluation.push(selectedFileEvaluationNow);
   //console.log('selectedFile',selectedFileEvaluationNow);
@@ -863,7 +867,7 @@ onFileSelectedEvaluation(event: any){
 imgError(ev: any){
 
   let source = ev.srcElement;
-  let imgSrc = 'assets/images/logo_conect_ia.png';
+  let imgSrc = 'assets/images/new-document.png';//'assets/images/logo_conect_ia.png';
 
   source.src = imgSrc;
 }
