@@ -192,7 +192,7 @@ getCategoryStatus(estado?: any){
               let no_active: number = 0;
 
               for (var j = 0; j < obj[i].installations_articles.length; j++) { 
-                if(obj[i].installations_articles[j].proyectoId == this.project_id && (obj[i].installations_articles[j].estado == '1' || obj[i].installations_articles[j].estado == '2')){
+                if(obj[i].installations_articles[j].proyectoId == this.project_id && /*(*/obj[i].installations_articles[j].estado == '1'/* || obj[i].installations_articles[j].estado == '2')*/){
                   
                   const index = articulos_group.findIndex(
                     (ar: any) =>
