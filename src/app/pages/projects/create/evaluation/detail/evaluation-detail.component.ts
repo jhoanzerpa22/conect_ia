@@ -911,11 +911,17 @@ getArticlesCuerpo(articulos: any){
             }
           }
 
+          this.total_articulos = 0;
+
+          for (let cc = 0; cc < cuerpo_articulos.length; cc++) {
+            this.total_articulos += this.getArticlesCuerpo(cuerpo_articulos[cc].articulos).length;
+          }
+
           //avance = total > 0 ? ((((cumple * 100) + (nocumple * 50 * 0) + (parcial * 50)) * 100) / (total * 100)) : 0;
-          avance = total > 0 ? ((((cumple * 100) + (nocumple * 100) + (parcial * 100)) * 100) / (total * 100)) : 0;
+          avance = this.total_articulos > 0 ? ((((cumple * 100) + (nocumple * 100) + (parcial * 100)) * 100) / (this.total_articulos * 100)) : 0;
 
           this.avance = round(avance, 0);
-          this.total_articulos = total;
+          //this.total_articulos = total;
 
           this.cumple = cumple;
           this.nocumple = nocumple;
