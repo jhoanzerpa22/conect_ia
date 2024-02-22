@@ -7009,7 +7009,7 @@ getChart(criticidad: any, config: any){
                   evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countNoEvaluados;
+                    evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countNoEvaluadas;
                     break;
           
             default:
@@ -7020,7 +7020,7 @@ getChart(criticidad: any, config: any){
             break;
 
        case 'permisos_no_evaluados':
-              return this.dashboard.obligacionesAplicabilidad.permiso.countNoEvaluados;
+              return this.dashboard.obligacionesAplicabilidad.permiso.countNoEvaluadas;
               break;
           
         case 'permisos_cumple':
@@ -7079,7 +7079,7 @@ getChart(criticidad: any, config: any){
                   evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluados;
+                    evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluadas;
                     break;
           
             default:
@@ -7089,7 +7089,7 @@ getChart(criticidad: any, config: any){
             return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countReportes).toFixed() : 0;
         
         case 'reportes_no_evaluados':
-              return this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluados;
+              return this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluadas;
               break;
           
         case 'reportes_cumple':
@@ -7228,7 +7228,7 @@ getChart(criticidad: any, config: any){
                   evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluados;
+                    evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
                     break;
           
             default:
@@ -7800,7 +7800,7 @@ getChart(criticidad: any, config: any){
                   evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluados;
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluadas;
                     break;
           
             default:
@@ -7811,7 +7811,7 @@ getChart(criticidad: any, config: any){
             break;
 
        case 'permisos_no_evaluados':
-              return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluados;
+              return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluadas;
               break;
           
         case 'permisos_cumple':
@@ -7870,7 +7870,7 @@ getChart(criticidad: any, config: any){
                   evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluados;
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluadas;
                     break;
           
             default:
@@ -7880,7 +7880,7 @@ getChart(criticidad: any, config: any){
             return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
         
         case 'reportes_no_evaluados':
-              return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluados;
+              return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluadas;
               break;
           
         case 'reportes_cumple':
@@ -8019,7 +8019,7 @@ getChart(criticidad: any, config: any){
                   evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluados;
+                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
                     break;
           
             default:
