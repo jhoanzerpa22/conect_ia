@@ -39,6 +39,7 @@ export class ProjectControlComponent implements OnInit {
   installations_data: any = [];
   installations_articles: any = [];
   installations_group: any = [];
+  installations_group_original: any = [];
   installations_group_filter: any = [];
   userData: any;
   avance_evaluacion: number = 0;
@@ -466,25 +467,33 @@ export class ProjectControlComponent implements OnInit {
           this.cuerpo_nocumple = nocumple_norma;
           this.cuerpo_parcial = parcial_norma;
           
+          let installations_group_array: any = [];
           this.installations_group = [];
           lista.forEach((x: any) => {
             
-            const index = this.installations_group.findIndex(
+            const index = installations_group_array.findIndex(
               (co: any) =>
                 co.area == (x.area ? x.area.nombre : '')
             );
 
             if(index == -1){
+              installations_group_array.push({
+                area: x.area ? x.area.nombre : '', descripcion: x.area ? x.area.descripcion : '', instalaciones: [x]
+              });
+              
               this.installations_group.push({
                 area: x.area ? x.area.nombre : '', descripcion: x.area ? x.area.descripcion : '', instalaciones: [x]
               });
             }else{
+              installations_group_array[index].instalaciones.push(x);
               this.installations_group[index].instalaciones.push(x);
             }
           });
           
-          console.log('installations_group',this.installations_group);
+          console.log('installations_group_array',installations_group_array);
           //console.log('lista_data', this.installations_group);
+          
+          this.installations_group_original = installations_group_array;
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;    
           this.getArticulos(); 
           
@@ -510,7 +519,9 @@ export class ProjectControlComponent implements OnInit {
             }
           }else{*/
             this.installations_group_filter = this.installations_group;
-            this.getListaFiltros();
+            
+            this.filterBusqueda();
+            //this.getListaFiltros();
           //}
 
       },
@@ -1032,20 +1043,36 @@ layers = [
 }
 
 filterBusqueda() {
-  let items = this.installations_group;
   let search = this.search;
-  console.log('Busqueda:',search);
-  if (!items) {
+
+  if (!this.installations_group_original) {
     this.installations_group_filter = [];
     this.getListaFiltros();
   } else if (!search) {
-    this.installations_group_filter = items;
+    const data_inicial = this.installations_group_original;
+    this.installations_group_filter = data_inicial;
     this.getListaFiltros();
-  } else if(!search.texto && (!search.cuerpo || search.cuerpo == undefined) && (!search.articulo || search.articulo == undefined) && (!search.tipo || search.tipo == undefined) && (!search.criticidad || search.criticidad == undefined) && (!search.atributo || search.atributo == undefined) && (!search.area || search.area == undefined)){
-    this.installations_group_filter = items;
+  } else if(!search.texto && (!search.cuerpo || search.cuerpo == undefined) && (!search.articulo || search.articulo == undefined) && (!search.tipo || search.tipo == undefined) && (!search.criticidad || search.criticidad == undefined) && (!search.atributo || search.atributo == undefined) && (!search.area || search.area == undefined)){  
+    const data_principal = this.installations_group_original;
+    this.installations_group_filter = data_principal;
     this.getListaFiltros();
   }else{
+    this.installations_group = [];
+    let data_original: any = this.installations_group_original.map((original: any) => ({ ...original }));;
+/*
+    this.installations_group_original.forEach((orig: any) => {
+      data_original.push(orig);
+    });*/
 
+    /*for (let ii = 0; ii < this.installations_group_original.length; ii++) {
+      data_original.push(this.installations_group_original[ii]);
+    }*/
+  
+  //this.installations_group = data_original;
+  const items: any = data_original;
+  let filtros: any = [];
+  let filtros_final: any = [];
+  
   let texto = '';
   
   if(search.texto){
@@ -1054,7 +1081,7 @@ filterBusqueda() {
 
   console.log('Items', search, items);
 
-  items = items.filter((item: any) => {
+  filtros = items.filter((item: any) => {
     
     //filtro por texto
     /*let search_installation = texto ? item.instalaciones.findIndex((i: any) =>{
@@ -1102,52 +1129,53 @@ filterBusqueda() {
     return search.cuerpo && search.cuerpo != '' ? cuerpo_installation != -1 : true;
   });
 
-  console.log('Cuerpo',search.cuerpo, items);
+  console.log('Cuerpo',search.cuerpo, filtros);
 
-  items = items.filter((item: any) => {
+  filtros = filtros.filter((item: any) => {
     
     let articulo_installation = search.articulo ? item.instalaciones.findIndex((a: any) =>{
       return a.installations_articles.findIndex((ins2: any) => {
-        return ins2.articuloId == search.articulo;
+        return ins2.articuloId == search.articulo && ins2.proyectoId == this.project_id;
       }) != -1;
     }) : -1;
     
     return search.articulo ? articulo_installation != -1 : true;
   });
 
-  items = items.filter((item: any) => {
+  filtros = filtros.filter((item: any) => {
 
     let atributo_installation = search.atributo ? item.instalaciones.findIndex((at: any) =>{
       return at.installations_articles.findIndex((ins3: any) => {
-        return ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
       }) != -1;
     }) : -1;
 
     return search.atributo ? atributo_installation != -1 : true;
   });
 
-  items = items.filter((item: any) => {
+  filtros = filtros.filter((item: any) => {
     
     //filtro por cumplimiento
     let cumplimiento_installation = search.tipo ? item.instalaciones.findIndex((c: any) =>{
       return c.installations_articles.findIndex((ins4: any) => {
-        return ins4.evaluations.findIndex((ev: any) => {
+        const evalua = ins4.proyectoId == this.project_id && ins4.evaluations && ins4.evaluations.length > 0 ? ins4.evaluations.findIndex((ev: any) => {
           return this.getCategoryStatus(ev.estado) == search.tipo;
-        }) != -1;
+        }) : -1;
+        return (search.tipo == 'NO EVALUADO' && (!ins4.evaluations || (ins4.evaluations && ins4.evaluations.length < 1)) && ins4.proyectoId == this.project_id) || (search.tipo != 'NO EVALUADO' && evalua != -1);
       }) != -1;
     }) : -1;
 
     return search.tipo ? cumplimiento_installation != -1 : true;
   });
   
-  console.log('Cumplimiento',search.tipo, items);
+  console.log('Cumplimiento',search.tipo, filtros);
 
-  items = items.filter((item: any) => {
+  filtros = filtros.filter((item: any) => {
     
     //filtro por criticidad
     let criticidad_installation = search.criticidad ? item.instalaciones.findIndex((cri: any) =>{
       return cri.installations_articles.findIndex((ins5: any) => {
-        return (ins5.project_article && ins5.project_article.construccion && ins5.project_article.construccion == true && search.criticidad == 'Alta') || (ins5.project_article && ins5.project_article.operacion &&  ins5.project_article.operacion == true && search.criticidad == 'Media') || (ins5.project_article && ins5.project_article.cierre && ins5.project_article.cierre == true && search.criticidad == 'Baja') || ((!ins5.project_article || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre)) && search.criticidad == 'No especificado');
+        return ins5.proyectoId == this.project_id && ((ins5.project_article && ins5.project_article.construccion && ins5.project_article.construccion == true && search.criticidad == 'Alta') || (ins5.project_article && ins5.project_article.operacion &&  ins5.project_article.operacion == true && search.criticidad == 'Media') || (ins5.project_article && ins5.project_article.cierre && ins5.project_article.cierre == true && search.criticidad == 'Baja') || ((!ins5.project_article || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre)) && search.criticidad == 'No especificado'));
       }) != -1;
     }) : -1;
 
@@ -1158,7 +1186,7 @@ filterBusqueda() {
     return search.area ? (item.area && item.area == search.area) : true;
   });*/
 
-  items = items.filter((item: any) => {
+  filtros = filtros.filter((item: any) => {
     
     //filtro por texto
     let search_installation = texto ? item.instalaciones.findIndex((i: any) =>{
@@ -1168,38 +1196,40 @@ filterBusqueda() {
     return texto ? (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 : true;
   });
 
-  console.log('Final', items);
+  console.log('Final', filtros);
 
-  items.forEach((aa: any) => {
+  filtros_final = filtros;
+  filtros_final.forEach((aa: any) => {
     aa.instalaciones = search.cuerpo ? aa.instalaciones.filter((art: any) => {
       return art.installations_articles.findIndex((ins: any) => {
-        return ins.normaId == search.cuerpo;
+        return ins.proyectoId == this.project_id && ins.normaId == search.cuerpo;
       }) != -1;
     }) : aa.instalaciones;
 
     aa.instalaciones = search.articulo ? aa.instalaciones.filter((art2: any) => {
       return art2.installations_articles.findIndex((ins2: any) => {
-        return ins2.articuloId == search.articulo;
+        return ins2.proyectoId == this.project_id && ins2.articuloId == search.articulo;
       }) != -1;
     }) : aa.instalaciones;
 
     aa.instalaciones = search.atributo ? aa.instalaciones.filter((art3: any) => {
       return art3.installations_articles.findIndex((ins3: any) => {
-        return ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
       }) != -1;
     }) : aa.instalaciones;
 
     aa.instalaciones = search.tipo ? aa.instalaciones.filter((art4: any) => {
       return art4.installations_articles.findIndex((ins4: any) => {
-        return ins4.evaluations.findIndex((ev: any) => {
+        const evalua = ins4.proyectoId == this.project_id && ins4.evaluations && ins4.evaluations.length > 0 ? ins4.evaluations.findIndex((ev: any) => {
           return this.getCategoryStatus(ev.estado) == search.tipo;
-        }) != -1;
+        }) : -1;
+        return (ins4.proyectoId == this.project_id && search.tipo == 'NO EVALUADO' && (!ins4.evaluations || (ins4.evaluations && ins4.evaluations.length < 1))) || (search.tipo != 'NO EVALUADO' && evalua != -1);
       }) != -1;
     }) : aa.instalaciones;
 
     aa.instalaciones = search.criticidad ? aa.instalaciones.filter((cri: any) => {
       return cri.installations_articles.findIndex((ins5: any) => {
-        return (ins5.project_article && ins5.project_article.construccion && ins5.project_article.construccion == true && search.criticidad == 'Alta') || (ins5.project_article && ins5.project_article.operacion &&  ins5.project_article.operacion == true && search.criticidad == 'Media') || (ins5.project_article && ins5.project_article.cierre && ins5.project_article.cierre == true && search.criticidad == 'Baja') || ((!ins5.project_article || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre)) && search.criticidad == 'No especificado');
+        return ins5.proyectoId == this.project_id && ((ins5.project_article && ins5.project_article.construccion && ins5.project_article.construccion == true && search.criticidad == 'Alta') || (ins5.project_article && ins5.project_article.operacion &&  ins5.project_article.operacion == true && search.criticidad == 'Media') || (ins5.project_article && ins5.project_article.cierre && ins5.project_article.cierre == true && search.criticidad == 'Baja') || ((!ins5.project_article || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre)) && search.criticidad == 'No especificado'));
       }) != -1;
     }) : aa.instalaciones;
 
@@ -1209,33 +1239,34 @@ filterBusqueda() {
 
     aa.instalaciones.forEach((bb: any) => {
       bb.installations_articles = search.cuerpo ? bb.installations_articles.filter((bb1: any) => {
-        return bb1.normaId == search.cuerpo;
+        return bb1.proyectoId == this.project_id && bb1.normaId == search.cuerpo;
       }) : bb.installations_articles;
   
       bb.installations_articles = search.articulo ? bb.installations_articles.filter((bb2: any) => {
-        return bb2.articuloId == search.articulo;
+        return bb2.proyectoId == this.project_id && bb2.articuloId == search.articulo;
       }) : bb.installations_articles;
   
       bb.installations_articles = search.atributo ? bb.installations_articles.filter((bb3: any) => {
-        return bb3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return bb3.proyectoId == this.project_id && bb3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
       }) : bb.installations_articles;
   
       bb.installations_articles = search.tipo ? bb.installations_articles.filter((bb4: any) => {
-        return bb4.evaluations.findIndex((ev: any) => {
-            return this.getCategoryStatus(ev.estado) == search.tipo;
-          }) != -1;
+          const evalua = bb4.proyectoId == this.project_id && bb4.evaluations && bb4.evaluations.length > 0 ? bb4.evaluations.findIndex((ev2: any) => {
+            return this.getCategoryStatus(ev2.estado) == search.tipo;
+          }) : -1;
+          return (bb4.proyectoId == this.project_id && search.tipo == 'NO EVALUADO' && (!bb4.evaluations || (bb4.evaluations && bb4.evaluations.length < 1))) || (search.tipo != 'NO EVALUADO' && evalua != -1);
       }) : bb.installations_articles;
   
       bb.installations_articles = search.criticidad ? bb.installations_articles.filter((bb5: any) => {
-        return (bb5.project_article && bb5.project_article.construccion && bb5.project_article.construccion == true && search.criticidad == 'Alta') || (bb5.project_article && bb5.project_article.operacion && bb5.project_article.operacion == true && search.criticidad == 'Media') || (bb5.project_article && bb5.project_article.cierre && bb5.project_article.cierre == true && search.criticidad == 'Baja') || ((!bb5.project_article || (!bb5.project_article.construccion && !bb5.project_article.operacion && !bb5.project_article.cierre)) && search.criticidad == 'No especificado');
+        return bb5.proyectoId == this.project_id && ((bb5.project_article && bb5.project_article.construccion && bb5.project_article.construccion == true && search.criticidad == 'Alta') || (bb5.project_article && bb5.project_article.operacion && bb5.project_article.operacion == true && search.criticidad == 'Media') || (bb5.project_article && bb5.project_article.cierre && bb5.project_article.cierre == true && search.criticidad == 'Baja') || ((!bb5.project_article || (!bb5.project_article.construccion && !bb5.project_article.operacion && !bb5.project_article.cierre)) && search.criticidad == 'No especificado'));
       }) : bb.installations_articles;
     });
 
   });
   
-  console.log('Final_Filtrado', items);
+  console.log('Final_Filtrado', filtros_final);
 
-  this.installations_group_filter = items;
+  this.installations_group_filter = filtros_final;
   this.getListaFiltros();
   }
 }
@@ -1276,12 +1307,12 @@ getListaFiltros(){
 
           const index_atributo = ins.project_article ? this.lista_atributos.findIndex(
             (latr: any) =>
-              latr.atributo == this.capitalizeText(ins.project_article.articuloTipo)
+              latr.atributo == this.capitalizeText(ins.project_article.articuloTipo) || latr.atributo == 'Otras Obligaciones'
           ) : -1;
 
           const index_criticidad = this.lista_criticidad.findIndex(
             (lcrt: any) =>
-              (ins.project_article && (lcrt.criticidad == 'Alta' && ins.project_article.construccion && ins.project_article && ins.project_article.construccion == true) || (lcrt.criticidad == 'Media' && ins.project_article && ins.project_article.operacion && ins.project_article.operacion == true) || (lcrt.criticidad == 'Baja' && ins.project_article && ins.project_article.cierre && ins.project_article.cierre == true)) || (lcrt.criticidad == 'No especificado' && !ins.project_article && !ins.project_article.construccion && !ins.project_article.operacion && !ins.project_article.cierre)
+              (ins.project_article && (lcrt.criticidad == 'Alta' && ins.project_article.construccion && ins.project_article.construccion == true) || (lcrt.criticidad == 'Media' && ins.project_article.operacion && ins.project_article.operacion == true) || (lcrt.criticidad == 'Baja' && ins.project_article.cierre && ins.project_article.cierre == true)) || (lcrt.criticidad == 'No especificado' && (!ins.project_article || (ins.project_article && (!ins.project_article.construccion || ins.project_article.construccion == false) && (!ins.project_article.operacion || ins.project_article.operacion == false) && (!ins.project_article.cierre || ins.project_article.cierre == false))))
           );
 
           if(index_cuerpo == -1){
@@ -1293,36 +1324,52 @@ getListaFiltros(){
           }
           
           if(index_atributo == -1){
-            this.lista_atributos.push({atributo:  ins.project_article ? this.capitalizeText(ins.project_article.articuloTipo) : ''});
+            this.lista_atributos.push({atributo: ins.project_article && ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'});
           }
           
           if(index_criticidad == -1){
-            let criticidad_name = 'No especificado';
-            if (ins.project_article && ins.project_article.construccion) {
+            let criticidad_name = '';
+
+            if (ins.project_article && ins.project_article.construccion && ins.project_article.construccion == true) {
               criticidad_name = 'Alta';
-            }else if (ins.project_article && ins.project_article.operacion) {
+            }else if (ins.project_article && ins.project_article.operacion && ins.project_article.operacion == true) {
               criticidad_name = 'Media';
-            }else if (ins.project_article && ins.project_article.cierre) {
+            }else if (ins.project_article && ins.project_article.cierre && ins.project_article.cierre == true) {
               criticidad_name = 'Baja';
+            }else{
+              criticidad_name = 'No especificado';
             }
 
             this.lista_criticidad.push({criticidad: criticidad_name});
           }
 
-          ins.evaluations.forEach((ev: any) => {
-            //console.log('Evaluacion',this.getCategoryStatus(ev.estado), ev.active, ev.proyectoId, ev);
-            if(ev.active/* && ev.proyectoId == this.project_id*/){
-              const index_cumplimiento = this.lista_cumplimientos.findIndex(
-                (lcum: any) =>
-                  lcum.cumplimiento == this.getCategoryStatus(ev.estado)
-              );
+          if(ins.evaluations && ins.evaluations.length > 0){
+            ins.evaluations.forEach((ev: any) => {
+              //console.log('Evaluacion',this.getCategoryStatus(ev.estado), ev.active, ev.proyectoId, ev);
+              if(ev.active/* && ev.proyectoId == this.project_id*/){
+                const index_cumplimiento = this.lista_cumplimientos.findIndex(
+                  (lcum: any) =>
+                    lcum.cumplimiento == this.getCategoryStatus(ev.estado)
+                );
 
-              if(index_cumplimiento == -1){
-                this.lista_cumplimientos.push({cumplimiento: this.getCategoryStatus(ev.estado)});
+                if(index_cumplimiento == -1){
+                  this.lista_cumplimientos.push({cumplimiento: ev.estado && ev.estado != null ? this.getCategoryStatus(ev.estado) : 'NO EVALUADO'});
+                }
+
               }
+            });
+          }else{
+            const index_cumplimiento_null = this.lista_cumplimientos.findIndex(
+              (lcum: any) =>
+                lcum.cumplimiento == 'NO EVALUADO'
+            );
 
+            if(index_cumplimiento_null == -1){
+              this.lista_cumplimientos.push({cumplimiento: 'NO EVALUADO'});
             }
-          });
+
+          }
+
         }
 
         });
@@ -1354,6 +1401,11 @@ clearFilters(){
   this.filtro_articulo = '';
   this.filtro_area_cuerpo = '';
   this.search = {texto: '', cuerpo: '', cuerpoLegal: '', tipo: '', criticidad: '', atributo: '', articulo: '', articuloName: '', area: ''};
+  
+  this.installations_group = [];
+  this.installations_group_filter.forEach((group: any) => {
+    this.installations_group.push(group);
+  });
 
   this.filterBusqueda();
 }
