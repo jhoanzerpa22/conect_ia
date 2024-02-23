@@ -156,7 +156,7 @@
                     <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Seleccione Cuerpo Legal" data-choices data-choices-search-false id="choices-priority-input2" (change)="selectCuerpo($event)">
                                 <option value="" [selected]="!filtro_cuerpo">Seleccione Cuerpo legal</option>
                                 <option value="{{c.cuerpoLegal}}" *ngFor="let c of cuerpos_articulos; let i = index;" [selected]="filtro_cuerpo == c.cuerpoLegal">
-                                    {{c.cuerpoLegal}} | {{c.tituloNorma}}
+                                    {{c.cuerpoLegal}} | {{c.tituloNorma.length > 60 ? c.tituloNorma.substring(0, 60)+'...' : c.tituloNorma}}
                                 </option>
                     </select>
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
