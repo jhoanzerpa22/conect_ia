@@ -138,7 +138,9 @@ export class ProjectControlComponent implements OnInit {
     ) != -1;
   }
 
-  async validateAreaChildren(tree_data: any, instalaciones: any): Promise<boolean>{
+  async validateAreaChildren(tree_data: any, instalaciones_all: any): Promise<boolean>{
+    
+    let instalaciones = this.filterInstallation(instalaciones_all);
     let valid: boolean = false;
     
     for (let index = 0; index < tree_data.length; index++) {
@@ -162,8 +164,8 @@ export class ProjectControlComponent implements OnInit {
     return valid;
   }
   
-  validDataArea(tree_data: any, instalaciones: any, type: any){
-    
+  validDataArea(tree_data: any, instalaciones_all: any, type: any){
+    let instalaciones = this.filterInstallation(instalaciones_all);
     let valid = this.validIndexArea(instalaciones, tree_data.nombre);
     
     if(valid){
@@ -253,7 +255,8 @@ export class ProjectControlComponent implements OnInit {
     ) != -1;
   }
 
-  getFilterArea(instalaciones: any, area: any){
+  getFilterArea(instalaciones_all: any, area: any){
+    let instalaciones = this.filterInstallation(instalaciones_all);
     return instalaciones.filter(
       (ins: any) =>
         ins.area == area
@@ -467,33 +470,27 @@ export class ProjectControlComponent implements OnInit {
           this.cuerpo_nocumple = nocumple_norma;
           this.cuerpo_parcial = parcial_norma;
           
-          let installations_group_array: any = [];
           this.installations_group = [];
           lista.forEach((x: any) => {
             
-            const index = installations_group_array.findIndex(
+            const index = this.installations_group.findIndex(
               (co: any) =>
                 co.area == (x.area ? x.area.nombre : '')
             );
 
             if(index == -1){
-              installations_group_array.push({
-                area: x.area ? x.area.nombre : '', descripcion: x.area ? x.area.descripcion : '', instalaciones: [x]
-              });
-              
               this.installations_group.push({
                 area: x.area ? x.area.nombre : '', descripcion: x.area ? x.area.descripcion : '', instalaciones: [x]
               });
             }else{
-              installations_group_array[index].instalaciones.push(x);
               this.installations_group[index].instalaciones.push(x);
             }
           });
           
-          console.log('installations_group_array',installations_group_array);
+          console.log('installations_group_array',this.installations_group);
           //console.log('lista_data', this.installations_group);
           
-          this.installations_group_original = installations_group_array;
+          this.installations_group_original = this.installations_group.map((ig: any) => ({ ...ig }));
           this.avance_evaluacion = lista.length > 0 ? round((avance_total / total), 0) : 0;    
           this.getArticulos(); 
           
@@ -518,10 +515,8 @@ export class ProjectControlComponent implements OnInit {
               }, 1000);
             }
           }else{*/
-            this.installations_group_filter = this.installations_group;
-            
-            this.filterBusqueda();
-            //this.getListaFiltros();
+            this.installations_group_filter = this.installations_group.map((group: any) => ({ ...group }));
+            this.getListaFiltros();
           //}
 
       },
@@ -630,7 +625,7 @@ export class ProjectControlComponent implements OnInit {
           color = color.replace(" ", "");
           return color;
         }
-        else return newValue;;
+        else return newValue;
       } else {
         var val = value.split(',');
         if (val.length == 2) {
@@ -1049,16 +1044,13 @@ filterBusqueda() {
     this.installations_group_filter = [];
     this.getListaFiltros();
   } else if (!search) {
-    const data_inicial = this.installations_group_original;
-    this.installations_group_filter = data_inicial;
+    this.installations_group_filter = this.installations_group_original.map((igo: any) => ({ ...igo }));
     this.getListaFiltros();
   } else if(!search.texto && (!search.cuerpo || search.cuerpo == undefined) && (!search.articulo || search.articulo == undefined) && (!search.tipo || search.tipo == undefined) && (!search.criticidad || search.criticidad == undefined) && (!search.atributo || search.atributo == undefined) && (!search.area || search.area == undefined)){  
-    const data_principal = this.installations_group_original;
-    this.installations_group_filter = data_principal;
+    this.installations_group_filter = this.installations_group_original.map((igo2: any) => ({ ...igo2 }));
     this.getListaFiltros();
   }else{
-    this.installations_group = [];
-    let data_original: any = this.installations_group_original.map((original: any) => ({ ...original }));;
+    let data_original: any = this.installations_group.map((original: any) => ({ ...original }));
 /*
     this.installations_group_original.forEach((orig: any) => {
       data_original.push(orig);
@@ -1071,7 +1063,6 @@ filterBusqueda() {
   //this.installations_group = data_original;
   const items: any = data_original;
   let filtros: any = [];
-  let filtros_final: any = [];
   
   let texto = '';
   
@@ -1196,10 +1187,9 @@ filterBusqueda() {
     return texto ? (texto && item.area && item.area.toLowerCase().includes(texto)) || (texto && item.descripcion && item.descripcion.toLowerCase().includes(texto)) || search_installation != -1 : true;
   });
 
-  console.log('Final', filtros);
-
-  filtros_final = filtros;
-  filtros_final.forEach((aa: any) => {
+  console.log('Final====>', filtros);
+/*
+  filtros.forEach((aa: any) => {
     aa.instalaciones = search.cuerpo ? aa.instalaciones.filter((art: any) => {
       return art.installations_articles.findIndex((ins: any) => {
         return ins.proyectoId == this.project_id && ins.normaId == search.cuerpo;
@@ -1262,13 +1252,88 @@ filterBusqueda() {
       }) : bb.installations_articles;
     });
 
-  });
+  });*/
   
-  console.log('Final_Filtrado', filtros_final);
+  console.log('Final_Filtrado', filtros);
 
-  this.installations_group_filter = filtros_final;
+  this.installations_group_filter = filtros.map((final: any) => ({ ...final }));
   this.getListaFiltros();
   }
+}
+
+filterInstallation(instalaciones: any) {
+  
+  let texto = '';
+  
+  if(this.search.texto){
+      texto = this.search.texto.toLowerCase();
+  }
+
+  instalaciones.forEach((aa: any) => {
+    aa.instalaciones = this.search.cuerpo && this.search.cuerpo != undefined ? aa.instalaciones.filter((art: any) => {
+      return art.installations_articles.findIndex((ins: any) => {
+        return ins.proyectoId == this.project_id && ins.normaId == this.search.cuerpo;
+      }) != -1;
+    }) : aa.instalaciones;
+
+    aa.instalaciones = this.search.articulo && this.search.articulo != undefined ? aa.instalaciones.filter((art2: any) => {
+      return art2.installations_articles.findIndex((ins2: any) => {
+        return ins2.proyectoId == this.project_id && ins2.articuloId == this.search.articulo;
+      }) != -1;
+    }) : aa.instalaciones;
+
+    aa.instalaciones = this.search.atributo && this.search.atributo != undefined ? aa.instalaciones.filter((art3: any) => {
+      return art3.installations_articles.findIndex((ins3: any) => {
+        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (this.search.atributo == 'Otros' ? null : this.search.atributo.toLowerCase());
+      }) != -1;
+    }) : aa.instalaciones;
+
+    aa.instalaciones = this.search.tipo && this.search.tipo != undefined ? aa.instalaciones.filter((art4: any) => {
+      return art4.installations_articles.findIndex((ins4: any) => {
+        const evalua = ins4.proyectoId == this.project_id && ins4.evaluations && ins4.evaluations.length > 0 ? ins4.evaluations.findIndex((ev: any) => {
+          return this.getCategoryStatus(ev.estado) == this.search.tipo;
+        }) : -1;
+        return (ins4.proyectoId == this.project_id && this.search.tipo == 'NO EVALUADO' && (!ins4.evaluations || (ins4.evaluations && ins4.evaluations.length < 1))) || (this.search.tipo != 'NO EVALUADO' && evalua != -1);
+      }) != -1;
+    }) : aa.instalaciones;
+
+    aa.instalaciones = this.search.criticidad && this.search.criticidad != undefined ? aa.instalaciones.filter((cri: any) => {
+      return cri.installations_articles.findIndex((ins5: any) => {
+        return ins5.proyectoId == this.project_id && ((ins5.project_article && ins5.project_article.construccion && ins5.project_article.construccion == true && this.search.criticidad == 'Alta') || (ins5.project_article && ins5.project_article.operacion &&  ins5.project_article.operacion == true && this.search.criticidad == 'Media') || (ins5.project_article && ins5.project_article.cierre && ins5.project_article.cierre == true && this.search.criticidad == 'Baja') || ((!ins5.project_article || (!ins5.project_article.construccion && !ins5.project_article.operacion && !ins5.project_article.cierre)) && this.search.criticidad == 'No especificado'));
+      }) != -1;
+    }) : aa.instalaciones;
+
+    aa.instalaciones = texto ? aa.instalaciones.filter((art5: any) => {
+      return (art5.nombre && art5.nombre.toLowerCase().includes(texto)) || (art5.descripcion && art5.descripcion.toLowerCase().includes(texto));
+    }) : aa.instalaciones;
+
+    aa.instalaciones.forEach((bb: any) => {
+      bb.installations_articles = this.search.cuerpo && this.search.cuerpo != undefined ? bb.installations_articles.filter((bb1: any) => {
+        return bb1.proyectoId == this.project_id && bb1.normaId == this.search.cuerpo;
+      }) : bb.installations_articles;
+  
+      bb.installations_articles = this.search.articulo && this.search.articulo != undefined ? bb.installations_articles.filter((bb2: any) => {
+        return bb2.proyectoId == this.project_id && bb2.articuloId == this.search.articulo;
+      }) : bb.installations_articles;
+  
+      bb.installations_articles = this.search.atributo && this.search.atributo != undefined ? bb.installations_articles.filter((bb3: any) => {
+        return bb3.proyectoId == this.project_id && bb3.project_article.articuloTipo == (this.search.atributo == 'Otros' ? null : this.search.atributo.toLowerCase());
+      }) : bb.installations_articles;
+  
+      bb.installations_articles = this.search.tipo && this.search.tipo != undefined ? bb.installations_articles.filter((bb4: any) => {
+          const evalua = bb4.proyectoId == this.project_id && bb4.evaluations && bb4.evaluations.length > 0 ? bb4.evaluations.findIndex((ev2: any) => {
+            return this.getCategoryStatus(ev2.estado) == this.search.tipo;
+          }) : -1;
+          return (bb4.proyectoId == this.project_id && this.search.tipo == 'NO EVALUADO' && (!bb4.evaluations || (bb4.evaluations && bb4.evaluations.length < 1))) || (this.search.tipo != 'NO EVALUADO' && evalua != -1);
+      }) : bb.installations_articles;
+  
+      bb.installations_articles = this.search.criticidad && this.search.criticidad != undefined ? bb.installations_articles.filter((bb5: any) => {
+        return bb5.proyectoId == this.project_id && ((bb5.project_article && bb5.project_article.construccion && bb5.project_article.construccion == true && this.search.criticidad == 'Alta') || (bb5.project_article && bb5.project_article.operacion && bb5.project_article.operacion == true && this.search.criticidad == 'Media') || (bb5.project_article && bb5.project_article.cierre && bb5.project_article.cierre == true && this.search.criticidad == 'Baja') || ((!bb5.project_article || (!bb5.project_article.construccion && !bb5.project_article.operacion && !bb5.project_article.cierre)) && this.search.criticidad == 'No especificado'));
+      }) : bb.installations_articles;
+    });
+    });
+
+    return instalaciones;
 }
 
 getListaFiltros(){
@@ -1401,11 +1466,6 @@ clearFilters(){
   this.filtro_articulo = '';
   this.filtro_area_cuerpo = '';
   this.search = {texto: '', cuerpo: '', cuerpoLegal: '', tipo: '', criticidad: '', atributo: '', articulo: '', articuloName: '', area: ''};
-  
-  this.installations_group = [];
-  this.installations_group_filter.forEach((group: any) => {
-    this.installations_group.push(group);
-  });
 
   this.filterBusqueda();
 }
