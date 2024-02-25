@@ -324,6 +324,11 @@ export class ProjectsService {
         return this.http.put(API_URL_BACK + 'evaluation/tasks/state/'+task_id, data, httpOptions5);
     }
 
+    updateTask(data: any, task_id: any): Observable<any> {
+          
+        return this.http.put(API_URL_BACK + 'evaluation/task/'+task_id, data, /*httpOptions*/this.getToken());
+    }
+
     getTasks(){
         return this.http.get(API_URL_BACK + 'work-plan/task', this.getToken());
     }

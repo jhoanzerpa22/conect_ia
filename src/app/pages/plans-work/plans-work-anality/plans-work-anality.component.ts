@@ -74,6 +74,7 @@ export class PlansWorkAnalityComponent implements OnInit {
   public Editor = ClassicEditor;
   total: Observable<number>;
   term: any;
+  descripcion: any;
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private TokenStorageService: TokenStorageService, private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
     this.total = service.total$;
@@ -193,8 +194,41 @@ export class PlansWorkAnalityComponent implements OnInit {
       
       this.showPreLoader();
       if (this.taskForm.get('ids')?.value) {
-        this.hidePreLoader();
-        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
+
+        const idTask = this.taskForm.get('ids')?.value;
+        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data);
+
+        const responsable2 = this.taskForm.get('responsable')?.value;
+        const nombre2 = this.taskForm.get('nombre')?.value;
+        const descripcion2 = this.taskForm.get('descripcion')?.value;
+        const fecha_termino2 = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId2 = this.taskForm.get('evaluationFindingId')?.value;
+        const prioridad2 = this.taskForm.get('prioridad')?.value;
+
+        const task2: any = {
+          responsableId: responsable2,
+          nombre: nombre2,
+          descripcion: descripcion2,
+          fecha_termino: fecha_termino2,
+          evaluationFindingId: evaluationFindingId2,
+          prioridad: prioridad2
+        };
+
+        this.projectsService.updateTask(task2, idTask).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido editado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getTasks();
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+          this.modalService.dismissAll()
+        });
+
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
@@ -342,7 +376,7 @@ export class PlansWorkAnalityComponent implements OnInit {
               //this.project_id = resp[j].proyectoId;
               //tasks.push(resp[j]);
               const retraso = this.getRetraso(resp[j].fecha_termino);
-              tasks.push({id: resp[j].id, nombre: resp[j].nombre, responsable: resp[j].responsable.nombre+' '+resp[j].responsable.apellido, fecha_termino: resp[j].fecha_termino, retraso: retraso, estado: this.getEstado(resp[j].estado,retraso), estado_class: this.getEstadoClass(resp[j].estado,retraso), prioridad: resp[j].prioridad ? resp[j].prioridad : 'BAJA' });
+              tasks.push({id: resp[j].id, nombre: resp[j].nombre, responsable: resp[j].responsable.nombre+' '+resp[j].responsable.apellido, responsableId: resp[j].responsableId, descripcion: resp[j].descripcion, evaluationFindingId: resp[j].evaluationFindingId, fecha_termino: resp[j].fecha_termino, retraso: retraso, estado: this.getEstado(resp[j].estado,retraso), estado_class: this.getEstadoClass(resp[j].estado,retraso), prioridad: resp[j].prioridad ? resp[j].prioridad : 'BAJA' });
             }
           }
 
@@ -394,6 +428,24 @@ export class PlansWorkAnalityComponent implements OnInit {
   openRecentModal(recentContent: any) {
     this.submitted = false;
     this.modalService.open(recentContent, { size: 'md', centered: true });
+  }
+
+  editModal(content: any, id: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'md', centered: true });
+    var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
+    updateBtn.innerHTML = "Editar";
+    
+    var listData = this.TaskDatas.filter((data: { id: any; }) => data.id === id);
+    this.taskForm.controls['responsable'].setValue(listData[0].responsableId.toString());
+    this.taskForm.controls['nombre'].setValue(listData[0].nombre);
+    this.taskForm.controls['descripcion'].setValue(listData[0].descripcion);
+    this.descripcion = listData[0].descripcion;
+    this.taskForm.controls['fecha_inicio'].setValue(listData[0].fecha_inicio);
+    this.taskForm.controls['fecha_termino'].setValue(listData[0].fecha_termino);
+    this.taskForm.controls['evaluationFindingId'].setValue(listData[0].evaluationFindingId.toString());
+    this.taskForm.controls['prioridad'].setValue(listData[0].prioridad);
+    this.taskForm.controls['ids'].setValue(listData[0].id);
   }
 
   addElement(parent?: any) {

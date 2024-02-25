@@ -107,6 +107,10 @@
                                                 title="Dar cumplimiento"
                                                 routerLink="/plans-work/{{project_id}}/Assess/{{data.id}}"><i class="ri-eye-line"></i></a>
 
+                                                <a href="javascript:void(0);" class="link-success"
+                                                title="Editar" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content,data.id)"
+                                                ><i class="ri-edit-line align-bottom me-1"></i></a>
+
                                                 <a href="javascript:void(0);" class="link-danger" 
                                                 title="Eliminar"
                                                 data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
@@ -262,7 +266,7 @@
             <div class="col-12">    
             <div class="mb-3">
                 <label for="descripcion-field" class="form-label">Descripción</label>
-                <ckeditor [editor]="Editor" data="" formControlName="descripcion"></ckeditor>
+                <ckeditor [editor]="Editor" data="{{descripcion}}" formControlName="descripcion"></ckeditor>
                 <!--<input type="text" id="descripcion-field" class="form-control" placeholder="Ingresar Descripción" required
                     formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />-->
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
