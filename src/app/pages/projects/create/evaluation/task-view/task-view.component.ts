@@ -1002,7 +1002,7 @@ onFileSelectedEvaluation(event: any){
   imgError(ev: any){
 
     let source = ev.srcElement;
-    let imgSrc = 'assets/images/logo_conect_ia.png';
+    let imgSrc = 'assets/images/new-document.png';//'assets/images/logo_conect_ia.png';
 
     source.src = imgSrc;
   }

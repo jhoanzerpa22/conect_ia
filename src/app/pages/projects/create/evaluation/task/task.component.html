@@ -313,6 +313,11 @@
                             <th scope="col" mat-header-cell *matHeaderCellDef> Acción </th>
                             <td *matCellDef="let element">
                                 <div class="hstack gap-2">
+                                    
+                                    <a href="javascript:void(0);" class="link-success"
+                                    title="Editar" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content2,element.id)" *ngIf="validateRol(1) || validateRol(2) || validateRol(4)"
+                                    ><i class="ri-edit-line align-bottom me-1"></i></a>
+
                                     <button class="btn btn-sm btn-soft-danger remove-list" data-bs-toggle="modal"
                                         data-bs-target="#deleteRecordModal" data-remove-id="1"
                                         (click)="confirm(deleteModel2,element.id)">
@@ -439,7 +444,7 @@
         
         <div class="modal-footer">
             <div class="hstack gap-2 justify-content-end">
-                <button type="submit" class="btn btn-primary" id="add-btn">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="add-btn2">Guardar</button>
             </div>
         </div>
     </form>
