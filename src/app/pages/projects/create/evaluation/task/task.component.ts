@@ -128,6 +128,7 @@ export class EvaluationTaskComponent implements OnInit {
   count_evaluations: number = 0;
 
   workPlan: any = {};
+  descripcion: any;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private _location: Location) {
     this.recentData = service.recents$;
@@ -782,8 +783,40 @@ export class EvaluationTaskComponent implements OnInit {
       
       this.showPreLoader();
       if (this.taskForm.get('ids')?.value) {
-        this.hidePreLoader();
-        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
+        
+        const idTask = this.taskForm.get('ids')?.value;
+        this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data);
+
+        const responsable2 = this.taskForm.get('responsable')?.value;
+        const nombre2 = this.taskForm.get('nombre')?.value;
+        const descripcion2 = this.taskForm.get('descripcion')?.value;
+        const fecha_termino2 = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId2 = this.taskForm.get('evaluationFindingId')?.value;
+        const prioridad2 = this.taskForm.get('prioridad')?.value;
+
+        const task2: any = {
+          responsableId: responsable2,
+          nombre: nombre2,
+          descripcion: descripcion2,
+          fecha_termino: fecha_termino2,
+          evaluationFindingId: evaluationFindingId2,
+          prioridad: prioridad2
+        };
+
+        this.projectsService.updateTask(task2, idTask).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido editado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getFindingsByInstallationArticle();
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+          this.modalService.dismissAll()
+        });
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
@@ -1163,6 +1196,24 @@ onFileSelectedEvaluation(event: any){
     this.submitted = false;
     this.modalService.open(content, { size: 'lg', centered: true });
   }
+  
+  editModal(content: any, id: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'md', centered: true });
+    var updateBtn = document.getElementById('add-btn2') as HTMLAreaElement;
+    updateBtn.innerHTML = "Editar";
+    
+    var listData = this.TaskDatas.filter((data: { id: any; }) => data.id === id);
+    this.taskForm.controls['responsable'].setValue(listData[0].responsableId.toString());
+    this.taskForm.controls['nombre'].setValue(listData[0].nombre);
+    this.taskForm.controls['descripcion'].setValue(listData[0].descripcion);
+    this.descripcion = listData[0].descripcion;
+    this.taskForm.controls['fecha_termino'].setValue(listData[0].fecha_termino);
+    this.taskForm.controls['evaluationFindingId'].setValue(listData[0].evaluationFindingId.toString());
+    this.taskForm.controls['prioridad'].setValue(listData[0].prioridad);
+    this.taskForm.controls['ids'].setValue(listData[0].id);
+  }
+
 
   /**
   * Form data get

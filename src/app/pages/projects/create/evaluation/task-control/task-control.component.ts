@@ -141,6 +141,7 @@ export class TaskControlComponent implements OnInit {
 
   active_notify: boolean = false;
   evaluation_id: any = '';
+  descripcion: any;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
@@ -241,7 +242,7 @@ export class TaskControlComponent implements OnInit {
         //this.getArticlesByInstallation(this.installation_id);
         this.getArticlesByInstallationBody(this.installation_id);      
         this.getEvaluations();
-        this.getEvaluationsByInstallationArticle();
+        //this.getEvaluationsByInstallationArticle();
         this.getFindingsByInstallationArticle();
         //this.getTasksByProyect();
         this.getResponsables(); 
@@ -271,7 +272,14 @@ export class TaskControlComponent implements OnInit {
  }
 
  getWorkPlan(){
-   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, this.evaluation_id).pipe().subscribe(
+  const evaluation: any = this.evaluations.findIndex(
+    (co: any) =>
+      co.active == true
+  );
+
+  const evaluation_id: any = evaluation != -1 ? this.evaluations[evaluation].id : null;
+
+   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, evaluation_id).pipe().subscribe(
      (data: any) => {
        this.workPlan = data.data;
    },
@@ -456,8 +464,8 @@ export class TaskControlComponent implements OnInit {
           }else{
             this.active_notify = false;
           }
-
-          this.getWorkPlan();
+         
+          this.getEvaluationsByInstallationArticle();
           this.hidePreLoader();
       },
       (error: any) => {
@@ -686,7 +694,6 @@ export class TaskControlComponent implements OnInit {
         this.evaluacionForm.reset();
         this.deleteEvaluationImgAll();
         this.getArticlesByInstallationBody(this.installation_id);
-        this.getEvaluationsByInstallationArticle();
     },
     (error: any) => {
       
@@ -802,8 +809,41 @@ export class TaskControlComponent implements OnInit {
       
       this.showPreLoader();
       if (this.taskForm.get('ids')?.value) {
-        this.hidePreLoader();
+        
+        const idTask = this.taskForm.get('ids')?.value;
+        
         this.TaskDatas = this.TaskDatas.map((data: { id: any; }) => data.id === this.taskForm.get('ids')?.value ? { ...data, ...this.taskForm.value } : data)
+        const responsable2 = this.taskForm.get('responsable')?.value;
+        const nombre2 = this.taskForm.get('nombre')?.value;
+        const descripcion2 = this.taskForm.get('descripcion')?.value;
+        const fecha_termino2 = this.taskForm.get('fecha_termino')?.value;
+        const evaluationFindingId2 = this.taskForm.get('evaluationFindingId')?.value;
+        const prioridad2 = this.taskForm.get('prioridad')?.value;
+
+        const task2: any = {
+          responsableId: responsable2,
+          nombre: nombre2,
+          descripcion: descripcion2,
+          fecha_termino: fecha_termino2,
+          evaluationFindingId: evaluationFindingId2,
+          prioridad: prioridad2
+        };
+
+        this.projectsService.updateTask(task2, idTask).pipe().subscribe(
+          (data: any) => {     
+           this.hidePreLoader();
+           this.toastService.show('El registro ha sido editado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+
+           this.getFindingsByInstallationArticle();
+           this.modalService.dismissAll();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+          this.modalService.dismissAll()
+        });
+
       } else {
         const responsable = this.taskForm.get('responsable')?.value;
         const nombre = this.taskForm.get('nombre')?.value;
@@ -1054,7 +1094,7 @@ export class TaskControlComponent implements OnInit {
     this.projectsService.getEvaluationsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
       (data: any) => {
         this.evaluations = data.data;
-        //console.log('evaluaciones',this.evaluations);
+        this.getWorkPlan();
     },
     (error: any) => {
       this.hidePreLoader();
@@ -1217,6 +1257,23 @@ parseHtmlString(texto: any){
     this.selectedFile = [];
     this.imgHallazgos = {};
     this.modalService.open(content, { size: 'lg', centered: true });
+  }
+  
+  editModal(content: any, id: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'lg', centered: true });
+    var updateBtn = document.getElementById('add-btn2') as HTMLAreaElement;
+    updateBtn.innerHTML = "Editar";
+    
+    var listData = this.TaskDatas.filter((data: { id: any; }) => data.id === id);
+    this.taskForm.controls['responsable'].setValue(listData[0].responsableId.toString());
+    this.taskForm.controls['nombre'].setValue(listData[0].nombre);
+    this.taskForm.controls['descripcion'].setValue(listData[0].descripcion);
+    this.descripcion = listData[0].descripcion;
+    this.taskForm.controls['fecha_termino'].setValue(listData[0].fecha_termino);
+    this.taskForm.controls['evaluationFindingId'].setValue(listData[0].evaluationFindingId.toString());
+    this.taskForm.controls['prioridad'].setValue(listData[0].prioridad);
+    this.taskForm.controls['ids'].setValue(listData[0].id);
   }
 
   /**

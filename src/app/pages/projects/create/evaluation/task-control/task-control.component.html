@@ -318,8 +318,9 @@
                                 
                                             <div class="row g-0 mb-3">
                                                 <div class="col-md-6">
-                                                        <h6 style="color: #405189;"><b>EVIDENCIA CARGADA</b></h6>
-                                                        <img [src]="evaluationDetail.evaluacionImg[0]" (error)="imgError($event)" alt="Hallazgo respaldo"
+                                                        <h6 style="color: #405189;"><b>EVIDENCIA CARGADA 
+                                                        </b></h6>
+                                                        <img (error)="imgError($event)" src="{{evaluationDetail.evaluacionImg ? evaluationDetail.evaluacionImg[0] : ''}}" alt="Hallazgo respaldo"
                                                                             class="users-avatar-shadow avatar mr-3" height="64" width="64">
                                                 </div>
                                                 
@@ -542,6 +543,11 @@
                             <th scope="col" mat-header-cell *matHeaderCellDef> Acción </th>
                             <td *matCellDef="let element">
                                 <div class="hstack gap-2">
+                                    
+                                    <a href="javascript:void(0);" class="link-success"
+                                    title="Editar" data-bs-toggle="modal" data-bs-target="#showModal" (click)="editModal(content2,element.id)" *ngIf="validateRol(1) || validateRol(2) || validateRol(4)"
+                                    ><i class="ri-edit-line align-bottom me-1"></i></a>
+
                                     <button class="btn btn-sm btn-soft-danger remove-list" data-bs-toggle="modal"
                                         data-bs-target="#deleteRecordModal" data-remove-id="1"
                                         (click)="confirm(deleteModel2,element.id)">
@@ -756,7 +762,7 @@
             <div class="col-12">    
             <div class="mb-3">
                 <label for="descripcion-field" class="form-label">Descripción</label>
-                <ckeditor [editor]="Editor" data="" formControlName="descripcion"></ckeditor>
+                <ckeditor [editor]="Editor" data="{{descripcion}}" formControlName="descripcion"></ckeditor>
                 <!--<input type="text" id="descripcion-field" class="form-control" placeholder="Ingresar Descripción" required
                     formControlName="descripcion" [ngClass]="{ 'is-invalid': submitted && form['descripcion'].errors }" />-->
                 <div class="invalid-feedback">Por favor ingresar descripción.</div>
@@ -795,7 +801,7 @@
         
         <div class="modal-footer">
             <div class="hstack gap-2 justify-content-end">
-                <button type="submit" class="btn btn-primary" id="add-btn">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="add-btn2">Guardar</button>
             </div>
         </div>
     </form>

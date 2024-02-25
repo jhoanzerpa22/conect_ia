@@ -183,14 +183,14 @@
                         <div class="list-group">
 
                                 <ng-template #myArticles let-s="s">
-                                    <div class="team-list list-view-filter row" style="cursor: pointer;" (click)="goControl(s.id)" *ngIf="s.proyectoId == project_id">
+                                    <div class="team-list list-view-filter row" style="cursor: pointer;" *ngIf="s.proyectoId == project_id">
                                         <div class="col">
                                             <div class="card team-box">
                                                 
                                                 <div class="card-body p-4">                
                                                     <div class="row align-items-center team-row">
                                                         
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col" (click)="goControl(s.id)">
                                                             <h6 style="color: #405189;">{{s.articulo}}</h6>
                                                             
                                                             <span class="badge mb-3" style="min-width: 170px;" [ngClass]="{
@@ -206,7 +206,7 @@
                                                                 </p>-->
                                                         </div>
 
-                                                        <div class="col-lg-3 col">
+                                                        <div class="col-lg-3 col" (click)="goControl(s.id)">
                                                             <div class="row text-muted text-center">
                                                                 <div class="col-6 border-end border-end-dashed">
                                                                     <h5 class="mb-1">{{s.evaluations.fecha_evaluacion ? (s.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : (evaluations.fechaFinalizacion | date:"dd-MM-yy")
@@ -219,7 +219,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-2 col">
+                                                        <div class="col-lg-2 col" (click)="goControl(s.id)">
                                                             <!--<span class="badge" [ngClass]="{
                                                                 'text-bg-danger': !s.evaluations.estado || (s.evaluations.estado && s.evaluations.estado == 'NO CUMPLE'), 'text-bg-success': s.evaluations.estado && s.evaluations.estado == 'CUMPLE', 'text-bg-warning': s.evaluations.estado && s.evaluations.estado == 'CUMPLE PARCIALMENTE'}">{{s.evaluations.estado ? s.evaluations.estado : 'NO CUMPLE' }}</span>-->
                                                                 <span class="badge" style="min-width: 170px;" [ngClass]="{
