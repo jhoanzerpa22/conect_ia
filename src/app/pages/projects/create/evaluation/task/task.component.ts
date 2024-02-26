@@ -295,7 +295,7 @@ export class EvaluationTaskComponent implements OnInit {
         var ruta = imagen.split('/');
         var nombre = ruta[ruta.length - 1];
 
-        this.imgEvaluations.push({name: nombre, size: 1 + 'MB', imagen: imagen });
+        this.imgEvaluations.push({name: nombre, size: 1 + 'MB', imagen: imagen, save: true });
       });
     }
 
@@ -1156,7 +1156,7 @@ onFileSelectedEvaluation(event: any){
   reader.readAsDataURL(selectedFileEvaluationNow);
   reader.onload = (_event) => {
     //console.log(reader.result);
-    this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
+    this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result, save: false });
     //this.imgView = reader.result;
     //this.pdfURL = this.selectedFile.name;
     //this.formUsuario.controls['img'].setValue(this.selectedFile);
@@ -1180,6 +1180,20 @@ onFileSelectedEvaluation(event: any){
     this.getTasksByFinding(this.idHallazgo);
   }
   
+  viewFile(url: any, save: boolean){
+    if(url && save){
+    window.open(url, '_new');
+    }else{
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No se encuentra la evidencia o no esta guardada.',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
+  }
+
   imgError(ev: any){
 
     let source = ev.srcElement;
