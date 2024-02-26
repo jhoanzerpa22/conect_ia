@@ -104,7 +104,7 @@
                                             <div _ngcontent-eyd-c348="" class="flex-shrink-0">
                                                 <div _ngcontent-eyd-c348="" class="avatar-xs">
                                                     <div _ngcontent-eyd-c348="" class="avatar-title">
-                                                        <img (error)="imgError($event)"  src="{{im.imagen}}" width="32" height="32" style="width: 32px; height: 32px;background-color:currentColor;"/>
+                                                        <img (error)="imgError($event)" src="{{im.imagen}}" width="32" height="32" style="width: 32px; height: 32px;background-color:currentColor;cursor:pointer;" (click)="viewFile(im.imagen ? im.imagen : null, im.save)"/>
                                                     </div>
                                                 </div>
                                             </div>
