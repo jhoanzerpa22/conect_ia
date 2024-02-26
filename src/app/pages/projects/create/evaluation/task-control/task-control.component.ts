@@ -33,6 +33,7 @@ import { round } from 'lodash';
 import * as moment from 'moment';
 
 import { estadosData } from '../../../estados';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-task-control',
@@ -143,7 +144,7 @@ export class TaskControlComponent implements OnInit {
   evaluation_id: any = '';
   descripcion: any;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private http: HttpClient) {
     this.recentData = service.recents$;
     this.total = service.total$;
     
@@ -394,6 +395,34 @@ export class TaskControlComponent implements OnInit {
 
   hideDetailEvaluation(){
     this.showDetailEvaluation = false;
+  }
+
+  viewFile(url: any){
+    if(url){
+    window.open(url, '_new');
+    }else{
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No se encuentra la evidencia.',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
+  }
+
+  downloadFile(url: any){
+      this.http.get(url, { responseType: 'blob' }).subscribe((data: any) => {
+        const blob = new Blob([data], { type: 'application/octet-stream' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'archivo_respaldo';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
+      });
   }
 
   /**

@@ -999,6 +999,20 @@ onFileSelectedEvaluation(event: any){
     this.getTasksByFinding(this.idHallazgo);
   }
   
+  viewFile(url: any){
+    if(url){
+    window.open(url, '_new');
+    }else{
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No se encuentra la evidencia.',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
+  }
+  
   imgError(ev: any){
 
     let source = ev.srcElement;
