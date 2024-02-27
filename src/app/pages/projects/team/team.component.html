@@ -409,7 +409,7 @@
                                 
                                 <div class="mb-3" *ngIf="rol != 2">
                                     <label for="teammembersAreas" class="form-label">Areas Administrativas</label>
-                                    <select class="form-control form-select" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
+                                    <select class="form-control form-select" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa" formControlName="areas"
                                     (change)="selectArea($event)" multiple>
                                         <option value="" selected>Todas</option>
                                         <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>

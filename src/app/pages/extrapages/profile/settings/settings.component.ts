@@ -36,6 +36,9 @@ export class SettingsComponent implements OnInit {
   projects: any = [];
   items: any = [];
 
+  selectedProyectsItems: any = [];
+  selectedAreasItems: any = [];
+
   constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location, private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
@@ -57,6 +60,7 @@ export class SettingsComponent implements OnInit {
       email: [this.userData.email, [Validators.required, Validators.email]],
       rol: [this.userData.rol[0].toString(), [Validators.required]],
       projects: [['']/*, [Validators.required]*/],
+      areas: [['']],
       //joinDate: ['']
     });
 
@@ -70,6 +74,7 @@ export class SettingsComponent implements OnInit {
 
     this.getAreas();
     this.getProjects();
+    this.getPermisos();
 
   }
 
@@ -148,6 +153,34 @@ export class SettingsComponent implements OnInit {
     };
   }
 
+  private getPermisos(){
+    const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
+    this.userService.getPermisos(id).pipe().subscribe(
+      (data: any) => {        
+        const proyectos: any = data.data.projects;
+        const areas: any = data.data.areas;
+
+        let proyectos_id: any = [];
+        let areas_id: any = [];
+
+        for (let i1 = 0; i1 < proyectos.length; i1++) {
+          proyectos_id.push(proyectos[i1].proyectoId);
+        
+          this.selectedProyectsItems.push(proyectos[i1].proyectoId);
+        }
+        
+        for (let i2 = 0; i2 < areas.length; i2++) {
+          areas_id.push(areas[i2].areaId);
+          this.selectedAreasItems.push(areas[i2].areaId);
+        }
+
+        this.userForm.get('projects')?.setValue(proyectos_id);
+        this.userForm.get('areas')?.setValue(areas_id);
+    },
+    (error: any) => {
+    });
+  }
+
   private getProjects(){
     
     this.showPreLoader();
@@ -184,39 +217,48 @@ selectRol(event: any){
 }
 
 selectArea(event: any){
+  
+  let valor: any = event.target.value;
+  if (valor.includes(':')) {
+    const new_valor = valor.split(':');
+    valor = new_valor[1] ? parseInt(new_valor[1].replace(/'/g, '')) : 0;
+  }
 
   if(this.area_id_select.length > 0){
   
-  let vacio = event.target.value > 0 ? 1 : 0;
+  let vacio = valor > 0 ? 1 : 0;
   
   this.area_id_select.splice(0 + vacio, (this.area_id_select.length-(1+vacio)));
   
-    if(event.target.value > 0){
+    if(valor > 0){
       
       const index = this.areas.findIndex(
         (co: any) =>
-          co.id == event.target.value
+          co.id == valor
       );
 
       let nombre = this.areas[index].nombre;
 
-      this.area_id_select[0] = {value: event.target.value, label: nombre};
+      this.area_id_select[0] = {value: valor, label: nombre};
     }
 
   }else{
     
+    if(valor > 0){
     const index2 = this.areas.findIndex(
       (co: any) =>
-        co.id == event.target.value
+        co.id == valor
     );
 
+
     let nombre2 = this.areas[index2].nombre;
-    this.area_id_select.push({value: event.target.value, label: nombre2});
+    this.area_id_select.push({value: valor, label: nombre2});
+    }
   }
 
   //this.area_id_select = event.target.value;
     this.items = [];
-    this.getChildren(event.target.value);
+    this.getChildren(valor);
 }
 
 selectAreaChildren(event: any, parent?: any){
@@ -268,8 +310,8 @@ getChildren(padre_id: any){
    updateUser() {
     if (this.userForm.valid) {
       
-      let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
-
+      //let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
+      
       const data = {
         nombre: this.userForm.get('nombre')?.value,
         apellido: this.userForm.get('apellido')?.value,
@@ -278,8 +320,9 @@ getChildren(padre_id: any){
         email: this.userForm.get('email')?.value,
         rol: [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user],
         projects: this.userForm.get('projects')?.value,
-        areas: area_id ? area_id : null,
+        areas: this.userForm.get('areas')?.value/*area_id ? area_id : null*/,
       };
+      
       const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
       this.userService.update(id, data).pipe().subscribe(
         (data: any) => {
