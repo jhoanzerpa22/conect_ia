@@ -7,6 +7,7 @@ import { round } from 'lodash';
 import {Location} from '@angular/common';
 
 import { estadosData } from '../../../projects/estados';
+import { TokenStorageService } from '../../../../core/services/token-storage.service';
 
 @Component({
   selector: 'app-project-resumen',
@@ -164,7 +165,7 @@ export class ProjectResumenComponent implements OnInit {
   estados_default: any = estadosData;
   articles_proyects_group: any = [];
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private _location: Location) {
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private _location: Location, private TokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -179,6 +180,8 @@ export class ProjectResumenComponent implements OnInit {
     if (localStorage.getItem('toast')) {
       localStorage.removeItem('toast');
     }
+    
+    this.userData = this.TokenStorageService.getUser();
 
     this.route.params.subscribe(params => {
       /**
@@ -223,6 +226,13 @@ export class ProjectResumenComponent implements OnInit {
     //this._simplePieChartArticulos('["--vz-success", "--vz-warning", "--vz-danger"]');
     this.setChart();
   }
+  
+  validateRol(rol: any){
+    return this.userData.rol.findIndex(
+      (r: any) =>
+        r == rol
+    ) != -1;
+  }
 
   private getProjects() {
     
@@ -231,9 +241,10 @@ export class ProjectResumenComponent implements OnInit {
         (data: any) => {
           let resp: any = data.data;
           let proyectos: any = [];
+          let proyectos_user: any = this.userData ? this.userData.proyectos : [];
 
           for (var j = 0; j < resp.length; j++) {
-            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3){
+            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3 && (this.validateRol(1) || this.validateRol(2) || (proyectos_user.length < 1 || (proyectos_user.length > 0 && proyectos_user.findIndex((p: any) => p.proyectoId == resp[j].id) != -1)))){
               proyectos.push(resp[j]);
             }
           }
@@ -8869,8 +8880,19 @@ getChart(criticidad: any, config: any){
   getAreas(idProject?: any) {
     this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
-          this.areas = data.data;
-          this.areas_chart = data.data;
+    
+          const resp: any = data.data;
+          let areas: any = [];
+          let areas_user: any = this.userData ? this.userData.areas : [];
+
+          for (var j = 0; j < resp.length; j++) {
+            if(this.validateRol(1) || this.validateRol(2) || (areas_user.length < 1 || (areas_user.length > 0 && areas_user.findIndex((a: any) => a.areaId == resp[j].id) != -1))){
+              areas.push(resp[j]);
+            }
+          }
+          this.areas = areas;
+          this.areas_chart = areas;
+
       },
       (error: any) => {
       });
