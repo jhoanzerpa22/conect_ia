@@ -36,9 +36,6 @@ export class SettingsComponent implements OnInit {
   projects: any = [];
   items: any = [];
 
-  selectedProyectsItems: any = [];
-  selectedAreasItems: any = [];
-
   constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location, private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
@@ -59,8 +56,8 @@ export class SettingsComponent implements OnInit {
       telefono: [this.userData.telefono],
       email: [this.userData.email, [Validators.required, Validators.email]],
       rol: [this.userData.rol[0].toString(), [Validators.required]],
-      projects: [['']/*, [Validators.required]*/],
-      areas: [['']],
+      projects: [[""]/*, [Validators.required]*/],
+      areas: [[""]],
       //joinDate: ['']
     });
 
@@ -164,14 +161,11 @@ export class SettingsComponent implements OnInit {
         let areas_id: any = [];
 
         for (let i1 = 0; i1 < proyectos.length; i1++) {
-          proyectos_id.push(proyectos[i1].proyectoId);
-        
-          this.selectedProyectsItems.push(proyectos[i1].proyectoId);
+          proyectos_id.push(proyectos[i1].proyectoId.toString());
         }
         
         for (let i2 = 0; i2 < areas.length; i2++) {
-          areas_id.push(areas[i2].areaId);
-          this.selectedAreasItems.push(areas[i2].areaId);
+          areas_id.push(areas[i2].areaId.toString());
         }
 
         this.userForm.get('projects')?.setValue(proyectos_id);
