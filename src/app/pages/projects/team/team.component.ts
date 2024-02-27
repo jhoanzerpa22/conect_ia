@@ -72,7 +72,8 @@ export class TeamComponent {
       email: ['', [,Validators.required, Validators.email]],
       rol: ['', [Validators.required]],/*
       designation: ['', [Validators.required]],*/
-      projects: [['']/*, [Validators.required]*/],/*
+      projects: [['']/*, [Validators.required]*/],
+      areas: [['']]/*
       tasks: ['', [Validators.required]]*/
     });
     
@@ -134,38 +135,47 @@ export class TeamComponent {
 
   selectArea(event: any){
 
+    let valor: any = event.target.value;
+    if (valor.includes(':')) {
+      const new_valor = valor.split(':');
+      valor = new_valor[1] ? parseInt(new_valor[1].replace(/'/g, '')) : 0;
+    }
+
     if(this.area_id_select.length > 0){
     
-    let vacio = event.target.value > 0 ? 1 : 0;
+    let vacio = valor > 0 ? 1 : 0;
     
     this.area_id_select.splice(0 + vacio, (this.area_id_select.length-(1+vacio)));
     
-      if(event.target.value > 0){
+      if(valor > 0){
         
         const index = this.areas.findIndex(
           (co: any) =>
-            co.id == event.target.value
+            co.id == valor
         );
 
         let nombre = this.areas[index].nombre;
 
-        this.area_id_select[0] = {value: event.target.value, label: nombre};
+        this.area_id_select[0] = {value: valor, label: nombre};
       }
 
     }else{
+
+      if(valor > 0){
       
       const index2 = this.areas.findIndex(
         (co: any) =>
-          co.id == event.target.value
+          co.id == valor
       );
 
       let nombre2 = this.areas[index2].nombre;
-      this.area_id_select.push({value: event.target.value, label: nombre2});
+      this.area_id_select.push({value: valor, label: nombre2});
+      }
     }
 
     //this.area_id_select = event.target.value;
       this.items = [];
-      this.getChildren(event.target.value);
+      this.getChildren(valor);
   }
 
   selectAreaChildren(event: any, parent?: any){
@@ -272,8 +282,15 @@ export class TeamComponent {
         taskCount
       });*/
 
-      let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
+      //let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
         
+      let areas: any = [];
+      
+      for (let ar = 0; ar < this.area_id_select.length; ar++) {
+        const area_id = this.area_id_select[ar].value;
+        areas.push(area_id);
+      }
+
       const data = {
         nombre: this.teamForm.get('nombre')?.value,
         apellido: this.teamForm.get('apellido')?.value,
@@ -283,7 +300,7 @@ export class TeamComponent {
         email: this.teamForm.get('email')?.value,
         rol: [this.teamForm.get('rol')?.value],
         projects: this.teamForm.get('projects')?.value,
-        areas: area_id ? area_id : null,
+        areas: this.teamForm.get('areas')?.value,//area_id ? area_id : null,
         empresaId: this.userData.empresaId
       };
 
