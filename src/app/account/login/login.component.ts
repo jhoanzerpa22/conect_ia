@@ -88,7 +88,9 @@ export class LoginComponent implements OnInit {
         "telefono": data.data.user.telefono,
         "cargo": data.data.user.cargo,
         "rol": data.data.user.rol,
-        "empresaId": data.data.user.empresaId
+        "empresaId": data.data.user.empresaId,
+        "proyectos": data.data.projects,
+        "areas": data.data.areas,
         //"rol": data.data.user.user_rol ? data.data.user.user_rol.nombre : ''
         };
         //localStorage.setItem('toast', 'true');

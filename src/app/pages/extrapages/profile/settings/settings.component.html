@@ -178,7 +178,7 @@
                                     <div class="col-lg-6" *ngIf="rol == 3 && (rol_user == 1 || rol_user == 2)">
                                     <div class="mb-3">
                                         <label for="teammembersProjects" class="form-label">Proyectos</label>
-                                        <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && f['projects'].errors }" multiple>
+                                        <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && f['projects'].errors }" multiple [(ngModel)]="selectedProyectsItems">
                                             <option value="" selected>Todos </option>
                                             <option *ngFor="let p of projects;" value="{{p.id}}">{{p.nombre}}</option>
                                         </select>
@@ -189,10 +189,10 @@
                                     <div class="col-lg-6" *ngIf="rol != 2 && rol != 1 && (rol_user == 1 || rol_user == 2) ">
                                     <div class="mb-3">
                                         <label for="teammembersAreas" class="form-label">Areas Administrativas</label>
-                                        <select class="form-control form-select" aria-label="Area Administrativa" placeholder="Seleccione Area Administrativa"
-                                        (change)="selectArea($event)" multiple>
+                                        <select class="form-control form-select" aria-label="Area Administrativa" formControlName="areas" placeholder="Seleccione Area Administrativa"
+                                        (change)="selectArea($event)" multiple [(ngModel)]="selectedAreasItems">
                                             <option value="" selected>Todas</option>
-                                            <option *ngFor="let r of areas;" value="{{r.id}}">{{r.nombre}}</option>
+                                            <option *ngFor="let r of areas;" value="{{r.id}}" selected>{{r.nombre}}</option>
                                         </select>
                                         <div class="invalid-feedback">Por favor ingresar area administrativa.</div>
                                     </div>
