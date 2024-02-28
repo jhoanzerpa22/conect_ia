@@ -998,6 +998,38 @@ layers = [
 
   }
 
+orderCuerpos(cuerpos: any){
+  
+  let order: any = cuerpos.sort((a: any, b: any) => {
+    const numeroA = parseInt(a.cuerpoLegal.toString().trim().toLowerCase().split(' ')[1]);
+    const numeroB = parseInt(b.cuerpoLegal.toString().trim().toLowerCase().split(' ')[1]);
+
+    if(numeroA > 0 || numeroB > 0){
+      return numeroA - numeroB;
+    }else{
+      return a.cuerpoLegal.toString().trim().toLowerCase().localeCompare(b.cuerpoLegal.toString().trim().toLowerCase());
+    }
+});
+  
+  return order;
+}
+
+orderArticulos(articulos: any){
+  
+  let order: any = articulos.sort((a: any, b: any) => {
+    const numeroA = parseInt(a.articulo.toString().trim().toLowerCase().split(' ')[1]);
+    const numeroB = parseInt(b.articulo.toString().trim().toLowerCase().split(' ')[1]);
+
+    if(numeroA > 0 || numeroB > 0){
+      return numeroA - numeroB;
+    }else{
+      return a.articulo.toString().trim().toLowerCase().localeCompare(b.articulo.toString().trim().toLowerCase());
+    }
+});
+  
+  return order;
+}
+
   private getArticleProyect(project_id: any, refresh?: boolean){
 
     this.projectsService.getArticleProyect(project_id).pipe().subscribe(
