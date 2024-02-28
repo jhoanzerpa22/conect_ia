@@ -343,7 +343,7 @@
                                                 </ng-container>
                                         </div>
                                     </ng-template>         
-                                        <div class="list-group">
+                                        <div class="list-group" *ngIf="showData">
                                             <ng-container *ngFor="let td of tree_data">
                                                 <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(td,installations_group_filter,'PADRE') && (!areas_select_chart[0] || areas_select_chart[0].nombre == td.nombre)">
                                                 
