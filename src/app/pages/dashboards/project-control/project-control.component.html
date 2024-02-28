@@ -41,7 +41,7 @@
                                                     <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId)">{{g.cuerpoLegal}}</a>
             
                                                     </ng-container>-->
-                                                    <ng-container *ngFor="let g of lista_cuerpos;">
+                                                    <ng-container *ngFor="let g of orderCuerpos(lista_cuerpos);">
                                                         
                                                         <a class="dropdown-item" [ngClass]="filtro_cuerpo && filtro_cuerpo == g.cuerpoLegal+' | '+g.tituloNorma ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro(g.cuerpoLegal,g.normaId, g.tituloNorma)">{{g.cuerpoLegal}} | {{g.tituloNorma.length > 60 ? g.tituloNorma.substring(0, 60)+'...' : g.tituloNorma}}</a>
                 
@@ -149,7 +149,7 @@
                                                     <!--<ng-container *ngFor="let ach of articles_filter">
                                                         <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
                                                     </ng-container>-->
-                                                    <ng-container *ngFor="let ach of lista_articulos">
+                                                    <ng-container *ngFor="let ach of orderArticulos(lista_articulos)">
                                                         <a class="dropdown-item" [ngClass]="filtro_articuloId && filtro_articuloId == ach.id ? 'active' : ''" href="javascript:void(0);" (click)="selectArticuloFiltro(ach.id, ach.articulo)">{{ach.articulo}}</a>
                                                     </ng-container>
                                                 </div>

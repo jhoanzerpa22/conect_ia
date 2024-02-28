@@ -6544,6 +6544,7 @@ getChart(criticidad: any, config: any){
 
   getDataDashboard(type: any){
     let evaluado = 0;
+    let cumplimiento = 0;
     if(this.dashboard){
       switch (type) {
         case 'cuerpos':
@@ -6573,20 +6574,21 @@ getChart(criticidad: any, config: any){
         case 'cuerpos_cumplimiento':
             
             evaluado = this.dashboard.estadoCuerposLegales.countEvaluados;
+            cumplimiento = this.dashboard.estadoCuerposLegales.countCumple;
 
             if(this.tipo){
               switch (this.tipo) {
                 case 'Cumple':
-                  evaluado = this.dashboard.estadoCuerposLegales.countCumple;
+                  cumplimiento = this.dashboard.estadoCuerposLegales.countCumple;
                   break;
                   case 'Cumple Parcial':
-                    evaluado = this.dashboard.estadoCuerposLegales.countCumpleParcial;
+                    cumplimiento = this.dashboard.estadoCuerposLegales.countCumpleParcial;
                     break;
                     case 'No Cumple':
-                      evaluado = this.dashboard.estadoCuerposLegales.countNoCumple;
+                      cumplimiento = this.dashboard.estadoCuerposLegales.countNoCumple;
                       break;
                       case 'No Evaluado':
-                        evaluado = this.dashboard.estadoCuerposLegales.countNoEvaluados;
+                        cumplimiento = this.dashboard.estadoCuerposLegales.countNoEvaluados;
                         break;
               
                 default:
@@ -6594,7 +6596,8 @@ getChart(criticidad: any, config: any){
               }
             }
 
-            return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countCuerpoLegal > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countCuerpoLegal).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : this.dashboard.tarjetas.countCuerpoLegal > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countCuerpoLegal).toFixed() : 0;
             break;
         
         case 'articulos':
@@ -6616,27 +6619,30 @@ getChart(criticidad: any, config: any){
         case 'elementos_cumplimiento':
           
         evaluado = this.dashboard.tarjetas.countElementosEvaluados;
+        cumplimiento = this.dashboard.tarjetas.countElementosCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.tarjetas.countElementosCumple;
+              cumplimiento = this.dashboard.tarjetas.countElementosCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.tarjetas.countElementosCumpleParcial;
+                cumplimiento = this.dashboard.tarjetas.countElementosCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.tarjetas.countElementosNoCumple;
+                  cumplimiento = this.dashboard.tarjetas.countElementosNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.tarjetas.countElementosNoEvaluados;
+                    cumplimiento = this.dashboard.tarjetas.countElementosNoEvaluados;
                     break;
           
             default:
               break;
           }
         }
-          return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countInstalaciones > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countInstalaciones).toFixed() : 0;
+        
+          return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+          //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countInstalaciones > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countInstalaciones).toFixed() : 0;
           break;  
 
         case 'elementos_no_evaluados':
@@ -6687,27 +6693,30 @@ getChart(criticidad: any, config: any){
         case 'articulos_cumplimiento':
           
         evaluado = this.dashboard.tarjetas.countArticulosEvaluados;
+        cumplimiento = this.dashboard.tarjetas.countArticulosCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.tarjetas.countArticulosCumple;
+              cumplimiento = this.dashboard.tarjetas.countArticulosCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.tarjetas.countArticulosCumpleParcial;
+                cumplimiento = this.dashboard.tarjetas.countArticulosCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.tarjetas.countArticulosNoCumple;
+                  cumplimiento = this.dashboard.tarjetas.countArticulosNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.tarjetas.countArticulosNoEvaluados;
+                    cumplimiento = this.dashboard.tarjetas.countArticulosNoEvaluados;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countArticulos > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countArticulos).toFixed() : 0;
+        
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countArticulos > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countArticulos).toFixed() : 0;
             break;
           
         case 'articulos_no_evaluados':
@@ -6805,27 +6814,30 @@ getChart(criticidad: any, config: any){
         case 'instancias_cumplimiento':
           
         evaluado = this.dashboard.tarjetas.countInstanciasEvaluadas;
+        cumplimiento = this.dashboard.tarjetas.countInstanciasCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.tarjetas.countInstanciasCumple;
+              cumplimiento = this.dashboard.tarjetas.countInstanciasCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.tarjetas.countInstanciasCumpleParcial;
+                cumplimiento = this.dashboard.tarjetas.countInstanciasCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.tarjetas.countInstanciasNoCumple;
+                  cumplimiento = this.dashboard.tarjetas.countInstanciasNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.tarjetas.countInstanciasNoEvaluadas;
+                    cumplimiento = this.dashboard.tarjetas.countInstanciasNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
+        
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
             break;
 
         case 'instancias_no_evaluadas':
@@ -7007,27 +7019,30 @@ getChart(criticidad: any, config: any){
         case 'permisos_cumplimiento':
           
         evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countEvaluados;
+        cumplimiento = this.dashboard.obligacionesAplicabilidad.permiso.countCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countCumple;
+              cumplimiento = this.dashboard.obligacionesAplicabilidad.permiso.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countCumpleParcial;
+                cumplimiento = this.dashboard.obligacionesAplicabilidad.permiso.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countNoCumple;
+                  cumplimiento = this.dashboard.obligacionesAplicabilidad.permiso.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.permiso.countNoEvaluadas;
+                    cumplimiento = this.dashboard.obligacionesAplicabilidad.permiso.countNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countPermisos > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countPermisos).toFixed() : 0;
+        
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countPermisos > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countPermisos).toFixed() : 0;
             break;
 
        case 'permisos_no_evaluados':
@@ -7077,27 +7092,30 @@ getChart(criticidad: any, config: any){
         case 'reportes_cumplimiento':
           
         evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countEvaluados;
+        cumplimiento = this.dashboard.obligacionesAplicabilidad.reporte.countCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countCumple;
+              cumplimiento = this.dashboard.obligacionesAplicabilidad.reporte.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countCumpleParcial;
+                cumplimiento = this.dashboard.obligacionesAplicabilidad.reporte.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countNoCumple;
+                  cumplimiento = this.dashboard.obligacionesAplicabilidad.reporte.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluadas;
+                    cumplimiento = this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countReportes).toFixed() : 0;
+        
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countReportes).toFixed() : 0;
         
         case 'reportes_no_evaluados':
               return this.dashboard.obligacionesAplicabilidad.reporte.countNoEvaluadas;
@@ -7147,27 +7165,30 @@ getChart(criticidad: any, config: any){
         case 'monitoreos_cumplimiento':
           
         evaluado = this.dashboard.obligacionesAplicabilidad.monitoreo.countEvaluados;
+        cumplimiento = this.dashboard.obligacionesAplicabilidad.monitoreo.countCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.obligacionesAplicabilidad.monitoreo.countCumple;
+              cumplimiento = this.dashboard.obligacionesAplicabilidad.monitoreo.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.obligacionesAplicabilidad.monitoreo.countCumpleParcial;
+                cumplimiento = this.dashboard.obligacionesAplicabilidad.monitoreo.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.obligacionesAplicabilidad.monitoreo.countNoCumple;
+                  cumplimiento = this.dashboard.obligacionesAplicabilidad.monitoreo.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.monitoreo.countNoEvaluados;
+                    cumplimiento = this.dashboard.obligacionesAplicabilidad.monitoreo.countNoEvaluados;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countMonitoreos > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countMonitoreos).toFixed() : 0;
+        
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countMonitoreos > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countMonitoreos).toFixed() : 0;
             break;
 
         case 'monitoreos_no_evaluados':
@@ -7226,27 +7247,30 @@ getChart(criticidad: any, config: any){
             case 'otros_cumplimiento':
               
         evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
+        cumplimiento = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumple;
 
         if(this.tipo){
           switch (this.tipo) {
             case 'Cumple':
-              evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumple;
+              cumplimiento = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
+                cumplimiento = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
+                  cumplimiento = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
+                    cumplimiento = this.dashboard.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-             return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countOtrasObligaciones > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countOtrasObligaciones).toFixed() : 0;
+        
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countOtrasObligaciones > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countOtrasObligaciones).toFixed() : 0;
               break;
     
             case 'otros_alta':
@@ -7397,6 +7421,7 @@ getChart(criticidad: any, config: any){
 
   getDataDashboardCuerpo(type: any){
     let evaluado = 0;
+    let cumplimiento = 0;
     if(this.dashboardCuerpo){
       switch (type) {
         case 'cuerpos':
@@ -7426,20 +7451,21 @@ getChart(criticidad: any, config: any){
         case 'cuerpos_cumplimiento':
             
             evaluado = this.dashboardCuerpo.estadoCuerposLegales.countEvaluados;
+            cumplimiento = this.dashboardCuerpo.estadoCuerposLegales.countCumple;
 
             if(this.tipo_cuerpo){
               switch (this.tipo_cuerpo) {
                 case 'Cumple':
-                  evaluado = this.dashboardCuerpo.estadoCuerposLegales.countCumple;
+                  cumplimiento = this.dashboardCuerpo.estadoCuerposLegales.countCumple;
                   break;
                   case 'Cumple Parcial':
-                    evaluado = this.dashboardCuerpo.estadoCuerposLegales.countCumpleParcial;
+                    cumplimiento = this.dashboardCuerpo.estadoCuerposLegales.countCumpleParcial;
                     break;
                     case 'No Cumple':
-                      evaluado = this.dashboardCuerpo.estadoCuerposLegales.countNoCumple;
+                      cumplimiento = this.dashboardCuerpo.estadoCuerposLegales.countNoCumple;
                       break;
                       case 'No Evaluado':
-                        evaluado = this.dashboardCuerpo.estadoCuerposLegales.countNoEvaluados;
+                        cumplimiento = this.dashboardCuerpo.estadoCuerposLegales.countNoEvaluados;
                         break;
               
                 default:
@@ -7447,7 +7473,8 @@ getChart(criticidad: any, config: any){
               }
             }
 
-            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countCuerpoLegal > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countCuerpoLegal).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countCuerpoLegal > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countCuerpoLegal).toFixed() : 0;
             break;
         
         case 'articulos':
@@ -7469,27 +7496,30 @@ getChart(criticidad: any, config: any){
         case 'elementos_cumplimiento':
           
         evaluado = this.dashboardCuerpo.tarjetas.countElementosEvaluados;
+        cumplimiento = this.dashboardCuerpo.tarjetas.countElementosCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.tarjetas.countElementosCumple;
+              cumplimiento = this.dashboardCuerpo.tarjetas.countElementosCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.tarjetas.countElementosCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.tarjetas.countElementosCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.tarjetas.countElementosNoCumple;
+                  cumplimiento = this.dashboardCuerpo.tarjetas.countElementosNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.tarjetas.countElementosNoEvaluados;
+                    cumplimiento = this.dashboardCuerpo.tarjetas.countElementosNoEvaluados;
                     break;
           
             default:
               break;
           }
         }
-          return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
+        
+          return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+          //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
           break;  
 
         case 'elementos_no_evaluados':
@@ -7540,27 +7570,29 @@ getChart(criticidad: any, config: any){
         case 'articulos_cumplimiento':
           
         evaluado = this.dashboardCuerpo.tarjetas.countArticulosEvaluados;
+        cumplimiento = this.dashboardCuerpo.tarjetas.countArticulosCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.tarjetas.countArticulosCumple;
+              cumplimiento = this.dashboardCuerpo.tarjetas.countArticulosCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.tarjetas.countArticulosCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.tarjetas.countArticulosCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.tarjetas.countArticulosNoCumple;
+                  cumplimiento = this.dashboardCuerpo.tarjetas.countArticulosNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.tarjetas.countArticulosNoEvaluados;
+                    cumplimiento = this.dashboardCuerpo.tarjetas.countArticulosNoEvaluados;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
             break;
           
         case 'articulos_no_evaluados':
@@ -7656,27 +7688,29 @@ getChart(criticidad: any, config: any){
         case 'instancias_cumplimiento':
           
         evaluado = this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
+        cumplimiento = this.dashboardCuerpo.tarjetas.countInstanciasCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.tarjetas.countInstanciasCumple;
+              cumplimiento = this.dashboardCuerpo.tarjetas.countInstanciasCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.tarjetas.countInstanciasCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.tarjetas.countInstanciasCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+                  cumplimiento = this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.tarjetas.countInstanciasNoEvaluadas;
+                    cumplimiento = this.dashboardCuerpo.tarjetas.countInstanciasNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
             break;
 
         case 'instancias_no_evaluadas':
@@ -7798,27 +7832,29 @@ getChart(criticidad: any, config: any){
         case 'permisos_cumplimiento':
           
         evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countEvaluados;
+        cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumple;
+              cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoCumple;
+                  cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluadas;
+                    cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
             break;
 
        case 'permisos_no_evaluados':
@@ -7868,27 +7904,29 @@ getChart(criticidad: any, config: any){
         case 'reportes_cumplimiento':
           
         evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countEvaluados;
+        cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumple;
+              cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoCumple;
+                  cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluadas;
+                    cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
         
         case 'reportes_no_evaluados':
               return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoEvaluadas;
@@ -7938,27 +7976,29 @@ getChart(criticidad: any, config: any){
         case 'monitoreos_cumplimiento':
           
         evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countEvaluados;
+        cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumple;
+              cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoCumple;
+                  cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoEvaluados;
+                    cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoEvaluados;
                     break;
           
             default:
               break;
           }
         }
-            return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
+            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
             break;
 
         case 'monitoreos_no_evaluados':
@@ -8014,30 +8054,32 @@ getChart(criticidad: any, config: any){
                return this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
                break;
         
-            case 'otros_cumplimiento':
+         case 'otros_cumplimiento':
               
         evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countEvaluados;
+        cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumple;
 
         if(this.tipo_cuerpo){
           switch (this.tipo_cuerpo) {
             case 'Cumple':
-              evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumple;
+              cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumple;
               break;
               case 'Cumple Parcial':
-                evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
+                cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countCumpleParcial;
                 break;
                 case 'No Cumple':
-                  evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
+                  cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoCumple;
                   break;
                   case 'No Evaluado':
-                    evaluado = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
+                    cumplimiento = this.dashboardCuerpo.obligacionesAplicabilidad.otrasObligaciones.countNoEvaluadas;
                     break;
           
             default:
               break;
           }
         }
-             return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
+             return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
               break;
     
             case 'otros_alta':
