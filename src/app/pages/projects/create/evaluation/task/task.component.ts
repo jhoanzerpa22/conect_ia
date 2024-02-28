@@ -909,7 +909,7 @@ export class EvaluationTaskComponent implements OnInit {
                 articuloId: this.articulo.articuloId,
                 installationId: this.installation_id,
                 responsableId: user_id,
-                descripcion: null,
+                descripcion: this.evaluation && this.evaluation.comentario ? this.evaluation.comentario : null,
                 proyectoId: this.project_id,
                 evaluationProyectId: this.idEvaluation,
                 empresaId: this.userData.empresaId

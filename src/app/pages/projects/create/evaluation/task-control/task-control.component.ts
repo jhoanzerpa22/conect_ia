@@ -957,7 +957,7 @@ export class TaskControlComponent implements OnInit {
           const dataWorkPlan: any = {
                   fecha_inicio: fecha_inicio,
                   fecha_termino: fecha_termino,
-                  type: 'auditoria',      
+                  type: 'workPlan',      
                   articulo: this.articulo.articulo,
                   cuerpoLegal: this.cuerpoLegal,
                   normaId: this.articulo.normaId,
