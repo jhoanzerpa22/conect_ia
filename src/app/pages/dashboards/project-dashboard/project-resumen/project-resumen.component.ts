@@ -7473,7 +7473,7 @@ getChart(criticidad: any, config: any){
               }
             }
 
-            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countCuerpoLegal > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countCuerpoLegal).toFixed() : 0;
             break;
         
@@ -7518,7 +7518,7 @@ getChart(criticidad: any, config: any){
           }
         }
         
-          return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+          return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
           //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstalaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstalaciones).toFixed() : 0;
           break;  
 
@@ -7591,7 +7591,7 @@ getChart(criticidad: any, config: any){
               break;
           }
         }
-            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countArticulos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countArticulos).toFixed() : 0;
             break;
           
@@ -7709,7 +7709,7 @@ getChart(criticidad: any, config: any){
               break;
           }
         }
-            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
             break;
 
@@ -7853,7 +7853,7 @@ getChart(criticidad: any, config: any){
               break;
           }
         }
-            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countPermisos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countPermisos).toFixed() : 0;
             break;
 
@@ -7925,7 +7925,7 @@ getChart(criticidad: any, config: any){
               break;
           }
         }
-            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countReportes > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countReportes).toFixed() : 0;
         
         case 'reportes_no_evaluados':
@@ -7997,7 +7997,7 @@ getChart(criticidad: any, config: any){
               break;
           }
         }
-            return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+            return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countMonitoreos > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countMonitoreos).toFixed() : 0;
             break;
 
@@ -8078,7 +8078,7 @@ getChart(criticidad: any, config: any){
               break;
           }
         }
-             return this.tipo && (this.tipo == 'No Cumple' || this.tipo == 'No Evaluado') ? 0 : (this.tipo && this.tipo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
+             return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
              //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countOtrasObligaciones > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countOtrasObligaciones).toFixed() : 0;
               break;
     
@@ -9031,6 +9031,22 @@ getChart(criticidad: any, config: any){
       }
   });
     
+    return order;
+  }
+  
+  orderCuerpos(cuerpos: any){
+    
+      let order: any = cuerpos.sort((a: any, b: any) => {
+        const numeroA = parseInt(a.cuerpoLegal.toString().trim().toLowerCase().split(' ')[1]);
+        const numeroB = parseInt(b.cuerpoLegal.toString().trim().toLowerCase().split(' ')[1]);
+
+        if(numeroA > 0 || numeroB > 0){
+          return numeroA - numeroB;
+        }else{
+          return a.cuerpoLegal.toString().trim().toLowerCase().localeCompare(b.cuerpoLegal.toString().trim().toLowerCase());
+        }
+    });
+
     return order;
   }
 
