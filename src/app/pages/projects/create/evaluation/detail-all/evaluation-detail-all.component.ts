@@ -997,7 +997,7 @@ console.log('ITems',items);
       
             this.filtro_tipo = this.search.tipo;
             this.filtro_criticidad = this.search.criticidad;
-            this.filtro_atributo = this.search.atributo;
+            this.filtro_atributo = this.search.atributo == 'Otras Obligaciones' ? 'Otros' : this.search.atributo;
             this.filtro_cuerpo = this.search.cuerpoLegal;
             this.term = this.search.articuloName;
             

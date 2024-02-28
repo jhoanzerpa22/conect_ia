@@ -1134,7 +1134,7 @@ filterBusqueda2() {
     //filtro por atributo
     /*let atributo_installation = search.atributo ? item.instalaciones.findIndex((at: any) =>{
       return at.installations_articles.findIndex((ins3: any) => {
-        return ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return ins3.project_article.articuloTipo == (search.atributo == 'Otras Obligaciones' ? null : search.atributo.toLowerCase());
       }) != -1;
     }) : -1;*/
 
@@ -1175,7 +1175,7 @@ filterBusqueda2() {
 
     let atributo_installation = search.atributo ? item.instalaciones.findIndex((at: any) =>{
       return at.installations_articles.findIndex((ins3: any) => {
-        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return ins3.proyectoId == this.project_id && ins3.project_article && ins3.project_article.articuloTipo == (search.atributo == 'Otras Obligaciones' ? null : search.atributo.toLowerCase());
       }) != -1;
     }) : -1;
 
@@ -1242,7 +1242,7 @@ filterBusqueda2() {
 
     aa.instalaciones = search.atributo ? aa.instalaciones.filter((art3: any) => {
       return art3.installations_articles.findIndex((ins3: any) => {
-        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (search.atributo == 'Otras Obligaciones' ? null : search.atributo.toLowerCase());
       }) != -1;
     }) : aa.instalaciones;
 
@@ -1275,7 +1275,7 @@ filterBusqueda2() {
       }) : bb.installations_articles;
   
       bb.installations_articles = search.atributo ? bb.installations_articles.filter((bb3: any) => {
-        return bb3.proyectoId == this.project_id && bb3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return bb3.proyectoId == this.project_id && bb3.project_article.articuloTipo == (search.atributo == 'Otras Obligaciones' ? null : search.atributo.toLowerCase());
       }) : bb.installations_articles;
   
       bb.installations_articles = search.tipo ? bb.installations_articles.filter((bb4: any) => {
@@ -1358,7 +1358,7 @@ filterBusqueda() {
 
     let atributo_installation = search.atributo && search.atributo != '' ? (
       item.installations_articles && item.installations_articles.length > 0 ? item.installations_articles.findIndex((ins3: any) => {
-        return ins3.proyectoId == this.project_id && ins3.instalacionId == item.id && ins3.project_article.articuloTipo == (search.atributo == 'Otros' ? null : search.atributo.toLowerCase());
+        return ins3.proyectoId == this.project_id && ins3.instalacionId == item.id && ins3.project_article && ins3.project_article.articuloTipo == (search.atributo == 'Otras Obligaciones' ? null : search.atributo.toLowerCase());
       }) : -1) : -1;
 
     return search.atributo && search.atributo != '' ? atributo_installation != -1 : true;
@@ -1437,7 +1437,7 @@ filterInstallation(instalaciones: any) {
 
     aa.instalaciones = this.search.atributo && this.search.atributo != undefined ? aa.instalaciones.filter((art3: any) => {
       return art3.installations_articles.findIndex((ins3: any) => {
-        return ins3.proyectoId == this.project_id && ins3.project_article.articuloTipo == (this.search.atributo == 'Otros' ? null : this.search.atributo.toLowerCase());
+        return ins3.proyectoId == this.project_id && ins3.project_article && ins3.project_article.articuloTipo == (this.search.atributo == 'Otras Obligaciones' ? null : this.search.atributo.toLowerCase());
       }) != -1;
     }) : aa.instalaciones;
 
@@ -1470,7 +1470,7 @@ filterInstallation(instalaciones: any) {
       }) : bb.installations_articles;
   
       bb.installations_articles = this.search.atributo && this.search.atributo != undefined ? bb.installations_articles.filter((bb3: any) => {
-        return bb3.proyectoId == this.project_id && bb3.project_article.articuloTipo == (this.search.atributo == 'Otros' ? null : this.search.atributo.toLowerCase());
+        return bb3.proyectoId == this.project_id && bb3.project_article && bb3.project_article.articuloTipo == (this.search.atributo == 'Otras Obligaciones' ? null : this.search.atributo.toLowerCase());
       }) : bb.installations_articles;
   
       bb.installations_articles = this.search.tipo && this.search.tipo != undefined ? bb.installations_articles.filter((bb4: any) => {
@@ -1525,7 +1525,7 @@ getListaFiltros(){
 
           const index_atributo = this.lista_atributos.findIndex(
             (latr: any) =>
-              (latr.atributo == (ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'))
+              (latr.atributo == (ins.project_article && ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'))
           );
 
           const index_criticidad = this.lista_criticidad.findIndex(
@@ -1542,7 +1542,7 @@ getListaFiltros(){
           }
           
           if(index_atributo == -1){
-            this.lista_atributos.push({atributo: ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'});
+            this.lista_atributos.push({atributo: ins.project_article && ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'});
           }
           
           if(index_criticidad == -1){
@@ -1634,7 +1634,7 @@ getListaFiltros2(){
 
           const index_atributo = this.lista_atributos.findIndex(
             (latr: any) =>
-              (latr.atributo == (ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'))
+              (latr.atributo == (ins.project_article && ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'))
           );
 
           const index_criticidad = this.lista_criticidad.findIndex(
@@ -1651,7 +1651,7 @@ getListaFiltros2(){
           }
           
           if(index_atributo == -1){
-            this.lista_atributos.push({atributo: ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'});
+            this.lista_atributos.push({atributo: ins.project_article && ins.project_article.articuloTipo ? this.capitalizeText(ins.project_article.articuloTipo) : 'Otras Obligaciones'});
           }
           
           if(index_criticidad == -1){
