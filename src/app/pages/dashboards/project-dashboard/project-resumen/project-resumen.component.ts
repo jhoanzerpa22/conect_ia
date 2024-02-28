@@ -7054,7 +7054,7 @@ getChart(criticidad: any, config: any){
               break;
           
         case 'permisos_no_cumple':
-              return this.dashboard.tarjetas.countInstanciasNoCumple;
+              return this.dashboard.obligacionesAplicabilidad.permiso.countNoCumple;
               break;
           
         case 'permisos_cumple_parcial':
@@ -7126,7 +7126,7 @@ getChart(criticidad: any, config: any){
               break;
           
         case 'reportes_no_cumple':
-              return this.dashboard.tarjetas.countInstanciasNoCumple;
+              return this.dashboard.obligacionesAplicabilidad.reporte.countNoCumple;
               break;
           
         case 'reportes_cumple_parcial':
@@ -7200,7 +7200,7 @@ getChart(criticidad: any, config: any){
               break;
           
         case 'monitoreos_no_cumple':
-              return this.dashboard.tarjetas.countInstanciasNoCumple;
+              return this.dashboard.obligacionesAplicabilidad.monitoreo.countNoCumple;
               break;
           
         case 'monitoreos_cumple_parcial':
@@ -7866,7 +7866,7 @@ getChart(criticidad: any, config: any){
               break;
           
         case 'permisos_no_cumple':
-              return this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              return this.dashboardCuerpo.obligacionesAplicabilidad.permiso.countNoCumple;
               break;
           
         case 'permisos_cumple_parcial':
@@ -7937,7 +7937,7 @@ getChart(criticidad: any, config: any){
               break;
           
         case 'reportes_no_cumple':
-              return this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              return this.dashboardCuerpo.obligacionesAplicabilidad.reporte.countNoCumple;
               break;
           
         case 'reportes_cumple_parcial':
@@ -8010,7 +8010,7 @@ getChart(criticidad: any, config: any){
               break;
           
         case 'monitoreos_no_cumple':
-              return this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+              return this.dashboardCuerpo.obligacionesAplicabilidad.monitoreo.countNoCumple;
               break;
           
         case 'monitoreos_cumple_parcial':
