@@ -255,6 +255,7 @@ export class TeamComponent {
   */
    saveTeam() {
     if (this.teamForm.valid) {
+      
       /*
       const id = '10';
       const backgroundImg = 'assets/images/small/img-6.jpg';
@@ -285,7 +286,7 @@ export class TeamComponent {
         //rol: [2],
         rol: [this.teamForm.get('rol')?.value],
         projects: this.teamForm.get('projects')?.value,
-        areas: this.teamForm.get('areas'),//area_id ? area_id : null,
+        areas: this.teamForm.get('areas')?.value,//area_id ? area_id : null,
         empresaId: null//this.userData.empresaId
       };
       this.userService.create(data).pipe(first()).subscribe(
@@ -306,7 +307,9 @@ export class TeamComponent {
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
       });
     }
+    
     this.submitted = true
+
   }
 
   /**
