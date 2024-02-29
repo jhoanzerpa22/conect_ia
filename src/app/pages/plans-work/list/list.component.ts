@@ -135,8 +135,10 @@ export class ListComponent implements OnInit {
    openModal(content: any) {
     this.submitted = false;
     this.plansForm.reset();
-    
-      this.modalService.open(content, { size: 'xl', centered: true });    
+    this.cuerpoId = '';
+    this.cuerpoLegal = {};
+    this.lista_articulos_filter = [];
+    this.modalService.open(content, { size: 'xl', centered: true });    
   }
 
   /**
@@ -334,6 +336,8 @@ export class ListComponent implements OnInit {
 
   selectCuerpo(event: any){
     this.cuerpoId = event.target.value;
+    this.cuerpoLegal = {};
+    this.lista_articulos_filter = [];
 
     if(this.cuerpoId && this.cuerpoId != '' && this.cuerpoId != undefined && this.cuerpoId != null){
       this.getFilterCuerpo();
@@ -691,10 +695,10 @@ savePlans(){
       fecha_inicio: fecha_inicio,
       fecha_termino: fecha_termino,
       type: 'workPlan',      
-      articulo: cuerpoId && this.selectChecked3[0].id ? this.selectChecked3[0].articulo : null,
+      articulo: cuerpoId && this.selectChecked3.length > 0 ? this.selectChecked3[0].articulo : null,
       cuerpoLegal: this.cuerpoLegal ? this.cuerpoLegal.cuerpoLegal : null,
       normaId: cuerpoId,      
-      articuloId: cuerpoId && this.selectChecked3[0].id ? this.selectChecked3[0].id : null,
+      articuloId: cuerpoId && this.selectChecked3.length > 0 ? this.selectChecked3[0].id : null,
       installationId: installationId,
       responsableId: responsable,
       descripcion: descripcion,

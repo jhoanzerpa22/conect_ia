@@ -7371,7 +7371,7 @@ validateIdparte(idParte: any){
 
     const cuerpo_proyect: any = {
       normaId: norma_id,
-      cuerpoLegal: data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma+' '+data.identificador.numero : null) : null,
+      cuerpoLegal: data.identificador ? (data.identificador.tipoNorma ? data.identificador.tipoNorma.replace(/[;|]/g, " ") +' '+ data.identificador.numero.replace(/[;|]/g, " ") : (data.encabezado ? data.encabezado.texto.replace(/[;|]/g, " ") : data.tituloNorma.replace(/[;|]/g, " "))) : (data.encabezado ? data.encabezado.texto.replace(/[;|]/g, " ") : data.tituloNorma.replace(/[;|]/g, " ")),
       organismo: data.organismos.length > 0 ? data.organismos[0] : '',
       encabezado: data.encabezado ? data.encabezado.texto : '',
       tituloNorma: data.tituloNorma,

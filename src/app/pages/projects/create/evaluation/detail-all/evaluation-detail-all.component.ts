@@ -724,7 +724,7 @@ console.log('ITems',items);
     //filtro por cumplimiento
     let cumplimiento_installation = this.filtro_tipo ? item.articulos.findIndex((c: any) =>{
       //return c.evaluations.findIndex((ev: any) => {
-          return c.evaluations.estado && c.evaluations.estado != null ? this.getCategoryStatus(c.evaluations.estado) == this.filtro_tipo : false;
+          return c.evaluations.estado && c.evaluations.estado != null ? this.getCategoryStatus(c.evaluations.estado) == this.filtro_tipo : (this.filtro_tipo == 'NO EVALUADO' ? true : false);
         //}) != -1;
     }) : -1;
 
@@ -751,7 +751,7 @@ console.log('ITems',items);
     }) : aa.articulos;
 
     aa.articulos = this.filtro_tipo ? aa.articulos.filter((art2: any) => {
-      return art2.evaluations.estado && art2.evaluations.estado != null ? this.getCategoryStatus(art2.evaluations.estado) == this.filtro_tipo : false;
+      return art2.evaluations.estado && art2.evaluations.estado != null ? this.getCategoryStatus(art2.evaluations.estado) == this.filtro_tipo : (this.filtro_tipo == 'NO EVALUADO' ? true : false);
     }) : aa.articulos;
 
     aa.articulos = this.filtro_criticidad ? aa.articulos.filter((art3: any) => {

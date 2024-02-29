@@ -58,14 +58,14 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-lg-4">
                                     <span style="color: #405189;"><b> Avance de la evaluación</b></span>
-                                </div>
+                                </div><!--avance_evaluacion-->
                                 <div class="col-lg-8" style="text-align: right;">
-                                    <span style="color: #405189;"> {{avance_evaluacion}}% ({{getDataDashboard('instancias_evaluadas') < 1 ? 0 : getDataDashboard('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
+                                    <span style="color: #405189;"> {{getDataDashboard('instancias_avance') < 1 ? 0 : getDataDashboard('instancias_avance')}}% ({{getDataDashboard('instancias_evaluadas') < 1 ? 0 : getDataDashboard('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" [style]="avance_evaluacion > 0 ? 'width:'+avance_evaluacion+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{avance_evaluacion}}%</div>
-                                    </div>
+                                        <div class="progress-bar" role="progressbar" [style]="getDataDashboard('instancias_avance') > 0 ? 'width:'+(getDataDashboard('instancias_avance') < 1 ? 0 : getDataDashboard('instancias_avance'))+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{getDataDashboard('instancias_avance') < 1 ? 0 : getDataDashboard('instancias_avance')}}%</div>
+                                    </div><!--avance_evaluacion-->
                                 </div>
                             </div>
                            
@@ -740,14 +740,14 @@
                         <div class="row g-4 mb-3">
                             <div class="col-lg-4">
                                 <span style="color: #405189;"><b> Avance de la evaluación</b></span>
-                            </div>
+                            </div><!--avance_evaluacion-->
                             <div class="col-lg-8" style="text-align: right;">
-                                <span style="color: #405189;"> {{avance_evaluacion}}% ({{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
+                                <span style="color: #405189;"> {{getDataDashboardCuerpo('instancias_avance') < 1 ? 0 : getDataDashboardCuerpo('instancias_avance')}}% ({{getDataDashboardCuerpo('instancias_evaluadas') < 1 ? 0 : getDataDashboardCuerpo('instancias_evaluadas')}}/{{getDataDashboard('instancias') < 1 ? 0 : getDataDashboard('instancias')}}) de instancias de cumplimiento evaluadas</span>
                             </div>
                             <div class="col-lg-12">
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" [style]="avance_evaluacion > 0 ? 'width:'+avance_evaluacion+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{avance_evaluacion}}%</div>
-                                </div>
+                                    <div class="progress-bar" role="progressbar" [style]="getDataDashboardCuerpo('instancias_avance') > 0 ? 'width:'+(getDataDashboardCuerpo('instancias_avance') < 1 ? 0 : getDataDashboardCuerpo('instancias_avance'))+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">{{getDataDashboardCuerpo('instancias_avance') < 1 ? 0 : getDataDashboardCuerpo('instancias_avance')}}%</div>
+                                </div><!--avance_evaluacion-->
                             </div>
                         </div>
                         <div class="row g-4 mb-3">    

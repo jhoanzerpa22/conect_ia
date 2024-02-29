@@ -52,8 +52,11 @@
                                     </div>
                                     
                                     <div class="row g-4 mb-3">   
-                                          
-                                        <div class="col-3">
+                                        <div class="col-sm-auto" style="display:none;">
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="d-md-flex justify-content-sm-end gap-2">
+                                        <!--<div class="col-3">-->
                                             
                                             <div class="btn-group" style="width: 100%;" ngbDropdown>
                                                 
@@ -76,8 +79,8 @@
                                                     <!--<a class="dropdown-item" [ngClass]="tipo_cuerpo && tipo_cuerpo == 'NO EVALUADO' ? 'active' : ''" href="javascript:void(0);" (click)="selectTipoCuerpo('NO EVALUADO')">No Evaluado</a>-->
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-3">
+                                        <!--</div>
+                                        <div class="col-3">-->
         
                                             <div class="btn-group" style="width: 100%;" ngbDropdown>
                                                 
@@ -101,9 +104,9 @@
                                                     <a class="dropdown-item" [ngClass]="criticidad_cuerpo && criticidad_cuerpo == 'No especificado' ? 'active' : ''" href="javascript:void(0);" (click)="selectCriticidadCuerpo('No especificado')">No especificado</a>-->
                                                 </div>
                                             </div>
-                                        </div>
+                                        <!--</div>
                                         
-                                        <div class="col-3">
+                                        <div class="col-3">-->
                     
                                             <div class="btn-group" style="width: 100%;" ngbDropdown>
                                                 
@@ -130,10 +133,9 @@
                                                 </div>
                                             </div>
                     
-                                        </div>
-            
+                                        <!--</div>
                                         
-                                        <div class="col-3">
+                                        <div class="col-3">-->
                     
                                             <div class="btn-group" style="width: 100%;" ngbDropdown>
                                                 
@@ -154,7 +156,8 @@
                                                     </ng-container>
                                                 </div>
                                             </div>
-                    
+                                        <!--</div>-->
+                                        </div>
                                         </div>
                                     </div>
                                     
