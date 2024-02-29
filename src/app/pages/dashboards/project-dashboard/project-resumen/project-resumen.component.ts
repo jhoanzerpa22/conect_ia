@@ -6840,6 +6840,33 @@ getChart(criticidad: any, config: any){
             //return this.tipo && this.tipo == 'No Cumple' ? 0 : this.dashboard.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
             break;
 
+        case 'instancias_avance':
+          
+        evaluado = this.dashboard.tarjetas.countInstanciasEvaluadas;
+        
+        if(this.tipo){
+          switch (this.tipo) {
+            case 'Cumple':
+              evaluado = this.dashboard.tarjetas.countInstanciasCumple;
+              break;
+              case 'Cumple Parcial':
+                evaluado = this.dashboard.tarjetas.countInstanciasCumpleParcial;
+                break;
+                case 'No Cumple':
+                  evaluado = this.dashboard.tarjetas.countInstanciasNoCumple;
+                  break;
+                  case 'No Evaluado':
+                    evaluado = this.dashboard.tarjetas.countInstanciasNoEvaluadas;
+                    break;
+          
+            default:
+              break;
+          }
+        }
+        
+            return this.dashboard.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboard.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
+            break;
+
         case 'instancias_no_evaluadas':
               return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noEvaluado > 0 ? this.dashboard_new.torta3.noEvaluado : 0;*/this.dashboard.tarjetas.countInstanciasNoEvaluadas;
               break;
@@ -7712,6 +7739,32 @@ getChart(criticidad: any, config: any){
             return this.tipo_cuerpo && (this.tipo_cuerpo == 'No Cumple' || this.tipo_cuerpo == 'No Evaluado') ? 0 : (this.tipo_cuerpo && this.tipo_cuerpo == 'Cumple' ? (cumplimiento > 0 ? 100 : 0) : (evaluado > 0 ? ((cumplimiento * 100) / evaluado).toFixed() : 0));
             //return this.tipo_cuerpo && this.tipo_cuerpo == 'No Cumple' ? 0 : this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
             break;
+
+            case 'instancias_avance':
+          
+            evaluado = this.dashboardCuerpo.tarjetas.countInstanciasEvaluadas;
+            
+            if(this.tipo_cuerpo){
+              switch (this.tipo_cuerpo) {
+                case 'Cumple':
+                  evaluado = this.dashboardCuerpo.tarjetas.countInstanciasCumple;
+                  break;
+                  case 'Cumple Parcial':
+                    evaluado = this.dashboardCuerpo.tarjetas.countInstanciasCumpleParcial;
+                    break;
+                    case 'No Cumple':
+                      evaluado = this.dashboardCuerpo.tarjetas.countInstanciasNoCumple;
+                      break;
+                      case 'No Evaluado':
+                        evaluado = this.dashboardCuerpo.tarjetas.countInstanciasNoEvaluadas;
+                        break;
+              
+                default:
+                  break;
+              }
+            }
+                return this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento > 0 ? ((evaluado * 100) / this.dashboardCuerpo.tarjetas.countInstanciasCumplimiento).toFixed() : 0;
+                break;
 
         case 'instancias_no_evaluadas':
               return /*this.dashboard_new && this.dashboard_new.torta3 && this.dashboard_new.torta3.noEvaluado > 0 ? this.dashboard_new.torta3.noEvaluado : 0;*/this.dashboardCuerpo.tarjetas.countInstanciasNoEvaluadas;
