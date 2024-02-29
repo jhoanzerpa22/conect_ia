@@ -115,6 +115,7 @@ export class ListComponent implements OnInit {
     this.plansForm = this.formBuilder.group({
       ids: [''],
       proyectoId: [''],
+      titulo: ['', [Validators.required]],
       areaId: [''],
       installationId: [''],
       cuerpoId: [''],
@@ -191,7 +192,7 @@ export class ListComponent implements OnInit {
             }
             
             if(!resp[j].type || resp[j].type == '' || resp[j].type == null || resp[j].type == 'workPlan'){
-              const index_work = workPlans.findIndex(
+              /*const index_work = workPlans.findIndex(
                 (w: any) =>
                 w.normaId && w.articuloId && w.normaId == resp[j].normaId && w.articuloId == resp[j].articuloId
               );
@@ -200,9 +201,11 @@ export class ListComponent implements OnInit {
                 workPlans[index_work].planes.push(resp[j]);
               }else{
                 workPlans.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal ? resp[j].cuerpoLegal : (resp[j].descripcion ? this.obtenerPrimeras3Palabras(resp[j].descripcion) : resp[j].descripcion), articulo: resp[j].articulo, planes: [resp[j]] });
-              }
+              }*/
+              
+              workPlans.push(resp[j]);
             }else if(resp[j].type && resp[j].type != '' && resp[j].type != null && resp[j].type == 'auditoria'){
-              const index_auditoria = auditorias.findIndex(
+              /*const index_auditoria = auditorias.findIndex(
                 (au: any) =>
                   au.normaId == resp[j].normaId && au.articuloId == resp[j].articuloId
               );
@@ -211,7 +214,8 @@ export class ListComponent implements OnInit {
                 auditorias[index_auditoria].planes.push(resp[j]);
               }else{
                 auditorias.push({normaId: resp[j].normaId, articuloId: resp[j].articuloId, cuerpoLegal: resp[j].cuerpoLegal, articulo: resp[j].articulo, planes: [resp[j]] });
-              }
+              }*/
+              auditorias.push(resp[j]);
             }
           }
 
@@ -673,6 +677,7 @@ savePlans(){
   if (this.plansForm.valid) {
     this.showPreLoader();
 
+    const titulo = this.plansForm.get('titulo')?.value;
     const fecha_inicio = this.plansForm.get('fechaInicio')?.value;
     const fecha_termino = this.plansForm.get('fechaFinalizacion')?.value;
     const proyectoId = this.plansForm.get('proyectoId')?.value;
@@ -682,6 +687,7 @@ savePlans(){
     const descripcion = this.plansForm.get('descripcion')?.value;
     
     const dataWorkPlan: any = {
+      titulo: titulo,
       fecha_inicio: fecha_inicio,
       fecha_termino: fecha_termino,
       type: 'workPlan',      

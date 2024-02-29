@@ -35,7 +35,7 @@
         
                     <!--Planes de trabajo-->
                     <div class="row g-4 mb-3">
-                        <div class="card">
+                        <div class="card" style="padding: 0px;">
                             <div *ngIf="!workPlan_group || workPlan_group.length < 1" style="min-height: 350px !important;">
                                 
                                 <div class="card-body">
@@ -47,13 +47,13 @@
         
                             <div *ngIf="workPlan_group && workPlan_group.length > 0" style="min-height: 350px !important;">
                                 
-                                <ng-container *ngFor="let w of workPlan_group">
+                                <!--<ng-container *ngFor="let w of workPlan_group">
                                 <div class="card-header">
                                     <h4 style="color: #405189;">{{w.cuerpoLegal}}</h4>
                                     <p>{{w.articulo}}</p>
-                                </div>
+                                </div>-->
                                 <div class="card-body">
-                                <ng-container *ngFor="let data of w.planes">
+                                <ng-container *ngFor="let data of workPlan_group"><!--*ngFor="let data of w.planes"-->
                                     <div class="list-group" id="pl1_{{data.id}}">
         
                                             <div class="team-list list-view-filter row" style="cursor:pointer;">
@@ -72,7 +72,7 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                <div class="col-lg-1 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-left">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;"><b>{{data.id.toString().padStart(6,"PT-000")}}</b></h5>
@@ -80,16 +80,40 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <div class="col-lg-3 col" (click)="comenzar(data.id)">
+                                                                <div class="col-lg-1 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-left">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data.installationId > 0 ? data.installation_work_plan.nombre
-                                                                                 : (data.descripcion)}}</b></h5>
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data.titulo ? data.titulo : '-'}}</b></h5>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data.cuerpoLegal ? data.cuerpoLegal : '-'}}</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data.articulo ? data.articulo : '-'}}</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data.installationId > 0 ? data.installation_work_plan.nombre
+                                                                                 : '-'}}<!--(data.descripcion)--></b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-1 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;">{{ data.fecha_inicio | date: 'd/M/yyyy' }}</h5>
@@ -98,7 +122,7 @@
                                                                     </div>
                                                                 </div>
         
-                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
+                                                                <div class="col-lg-1 col" (click)="comenzar(data.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;">{{ data.fecha_termino ? (data.fecha_termino | date: 'd/M/yyyy') : '-' }}</h5>
@@ -107,11 +131,15 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data.id)">
-                                                                    <div class="progress progress-xl">
+                                                                <div class="col-lg-2 col" style="display: flex;" (click)="comenzar(data.id)">
+                                                                    <div class="progress progress-xl" style="width: 90%;">
                                                                         <div class="progress-bar" 
                                                                         [ngClass]="{'bg-danger': data.avance > 0 && data.avance < 25, 'bg-warning': data.avance > 25 && data.avance < 75, 'bg-success': data.avance > 75 }" role="progressbar" [style]="data.avance > 0 ? 'width:'+data.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data.avance}}%</div>
                                                                     </div>
+                                                                    <span
+                                                                            [style.cursor]="'pointer'" (click)="confirm(deleteModel,data.id)" style="margin-left: 20px;">
+                                                                            <i class="ri-delete-bin-line"></i>
+                                                                    </span>
                                                                 </div>
 
                                                                 <!--<div class="col-lg-1 col" (click)="comenzar(data.id)">
@@ -123,12 +151,9 @@
                                                                     </div>
                                                                 </div>-->
                                                                 
-                                                                <div class="col-lg-1 col text-center">
-                                                                    <span
-                                                                            [style.cursor]="'pointer'" (click)="confirm(deleteModel,data.id)">
-                                                                            <i class="ri-delete-bin-line"></i>
-                                                                    </span>
-                                                                </div>
+                                                                <!--<div class="col-lg-1 col text-center">
+                                                                    
+                                                                </div>-->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -139,7 +164,7 @@
                                     </div>
                                 </ng-container>
                                 </div>
-                            </ng-container>
+                            <!--</ng-container>-->
                             </div>
                         </div>
                     </div>
@@ -169,7 +194,7 @@
         
                     <!--Planes de trabajo de Auditoria-->
                     <div class="row g-4 mb-3">
-                        <div class="card">
+                        <div class="card" style="padding: 0px;">
                             <div *ngIf="!workPlan_auditoria_group || workPlan_auditoria_group.length < 1" style="min-height: 350px !important;">
                                 
                                 <div class="card-body">
@@ -181,13 +206,13 @@
         
                             <div *ngIf="workPlan_auditoria_group && workPlan_auditoria_group.length > 0" style="min-height: 350px !important;">
                                 
-                                <ng-container *ngFor="let au of workPlan_auditoria_group">
+                                <!--<ng-container *ngFor="let au of workPlan_auditoria_group">
                                 <div class="card-header">
                                     <h4 style="color: #405189;">{{au.cuerpoLegal}}</h4>
                                     <p>{{au.articulo}}</p>
-                                </div>
+                                </div>-->
                                 <div class="card-body">
-                                <ng-container *ngFor="let data2 of au.planes">
+                                <ng-container *ngFor="let data2 of workPlan_auditoria_group"><!--let data2 of au.planes-->
                                     <div class="list-group">
         
                                             <div class="team-list list-view-filter row" style="cursor:pointer;">
@@ -206,7 +231,7 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                <div class="col-lg-1 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-left">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;"><b>{{data2.id.toString().padStart(6,"PT-000")}}</b></h5>
@@ -217,13 +242,29 @@
                                                                 <div class="col-lg-3 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-left">
                                                                         <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data2.cuerpoLegal ? data2.cuerpoLegal : '-'}}</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
+                                                                            <h5 class="mb-1" style="color: #405189;"><b>{{data2.articulo ? data2.articulo : '-'}}</b></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                    <div class="row text-muted text-left">
+                                                                        <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;"><b>{{data2.installationId > 0 ? data2.installation_work_plan.nombre
                                                                                  : ''}}</b></h5>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                <div class="col-lg-1 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;">{{ data2.fecha_inicio | date: 'd/M/yyyy' }}</h5>
@@ -232,7 +273,7 @@
                                                                     </div>
                                                                 </div>
         
-                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
+                                                                <div class="col-lg-1 col" (click)="comenzar(data2.id)">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
                                                                             <h5 class="mb-1" style="color: #405189;">{{ data2.fecha_termino ? (data2.fecha_termino | date: 'd/M/yyyy') : '-' }}</h5>
@@ -241,11 +282,15 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <div class="col-lg-2 col" (click)="comenzar(data2.id)">
-                                                                    <div class="progress progress-xl">
+                                                                <div class="col-lg-2 col" style="display: flex;" (click)="comenzar(data2.id)">
+                                                                    <div class="progress progress-xl" style="width: 90%;">
                                                                         <div class="progress-bar" 
                                                                         [ngClass]="{'bg-danger': data2.avance > 0 && data2.avance < 25, 'bg-warning': data2.avance > 25 && data2.avance < 75, 'bg-success': data2.avance > 75 }" role="progressbar" [style]="data2.avance > 0 ? 'width:'+data2.avance+'%;':'width: 10%;color: #000;background: #eff2f7;'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{data2.avance}}%</div>
                                                                     </div>
+                                                                    <span
+                                                                            [style.cursor]="'pointer'" (click)="confirm(deleteModel,data2.id)" style="margin-left: 20px;">
+                                                                            <i class="ri-delete-bin-line"></i>
+                                                                    </span>
                                                                 </div>
 
                                                                 <!--<div class="col-lg-1 col" (click)="comenzar(data2.id)">
@@ -257,12 +302,9 @@
                                                                     </div>
                                                                 </div>-->
                                                                 
-                                                                <div class="col-lg-1 col text-center">
-                                                                    <span
-                                                                            [style.cursor]="'pointer'" (click)="confirm(deleteModel,data2.id)">
-                                                                            <i class="ri-delete-bin-line"></i>
-                                                                    </span>
-                                                                </div>
+                                                                <!--<div class="col-lg-1 col text-center">
+                                                                    
+                                                                </div>-->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -273,7 +315,7 @@
                                     </div>
                                 </ng-container>
                                 </div>
-                            </ng-container>
+                            <!--</ng-container>-->
                             </div>
                         </div>
                     </div>
@@ -326,6 +368,15 @@
                 <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
             </div>
             
+            <div class="row">
+                <div class="col-sm-12 mb-3">
+                    <label for="customername-field" class="form-label">Título</label>
+                    <input type="text" id="customername-field" class="form-control" placeholder="Ingresar Título" required
+                        formControlName="titulo"
+                        [ngClass]="{ 'is-invalid': submitted && form['titulo'].errors }" />
+                    <div class="invalid-feedback">Por favor ingresa un Título.</div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-6 mb-3">
                     <label for="customername-field" class="form-label">Fecha Inicio</label>
