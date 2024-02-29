@@ -955,6 +955,7 @@ export class TaskControlComponent implements OnInit {
           const user_id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
 
           const dataWorkPlan: any = {
+                  titulo: null,
                   fecha_inicio: fecha_inicio,
                   fecha_termino: fecha_termino,
                   type: 'workPlan',      
