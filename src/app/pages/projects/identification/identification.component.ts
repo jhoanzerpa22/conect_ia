@@ -1880,7 +1880,7 @@ export class IdentificationComponent implements OnInit {
         }],
         chart: {
             type: 'bar',
-            height: this.getDataDashboardArea('label','general').length > 20 ? 800 : 400,            
+            height: this.getHeight(this.getDataDashboardArea('label','general').length),            
             stacked: false,
             //stackType: "100%",
             toolbar: {
@@ -2008,7 +2008,7 @@ export class IdentificationComponent implements OnInit {
         }],
         chart: {
             type: 'bar',
-            height: this.getDataDashboardInstallation('label','general').length > 20 ? 800 : 400,    
+            height: this.getHeight(this.getDataDashboardInstallation('label','general').length),
             stacked: true,
             //stackType: "100%",
             toolbar: {
@@ -2130,7 +2130,7 @@ export class IdentificationComponent implements OnInit {
       }],
       chart: {
           type: 'bar',
-          height: this.getDataDashboardArea('label','permisos').length > 20 ? 800 : 400,      
+          height: this.getHeight(this.getDataDashboardArea('label','permisos').length),      
           stacked: true,
           //stackType: "100%",
           toolbar: {
@@ -2249,7 +2249,7 @@ export class IdentificationComponent implements OnInit {
     }],
     chart: {
         type: 'bar',
-        height: this.getDataDashboardArea('label','reportes').length > 20 ? 800 : 400,      
+        height: this.getHeight(this.getDataDashboardArea('label','reportes').length),      
         stacked: true,
         //stackType: "100%",
         toolbar: {
@@ -2368,7 +2368,7 @@ this.basicBarChartMonitoreos = {
   }],
   chart: {
       type: 'bar',
-      height: this.getDataDashboardArea('label','monitoreos').length > 20 ? 800 : 400,      
+      height: this.getHeight(this.getDataDashboardArea('label','monitoreos').length),      
       stacked: true,
       //stackType: "100%",
       toolbar: {
@@ -2487,7 +2487,7 @@ seriesOtros: [{
 }],
   chart: {
       type: 'bar',
-      height: this.getDataDashboardArea('label','otros').length > 20 ? 800 : 400,      
+      height: this.getHeight(this.getDataDashboardArea('label','otros').length),      
       stacked: true,
       //stackType: "100%",
       toolbar: {
@@ -2610,7 +2610,7 @@ seriesOtros: [{
 }],
     chart: {
         type: 'bar',
-        height: this.getDataDashboardInstallation('label','permisos').length > 20 ? 800 : 400,    
+        height: this.getHeight(this.getDataDashboardInstallation('label','permisos').length),    
         stacked: true,
         //stackType: "100%",
         toolbar: {
@@ -2729,7 +2729,7 @@ seriesOtros: [{
 }],
   chart: {
       type: 'bar',
-      height: this.getDataDashboardInstallation('label','reportes').length > 20 ? 800 : 400,    
+      height: this.getHeight(this.getDataDashboardInstallation('label','reportes').length),    
       stacked: true,
       //stackType: "100%",
       toolbar: {
@@ -2848,7 +2848,7 @@ seriesOtros: [{
 }],
 chart: {
     type: 'bar',
-    height: this.getDataDashboardInstallation('label','monitoreos').length > 20 ? 800 : 400,    
+    height: this.getHeight(this.getDataDashboardInstallation('label','monitoreos').length),    
     stacked: true,
     //stackType: "100%",
     toolbar: {
@@ -2967,7 +2967,7 @@ seriesOtros: [{
 }],
 chart: {
     type: 'bar',
-    height: this.getDataDashboardInstallation('label','otros').length > 20 ? 800 : 400,    
+    height: this.getHeight(this.getDataDashboardInstallation('label','otros').length),    
     stacked: true,
     //stackType: "100%",
     toolbar: {
@@ -3093,7 +3093,7 @@ private _basicBarChartGeneralCuerpos(colors: any) {
       }],
       chart: {
           type: 'bar',
-          height: this.getDataDashboardAreaCuerpo('label','general').length > 20 ? 800 : 400,      
+          height: this.getHeight(this.getDataDashboardAreaCuerpo('label','general').length),      
           stacked: true,
           //stackType: "100%",
           toolbar: {
@@ -3219,7 +3219,7 @@ private _basicBarChartGeneralCuerposInstallation(colors: any) {
       }],
       chart: {
           type: 'bar',
-          height: this.getDataDashboardInstallationCuerpo('label','general').length > 20 ? 800 : 400,      
+          height: this.getHeight(this.getDataDashboardInstallationCuerpo('label','general').length),      
           stacked: true,
           //stackType: "100%",
           toolbar: {
@@ -3992,6 +3992,18 @@ getChart(criticidad: any, config: any){
       return data;
     } else {
       return [];
+    }
+  }
+
+  getHeight(rows: number){
+    if(rows > 80){
+      return 1700;
+    }else if(rows > 50){
+      return 1500;
+    }else if(rows > 20){
+      return 800;
+    }else {
+      return 400;
     }
   }
   
