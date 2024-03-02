@@ -597,8 +597,17 @@ getArticlesCuerpo(articulos: any){
         co.articuloId == articulos[j].articuloId
     );
 
-    if(index == -1){
+    if(index == -1 && articulos[j].proyectoId == this.project_id && articulos[j].estado == '1'){
+      
+      if(articulos[j].evaluations && !articulos[j].evaluations.active){
+        articulos[j].evaluations = {};
+      } 
       articulosData.push(articulos[j]);
+    }else if(index != -1 && articulos[j].proyectoId == this.project_id && articulos[j].estado == '1'){
+
+      if((!articulosData[index].evaluations || articulosData[index].evaluations && !articulosData[index].evaluations.active) && articulos[j].evaluations && articulos[j].evaluations.active == true){
+        articulosData[index] = articulos[j];
+      }
     }
   }
 
@@ -841,15 +850,22 @@ console.log('ITems',items);
                     (ar: any) =>
                       ar == articulos[i].articulos[j].articuloId
                   );
+                  
+                  const index_articulo = articulos[i].articulos.findIndex(
+                    (ar: any) =>
+                      ar.evaluations && ar.evaluations.active == true
+                  );
               
-                  if(index == -1){
+                  if(index == -1 && (index_articulo == -1 || (index_articulo != -1 && articulos[i].articulos[j].evaluations && articulos[i].articulos[j].evaluations.active == true))){
                     articulos_group.push(articulos[i].articulos[j].articuloId);
                     total += 1;
                     total_cuerpos += 1;
-
-                  procede = true;
-                  if(articulos[i].articulos[j].evaluations.estado){
-                    switch (this.getCategoryStatus(articulos[i].articulos[j].evaluations.estado)) {
+                    procede = true;
+                  
+                  const evaluation_active = articulos[i].articulos[j].evaluations;
+                  
+                  if(evaluation_active && evaluation_active.active && evaluation_active.estado){
+                    switch (this.getCategoryStatus(evaluation_active.estado)) {
                       case 'CUMPLE':
                         cumple ++;
                         cuerpo_cumple ++;
@@ -920,7 +936,7 @@ console.log('ITems',items);
                         break;
                     }
                     
-                  }else{
+                  }/*else{
                     nocumple ++;
                         cuerpo_nocumple ++;
                         
@@ -940,7 +956,7 @@ console.log('ITems',items);
                             default:
                               break;
                           }
-                  }
+                  }*/
                   }
                 }
               }

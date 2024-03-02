@@ -883,7 +883,7 @@ export class EvaluationTaskViewComponent implements OnInit {
   
   removeTags(str: any) {
     if ((str===null) || (str===''))
-        return false;
+        return '';
     else
         str = str.toString();
           

@@ -1736,7 +1736,7 @@ layers = [
     
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+        ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*/
     );
     let articles_group: any = [];
     let alta: number = 0;
@@ -1892,7 +1892,7 @@ layers = [
     
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+        ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*/
     );
     let articles_group: any = [];
     let alta: number = 0;
@@ -2049,7 +2049,7 @@ layers = [
     
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+        ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*/
     );
     let articles_group: any = [];
     let alta: number = 0;
@@ -2205,7 +2205,7 @@ layers = [
   countElementos(){
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')
+        ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*/
     );
     let installation_group: any = [];
           filter.forEach((x: any) => {
@@ -9067,7 +9067,7 @@ getChart(criticidad: any, config: any){
     this.articles_filter = [];
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2') && ins.normaId == this.filtro_cuerpoId
+        ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*/ && ins.normaId == this.filtro_cuerpoId
     );
    // let articles_group: any = [];
           filter.forEach((x: any) => {
