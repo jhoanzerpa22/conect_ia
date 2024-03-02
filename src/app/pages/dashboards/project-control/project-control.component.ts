@@ -396,7 +396,7 @@ export class ProjectControlComponent implements OnInit {
               let cuerpo_parcial: number = 0;
 
               for (var j = 0; j < obj[i].installations_articles.length; j++) { 
-                if(obj[i].installations_articles[j].proyectoId == this.project_id && (obj[i].installations_articles[j].estado == '1' || obj[i].installations_articles[j].estado == '2')){
+                if(obj[i].installations_articles[j].proyectoId == this.project_id && /*(*/obj[i].installations_articles[j].estado == '1'/* || obj[i].installations_articles[j].estado == '2')*/){
                   total_articulos.push(obj[i].installations_articles[j]);
                   
                   const index = total_cuerpos.findIndex(
@@ -409,7 +409,7 @@ export class ProjectControlComponent implements OnInit {
                   }
 
                   for (var v = 0; v < obj[i].installations_articles[j].evaluations.length; v++) {
-                      if(obj[i].installations_articles[j].evaluations[v].estado){
+                      if(obj[i].installations_articles[j].evaluations[v].active == true && obj[i].installations_articles[j].evaluations[v].estado){
                         switch (this.getCategoryStatus(obj[i].installations_articles[j].evaluations[v].estado)) {
                           case 'CUMPLE':
                             cumple ++;
@@ -973,7 +973,7 @@ layers = [
     this.articles_filter = [];
     const filter: any = this.installations_articles.filter(
       (ins: any) =>
-        ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')/* && ins.normaId == this.filtro_cuerpoId*/
+        ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*//* && ins.normaId == this.filtro_cuerpoId*/
     );
    // let articles_group: any = [];
           filter.forEach((x: any) => {
@@ -1188,7 +1188,7 @@ filterBusqueda2() {
     let cumplimiento_installation = search.tipo ? item.instalaciones.findIndex((c: any) =>{
       return c.installations_articles.findIndex((ins4: any) => {
         const evalua = ins4.proyectoId == this.project_id && ins4.evaluations && ins4.evaluations.length > 0 ? ins4.evaluations.findIndex((ev: any) => {
-          return this.getCategoryStatus(ev.estado) == search.tipo;
+          return this.getCategoryStatus(ev.estado) == search.tipo && ev.active == true;
         }) : -1;
         return (search.tipo == 'NO EVALUADO' && (!ins4.evaluations || (ins4.evaluations && ins4.evaluations.length < 1)) && ins4.proyectoId == this.project_id) || (search.tipo != 'NO EVALUADO' && evalua != -1);
       }) != -1;
@@ -1372,7 +1372,7 @@ filterBusqueda() {
     let cumplimiento_installation = search.tipo && search.tipo != '' ? (
       item.installations_articles && item.installations_articles.length > 0 ? item.installations_articles.findIndex((ins4: any) => {
         const evalua = ins4.proyectoId == this.project_id && ins4.instalacionId == item.id && ins4.evaluations && ins4.evaluations.length > 0 ? ins4.evaluations.findIndex((ev: any) => {
-          return this.getCategoryStatus(ev.estado) == search.tipo;
+          return this.getCategoryStatus(ev.estado) == search.tipo && ev.active == true;
         }) : -1;
         return (search.tipo == 'NO EVALUADO' && (!ins4.evaluations || (ins4.evaluations && ins4.evaluations.length < 1)) && ins4.proyectoId == this.project_id) || (search.tipo != 'NO EVALUADO' && evalua != -1);
       }) : 1) : -1;
@@ -1444,7 +1444,7 @@ filterInstallation(instalaciones: any) {
     aa.instalaciones = this.search.tipo && this.search.tipo != undefined ? aa.instalaciones.filter((art4: any) => {
       return art4.installations_articles.findIndex((ins4: any) => {
         const evalua = ins4.proyectoId == this.project_id && ins4.evaluations && ins4.evaluations.length > 0 ? ins4.evaluations.findIndex((ev: any) => {
-          return this.getCategoryStatus(ev.estado) == this.search.tipo;
+          return this.getCategoryStatus(ev.estado) == this.search.tipo && ev.active == true;
         }) : -1;
         return (ins4.proyectoId == this.project_id && this.search.tipo == 'NO EVALUADO' && (!ins4.evaluations || (ins4.evaluations && ins4.evaluations.length < 1))) || (this.search.tipo != 'NO EVALUADO' && evalua != -1);
       }) != -1;
@@ -1475,7 +1475,7 @@ filterInstallation(instalaciones: any) {
   
       bb.installations_articles = this.search.tipo && this.search.tipo != undefined ? bb.installations_articles.filter((bb4: any) => {
           const evalua = bb4.proyectoId == this.project_id && bb4.evaluations && bb4.evaluations.length > 0 ? bb4.evaluations.findIndex((ev2: any) => {
-            return this.getCategoryStatus(ev2.estado) == this.search.tipo;
+            return this.getCategoryStatus(ev2.estado) == this.search.tipo && ev2.active == true;
           }) : -1;
           return (bb4.proyectoId == this.project_id && this.search.tipo == 'NO EVALUADO' && (!bb4.evaluations || (bb4.evaluations && bb4.evaluations.length < 1))) || (this.search.tipo != 'NO EVALUADO' && evalua != -1);
       }) : bb.installations_articles;
@@ -1511,7 +1511,7 @@ getListaFiltros(){
 
       x.instalaciones.forEach((ic: any) => {
         ic.installations_articles.forEach((ins: any) => {
-          if(ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')){
+          if(ins.proyectoId == this.project_id && /*(*/ins.estado == '1'/* || ins.estado == '2')*/){
                 
           const index_cuerpo = this.lista_cuerpos.findIndex(
             (lc: any) =>
@@ -1564,7 +1564,7 @@ getListaFiltros(){
           if(ins.evaluations && ins.evaluations.length > 0){
             ins.evaluations.forEach((ev: any) => {
               //console.log('Evaluacion',this.getCategoryStatus(ev.estado), ev.active, ev.proyectoId, ev);
-              if(ev.active/* && ev.proyectoId == this.project_id*/){
+              if(ev.active == true/* && ev.proyectoId == this.project_id*/){
                 const index_cumplimiento = this.lista_cumplimientos.findIndex(
                   (lcum: any) =>
                     lcum.cumplimiento == this.getCategoryStatus(ev.estado)
@@ -1620,7 +1620,7 @@ getListaFiltros2(){
 
       //x.instalaciones.forEach((ic: any) => {
         x.installations_articles.forEach((ins: any) => {
-          if(ins.proyectoId == this.project_id && (ins.estado == '1' || ins.estado == '2')){
+          if(ins.proyectoId == this.project_id && /*(*/ins.estado == '1' /*|| ins.estado == '2')*/){
                 
           const index_cuerpo = this.lista_cuerpos.findIndex(
             (lc: any) =>
@@ -1673,7 +1673,7 @@ getListaFiltros2(){
           if(ins.evaluations && ins.evaluations.length > 0){
             ins.evaluations.forEach((ev: any) => {
               //console.log('Evaluacion',this.getCategoryStatus(ev.estado), ev.active, ev.proyectoId, ev);
-              if(ev.active/* && ev.proyectoId == this.project_id*/){
+              if(ev.active == true/* && ev.proyectoId == this.project_id*/){
                 const index_cumplimiento = this.lista_cumplimientos.findIndex(
                   (lcum: any) =>
                     lcum.cumplimiento == this.getCategoryStatus(ev.estado)

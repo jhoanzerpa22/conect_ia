@@ -53,7 +53,7 @@ export class TaskControlComponent implements OnInit {
   project_id: any = '';
   project: any = {};
   evaluation: any = {};
-  cuerpo_id: any = '';
+  installation_article_id: any = '';
   cuerpoLegal: any = '';
   installation_id: any = null;
   installation_id_select: any = [];
@@ -236,7 +236,7 @@ export class TaskControlComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.project_id = params['idProject'];
-      this.cuerpo_id = params['id'];
+      this.installation_article_id = params['id'];
       this.installation_id = params['idInstallation'] ? params['idInstallation'] : null;
       this.installation_nombre = params['nameInstallation'] ? params['nameInstallation'] : null;
 
@@ -431,7 +431,7 @@ export class TaskControlComponent implements OnInit {
   private _fetchData() {
     
     this.showPreLoader();
-      this.projectsService.getBodyLegalByNorma(this.cuerpo_id).pipe().subscribe(
+      this.projectsService.getBodyLegalByNorma(this.installation_article_id).pipe().subscribe(
         (data: any) => {
           //this.service.bodylegal_data = data.data;
           this.detail = data.data;
@@ -462,10 +462,29 @@ export class TaskControlComponent implements OnInit {
 
           for (var i = 0; i < cuerpos.length; i++) {
             if(cuerpos[i].articulos.length > 0){
+              
               let procede: boolean = false;
+              let articulos_group: any = [];
+
               for (var j = 0; j < cuerpos[i].articulos.length; j++) {
-                if(cuerpos[i].articulos[j].proyectoId == this.project_id && cuerpos[i].articulos[j].id == this.cuerpo_id){
-                  procede = true;                
+                if(cuerpos[i].articulos[j].proyectoId == this.project_id && cuerpos[i].articulos[j].estado == '1' && cuerpos[i].articulos[j].id == this.installation_article_id){
+
+                  const index = articulos_group.findIndex(
+                    (ar: any) =>
+                      ar == cuerpos[i].articulos[j].articuloId
+                  );
+                  
+                  const index_articulo = cuerpos[i].articulos.findIndex(
+                    (ar: any) =>
+                      ar.evaluations && ar.evaluations.active == true
+                  );
+                  
+                  if(index == -1 && (index_articulo == -1 || (index_articulo != -1 && cuerpos[i].articulos[j].evaluations && cuerpos[i].articulos[j].evaluations.active == true))){
+
+                    articulos_group.push(cuerpos[i].articulos[j].articuloId);
+                    procede = true;
+                  }              
+                
                 }
               }
               if(procede){
@@ -477,11 +496,23 @@ export class TaskControlComponent implements OnInit {
           this.cuerpoLegal = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].cuerpoLegal : '';
           this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];/*data.data.data.length > 0 ? data.data.data[0].articulos : [];*/
           let articulo_filter: any = this.articulosDatas.filter((data: any) => {
-            return data.id === parseInt(this.cuerpo_id);
+            return data.id === parseInt(this.installation_article_id);
           });
 
-          this.articulo = articulo_filter.length > 0 ? articulo_filter[0] : {};
+          const index_evaluation: any = articulo_filter.findIndex((co: any) =>  co.evaluations && co.evaluations.active == true);
+
+          let articulo_detalle: any = articulo_filter.length > 0 ? articulo_filter[0] : {};
+          
+          if(index_evaluation != -1){
+            articulo_detalle = articulo_filter[index_evaluation];
+          }
+
+          this.articulo = articulo_detalle;
           //console.log('ARTICULO',this.articulo);
+          if(this.articulo.evaluations && !this.articulo.evaluations.active){
+            this.articulo.evaluations = {};
+          }
+
           if(this.articulo.project_article && this.articulo.project_article.articuloTipo){
             this.estados = this.estados_default.filter((estado: any) => {
               return estado.type == this.articulo.project_article.articuloTipo;
@@ -677,7 +708,7 @@ export class TaskControlComponent implements OnInit {
       );
 
       if(index4 == -1){
-        hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.cuerpo_id });
+        hallazgos.push({nombre: this.HallazgosDatas[h].nombre, descripcion: this.HallazgosDatas[h].descripcion, estado: this.HallazgosDatas[h].estado, installationArticleId: this.installation_article_id });
       }
     }
 
@@ -685,7 +716,7 @@ export class TaskControlComponent implements OnInit {
       fecha_evaluacion: fecha_evaluacion,
       hallazgos: hallazgos,
       estado: this.status,
-      installationArticleId: this.cuerpo_id,
+      installationArticleId: this.installation_article_id,
       comentario: comentario,
       proyectoId: this.project_id,
       evaluationProyectId: this.evaluation_id,
@@ -749,16 +780,16 @@ export class TaskControlComponent implements OnInit {
     //let fecha: any = fecha_format.getDate()+'/'+(fecha_format.getMonth() + 1)+'/'+fecha_format.getFullYear();
     let id: any = (this.HallazgosDatas && this.HallazgosDatas.length > 0 ? (this.HallazgosDatas[this.HallazgosDatas.length-1].id + 101) : 1);
     let estado: any = 2;
-    let cuerpo_id: any = this.cuerpo_id;
+    let installation_article_id: any = this.installation_article_id;
 
-    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.cuerpo_id};
+    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.installation_article_id};
     
     this.HallazgosDatas.push({
       id,
       nombre,
       fecha,
       estado,
-      cuerpo_id
+      installation_article_id
     });
   
     this.table.renderRows();
@@ -1121,9 +1152,11 @@ export class TaskControlComponent implements OnInit {
   }
 
   private getEvaluationsByInstallationArticle(){
-    this.projectsService.getEvaluationsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+    this.projectsService.getEvaluationsByInstallationArticle(this.installation_article_id).pipe().subscribe(
       (data: any) => {
-        this.evaluations = data.data;
+        this.evaluations = data.data && data.data.length > 0 ? data.data.filter((ev: any) => {
+          return ev.active == true;
+        }) : [];
         this.getWorkPlan();
     },
     (error: any) => {
@@ -1137,7 +1170,7 @@ export class TaskControlComponent implements OnInit {
   private getFindingsByInstallationArticle(){
 
     this.showPreLoader();
-      this.projectsService.getFindingsByInstallationArticle(this.cuerpo_id).pipe().subscribe(
+      this.projectsService.getFindingsByInstallationArticle(this.installation_article_id).pipe().subscribe(
         (data: any) => {
           const hallazgos_data = data.data;
           //console.log('hallazgos', this.hallazgos);
@@ -1183,7 +1216,7 @@ export class TaskControlComponent implements OnInit {
   
   removeTags(str: any) {
     if ((str===null) || (str===''))
-        return false;
+        return '';
     else
         str = str.toString();
           
