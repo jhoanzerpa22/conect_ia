@@ -121,7 +121,7 @@
                                                                         </div>
 
                                                                         <div class="col-lg-1 col" (click)="goDetail(v.id)">
-                                                                            <span class="badge text-bg-no-evaluado" style="min-width: 170px;" [ngClass]="{'bg-warning': v.avance > 0 && v.avance < 90,'bg-success': v.avance > 0 && v.avance >= 90, 'text-bg-no-evaluado': v.avance < 1}">{{v.avance > 0 && v.avance < 90 ? 'En evaluación' : (v.avance > 0 && v.avance >= 90 ? 'Evaluado' : 'No evaluado')}}</span>
+                                                                            <span class="badge text-bg-no-evaluado" style="width: 100%;" [ngClass]="{'bg-warning': v.avance > 0 && v.avance < 90,'bg-success': v.avance > 0 && v.avance >= 90, 'text-bg-no-evaluado': v.avance < 1}">{{v.avance > 0 && v.avance < 90 ? 'En evaluación' : (v.avance > 0 && v.avance >= 90 ? 'Evaluado' : 'No evaluado')}}</span>
                                                                         </div>
                                                                         
                                                                         <div class="col-lg-1 col text-center" *ngIf="!evaluations.auditoria">
