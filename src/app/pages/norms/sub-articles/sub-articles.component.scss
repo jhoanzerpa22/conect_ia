@@ -1,0 +1,70 @@
+.titulo-caja{    
+    border: 1px solid #bcbcbc;
+    width: 200px;
+    align-items: center;
+    text-align: center;
+    height: 40px;
+    vertical-align: middle;
+    margin: auto;
+    justify-content: center;
+    justify-items: center;
+    display: flex;
+}
+
+.container-article{
+    background-color: #f3f6f9;
+    border-left: 1px solid #000;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.hideMenu{
+    width: 200px !important;
+    min-width: 200px !important;
+}
+
+.showMenu{
+    width: 300px !important;
+    min-width: 300px !important;
+}
+
+.file-menu-sidebar-scroll{
+    height: calc(100vh - 230px) !important;
+}
+
+
+  /* Tamaño del scroll */
+  .menu-sidebar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+   /* Estilos barra (thumb) de scroll */
+  .menu-sidebar::-webkit-scrollbar-thumb {
+    background: #405189;
+    border-radius: 4px;
+  }
+  
+  .menu-sidebar::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+  }
+  
+  .menu-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #405189;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  
+   /* Estilos track de scroll */
+  .menu-sidebar::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+  }
+  
+  .menu-sidebar::-webkit-scrollbar-track:hover,
+  .menu-sidebar::-webkit-scrollbar-track:active {
+    background: #d4d4d4;
+  }

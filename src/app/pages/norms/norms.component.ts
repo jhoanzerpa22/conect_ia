@@ -7,10 +7,10 @@ import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@an
 // Sweet Alert
 import Swal from 'sweetalert2';
 
-import { BodyLegalTypeModel } from './body-legal.model';
-import { BodyLegal } from './data';
-import { BodyLegalService } from './body-legal.service';
-import { NgbdBodyLegalTypeSortableHeader, SortEvent } from './body-legal-sortable.directive';
+import { NormsModel } from './norms.model';
+import { Norms } from './data';
+import { NormsService } from './norms.service';
+import { NgbdNormsSortableHeader, SortEvent } from './norms-sortable.directive';
 import { ProjectsService } from '../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from './toast-service';
@@ -19,33 +19,33 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
 //import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-library',
-  templateUrl: './body-legal.component.html',
-  styleUrls: ['./body-legal.component.scss'],
-  providers: [BodyLegalService, DecimalPipe]
+  selector: 'app-norms',
+  templateUrl: './norms.component.html',
+  styleUrls: ['./norms.component.scss'],
+  providers: [NormsService, DecimalPipe]
 
 })
 
 /**
  * Listjs table Component
  */
-export class BodyLegalTypeComponent {
+export class NormsComponent {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   submitted = false;
-  BodyLegalData!: BodyLegalTypeModel[];
+  BodyLegalData!: NormsModel[];
   checkedList: any;
   masterSelected!: boolean;
   BodyLegalDatas: any;
   body_legal_data: any = [];
 
   // Table data
-  BodyLegalList!: Observable<BodyLegalTypeModel[]>;
+  BodyLegalList!: Observable<NormsModel[]>;
   total: Observable<number>;
   total_body: number = 0;
   total_paginate: number = 0;
-  @ViewChildren(NgbdBodyLegalTypeSortableHeader) headers!: QueryList<NgbdBodyLegalTypeSortableHeader>;
+  @ViewChildren(NgbdNormsSortableHeader) headers!: QueryList<NgbdNormsSortableHeader>;
   page: number = 1;
   term:any;
   busquedaForm!: UntypedFormGroup;
@@ -53,7 +53,10 @@ export class BodyLegalTypeComponent {
   type_search: any = 'by_texto';
   userData: any;
 
-  constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
+  addArticle: boolean = false;
+  addSubArticle: boolean = false;
+
+  constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
@@ -63,8 +66,8 @@ export class BodyLegalTypeComponent {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Biblioteca' },
-      { label: 'Cuerpos Legales', active: true }
+      { label: 'Cuerpos Legales' },
+      { label: 'Crear', active: true }
     ];
     
     this.userData = this.TokenStorageService.getUser();
@@ -83,7 +86,7 @@ export class BodyLegalTypeComponent {
       this.BodyLegalDatas = Object.assign([], x);
     });
     
-    const search: any = this.route.snapshot.queryParams['search'];
+    /*const search: any = this.route.snapshot.queryParams['search'];
     if(search && search != '' && search != undefined ? search : ''){
       const type_search: any = this.route.snapshot.queryParams['type_search'];
       const paginate: any = this.route.snapshot.queryParams['paginate'];
@@ -93,7 +96,7 @@ export class BodyLegalTypeComponent {
       this.busquedaNorma(search, type_search, paginate);
     }else{
       this.busquedaNorma('', 'by_texto', 1);
-    }
+    }*/
     
   }
 
@@ -219,6 +222,22 @@ export class BodyLegalTypeComponent {
         this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
+  showAddArticle(){
+    this.addArticle = true;
+  }
+
+  hideAddArticle(event?: any){
+    this.addArticle = false;
+  }
+  
+  showAddSubArticle(){
+    this.addSubArticle = true;
+  }
+
+  hideAddSubArticle(event?: any){
+    this.addSubArticle = false;
   }
 
   pageTotal(totalRecords: any){

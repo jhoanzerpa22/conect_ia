@@ -1,0 +1,41 @@
+<ng-container *ngIf="!addSubArticle">
+    <div>
+      <div>
+      <div class="row g-4 mb-4">
+        <div class="col-sm">
+            <h5 class="mb-1">Crear Sub Obligaciones</h5>
+            <p class="text-muted">Crea cada una de las sub obligaciones de la Obligación seleccionada</p>
+        </div>
+        <div class="col-sm-auto">
+                <button type="button" class="btn btn-info btn-label waves-effect right waves-light" (click)="showAddSubArticle()">Agregar Sub Obligación<i class="ri-add-line label-icon align-middle fs-16"></i></button>
+        </div>
+       </div>
+
+       <div class="row g-4 mb-3">
+        <div class="card" style="padding: 0px;">
+            <div style="min-height: 350px !important;">
+                
+                <div class="card-body">
+                <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                    Aún no ha creado sub obligaciones para esta Obligación
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+       
+      </div>
+    </div>  
+
+    <div class="align-items-end gap-3 mt-4">
+        <button type="button" class="btn btn-info btn-label right" style="float: right;margin-left: 10px;"><i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>Guardar</button>
+        <button type="button" class="btn btn-danger text-decoration-none" style="float: right;" (click)="backClicked()"> Cancelar</button>
+        
+    </div>
+    
+    </ng-container>
+    
+    <ng-container *ngIf="addSubArticle">
+        
+        <app-articles (backFunction)='hideAddSubArticle($event)'></app-articles>
+    </ng-container>
