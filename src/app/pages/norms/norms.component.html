@@ -9,7 +9,7 @@
           <span class="visually-hidden">Cargando...</span>
       </div>
     </div>
-  </div>
+</div>
 
   <div class="row">
     <div class="col-xl-12">
@@ -28,7 +28,8 @@
                         <button class="nav-link rounded-pill active" data-progressbar="custom-progress-bar" id="pills-gen-info-tab" data-bs-toggle="pill" data-bs-target="#pills-gen-info" type="button" role="tab" aria-controls="pills-gen-info" aria-selected="true">1</button>
                       </li>
                     </ng-template>
-                    <div>
+                    
+                    <form [formGroup]="cuerpoForm">
                       <div class="mb-4">
                           <div>
                               <h5 class="mb-1">Información General del Cuerpo Legal</h5>
@@ -39,19 +40,19 @@
                           <div class="col-lg-12">
                               <div class="mb-3">
                                   <label class="form-label" for="gen-info-email-input">Título</label>
-                                  <input type="text" class="form-control" id="gen-info-email-input" placeholder="Decreto ...">
+                                  <input type="text" class="form-control" id="gen-info-email-input" formControlName="titulo" placeholder="Decreto ...">
                               </div>
                           </div>
                           <div class="col-lg-12">
                               <div class="mb-3">
                                   <label class="form-label" for="gen-info-username-input">Sub Título</label>
-                                  <input type="text" class="form-control" id="gen-info-username-input" placeholder="Aprueba uso de ...">
+                                  <input type="text" class="form-control" id="gen-info-username-input"  formControlName="subtitulo" placeholder="Aprueba uso de ...">
                               </div>
                           </div>
                           <div class="col-lg-12">
                               <div class="mb-3">
                                   <label class="form-label" for="gen-info-username-input">Ministerio / Área legal</label>
-                                  <input type="text" class="form-control" id="gen-info-username-input" placeholder="Ministerio de medio ambiente">
+                                  <input type="text" class="form-control" id="gen-info-username-input"  formControlName="ministerio" placeholder="Ministerio de medio ambiente">
                               </div>
                           </div>
                       </div>
@@ -59,10 +60,10 @@
                           <label class="form-label" for="gen-info-password-input">Password</label>
                           <input type="password" class="form-control" id="gen-info-password-input" placeholder="Enter Password">
                       </div>-->
-                    </div>
+                    </form>
                     <!-- wizard-tab -->
                     <div class="d-flex align-items-start gap-3 mt-4">
-                      <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-info-desc-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Crear Obligaciones</button>
+                      <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" (click)="saveCuerpoLegal()" data-nexttab="pills-info-desc-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Crear Obligaciones</button>
                     </div>
                 </aw-wizard-step>
   
@@ -74,8 +75,6 @@
                     </ng-template>
                     
                     <ng-container *ngIf="!addArticle && !addSubArticle">
-                    <div>
-                      <div>
                       <div class="row g-4 mb-4">
                         <div class="col-sm">
                             <h5 class="mb-1">Crear Obligaciones</h5>
@@ -87,16 +86,18 @@
                        </div>
 
                        <div class="row g-4 mb-3">
-                        <div class="card" style="padding: 0px;">
-                            <div style="min-height: 350px !important;">
+                            <div style="min-height: 350px !important;" *ngIf="cuerpoLegal.articulos.length == 0">
                                 
+                                <div class="card" style="padding: 0px;">
                                 <div class="card-body">
                                     <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
                                         Aún no ha creado obligaciones para este Cuerpo legal
                                     </div>
+                                </div>
+                                </div>
+                            </div>
 
-                                    
-                            <div style="min-height: 350px !important;">
+                            <div style="min-height: 350px !important;" *ngIf="cuerpoLegal.articulos.length > 0">
                                 
                                 <div class="d-md-flex justify-content-sm-end gap-2">
                                     <div class="search-box" style="width: 20%;">
@@ -104,19 +105,23 @@
                                         <i class="ri-search-2-line search-icon"></i>
                                     </div>
                                 </div>
-                                <!--<ng-container *ngFor="let ev of evaluations">-->
+
+                                <div style="padding: 0px;">
+
+                                    <ng-container *ngFor="let ar of cuerpoLegal.articulos; let i = index">
+                                    
                                     <div class="list-group">
         
                                             <div class="team-list list-view-filter row" style="cursor:pointer;">
                                                 <div class="col">
-                                                    <div class="card team-box">
+                                                    <div class="card team-box" style="margin-bottom: 20px !important;">
                                                         <div class="team-cover">
                                                             
                                                         </div>
                                                         <div class="card-header">
-                                                            <h4 class="card-title mb-0">Artículo 1</h4>
-                                                            <h5 class="text-muted">Cumplimiento ley 2342</h5>
-                                                            <p>Aprueba ley de ...</p>
+                                                            <h4 class="card-title mb-0">{{ar.encabezado}}</h4>
+                                                            <h5 class="text-muted">{{ar.titulo}}</h5>
+                                                            <p>{{ar.contenido}}</p>
                                                         </div>
                                                         <div class="card-body p-4">                
                                                             <div class="row align-items-center team-row">
@@ -131,7 +136,7 @@
                                                                 <div class="col-lg-4 col"><!-- (click)="goEvaluation(ev.id)"-->
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1" ><b>Jorge Torres</b></h5>
+                                                                            <h5 class="mb-1" ><b>{{ar.usuario.nombre +' '+ar.usuario.apellido}}</b></h5>
                                                                             <p class="text-muted mb-0">Creado por</p>
                                                                         </div>
                                                                     </div>
@@ -140,7 +145,7 @@
                                                                 <div class="col-lg-2 col">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">15-03-2024</h5>
+                                                                            <h5 class="mb-1">{{ar.created_at}}</h5>
                                                                             <p class="text-muted mb-0">Fecha Creación</p>
                                                                         </div>
                                                                     </div>
@@ -149,7 +154,7 @@
                                                                 <div class="col-lg-2 col">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">15-03-2024</h5>
+                                                                            <h5 class="mb-1">{{ar.updated_at}}</h5>
                                                                             <p class="text-muted mb-0">Fecha Modificación</p>
                                                                         </div>
                                                                     </div>
@@ -158,7 +163,7 @@
                                                                 <div class="col-lg-2 col">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">0</h5>
+                                                                            <h5 class="mb-1">{{ar.subarticulos ? ar.subarticulos.length : 0}}</h5>
                                                                             <p class="text-muted mb-0">Sub-Artículos</p>
                                                                         </div>
                                                                     </div>
@@ -168,12 +173,12 @@
                                                                     
 
                                                                     <span class="btn btn-info" 
-                                                                    [style.cursor]="'pointer'" (click)="showAddSubArticle()">
+                                                                    [style.cursor]="'pointer'" (click)="showAddSubArticle(i, ar)">
                                                                     <i class=" ri-git-merge-line"></i>
                                                                     </span>
                                                                     
                                                                     <span style="margin-left:10px;" class="btn btn-danger" 
-                                                                    [style.cursor]="'pointer'" (click)="showAddSubArticle()">
+                                                                    [style.cursor]="'pointer'">
                                                                     <i class="ri-delete-bin-5-line"></i>
                                                                     </span>
                                                                     
@@ -185,29 +190,26 @@
                                                 </div>
                                             </div>
                                     </div>
-                                <!--</ng-container>-->
-                                </div>
-                                </div>
+                                </ng-container>
                             </div>
-                        </div>
-                        </div>
-                       
-                      </div>
+                            </div>
                     </div>
+                       
                     <div class="d-flex align-items-start gap-3 mt-4">
                       <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-gen-info-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Información</button>
                       <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-success-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Resumen</button>
                     </div>
+
                     </ng-container>
                     
                     <ng-container *ngIf="addArticle && !addSubArticle">
                         
-                        <app-articles (backFunction)='hideAddArticle($event)'></app-articles>
+                        <app-articles (backFunction)='hideAddArticle($event)' (addFunction)='saveArticulos($event)'></app-articles>
                     </ng-container>
                     
                     <ng-container *ngIf="addSubArticle">
                         
-                        <app-sub-articles (backFunction)='hideAddSubArticle($event)'></app-sub-articles>
+                        <app-sub-articles [articulo_padre]="articulo_padre" (addFunction)='saveSubArticulos($event)' (backFunction)='hideAddSubArticle($event)'></app-sub-articles>
                     </ng-container>
                 </aw-wizard-step>
   
@@ -218,8 +220,6 @@
                       </li>
                     </ng-template>
                     
-                    <div>
-                        <div>
                         <div class="mb-4">
                           <div>
                               <h5 class="mb-1">Resumen</h5>
@@ -240,9 +240,6 @@
                           </div>
                           </div>
   
-                         
-                        </div>
-                      </div>
                       <div class="d-flex align-items-start gap-3 mt-4">
                         <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-info-desc-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Obligaciones</button>
                         <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-success-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Guardar y Salir</button>

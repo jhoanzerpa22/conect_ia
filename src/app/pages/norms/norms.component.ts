@@ -49,12 +49,23 @@ export class NormsComponent {
   page: number = 1;
   term:any;
   busquedaForm!: UntypedFormGroup;
+  cuerpoForm!: UntypedFormGroup;
   search: any = '';
   type_search: any = 'by_texto';
   userData: any;
 
   addArticle: boolean = false;
   addSubArticle: boolean = false;
+
+  cuerpoLegal: any = {
+    titulo: '',
+    subtitulo: '',
+    ministerio: '',
+    articulos: []
+  };
+  //articulos: any = [];
+  articulo_padre: any = {};
+  index_padre: number = 0;
 
   constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
@@ -75,6 +86,12 @@ export class NormsComponent {
     this.busquedaForm = this.formBuilder.group({
       busqueda: [''],
       tipo_busqueda: ['by_texto']
+    });
+
+    this.cuerpoForm = this.formBuilder.group({
+      titulo: [''],
+      subtitulo: [''],
+      ministerio: ['']
     });
 
     //this.fetchData();
@@ -232,7 +249,9 @@ export class NormsComponent {
     this.addArticle = false;
   }
   
-  showAddSubArticle(){
+  showAddSubArticle(index: number, articulo_padre?:any){
+    this.articulo_padre = articulo_padre;
+    this.index_padre = index;
     this.addSubArticle = true;
   }
 
@@ -249,6 +268,35 @@ export class NormsComponent {
     //console.log('Pagina Cambiada',page);
       this.page = page;
       this.busquedaNorma(this.search, this.type_search, page);
+  }
+
+  saveCuerpoLegal(){
+    const cuerpoLegal: any = {
+      titulo: this.cuerpoForm.get('titulo')?.value,
+      subtitulo: this.cuerpoForm.get('subtitulo')?.value,
+      ministerio: this.cuerpoForm.get('ministerio')?.value,
+      articulos: []
+    }
+
+    this.cuerpoLegal = cuerpoLegal;
+    console.log('CuerpoLegal', cuerpoLegal);
+  }
+
+  saveArticulos(article?: any){
+    //this.articulos.push(article);
+    this.cuerpoLegal.articulos.push(article);
+
+    console.log('Articulo_add', article);
+    console.log('Articulos', this.cuerpoLegal.articulos);
+    this.hideAddArticle();
+  }
+  
+  saveSubArticulos(articles?: any){
+    this.cuerpoLegal.articulos[this.index_padre] = articles;
+
+    console.log('SubArticulos_add', articles);
+    console.log('Articulos', this.cuerpoLegal.articulos[this.index_padre]);
+    this.hideAddSubArticle();
   }
 
   // PreLoader

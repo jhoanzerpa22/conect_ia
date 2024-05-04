@@ -13,8 +13,10 @@ import { NgbdRecentSortableHeader, SortEvent } from './articles-sortable.directi
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
 import { ToastService } from '../toast-service';
+import { TokenStorageService } from '../../../core/services/token-storage.service';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import {Location} from '@angular/common';
+import * as moment from 'moment';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -32,6 +34,7 @@ import Swal from 'sweetalert2';
 export class ArticlesComponent implements OnInit {
   
   @Output() backFunction = new EventEmitter();
+  @Output() addFunction = new EventEmitter();
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -76,8 +79,11 @@ export class ArticlesComponent implements OnInit {
   @ViewChild('zone') zone?: ElementRef<any>;
   //@ViewChild("collapse") collapse?: ElementRef<any>;
   buscar: any;
+  
+  articuloForm!: UntypedFormGroup;
+  userData: any;
 
-  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location) {
+  constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
     this.total = service.total$;
   }
@@ -91,6 +97,8 @@ export class ArticlesComponent implements OnInit {
       { label: 'Cuerpos Legales' },
       { label: 'Detalle', active: true }
     ];
+
+    this.userData = this.TokenStorageService.getUser();
 
     document.body.classList.add('file-detail-show');
 
@@ -107,6 +115,12 @@ export class ArticlesComponent implements OnInit {
     this.recentForm = this.formBuilder.group({
       ids: [''],
       icon_name: ['', [Validators.required]]
+    });
+    
+    this.articuloForm = this.formBuilder.group({
+      encabezado: [''],
+      titulo: ['', [Validators.required]],
+      contenido: ['', [Validators.required]]
     });
 
     this.route.params.subscribe(params => {
@@ -379,6 +393,22 @@ export class ArticlesComponent implements OnInit {
   
   backClicked(){
     this.backFunction.emit();
+  }
+  
+  saveClicked(){
+    const fecha = Date.now();
+
+    const articulo: any = {
+      encabezado: this.articuloForm.get('encabezado')?.value,
+      titulo: this.articuloForm.get('titulo')?.value,
+      contenido: this.articuloForm.get('contenido')?.value,
+      created_at: moment(fecha).format('DD-MM-yyyy'),
+      updated_at: moment(fecha).format('DD-MM-yyyy'),
+      usuario_id: this.userData.id,
+      usuario: this.userData,
+      subarticulos: []
+    }
+    this.addFunction.emit(articulo);
   }
 
   // PreLoader

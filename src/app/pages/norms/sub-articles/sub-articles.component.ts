@@ -32,9 +32,19 @@ import Swal from 'sweetalert2';
 export class SubArticlesComponent implements OnInit {
 
   @Output() backFunction = new EventEmitter();
+  @Output() addFunction = new EventEmitter();
+  
+  @Input('articulo_padre') articulo_padre: any;
+
+  articulo: any = {};
+  articulos_padres: any = [];
+  index_padre: number = 0;
 
   // bread crumb items
-  breadCrumbItems!: Array<{}>;
+  breadCrumbItems!: Array<{
+    active?: boolean;
+    label?: string;
+  }>;
 
   cuerpo_id: any = '';
   detail: any = [];
@@ -77,6 +87,7 @@ export class SubArticlesComponent implements OnInit {
   //@ViewChild("collapse") collapse?: ElementRef<any>;
   buscar: any;
   addSubArticle: boolean = false;
+  search: any = '';
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location) {
     this.recentData = service.recents$;
@@ -88,10 +99,11 @@ export class SubArticlesComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Biblioteca' },
-      { label: 'Cuerpos Legales' },
-      { label: 'Detalle', active: true }
+      { label: this.articulo_padre.encabezado, active: true }
     ];
+
+    this.articulos_padres.push(this.articulo_padre);
+    this.articulo = this.articulo_padre;
 
     document.body.classList.add('file-detail-show');
 
@@ -176,13 +188,9 @@ export class SubArticlesComponent implements OnInit {
     this.htmlString = this.sanitizer.bypassSecurityTrustHtml((texto ? texto.replace(/\n/gi,'<br>') : ''));
 
   }
+  
+  busquedaNorma(){   
 
-  showAddSubArticle(){
-    this.addSubArticle = true;
-  }
-
-  hideAddSubArticle(event?: any){
-    this.addSubArticle = false;
   }
 
   /**
@@ -386,8 +394,65 @@ export class SubArticlesComponent implements OnInit {
     this._location.back();
   }
   
+  getBreadCrumbItems(){
+    this.breadCrumbItems = [];
+    for (let index = 0; index < this.articulos_padres.length; index++) {
+      
+      this.breadCrumbItems.push({ label: this.articulos_padres[index].encabezado, active: index == (this.articulos_padres.length - 1) ? true : false });
+      
+    }
+  }
+
+  openAddSubArticle(index: number, articulo?: any){
+    this.index_padre = index;
+    this.articulos_padres.push(articulo);
+    this.articulo = articulo;
+    this.getBreadCrumbItems();
+  }
+
+  showAddSubArticle(){
+    this.addSubArticle = true;
+  }
+
+  hideAddSubArticle(event?: any){
+    this.addSubArticle = false;
+  }
+  
   backClicked(){
-    this.backFunction.emit();
+    
+    if(this.articulos_padres.length > 1){
+
+      this.articulo = this.articulos_padres[this.articulos_padres.length - 2];
+      this.articulos_padres.pop();
+      this.getBreadCrumbItems();
+      
+    }else{
+      this.backFunction.emit();
+    }
+  }
+  
+  saveClicked(){
+    if(this.articulos_padres.length > 1){
+      console.log('Guardar SUBSUB',this.articulo);
+      this.articulos_padres[this.articulos_padres.length - 1] = this.articulo;
+
+      this.articulo = this.articulos_padres[this.articulos_padres.length - 2];
+      this.articulos_padres.pop();
+      this.getBreadCrumbItems();
+
+    }else{
+      this.articulo_padre = this.articulo;
+      this.addFunction.emit(this.articulo_padre);
+    }
+  }
+  
+  saveArticulos(article?: any){
+    
+    this.articulo.subarticulos.push(article);
+
+    console.log('SubArticulo_add', article);
+    console.log('SubArticulos', this.articulo.subarticulos);
+    this.hideAddSubArticle();
   }
 
   // PreLoader
