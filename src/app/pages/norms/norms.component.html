@@ -225,9 +225,17 @@
                               <h5 class="mb-1">Resumen</h5>
                               <p class="text-muted">Resumen del Cuerpo legal que se incorporará a su base de datos</p>
                           </div>
-                         </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div>
+                                <h4 class="card-title mb-0">{{cuerpoLegal.titulo}}</h4>
+                                <h5 class="text-muted">{{cuerpoLegal.subtitulo}}</h5>
+                                <p>{{cuerpoLegal.ministerio}}</p>
+                            </div>
+                        </div>
   
-                         <div class="row g-4 mb-3">
+                        <div class="row g-4 mb-3" *ngIf="cuerpoLegal.articulos.length == 0">
                           <div class="card" style="padding: 0px;">
                               <div style="min-height: 350px !important;">
                                   
@@ -238,7 +246,36 @@
                                   </div>
                               </div>
                           </div>
-                          </div>
+                        </div>
+
+                        <div class="row g-4 mb-3" *ngIf="cuerpoLegal.articulos.length > 0">
+                            <div class="card" style="padding: 0px;">
+                        <div style="min-height: 350px !important;">
+
+                                <ng-container *ngFor="let ar of cuerpoLegal.articulos; let i = index">
+                                
+                                <div class="list-group">
+    
+                                        <div class="team-list list-view-filter row" style="cursor:pointer;">
+                                            <div class="col">
+                                                <div class="card team-box" style="margin-bottom: 20px !important;">
+                                                    <div class="team-cover">
+                                                        
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-0">{{ar.encabezado}}</h4>
+                                                        <h5 class="text-muted">{{ar.titulo}}</h5>
+                                                        <p>{{ar.contenido}}</p>
+                                                    </div>
+                                                </div>
+                                                <!--end card-->
+                                            </div>
+                                        </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    </div>
   
                       <div class="d-flex align-items-start gap-3 mt-4">
                         <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-info-desc-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Obligaciones</button>
