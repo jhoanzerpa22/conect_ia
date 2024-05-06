@@ -448,10 +448,10 @@ export class SubArticlesComponent implements OnInit {
   
   saveArticulos(article?: any){
     
-    this.articulo.subarticulos.push(article);
+    this.articulo.articulos.push(article);
 
     console.log('SubArticulo_add', article);
-    console.log('SubArticulos', this.articulo.subarticulos);
+    console.log('SubArticulos', this.articulo.articulos);
     this.hideAddSubArticle();
   }
 
