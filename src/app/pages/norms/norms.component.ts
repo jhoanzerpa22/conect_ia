@@ -7,10 +7,10 @@ import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@an
 // Sweet Alert
 import Swal from 'sweetalert2';
 
-import { BodyLegalTypeModel } from './body-legal.model';
-import { BodyLegal } from './data';
-import { BodyLegalService } from './body-legal.service';
-import { NgbdBodyLegalTypeSortableHeader, SortEvent } from './body-legal-sortable.directive';
+import { NormsModel } from './norms.model';
+import { Norms } from './data';
+import { NormsService } from './norms.service';
+import { NgbdNormsSortableHeader, SortEvent } from './norms-sortable.directive';
 import { ProjectsService } from '../../core/services/projects.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from './toast-service';
@@ -19,41 +19,55 @@ import { TokenStorageService } from '../../core/services/token-storage.service';
 //import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-library',
-  templateUrl: './body-legal.component.html',
-  styleUrls: ['./body-legal.component.scss'],
-  providers: [BodyLegalService, DecimalPipe]
+  selector: 'app-norms',
+  templateUrl: './norms.component.html',
+  styleUrls: ['./norms.component.scss'],
+  providers: [NormsService, DecimalPipe]
 
 })
 
 /**
  * Listjs table Component
  */
-export class BodyLegalTypeComponent {
+export class NormsComponent {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   submitted = false;
-  BodyLegalData!: BodyLegalTypeModel[];
+  BodyLegalData!: NormsModel[];
   checkedList: any;
   masterSelected!: boolean;
   BodyLegalDatas: any;
   body_legal_data: any = [];
 
   // Table data
-  BodyLegalList!: Observable<BodyLegalTypeModel[]>;
+  BodyLegalList!: Observable<NormsModel[]>;
   total: Observable<number>;
   total_body: number = 0;
   total_paginate: number = 0;
-  @ViewChildren(NgbdBodyLegalTypeSortableHeader) headers!: QueryList<NgbdBodyLegalTypeSortableHeader>;
+  @ViewChildren(NgbdNormsSortableHeader) headers!: QueryList<NgbdNormsSortableHeader>;
   page: number = 1;
   term:any;
   busquedaForm!: UntypedFormGroup;
+  cuerpoForm!: UntypedFormGroup;
   search: any = '';
   type_search: any = 'by_texto';
   userData: any;
 
-  constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
+  addArticle: boolean = false;
+  addSubArticle: boolean = false;
+
+  cuerpoLegal: any = {
+    titulo: '',
+    subtitulo: '',
+    ministerio: '',
+    articulos: []
+  };
+  //articulos: any = [];
+  articulo_padre: any = {};
+  index_padre: number = 0;
+
+  constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
@@ -63,8 +77,8 @@ export class BodyLegalTypeComponent {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Biblioteca' },
-      { label: 'Cuerpos Legales', active: true }
+      { label: 'Cuerpos Legales' },
+      { label: 'Crear', active: true }
     ];
     
     this.userData = this.TokenStorageService.getUser();
@@ -72,6 +86,12 @@ export class BodyLegalTypeComponent {
     this.busquedaForm = this.formBuilder.group({
       busqueda: [''],
       tipo_busqueda: ['by_texto']
+    });
+
+    this.cuerpoForm = this.formBuilder.group({
+      titulo: [''],
+      subtitulo: [''],
+      ministerio: ['']
     });
 
     //this.fetchData();
@@ -83,7 +103,7 @@ export class BodyLegalTypeComponent {
       this.BodyLegalDatas = Object.assign([], x);
     });
     
-    const search: any = this.route.snapshot.queryParams['search'];
+    /*const search: any = this.route.snapshot.queryParams['search'];
     if(search && search != '' && search != undefined ? search : ''){
       const type_search: any = this.route.snapshot.queryParams['type_search'];
       const paginate: any = this.route.snapshot.queryParams['paginate'];
@@ -93,7 +113,7 @@ export class BodyLegalTypeComponent {
       this.busquedaNorma(search, type_search, paginate);
     }else{
       this.busquedaNorma('', 'by_texto', 1);
-    }
+    }*/
     
   }
 
@@ -221,6 +241,24 @@ export class BodyLegalTypeComponent {
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
+  showAddArticle(){
+    this.addArticle = true;
+  }
+
+  hideAddArticle(event?: any){
+    this.addArticle = false;
+  }
+  
+  showAddSubArticle(index: number, articulo_padre?:any){
+    this.articulo_padre = articulo_padre;
+    this.index_padre = index;
+    this.addSubArticle = true;
+  }
+
+  hideAddSubArticle(event?: any){
+    this.addSubArticle = false;
+  }
+
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
@@ -230,6 +268,35 @@ export class BodyLegalTypeComponent {
     //console.log('Pagina Cambiada',page);
       this.page = page;
       this.busquedaNorma(this.search, this.type_search, page);
+  }
+
+  saveCuerpoLegal(){
+    const cuerpoLegal: any = {
+      titulo: this.cuerpoForm.get('titulo')?.value,
+      subtitulo: this.cuerpoForm.get('subtitulo')?.value,
+      ministerio: this.cuerpoForm.get('ministerio')?.value,
+      articulos: []
+    }
+
+    this.cuerpoLegal = cuerpoLegal;
+    console.log('CuerpoLegal', cuerpoLegal);
+  }
+
+  saveArticulos(article?: any){
+    //this.articulos.push(article);
+    this.cuerpoLegal.articulos.push(article);
+
+    console.log('Articulo_add', article);
+    console.log('Articulos', this.cuerpoLegal.articulos);
+    this.hideAddArticle();
+  }
+  
+  saveSubArticulos(articles?: any){
+    this.cuerpoLegal.articulos[this.index_padre] = articles;
+
+    console.log('SubArticulos_add', articles);
+    console.log('Articulos', this.cuerpoLegal.articulos[this.index_padre]);
+    this.hideAddSubArticle();
   }
 
   // PreLoader

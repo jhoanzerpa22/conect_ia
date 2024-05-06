@@ -17,7 +17,7 @@
         <form [formGroup]="busquedaForm">
          <div class="card-header">
             <div class="row">
-                <div class="col-xxl-5 col-lg-5" style="padding: 10px;">
+                <div class="col-xxl-4 col-lg-4" style="padding: 10px;">
                     <h4 class="card-title mb-0">Cuerpos Legales</h4>
                 </div>
 
@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="col-xxl-4 col-lg-4">
+                <div class="col-xxl-5 col-lg-5">
                     
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box">
@@ -45,7 +45,9 @@
                         <i class="ri-search-2-line search-icon"></i>
                     </div>
                     <div>
-                    <button type="button" class="btn btn-primary btn-label waves-effect right waves-light" (click)="busquedaNorma()"><i class="ri-search-2-line label-icon align-middle fs-16 ms-2"></i> Buscar</button>
+                    <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="busquedaNorma()"><i class="ri-search-2-line label-icon align-middle fs-16"></i> <!--Buscar--></button>
+                    
+                    <button type="button" style="margin-left:10px;" class="btn btn-success btn-label waves-effect left waves-light" routerLink="/norms" *ngIf="validateRol(1)"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear un Cuerpo Legal</button>
                     </div>
                 </div>
                 </div>

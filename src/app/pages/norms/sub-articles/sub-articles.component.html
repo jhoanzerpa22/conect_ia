@@ -1,0 +1,152 @@
+ <div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between" style="background-color: transparent;box-shadow: none;">
+            
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                  <ng-container *ngFor="let item of breadCrumbItems">
+                    <li class="breadcrumb-item" [ngClass]="{'active': item.active == true}">{{ item.label }}
+                    </li>
+                </ng-container>
+                </ol>
+            </div>
+  
+        </div> 
+    </div>
+  </div>
+  
+<ng-container *ngIf="!addSubArticle">
+
+      <div class="row g-4 mb-4">
+        <div class="col-sm">
+            <h5 class="mb-1">Crear Sub Obligaciones</h5>
+            <p class="text-muted">Crea cada una de las sub obligaciones de la Obligación seleccionada</p>
+        </div>
+        <div class="col-sm-auto">
+                <button type="button" class="btn btn-info btn-label waves-effect right waves-light" (click)="showAddSubArticle()">Agregar Sub Obligación<i class="ri-add-line label-icon align-middle fs-16"></i></button>
+        </div>
+       </div>
+
+       <div class="row g-4 mb-3">
+        <div style="min-height: 350px !important;" *ngIf="articulo.subarticulos.length == 0">
+            <div class="card" style="padding: 0px;">
+                
+                <div class="card-body">
+                <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                    Aún no ha creado sub obligaciones para esta Obligación
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="min-height: 350px !important;" *ngIf="articulo.subarticulos.length > 0">
+                                
+            <div class="d-md-flex justify-content-sm-end gap-2">
+                <div class="search-box" style="width: 20%;">
+                    <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." formControlName="busqueda" value="" [(ngModel)]="search" (keyup.enter)="busquedaNorma()">
+                    <i class="ri-search-2-line search-icon"></i>
+                </div>
+            </div>
+
+            <div style="padding: 0px;">
+
+                <ng-container *ngFor="let ar of articulo.subarticulos; let i = index;">
+                
+                <div class="list-group">
+
+                        <div class="team-list list-view-filter row" style="cursor:pointer;">
+                            <div class="col">
+                                <div class="card team-box" style="margin-bottom: 20px !important;">
+                                    <div class="team-cover">
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">{{ar.encabezado}}</h4>
+                                        <h5 class="text-muted">{{ar.titulo}}</h5>
+                                        <p>{{ar.contenido}}</p>
+                                    </div>
+                                    <div class="card-body p-4">                
+                                        <div class="row align-items-center team-row">
+                                            <div class="col team-settings">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-4 col"><!-- (click)="goEvaluation(ev.id)"-->
+                                                <div class="row text-muted text-center">
+                                                    <div class="col-12 border-end border-end-dashed">
+                                                        <h5 class="mb-1" ><b>{{ar.usuario.nombre +' '+ar.usuario.apellido}}</b></h5>
+                                                        <p class="text-muted mb-0">Creado por</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col">
+                                                <div class="row text-muted text-center">
+                                                    <div class="col-12 border-end border-end-dashed">
+                                                        <h5 class="mb-1">{{ar.created_at}}</h5>
+                                                        <p class="text-muted mb-0">Fecha Creación</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col">
+                                                <div class="row text-muted text-center">
+                                                    <div class="col-12 border-end border-end-dashed">
+                                                        <h5 class="mb-1">{{ar.updated_at}}</h5>
+                                                        <p class="text-muted mb-0">Fecha Modificación</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col">
+                                                <div class="row text-muted text-center">
+                                                    <div class="col-12 border-end border-end-dashed">
+                                                        <h5 class="mb-1">{{ar.subarticulos ? ar.subarticulos.length : 0}}</h5>
+                                                        <p class="text-muted mb-0">Sub-Artículos</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col text-center">
+                                                
+
+                                                <span class="btn btn-info" 
+                                                [style.cursor]="'pointer'" (click)="openAddSubArticle(i, ar)">
+                                                <i class=" ri-git-merge-line"></i>
+                                                </span>
+                                                
+                                                <span style="margin-left:10px;" class="btn btn-danger" 
+                                                [style.cursor]="'pointer'">
+                                                <i class="ri-delete-bin-5-line"></i>
+                                                </span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end card-->
+                            </div>
+                        </div>
+                </div>
+            </ng-container>
+        </div>
+        </div>
+
+        </div>
+
+    <div class="align-items-end gap-3 mt-4">
+        <button type="button" class="btn btn-info btn-label right" style="float: right;margin-left: 10px;" (click)="saveClicked()"><i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>Guardar</button>
+        <button type="button" class="btn btn-danger text-decoration-none" style="float: right;" (click)="backClicked()"> Cancelar</button>
+        
+    </div>
+    
+    </ng-container>
+    
+    <ng-container *ngIf="addSubArticle">
+        
+        <app-articles (backFunction)='hideAddSubArticle($event)' (addFunction)='saveArticulos($event)'></app-articles>
+    </ng-container>
