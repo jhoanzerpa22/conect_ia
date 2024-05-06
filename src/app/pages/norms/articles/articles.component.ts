@@ -120,7 +120,8 @@ export class ArticlesComponent implements OnInit {
     this.articuloForm = this.formBuilder.group({
       encabezado: [''],
       titulo: ['', [Validators.required]],
-      contenido: ['', [Validators.required]]
+      contenido: ['', [Validators.required]],
+      tipoParte: ['']
     });
 
     this.route.params.subscribe(params => {
@@ -406,7 +407,8 @@ export class ArticlesComponent implements OnInit {
       updated_at: moment(fecha).format('DD-MM-yyyy'),
       usuario_id: this.userData.id,
       usuario: this.userData,
-      subarticulos: []
+      tipoParte: this.articuloForm.get('tipoParte')?.value ? 'Artículo' : 'Título',
+      articulos: []
     }
     this.addFunction.emit(articulo);
   }

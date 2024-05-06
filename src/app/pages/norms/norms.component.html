@@ -37,22 +37,52 @@
                           </div>
                       </div>
                       <div class="row">
+                        
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="gen-info-norma-input">Id Norma</label>
+                                <input type="number" class="form-control" id="gen-info-norma-input" formControlName="normaId" placeholder="Identificador de Norma ...">
+                            </div>
+                        </div>
+
                           <div class="col-lg-12">
                               <div class="mb-3">
-                                  <label class="form-label" for="gen-info-email-input">Título</label>
-                                  <input type="text" class="form-control" id="gen-info-email-input" formControlName="titulo" placeholder="Decreto ...">
+                                  <label class="form-label" for="gen-info-titulo-input">Título</label>
+                                  <input type="text" class="form-control" id="gen-info-titulo-input" formControlName="titulo" placeholder="Decreto ...">
                               </div>
                           </div>
                           <div class="col-lg-12">
                               <div class="mb-3">
-                                  <label class="form-label" for="gen-info-username-input">Sub Título</label>
-                                  <input type="text" class="form-control" id="gen-info-username-input"  formControlName="subtitulo" placeholder="Aprueba uso de ...">
+                                  <label class="form-label" for="gen-info-subtitulo-input">Sub Título</label>
+                                  <input type="text" class="form-control" id="gen-info-subtitulo-input"  formControlName="subtitulo" placeholder="Aprueba uso de ...">
                               </div>
                           </div>
                           <div class="col-lg-12">
                               <div class="mb-3">
-                                  <label class="form-label" for="gen-info-username-input">Ministerio / Área legal</label>
-                                  <input type="text" class="form-control" id="gen-info-username-input"  formControlName="ministerio" placeholder="Ministerio de medio ambiente">
+                                  <label class="form-label" for="gen-info-ministerio-input">Ministerio / Área legal</label>
+                                  <input type="text" class="form-control" id="gen-info-ministerio-input"  formControlName="organismo" placeholder="Ministerio de medio ambiente">
+                              </div>
+                          </div>
+                          
+                          <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="gen-info-encabezado-input">Encabezado</label>
+                                <input type="text" class="form-control" id="gen-info-encabezado-input"  formControlName="encabezado" placeholder="Encabezado ...">
+                            </div>
+                          </div>
+                          
+                          <div class="col-lg-12">
+                              <div class="mb-3">
+                                <label class="form-label" for="gen-info-ambito-input">Ámbito</label>
+                                <select class="form-control form-select" aria-label="Ambito" formControlName="ambito" placeholder="Normativa ambiental">
+                                    <option value="" selected>Seleccione normativa </option>
+                                    <option value="GENERAL">Normativa general</option>
+                                    <option value="MA">Normativa ambiental</option>
+                                    <option value="SST">Normativa SST</option>
+                                    <option value="LABORAL">Normativa laboral</option>
+                                    <option value="ENERGIA">Normativa de energía</option>
+                                    
+                                </select>
                               </div>
                           </div>
                       </div>
@@ -63,7 +93,7 @@
                     </form>
                     <!-- wizard-tab -->
                     <div class="d-flex align-items-start gap-3 mt-4">
-                      <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" (click)="saveCuerpoLegal()" data-nexttab="pills-info-desc-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Crear Obligaciones</button>
+                      <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" (click)="saveCuerpoLegal()" data-nexttab="pills-info-desc-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Crear Artículos</button>
                     </div>
                 </aw-wizard-step>
   
@@ -77,8 +107,8 @@
                     <ng-container *ngIf="!addArticle && !addSubArticle">
                       <div class="row g-4 mb-4">
                         <div class="col-sm">
-                            <h5 class="mb-1">Crear Obligaciones</h5>
-                            <p class="text-muted">Crea cada una de las obligaciones de su Cuerpo legal</p>
+                            <h5 class="mb-1">Crear Artículos</h5>
+                            <p class="text-muted">Crea cada uno de los artículos de su Cuerpo legal</p>
                         </div>
                         <div class="col-sm-auto">
                                 <button type="button" class="btn btn-info btn-label waves-effect right waves-light" (click)="showAddArticle()">Agregar<i class="ri-add-line label-icon align-middle fs-16"></i></button>
@@ -91,7 +121,7 @@
                                 <div class="card" style="padding: 0px;">
                                 <div class="card-body">
                                     <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
-                                        Aún no ha creado obligaciones para este Cuerpo legal
+                                        Aún no ha creado artículos para este Cuerpo legal
                                     </div>
                                 </div>
                                 </div>
@@ -163,7 +193,7 @@
                                                                 <div class="col-lg-2 col">
                                                                     <div class="row text-muted text-center">
                                                                         <div class="col-12 border-end border-end-dashed">
-                                                                            <h5 class="mb-1">{{ar.subarticulos ? ar.subarticulos.length : 0}}</h5>
+                                                                            <h5 class="mb-1">{{ar.articulos ? ar.articulos.length : 0}}</h5>
                                                                             <p class="text-muted mb-0">Sub-Artículos</p>
                                                                         </div>
                                                                     </div>
@@ -220,43 +250,59 @@
                       </li>
                     </ng-template>
                     
-                        <div class="mb-4">
-                          <div>
-                              <h5 class="mb-1">Resumen</h5>
-                              <p class="text-muted">Resumen del Cuerpo legal que se incorporará a su base de datos</p>
-                          </div>
-                        </div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-sm">
+                                <h5 class="mb-1">Resumen</h5>
+                                <p class="text-muted">Resumen del Cuerpo legal que se incorporará a su base de datos</p>
+                            </div>
+                            <div class="col-sm-auto">
+                                    <button type="button" class="btn btn-light waves-effect right waves-light" (click)="hideResumen()" *ngIf="subArticles.length > 0">Volver</button>
+                            </div>
+                           </div>
 
                         <div class="mb-4">
                             <div>
                                 <h4 class="card-title mb-0">{{cuerpoLegal.titulo}}</h4>
                                 <h5 class="text-muted">{{cuerpoLegal.subtitulo}}</h5>
-                                <p>{{cuerpoLegal.ministerio}}</p>
+                                <p>{{cuerpoLegal.organismo}}</p>
                             </div>
                         </div>
+                        
+                        <ng-container *ngIf="subArticles.length > 0">
+                            
+                            <ng-container *ngFor="let sub of subArticles; let su = index">
+                                <div class="mb-4">
+                                    <div>
+                                        <h4 class="card-title mb-0">{{sub.encabezado}}</h4>
+                                        <h5 class="text-muted">{{sub.titulo}}</h5>
+                                        <!--<p>{{sub.organismo}}</p>-->
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
   
-                        <div class="row g-4 mb-3" *ngIf="cuerpoLegal.articulos.length == 0">
+                        <div class="row g-4 mb-3" *ngIf="resumen.articulos.length == 0">
                           <div class="card" style="padding: 0px;">
                               <div style="min-height: 350px !important;">
                                   
                                   <div class="card-body">
                                     <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
-                                        Aún no ha creado obligaciones para este Cuerpo legal
+                                        Aún no ha creado artículos para este {{subArticles.length > 0 ? 'Artículo' : 'Cuerpo legal'}}
                                     </div>
                                   </div>
                               </div>
                           </div>
                         </div>
 
-                        <div class="row g-4 mb-3" *ngIf="cuerpoLegal.articulos.length > 0">
+                        <div class="row g-4 mb-3" *ngIf="resumen.articulos.length > 0">
                             <div class="card" style="padding: 0px;">
                         <div style="min-height: 350px !important;">
 
-                                <ng-container *ngFor="let ar of cuerpoLegal.articulos; let i = index">
+                                <ng-container *ngFor="let ar of resumen.articulos; let i = index">
                                 
                                 <div class="list-group">
     
-                                        <div class="team-list list-view-filter row" style="cursor:pointer;">
+                                        <div class="team-list list-view-filter row" style="cursor:pointer;" (click)="viewResumen(i, ar)">
                                             <div class="col">
                                                 <div class="card team-box" style="margin-bottom: 20px !important;">
                                                     <div class="team-cover">
@@ -272,13 +318,14 @@
                                             </div>
                                         </div>
                                 </div>
+
                             </ng-container>
                         </div>
                     </div>
                     </div>
   
-                      <div class="d-flex align-items-start gap-3 mt-4">
-                        <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-info-desc-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Obligaciones</button>
+                      <div class="d-flex align-items-start gap-3 mt-4"  *ngIf="subArticles.length == 0">
+                        <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-info-desc-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Artículos</button>
                         <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-success-tab" awNextStep><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Guardar y Salir</button>
                     </div>
                 </aw-wizard-step>
