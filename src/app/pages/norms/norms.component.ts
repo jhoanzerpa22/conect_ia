@@ -58,14 +58,29 @@ export class NormsComponent {
   addSubArticle: boolean = false;
 
   cuerpoLegal: any = {
+    normaId: '',
     titulo: '',
     subtitulo: '',
-    ministerio: '',
+    organismo: '',
+    ambito: '',
+    encabezado: '',
+    articulos: []
+  };
+  resumen: any = {
+    normaId: '',
+    titulo: '',
+    subtitulo: '',
+    organismo: '',
+    ambito: '',
+    encabezado: '',
     articulos: []
   };
   //articulos: any = [];
   articulo_padre: any = {};
   index_padre: number = 0;
+  
+  index_resumen: number = 0;
+  subArticles: any = [];
 
   constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
@@ -91,7 +106,8 @@ export class NormsComponent {
     this.cuerpoForm = this.formBuilder.group({
       titulo: [''],
       subtitulo: [''],
-      ministerio: ['']
+      organismo: [''],
+      ambito: ['']
     });
 
     //this.fetchData();
@@ -274,17 +290,20 @@ export class NormsComponent {
     const cuerpoLegal: any = {
       titulo: this.cuerpoForm.get('titulo')?.value,
       subtitulo: this.cuerpoForm.get('subtitulo')?.value,
-      ministerio: this.cuerpoForm.get('ministerio')?.value,
+      organismo: this.cuerpoForm.get('organismo')?.value,
+      ambito: this.cuerpoForm.get('ambito')?.value,
       articulos: []
     }
 
     this.cuerpoLegal = cuerpoLegal;
+    this.resumen = this.cuerpoLegal;
     console.log('CuerpoLegal', cuerpoLegal);
   }
 
   saveArticulos(article?: any){
     //this.articulos.push(article);
     this.cuerpoLegal.articulos.push(article);
+    this.resumen = this.cuerpoLegal;
 
     console.log('Articulo_add', article);
     console.log('Articulos', this.cuerpoLegal.articulos);
@@ -293,10 +312,26 @@ export class NormsComponent {
   
   saveSubArticulos(articles?: any){
     this.cuerpoLegal.articulos[this.index_padre] = articles;
+    this.resumen = this.cuerpoLegal;
 
     console.log('SubArticulos_add', articles);
     console.log('Articulos', this.cuerpoLegal.articulos[this.index_padre]);
     this.hideAddSubArticle();
+  }
+
+  viewResumen(index: number, articulo?: any){
+    this.index_resumen = index;
+    this.subArticles.push(articulo);
+    this.resumen = articulo;
+  }
+
+  hideResumen(){
+    if(this.subArticles.length > 0){
+
+      this.resumen = this.cuerpoLegal;
+      this.subArticles.pop();
+      
+    }
   }
 
   // PreLoader
