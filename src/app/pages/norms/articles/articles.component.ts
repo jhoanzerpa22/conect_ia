@@ -118,7 +118,7 @@ export class ArticlesComponent implements OnInit {
     });
     
     this.articuloForm = this.formBuilder.group({
-      encabezado: [''],
+      encabezado: ['', [Validators.required]],
       titulo: ['', [Validators.required]],
       contenido: ['', [Validators.required]],
       tipoParte: ['']
@@ -131,6 +131,9 @@ export class ArticlesComponent implements OnInit {
     // Data Get Function
     //this._fetchData();
   }
+  
+  // convenience getter for easy access to form fields
+  get f() { return this.articuloForm.controls; }
 
   // Chat Data Fetch
   /*private _fetchData() {
@@ -397,6 +400,12 @@ export class ArticlesComponent implements OnInit {
   }
   
   saveClicked(){
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.articuloForm.invalid) {
+      return;
+    }
+
     const fecha = Date.now();
 
     const articulo: any = {

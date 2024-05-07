@@ -103,11 +103,13 @@ export class NormsComponent {
       tipo_busqueda: ['by_texto']
     });
 
-    this.cuerpoForm = this.formBuilder.group({
-      titulo: [''],
-      subtitulo: [''],
+    this.cuerpoForm = this.formBuilder.group({    
+      normaId: ['', [Validators.required]],
+      titulo: ['', [Validators.required]],
+      subtitulo: ['', [Validators.required]],
       organismo: [''],
-      ambito: ['']
+      ambito: [''],
+      encabezado: ['']
     });
 
     //this.fetchData();
@@ -132,6 +134,9 @@ export class NormsComponent {
     }*/
     
   }
+  
+  // convenience getter for easy access to form fields
+  get f() { return this.cuerpoForm.controls; }
 
   validateRol(rol: any){
     return this.userData.rol.findIndex(
@@ -287,6 +292,12 @@ export class NormsComponent {
   }
 
   saveCuerpoLegal(){
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.cuerpoForm.invalid) {
+      return;
+    }
+
     const cuerpoLegal: any = {
       titulo: this.cuerpoForm.get('titulo')?.value,
       subtitulo: this.cuerpoForm.get('subtitulo')?.value,
