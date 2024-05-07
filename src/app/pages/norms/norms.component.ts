@@ -12,6 +12,7 @@ import { Norms } from './data';
 import { NormsService } from './norms.service';
 import { NgbdNormsSortableHeader, SortEvent } from './norms-sortable.directive';
 import { ProjectsService } from '../../core/services/projects.service';
+import { NormasArticlesAllService } from '../../core/services/normas_articles.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from './toast-service';
 import { round } from 'lodash';
@@ -82,7 +83,7 @@ export class NormsComponent {
   index_resumen: number = 0;
   subArticles: any = [];
 
-  constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
+  constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
@@ -299,9 +300,11 @@ export class NormsComponent {
     }
 
     const cuerpoLegal: any = {
+      normaId: this.cuerpoForm.get('normaId')?.value,
       titulo: this.cuerpoForm.get('titulo')?.value,
       subtitulo: this.cuerpoForm.get('subtitulo')?.value,
       organismo: this.cuerpoForm.get('organismo')?.value,
+      encabezado: this.cuerpoForm.get('encabezado')?.value,
       ambito: this.cuerpoForm.get('ambito')?.value,
       articulos: []
     }
@@ -342,6 +345,29 @@ export class NormsComponent {
       this.resumen = this.cuerpoLegal;
       this.subArticles.pop();
       
+    }
+  }
+
+  saveAllCuerpo(){
+    
+    if (this.cuerpoForm.valid) {
+      
+      this.showPreLoader();
+
+    this.normasService.create(this.cuerpoLegal).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+       
+        this._router.navigate(['/library']);
+
+    },
+    (error: any) => {
+      
+      this.hidePreLoader();
+      this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+      this.modalService.dismissAll()
+    });
     }
   }
 
