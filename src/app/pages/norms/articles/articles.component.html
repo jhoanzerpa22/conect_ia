@@ -10,20 +10,31 @@
         <div class="col-lg-12">
             <div class="mb-3">
                 <label class="form-label" for="gen-info-email-input">Encabezado</label>
-                <input type="text" class="form-control" formControlName="encabezado" id="gen-info-email-input" placeholder="Artículo 1 ...">
+                <input type="text" class="form-control" formControlName="encabezado" id="gen-info-email-input" placeholder="Artículo 1 ..." required [ngClass]="{ 'is-invalid': submitted && f['encabezado'].errors }">
+                
+                <div *ngIf="submitted && f['encabezado'].errors" class="invalid-feedback" align="left">
+                    <div *ngIf="f['encabezado'].errors['required']">El encabezado es requerido</div>
+                </div>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="mb-3">
                 <label class="form-label" for="gen-info-username-input">Título</label>
-                <input type="text" class="form-control" id="gen-info-username-input" formControlName="titulo" placeholder="Cumplimiento ley 2045 ...">
+                <input type="text" class="form-control" id="gen-info-username-input" formControlName="titulo" placeholder="Cumplimiento ley 2045 ..." required [ngClass]="{ 'is-invalid': submitted && f['titulo'].errors }">
+                
+                <div *ngIf="submitted && f['titulo'].errors" class="invalid-feedback" align="left">
+                    <div *ngIf="f['titulo'].errors['required']">El titulo es requerido</div>
+                </div>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="mb-3">
                 <label class="form-label" for="gen-info-username-input">Contenido</label>
-                <textarea class="form-control" formControlName="contenido" id="description" rows="3"
-                    placeholder="Ingrese contenido">You always want to make sure that your fonts work well together and try to limit the number of fonts you use to three or less. Experiment and play around with the fonts that you already have in the software you're working with reputable font websites. </textarea>
+                <textarea class="form-control" formControlName="contenido" id="description" rows="3" placeholder="Ingrese contenido" required [ngClass]="{ 'is-invalid': submitted && f['contenido'].errors }">You always want to make sure that your fonts work well together and try to limit the number of fonts you use to three or less. Experiment and play around with the fonts that you already have in the software you're working with reputable font websites. </textarea>
+                
+                <div *ngIf="submitted && f['contenido'].errors" class="invalid-feedback" align="left">
+                    <div *ngIf="f['contenido'].errors['required']">El contenido es requerido</div>
+                </div>
             </div>
         </div>
 
