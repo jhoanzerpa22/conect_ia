@@ -41,6 +41,7 @@ export const MENU: MenuItem[] = [
     id: 5,
     label: 'MENUITEMS.PLANS.TEXT',
     icon: 'ri-building-line',
+    onlyAdmin: true,
     link: '/plans-work'
   },/*
   {
