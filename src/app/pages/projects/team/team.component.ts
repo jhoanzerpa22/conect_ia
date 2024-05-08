@@ -130,7 +130,14 @@ export class TeamComponent {
   }
 
   selectRol(event: any){
-    this.rol = event.target.value > 0 ? event.target.value : 2; 
+    const rol_select = event.target.value;
+    this.rol = rol_select > 0 ? rol_select : 2;
+
+    if(this.rol < 3){      
+      this.teamForm.get('projects')?.setValue('');
+      this.teamForm.get('areas')?.setValue('');
+      this.items = [];
+    }
   }
 
   selectArea(event: any){
@@ -291,6 +298,9 @@ export class TeamComponent {
         areas.push(area_id);
       }
 
+      const proyectos_form = this.teamForm.get('projects')?.value ? this.teamForm.get('projects')?.value : [];
+      const areas_form = this.teamForm.get('areas')?.value ? this.teamForm.get('areas')?.value : [];
+
       const data = {
         nombre: this.teamForm.get('nombre')?.value,
         apellido: this.teamForm.get('apellido')?.value,
@@ -299,8 +309,8 @@ export class TeamComponent {
         cargo: this.teamForm.get('cargo')?.value,
         email: this.teamForm.get('email')?.value,
         rol: [this.teamForm.get('rol')?.value],
-        projects: this.teamForm.get('projects')?.value,
-        areas: this.teamForm.get('areas')?.value,//area_id ? area_id : null,
+        projects: proyectos_form.filter((pr: any) => pr.trim() !== ""),
+        areas: areas_form.filter((ar: any) => ar.trim() !== ""),//area_id ? area_id : null,
         empresaId: this.userData.empresaId
       };
 
