@@ -127,7 +127,14 @@ export class TeamComponent {
   }
 
   selectRol(event: any){
-    this.rol = event.target.value > 0 ? event.target.value : 2; 
+    const rol_select = event.target.value;
+    this.rol = rol_select > 0 ? rol_select : 2;
+
+    if(this.rol < 3){      
+      this.teamForm.get('projects')?.setValue('');
+      this.teamForm.get('areas')?.setValue('');
+      this.items = [];
+    }
   }
 
   selectArea(event: any){
@@ -275,7 +282,9 @@ export class TeamComponent {
       });*/
       
       //let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
-      
+      const proyectos_form = this.teamForm.get('projects')?.value ? this.teamForm.get('projects')?.value : [];
+      const areas_form = this.teamForm.get('areas')?.value ? this.teamForm.get('areas')?.value : [];
+
       const data = {
         nombre: this.teamForm.get('nombre')?.value,
         apellido: this.teamForm.get('apellido')?.value,
@@ -285,10 +294,11 @@ export class TeamComponent {
         email: this.teamForm.get('email')?.value,
         //rol: [2],
         rol: [this.teamForm.get('rol')?.value],
-        projects: this.teamForm.get('projects')?.value,
-        areas: this.teamForm.get('areas')?.value,//area_id ? area_id : null,
+        projects: proyectos_form.filter((pr: any) => pr.trim() !== ""),
+        areas: areas_form.filter((ar: any) => ar.trim() !== ""),//area_id ? area_id : null,
         empresaId: null//this.userData.empresaId
       };
+
       this.userService.create(data).pipe(first()).subscribe(
         (data: any) => {
           this.toastService.show('Registro exitoso.', { classname: 'bg-success text-center text-white', delay: 5000 });
