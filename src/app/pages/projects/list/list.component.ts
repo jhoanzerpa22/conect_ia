@@ -14,6 +14,9 @@ import { TokenStorageService } from '../../../core/services/token-storage.servic
 
 import { round } from 'lodash';
 
+// Sweet Alert
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -85,7 +88,7 @@ export class ListComponent implements OnInit {
           let proyectos: any = [];
 
           for (var j = 0; j < resp.length; j++) {
-            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3 && ((this.validateRol(1) || this.validateRol(2)) || this.validateShowProject(resp[j].estado))){
+            if(resp[j].tipoProyectoId && resp[j].tipoProyectoId != '' && resp[j].tipoProyectoId != null && resp[j].tipoProyectoId != 3 && ((this.validateRol(1) || this.validateRol(2)) || this.validateShowProject(resp[j].id, resp[j].estado))){
               proyectos.push(resp[j]);
             }
           }
@@ -141,7 +144,7 @@ export class ListComponent implements OnInit {
     ) != -1;
   }
   
-  validateShowProject(estado?:any){
+  validateShowProject(proyecto_id?: any,estado?:any){
     const rol_evaluador: boolean = this.userData.rol.findIndex(
       (r: any) =>
         r == 3
@@ -152,7 +155,15 @@ export class ListComponent implements OnInit {
         r == 4 || r == 5
     ) != -1;
 
-    if((rol_evaluador && estado == 2) || (rol_control && estado > 2)){
+    const proyectos: any = this.userData.proyectos;
+    const areas: any = this.userData.areas;
+
+    /*if((rol_evaluador && estado == 2) || (rol_control && estado > 2)){
+      return true;
+    }*/
+    if(rol_evaluador){
+      return proyectos.length > 0 ? /*proyectos.includes(proyecto_id)*/proyectos.some((pro: any) => pro.proyectoId === proyecto_id) : true;
+    }else if(rol_control){
       return true;
     }else{
       return false;
@@ -163,13 +174,46 @@ export class ListComponent implements OnInit {
 
   comenzar(proyecto_id: any, estado?: number){
     //this.showPreLoader();
+    
+    const rol_evaluador: boolean = this.userData.rol.findIndex(
+      (r: any) =>
+        r == 3
+    ) != -1;
+
+    const rol_control: boolean = this.userData.rol.findIndex(
+      (r: any) =>
+        r == 4 || r == 5
+    ) != -1;
 
     switch (estado) {
       case 1:
-          this._router.navigate(['/projects/'+proyecto_id+'/identification']);
+        if(rol_evaluador || rol_control){
+      
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'El proyecto aun no ha sido evaluado',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+          
+        }else{
+            this._router.navigate(['/projects/'+proyecto_id+'/identification']);
+        }
         break;
       case 2:
+        if(rol_control){
+        
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'El proyecto aun no ha sido evaluado',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+        }else{
           this._router.navigate(['/'+proyecto_id+'/project-dashboard']);
+        }
         break;
       case 3:
           this._router.navigate(['/'+proyecto_id+'/project-control']);
