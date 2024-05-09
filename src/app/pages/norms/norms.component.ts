@@ -347,12 +347,49 @@ export class NormsComponent {
       
     }
   }
+  
+  validNormaId(normaId: string) {
+    if(normaId && normaId != ''){
+      this.showPreLoader();
+
+      this.normasService.getById(normaId).pipe().subscribe(
+        (data: any) => {     
+         this.hidePreLoader();
+         
+        if(data.data && data.data.length > 0){
+         Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'El id Norma ya esta registrado',
+          showConfirmButton: true,
+          timer: 5000,
+          });
+          this.cuerpoForm.controls['normaId'].setValue('');
+        }
+  
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();
+
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'El id Norma ya esta registrado',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+
+      });
+
+    }
+  }
 
   saveAllCuerpo(){
     
     if (this.cuerpoForm.valid) {
       
-      this.showPreLoader();
+    this.showPreLoader();
 
     this.normasService.create(this.cuerpoLegal).pipe().subscribe(
       (data: any) => {     
