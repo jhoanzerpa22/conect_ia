@@ -270,28 +270,27 @@
                             <div class="col-sm-auto">
                                     <button type="button" class="btn btn-light waves-effect right waves-light" (click)="hideResumen()" *ngIf="subArticles.length > 0">Volver</button>
                             </div>
-                           </div>
+                        </div>
 
                         <div class="mb-4">
                             <div>
-                                <h4 class="card-title mb-0">{{cuerpoLegal.titulo}}</h4>
-                                <h5 class="text-muted">{{cuerpoLegal.subtitulo}}</h5>
-                                <p>{{cuerpoLegal.organismo}}</p>
+                                <h5 class="card-title mb-0">{{cuerpoLegal.titulo}}</h5>
+                                <h5 style="color: #405189;">{{cuerpoLegal.subtitulo}}</h5>
+                                <p class="text-muted">{{cuerpoLegal.organismo}}</p>
                             </div>
                         </div>
                         
-                        <ng-container *ngIf="subArticles.length > 0">
+                        <!--<ng-container *ngIf="subArticles.length > 0">
                             
                             <ng-container *ngFor="let sub of subArticles; let su = index">
                                 <div class="mb-4">
                                     <div>
                                         <h4 class="card-title mb-0">{{sub.encabezado}}</h4>
                                         <h5 class="text-muted">{{sub.titulo}}</h5>
-                                        <!--<p>{{sub.organismo}}</p>-->
                                     </div>
                                 </div>
                             </ng-container>
-                        </ng-container>
+                        </ng-container>-->
   
                         <div class="row g-4 mb-3" *ngIf="resumen.articulos.length == 0">
                           <div class="card" style="padding: 0px;">
@@ -307,14 +306,90 @@
                         </div>
 
                         <div class="row g-4 mb-3" *ngIf="resumen.articulos.length > 0">
-                            <div class="card" style="padding: 0px;">
-                        <div style="min-height: 350px !important;">
+                            <!--<div class="card" style="padding: 0px;">
+                        <div style="min-height: 350px !important;">-->
+                            
+                            <ng-template #myArticles let-s="s" let-j="j">
+                                <div class="team-list list-view-filter row">
+                                    <div class="col">
+                                        <div class="card team-box border">
+                                            
+                                            <div class="team-cover">
+                                                
+                                            </div>
+                                            
+                                            <div class="card-body p-4">   
+                                                <h5 class="flex-grow-1 fw-semibold mb-0">{{s.encabezado}}
+                                                    <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(j)" *ngIf="!validateShowArticles(j) && s.articulos.length > 0"></i></span>
+                                                    <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(j)" *ngIf="validateShowArticles(j) && s.articulos.length > 0"><i class=" ri-arrow-down-s-line"></i></span>
+                                                </h5>
+                                                <h5 style="color: #405189;">{{s.titulo}}</h5>
+                                                <p class="text-muted">
+                                                    {{s.contenido}}
+                                                </p>
+                                                
+                                            <ng-container *ngIf="!validateShowArticles(j)">
+                                                <ng-container *ngFor="let sub of s.articulos">
+                        
+                                                    <ng-container [ngTemplateOutlet]="myArticles" 
+                                                    [ngTemplateOutletContext] ="{s:sub, j: (j + 100) }">
+                                                    </ng-container>
+                                        
+                                                </ng-container>
+                                            </ng-container>
+                                                         
+                                                <!--<div class="row align-items-center team-row">
+                                                    <div class="col team-settings">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-auto col pointer">
+                                                        <div>
+                                                            <h5 class="fs-16 mb-1" style="color: #405189;">
+                                                            {{s.encabezado}}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            
+                            </ng-template>
 
-                                <ng-container *ngFor="let ar of resumen.articulos; let i = index">
+                                <ng-container *ngFor="let ar of resumen.articulos; let i = index; let impar = odd; let par = even;">
                                 
-                                <div class="list-group">
-    
-                                        <div class="team-list list-view-filter row" style="cursor:pointer;" (click)="viewResumen(i, ar)">
+                                <div class="card" style="box-shadow: none !importante;">
+                                    
+                                    <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
+                                        
+                                        <h5 class="flex-grow-1 fw-semibold mb-0">{{ar.encabezado}}
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(i)" *ngIf="!validateShowArticles(i) && ar.articulos.length > 0"></i></span>
+                                            <span class="float-end" style="font-size: 20px;cursor:pointer;" (click)="showArticles(i)" *ngIf="validateShowArticles(i) && ar.articulos.length > 0"><i class=" ri-arrow-down-s-line"></i></span>
+                                        </h5>
+                                        <h5 style="color: #405189;">{{ar.titulo}}</h5>
+                                        <p class="text-muted">
+                                            {{ar.contenido}}
+                                        </p>
+                                        
+                                    <ng-container *ngIf="!validateShowArticles(i)">
+                                        <ng-container *ngFor="let s of ar.articulos">
+                
+                                            <ng-container [ngTemplateOutlet]="myArticles" 
+                                            [ngTemplateOutletContext] ="{s:s, j: (i + 100) }">
+                                            </ng-container>
+                                
+                                        </ng-container>
+                                    </ng-container>
+                                    
+                                    </div>
+                                </div>
+                            
+                                        <!--<div class="team-list list-view-filter row" style="cursor:pointer;" (click)="viewResumen(i, ar)">
                                             <div class="col">
                                                 <div class="card team-box" style="margin-bottom: 20px !important;">
                                                     <div class="team-cover">
@@ -326,15 +401,14 @@
                                                         <p>{{ar.contenido}}</p>
                                                     </div>
                                                 </div>
-                                                <!--end card-->
                                             </div>
                                         </div>
-                                </div>
+                                </div>-->
 
                             </ng-container>
                         </div>
-                    </div>
-                    </div>
+                    <!--</div>
+                    </div>-->
   
                       <div class="d-flex align-items-start gap-3 mt-4"  *ngIf="subArticles.length == 0">
                         <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-info-desc-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Artículos</button>

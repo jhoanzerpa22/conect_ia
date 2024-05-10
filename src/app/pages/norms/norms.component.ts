@@ -82,6 +82,9 @@ export class NormsComponent {
   
   index_resumen: number = 0;
   subArticles: any = [];
+  
+  showRow: any = [];
+  showContainerArticles: any = [];
 
   constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService) {
     this.BodyLegalList = service.bodylegal$;
@@ -384,6 +387,38 @@ export class NormsComponent {
 
     }
   }
+
+  showArticles(i: any){
+    this.showContainerArticles.push(i);
+  }
+  
+  hideArticles(i: any){
+    
+    const index = this.showContainerArticles.findIndex(
+      (co: any) =>
+        co == i
+    );
+  
+    this.showContainerArticles.splice(index, 1);
+  }
+  
+  validateShowArticles(i: any){
+    const index = this.showContainerArticles.findIndex(
+      (co: any) =>
+        co == i
+    );
+  
+    return index == -1;
+  }
+  
+  validatShow(idParte: any){
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idParte
+    );
+  
+    return index != -1;
+  }  
 
   saveAllCuerpo(){
     
