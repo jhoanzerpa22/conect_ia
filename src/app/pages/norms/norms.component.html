@@ -41,7 +41,7 @@
                         <div class="col-lg-12">
                             <div class="mb-3">
                                 <label class="form-label" for="gen-info-norma-input">Id Norma</label>
-                                <input type="number" class="form-control" id="gen-info-norma-input" formControlName="normaId" placeholder="Identificador de Norma ..." required [ngClass]="{ 'is-invalid': submitted && f['normaId'].errors }">
+                                <input type="number" class="form-control" id="gen-info-norma-input" formControlName="normaId"  #myNormaId (blur)="validNormaId(myNormaId.value)" placeholder="Identificador de Norma ..." required [ngClass]="{ 'is-invalid': submitted && f['normaId'].errors }">
                                 
                                 <div *ngIf="submitted && f['normaId'].errors" class="invalid-feedback" align="left">
                                     <div *ngIf="f['normaId'].errors['required']">El id de la norma es requerido</div>
@@ -71,7 +71,7 @@
                           </div>
                           <div class="col-lg-12">
                               <div class="mb-3">
-                                  <label class="form-label" for="gen-info-ministerio-input">Ministerio / Área legal</label>
+                                  <label class="form-label" for="gen-info-ministerio-input">Organismo Emisor</label>
                                   <input type="text" class="form-control" id="gen-info-ministerio-input"  formControlName="organismo" placeholder="Ministerio de medio ambiente">
                               </div>
                           </div>
@@ -132,7 +132,7 @@
                                 
                                 <div class="card" style="padding: 0px;">
                                 <div class="card-body">
-                                    <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                                    <div style="text-align: center;width: 100%;font-size: 20px;"><!--class="position-absolute top-50"-->
                                         Aún no ha creado artículos para este Cuerpo legal
                                     </div>
                                 </div>
@@ -298,7 +298,7 @@
                               <div style="min-height: 350px !important;">
                                   
                                   <div class="card-body">
-                                    <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                                    <div style="text-align: center;width: 100%;font-size: 20px;"><!-- class="position-absolute top-50"-->
                                         Aún no ha creado artículos para este {{subArticles.length > 0 ? 'Artículo' : 'Cuerpo legal'}}
                                     </div>
                                   </div>
