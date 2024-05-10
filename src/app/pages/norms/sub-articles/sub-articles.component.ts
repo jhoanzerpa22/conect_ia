@@ -418,6 +418,10 @@ export class SubArticlesComponent implements OnInit {
     this.addSubArticle = false;
   }
   
+  deleteArticle(index: number){
+    this.articulo.articulos.splice(index,1);
+  }
+  
   backClicked(){
     
     if(this.articulos_padres.length > 1){

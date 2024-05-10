@@ -220,7 +220,7 @@
                                                                     </span>
                                                                     
                                                                     <span style="margin-left:10px;" class="btn btn-danger" 
-                                                                    [style.cursor]="'pointer'">
+                                                                    [style.cursor]="'pointer'" (click)="deleteArticle(i)">
                                                                     <i class="ri-delete-bin-5-line"></i>
                                                                     </span>
                                                                     
@@ -363,7 +363,7 @@
 
                                 <ng-container *ngFor="let ar of resumen.articulos; let i = index; let impar = odd; let par = even;">
                                 
-                                <div class="card" style="box-shadow: none !importante;">
+                                <div class="card" style="box-shadow: none !important;">
                                     
                                     <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
                                         
