@@ -284,6 +284,10 @@ export class NormsComponent {
     this.addSubArticle = false;
   }
 
+  deleteArticle(index: number){
+    this.cuerpoLegal.articulos.splice(index,1);
+  }
+
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
