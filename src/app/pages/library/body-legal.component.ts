@@ -12,6 +12,7 @@ import { BodyLegal } from './data';
 import { BodyLegalService } from './body-legal.service';
 import { NgbdBodyLegalTypeSortableHeader, SortEvent } from './body-legal-sortable.directive';
 import { ProjectsService } from '../../core/services/projects.service';
+import { NormasArticlesAllService } from '../../core/services/normas_articles.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from './toast-service';
 import { round } from 'lodash';
@@ -53,7 +54,7 @@ export class BodyLegalTypeComponent {
   type_search: any = 'by_texto';
   userData: any;
 
-  constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
+  constructor(private modalService: NgbModal, public service: BodyLegalService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private normas_articles: NormasArticlesAllService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
@@ -190,6 +191,44 @@ export class BodyLegalTypeComponent {
 
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}
+  }
+
+  /**
+  * Confirmation mail model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+  
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      this.normas_articles.deleteByNorma(id)
+      .subscribe(
+        response => {
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+          const search: any = this.route.snapshot.queryParams['search'];
+            if(search && search != '' && search != undefined ? search : ''){
+              const type_search: any = this.route.snapshot.queryParams['type_search'];
+              const paginate: any = this.route.snapshot.queryParams['paginate'];
+              this.search = search;
+              this.type_search = type_search;
+              this.page = paginate;
+              this.busquedaNorma(search, type_search, paginate);
+            }else{
+              this.busquedaNorma('', 'by_texto', 1);
+            }
+
+          document.getElementById('lj_'+id)?.remove();
+        },
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+        });
+    }
   }
 
   /**
