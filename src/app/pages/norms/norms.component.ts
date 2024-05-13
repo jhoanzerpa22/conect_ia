@@ -518,20 +518,38 @@ export class NormsComponent {
       
     this.showPreLoader();
 
-    this.normasService.create(this.cuerpoLegal).pipe().subscribe(
-      (data: any) => {     
-       this.hidePreLoader();
-       this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
-       
-        this._router.navigate(['/library']);
+      if(this.norma_id > 0){
+        this.normasService.update(this.cuerpoLegal, this.norma_id).pipe().subscribe(
+          (data: any) => {     
+          this.hidePreLoader();
+          this.toastService.show('El registro ha sido modificado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+            this._router.navigate(['/library']);
 
-    },
-    (error: any) => {
-      
-      this.hidePreLoader();
-      this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
-      this.modalService.dismissAll()
-    });
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+          this.modalService.dismissAll()
+        });
+      }else{
+
+        this.normasService.create(this.cuerpoLegal).pipe().subscribe(
+          (data: any) => {     
+          this.hidePreLoader();
+          this.toastService.show('El registro ha sido creado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+            this._router.navigate(['/library']);
+
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+          this.modalService.dismissAll()
+        });
+      }
     }
   }
 
