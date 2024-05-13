@@ -418,8 +418,27 @@ export class SubArticlesComponent implements OnInit {
     this.addSubArticle = false;
   }
   
-  deleteArticle(index: number){
-    this.articulo.articulos.splice(index,1);
+  deleteArticle(index: number, articulo?: any){
+
+    if(!articulo.id){
+      this.articulo.articulos.splice(index,1);
+    }else{
+      this.articulo.articulos[index].eliminado = true;
+
+      if(this.articulo.articulos[index].articulos.length > 0){
+        
+        for (let j = 0; j < this.articulo.articulos[index].articulos.length; j++) {
+          this.articulo.articulos[index].articulos[j].eliminado = true;
+
+          if(this.articulo.articulos[index].articulos[j].articulos.length > 0){
+        
+            for (let z = 0; z < this.articulo.articulos[index].articulos[j].articulos.length; z++) {
+              this.articulo.articulos[index].articulos[j].articulos[z].eliminado = true;
+            }
+          }
+        }
+      }
+    }
   }
   
   backClicked(){
