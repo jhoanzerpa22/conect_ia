@@ -41,7 +41,7 @@
                         <div class="col-lg-12">
                             <div class="mb-3">
                                 <label class="form-label" for="gen-info-norma-input">Id Norma</label>
-                                <input type="number" class="form-control" id="gen-info-norma-input" formControlName="normaId"  #myNormaId (blur)="validNormaId(myNormaId.value)" placeholder="Identificador de Norma ..." required [ngClass]="{ 'is-invalid': submitted && f['normaId'].errors }">
+                                <input type="number" class="form-control" id="gen-info-norma-input" formControlName="normaId"  #myNormaId (blur)="validNormaId(myNormaId.value)" placeholder="Identificador de Norma ..." required [ngClass]="{ 'is-invalid': submitted && f['normaId'].errors }" [readOnly]="norma_id">
                                 
                                 <div *ngIf="submitted && f['normaId'].errors" class="invalid-feedback" align="left">
                                     <div *ngIf="f['normaId'].errors['required']">El id de la norma es requerido</div>

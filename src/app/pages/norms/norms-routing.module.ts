@@ -9,11 +9,11 @@ const routes: Routes = [
   {
     path: "",
     component: NormsComponent
-  }/*,
+  },
   {
-    path: ":id/Detail",
-    component: BodyLegalDetailComponent
-  }*/
+    path: ":id/Edit",
+    component: NormsComponent
+  }
 ];
 
 @NgModule({
