@@ -11,4 +11,5 @@ export interface BodyLegalTypeModel {
   identificador?: any;
   TipoNumero?: any;
   conectado?: string;
+  interno?: boolean;
 }

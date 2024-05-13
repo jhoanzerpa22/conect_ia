@@ -58,4 +58,8 @@ export class NormasArticlesAllService {
     delete(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'norm_article/'+id, /*httpOptions*/this.getToken());
     }
+    
+    deleteByNorma(id: any): Observable<any> {
+        return this.http.delete(API_URL_BACK + 'norm_article/all/'+id, /*httpOptions*/this.getToken());
+    }
 }

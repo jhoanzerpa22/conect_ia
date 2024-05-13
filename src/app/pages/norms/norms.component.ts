@@ -18,6 +18,7 @@ import { ToastService } from './toast-service';
 import { round } from 'lodash';
 import { TokenStorageService } from '../../core/services/token-storage.service';
 //import { filter } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-norms',
@@ -86,6 +87,10 @@ export class NormsComponent {
   showRow: any = [];
   showContainerArticles: any = [];
 
+  accion: any = 'crear';
+  norma_id: any = null;
+  norma_data: any = {};
+
   constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
@@ -125,6 +130,15 @@ export class NormsComponent {
       this.BodyLegalDatas = Object.assign([], x);
     });
     
+    this.route.params.subscribe(params => {
+      this.accion = params['id'] > 0 ? 'editar' : 'crear';
+      this.norma_id = params['id'] > 0 ? params['id'] : null;
+      
+      if(params['id'] > 0){
+        this.getNormaId(params['id']);
+      }
+    });
+    
     /*const search: any = this.route.snapshot.queryParams['search'];
     if(search && search != '' && search != undefined ? search : ''){
       const type_search: any = this.route.snapshot.queryParams['type_search'];
@@ -141,6 +155,28 @@ export class NormsComponent {
   
   // convenience getter for easy access to form fields
   get f() { return this.cuerpoForm.controls; }
+
+  setValue(data:any, articulos: any){
+    this.cuerpoForm.controls['normaId'].setValue(data.normaId);
+    this.cuerpoForm.controls['titulo'].setValue(data.cuerpoLegal);
+    this.cuerpoForm.controls['subtitulo'].setValue(data.tituloNorma);
+    this.cuerpoForm.controls['organismo'].setValue(data.organismo);
+    this.cuerpoForm.controls['ambito'].setValue(data.ambito);
+    this.cuerpoForm.controls['encabezado'].setValue(data.encabezado);
+
+    const cuerpoLegal: any = {
+      normaId: data.normaId,
+      titulo: data.cuerpoLegal,
+      subtitulo: data.tituloNorma,
+      organismo: data.organismo,
+      encabezado: data.encabezado,
+      ambito: data.ambito,
+      articulos: articulos
+    }
+
+    this.cuerpoLegal = cuerpoLegal;
+    this.resumen = this.cuerpoLegal;
+   }
 
   validateRol(rol: any){
     return this.userData.rol.findIndex(
@@ -313,7 +349,7 @@ export class NormsComponent {
       organismo: this.cuerpoForm.get('organismo')?.value,
       encabezado: this.cuerpoForm.get('encabezado')?.value,
       ambito: this.cuerpoForm.get('ambito')?.value,
-      articulos: []
+      articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : []
     }
 
     this.cuerpoLegal = cuerpoLegal;
@@ -356,7 +392,7 @@ export class NormsComponent {
   }
   
   validNormaId(normaId: string) {
-    if(normaId && normaId != ''){
+    if(normaId && normaId != '' && normaId != this.norma_id){
       this.showPreLoader();
 
       this.normasService.getById(normaId).pipe().subscribe(
@@ -383,6 +419,58 @@ export class NormsComponent {
           position: 'center',
           icon: 'error',
           title: 'El id Norma ya esta registrado',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+
+      });
+
+    }
+  }
+
+  getArticles(articuloPadre: any, articulos_all: any){
+
+    let articulos: any = [];
+
+    for (let index = 0; index < articulos_all.length; index++) {
+      if(articulos_all[index].articuloPadre && articulos_all[index].articuloPadre == articuloPadre){
+        articulos.push({encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all) });
+      }
+    }
+
+    return articulos;
+  }
+  
+  getNormaId(normaId: string) {
+    if(normaId && normaId != ''){
+      this.showPreLoader();
+
+      this.normasService.getById(normaId).pipe().subscribe(
+        (data: any) => {     
+         this.hidePreLoader();
+         
+        if(data.data && data.data.length > 0){
+         this.norma_data = data.data[0];
+         let articulos_all = data.data;
+         let articulos = [];
+
+          for (let index = 0; index < articulos_all.length; index++) {
+            if(!articulos_all[index].articuloPadre){
+              articulos.push({encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all) });
+            }
+          }
+         this.setValue(this.norma_data, articulos);
+        }
+  
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();
+
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'La Norma no existe',
           showConfirmButton: true,
           timer: 5000,
         });
