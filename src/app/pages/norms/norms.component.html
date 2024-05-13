@@ -152,7 +152,7 @@
 
                                     <ng-container *ngFor="let ar of cuerpoLegal.articulos; let i = index">
                                     
-                                    <div class="list-group">
+                                    <div class="list-group" *ngIf="!ar.eliminado">
         
                                             <div class="team-list list-view-filter row" style="cursor:pointer;">
                                                 <div class="col">
@@ -220,7 +220,7 @@
                                                                     </span>
                                                                     
                                                                     <span style="margin-left:10px;" class="btn btn-danger" 
-                                                                    [style.cursor]="'pointer'" (click)="deleteArticle(i)">
+                                                                    [style.cursor]="'pointer'" (click)="deleteArticle(i, ar)">
                                                                     <i class="ri-delete-bin-5-line"></i>
                                                                     </span>
                                                                     
