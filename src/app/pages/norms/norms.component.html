@@ -310,7 +310,7 @@
                         <div style="min-height: 350px !important;">-->
                             
                             <ng-template #myArticles let-s="s" let-j="j">
-                                <div class="team-list list-view-filter row">
+                                <div class="team-list list-view-filter row" *ngIf="!s.eliminado">
                                     <div class="col">
                                         <div class="card team-box border">
                                             
@@ -363,7 +363,7 @@
 
                                 <ng-container *ngFor="let ar of resumen.articulos; let i = index; let impar = odd; let par = even;">
                                 
-                                <div class="card" style="box-shadow: none !important;">
+                                <div class="card" style="box-shadow: none !important;" *ngIf="!ar.eliminado">
                                     
                                     <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
                                         
