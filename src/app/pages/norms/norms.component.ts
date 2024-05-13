@@ -320,8 +320,29 @@ export class NormsComponent {
     this.addSubArticle = false;
   }
 
-  deleteArticle(index: number){
-    this.cuerpoLegal.articulos.splice(index,1);
+  deleteArticle(index: number, articulo?: any){
+
+    if(!articulo.id){
+      this.cuerpoLegal.articulos.splice(index,1);
+    }else{
+      this.cuerpoLegal.articulos[index].eliminado = true;
+
+      if(this.cuerpoLegal.articulos[index].articulos.length > 0){
+        
+        for (let j = 0; j < this.cuerpoLegal.articulos[index].articulos.length; j++) {
+          this.cuerpoLegal.articulos[index].articulos[j].eliminado = true;
+
+          if(this.cuerpoLegal.articulos[index].articulos[j].articulos.length > 0){
+        
+            for (let z = 0; z < this.cuerpoLegal.articulos[index].articulos[j].articulos.length; z++) {
+              this.cuerpoLegal.articulos[index].articulos[j].articulos[z].eliminado = true;
+            }
+          }
+        }
+      }
+    }
+    
+    this.resumen = this.cuerpoLegal;
   }
 
   pageTotal(totalRecords: any){
@@ -434,7 +455,7 @@ export class NormsComponent {
 
     for (let index = 0; index < articulos_all.length; index++) {
       if(articulos_all[index].articuloPadre && articulos_all[index].articuloPadre == articuloPadre){
-        articulos.push({encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all) });
+        articulos.push({id: articulos_all[index].id, encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
       }
     }
 
@@ -456,7 +477,7 @@ export class NormsComponent {
 
           for (let index = 0; index < articulos_all.length; index++) {
             if(!articulos_all[index].articuloPadre){
-              articulos.push({encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all) });
+              articulos.push({id: articulos_all[index].id, encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
             }
           }
          this.setValue(this.norma_data, articulos);

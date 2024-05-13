@@ -409,6 +409,7 @@ export class ArticlesComponent implements OnInit {
     const fecha = Date.now();
 
     const articulo: any = {
+      id: null,
       encabezado: this.articuloForm.get('encabezado')?.value,
       titulo: this.articuloForm.get('titulo')?.value,
       contenido: this.articuloForm.get('contenido')?.value,
@@ -417,7 +418,8 @@ export class ArticlesComponent implements OnInit {
       usuario_id: this.userData.id,
       usuario: this.userData,
       tipoParte: this.articuloForm.get('tipoParte')?.value ? 'Artículo' : 'Título',
-      articulos: []
+      articulos: [],
+      eliminado: false
     }
     this.addFunction.emit(articulo);
   }
