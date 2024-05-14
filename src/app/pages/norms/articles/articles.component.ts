@@ -35,6 +35,9 @@ export class ArticlesComponent implements OnInit {
   
   @Output() backFunction = new EventEmitter();
   @Output() addFunction = new EventEmitter();
+  @Output() editFunction = new EventEmitter();
+
+  @Input('articulo_data') articulo_data: any;
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -128,6 +131,10 @@ export class ArticlesComponent implements OnInit {
       this.cuerpo_id = params['id'];
     });
 
+    if(this.articulo_data){
+      this.setValue(this.articulo_data);
+    }
+
     // Data Get Function
     //this._fetchData();
   }
@@ -146,6 +153,13 @@ export class ArticlesComponent implements OnInit {
       this.recentDatas = Object.assign([], x);
     });
   }*/
+  
+  setValue(data:any){
+    this.articuloForm.controls['encabezado'].setValue(data.encabezado);
+    this.articuloForm.controls['titulo'].setValue(data.titulo);
+    this.articuloForm.controls['contenido'].setValue(data.contenido);
+    this.articuloForm.controls['tipoParte'].setValue(data.tipoParte == 'Artículo' ? true : false);
+   }
 
   /**
    * Fetches the data
@@ -408,20 +422,40 @@ export class ArticlesComponent implements OnInit {
 
     const fecha = Date.now();
 
-    const articulo: any = {
-      id: null,
-      encabezado: this.articuloForm.get('encabezado')?.value,
-      titulo: this.articuloForm.get('titulo')?.value,
-      contenido: this.articuloForm.get('contenido')?.value,
-      created_at: moment(fecha).format('DD-MM-yyyy'),
-      updated_at: moment(fecha).format('DD-MM-yyyy'),
-      usuario_id: this.userData.id,
-      usuario: this.userData,
-      tipoParte: this.articuloForm.get('tipoParte')?.value ? 'Artículo' : 'Título',
-      articulos: [],
-      eliminado: false
+    if(this.articulo_data && this.articulo_data.id > 0){
+    
+      const articulo_edit: any = {
+        id: this.articulo_data.id,
+        encabezado: this.articuloForm.get('encabezado')?.value,
+        titulo: this.articuloForm.get('titulo')?.value,
+        contenido: this.articuloForm.get('contenido')?.value,
+        created_at: this.articulo_data.created_at,
+        updated_at: moment(fecha).format('DD-MM-yyyy'),
+        usuario_id: this.userData.id,
+        usuario: this.userData,
+        tipoParte: this.articuloForm.get('tipoParte')?.value ? 'Artículo' : 'Título',
+        articulos: this.articulo_data.articulos,
+        eliminado: false
+      }
+      this.editFunction.emit(articulo_edit);
+
+    }else{
+
+      const articulo: any = {
+        id: null,
+        encabezado: this.articuloForm.get('encabezado')?.value,
+        titulo: this.articuloForm.get('titulo')?.value,
+        contenido: this.articuloForm.get('contenido')?.value,
+        created_at: moment(fecha).format('DD-MM-yyyy'),
+        updated_at: moment(fecha).format('DD-MM-yyyy'),
+        usuario_id: this.userData.id,
+        usuario: this.userData,
+        tipoParte: this.articuloForm.get('tipoParte')?.value ? 'Artículo' : 'Título',
+        articulos: [],
+        eliminado: false
+      }
+      this.addFunction.emit(articulo);
     }
-    this.addFunction.emit(articulo);
   }
 
   // PreLoader

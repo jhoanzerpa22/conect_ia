@@ -87,6 +87,7 @@ export class SubArticlesComponent implements OnInit {
   //@ViewChild("collapse") collapse?: ElementRef<any>;
   buscar: any;
   addSubArticle: boolean = false;
+  editSubArticle: boolean = false;
   search: any = '';
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location) {
@@ -413,9 +414,17 @@ export class SubArticlesComponent implements OnInit {
   showAddSubArticle(){
     this.addSubArticle = true;
   }
+  
+  showEditArticle(index: number, articulo_padre?: any){
+
+    this.articulo_padre = articulo_padre;
+    this.index_padre = index;
+    this.editSubArticle = true;
+  }
 
   hideAddSubArticle(event?: any){
     this.addSubArticle = false;
+    this.editSubArticle = false;
   }
   
   deleteArticle(index: number, articulo?: any){
@@ -473,6 +482,14 @@ export class SubArticlesComponent implements OnInit {
     
     this.articulo.articulos.push(article);
 
+    console.log('SubArticulo_add', article);
+    console.log('SubArticulos', this.articulo.articulos);
+    this.hideAddSubArticle();
+  }
+  
+  editSubArticulos(article?: any){
+    this.articulo.articulos[this.index_padre] = article;
+    
     console.log('SubArticulo_add', article);
     console.log('SubArticulos', this.articulo.articulos);
     this.hideAddSubArticle();
