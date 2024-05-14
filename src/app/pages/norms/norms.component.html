@@ -116,7 +116,7 @@
                       </li>
                     </ng-template>
                     
-                    <ng-container *ngIf="!addArticle && !addSubArticle">
+                    <ng-container *ngIf="!addArticle && !addSubArticle && !editArticle">
                       <div class="row g-4 mb-4">
                         <div class="col-sm">
                             <h5 class="mb-1">Crear Artículos</h5>
@@ -212,11 +212,15 @@
                                                                 </div>
 
                                                                 <div class="col-lg-2 col text-center">
-                                                                    
 
                                                                     <span class="btn btn-info" 
                                                                     [style.cursor]="'pointer'" (click)="showAddSubArticle(i, ar)">
-                                                                    <i class=" ri-git-merge-line"></i>
+                                                                    <i class="ri-git-merge-line"></i>
+                                                                    </span>
+                                                                    
+                                                                    <span style="margin-left:10px;" class="btn btn-primary" 
+                                                                    [style.cursor]="'pointer'" (click)="showEditArticle(i, ar)" *ngIf="ar.id">
+                                                                    <i class="ri-pencil-line"></i>
                                                                     </span>
                                                                     
                                                                     <span style="margin-left:10px;" class="btn btn-danger" 
@@ -247,6 +251,11 @@
                     <ng-container *ngIf="addArticle && !addSubArticle">
                         
                         <app-articles (backFunction)='hideAddArticle($event)' (addFunction)='saveArticulos($event)'></app-articles>
+                    </ng-container>
+                    
+                    <ng-container *ngIf="editArticle && !addSubArticle">
+                        
+                        <app-articles [articulo_data]="articulo_padre" (backFunction)='hideAddArticle($event)' (editFunction)='editArticulos($event)'></app-articles>
                     </ng-container>
                     
                     <ng-container *ngIf="addSubArticle">
@@ -363,7 +372,7 @@
 
                                 <ng-container *ngFor="let ar of resumen.articulos; let i = index; let impar = odd; let par = even;">
                                 
-                                <div class="card" style="box-shadow: none !important;" *ngIf="!ar.eliminado">
+                                <div class="card" *ngIf="!ar.eliminado"><!--style="box-shadow: none !important;"-->
                                     
                                     <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
                                         

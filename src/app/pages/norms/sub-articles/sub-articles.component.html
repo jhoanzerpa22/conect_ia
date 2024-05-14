@@ -15,7 +15,7 @@
     </div>
   </div>
   
-<ng-container *ngIf="!addSubArticle">
+<ng-container *ngIf="!addSubArticle && !editSubArticle">
 
       <div class="row g-4 mb-4">
         <div class="col-sm">
@@ -32,7 +32,7 @@
             <div class="card" style="padding: 0px;">
                 
                 <div class="card-body">
-                <div style="text-align: center;width: 100%;font-size: 20px;" class="position-absolute top-50">
+                <div style="text-align: center;width: 100%;font-size: 20px;"><!--class="position-absolute top-50"-->
                     Aún no ha creado sub artículos para esta Obligación
                 </div>
                 </div>
@@ -118,6 +118,11 @@
                                                 [style.cursor]="'pointer'" (click)="openAddSubArticle(i, ar)">
                                                 <i class=" ri-git-merge-line"></i>
                                                 </span>
+                                                                    
+                                                <span style="margin-left:10px;" class="btn btn-primary" 
+                                                [style.cursor]="'pointer'" (click)="showEditArticle(i, ar)" *ngIf="ar.id">
+                                                <i class="ri-pencil-line"></i>
+                                                </span>
                                                 
                                                 <span style="margin-left:10px;" class="btn btn-danger" 
                                                 [style.cursor]="'pointer'" (click)="deleteArticle(i, ar)">
@@ -149,4 +154,8 @@
     <ng-container *ngIf="addSubArticle">
         
         <app-articles (backFunction)='hideAddSubArticle($event)' (addFunction)='saveArticulos($event)'></app-articles>
+    </ng-container>
+
+    <ng-container *ngIf="editSubArticle">
+        <app-articles [articulo_data]="articulo_padre" (backFunction)='hideAddSubArticle($event)' (editFunction)='editSubArticulos($event)'></app-articles>
     </ng-container>
