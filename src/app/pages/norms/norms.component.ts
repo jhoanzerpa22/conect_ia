@@ -58,6 +58,7 @@ export class NormsComponent {
 
   addArticle: boolean = false;
   addSubArticle: boolean = false;
+  editArticle: boolean = false;
 
   cuerpoLegal: any = {
     normaId: '',
@@ -308,12 +309,20 @@ export class NormsComponent {
 
   hideAddArticle(event?: any){
     this.addArticle = false;
+    this.editArticle = false;
   }
   
   showAddSubArticle(index: number, articulo_padre?:any){
     this.articulo_padre = articulo_padre;
     this.index_padre = index;
     this.addSubArticle = true;
+  }
+
+  showEditArticle(index: number, articulo_padre?: any){
+
+    this.articulo_padre = articulo_padre;
+    this.index_padre = index;
+    this.editArticle = true;
   }
 
   hideAddSubArticle(event?: any){
@@ -381,6 +390,15 @@ export class NormsComponent {
   saveArticulos(article?: any){
     //this.articulos.push(article);
     this.cuerpoLegal.articulos.push(article);
+    this.resumen = this.cuerpoLegal;
+
+    console.log('Articulo_add', article);
+    console.log('Articulos', this.cuerpoLegal.articulos);
+    this.hideAddArticle();
+  }
+  
+  editArticulos(article?: any){
+    this.cuerpoLegal.articulos[this.index_padre] = article;
     this.resumen = this.cuerpoLegal;
 
     console.log('Articulo_add', article);
