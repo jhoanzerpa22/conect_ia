@@ -15,7 +15,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Crear Cuerpo Legal</h4>
+                <h4 class="card-title mb-0">{{ norma_id > 0 ? 'Editar' : 'Crear' }} Cuerpo Legal {{ cuerpoLegal.titulo ? ' - ' + cuerpoLegal.titulo : ''}}</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
               <!--<div class="text-center pt-3 pb-4 mb-1">
@@ -374,7 +374,7 @@
                                 
                                 <div class="card" *ngIf="!ar.eliminado"><!--style="box-shadow: none !important;"-->
                                     
-                                    <div class="card-body" [ngClass]="{'tono1': impar, 'tono2': par}">
+                                    <div class="card-body border" [ngClass]="{'tono1': impar, 'tono2': par}">
                                         
                                         <h5 class="flex-grow-1 fw-semibold mb-0">{{ar.encabezado}}
                                             <span class="float-end" style="font-size: 20px;cursor:pointer;"><i class=" ri-arrow-up-s-line" (click)="hideArticles(i)" *ngIf="!validateShowArticles(i) && ar.articulos.length > 0"></i></span>
