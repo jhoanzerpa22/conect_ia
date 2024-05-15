@@ -21,6 +21,7 @@
               <!--<div class="text-center pt-3 pb-4 mb-1">
                       <h5>Signup Your Account</h5>
               </div>-->
+              <form [formGroup]="cuerpoForm">
               <aw-wizard [navBarLayout]="'large-empty-symbols'" class="nav nav-pills progress-bar-tab custom-nav">
                 <aw-wizard-step>
                     <ng-template awWizardStepSymbol>
@@ -29,7 +30,7 @@
                       </li>
                     </ng-template>
                     
-                    <form [formGroup]="cuerpoForm">
+                    <!--<form [formGroup]="cuerpoForm">-->
                       <div class="mb-4">
                           <div>
                               <h5 class="mb-1">Información General del Cuerpo Legal</h5>
@@ -102,7 +103,7 @@
                           <label class="form-label" for="gen-info-password-input">Password</label>
                           <input type="password" class="form-control" id="gen-info-password-input" placeholder="Enter Password">
                       </div>-->
-                    </form>
+                    <!--</form>-->
                     <!-- wizard-tab -->
                     <div class="d-flex align-items-start gap-3 mt-4">
                       <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" (click)="saveCuerpoLegal()" data-nexttab="pills-info-desc-tab" awNextStep [disabled]="!cuerpoForm.valid"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Crear Artículos</button>
@@ -143,14 +144,14 @@
                                 
                                 <div class="d-md-flex justify-content-sm-end gap-2">
                                     <div class="search-box" style="width: 20%;">
-                                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." formControlName="busqueda" value="" [(ngModel)]="search" (keyup.enter)="busquedaNorma()">
+                                        <input type="text" class="form-control bg-light border-light" placeholder="Buscar..." value="" formControlName="busqueda" [(ngModel)]="search">
                                         <i class="ri-search-2-line search-icon"></i>
                                     </div>
                                 </div>
 
                                 <div style="padding: 0px;">
 
-                                    <ng-container *ngFor="let ar of cuerpoLegal.articulos; let i = index">
+                                    <ng-container *ngFor="let ar of cuerpoLegal.articulos | filter:search; let i = index">
                                     
                                     <div class="list-group" *ngIf="!ar.eliminado">
         
@@ -416,6 +417,18 @@
 
                             </ng-container>
                         </div>
+                        <!--<div class="row">
+                        
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label for="teammembersProjects" class="form-label">Proyectos</label>
+                                    <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && f['projects'].errors }" multiple>
+                                        <option value="" selected>Todos </option>
+                                        <option *ngFor="let p of projects;" value="{{p.id}}">{{p.nombre}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>-->
                     <!--</div>
                     </div>-->
   
@@ -425,6 +438,7 @@
                     </div>
                 </aw-wizard-step>
               </aw-wizard>
+            </form>
             </div>
             <!-- end card body -->
         </div>

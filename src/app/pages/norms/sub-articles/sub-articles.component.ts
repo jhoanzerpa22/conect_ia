@@ -54,6 +54,7 @@ export class SubArticlesComponent implements OnInit {
   folderForm!: UntypedFormGroup;
   folderDatas: any;
   recentForm!: UntypedFormGroup;
+  busquedaForm!: UntypedFormGroup;
   recentDatas: any;
   articulosDatas: any;
   simpleDonutChart: any;
@@ -88,7 +89,7 @@ export class SubArticlesComponent implements OnInit {
   buscar: any;
   addSubArticle: boolean = false;
   editSubArticle: boolean = false;
-  search: any = '';
+  search: any;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location) {
     this.recentData = service.recents$;
@@ -122,49 +123,15 @@ export class SubArticlesComponent implements OnInit {
       ids: [''],
       icon_name: ['', [Validators.required]]
     });
+    
+    this.busquedaForm = this.formBuilder.group({
+      busqueda: ['']
+    });
 
     this.route.params.subscribe(params => {
       this.cuerpo_id = params['id'];
     });
 
-    // Data Get Function
-    //this._fetchData();
-  }
-
-  // Chat Data Fetch
-  /*private _fetchData() {
-    // Folder Data Fetch
-    this.folderData = folderData;
-    this.folderDatas = Object.assign([], this.folderData);
-
-    // Recent Data Fetch
-    this.recentData.subscribe(x => {
-      this.recentDatas = Object.assign([], x);
-    });
-  }*/
-
-  /**
-   * Fetches the data
-   */
-  private _fetchData() {
-    
-    this.showPreLoader();
-      this.projectsService.getBodyLegalByNorma(this.cuerpo_id).pipe().subscribe(
-        (data: any) => {
-          //this.service.bodylegal_data = data.data;
-          this.detail = data.data;
-          this.articulosDatas = data.data.EstructurasFuncionales ? data.data.EstructurasFuncionales : [];
-          
-          console.log('detail',this.detail);
-          console.log('detailData',this.articulosDatas);
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
   }
   
   /**
@@ -187,10 +154,6 @@ export class SubArticlesComponent implements OnInit {
   showDetailEncabezado(texto: any, content: any){
     this.modalService.open(content, {/* size: 'lg', */centered: true});
     this.htmlString = this.sanitizer.bypassSecurityTrustHtml((texto ? texto.replace(/\n/gi,'<br>') : ''));
-
-  }
-  
-  busquedaNorma(){   
 
   }
 
