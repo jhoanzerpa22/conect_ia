@@ -52,7 +52,7 @@ export class NormsComponent {
   term:any;
   busquedaForm!: UntypedFormGroup;
   cuerpoForm!: UntypedFormGroup;
-  search: any = '';
+  search: any;
   type_search: any = 'by_texto';
   userData: any;
 
@@ -67,7 +67,8 @@ export class NormsComponent {
     organismo: '',
     ambito: '',
     encabezado: '',
-    articulos: []
+    articulos: []/*,
+    projects: []*/
   };
   resumen: any = {
     normaId: '',
@@ -91,6 +92,8 @@ export class NormsComponent {
   accion: any = 'crear';
   norma_id: any = null;
   norma_data: any = {};
+  
+  projects: any = [];
 
   constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService) {
     this.BodyLegalList = service.bodylegal$;
@@ -119,7 +122,9 @@ export class NormsComponent {
       subtitulo: ['', [Validators.required]],
       organismo: [''],
       ambito: [''],
-      encabezado: ['']
+      encabezado: [''],
+      busqueda: ['']
+      //projects: [['']],
     });
 
     //this.fetchData();
@@ -139,23 +144,26 @@ export class NormsComponent {
         this.getNormaId(params['id']);
       }
     });
-    
-    /*const search: any = this.route.snapshot.queryParams['search'];
-    if(search && search != '' && search != undefined ? search : ''){
-      const type_search: any = this.route.snapshot.queryParams['type_search'];
-      const paginate: any = this.route.snapshot.queryParams['paginate'];
-      this.search = search;
-      this.type_search = type_search;
-      this.page = paginate;
-      this.busquedaNorma(search, type_search, paginate);
-    }else{
-      this.busquedaNorma('', 'by_texto', 1);
-    }*/
-    
+
+    //this.getProjects();
   }
   
   // convenience getter for easy access to form fields
   get f() { return this.cuerpoForm.controls; }
+  
+  private getProjects(){
+    
+    //this.showPreLoader();
+      this.projectsService.get().pipe().subscribe(
+        (data: any) => {        
+          this.projects = data.data;
+          //this.hidePreLoader();
+      },
+      (error: any) => {
+        //this.hidePreLoader();
+      });
+      //document.getElementById('elmLoader')?.classList.add('d-none')
+}
 
   setValue(data:any, articulos: any){
     this.cuerpoForm.controls['normaId'].setValue(data.normaId);
@@ -164,6 +172,7 @@ export class NormsComponent {
     this.cuerpoForm.controls['organismo'].setValue(data.organismo);
     this.cuerpoForm.controls['ambito'].setValue(data.ambito);
     this.cuerpoForm.controls['encabezado'].setValue(data.encabezado);
+    //this.cuerpoForm.controls['projects'].setValue(data.projects);
 
     const cuerpoLegal: any = {
       normaId: data.normaId,
@@ -172,7 +181,8 @@ export class NormsComponent {
       organismo: data.organismo,
       encabezado: data.encabezado,
       ambito: data.ambito,
-      articulos: articulos
+      articulos: articulos,
+      //projects: []/*data.projects*/
     }
 
     this.cuerpoLegal = cuerpoLegal;
@@ -184,94 +194,6 @@ export class NormsComponent {
       (r: any) =>
         r == rol
     ) != -1;
-  }
-
-  busquedaNorma(search?:any, type_search?: any, paginate?: any){    
-    let busqueda: any = search ? search : this.busquedaForm.get('busqueda')?.value;
-    let tipo_busqueda: any = type_search ? type_search : this.busquedaForm.get('tipo_busqueda')?.value;
-    let page = paginate ? paginate : this.page;
-
-    this.search = busqueda;
-    this.type_search = tipo_busqueda;
-    this.page = page;
-    //if(busqueda && busqueda != '' && busqueda != undefined && busqueda != null){
-      this.showPreLoader();
-      
-      this._router.navigate(['/library'], { queryParams: { search: busqueda, type_search: tipo_busqueda, paginate: page} });
-
-      if(tipo_busqueda == 'by_texto'){
-      this.projectsService./*getBodyLegalSearch(1, busqueda, 100)*/getBodyLegalSearchChile(page, busqueda, 10).pipe().subscribe(
-        (data: any) => {
-          console.log(data.data);
-          if(data && data.data){
-            this.service.bodylegal_data = data.data ? data.data.normas : [];
-            this.body_legal_data = data.data ? data.data.normas : [];
-            this.total_body = data.data ? (data.data.normas.length > 0 ? data.data.total : 0) : 0;
-            this.total_paginate = data.data ? (data.data.normas.length > 0 ? data.data.total : 0) : 0;
-            //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
-          }else{
-            this.service.bodylegal_data = [];
-            this.body_legal_data = [];
-            this.total_body = 0;
-            this.total_paginate = 0;
-            
-            Swal.fire({
-              position: 'center',
-              icon: 'error',
-              title: 'No se encontraron registros',
-              showConfirmButton: true,
-              timer: 5000,
-            });
-            
-          }
-          
-          this.hidePreLoader();
-      },
-      (error: any) => {
-        this.hidePreLoader();
-        //this.error = error ? error : '';
-        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
-      });
-      }else{
-        this.projectsService.getBodyLegalByNorma(busqueda).pipe().subscribe(
-          (data: any) => {
-            console.log(data.data);
-            if(data && data.data){
-              const detail: any = data.data;
-              const info: any = data.data ? [{FechaPublicacion: detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '', InicioDeVigencia: detail.dates.fechaVigenciaNorma ? detail.dates.fechaVigenciaNorma : '', idNorma: detail.normaId, TipoNumero: {Compuesto: detail.identificador ? (detail.identificador.tipoNorma ? detail.identificador.tipoNorma+' '+detail.identificador.numero : '') : ''} , TituloNorma: detail.tituloNorma }] : [];
-
-              this.service.bodylegal_data = info;
-              this.body_legal_data = info;
-              this.total_body = data.data ? 1 : 0;
-              this.total_paginate = data.data > 0 ? 1 : 0;
-              //this.total_paginate = data.data.total > 180 ? 180 : data.data.total;
-            }else{
-              this.service.bodylegal_data = [];
-              this.body_legal_data = [];
-              this.total_body = 0;
-              this.total_paginate = 0;
-              
-              Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: 'No se encontraron registros',
-                showConfirmButton: true,
-                timer: 5000,
-              });
-              
-            }
-            
-            this.hidePreLoader();
-        },
-        (error: any) => {
-          this.hidePreLoader();
-          //this.error = error ? error : '';
-          this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
-        });
-      }
-
-      document.getElementById('elmLoader')?.classList.add('d-none')
-    //}
   }
 
   /**
@@ -354,17 +276,6 @@ export class NormsComponent {
     this.resumen = this.cuerpoLegal;
   }
 
-  pageTotal(totalRecords: any){
-    let tp: number = round((totalRecords / 10),0);
-    return (tp * 10) > totalRecords ? tp : (tp + 1);
-  }
-
-  pageChange(page: any){
-    //console.log('Pagina Cambiada',page);
-      this.page = page;
-      this.busquedaNorma(this.search, this.type_search, page);
-  }
-
   saveCuerpoLegal(){
     this.submitted = true;
     // stop here if form is invalid
@@ -379,7 +290,8 @@ export class NormsComponent {
       organismo: this.cuerpoForm.get('organismo')?.value,
       encabezado: this.cuerpoForm.get('encabezado')?.value,
       ambito: this.cuerpoForm.get('ambito')?.value,
-      articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : []
+      articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : []/*,
+      projects: []*/
     }
 
     this.cuerpoLegal = cuerpoLegal;
@@ -556,6 +468,10 @@ export class NormsComponent {
     if (this.cuerpoForm.valid) {
       
     this.showPreLoader();
+      /*
+      const proyectos_form = this.cuerpoForm.get('projects')?.value ? this.cuerpoForm.get('projects')?.value : [];
+
+      this.cuerpoLegal.projects = proyectos_form;*/
 
       if(this.norma_id > 0){
         this.normasService.update(this.cuerpoLegal, this.norma_id).pipe().subscribe(
