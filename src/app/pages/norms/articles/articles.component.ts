@@ -415,6 +415,18 @@ export class ArticlesComponent implements OnInit {
   backClicked(){
     this.backFunction.emit();
   }
+
+  quitarEtiquetasPTags(texto: string): string {
+    if(texto){
+      if (texto.startsWith('<p>') && texto.endsWith('</p>')) {
+        return texto.slice(3, -4);
+      } else {
+        return texto;
+      }
+    }else{
+      return texto;
+    }
+  }
   
   saveClicked(){
     this.submitted = true;
@@ -430,7 +442,7 @@ export class ArticlesComponent implements OnInit {
       const articulo_edit: any = {
         id: this.articulo_data.id,
         titulo: this.articuloForm.get('titulo')?.value,
-        contenido: this.articuloForm.get('contenido')?.value,
+        contenido: this.quitarEtiquetasPTags(this.articuloForm.get('contenido')?.value),
         created_at: this.articulo_data.created_at,
         updated_at: moment(fecha).format('DD-MM-yyyy'),
         usuario_id: this.userData.id,
@@ -446,7 +458,7 @@ export class ArticlesComponent implements OnInit {
       const articulo: any = {
         id: null,
         titulo: this.articuloForm.get('titulo')?.value,
-        contenido: this.articuloForm.get('contenido')?.value,
+        contenido: this.quitarEtiquetasPTags(this.articuloForm.get('contenido')?.value),
         created_at: moment(fecha).format('DD-MM-yyyy'),
         updated_at: moment(fecha).format('DD-MM-yyyy'),
         usuario_id: this.userData.id,
