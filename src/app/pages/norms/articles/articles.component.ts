@@ -18,6 +18,9 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import {Location} from '@angular/common';
 import * as moment from 'moment';
 
+// Ck Editer
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 // Sweet Alert
 import Swal from 'sweetalert2';
 
@@ -85,6 +88,8 @@ export class ArticlesComponent implements OnInit {
   
   articuloForm!: UntypedFormGroup;
   userData: any;
+  
+  public Editor = ClassicEditor;
 
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private _location: Location, private TokenStorageService: TokenStorageService) {
     this.recentData = service.recents$;
