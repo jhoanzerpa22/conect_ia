@@ -121,9 +121,8 @@ export class ArticlesComponent implements OnInit {
     });
     
     this.articuloForm = this.formBuilder.group({
-      encabezado: ['', [Validators.required]],
       titulo: ['', [Validators.required]],
-      contenido: ['', [Validators.required]],
+      contenido: [''],
       tipoParte: ['']
     });
 
@@ -155,7 +154,6 @@ export class ArticlesComponent implements OnInit {
   }*/
   
   setValue(data:any){
-    this.articuloForm.controls['encabezado'].setValue(data.encabezado);
     this.articuloForm.controls['titulo'].setValue(data.titulo);
     this.articuloForm.controls['contenido'].setValue(data.contenido);
     this.articuloForm.controls['tipoParte'].setValue(data.tipoParte == 'Artículo' ? true : false);
@@ -426,7 +424,6 @@ export class ArticlesComponent implements OnInit {
     
       const articulo_edit: any = {
         id: this.articulo_data.id,
-        encabezado: this.articuloForm.get('encabezado')?.value,
         titulo: this.articuloForm.get('titulo')?.value,
         contenido: this.articuloForm.get('contenido')?.value,
         created_at: this.articulo_data.created_at,
@@ -443,7 +440,6 @@ export class ArticlesComponent implements OnInit {
 
       const articulo: any = {
         id: null,
-        encabezado: this.articuloForm.get('encabezado')?.value,
         titulo: this.articuloForm.get('titulo')?.value,
         contenido: this.articuloForm.get('contenido')?.value,
         created_at: moment(fecha).format('DD-MM-yyyy'),
