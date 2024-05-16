@@ -101,7 +101,7 @@ export class SubArticlesComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: this.articulo_padre.encabezado, active: true }
+      { label: this.articulo_padre.titulo, active: true }
     ];
 
     this.articulos_padres.push(this.articulo_padre);
@@ -362,7 +362,7 @@ export class SubArticlesComponent implements OnInit {
     this.breadCrumbItems = [];
     for (let index = 0; index < this.articulos_padres.length; index++) {
       
-      this.breadCrumbItems.push({ label: this.articulos_padres[index].encabezado, active: index == (this.articulos_padres.length - 1) ? true : false });
+      this.breadCrumbItems.push({ label: this.articulos_padres[index].titulo, active: index == (this.articulos_padres.length - 1) ? true : false });
       
     }
   }

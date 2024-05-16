@@ -67,6 +67,8 @@ export class NormsComponent {
     organismo: '',
     ambito: '',
     encabezado: '',
+    fechaPublicacion: '',
+    fechaPromulgacion: '',
     articulos: []/*,
     projects: []*/
   };
@@ -77,6 +79,8 @@ export class NormsComponent {
     organismo: '',
     ambito: '',
     encabezado: '',
+    fechaPublicacion: '',
+    fechaPromulgacion: '',
     articulos: []
   };
   //articulos: any = [];
@@ -122,7 +126,9 @@ export class NormsComponent {
       subtitulo: ['', [Validators.required]],
       organismo: [''],
       ambito: [''],
-      encabezado: [''],
+      encabezado: [''],      
+      fechaPublicacion: [''],
+      fechaPromulgacion: [''],
       busqueda: ['']
       //projects: [['']],
     });
@@ -172,6 +178,8 @@ export class NormsComponent {
     this.cuerpoForm.controls['organismo'].setValue(data.organismo);
     this.cuerpoForm.controls['ambito'].setValue(data.ambito);
     this.cuerpoForm.controls['encabezado'].setValue(data.encabezado);
+    this.cuerpoForm.controls['fechaPublicacion'].setValue(data.fechaPublicacion);
+    this.cuerpoForm.controls['fechaPromulgacion'].setValue(data.fechaPromulgacion);
     //this.cuerpoForm.controls['projects'].setValue(data.projects);
 
     const cuerpoLegal: any = {
@@ -181,6 +189,8 @@ export class NormsComponent {
       organismo: data.organismo,
       encabezado: data.encabezado,
       ambito: data.ambito,
+      fechaPublicacion: data.fechaPublicacion,
+      fechaPromulgacion: data.fechaPromulgacion,
       articulos: articulos,
       //projects: []/*data.projects*/
     }
@@ -290,6 +300,8 @@ export class NormsComponent {
       organismo: this.cuerpoForm.get('organismo')?.value,
       encabezado: this.cuerpoForm.get('encabezado')?.value,
       ambito: this.cuerpoForm.get('ambito')?.value,
+      fechaPublicacion: this.cuerpoForm.get('fechaPublicacion')?.value,
+      fechaPromulgacion: this.cuerpoForm.get('fechaPromulgacion')?.value,
       articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : []/*,
       projects: []*/
     }
@@ -385,7 +397,7 @@ export class NormsComponent {
 
     for (let index = 0; index < articulos_all.length; index++) {
       if(articulos_all[index].articuloPadre && articulos_all[index].articuloPadre == articuloPadre){
-        articulos.push({id: articulos_all[index].id, encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
+        articulos.push({id: articulos_all[index].id, titulo: articulos_all[index].articulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
       }
     }
 
@@ -407,7 +419,7 @@ export class NormsComponent {
 
           for (let index = 0; index < articulos_all.length; index++) {
             if(!articulos_all[index].articuloPadre){
-              articulos.push({id: articulos_all[index].id, encabezado: articulos_all[index].articulo, titulo: articulos_all[index].articuloTitulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
+              articulos.push({id: articulos_all[index].id, titulo: articulos_all[index].articulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
             }
           }
          this.setValue(this.norma_data, articulos);
