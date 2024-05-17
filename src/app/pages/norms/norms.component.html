@@ -445,18 +445,18 @@
 
                             </ng-container>
                         </div>
-                        <!--<div class="row">
+                        <div class="row">
                         
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label for="teammembersProjects" class="form-label">Proyectos</label>
-                                    <select class="form-control form-select" aria-label="Proyectos" formControlName="projects" placeholder="Seleccione Proyectos" [ngClass]="{ 'is-invalid': submitted && f['projects'].errors }" multiple>
+                                    <label for="teammembersCompanies" class="form-label">Empresas</label>
+                                    <select class="form-control form-select" aria-label="Empresas" formControlName="empresas" placeholder="Seleccione Empresas" [ngClass]="{ 'is-invalid': submitted && f['empresas'].errors }" multiple>
                                         <option value="" selected>Todos </option>
-                                        <option *ngFor="let p of projects;" value="{{p.id}}">{{p.nombre}}</option>
+                                        <option *ngFor="let p of empresas;" value="{{p.value}}">{{p.label}}</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                     <!--</div>
                     </div>-->
   
