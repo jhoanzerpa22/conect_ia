@@ -13,6 +13,7 @@ import { NormsService } from './norms.service';
 import { NgbdNormsSortableHeader, SortEvent } from './norms-sortable.directive';
 import { ProjectsService } from '../../core/services/projects.service';
 import { NormasArticlesAllService } from '../../core/services/normas_articles.service';
+import { UserProfileService } from '../../core/services/user.service';
 import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ToastService } from './toast-service';
 import { round } from 'lodash';
@@ -69,8 +70,8 @@ export class NormsComponent {
     encabezado: '',
     fechaPublicacion: '',
     fechaPromulgacion: '',
-    articulos: []/*,
-    projects: []*/
+    articulos: [],
+    empresas: []
   };
   resumen: any = {
     normaId: '',
@@ -97,9 +98,9 @@ export class NormsComponent {
   norma_id: any = null;
   norma_data: any = {};
   
-  projects: any = [];
+  empresas: any = [];
 
-  constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService) {
+  constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService, private userService: UserProfileService) {
     this.BodyLegalList = service.bodylegal$;
     this.total = service.total$;
   }
@@ -129,8 +130,8 @@ export class NormsComponent {
       encabezado: [''],      
       fechaPublicacion: [''],
       fechaPromulgacion: [''],
-      busqueda: ['']
-      //projects: [['']],
+      busqueda: [''],
+      empresas: [['']]
     });
 
     //this.fetchData();
@@ -151,27 +152,34 @@ export class NormsComponent {
       }
     });
 
-    //this.getProjects();
+    this.getEmpresas();
   }
   
   // convenience getter for easy access to form fields
   get f() { return this.cuerpoForm.controls; }
   
-  private getProjects(){
+  private getEmpresas(){
     
     //this.showPreLoader();
-      this.projectsService.get().pipe().subscribe(
-        (data: any) => {        
-          this.projects = data.data;
-          //this.hidePreLoader();
-      },
-      (error: any) => {
-        //this.hidePreLoader();
-      });
+    this.userService.get().pipe().subscribe(
+      (obj: any) => {
+        const usuarios = obj.data;
+        
+        const empresas_all = usuarios.filter((us: any) => us.rol.includes(2) && us.active == true);
+
+        for (let index = 0; index < empresas_all.length; index++) {
+
+          if(this.empresas.findIndex((em: any) => em.value == empresas_all[index].empresaId) == -1){
+            this.empresas.push({value: empresas_all[index].empresaId, label: empresas_all[index].nombre+' '+empresas_all[index].apellido});  
+          }
+        }
+        
+      }
+    );
       //document.getElementById('elmLoader')?.classList.add('d-none')
 }
 
-  setValue(data:any, articulos: any){
+  setValue(data:any, articulos: any, empresas: any){
     this.cuerpoForm.controls['normaId'].setValue(data.normaId);
     this.cuerpoForm.controls['titulo'].setValue(data.cuerpoLegal);
     this.cuerpoForm.controls['subtitulo'].setValue(data.tituloNorma);
@@ -180,7 +188,14 @@ export class NormsComponent {
     this.cuerpoForm.controls['encabezado'].setValue(data.encabezado);
     this.cuerpoForm.controls['fechaPublicacion'].setValue(data.fechaPublicacion);
     this.cuerpoForm.controls['fechaPromulgacion'].setValue(data.fechaPromulgacion);
-    //this.cuerpoForm.controls['projects'].setValue(data.projects);
+
+    let empresas_select = [];
+    for (let index = 0; index < empresas.length; index++) {
+      empresas_select.push(empresas[index].empresaId);
+      
+    }
+    
+    this.cuerpoForm.controls['empresas'].setValue(empresas_select);
 
     const cuerpoLegal: any = {
       normaId: data.normaId,
@@ -192,7 +207,7 @@ export class NormsComponent {
       fechaPublicacion: data.fechaPublicacion,
       fechaPromulgacion: data.fechaPromulgacion,
       articulos: articulos,
-      //projects: []/*data.projects*/
+      empresas: empresas_select
     }
 
     this.cuerpoLegal = cuerpoLegal;
@@ -302,8 +317,8 @@ export class NormsComponent {
       ambito: this.cuerpoForm.get('ambito')?.value,
       fechaPublicacion: this.cuerpoForm.get('fechaPublicacion')?.value,
       fechaPromulgacion: this.cuerpoForm.get('fechaPromulgacion')?.value,
-      articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : []/*,
-      projects: []*/
+      articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : [],
+      empresas: []
     }
 
     this.cuerpoLegal = cuerpoLegal;
@@ -412,17 +427,18 @@ export class NormsComponent {
         (data: any) => {     
          this.hidePreLoader();
          
-        if(data.data && data.data.length > 0){
-         this.norma_data = data.data[0];
-         let articulos_all = data.data;
+        if(data.data && data.data.normas && data.data.normas.length > 0){
+         this.norma_data = data.data.normas[0];
+         let articulos_all = data.data.normas;
          let articulos = [];
+         let empresas = data.data.empresas;
 
           for (let index = 0; index < articulos_all.length; index++) {
             if(!articulos_all[index].articuloPadre){
               articulos.push({id: articulos_all[index].id, titulo: articulos_all[index].articulo, contenido: articulos_all[index].descripcion, tipoParte: articulos_all[index].tipoParte ,created_at: moment(articulos_all[index].createdAt).format('DD-MM-yyyy'), updated_at: moment(articulos_all[index].updatedAt).format('DD-MM-yyyy'), usuario_id: this.userData.id, usuario: this.userData, articulos: this.getArticles(articulos_all[index].id, articulos_all), eliminado: false });
             }
           }
-         this.setValue(this.norma_data, articulos);
+         this.setValue(this.norma_data, articulos, empresas);
         }
   
       },
@@ -480,10 +496,10 @@ export class NormsComponent {
     if (this.cuerpoForm.valid) {
       
     this.showPreLoader();
-      /*
-      const proyectos_form = this.cuerpoForm.get('projects')?.value ? this.cuerpoForm.get('projects')?.value : [];
+      
+      const empresas_form = this.cuerpoForm.get('empresas')?.value ? this.cuerpoForm.get('empresas')?.value : [];
 
-      this.cuerpoLegal.projects = proyectos_form;*/
+      this.cuerpoLegal.empresas = empresas_form;
 
       if(this.norma_id > 0){
         this.normasService.update(this.cuerpoLegal, this.norma_id).pipe().subscribe(
