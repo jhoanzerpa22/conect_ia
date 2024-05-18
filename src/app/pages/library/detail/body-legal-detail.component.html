@@ -190,7 +190,7 @@
         
         <!--Template Articulos-->
         <ng-template #myArticles let-data="data">
-            <div class="col-xxl-12" id="r-{{data.idParte}}" *ngIf="!data.EstructurasFuncionales">
+            <div class="col-xxl-12" id="r-{{data.idParte}}" *ngIf="!data.EstructurasFuncionales || data.EstructurasFuncionales.length < 1">
                 <div class="card"><!--border card-border-primary style="border-radius: 24px !important;"-->
                     <div class="row g-0">
                         <div class="col-md-12">
@@ -209,7 +209,7 @@
                 </div>
             </div>
 
-            <ng-container *ngIf="data.EstructurasFuncionales">
+            <ng-container *ngIf="data.EstructurasFuncionales && data.EstructurasFuncionales.length > 0">
               
                 <div class="col-xxl-12" id="r-{{data.idParte}}">
                     

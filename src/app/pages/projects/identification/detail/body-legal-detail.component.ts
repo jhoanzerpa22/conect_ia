@@ -157,6 +157,8 @@ export class BodyLegalDetailIdComponent implements OnInit {
 
           console.log('detail',this.detail);
           console.log('detailData',this.articulosDatas);
+
+          this.detail.organismos = Array.isArray(this.detail.organismos) ? this.detail.organismos : [this.detail.organismos];
           this.hidePreLoader();
       },
       (error: any) => {
