@@ -11,6 +11,10 @@ const routes: Routes = [
     component: NormsComponent
   },
   {
+    path: ":type",
+    component: NormsComponent
+  },
+  {
     path: ":id/Edit",
     component: NormsComponent
   }

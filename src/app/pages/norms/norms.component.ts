@@ -70,6 +70,7 @@ export class NormsComponent {
     encabezado: '',
     fechaPublicacion: '',
     fechaPromulgacion: '',
+    tipo: 'requisito',
     articulos: [],
     empresas: []
   };
@@ -80,6 +81,7 @@ export class NormsComponent {
     organismo: '',
     ambito: '',
     encabezado: '',
+    tipo: 'requisito',
     fechaPublicacion: '',
     fechaPromulgacion: '',
     articulos: []
@@ -130,6 +132,7 @@ export class NormsComponent {
       encabezado: [''],      
       fechaPublicacion: [''],
       fechaPromulgacion: [''],
+      tipo: ['requisito'],
       busqueda: [''],
       empresas: [['']]
     });
@@ -149,6 +152,10 @@ export class NormsComponent {
       
       if(params['id'] > 0){
         this.getNormaId(params['id']);
+      }
+
+      if(params['type'] != ''){    
+        this.cuerpoForm.controls['tipo'].setValue(params['type']);
       }
     });
 
@@ -186,6 +193,7 @@ export class NormsComponent {
     this.cuerpoForm.controls['organismo'].setValue(data.organismo);
     this.cuerpoForm.controls['ambito'].setValue(data.ambito);
     this.cuerpoForm.controls['encabezado'].setValue(data.encabezado);
+    this.cuerpoForm.controls['tipo'].setValue(data.tipo);
     this.cuerpoForm.controls['fechaPublicacion'].setValue(data.fechaPublicacion);
     this.cuerpoForm.controls['fechaPromulgacion'].setValue(data.fechaPromulgacion);
 
@@ -204,6 +212,7 @@ export class NormsComponent {
       organismo: data.organismo,
       encabezado: data.encabezado,
       ambito: data.ambito,
+      tipo: data.tipo,
       fechaPublicacion: data.fechaPublicacion,
       fechaPromulgacion: data.fechaPromulgacion,
       articulos: articulos,
@@ -315,6 +324,7 @@ export class NormsComponent {
       organismo: this.cuerpoForm.get('organismo')?.value,
       encabezado: this.cuerpoForm.get('encabezado')?.value,
       ambito: this.cuerpoForm.get('ambito')?.value,
+      tipo: this.cuerpoForm.get('tipo')?.value,
       fechaPublicacion: this.cuerpoForm.get('fechaPublicacion')?.value,
       fechaPromulgacion: this.cuerpoForm.get('fechaPromulgacion')?.value,
       articulos: this.cuerpoLegal && this.cuerpoLegal.articulos && this.cuerpoLegal.articulos.length > 0 ? this.cuerpoLegal.articulos : [],
