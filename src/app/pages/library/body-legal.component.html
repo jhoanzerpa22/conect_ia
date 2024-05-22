@@ -47,7 +47,7 @@
                     <div>
                     <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="busquedaNorma()"><i class="ri-search-2-line label-icon align-middle fs-16"></i> <!--Buscar--></button>
                     
-                    <button type="button" style="margin-left:10px;" class="btn btn-success btn-label waves-effect left waves-light" routerLink="/norms" *ngIf="validateRol(1)"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear un Cuerpo Legal</button>
+                    <button type="button" style="margin-left:10px;" class="btn btn-success btn-label waves-effect left waves-light" (click)="addDocument(addDocumentModel)" *ngIf="validateRol(1)"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear Documento</button>
                     </div>
                 </div>
                 </div>
@@ -153,6 +153,34 @@
     <!-- end col -->
 </div>
 <!-- end row -->
+
+<!-- addDocumentModal -->
+<ng-template #addDocumentModel let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="btn-close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-2 text-center d-grid">
+                <button type="button" class="btn rounded-pill btn-outline-danger waves-effect waves-light w-lg" (click)="crearDocument('requisito')">Requisitos Legales</button>
+            </div>
+            <div class="mt-2 text-center d-grid">
+                <button type="button" class="btn rounded-pill btn-outline-warning waves-effect waves-light w-lg" (click)="crearDocument('ambiental')">Permisos Ambientales</button>
+            </div>
+            <div class="mt-2 text-center d-grid">
+                <button type="button" class="btn rounded-pill btn-outline-info waves-effect waves-light w-lg" (click)="crearDocument('sectorial')">Permisos Sectoriales</button>
+            </div>
+            <div class="mt-2 text-center d-grid">
+                <button type="button" class="btn rounded-pill btn-outline-success waves-effect waves-light w-lg" (click)="crearDocument('social')">Acuerdos Sociales</button>
+            </div>
+            <div class="mt-2 text-center d-grid">
+                <button type="button" class="btn rounded-pill btn-outline-dark waves-effect waves-light w-lg" (click)="crearDocument('otros')">Otros</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
 <!-- removeItemModal -->
 <ng-template #deleteModel let-modal>
     <div class="modal-content">
