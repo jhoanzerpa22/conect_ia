@@ -192,6 +192,15 @@ export class BodyLegalTypeComponent {
       document.getElementById('elmLoader')?.classList.add('d-none')
     //}
   }
+  
+  addDocument(content: any) {
+    this.modalService.open(content, { centered: true });
+  }
+
+  crearDocument(type: any){
+    this.modalService.dismissAll();
+    this._router.navigate(['/norms/'+type]);
+  }
 
   /**
   * Confirmation mail model
