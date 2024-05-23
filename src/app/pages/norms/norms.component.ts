@@ -61,6 +61,8 @@ export class NormsComponent {
   addSubArticle: boolean = false;
   editArticle: boolean = false;
 
+  tipo: any = 'requisito';
+
   cuerpoLegal: any = {
     normaId: '',
     titulo: '',
@@ -112,7 +114,7 @@ export class NormsComponent {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Cuerpos Legales' },
+      { label: 'Cuerpo Legal' },
       { label: 'Crear', active: true }
     ];
     
@@ -154,8 +156,14 @@ export class NormsComponent {
         this.getNormaId(params['id']);
       }
 
-      if(params['type'] != ''){    
+      if(params['type'] != ''){  
+        this.tipo = params['type'];  
         this.cuerpoForm.controls['tipo'].setValue(params['type']);
+    
+        this.breadCrumbItems = [
+          { label: this.getTitulo() },
+          { label: params['id'] > 0 ? 'Editar' : 'Crear', active: true }
+        ];
       }
     });
 
@@ -186,7 +194,38 @@ export class NormsComponent {
       //document.getElementById('elmLoader')?.classList.add('d-none')
 }
 
+getTitulo(){
+  switch (this.tipo) {
+    case 'requisito':
+      return 'Cuerpo Legal';
+      break;
+      case 'ambiental':
+        return 'Permiso Ambiental';
+        break;
+        case 'sectorial':
+          return 'Permiso Sectorial';
+          break;
+          case 'social':
+            return 'Acuerdo Social';
+            break;
+            case 'otros':
+              return 'Documento';
+              break;
+  
+    default:
+      return 'Cuerpo Legal';
+      break;
+  }
+}
+
   setValue(data:any, articulos: any, empresas: any){
+        this.tipo = data.tipo;  
+        
+        this.breadCrumbItems = [
+          { label: this.getTitulo() },
+          { label: 'Editar', active: true }
+        ];
+
     this.cuerpoForm.controls['normaId'].setValue(data.normaId);
     this.cuerpoForm.controls['titulo'].setValue(data.cuerpoLegal);
     this.cuerpoForm.controls['subtitulo'].setValue(data.tituloNorma);
