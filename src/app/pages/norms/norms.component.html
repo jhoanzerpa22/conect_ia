@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Cuerpos legales" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="{{getTitulo()}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!--preloader-->
@@ -15,7 +15,7 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">{{ norma_id > 0 ? 'Editar' : 'Crear' }} Cuerpo Legal {{ cuerpoLegal.titulo ? ' - ' + cuerpoLegal.titulo : ''}}</h4>
+                <h4 class="card-title mb-0">{{ norma_id > 0 ? 'Editar' : 'Crear' }} {{getTitulo()}} {{ cuerpoLegal.titulo ? ' - ' + cuerpoLegal.titulo : ''}}</h4>
             </div><!-- end card header -->
             <div class="card-body form-steps">
               <!--<div class="text-center pt-3 pb-4 mb-1">
@@ -33,8 +33,8 @@
                     <!--<form [formGroup]="cuerpoForm">-->
                       <div class="mb-4">
                           <div>
-                              <h5 class="mb-1">Información General del Cuerpo Legal</h5>
-                              <p class="text-muted">Ingrese la información básica del Cuerpo Legal</p>
+                              <h5 class="mb-1">Información General del {{getTitulo()}}</h5>
+                              <p class="text-muted">Ingrese la información básica del {{getTitulo()}}</p>
                           </div>
                       </div>
                       <div class="row">
@@ -151,7 +151,7 @@
                       <div class="row g-4 mb-4">
                         <div class="col-sm">
                             <h5 class="mb-1">Configurar</h5>
-                            <p class="text-muted">Configura cada uno de los artículos de su Cuerpo legal</p>
+                            <p class="text-muted">Configura cada uno de los artículos de su {{getTitulo()}}</p>
                         </div>
                         <div class="col-sm-auto">
                                 <button type="button" class="btn btn-info btn-label waves-effect right waves-light" (click)="showAddArticle()">Agregar<i class="ri-add-line label-icon align-middle fs-16"></i></button>
@@ -164,7 +164,7 @@
                                 <div class="card" style="padding: 0px;">
                                 <div class="card-body">
                                     <div style="text-align: center;width: 100%;font-size: 20px;"><!--class="position-absolute top-50"-->
-                                        Aún no ha creado artículos para este Cuerpo legal
+                                        Aún no ha creado artículos para este {{getTitulo()}}
                                     </div>
                                 </div>
                                 </div>
@@ -305,7 +305,7 @@
                         <div class="row g-4 mb-4">
                             <div class="col-sm">
                                 <h5 class="mb-1">Resumen</h5>
-                                <p class="text-muted">Resumen del Cuerpo legal que se incorporará a su base de datos</p>
+                                <p class="text-muted">Resumen del {{getTitulo()}} que se incorporará a su base de datos</p>
                             </div>
                             <div class="col-sm-auto">
                                     <button type="button" class="btn btn-light waves-effect right waves-light" (click)="hideResumen()" *ngIf="subArticles.length > 0">Volver</button>
@@ -338,7 +338,7 @@
                                   
                                   <div class="card-body">
                                     <div style="text-align: center;width: 100%;font-size: 20px;"><!-- class="position-absolute top-50"-->
-                                        Aún no ha creado artículos para este {{subArticles.length > 0 ? 'Artículo' : 'Cuerpo legal'}}
+                                        Aún no ha creado artículos para este {{subArticles.length > 0 ? 'Artículo' : getTitulo()}}
                                     </div>
                                   </div>
                               </div>
