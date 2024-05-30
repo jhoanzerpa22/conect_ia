@@ -1,5 +1,5 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs title="Lista de Requisitos legales" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Lista de Proyectos" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
 <!--preloader-->
@@ -78,7 +78,7 @@
             <div class="row align-items-center mb-3">
                 <div class="col-sm-6">
                     <h5 class="text-muted">Etapa</h5>
-                    <span class="badge bg-primary-subtle text-primary">{{getEtapaLabel(data.estado)}}</span>
+                    <span class="badge badge-soft-primary text-primary">{{getEtapaLabel(data.estado)}}</span>
                 </div>
                 <div class="col-sm-6">
                     <h5 class="text-muted">Modificado</h5>
@@ -93,7 +93,7 @@
 
           </div>
           <!-- end card body -->
-          <div class="card-footer bg-transparent border-top-dashed py-2">
+          <!--<div class="card-footer bg-transparent border-top-dashed py-2">
               <div class="d-flex flex-column h-100">
                  <div class="mt-auto">
 
@@ -102,7 +102,7 @@
                             <div>Cumplimiento</div>
                         </div>
                         <div class="flex-shrink-0">
-                            <div><!--<i class="ri-list-check align-bottom me-1 text-muted"></i>-->{{data.number ? data.number : '10%'}}</div>
+                            <div>{{data.number ? data.number : '10%'}}</div>
                         </div>
                     </div>
                     <div class="progress-sm animated-progess">
@@ -112,7 +112,7 @@
 
               </div>
 
-          </div>
+          </div>-->
       </div>
   </div>
   

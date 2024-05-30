@@ -56,7 +56,7 @@ export class CreateComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      //{ label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Crear Proyecto', active: true }
     ];
@@ -188,7 +188,7 @@ export class CreateComponent implements OnInit {
     this.tipoProyecto = this.f['tipo'].value;
 
     this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      //{ label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Crear Proyecto' },
       { label: 'Tipo', active: true }
