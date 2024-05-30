@@ -50,6 +50,10 @@ const routes: Routes = [
     ]*/
   },
   {
+    path: "create/:type",
+    component: CreateComponent,
+  },
+  {
     path: ":id/type",
     component: TypeComponent
   },

@@ -103,6 +103,7 @@ export class NormsComponent {
   norma_data: any = {};
   
   empresas: any = [];
+  ambitos: any = [];
 
   constructor(private modalService: NgbModal, public service: NormsService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService, private normasService: NormasArticlesAllService, private userService: UserProfileService) {
     this.BodyLegalList = service.bodylegal$;
@@ -156,7 +157,8 @@ export class NormsComponent {
         this.getNormaId(params['id']);
       }
 
-      if(params['type'] != ''){  
+      if(params['type'] != ''){
+        this.getAmbitos(params['type']);  
         this.tipo = params['type'];  
         this.cuerpoForm.controls['tipo'].setValue(params['type']);
     
@@ -172,7 +174,76 @@ export class NormsComponent {
   
   // convenience getter for easy access to form fields
   get f() { return this.cuerpoForm.controls; }
-  
+ 
+  private getAmbitos(tipo?: any){
+    let ambitos_select: any = [];
+    switch (tipo) {
+      case 'requisito':
+        ambitos_select = [
+          {value: 'GENERAL', label: 'Normativa general'},
+          {value: 'MA', label: 'Normativa ambiental'},
+          {value: 'SST', label: 'Normativa SST'},
+          {value: 'LABORAL', label: 'Normativa laboral'},
+          {value: 'ENERGIA', label: 'Normativa de energía'}
+        ];
+        break;
+
+        
+      case 'ambiental':
+        ambitos_select = [
+          {value: 'RCA', label: 'RCA'},
+          {value: 'PERTINENCIA', label: 'Pertinencias'},
+          {value: 'PDC', label: 'PDC'},
+          {value: 'REP', label: 'REP'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+
+      case 'sectorial':
+        ambitos_select = [
+          {value: 'SANITARIO', label: 'Sanitarios'},
+          {value: 'MUNICIPAL', label: 'Municipales'},
+          {value: 'ELECTRICO', label: 'Eléctricos'},
+          {value: 'COMBUSTIBLE', label: 'Combustibles'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+        
+      case 'social':
+        ambitos_select = [
+          {value: 'DONACION', label: 'Donaciones'},
+          {value: 'PATROCINIO', label: 'Patrocinios'},
+          {value: 'FONDO', label: 'Fondos concursables'},
+          {value: 'CONVENIO', label: 'Convenios'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+        
+      case 'otros':
+        ambitos_select = [
+          {value: 'NORMA', label: 'Normas'},
+          {value: 'POlITICA', label: 'Políticas'},
+          {value: 'PLAN', label: 'Planes'},
+          {value: 'PROCEDIMIENTO', label: 'Procedimientos'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+
+      default:
+        ambitos_select = [
+          {value: 'GENERAL', label: 'Normativa general'},
+          {value: 'MA', label: 'Normativa ambiental'},
+          {value: 'SST', label: 'Normativa SST'},
+          {value: 'LABORAL', label: 'Normativa laboral'},
+          {value: 'ENERGIA', label: 'Normativa de energía'}
+        ];
+        break;
+    }
+    
+    this.ambitos = ambitos_select;
+
+  }
+
   private getEmpresas(){
     
     //this.showPreLoader();
@@ -548,7 +619,7 @@ getTitulo(){
       
       const empresas_form = this.cuerpoForm.get('empresas')?.value ? this.cuerpoForm.get('empresas')?.value : [];
 
-      this.cuerpoLegal.empresas = empresas_form;
+      this.cuerpoLegal.empresas = empresas_form.filter((item: any) => item !== "");
 
       if(this.norma_id > 0){
         this.normasService.update(this.cuerpoLegal, this.norma_id).pipe().subscribe(
