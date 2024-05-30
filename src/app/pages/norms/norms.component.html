@@ -118,12 +118,14 @@
                               <div class="mb-3">
                                 <label class="form-label" for="gen-info-ambito-input">Ámbito</label>
                                 <select class="form-control form-select" aria-label="Ambito" formControlName="ambito" placeholder="Normativa ambiental">
-                                    <option value="" selected>Seleccione normativa </option>
+                                    <!--<option value="" selected>Seleccione normativa </option>
                                     <option value="GENERAL">Normativa general</option>
                                     <option value="MA">Normativa ambiental</option>
                                     <option value="SST">Normativa SST</option>
                                     <option value="LABORAL">Normativa laboral</option>
-                                    <option value="ENERGIA">Normativa de energía</option>
+                                    <option value="ENERGIA">Normativa de energía</option>-->
+                                    <option value="" selected>Todos </option>
+                                    <option *ngFor="let am of ambitos;" value="{{am.value}}">{{am.label}}</option>
                                     
                                 </select>
                               </div>

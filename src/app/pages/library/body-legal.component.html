@@ -19,6 +19,8 @@
             <div class="row">
                 <div class="col-xxl-4 col-lg-4" style="padding: 10px;">
                     <h4 class="card-title mb-0">Cuerpos Legales</h4>
+                    
+                    <input type="hidden" class="form-control" name="tipo" placeholder="Tipo" formControlName="tipo" value="" [(ngModel)]="tipo">
                 </div>
 
                 <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
@@ -77,6 +79,31 @@
                             </div>
                         </div>
                     </div>-->
+
+                    <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-pills nav-conect nav-justified"><!--nav nav-tabs-->
+                        <li [ngbNavItem]="1" class="nav-item waves-effect waves-light">
+                            <a ngbNavLink class="nav-link">
+                                <span class="d-sm-block"><!--<span class="badge bg-success rounded-circle">1</span>-->Biblioteca</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <ng-template [ngTemplateOutlet]="TabContent1"></ng-template>
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2" class="nav-item waves-effect waves-light">
+                            <a ngbNavLink class="nav-link">
+                                <span class="d-sm-block"><!--<span class="badge bg-success rounded-circle">2</span>-->Internos</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
+                            </ng-template>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content  text-muted">
+                        <div [ngbNavOutlet]="nav"></div>
+                    </div>
+                    
+                    <ng-template #TabContent1>
 
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table class="table">
@@ -145,6 +172,108 @@
                         </div>
                         <!-- End Pagination -->
                     </div>
+                    
+                    </ng-template>
+                    
+                    <ng-template #TabContent2>
+
+                        <div class="row text-center text-center align-items-center mb-4 mt-4 justify-content-center">
+
+                            
+                        <div class="col-xxl-2 col-lg-2">
+                            <button type="button" class="btn rounded-pill waves-effect waves-light w-lg" [ngClass]="!tipo ? 'btn-primary' : 'btn-outline-primary'" (click)="searchTipo()">Todos</button>
+                        </div>
+
+                        <div class="col-xxl-2 col-lg-2">
+                            <button type="button" class="btn rounded-pill waves-effect waves-light w-lg" [ngClass]="tipo == 'requisito' ? 'btn-info' : 'btn-outline-info'" (click)="searchTipo('requisito')">Requisitos Legales</button>
+                        </div>
+                        <div class="col-xxl-2 col-lg-2">
+                            <button type="button" class="btn rounded-pill waves-effect waves-light w-lg" [ngClass]="tipo == 'ambiental' ? 'btn-success' : 'btn-outline-success'" (click)="searchTipo('ambiental')">Permisos Ambientales</button>
+                        </div>
+                        <div class="col-xxl-2 col-lg-2">
+                            <button type="button" class="btn rounded-pill waves-effect waves-light w-lg" [ngClass]="tipo == 'sectorial' ? 'btn-warning' : 'btn-outline-warning'" (click)="searchTipo('sectorial')">Permisos Sectoriales</button>
+                        </div>
+                        <div class="col-xxl-2 col-lg-2">
+                            <button type="button" class="btn rounded-pill waves-effect waves-light w-lg" [ngClass]="tipo == 'social' ? 'btn-brown' : 'btn-outline-brown'" (click)="searchTipo('social')">Acuerdos Sociales</button>
+                        </div>
+                        <div class="col-xxl-2 col-lg-2">
+                            <button type="button" class="btn rounded-pill waves-effect waves-light w-lg" [ngClass]="tipo == 'otros' ? 'btn-violet' : 'btn-outline-violet'" (click)="searchTipo('otros')">Otros</button>
+                        </div>
+                        </div>
+                    
+                        <div class="table-responsive table-card mt-3 mb-1">
+                            <table class="table">
+                                <thead>
+                                    <tr class="bg-light text-muted">
+                                        <th class="sort" data-sort="nombre" style="width: 250px;">Cuerpo Legal</th>
+                                        <th class="sort" data-sort="encabezado">Encabezado</th>
+                                        <th style="width: 200px;">Tipo</th>
+                                        <th style="width: 200px;">Características</th>
+                                        <th style="width: 100px;">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data2 of BodyLegalListInterno | async" id="lji_{{data2.idNorma}}">
+                                        <td>
+                                            <h4>{{data2.TipoNumero ? data2.TipoNumero.Compuesto : ''}}</h4>
+                                            <h5>{{data2.TituloNorma ? data2.TituloNorma : ''}}</h5>
+                                        </td>
+                                        <td>
+                                            <h4>{{data2.Encabezado ? data2.Encabezado : ''}}</h4>
+                                        </td>
+                                        <td>
+                                            <h5>{{data2.Tipo ? getTipoDocumento(data2.Tipo) : ''}}</h5>
+                                        </td>
+                                        <td>
+                                            Publicado el {{data2 ? data2.FechaPublicacion : ''}}<br>
+                                            Vigencia: {{data2 ? data2.InicioDeVigencia : ''}}
+                                        </td>
+                                        <td>
+                                            
+                                            <div class="d-flex gap-2">
+                                                <div class="edit" *ngIf="data2 && !data2.interno">
+                                                    <button class="btn btn-sm btn-success edit-item-btn" routerLink="/library/{{data2.idNorma}}/Detail"
+                                                    >Ver</button>
+                                                </div>
+                                                <div class="edit" *ngIf="data2 && data2.interno && validateRol(1)">
+                                                    <button class="btn btn-sm btn-primary edit-item-btn" routerLink="/norms/{{data2.idNorma}}/Edit"
+                                                    >Editar</button>
+                                                </div>
+                                                <div class="edit" *ngIf="data2 && data2.interno && validateRol(1)">
+                                                    <button class="btn btn-sm btn-danger edit-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal"
+                                                    (click)="confirm(deleteModel,data2.idNorma)"
+                                                    >Quitar</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+    
+                        <div class="row justify-content-md-between align-items-md-center">
+                            <div class="col col-sm-6">
+                                <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                    Mostrando página
+                                    {{page_interno}} de
+                                    {{pageTotal(total_paginate_interno)}} de {{total_body_interno}}
+                                    registros
+                                </div>
+                            </div>
+                            <!-- Pagination -->
+                            <div class="col col-sm-6">
+                                <div class="text-sm-right float-sm-end listjs-pagination">
+                                   <!-- <ngb-pagination [collectionSize]="total_paginate" [(page)]="service.page"
+                                        [pageSize]="service.pageSize">
+                                    </ngb-pagination>
+                                -->
+                                    <ngb-pagination [collectionSize]="total_paginate_interno" [(page)]="service_interno.page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="pageChangeInterno($event)"></ngb-pagination>
+                                </div>
+                            </div>
+                            <!-- End Pagination -->
+                        </div>
+                    </ng-template>
+
                 </div>
             </div><!-- end card -->
         </div>
@@ -163,19 +292,19 @@
         </div>
         <div class="modal-body">
             <div class="mt-2 text-center d-grid">
-                <button type="button" class="btn rounded-pill btn-outline-danger waves-effect waves-light w-lg" (click)="crearDocument('requisito')">Requisitos Legales</button>
+                <button type="button" class="btn rounded-pill btn-outline-info waves-effect waves-light w-lg" (click)="crearDocument('requisito')">Requisitos Legales</button>
             </div>
             <div class="mt-2 text-center d-grid">
-                <button type="button" class="btn rounded-pill btn-outline-warning waves-effect waves-light w-lg" (click)="crearDocument('ambiental')">Permisos Ambientales</button>
+                <button type="button" class="btn rounded-pill btn-outline-success waves-effect waves-light w-lg" (click)="crearDocument('ambiental')">Permisos Ambientales</button>
             </div>
             <div class="mt-2 text-center d-grid">
-                <button type="button" class="btn rounded-pill btn-outline-info waves-effect waves-light w-lg" (click)="crearDocument('sectorial')">Permisos Sectoriales</button>
+                <button type="button" class="btn rounded-pill btn-outline-warning waves-effect waves-light w-lg" (click)="crearDocument('sectorial')">Permisos Sectoriales</button>
             </div>
             <div class="mt-2 text-center d-grid">
-                <button type="button" class="btn rounded-pill btn-outline-success waves-effect waves-light w-lg" (click)="crearDocument('social')">Acuerdos Sociales</button>
+                <button type="button" class="btn rounded-pill btn-outline-brown waves-effect waves-light w-lg" (click)="crearDocument('social')">Acuerdos Sociales</button>
             </div>
             <div class="mt-2 text-center d-grid">
-                <button type="button" class="btn rounded-pill btn-outline-dark waves-effect waves-light w-lg" (click)="crearDocument('otros')">Otros</button>
+                <button type="button" class="btn rounded-pill btn-outline-violet waves-effect waves-light w-lg" (click)="crearDocument('otros')">Otros</button>
             </div>
         </div>
     </div>

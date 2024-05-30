@@ -226,8 +226,9 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'norm/search?query='+search+'&limit='+limit, /*httpOptions*/this.getToken());
     }
     
-    getBodyLegalSearchChile(page: number, search?: string, limit?: number){
-        return this.http.get(API_URL_BACK + 'norm/searchChile?query='+search+'&page='+page+'&limit='+limit, /*httpOptions*/this.getToken());
+    getBodyLegalSearchChile(page: number, search?: string, limit?: number, tipo?: any){
+        const tipo_filter = tipo && tipo != undefined && tipo != null ? '&tipo='+tipo : '';
+        return this.http.get(API_URL_BACK + 'norm/searchChile?query='+search+'&page='+page+'&limit='+limit+tipo_filter, /*httpOptions*/this.getToken());
     }
 
     conectArticleInstallation(installation_id: any, article: any){
