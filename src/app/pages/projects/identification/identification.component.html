@@ -122,61 +122,38 @@
             
             <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="!ambito ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito()">Todos</button>
         </div>
+
+        <ng-container *ngFor="let am of ambitos_filter;">
         
-        <div class="col-xxl-2 col-lg-2"><!-- style="
-            margin-left: 30px;
-            margin-right: 30px;
-        "-->
-            <!--<div class="div-texto" [ngClass]="{'div-texto-check texto-check': validateFilter('GENERAL')}" (click)="setFilterAmbito('GENERAL')">
-                Normativa general 
-            </div>-->
+        <div class="col-xxl-2 col-lg-2">
+            <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="validateFilter(am.value) ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito(am.value)">{{am.label}}</button>
+        </div>
+        
+        </ng-container>
+        <!--
+        <div class="col-xxl-2 col-lg-2">
             
             <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="validateFilter('GENERAL') ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito('GENERAL')">Normativa general</button>
         </div>
         
-        <div class="col-xxl-2 col-lg-2"><!-- style="
-            margin-left: 30px;
-            margin-right: 30px;
-        "-->
-            <!--<div class="div-texto" [ngClass]="{'div-texto-check texto-check': validateFilter('MA')}" (click)="setFilterAmbito('MA')">
-                Normativa ambiental
-            </div>-->
+        <div class="col-xxl-2 col-lg-2">
             
             <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="validateFilter('MA') ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito('MA')">Normativa ambiental</button>
         </div>
 
-        <div class="col-xxl-2 col-lg-2"><!-- style="
-            margin-left: 30px;
-            margin-right: 30px;
-        "-->
-            <!--<div class="div-texto" [ngClass]="{'div-texto-check texto-check': validateFilter('SST')}" (click)="setFilterAmbito('SST')">
-                Normativa SST 
-            </div>-->
+        <div class="col-xxl-2 col-lg-2">
             
             <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="validateFilter('SST') ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito('SST')">Normativa SST</button>
         </div>
         
-        <div class="col-xxl-2 col-lg-2"><!-- style="
-            margin-left: 30px;
-            margin-right: 30px;
-        "-->
-            <!--<div class="div-texto" [ngClass]="{'div-texto-check texto-check': validateFilter('LABORAL')}" (click)="setFilterAmbito('LABORAL')">disabled
-                Normativa laboral 
-            </div>-->
+        <div class="col-xxl-2 col-lg-2">
             
             <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="validateFilter('LABORAL') ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito('LABORAL')">Normativa laboral</button>
         </div>
         
-        <div class="col-xxl-2 col-lg-2"><!-- style="
-            margin-left: 30px;
-            margin-right: 30px;
-        "-->
-            <!--<div class="div-texto" [ngClass]="{'div-texto-check texto-check': validateFilter('ENERGIA')}" (click)="setFilterAmbito('ENERGIA')">
-                Normativa de energía 
-            </div>-->
-            
+        <div class="col-xxl-2 col-lg-2">
             <button type="button" style="width: 100%;" class="btn bg-gradient waves-effect waves-light" [ngClass]="validateFilter('ENERGIA') ? 'btn-primary' : 'btn-light'" (click)="setFilterAmbito('ENERGIA')">Normativa de energía</button>
-        </div>
+        </div>-->
     </div>
   <div class="row">
    
