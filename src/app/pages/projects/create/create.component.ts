@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/router';
 import { ProjectsService } from '../../../core/services/projects.service';
 
 // Ck Editer
@@ -29,7 +29,9 @@ export class CreateComponent implements OnInit {
   tipoZonaProyecto: any = '';
   sectorProyecto: any = '';
   actividadProyecto: any = '';
+  tipoProyecto: any = 'requisito';
   types: any = [];
+  tipo: any = 'requisito';
 
   regions: any = [];
   comunes: any = [];
@@ -47,14 +49,14 @@ export class CreateComponent implements OnInit {
   keyword = 'name';
   keyword2 = 'name';
 
-  constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private projectsService: ProjectsService,public toastService: ToastService) { }
+  constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService) { }
 
   ngOnInit(): void {
     /**
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      //{ label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Crear Proyecto', active: true }
     ];
@@ -66,7 +68,15 @@ export class CreateComponent implements OnInit {
       comunaId: ['', [Validators.required]],
       tipoZonaId: ['', [Validators.required]],
       sector: [''],
-      actividad: ['']
+      actividad: [''],
+      tipo: ['requisito']
+    });
+
+    this.route.params.subscribe(params => {
+      if(params['type'] != ''){  
+        this.tipo = params['type'];  
+        this.createForm.controls['tipo'].setValue(params['type']);
+      }
     });
 
     this.getTypes();
@@ -175,9 +185,10 @@ export class CreateComponent implements OnInit {
     this.tipoZonaProyecto = this.f['tipoZonaId'].value;
     this.sectorProyecto = this.f['sector'].value;
     this.actividadProyecto = this.f['actividad'].value;
+    this.tipoProyecto = this.f['tipo'].value;
 
     this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      //{ label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Crear Proyecto' },
       { label: 'Tipo', active: true }
@@ -284,7 +295,8 @@ export class CreateComponent implements OnInit {
       //comunaId: this.comunaProyecto,
       //tipoZonaId: this.tipoZonaProyecto,
       sectorProductivoId: typeof this.sectorProyecto === 'string' ? 1/*this.sectorProyecto*/ : this.sectorProyecto.id,
-      actividad: typeof this.actividadProyecto === 'string' ? this.actividadProyecto : this.actividadProyecto.name
+      actividad: typeof this.actividadProyecto === 'string' ? this.actividadProyecto : this.actividadProyecto.name,
+      tipo: this.tipoProyecto
     };
 
     this.showPreLoader();

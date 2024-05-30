@@ -24,6 +24,7 @@ import Swal from 'sweetalert2';
   providers: [listService, DecimalPipe]
 })
 
+
 /**
  * List Component
  */
@@ -40,6 +41,7 @@ export class ListComponent implements OnInit {
   pagLength?: number = 0;
   term:any;
   userData: any;
+  tipo: any;
 
   constructor(private modalService: NgbModal,
     public service: listService, private projectsService: ProjectsService, public toastService: ToastService,private _router: Router, private TokenStorageService: TokenStorageService) {
@@ -52,7 +54,7 @@ export class ListComponent implements OnInit {
     * BreadCrumb
     */
     this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      { label: 'Proyectos' },
       { label: 'Lista de Proyectos', active: true }
     ];
 
@@ -109,6 +111,20 @@ export class ListComponent implements OnInit {
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 10),0);
     return (tp * 10) > totalRecords ? tp : (tp + 1);
+  }
+
+  filterProjects(projects?: any){
+    
+    if(this.tipo){
+      if(this.tipo != 'requisito'){
+        return projects.filter((da: any) => { return da.tipo == this.tipo});
+      }else{
+        return projects.filter((da: any) => { return da.tipo == this.tipo || !da.tipo || da.tipo == null});
+      }
+    }else{
+      return this.projectListWidgets;
+    }
+    
   }
 
   /**
@@ -170,6 +186,24 @@ export class ListComponent implements OnInit {
     }
 
       return true;
+  }
+
+  getEtapaLabel(estado?: any){
+    switch (estado) {
+      case 1:       
+        return 'Identificación';
+        break;
+        case 2:       
+          return 'Evaluación';
+          break;
+          case 3:       
+            return 'Control';
+            break;
+    
+      default:
+        return 'Identificación';
+        break;
+    }
   }
 
   comenzar(proyecto_id: any, estado?: number){
@@ -238,6 +272,19 @@ export class ListComponent implements OnInit {
       
       this.hidePreLoader();
     });*/
+}
+
+searchTipo(tipo?: any){
+  this.tipo = tipo;
+}
+
+addProject(content: any) {
+  this.modalService.open(content, { centered: true });
+}
+
+crearProject(type: any){
+  this.modalService.dismissAll();
+  this._router.navigate(['/projects/create/'+type]);
 }
 
   // PreLoader

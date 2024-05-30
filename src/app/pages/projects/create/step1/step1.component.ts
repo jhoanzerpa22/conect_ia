@@ -52,7 +52,7 @@ export class Step1Component implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      //{ label: 'Requisitos legales' },
       { label: 'Proyectos' },
       { label: 'Variables Generales', active: true }
     ];
@@ -133,7 +133,7 @@ export class Step1Component implements OnInit {
             this.visibleSelection = 2;
             this.title = 'Paso 2: Define las variables específicas de tu proyecto';
             this.breadCrumbItems = [
-              { label: 'Requisitos legales' },
+              //{ label: 'Requisitos legales' },
               { label: 'Proyectos' },
               { label: 'Variables Específicas', active: true }
             ];
@@ -244,7 +244,7 @@ export class Step1Component implements OnInit {
             this.visibleSelection = 2;
             this.title = 'Paso 2: Define las variables específicas de tu proyecto';
             this.breadCrumbItems = [
-              { label: 'Requisitos legales' },
+              //{ label: 'Requisitos legales' },
               { label: 'Proyectos' },
               { label: 'Variables Específicas', active: true }
             ];

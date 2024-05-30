@@ -222,6 +222,8 @@ export class IdentificationComponent implements OnInit {
   
   estadoAll: number = 1;
   filtro_estado: any;
+  
+  ambitos_filter: any = [];
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -4196,12 +4198,84 @@ validateIdparte(idParte: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
           this.project = data.data;
+          this.getAmbitos(this.project);
       },
       (error: any) => {
         //this.error = error ? error : '';
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
    }
+
+   private getAmbitos(project?: any){
+    let ambitos_select: any = [];
+    let tipo: any = project ? project.tipo : 'requisito';
+    switch (tipo) {
+      case 'requisito':
+        ambitos_select = [
+          {value: 'GENERAL', label: 'Normativa general'},
+          {value: 'MA', label: 'Normativa ambiental'},
+          {value: 'SST', label: 'Normativa SST'},
+          {value: 'LABORAL', label: 'Normativa laboral'},
+          {value: 'ENERGIA', label: 'Normativa de energía'}
+        ];
+        break;
+
+        
+      case 'ambiental':
+        ambitos_select = [
+          {value: 'RCA', label: 'RCA'},
+          {value: 'PERTINENCIA', label: 'Pertinencias'},
+          {value: 'PDC', label: 'PDC'},
+          {value: 'REP', label: 'REP'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+
+      case 'sectorial':
+        ambitos_select = [
+          {value: 'SANITARIO', label: 'Sanitarios'},
+          {value: 'MUNICIPAL', label: 'Municipales'},
+          {value: 'ELECTRICO', label: 'Eléctricos'},
+          {value: 'COMBUSTIBLE', label: 'Combustibles'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+        
+      case 'social':
+        ambitos_select = [
+          {value: 'DONACION', label: 'Donaciones'},
+          {value: 'PATROCINIO', label: 'Patrocinios'},
+          {value: 'FONDO', label: 'Fondos concursables'},
+          {value: 'CONVENIO', label: 'Convenios'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+        
+      case 'otros':
+        ambitos_select = [
+          {value: 'NORMA', label: 'Normas'},
+          {value: 'POlITICA', label: 'Políticas'},
+          {value: 'PLAN', label: 'Planes'},
+          {value: 'PROCEDIMIENTO', label: 'Procedimientos'},
+          {value: 'OTROS', label: 'Otros'}
+        ];
+        break;
+
+      default:
+        ambitos_select = [
+          {value: 'GENERAL', label: 'Normativa general'},
+          {value: 'MA', label: 'Normativa ambiental'},
+          {value: 'SST', label: 'Normativa SST'},
+          {value: 'LABORAL', label: 'Normativa laboral'},
+          {value: 'ENERGIA', label: 'Normativa de energía'}
+        ];
+        break;
+    }
+    
+    this.ambitos_filter = ambitos_select;
+
+  }
+
 
    getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
        this.projectsService.getDashboard(idProject, undefined, areaId, undefined, criticidad).pipe().subscribe(

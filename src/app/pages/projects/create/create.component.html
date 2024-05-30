@@ -24,6 +24,9 @@
             <div class="card-body" style="min-height: 450px;">
                   <div class="mb-3">
                     <form [formGroup]="createForm">
+                        
+                    <input type="hidden" name="tipo" value="" formControlName="tipo" />
+                    
                     <label class="form-label" for="project-title-input">Nombre de Proyecto</label>
                     <input type="text" class="form-control" id="project-title-input"
                         placeholder="Escribe nombre de Proyecto" formControlName="nombre">
