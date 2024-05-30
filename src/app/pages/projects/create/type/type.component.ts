@@ -25,7 +25,7 @@ export class TypeComponent implements OnInit {
     * BreadCrumb
     */
      this.breadCrumbItems = [
-      { label: 'Requisitos legales' },
+      { label: 'Proyectos' },
       { label: 'Vinculación', active: true }
     ];
 

@@ -69,50 +69,102 @@
  
   <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
 
-  <div class="col-xxl-3 col-sm-6 project-card" id="pl1_{{data.id}}" *ngFor="let data of filterProjects(projectListWidgets) | filter:term">
+  <div class="col-xxl-3 col-sm-6 project-card" id="pl1_{{data.id}}" *ngFor="let data of projectListWidgets | filter:term">
       <div class="card card-height-100" style="cursor: pointer;" (click)="comenzar(data.id, data.estado)">
-        <div class="card-header" [ngClass]=" { 'bg-info-card-header': data.tipo === 'requisito' || !data.tipo, 'bg-success-card-header': data.tipo === 'ambiental','bg-warning-card-header': data.tipo === 'sectorial','bg-brown-card-header': data.tipo === 'social','bg-violet-card-header': data.tipo === 'otros'}">
-            <h5 class="mb-1 fs-15" [ngClass]=" { 'text-info-card-header': data.tipo === 'requisito' || !data.tipo, 'text-success-card-header': data.tipo === 'ambiental','text-warning-card-header': data.tipo === 'sectorial','text-brown-card-header': data.tipo === 'social','text-violet-card-header': data.tipo === 'otros'}">{{data.nombre}}</h5>
-        </div>
           <div class="card-body">
-            <div class="row align-items-center mb-3">
-                <div class="col-sm-6">
-                    <h5 class="text-muted">Etapa</h5>
-                    <span class="badge badge-soft-primary text-primary">{{getEtapaLabel(data.estado)}}</span>
-                </div>
-                <div class="col-sm-6">
-                    <h5 class="text-muted">Modificado</h5>
-                    <div>{{ formatDate(data.updatedAt)}}</div>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-sm-12">
-                    <h5 class="text-muted"><b>Responsable:</b> {{data.creador ? (data.creador.nombre + ' ' + data.creador.apellido) : ''}} </h5>
-                </div>
-            </div>
+              <div class="d-flex flex-column h-100">
+                  <div class="d-flex">
+                      <div class="flex-grow-1">
+                          <p class="text-muted mb-4">Modificado {{ formatDate(data.updatedAt)}}</p>
+                      </div>
+                      <div class="flex-shrink-0">
+                          <div class="d-flex gap-1 align-items-center">
+                              <!--<button type="button" class="btn avatar-xs mt-n1 p-0 favourite-btn heart_icon_{{data.id}}" [ngClass]="{'active': data.isIcon !== true}" (click)="activeMenu(data.id)">
+                                  <span class="avatar-title bg-transparent fs-15">
+                                      <i class="ri-star-fill"></i>
+                                  </span>
+                              </button>-->
+                              <!--<div class="dropdown" ngbDropdown>
+                                  <button class="btn btn-link text-muted p-1 mt-n2 py-0 text-decoration-none fs-15 arrow-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ngbDropdownToggle>
+                                      <i-feather name="more-horizontal" class="icon-sm"></i-feather>
+                                  </button>
+
+                                  <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                      <a class="dropdown-item" routerLink="/projects/overview"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Ver</a>
+                                      <a class="dropdown-item" routerLink="/projects/create"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Editar</a>
+                                      <div class="dropdown-divider"></div>
+                                      <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#removeProjectModal" (click)="confirm(deleteModel,data.id)"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Quitar</a>
+                                  </div>
+                              </div>-->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="d-flex mb-2"><!--routerLink="/pages/{{data.id}}/steps"-->
+                      <!--<div class="flex-shrink-0 me-3">
+                          <div class="avatar-sm">
+                              <span class="avatar-title bg-soft-warning rounded p-2">
+                                  <img src="{{data.img}}" alt="" class="img-fluid p-1">
+                              </span>
+                          </div>
+                      </div>-->
+                      <div class="flex-grow-1">
+                          <h5 class="mb-1 fs-15"><label><!--<a routerLink="/projects/overview" class="text-dark">{{data.label}}</a>-->{{data.nombre}}</label></h5>
+                          <p class="text-muted text-truncate-two-lines mb-3">{{data.descripcion}}</p>
+                      </div>
+                  </div>
+                  <div class="mt-auto">
+                      <div class="d-flex mb-2">
+                          <div class="flex-grow-1">
+                              <!--<div>Creado por: Jhoan Zerpa</div>-->
+                          </div>
+                      </div>
+                  </div>
+                  
+                 <!--<div class="mt-auto">
+
+                      <div class="d-flex mb-2">
+                          <div class="flex-grow-1">
+                              <div>Identificación</div>
+                          </div>
+                          <div class="flex-shrink-0">
+                              <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : '1/100'}}</div>
+                          </div>
+                      </div>
+                      <div class="progress-sm animated-progess">
+                        <ngb-progressbar [value]="data.progressBar ? data.progressBar : 10" type="success" class="progress-sm"></ngb-progressbar>
+                      </div>
+                  </div>-->
+              </div>
 
           </div>
           <!-- end card body -->
-          <!--<div class="card-footer bg-transparent border-top-dashed py-2">
-              <div class="d-flex flex-column h-100">
-                 <div class="mt-auto">
-
-                    <div class="d-flex mb-2">
-                        <div class="flex-grow-1">
-                            <div>Cumplimiento</div>
+          <div class="card-footer bg-transparent border-top-dashed py-2">
+              <div class="d-flex align-items-center">
+                  <div class="flex-grow-1">
+                      <!--<div class="avatar-group">
+                        <div class="avatar-group-item" *ngFor="let user of data.users">
+                          <a href="javascript: void(0);" class="d-block" ngbTooltip="{{user.name}}" placement="top" *ngIf="!user.profile">
+                            <div class="avatar-xxs">
+                                <span class="avatar-title rounded-circle {{user.variant}}">
+                                    {{user.text}}
+                                </span>
+                            </div>
+                          </a>
+                          <a href="javascript: void(0);" class="d-block" ngbTooltip="{{user.name}}" placement="top" *ngIf="user.profile">
+                              <img :src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
+                          </a>
                         </div>
-                        <div class="flex-shrink-0">
-                            <div>{{data.number ? data.number : '10%'}}</div>
-                        </div>
-                    </div>
-                    <div class="progress-sm animated-progess">
-                      <ngb-progressbar [value]="data.progressBar ? data.progressBar : 10" type="success" class="progress-sm"></ngb-progressbar>
-                    </div>
-                </div>
+                      </div>-->
+                  </div>
+                  <div class="flex-shrink-0">
+                      <div class="text-muted">
+                          Creado el <!--<i class="ri-calendar-event-fill me-1 align-bottom"></i>-->{{formatDate(data.createdAt)}}
+                      </div>
+                  </div>
 
               </div>
 
-          </div>-->
+          </div>
       </div>
   </div>
   

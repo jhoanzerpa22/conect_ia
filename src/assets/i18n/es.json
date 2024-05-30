@@ -16,7 +16,7 @@
         "CRM": "CRM",
         "ECOMMERCE": "Comercio electrónico",
         "CRYPTO": "Cripto",
-        "PROJECTS": "Requisitos legales",
+        "PROJECTS": "Proyectos",
         "USERS": "Usuarios",
         "NFT": "NFT",
         "JOB":"TRABAJO"
@@ -43,7 +43,7 @@
         "CHECKOUT": "Verificar",
         "SELLERS": "vendedores",
         "SELLERDETAILS": "Detalles del vendedor",
-        "PROJECTS": "Requisitos legales",
+        "PROJECTS": "Proyectos",
         "LIST": "Lista",
         "OVERVIEW": "Visión de conjunto",
         "CREATEPROJECT": "Crear proyecto",
