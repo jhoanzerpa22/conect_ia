@@ -58,6 +58,7 @@ export class SettingsComponent implements OnInit {
       rol: [this.userData.rol[0].toString(), [Validators.required]],
       projects: [[""]/*, [Validators.required]*/],
       areas: [[""]],
+      empresa: ['']
       //joinDate: ['']
     });
 
@@ -315,6 +316,7 @@ getChildren(padre_id: any){
         rol: [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user],
         projects: this.userForm.get('projects')?.value,
         areas: this.userForm.get('areas')?.value/*area_id ? area_id : null*/,
+        empresa: this.userForm.get('empresa')?.value
       };
       
       const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
@@ -327,6 +329,7 @@ getChildren(padre_id: any){
       this.userData.telefono = this.userForm.get('telefono')?.value;
       this.userData.email = this.userForm.get('email')?.value;
       this.userData.rol = [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user];
+      this.userData.empresa = this.userForm.get('empresa')?.value;
 
           //this.router.navigate(['/pages/profile']);    
           this.TokenStorageService.saveUserProfile(this.userData);

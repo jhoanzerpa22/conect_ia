@@ -397,6 +397,14 @@
                                     </select>
                                     <div class="invalid-feedback">Por favor ingresar proyectos.</div>
                                 </div>
+
+                                <div class="mb-3" *ngIf="rol == 2">
+                                    <label for="teammembersEmpresa" class="form-label">Empresa</label>
+                                    <input type="text" class="form-control" id="teammembersEmpresa"
+                                        placeholder="Ingresar Empresa" formControlName="empresa"
+                                        [ngClass]="{ 'is-invalid': submitted && form['empresa'].errors }">
+                                    <div class="invalid-feedback">Ingrese Empresa.</div>
+                                </div>
                                 
                                 <div class="mb-3" *ngIf="rol == 3">
                                     <label for="teammembersProjects" class="form-label">Proyectos</label>
