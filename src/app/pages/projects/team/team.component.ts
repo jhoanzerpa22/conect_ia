@@ -73,7 +73,8 @@ export class TeamComponent {
       rol: ['', [Validators.required]],/*
       designation: ['', [Validators.required]],*/
       projects: [['']/*, [Validators.required]*/],
-      areas: [['']]/*
+      areas: [['']],
+      empresa: ['']/*
       tasks: ['', [Validators.required]]*/
     });
     
@@ -311,7 +312,8 @@ export class TeamComponent {
         rol: [this.teamForm.get('rol')?.value],
         projects: proyectos_form.filter((pr: any) => pr.trim() !== ""),
         areas: areas_form.filter((ar: any) => ar.trim() !== ""),//area_id ? area_id : null,
-        empresaId: this.userData.empresaId
+        empresaId: this.userData.empresaId,
+        empresa: this.userData.empresa
       };
 
       this.userService.create(data).pipe(first()).subscribe(

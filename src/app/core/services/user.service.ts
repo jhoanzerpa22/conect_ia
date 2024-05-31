@@ -66,7 +66,8 @@ export class UserProfileService {
         "projects": data.projects,
         "areas": data.areas,
         "cargo": data.cargo,
-        "empresaId": data.empresaId
+        "empresaId": data.empresaId,
+        "empresa": data.empresa
       }, /*httpOptions*/this.getToken());
     
     }
