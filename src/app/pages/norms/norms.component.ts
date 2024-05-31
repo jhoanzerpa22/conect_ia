@@ -290,7 +290,9 @@ getTitulo(){
 }
 
   setValue(data:any, articulos: any, empresas: any){
-        this.tipo = data.tipo;  
+        this.tipo = data.tipo;
+        
+        this.getAmbitos(data.tipo);  
         
         this.breadCrumbItems = [
           { label: this.getTitulo() },
