@@ -18,4 +18,5 @@
   projectCount?: any;
   taskCount?: any;
   isActive?: any;
+  empresa?: any;
 }

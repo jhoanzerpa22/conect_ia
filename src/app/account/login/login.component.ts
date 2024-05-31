@@ -89,6 +89,7 @@ export class LoginComponent implements OnInit {
         "cargo": data.data.user.cargo,
         "rol": data.data.user.rol,
         "empresaId": data.data.user.empresaId,
+        "empresa": data.data.user.empresa,
         "proyectos": data.data.projects,
         "areas": data.data.areas,
         //"rol": data.data.user.user_rol ? data.data.user.user_rol.nombre : ''

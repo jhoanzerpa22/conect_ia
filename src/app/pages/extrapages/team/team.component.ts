@@ -73,6 +73,7 @@ export class TeamComponent {
       projects: [''],
       areas: [''],/*,
       tasks: ['', [Validators.required]]*/
+      empresa: ['']
     });
     
     this.getAreas();
@@ -296,7 +297,8 @@ export class TeamComponent {
         rol: [this.teamForm.get('rol')?.value],
         projects: proyectos_form.filter((pr: any) => pr.trim() !== ""),
         areas: areas_form.filter((ar: any) => ar.trim() !== ""),//area_id ? area_id : null,
-        empresaId: null//this.userData.empresaId
+        empresaId: null,//this.userData.empresaId,
+        empresa: this.teamForm.get('empresa')?.value
       };
 
       this.userService.create(data).pipe(first()).subscribe(

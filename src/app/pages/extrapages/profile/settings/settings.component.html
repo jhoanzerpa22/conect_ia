@@ -175,6 +175,17 @@
                                     </div>
                                     </div>
                                     
+                                    <div class="col-lg-6" *ngIf="rol == 2 && (rol_user == 1 || rol_user == 2)">
+                                        <div class="mb-3">
+                                            <label for="empresaInput" class="form-label">Empresa</label>
+                                            <input type="text" class="form-control" id="empresaInput"
+                                                placeholder="Ingresa Empresa" value="{{userData.empresa}}" formControlName="empresa" [ngClass]="{ 'is-invalid': submitted && f['empresa'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Empresa requerida
+                                                </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="col-lg-6" *ngIf="rol == 3 && (rol_user == 1 || rol_user == 2)">
                                     <div class="mb-3">
                                         <label for="teammembersProjects" class="form-label">Proyectos</label>

@@ -256,7 +256,7 @@ export class NormsComponent {
         for (let index = 0; index < empresas_all.length; index++) {
 
           if(this.empresas.findIndex((em: any) => em.value == empresas_all[index].empresaId) == -1){
-            this.empresas.push({value: empresas_all[index].empresaId, label: empresas_all[index].nombre+' '+empresas_all[index].apellido});  
+            this.empresas.push({value: empresas_all[index].empresaId, label: empresas_all[index].empresa ? empresas_all[index].empresa : empresas_all[index].nombre+' '+empresas_all[index].apellido});  
           }
         }
         
