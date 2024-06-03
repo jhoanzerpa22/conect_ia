@@ -58,7 +58,7 @@ export class SettingsComponent implements OnInit {
       rol: [this.userData.rol[0].toString(), [Validators.required]],
       projects: [[""]/*, [Validators.required]*/],
       areas: [[""]],
-      empresa: ['']
+      empresa: [this.userData.empresa]
       //joinDate: ['']
     });
 
