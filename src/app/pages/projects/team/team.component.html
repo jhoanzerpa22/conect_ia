@@ -79,14 +79,14 @@
                                                                 *ngIf="!data.userImage">
                                                                 <div
                                                                     class="avatar-title border bg-light text-primary rounded-circle text-uppercase">
-                                                                    {{ data.nombre.charAt(0) }}</div>
+                                                                    {{ data.nombre.charAt(0)}}</div>
                                                             </div>
                                                             <div class="team-content">
                                                                 <a data-bs-toggle="offcanvas"
                                                                     aria-controls="offcanvasExample"
                                                                     (click)="openEnd(viewContent)"
                                                                     (click)="viewDataGet(data.id)">
-                                                                    <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
+                                                                    <h5 class="fs-16 mb-1">{{data.nombre + ' ' + (data.apellido ? data.apellido : '')}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
                                                             </div>
@@ -195,7 +195,7 @@
                                                                     aria-controls="offcanvasExample"
                                                                     (click)="openEnd(viewContent)"
                                                                     (click)="viewDataGet(data.id)">
-                                                                    <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
+                                                                    <h5 class="fs-16 mb-1">{{data.nombre + ' ' + (data.apellido ? data.apellido : '')}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{data.email}}</p>
                                                                 <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
