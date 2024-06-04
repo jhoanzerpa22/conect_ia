@@ -85,7 +85,7 @@
                                                                     aria-controls="offcanvasExample"
                                                                     (click)="openEnd(viewContent)"
                                                                     (click)="viewDataGet(data.id)">
-                                                                    <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
+                                                                    <h5 class="fs-16 mb-1">{{data.nombre + ' ' + (data.apellido ? data.apellido : '')}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
                                                             </div>
@@ -193,7 +193,7 @@
                                                                     aria-controls="offcanvasExample"
                                                                     (click)="openEnd(viewContent)"
                                                                     (click)="viewDataGet(data.id)">
-                                                                    <h5 class="fs-16 mb-1">{{data.nombre}}</h5>
+                                                                    <h5 class="fs-16 mb-1">{{data.nombre + ' ' + (data.apellido ? data.apellido : '')}}</h5>
                                                                 </a>
                                                                 <p class="text-muted mb-0">{{data.email}}</p>
                                                                 <p class="text-muted mb-0">{{getRol(data.rol)}}</p>
