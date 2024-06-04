@@ -286,6 +286,19 @@ export class CreateComponent implements OnInit {
    }
 
    saveProject(type: any){
+    // stop here if form is invalid
+    if (this.createForm.invalid) {
+      return;
+    }
+
+    this.nombreProyecto = this.f['nombre'].value;
+    this.descripcionProyecto = this.f['descripcion'].value;
+    this.regionProyecto = this.f['regionId'].value;
+    this.comunaProyecto = this.f['comunaId'].value;
+    this.tipoZonaProyecto = this.f['tipoZonaId'].value;
+    this.sectorProyecto = this.f['sector'].value;
+    this.actividadProyecto = this.f['actividad'].value;
+    this.tipoProyecto = this.f['tipo'].value;
 
     const project: any = {
       nombre: this.nombreProyecto,
