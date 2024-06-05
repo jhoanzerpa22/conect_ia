@@ -222,7 +222,7 @@ export class NormsComponent {
       case 'otros':
         ambitos_select = [
           {value: 'NORMA', label: 'Normas'},
-          {value: 'POlITICA', label: 'Políticas'},
+          {value: 'POLITICA', label: 'Políticas'},
           {value: 'PLAN', label: 'Planes'},
           {value: 'PROCEDIMIENTO', label: 'Procedimientos'},
           {value: 'OTROS', label: 'Otros'}
