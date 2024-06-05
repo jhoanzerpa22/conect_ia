@@ -175,14 +175,35 @@
                                     </div>
                                     </div>
                                     
-                                    <div class="col-lg-6" *ngIf="rol == 2 && (rol_user == 1 || rol_user == 2)">
+                                    <div class="col-lg-6" *ngIf="rol_user == 1 || rol_user == 2">
                                         <div class="mb-3">
                                             <label for="empresaInput" class="form-label">Empresa</label>
-                                            <input type="text" class="form-control" id="empresaInput"
+                                            <!--<input type="text" class="form-control" id="empresaInput"
                                                 placeholder="Ingresa Empresa" value="{{userData.empresa}}" formControlName="empresa" [ngClass]="{ 'is-invalid': submitted && f['empresa'].errors }">
                                                 <div class="invalid-feedback">
                                                     Empresa requerida
-                                                </div>
+                                                </div>-->
+
+                                                <ng-autocomplete
+                                                [data]="Empresas"
+                                                [searchKeyword]="keyword"
+                                                placeholder="Selecciona Empresa"
+                                                (selected)='selectEvent($event)'
+                                                (inputChanged)='onChangeSearch($event)'
+                                                (inputFocused)='onFocused($event)'
+                                                historyIdentifier="Empresa"
+                                                [itemTemplate]="itemTemplate"
+                                                [notFoundTemplate]="notFoundTemplate"
+                                                formControlName="empresa">
+                                                </ng-autocomplete>
+            
+                                                <ng-template #itemTemplate let-item>
+                                                    <a [innerHTML]="item.name"></a>
+                                                </ng-template>
+            
+                                                <ng-template #notFoundTemplate let-notFound>
+                                                    <div [innerHTML]="notFound"></div>
+                                                </ng-template>
                                         </div>
                                     </div>
                                     

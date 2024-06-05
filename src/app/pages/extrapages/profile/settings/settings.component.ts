@@ -35,6 +35,17 @@ export class SettingsComponent implements OnInit {
   area_id_select: any = [];
   projects: any = [];
   items: any = [];
+  
+  keyword = 'name';
+
+  public Empresas = [
+    {
+      id: 'e13eefe',
+      name: 'ConectIA',
+    }
+  ];
+
+  empresaUsuario: any = '';
 
   constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location, private projectsService: ProjectsService) { }
 
@@ -73,6 +84,7 @@ export class SettingsComponent implements OnInit {
     this.getAreas();
     this.getProjects();
     this.getPermisos();
+    this.getEmpresas();
 
   }
 
@@ -86,6 +98,10 @@ export class SettingsComponent implements OnInit {
 
    // convenience getter for easy access to form fields
   get r() { return this.passresetForm.controls; }
+  
+  selectEvent(item: any) {  }
+  onChangeSearch(search: any) {}
+  onFocused(e: any) { }
 
   setRules(){
 
@@ -149,6 +165,27 @@ export class SettingsComponent implements OnInit {
           length?.classList.add("invalid");
       }
     };
+  }
+  
+  private getEmpresas(){
+    this.Empresas = [];
+    //this.showPreLoader();
+    this.userService.get().pipe().subscribe(
+      (obj: any) => {
+        const usuarios = obj.data;
+        
+        const empresas_all = usuarios.filter((us: any) => us.rol.includes(2) && us.active == true);
+
+        for (let index = 0; index < empresas_all.length; index++) {
+
+          if(this.Empresas.findIndex((em: any) => em.id == empresas_all[index].empresaId) == -1){
+            this.Empresas.push({id: empresas_all[index].empresaId, name: empresas_all[index].empresa ? empresas_all[index].empresa : empresas_all[index].nombre+' '+empresas_all[index].apellido});  
+          }
+        }
+        
+      }
+    );
+      //document.getElementById('elmLoader')?.classList.add('d-none')
   }
 
   private getPermisos(){
@@ -307,6 +344,8 @@ getChildren(padre_id: any){
       
       //let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
       
+      this.empresaUsuario = this.userForm.get('empresa')?.value;
+
       const data = {
         nombre: this.userForm.get('nombre')?.value,
         apellido: this.userForm.get('apellido')?.value,
@@ -316,7 +355,7 @@ getChildren(padre_id: any){
         rol: [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user],
         projects: this.userForm.get('projects')?.value,
         areas: this.userForm.get('areas')?.value/*area_id ? area_id : null*/,
-        empresa: this.userForm.get('empresa')?.value
+        empresa: typeof this.empresaUsuario === 'string' ? this.empresaUsuario : this.empresaUsuario.name,//this.userForm.get('empresa')?.value
       };
       
       const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
@@ -329,7 +368,7 @@ getChildren(padre_id: any){
       this.userData.telefono = this.userForm.get('telefono')?.value;
       this.userData.email = this.userForm.get('email')?.value;
       this.userData.rol = [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user];
-      this.userData.empresa = this.userForm.get('empresa')?.value;
+      this.userData.empresa = typeof this.empresaUsuario === 'string' ? this.empresaUsuario : this.empresaUsuario.name,//this.userForm.get('empresa')?.value;
 
           //this.router.navigate(['/pages/profile']);    
           this.TokenStorageService.saveUserProfile(this.userData);
