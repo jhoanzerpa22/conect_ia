@@ -4384,7 +4384,7 @@ validateIdparte(idParte: any){
     
     this.showPreLoader();
     this.list_paginate = [];
-    let tipo: any = this.project ? this.project.tipo : 'requisito';
+    let tipo: any = this.project ? (this.project.tipo ? this.project.tipo : 'requisito') : 'requisito';
 
       this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito, search, tipo).pipe().subscribe(
         (data: any) => {
