@@ -44,6 +44,17 @@ export class TeamComponent {
   projects: any = [];
   roles: any = [{id:2, nombre: 'Administrador'},{id:3, nombre: 'Evaluador'},{id:4, nombre: 'Encargado Area'},{id:5, nombre: 'Operador'}];
   items: any = [];
+  
+  keyword = 'name';
+
+  public Empresas = [
+    {
+      id: 'e13eefe',
+      name: 'ConectIA',
+    }
+  ];
+
+  empresaUsuario: any = '';
 
   constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private offcanvasService: NgbOffcanvas, private userService: UserProfileService, private router: Router, private TokenStorageService: TokenStorageService, public toastService: ToastService, private projectsService: ProjectsService) { }
 
@@ -78,6 +89,7 @@ export class TeamComponent {
     
     this.getAreas();
     this.getProjects();
+    this.getEmpresas();
 
      // Chat Data Get Function
      this._fetchData();
@@ -110,6 +122,27 @@ export class TeamComponent {
       document.getElementById('elmLoader')?.classList.add('d-none')
 }
 
+  private getEmpresas(){
+    this.Empresas = [];
+    //this.showPreLoader();
+    this.userService.get().pipe().subscribe(
+      (obj: any) => {
+        const usuarios = obj.data;
+        
+        const empresas_all = usuarios.filter((us: any) => us.rol.includes(2) && us.active == true);
+
+        for (let index = 0; index < empresas_all.length; index++) {
+
+          if(this.Empresas.findIndex((em: any) => em.id == empresas_all[index].empresaId) == -1){
+            this.Empresas.push({id: empresas_all[index].empresaId, name: empresas_all[index].empresa ? empresas_all[index].empresa : empresas_all[index].nombre+' '+empresas_all[index].apellido});  
+          }
+        }
+        
+      }
+    );
+      //document.getElementById('elmLoader')?.classList.add('d-none')
+  }
+
   private getAreas() {
     
     this.showPreLoader();
@@ -126,6 +159,10 @@ export class TeamComponent {
       });
       document.getElementById('elmLoader')?.classList.add('d-none')
   }
+  
+  selectEvent(item: any) {  }
+  onChangeSearch(search: any) {}
+  onFocused(e: any) { }
 
   selectRol(event: any){
     const rol_select = event.target.value;
@@ -285,6 +322,8 @@ export class TeamComponent {
       //let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
       const proyectos_form = this.teamForm.get('projects')?.value ? this.teamForm.get('projects')?.value : [];
       const areas_form = this.teamForm.get('areas')?.value ? this.teamForm.get('areas')?.value : [];
+      
+      this.empresaUsuario = this.teamForm.get('empresa')?.value;
 
       const data = {
         nombre: this.teamForm.get('nombre')?.value,
@@ -297,8 +336,8 @@ export class TeamComponent {
         rol: [this.teamForm.get('rol')?.value],
         projects: proyectos_form.filter((pr: any) => pr.trim() !== ""),
         areas: areas_form.filter((ar: any) => ar.trim() !== ""),//area_id ? area_id : null,
-        empresaId: null,//this.userData.empresaId,
-        empresa: this.teamForm.get('empresa')?.value
+        empresaId: typeof this.empresaUsuario === 'string' ? null : this.empresaUsuario.id,//this.userData.empresaId,
+        empresa: typeof this.empresaUsuario === 'string' ? this.empresaUsuario : this.empresaUsuario.name, //this.teamForm.get('empresa')?.value
       };
 
       this.userService.create(data).pipe(first()).subscribe(

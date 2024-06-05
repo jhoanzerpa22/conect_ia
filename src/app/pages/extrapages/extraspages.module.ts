@@ -40,6 +40,8 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsConditionComponent } from './terms-condition/terms-condition.component';
 
+// Auto Complate
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,8 @@ import { TermsConditionComponent } from './terms-condition/terms-condition.compo
     ExtraPagesRoutingModule,
     SharedModule,
     FeatherModule.pick(allIcons),
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    AutocompleteLibModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
