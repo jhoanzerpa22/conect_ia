@@ -74,7 +74,7 @@ export class TeamComponent {
       designation: ['', [Validators.required]],*/
       projects: [['']/*, [Validators.required]*/],
       areas: [['']],
-      empresa: ['']/*
+      /*empresa: ['']
       tasks: ['', [Validators.required]]*/
     });
     
