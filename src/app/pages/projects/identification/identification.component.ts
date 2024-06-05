@@ -282,7 +282,7 @@ export class IdentificationComponent implements OnInit {
       /*this.getArticlesInstallation();
       this.getArticleProyect(this.project_id);
       this.getCuerpoInstallationsByProyect();*/
-      this.getNormas(0);
+      //this.getNormas(0);
 
       this.refreshData();
     });
@@ -4199,6 +4199,7 @@ validateIdparte(idParte: any){
         (data: any) => {
           this.project = data.data;
           this.getAmbitos(this.project);
+          this.getNormas(0);
       },
       (error: any) => {
         //this.error = error ? error : '';
@@ -4254,7 +4255,7 @@ validateIdparte(idParte: any){
       case 'otros':
         ambitos_select = [
           {value: 'NORMA', label: 'Normas'},
-          {value: 'POlITICA', label: 'Políticas'},
+          {value: 'POLITICA', label: 'Políticas'},
           {value: 'PLAN', label: 'Planes'},
           {value: 'PROCEDIMIENTO', label: 'Procedimientos'},
           {value: 'OTROS', label: 'Otros'}
@@ -4383,8 +4384,9 @@ validateIdparte(idParte: any){
     
     this.showPreLoader();
     this.list_paginate = [];
+    let tipo: any = this.project ? this.project.tipo : 'requisito';
 
-      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito, search).pipe().subscribe(
+      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito, search, tipo).pipe().subscribe(
         (data: any) => {
           
           this.normasListWidgets = data.data.normas;
