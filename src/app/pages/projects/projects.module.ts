@@ -38,6 +38,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ListComponent } from './list/list.component';
 import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
+import { EditComponent } from './edit/edit.component';
 import { TypeComponent } from './create/type/type.component';
 import { Step1Component } from "./create/step1/step1.component";
 import { InstallationsComponent } from "./installations/installations.component";
@@ -125,6 +126,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ListComponent,
     OverviewComponent,
     CreateComponent,
+    EditComponent,
     TypeComponent,
     Step1Component,
     ToastsProjectContainer,
