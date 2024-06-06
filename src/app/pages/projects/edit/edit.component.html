@@ -1,0 +1,131 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Editar Proyecto" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+  <!--preloader-->
+  <div id="preloader" style="opacity: 0px !important;background-color: #000 !important;visibility: hidden;">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+          <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  </div>
+  
+<ng-container>
+<!-- Vertical alignment (align-items-center) -->
+<div class="row justify-content-center"><!--style="padding-top: 5%;"-->
+    <div class="col-lg-12">
+        <!--<h4 style="text-align: center;">Define el características de tu proyecto</h4>-->
+        <div class="card">
+            <div class="card-header">
+                <h4>Datos Generales</h4>
+                <p>Ingresa las variables generales de tu proyecto como se solicita a continuación, para continuar a la identificación de cuerpos legales y obligaciones.</p>
+            </div>
+            <div class="card-body" style="min-height: 450px;">
+                  <div class="mb-3">
+                    <form [formGroup]="editForm">
+                        
+                    <input type="hidden" name="tipo" value="" formControlName="tipo" />
+                    
+                    <label class="form-label" for="project-title-input">Nombre de Proyecto</label>
+                    <input type="text" class="form-control" id="project-title-input"
+                        placeholder="Escribe nombre de Proyecto" formControlName="nombre">
+                        
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-description-input">Descripción del Proyecto</label>
+                    
+                        <textarea rows="3" class="form-control" id="project-description-input"
+                        placeholder="Escribe descripción del Proyecto" formControlName="descripcion"></textarea>
+                        
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-location-input">Lugar de ejecución del proyecto</label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona región" data-choices data-choices-search-false
+                            id="choices-priority-input" formControlName="regionId" (change)="getComunes($event.target)">
+                            <option value="">Selecciona región</option>
+                            <option *ngFor="let r of regions;" value="{{r.id}}">{{r.nombre_region}}</option>
+                            </select>
+                
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            
+                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona comuna" data-choices data-choices-search-false
+                            id="choices-priority-input2" formControlName="comunaId">
+                            <option value="">Selecciona comuna</option>
+                            <option *ngFor="let c of comunes;" value="{{c.id}}">{{c.nombre_comuna}}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            
+                            <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;" placeholder="Selecciona tipo de zona" data-choices data-choices-search-false
+                            id="choices-priority-input3" formControlName="tipoZonaId">
+                            <option value="">Selecciona tipo de zona</option>
+                            <option *ngFor="let z of zones;" value="{{z.id}}">{{z.nombre_zona}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-sector-input">Sector Productivo</label>
+                    
+                            <ng-autocomplete
+                            [data]="Sectores"
+                            [searchKeyword]="keyword"
+                            placeholder="Selecciona sector productivo"
+                            (selected)='selectEvent($event)'
+                            (inputChanged)='onChangeSearch($event)'
+                            (inputFocused)='onFocused($event)'
+                            historyIdentifier="Sector"
+                            [itemTemplate]="itemTemplate"
+                            [notFoundTemplate]="notFoundTemplate"
+                            formControlName="sector">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                    
+                    <label class="form-label" style="margin-top: 20px !important;" for="project-actividad-input">Actividad</label>
+                            <ng-autocomplete
+                            [data]="Actividades"
+                            [searchKeyword]="keyword2"
+                            placeholder="Selecciona actividad"
+                            (selected)='selectEvent2($event)'
+                            (inputChanged)='onChangeSearch2($event)'
+                            (inputFocused)='onFocused2($event)'
+                            historyIdentifier="Actividad"
+                            [itemTemplate]="itemTemplate2"
+                            [notFoundTemplate]="notFoundTemplate2"
+                            formControlName="actividad">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate2 let-item>
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate2 let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 justify-content-center" style="display: block;padding: 0px;">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <button class="btn btn-primary btn-label waves-effect right waves-light" style="float:right;" (click)="editProject(1)"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
