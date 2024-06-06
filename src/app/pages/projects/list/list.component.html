@@ -70,12 +70,40 @@
   <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
 
   <div class="col-xxl-3 col-sm-6 project-card" id="pl1_{{data.id}}" *ngFor="let data of filterProjects(projectListWidgets) | filter:term">
-      <div class="card card-height-100" style="cursor: pointer;" (click)="comenzar(data.id, data.estado)">
+      <div class="card card-height-100" style="cursor: pointer;">
         <div class="card-header" [ngClass]=" { 'bg-info-card-header': data.tipo === 'requisito' || !data.tipo, 'bg-success-card-header': data.tipo === 'ambiental','bg-warning-card-header': data.tipo === 'sectorial','bg-brown-card-header': data.tipo === 'social','bg-violet-card-header': data.tipo === 'otros'}">
-            <h5 class="mb-1 fs-15" [ngClass]=" { 'text-info-card-header': data.tipo === 'requisito' || !data.tipo, 'text-success-card-header': data.tipo === 'ambiental','text-warning-card-header': data.tipo === 'sectorial','text-brown-card-header': data.tipo === 'social','text-violet-card-header': data.tipo === 'otros'}">{{data.nombre}}</h5>
+            
+            <div class="col team-settings">
+                <div class="row">
+                    <div class="col">
+                        <div class="flex-shrink-0 me-2">
+                            <h5 class="mb-1 fs-15" [ngClass]=" { 'text-info-card-header': data.tipo === 'requisito' || !data.tipo, 'text-success-card-header': data.tipo === 'ambiental','text-warning-card-header': data.tipo === 'sectorial','text-brown-card-header': data.tipo === 'social','text-violet-card-header': data.tipo === 'otros'}">{{data.nombre}}</h5>    
+                        </div>
+                    </div>
+                    <div class="col text-end" ngbDropdown>
+                        <a href="javascript:void(0);" ngbDropdownToggle id="dropdownMenuProject" data-bs-toggle="dropdown" aria-expanded="false" class="arrow-none">
+                            <i class="ri-more-fill fs-17"></i>
+                        </a>
+                        <ul aria-labelledby="dropdownMenuProject" ngbDropdownMenu class="dropdown-menu">
+                            <li>
+                                <a routerLink="/projects/edit/{{data.id}}" class="dropdown-item">
+                                    <i class="ri-pencil-line me-2 align-bottom text-muted"></i>Editar
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="dropdown-item">
+                                    <i class="ri-delete-bin-5-line me-2 align-middle float-start"></i>Borrar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-          <div class="card-body">
+
+          <div class="card-body" (click)="comenzar(data.id, data.estado)">
             <div class="row align-items-center mb-3">
+                
                 <div class="col-sm-6">
                     <h5 class="text-muted">Etapa</h5>
                     <span class="badge badge-soft-primary text-primary">{{getEtapaLabel(data.estado)}}</span>

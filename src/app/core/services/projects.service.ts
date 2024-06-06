@@ -67,7 +67,7 @@ export class ProjectsService {
     }
 
     update(id: any, data: any): Observable<any> {
-        return this.http.put(API_URL_BACK + 'project/'+id, data);
+        return this.http.put(API_URL_BACK + 'project/'+id, data, /*httpOptions*/this.getToken());
     }
 
     delete(id: any): Observable<any> {
