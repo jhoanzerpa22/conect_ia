@@ -41,6 +41,10 @@ export class NormasArticlesAllService {
         return this.http.get(API_URL_BACK + 'norm_article/'+id, /*httpOptions*/this.getToken());
     }
 
+    getValidNorma(id: any){
+        return this.http.get(API_URL_BACK + 'norm_article/valid/'+id, /*httpOptions*/this.getToken());
+    }
+
     create(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'norm_article', data/*{
