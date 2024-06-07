@@ -51,6 +51,7 @@ export class EditComponent implements OnInit {
 
   proyecto_id: any = '';
   project: any = {};
+  location: boolean = false;
 
   constructor(private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService,public toastService: ToastService) { }
 
@@ -79,6 +80,7 @@ export class EditComponent implements OnInit {
       if(params['id'] != ''){  
         this.proyecto_id = params['id'];      
         this.getProject(params['id']);
+        this.getLocation(params['id']);
       }
     });
 
@@ -201,9 +203,6 @@ export class EditComponent implements OnInit {
 
     this.editForm.controls['nombre'].setValue(project.nombre);
     this.editForm.controls['descripcion'].setValue(project.descripcion);
-    this.editForm.controls['regionId'].setValue('');
-    this.editForm.controls['comunaId'].setValue('');
-    this.editForm.controls['tipoZonaId'].setValue('');
     this.editForm.controls['sector'].setValue(sector);
     this.editForm.controls['actividad'].setValue(project.actividad);
     this.editForm.controls['tipo'].setValue(project.tipo);
@@ -220,6 +219,31 @@ export class EditComponent implements OnInit {
     //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
   });
 }
+
+  getLocation(idProject?: any){
+
+    this.projectsService.getLocation(idProject).pipe().subscribe(
+      (data: any) => {        
+        if(data.data){
+          this.editForm.controls['regionId'].setValue(data.data.regionId);
+          this.editForm.controls['comunaId'].setValue(data.data.comunaId);
+          this.editForm.controls['tipoZonaId'].setValue(data.data.tipoZonaId);
+          
+          this.getComunes(data.data.regionId, true);
+
+          this.location = true;
+        }else{
+          
+          this.location = false;
+        }
+    },
+    (error: any) => {
+      
+      this.location = false;
+      //this.error = error ? error : '';
+      this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+    });
+  }
 
    getTypes(){
     this.projectsService.getTypes().pipe().subscribe(
@@ -243,9 +267,9 @@ export class EditComponent implements OnInit {
     });
    }
 
-   getComunes(e?: any){
+   getComunes(e?: any, edit?: boolean){
     this.comunes = [];
-    let id: any = e.value;
+    let id: any = edit ? e : e.value;
     if(id){
       this.projectsService.getComunas(id).pipe().subscribe(
         (data: any) => {
@@ -298,10 +322,17 @@ export class EditComponent implements OnInit {
     this.projectsService.update(this.proyecto_id, project).pipe().subscribe(
       (data: any) => {
         
-        this.hidePreLoader();
-        localStorage.setItem('toast', 'true');
         let proyecto: any = data.data;
-        this._router.navigate(['/projects']);
+
+        if(this.location){
+          this.editLocation();
+        }else{
+          this.saveLocation();
+        }
+        //this.hidePreLoader();
+        //localStorage.setItem('toast', 'true');
+        //this._router.navigate(['/projects']);
+        
     },
     (error: any) => {
       
@@ -310,6 +341,51 @@ export class EditComponent implements OnInit {
       this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
     
+   }
+
+   editLocation(){
+    const location: any = {        
+      "regionId": this.f['regionId'].value,
+      "comunaId": this.f['comunaId'].value,
+      "tipoZonaId": this.f['tipoZonaId'].value
+    };
+
+      this.projectsService.updateLocation(this.proyecto_id, location).pipe().subscribe(
+        (data: any) => {
+            this.hidePreLoader();
+            localStorage.setItem('toast', 'true');
+            this._router.navigate(['/projects']);
+            
+        },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+        this._router.navigate(['/projects']);
+      });
+   }
+   
+   saveLocation(){
+    const location: any = {        
+      "regionId": this.f['regionId'].value,
+      "comunaId": this.f['comunaId'].value,
+      "tipoZonaId": this.f['tipoZonaId'].value,
+      "proyectoId": this.proyecto_id
+    };
+
+      this.projectsService.saveLocation(location).pipe().subscribe(
+        (data: any) => {
+            this.hidePreLoader();
+            localStorage.setItem('toast', 'true');
+            this._router.navigate(['/projects/'+this.proyecto_id+'/identification']);
+            
+        },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+        this._router.navigate(['/projects']);
+      });
    }
 
    // PreLoader
