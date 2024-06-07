@@ -138,7 +138,20 @@ export class ListComponent implements OnInit {
 
   // Delete Data
   deleteData(id: any) {
-    document.getElementById('pl1_' + id)?.remove();
+    if (id) {
+      this.projectsService.delete(id)
+      .subscribe(
+        response => {
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+          this.fetchData();
+          document.getElementById('lj_'+id)?.remove();
+        },
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+        });
+    }
   }
 
   /**
