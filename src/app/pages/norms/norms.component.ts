@@ -495,11 +495,11 @@ getTitulo(){
     if(normaId && normaId != '' && normaId != this.norma_id){
       this.showPreLoader();
 
-      this.normasService.getById(normaId).pipe().subscribe(
+      this.normasService.getValidNorma(normaId).pipe().subscribe(
         (data: any) => {     
          this.hidePreLoader();
          
-        if(data.data && data.data.length > 0){
+        if(data.data && ((data.data.normas && data.data.normas.length > 0) || (data.data.normas_chile && data.data.normas_chile.length > 0))){
          Swal.fire({
           position: 'center',
           icon: 'error',
