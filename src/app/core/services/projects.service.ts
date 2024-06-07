@@ -44,17 +44,11 @@ export class ProjectsService {
     getById(id: any) {
         return this.http.get(API_URL_BACK + 'project/'+id, /*httpOptions*/this.getToken());
     }
-
-    create(data: any): Observable<any> {
-        
-        return this.http.post(API_URL_BACK + 'project', data/*{
-        "nombre": data.nombre,
-        "descripcion": data.descripcion,
-        "tipoProyectoId": data.tipoProyectoId
-      }*/, /*httpOptions*/this.getToken());
     
+    getLocation(proyectoId: any) {
+        return this.http.get(API_URL_BACK + 'question/location/'+proyectoId, /*httpOptions*/this.getToken());
     }
-
+    
     saveLocation(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'question/location', {
@@ -63,6 +57,27 @@ export class ProjectsService {
         "tipoZonaId": data.tipoZonaId,
         "proyectoId": data.proyectoId        
       }, /*httpOptions*/this.getToken());
+    
+    }
+    
+    updateLocation(proyectoId: any, data: any): Observable<any> {
+        
+        return this.http.put(API_URL_BACK + 'question/location/'+proyectoId, {
+        "regionId": data.regionId,
+        "comunaId": data.comunaId,
+        "tipoZonaId": data.tipoZonaId        
+      }, /*httpOptions*/this.getToken());
+    
+    }
+
+
+    create(data: any): Observable<any> {
+        
+        return this.http.post(API_URL_BACK + 'project', data/*{
+        "nombre": data.nombre,
+        "descripcion": data.descripcion,
+        "tipoProyectoId": data.tipoProyectoId
+      }*/, /*httpOptions*/this.getToken());
     
     }
 

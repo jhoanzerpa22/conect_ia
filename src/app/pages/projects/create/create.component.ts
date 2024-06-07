@@ -317,11 +317,12 @@ export class CreateComponent implements OnInit {
     this.projectsService.create(project).pipe().subscribe(
       (data: any) => {
         
-        this.hidePreLoader();
-        localStorage.setItem('toast', 'true');
         let proyecto: any = data.data;
+        //this.hidePreLoader();
+        //localStorage.setItem('toast', 'true');
+        //this._router.navigate(['/projects/'+proyecto.id+'/identification']);
+        this.saveLocation(proyecto.id);
         //this._router.navigate(['/pages/'+proyecto.id+'/steps']);
-        this._router.navigate(['/projects/'+proyecto.id+'/identification']);
         //this._router.navigate(['/projects']);
     },
     (error: any) => {
@@ -331,6 +332,29 @@ export class CreateComponent implements OnInit {
       this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
     
+   }
+
+   saveLocation(proyectoId?: any){
+    const location: any = {        
+      "regionId": this.f['regionId'].value,
+      "comunaId": this.f['comunaId'].value,
+      "tipoZonaId": this.f['tipoZonaId'].value,
+      "proyectoId": proyectoId
+    };
+
+      this.projectsService.saveLocation(location).pipe().subscribe(
+        (data: any) => {
+            this.hidePreLoader();
+            localStorage.setItem('toast', 'true');
+            this._router.navigate(['/projects/'+proyectoId+'/identification']);
+            
+        },
+      (error: any) => {
+        this.hidePreLoader();
+        //this.error = error ? error : '';
+        this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
+        this._router.navigate(['/projects/'+proyectoId+'/identification']);
+      });
    }
 
    // PreLoader
