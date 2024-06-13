@@ -129,7 +129,7 @@ export class NormsComponent {
     this.cuerpoForm = this.formBuilder.group({    
       normaId: ['', [Validators.required]],
       titulo: ['', [Validators.required]],
-      subtitulo: ['', [Validators.required]],
+      subtitulo: [''],
       organismo: [''],
       ambito: [''],
       encabezado: [''],      
@@ -152,13 +152,9 @@ export class NormsComponent {
     this.route.params.subscribe(params => {
       this.accion = params['id'] > 0 ? 'editar' : 'crear';
       this.norma_id = params['id'] > 0 ? params['id'] : null;
-      
-      if(params['id'] > 0){
-        this.getNormaId(params['id']);
-      }
 
-      if(params['type'] != ''){
-        this.getAmbitos(params['type']);  
+      if(params['type'] && params['type'] != '' && params['type'] != undefined){
+        this.getAmbitos(params['type']);
         this.tipo = params['type'];  
         this.cuerpoForm.controls['tipo'].setValue(params['type']);
     
@@ -166,6 +162,10 @@ export class NormsComponent {
           { label: this.getTitulo() },
           { label: params['id'] > 0 ? 'Editar' : 'Crear', active: true }
         ];
+      }
+      
+      if(params['id'] > 0){
+        this.getNormaId(params['id']);
       }
     });
 

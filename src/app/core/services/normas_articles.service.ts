@@ -66,4 +66,14 @@ export class NormasArticlesAllService {
     deleteByNorma(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'norm_article/all/'+id, /*httpOptions*/this.getToken());
     }
+
+    uploadDocument(data: any): Observable<any> {
+        
+        const httpOptions4 = {
+            headers: new HttpHeaders({ /*'Content-Type': 'multipart/form-data',*/'Authorization': `Bearer ${localStorage.getItem('token')}`, "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.post(API_URL_BACK + 'norm_article/saveDocument', data, httpOptions4);
+    
+    }
 }

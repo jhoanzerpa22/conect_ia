@@ -18,6 +18,7 @@ import { Router, ActivatedRoute, Params, RoutesRecognized } from '@angular/route
 import { ToastService } from './toast-service';
 import { round } from 'lodash';
 import { TokenStorageService } from '../../core/services/token-storage.service';
+import { toJSDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 //import { filter } from 'rxjs/operators';
 
 @Component({
@@ -57,10 +58,13 @@ export class BodyLegalTypeComponent {
   page_interno: number = 1;
   term:any;
   busquedaForm!: UntypedFormGroup;
+  fileForm!: UntypedFormGroup;
   search: any = '';
   type_search: any = 'by_texto';
   userData: any;
   tipo: any;
+  
+  excelFile: any;
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, public service_interno: BodyLegalInternoService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private normas_articles: NormasArticlesAllService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
@@ -83,6 +87,10 @@ export class BodyLegalTypeComponent {
       busqueda: [''],
       tipo: [''],
       tipo_busqueda: ['by_texto']
+    });
+    
+    this.fileForm = this.formBuilder.group({
+      file: ['', [Validators.required]]
     });
 
     //this.fetchData();
@@ -274,6 +282,74 @@ export class BodyLegalTypeComponent {
   crearDocument(type: any){
     this.modalService.dismissAll();
     this._router.navigate(['/norms/'+type]);
+  }
+
+  uploadDocument(){
+
+    if (this.fileForm.invalid) {
+      return;
+    }
+    
+    if (this.fileForm.valid) {
+      const formData = new FormData();
+      formData.append('excelFile', this.excelFile);
+
+      this.normas_articles.uploadDocument(formData).pipe().subscribe(
+        (data: any) => {
+
+          this.modalService.dismissAll();
+         
+         Swal.fire({
+          title: 'Documentos Cargados!',
+          icon: 'success',
+          showConfirmButton: true,
+          showCancelButton: false,
+          confirmButtonColor: '#364574',
+          cancelButtonColor: 'rgb(243, 78, 78)',
+          confirmButtonText: 'OK',
+          timer: 5000
+        });
+        
+        const search: any = this.route.snapshot.queryParams['search'];
+        if(search && search != '' && search != undefined ? search : ''){
+          const type_search: any = this.route.snapshot.queryParams['type_search'];
+          const paginate: any = this.route.snapshot.queryParams['paginate'];
+          this.search = search;
+          this.type_search = type_search;
+          this.page = paginate;
+          this.busquedaNorma(search, type_search, paginate);
+        }else{
+          this.busquedaNorma('', 'by_texto', 1);
+        }
+          
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();
+        
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Ha ocurrido un error..',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+        this.modalService.dismissAll()
+      })
+    }
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    
+    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.name.endsWith('.xlsx') || file.name.endsWith('.csv')) {
+
+      this.excelFile = file;      
+    } else {
+      this.excelFile = null;    
+      this.fileForm.controls['file'].setValue('');
+    }
+
   }
 
   getTipoDocumento(tipo?: any){
