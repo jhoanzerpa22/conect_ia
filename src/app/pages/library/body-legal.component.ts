@@ -342,7 +342,7 @@ export class BodyLegalTypeComponent {
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     
-    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.name.endsWith('.xlsx')) {
+    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.name.endsWith('.xlsx') || file.name.endsWith('.csv')) {
 
       this.excelFile = file;      
     } else {
