@@ -17,7 +17,7 @@
         <form [formGroup]="busquedaForm">
          <div class="card-header">
             <div class="row">
-                <div class="col-xxl-4 col-lg-4" style="padding: 10px;">
+                <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
                     <h4 class="card-title mb-0">Cuerpos Legales</h4>
                     
                     <input type="hidden" class="form-control" name="tipo" placeholder="Tipo" formControlName="tipo" value="" [(ngModel)]="tipo">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="col-xxl-5 col-lg-5">
+                <div class="col-xxl-6 col-lg-6">
                     
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box">
@@ -50,6 +50,8 @@
                     <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="busquedaNorma()"><i class="ri-search-2-line label-icon align-middle fs-16"></i> <!--Buscar--></button>
                     
                     <button type="button" style="margin-left:10px;" class="btn btn-success btn-label waves-effect left waves-light" (click)="addDocument(addDocumentModel)" *ngIf="validateRol(1)"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear Documento</button>
+                    
+                    <button type="button" style="margin-left:10px;" class="btn btn-primary btn-label waves-effect left waves-light" (click)="addDocument(uploadDocumentModel)" *ngIf="validateRol(1)"><i class="ri-file-excel-2-line label-icon align-middle fs-16"><!--ms-2--></i> Carga Masiva</button>
                     </div>
                 </div>
                 </div>
@@ -282,6 +284,30 @@
     <!-- end col -->
 </div>
 <!-- end row -->
+
+<!-- uploadDocumentModel -->
+<ng-template #uploadDocumentModel let-modal>
+    <div class="modal-header bg-light p-3">
+        <h5 class="modal-title" id="exampleModalLabel">Carga Masiva de Documentos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    
+    <form (ngSubmit)="uploadDocument()" [formGroup]="fileForm" class="tablelist-form" autocomplete="off">
+        <div class="modal-body">
+            <div class="mb-3">
+                        <label for="customername-field" class="form-label">Documento (.xlsx, .csv)</label>
+                        <input type="file" id="customername-field" class="form-control" placeholder="Ingresar Documento" required formControlName="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileSelected($event)"/>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-success" id="add-btn">Cargar</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
 
 <!-- addDocumentModal -->
 <ng-template #addDocumentModel let-modal>
