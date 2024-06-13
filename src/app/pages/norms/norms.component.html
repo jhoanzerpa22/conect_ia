@@ -65,11 +65,11 @@
                           <div class="col-lg-12">
                               <div class="mb-3">
                                   <label class="form-label" for="gen-info-subtitulo-input">Sub Título</label>
-                                  <input type="text" class="form-control" id="gen-info-subtitulo-input" formControlName="subtitulo" placeholder="Aprueba uso de ..." required [ngClass]="{ 'is-invalid': submitted && f['subtitulo'].errors }">
-                                  
-                                <div *ngIf="submitted && f['subtitulo'].errors" class="invalid-feedback" align="left">
+                                  <input type="text" class="form-control" id="gen-info-subtitulo-input" formControlName="subtitulo" placeholder="Aprueba uso de ...">
+                                  <!-- [ngClass]="{ 'is-invalid': submitted && f['subtitulo'].errors }"-->
+                                <!--<div *ngIf="submitted && f['subtitulo'].errors" class="invalid-feedback" align="left">
                                     <div *ngIf="f['subtitulo'].errors['required']">El sub titulo es requerido</div>
-                                </div>
+                                </div>-->
                               </div>
                           </div>
                           <div class="col-lg-12">
