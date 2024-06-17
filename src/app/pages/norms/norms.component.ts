@@ -399,9 +399,9 @@ getTitulo(){
 
   deleteArticle(index: number, articulo?: any){
 
-    if(!articulo.id){
+    if(!articulo.id || (articulo.id && parseInt(articulo.id) < 1)){
       this.cuerpoLegal.articulos.splice(index,1);
-    }else{
+    }else if(articulo.id && parseInt(articulo.id) > 0){
       this.cuerpoLegal.articulos[index].eliminado = true;
 
       if(this.cuerpoLegal.articulos[index].articulos.length > 0){
