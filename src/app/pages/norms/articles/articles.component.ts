@@ -427,6 +427,16 @@ export class ArticlesComponent implements OnInit {
       return texto;
     }
   }
+
+  generateAlphanumericId(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let id = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      id += characters.charAt(randomIndex);
+    }
+    return id;
+  }
   
   saveClicked(){
     this.submitted = true;
@@ -437,7 +447,7 @@ export class ArticlesComponent implements OnInit {
 
     const fecha = Date.now();
 
-    if(this.articulo_data && this.articulo_data.id > 0){
+    if(this.articulo_data && this.articulo_data.id/* > 0*/){
     
       const articulo_edit: any = {
         id: this.articulo_data.id,
@@ -456,7 +466,7 @@ export class ArticlesComponent implements OnInit {
     }else{
 
       const articulo: any = {
-        id: null,
+        id: this.generateAlphanumericId(4),//null,
         titulo: this.articuloForm.get('titulo')?.value,
         contenido: this.quitarEtiquetasPTags(this.articuloForm.get('contenido')?.value),
         created_at: moment(fecha).format('DD-MM-yyyy'),
