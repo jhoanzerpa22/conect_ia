@@ -392,9 +392,9 @@ export class SubArticlesComponent implements OnInit {
   
   deleteArticle(index: number, articulo?: any){
 
-    if(!articulo.id){
+    if(!articulo.id || (articulo.id && parseInt(articulo.id) < 1)){
       this.articulo.articulos.splice(index,1);
-    }else{
+    }else if(articulo.id && parseInt(articulo.id) > 0){
       this.articulo.articulos[index].eliminado = true;
 
       if(this.articulo.articulos[index].articulos.length > 0){
