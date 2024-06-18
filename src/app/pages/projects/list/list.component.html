@@ -70,7 +70,7 @@
   <app-toastsp aria-live="polite" aria-atomic="true"></app-toastsp>
 
   <div class="col-xxl-3 col-sm-6 project-card" id="pl1_{{data.id}}" *ngFor="let data of filterProjects(projectListWidgets) | filter:term">
-      <div class="card card-height-100" style="cursor: pointer;">
+      <div class="card card-height-100">
         <div class="card-header" [ngClass]=" { 'bg-info-card-header': data.tipo === 'requisito' || !data.tipo, 'bg-success-card-header': data.tipo === 'ambiental','bg-warning-card-header': data.tipo === 'sectorial','bg-brown-card-header': data.tipo === 'social','bg-violet-card-header': data.tipo === 'otros'}">
             
             <div class="col team-settings">
@@ -101,7 +101,7 @@
             </div>
         </div>
 
-          <div class="card-body" (click)="comenzar(data.id, data.estado)">
+          <div class="card-body" style="cursor: pointer;" (click)="comenzar(data.id, data.estado)">
             <div class="row align-items-center mb-3">
                 
                 <div class="col-sm-6">

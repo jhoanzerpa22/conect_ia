@@ -291,36 +291,69 @@ export class BodyLegalTypeComponent {
     }
     
     if (this.fileForm.valid) {
+      
+      this.showPreLoader();
       const formData = new FormData();
       formData.append('excelFile', this.excelFile);
 
       this.normas_articles.uploadDocument(formData).pipe().subscribe(
         (data: any) => {
 
-          this.modalService.dismissAll();
-         
-         Swal.fire({
-          title: 'Documentos Cargados!',
-          icon: 'success',
-          showConfirmButton: true,
-          showCancelButton: false,
-          confirmButtonColor: '#364574',
-          cancelButtonColor: 'rgb(243, 78, 78)',
-          confirmButtonText: 'OK',
-          timer: 5000
-        });
+        this.hidePreLoader();
+        this.modalService.dismissAll();
+        let modal_alert: any = {};
         
-        const search: any = this.route.snapshot.queryParams['search'];
-        if(search && search != '' && search != undefined ? search : ''){
-          const type_search: any = this.route.snapshot.queryParams['type_search'];
-          const paginate: any = this.route.snapshot.queryParams['paginate'];
-          this.search = search;
-          this.type_search = type_search;
-          this.page = paginate;
-          this.busquedaNorma(search, type_search, paginate);
+        if(data.data && data.data.errores && data.data.errores.length > 0){
+
+          let lista_errores: any = '';
+
+          for (let err = 0; err < data.data.errores.length; err++) {
+            lista_errores += '<li>'+data.data.errores[err]+'</li>';
+          }
+
+          modal_alert = {
+            title: 'Documentos Procesados!',
+            icon: 'info',
+            html:
+              'Tus Documentos fueron procesados pero <b>tuvimos algunos inconvenientes</b>,<br> ' + lista_errores,
+            showConfirmButton: true,
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText: 'Ok',
+            cancelButtonColor: 'rgb(243, 78, 78)',
+            confirmButtonColor: '#364574',
+            //timer: 5000
+          };
         }else{
-          this.busquedaNorma('', 'by_texto', 1);
+           modal_alert = {
+              title: 'Documentos Cargados!',
+              icon: 'success',
+              showConfirmButton: true,
+              showCancelButton: false,
+              confirmButtonColor: '#364574',
+              cancelButtonColor: 'rgb(243, 78, 78)',
+              confirmButtonText: 'OK',
+              timer: 5000
+            };
         }
+
+        Swal.fire(modal_alert).then(result => {
+          //if (result.value) {
+          
+          const search: any = this.route.snapshot.queryParams['search'];
+          if(search && search != '' && search != undefined ? search : ''){
+            const type_search: any = this.route.snapshot.queryParams['type_search'];
+            const paginate: any = this.route.snapshot.queryParams['paginate'];
+            this.search = search;
+            this.type_search = type_search;
+            this.page = paginate;
+            this.busquedaNorma(search, type_search, paginate);
+          }else{
+            this.busquedaNorma('', 'by_texto', 1);
+          }
+        //}
+        });
           
       },
       (error: any) => {
