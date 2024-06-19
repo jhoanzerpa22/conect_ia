@@ -1,323 +1,323 @@
 {
   "HEADER": {
     "MORE": {
-      "TEXT": "More"
+      "TEXT": "Más"
     }
   },
   "MENUITEMS": {
     "MENU": {
-      "TEXT": "MENU"
+      "TEXT": "MENÚ"
     },
     "DASHBOARD": {
-      "TEXT": "Dashboard",
-      "BADGE": "New",
+      "TEXT": "Tablero",
+      "BADGE": "Nuevo",
       "LIST": {
-        "ANALYTICS": "Analytics",
+        "ANALYTICS": "Analítica",
         "CRM": "CRM",
-        "ECOMMERCE": "Ecommerce",
-        "CRYPTO": "Crypto",
-        "PROJECTS": "Legal Requirements",
-        "USERS": "Users",
+        "ECOMMERCE": "Comercio electrónico",
+        "CRYPTO": "Cripto",
+        "PROJECTS": "Proyectos",
+        "USERS": "Usuarios",
         "NFT": "NFT",
-        "JOB":"Job"
+        "JOB":"TRABAJO"
       }
     },
     "APPS": {
-      "TEXT": "Apps",
+      "TEXT": "aplicaciones",
       "LIST": {
-        "CALENDAR": "Calendar",
+        "CALENDAR": "Calendario",
         "CHAT": "Chat",
-        "EMAIL": "Email",
-        "MAILBOX": "Mailbox",
-        "MAILTEMPLATES": "Email Templates",
-        "BASICACTION": "Basic Action",
-        "ECOMMERCEACTION": "Ecommerce Action",
-        "ECOMMERCE": "Ecommerce",
-        "PRODUCTS": "Products",
-        "PRODUCTDETAILS": "Product Details",
-        "CREATEPRODUCT": "Create Product",
-        "ORDERS": "Orders",
-        "ORDERDETAILS": "Order Details",
-        "CUSTOMERS": "Customers",
-        "SHOPPINGCART": "Shopping Cart",
-        "CHECKOUT": "Checkout",
-        "SELLERS": "Sellers",
-        "SELLERDETAILS": "Seller Details",
-        "PROJECTS": "Projects",
-        "LIST": "List",
-        "OVERVIEW": "Overview",
-        "CREATEPROJECT": "Create Project",
-        "TASK": "Tasks",
-        "KANBANBOARD": "Kanban Board",
-        "LISTVIEW": "List View",
-        "TASKDETAILS": "Task Details",
+        "EMAIL": "Correo electrónico",
+        "MAILBOX": "Buzón",
+        "MAILTEMPLATES": "Plantillas de correo electrónico",
+        "BASICACTION": "Acción básica",
+        "ECOMMERCEACTION": "Acción de comercio electrónico",
+        "ECOMMERCE": "Comercio electrónico",
+        "PRODUCTS": "productos",
+        "PRODUCTDETAILS": "Detalles de producto",
+        "CREATEPRODUCT": "Crear producto",
+        "ORDERS": "Pedidos",
+        "ORDERDETAILS": "Detalles del pedido",
+        "CUSTOMERS": "Clientes",
+        "SHOPPINGCART": "Carrito de compras",
+        "CHECKOUT": "Verificar",
+        "SELLERS": "vendedores",
+        "SELLERDETAILS": "Detalles del vendedor",
+        "PROJECTS": "Proyectos",
+        "LIST": "Lista",
+        "OVERVIEW": "Visión de conjunto",
+        "CREATEPROJECT": "Crear proyecto",
+        "TASK": "Tareas",
+        "KANBANBOARD": "Tablero Kanban",
+        "LISTVIEW": "Vista de la lista",
+        "TASKDETAILS": "Detalles de la tarea",
         "CRM": "CRM",
-        "CONTACTS": "Contacts",
-        "COMPANIES": "Companies",
-        "DEALS": "Deals",
-        "LEADS": "Leads",
-        "CRYPTO": "Crypto",
-        "TRANSACTIONS": "Transactions",
-        "BUY&SELL": "Buy & Sell",
-        "MYWALLET": "My Wallet",
-        "ICOLIST": "ICO List",
-        "KYCAPPLICATION": "KYC Application",
-        "INVOICES": "Invoices",
-        "DETAILS": "Details",
-        "CREATEINVOICE": "Create Invoice",
-        "SUPPORTTICKETS": "Support Tickets",
-        "TICKETDETAILS": "Ticket Details",
-        "NFTMARKETPLACE": "NFT Marketplace",
-        "MARKETPLACE": "Marketplace",
-        "EXPLORENOW": "Explore Now",
-        "LIVEAUCTION": "Live Auction",
-        "ITEMDETAILS": "Item Details",
-        "COLLECTIONS": "Collections",
-        "CREATORS": "Creators",
-        "RANKING": "Ranking",
-        "WALLETCONNECT": "Wallet Connect",
-        "CREATENFT": "Create NFT",
-        "FILEMANAGER": "File Manager",
-        "TODO": "To Do",
-        "JOBS":"Jobs",
-        "STATISTICS":"Statistics",
-        "JOBLISTS":"Job Lists",
-        "GRID":"Grid",
-        "CANDIDATELISTS":"Candidate Lists",
-        "GRIDVIEW":"Grid View",
-        "APPLICATION":"Application",
-        "NEWJOB":"New Job",
-        "COMPANIESLIST":"Companies List",
-        "JOBCATEGORIES":"Job Categories",
-        "APIKEY":"API Key"
+        "CONTACTS": "Contactos",
+        "COMPANIES": "Empresas",
+        "DEALS": "ofertas",
+        "LEADS": "Dirige",
+        "CRYPTO": "Cripto",
+        "TRANSACTIONS": "Actas",
+        "BUY&SELL": "Compra venta",
+        "MYWALLET": "Mi billetera",
+        "ICOLIST": "Lista de ICO",
+        "KYCAPPLICATION": "Aplicación KYC",
+        "INVOICES": "Facturas",
+        "DETAILS": "Detalles",
+        "CREATEINVOICE": "Crear factura",
+        "SUPPORTTICKETS": "Tickets de soporte",
+        "TICKETDETAILS": "Detalles del billete",
+        "NFTMARKETPLACE": "Mercado NFT",
+        "MARKETPLACE": "Mercado",
+        "EXPLORENOW": "Explorar ahora",
+        "LIVEAUCTION": "Subasta en vivo",
+        "ITEMDETAILS": "detalles del artículo",
+        "COLLECTIONS": "Colecciones",
+        "CREATORS": "Creadoras",
+        "RANKING": "Clasificación",
+        "WALLETCONNECT": "Monedero Conectar",
+        "CREATENFT": "Crear NFT",
+        "FILEMANAGER": "Administradora de archivos",
+        "TODO": "Que hacer",
+        "JOBS":"TRABAJOS",
+        "STATISTICS":"Estadísticas",
+        "JOBLISTS":"Listas de trabajos",
+        "GRID":"Cuadrícula",
+        "CANDIDATELISTS":"Lista de candidatos",
+        "GRIDVIEW":"Vista en cuadrícula",
+        "APPLICATION":"Solicitud",
+        "NEWJOB":"Nuevo trabajo",
+        "COMPANIESLIST":"Lista de empresas",
+        "JOBCATEGORIES":"Categorías de trabajo",
+        "APIKEY":"Clave API"
       }
     },
     "LAYOUTS": {
-      "TEXT": "Layouts",
+      "TEXT": "Diseños",
       "LIST": {
         "HORIZONTAL": "Horizontal",
-        "DETACHED": "Detached",
-        "TWOCOLUMN": "Two Column",
-        "HOVERED": "Hovered"
+        "DETACHED": "Separado",
+        "TWOCOLUMN": "dos columnas",
+        "HOVERED": "flotando"
       }
     },
     "PAGES": {
-      "TEXT": "Pages"
+      "TEXT": "Paginas"
     },
     "AUTHENTICATION": {
-      "TEXT": "Authentication",
+      "TEXT": "Autenticación",
       "LIST": {
-        "BASIC": "Basic",
-        "COVER": "Cover",
-        "SIGNIN": "Sign In",
-        "SIGNUP": "Sign Up",
-        "PASSWORDRESET": "Password Reset",
-        "PASSWORDCREATE": "Password Create",
-        "LOCKSCREEN": "Lock Screen",
-        "LOGOUT": "Logout",
-        "SUCCESSMESSAGE": "Success Message",
-        "TWOSTEPVERIFICATION": "Two Step Verification",
-        "ERRORS": "Errors",
-        "404BASIC": "404 Basic",
-        "404COVER": "404 Cover",
-        "404ALT": "404 Alt",
+        "BASIC": "Básico",
+        "COVER": "Cubrir",
+        "SIGNIN": "Iniciar sesión",
+        "SIGNUP": "Inscribirse",
+        "PASSWORDRESET": "Restablecimiento de contraseña",
+        "PASSWORDCREATE": "Crear contraseña",
+        "LOCKSCREEN": "Bloquear pantalla",
+        "LOGOUT": "Cerrar sesión",
+        "SUCCESSMESSAGE": "Mensaje de éxito",
+        "TWOSTEPVERIFICATION": "Verificación de dos pasos",
+        "ERRORS": "errores",
+        "404BASIC": "404 básico",
+        "404COVER": "404 cubierta",
+        "404ALT": "404 alternativa",
         "500": "500",
-        "OFFLINE": "Offline Page"
+        "OFFLINE": "Página sin conexión"
       }
     },
     "PAGES": {
-      "TEXT": "Pages",
+      "TEXT": "Paginas",
       "LIST": {
-        "STARTER": "Starter",
-        "PROFILE": "Profile",
-        "SIMPLEPAGE": "Simple Page",
-        "SETTINGS": "Settings",
-        "TEAM": "Team",
-        "TIMELINE": "Timeline",
-        "FAQS": "FAQs",
-        "PRICING": "Pricing",
-        "GALLERY": "Gallery",
-        "MAINTENANCE": "Maintenance",
-        "COMINGSOON": "Coming Soon",
-        "SITEMAP": "Sitemap",
-        "SEARCHRESULTS": "Search Results",
-        "PRIVACYPOLICY":"Privacy Policy",
-        "TERMS&CONDITIONS":"Term & Conditions"
+        "STARTER": "Inicio",
+        "PROFILE": "Perfil",
+        "SIMPLEPAGE": "Página sencilla",
+        "SETTINGS": "Ajustes",
+        "TEAM": "Equipo",
+        "TIMELINE": "Cronología",
+        "FAQS": "preguntas frecuentes",
+        "PRICING": "Precios",
+        "GALLERY": "Galería",
+        "MAINTENANCE": "Mantenimiento",
+        "COMINGSOON": "Próximamente",
+        "SITEMAP": "mapa del sitio",
+        "SEARCHRESULTS": "Resultados de la búsqueda",
+        "PRIVACYPOLICY":"Política de privacidad",
+        "TERMS&CONDITIONS":"Términos y condiciones"
       }
     },
     "LANDING": {
-      "TEXT": "Landing",
+      "TEXT": "Aterrizaje",
       "LIST": {
-        "ONEPAGE": "One Page",
-        "NFTLANDING": "NFT Landing",
-        "JOB":"Job"
+        "ONEPAGE": "Una página",
+        "NFTLANDING": "Aterrizaje NFT",
+        "JOB":"TRABAJO"
       }
     },
     "COMPONENTS": {
-      "TEXT": "Components"
+      "TEXT": "Componentes"
     },
     "BASEUI": {
-      "TEXT": "Base UI",
+      "TEXT": "Interfaz de usuario básica",
       "LIST": {
-        "ALERTS": "Alerts",
-        "BADGES": "Badges",
-        "BUTTONS": "Buttons",
-        "COLORS": "Colors",
-        "CARDS": "Cards",
-        "CAROUSEL": "Carousel",
-        "DROPDOWNS": "Dropdowns",
-        "GRID": "Grid",
-        "IMAGES": "Images",
-        "TABS": "Tabs",
-        "ACCORDION&COLLAPSE": "Accordion & Collapse",
-        "MODALS": "Modals",
+        "ALERTS": "Alertas",
+        "BADGES": "Insignias",
+        "BUTTONS": "Botones",
+        "COLORS": "Colores",
+        "CARDS": "Tarjetas",
+        "CAROUSEL": "Carrusel",
+        "DROPDOWNS": "Listas deplegables",
+        "GRID": "Cuadrícula",
+        "IMAGES": "Imágenes",
+        "TABS": "Pestañas",
+        "ACCORDION&COLLAPSE": "Acordeón y colapsar",
+        "MODALS": "modales",
         "OFFCANVAS": "Offcanvas",
-        "PLACEHOLDERS": "Placeholders",
-        "PROGRESS": "Progress",
-        "NOTIFICATIONS": "Notifications",
-        "MEDIAOBJECT": "Media object",
-        "EMBEDVIDEO": "Embed Video",
-        "TYPOGRAPHY": "Typography",
-        "LISTS": "Lists",
+        "PLACEHOLDERS": "Marcadores de posición",
+        "PROGRESS": "Progreso",
+        "NOTIFICATIONS": "Notificaciones",
+        "MEDIAOBJECT": "objeto multimedia",
+        "EMBEDVIDEO": "Insertar video",
+        "TYPOGRAPHY": "Tipografía",
+        "LISTS": "Liza",
         "GENERAL": "General",
-        "RIBBONS": "Ribbons",
-        "UTILITIES": "Utilities"
+        "RIBBONS": "Cintas",
+        "UTILITIES": "Utilidades"
       }
     },
     "ADVANCEUI": {
-      "TEXT": "Advance UI",
-      "BADGE": "New",
+      "TEXT": "Interfaz de usuario avanzada",
+      "BADGE": "Nuevo",
       "LIST": {
-        "SWEETALERTS": "Sweet Alerts",
-        "NESTABLELIST": "Nestable List",
-        "SCROLLBAR": "Scrollbar",
-        "ANIMATION": "Animation",
-        "TOUR": "Tour",
-        "SWIPERSLIDER": "Swiper Slider",
-        "RATTINGS": "Ratings",
-        "HIGHLIGHT": "Highlight",
-        "SCROLLSPY": "ScrollSpy"
+        "SWEETALERTS": "Dulces alertas",
+        "NESTABLELIST": "Lista anidable",
+        "SCROLLBAR": "Barra de desplazamiento",
+        "ANIMATION": "Animación",
+        "TOUR": "Excursión",
+        "SWIPERSLIDER": "Control deslizante Swiper",
+        "RATTINGS": "Calificaciones",
+        "HIGHLIGHT": "Destacar",
+        "SCROLLSPY": "DesplazamientoEspía"
       }
     },
     "WIDGETS": {
       "TEXT": "Widgets"
     },
     "FORMS": {
-      "TEXT": "Forms",
+      "TEXT": "Formularios",
       "LIST": {
-        "BASICELEMENTS": "Basic Elements",
-        "FORMSELECT": "Form Select",
-        "CHECKBOXS&RADIOS": "Checkboxs & Radios",
-        "PICKERS": "Pickers",
-        "INPUTMASKS": "Input Masks",
-        "ADVANCED": "Advanced",
-        "RANGESLIDER": "Range Slider",
-        "VALIDATION": "Validation",
-        "WIZARD": "Wizard",
-        "EDITORS": "Editors",
-        "FILEUPLOADS": "File Uploads",
-        "FORMLAYOUTS": "Form Layouts"
+        "BASICELEMENTS": "Elementos basicos",
+        "FORMSELECT": "Selección de formulario",
+        "CHECKBOXS&RADIOS": "Casillas de verificación y radios",
+        "PICKERS": "recolectores",
+        "INPUTMASKS": "Máscaras de entrada",
+        "ADVANCED": "Avanzado",
+        "RANGESLIDER": "Deslizador de rango",
+        "VALIDATION": "Validación",
+        "WIZARD": "Mago",
+        "EDITORS": "Editores",
+        "FILEUPLOADS": "Cargas de archivos",
+        "FORMLAYOUTS": "Diseños de formulario"
       }
     },
     "TABLES": {
-      "TEXT": "Tables",
+      "TEXT": "Mesas",
       "LIST": {
-        "BASICTABLES": "Basic Tables",
-        "GRIDJS": "Grid Js",
-        "LISTJS": "List Js",
-        "DATATABLES": "Datatables"
+        "BASICTABLES": "Tablas Básicas",
+        "GRIDJS": "Cuadrícula J",
+        "LISTJS": "Lista J",
+        "DATATABLES": "tablas de datos"
       }
     },
     "CHARTS": {
-      "TEXT": "Charts",
+      "TEXT": "Gráficos",
       "LIST": {
         "APEXCHARTS": "Apexcharts",
-        "LINE": "Line",
-        "AREA": "Area",
-        "COLUMN": "Column",
+        "LINE": "Línea",
+        "AREA": "Área",
+        "COLUMN": "Columna",
         "BAR": "Bar",
-        "MIXED": "Mixed",
-        "TIMELINE": "Timeline",
-        "CANDLSTICK": "Candlstick",
-        "BOXPLOT": "Boxplot",
-        "BUBBLE": "Bubble",
-        "SCATTER": "Scatter",
-        "HEATMAP": "Heatmap",
-        "TREEMAP": "Treemap",
-        "PIE": "Pie",
-        "RADIALBAR": "Radialbar",
+        "MIXED": "Mezclado",
+        "TIMELINE": "Cronología",
+        "CANDLSTICK": "candelabro",
+        "BOXPLOT": "diagrama de caja",
+        "BUBBLE": "Burbuja",
+        "SCATTER": "Dispersión",
+        "HEATMAP": "Mapa de calor",
+        "TREEMAP": "Mapa de árbol",
+        "PIE": "Tarta",
+        "RADIALBAR": "barra radial",
         "RADAR": "Radar",
-        "POLARAREA": "Polar Area",
-        "CHARTJS": "Chartjs",
-        "ECHARTS": "Echarts"
+        "POLARAREA": "Área Polar",
+        "CHARTJS": "Gráficos",
+        "ECHARTS": "Gráficos electrónicos"
       }
     },
     "ICONS": {
-      "TEXT": "Icons",
+      "TEXT": "Iconos",
       "LIST": {
-        "REMIX": "Remix",
-        "BOXICONS": "Boxicons",
-        "MATERIALDESIGN": "Material Design",
-        "LINEAWESOME": "Line Awesome",
-        "FEATHER": "Feather",
-        "CRYPTOSVG": "Crypto SVG"
+        "REMIX": "remezclar",
+        "BOXICONS": "iconos de caja",
+        "MATERIALDESIGN": "Diseño de materiales",
+        "LINEAWESOME": "línea impresionante",
+        "FEATHER": "Pluma",
+        "CRYPTOSVG": "Cripto SVG"
       }
     },
     "MAPS": {
-      "TEXT": "Maps",
+      "TEXT": "mapas",
       "LIST": {
         "GOOGLE": "Google",
         "VECTOR": "Vector",
-        "LEAFLET": "Leaflet"
+        "LEAFLET": "Folleto"
       }
     },
     "MULTILEVEL": {
-      "TEXT": "Multi Level",
+      "TEXT": "Multi nivel",
       "LIST": {
         "LEVEL1": {
-          "1": "Level 1.1",
-          "2": "Level 1.2",
+          "1": "Nivel 1.1",
+          "2": "Nivel 1.2",
           "LEVEL2": {
-            "1": "Level 2.1",
-            "2": "Level 2.2"
+            "1": "Nivel 2.1",
+            "2": "Nivel 2.2"
           }
         }
       }
     },
     "CONFIG": {
-      "TEXT": "Setting",
+      "TEXT": "Configuración",
       "LIST": {
-        "COMPANIES": "Set Up Company",
-        "USERS": "Set Up Users"
+        "COMPANIES": "Configurar Empresa",
+        "USERS": "Configurar Usuarios"
       }
     },
     "LIBRARY": {
-      "TEXT": "Library"
+      "TEXT": "Biblioteca"
     },
     "RULES": {
-      "TEXT": "Rules"
+      "TEXT": "Normas"
     },
     "COMMITMENTS": {
-      "TEXT": "Commitments"
+      "TEXT": "Compromisos"
     },
     "MONITORING": {
-      "TEXT": "Monitoring"
+      "TEXT": "Monitoreo"
     },
     "AUDITS": {
-      "TEXT": "Audits"
+      "TEXT": "Auditorias"
     },
     "PYS": {
       "TEXT": "PyS",
       "LIST": {
-        "QUOTE": "Quote",
-        "REQUEST": "Request"
+        "QUOTE": "Cotizar",
+        "REQUEST": "Solicitud"
       }
     },
     "PROFILE": {
-      "TEXT": "Profile"
+      "TEXT": "Perfil"
     },
     "PLANS": {
-      "TEXT": "Plans Work"
+      "TEXT": "Plan de Trabajo"
     }
   }
 }
