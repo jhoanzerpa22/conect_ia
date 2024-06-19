@@ -315,7 +315,7 @@ export class BodyLegalTypeComponent {
             title: 'Documentos Procesados!',
             icon: 'info',
             html:
-              'Tus Documentos fueron procesados pero <b>tuvimos algunos inconvenientes</b>,<br> ' + lista_errores,
+              'Tus Documentos fueron procesados pero <b>tuvimos algunos inconvenientes</b>:<br><a class="btn btn-success" href="'+data.data.informe_error+'" target="_new">Descargar Informe</a> '/* + lista_errores*/,
             showConfirmButton: true,
             showCloseButton: true,
             showCancelButton: false,
