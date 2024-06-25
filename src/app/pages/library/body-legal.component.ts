@@ -284,6 +284,30 @@ export class BodyLegalTypeComponent {
     this._router.navigate(['/norms/'+type]);
   }
 
+  sincronizar(){
+      
+      this.showPreLoader();
+
+      this.normas_articles.sincronizar().pipe().subscribe(
+        (data: any) => {
+
+        this.hidePreLoader();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+        }
+      );
+  }
+
   uploadDocument(){
 
     if (this.fileForm.invalid) {
