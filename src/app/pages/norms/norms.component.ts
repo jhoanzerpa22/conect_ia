@@ -127,7 +127,7 @@ export class NormsComponent {
     });
 
     this.cuerpoForm = this.formBuilder.group({    
-      normaId: ['', [Validators.required]],
+      normaId: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       titulo: ['', [Validators.required]],
       subtitulo: [''],
       organismo: [''],
@@ -492,7 +492,7 @@ getTitulo(){
   }
   
   validNormaId(normaId: string) {
-    if(normaId && normaId != '' && normaId != this.norma_id){
+    if(normaId && normaId != '' && normaId != this.norma_id && !this.f['normaId'].errors){
       this.showPreLoader();
 
       this.normasService.getValidNorma(normaId).pipe().subscribe(

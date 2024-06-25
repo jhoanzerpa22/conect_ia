@@ -44,9 +44,10 @@
                         <div class="col-lg-12">
                             <div class="mb-3">
                                 <label class="form-label" for="gen-info-norma-input">Id Norma</label>
-                                <input type="number" class="form-control" id="gen-info-norma-input" formControlName="normaId"  #myNormaId (blur)="validNormaId(myNormaId.value)" placeholder="Identificador de Norma ..." required [ngClass]="{ 'is-invalid': submitted && f['normaId'].errors }" [readOnly]="norma_id">
-                                
-                                <div *ngIf="submitted && f['normaId'].errors" class="invalid-feedback" align="left">
+                                <input type="text" class="form-control" id="gen-info-norma-input" formControlName="normaId"  #myNormaId (blur)="validNormaId(myNormaId.value)" placeholder="Identificador de Norma ..." required [ngClass]="{ 'is-invalid': f['normaId'].errors }" [readOnly]="norma_id">
+                                <!-- submitted && -->
+                                <div *ngIf="f['normaId'].errors" class="invalid-feedback" align="left">
+                                    <div *ngIf="f['normaId'].errors['pattern']">El id de la norma debe ser numerico</div>
                                     <div *ngIf="f['normaId'].errors['required']">El id de la norma es requerido</div>
                                 </div>
                             </div>
@@ -55,9 +56,9 @@
                           <div class="col-lg-12">
                               <div class="mb-3">
                                   <label class="form-label" for="gen-info-titulo-input">Título</label>
-                                  <input type="text" class="form-control" id="gen-info-titulo-input" formControlName="titulo" placeholder="Decreto ..." required [ngClass]="{ 'is-invalid': submitted && f['titulo'].errors }">
+                                  <input type="text" class="form-control" id="gen-info-titulo-input" formControlName="titulo" placeholder="Decreto ..." required [ngClass]="{ 'is-invalid': f['titulo'].errors }">
                                   
-                                <div *ngIf="submitted && f['titulo'].errors" class="invalid-feedback" align="left">
+                                <div *ngIf="f['titulo'].errors" class="invalid-feedback" align="left">
                                     <div *ngIf="f['titulo'].errors['required']">El titulo es requerido</div>
                                 </div>
                               </div>
@@ -466,7 +467,7 @@
   
                       <div class="d-flex align-items-start gap-3 mt-4"  *ngIf="subArticles.length == 0">
                         <button type="button" class="btn btn-link text-decoration-none btn-label previestab" data-previous="pills-info-desc-tab" awPreviousStep><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Artículos</button>
-                        <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-success-tab" awNextStep  [disabled]="cuerpoLegal.articulos.length == 0" (click)="saveAllCuerpo()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Guardar y Salir</button>
+                        <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-success-tab" awNextStep [disabled]="cuerpoLegal.articulos.length == 0" (click)="saveAllCuerpo()"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Guardar y Salir</button>
                     </div>
                 </aw-wizard-step>
               </aw-wizard>
