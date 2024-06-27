@@ -7590,35 +7590,35 @@ validateIdparte(idParte: any){
     }
 
     if(this.articles_proyects_group.length > 0){
-    const saveCuerpoProyect = async (j: any) => {
-      
-      let sCuerpo = new Promise((resolve, reject) => {
-        this.projectsService.conectArticleProyect(j).pipe().subscribe(
-          (data: any) => {     
-          resolve('guardado');
-        },
-        (error: any) => {
-          
-          this.hidePreLoader();
-          
-          resolve('error');
+      const saveCuerpoProyect = async (j: any) => {
+        
+        let sCuerpo = new Promise((resolve, reject) => {
+          this.projectsService.conectArticleProyect(j).pipe().subscribe(
+            (data: any) => {     
+            resolve('guardado');
+          },
+          (error: any) => {
+            
+            this.hidePreLoader();
+            
+            resolve('error');
 
-          Swal.fire({
-            position: 'center',
-            icon: 'error',
-            title: 'Ha ocurrido un error..',
-            showConfirmButton: true,
-            timer: 5000,
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+            this.modalService.dismissAll()
           });
-          this.modalService.dismissAll()
+    
         });
-  
-      });
-      return await sCuerpo;
-    }
+        return await sCuerpo;
+      }
 
-    const guardarDecretos = async (normas: any) => {
-      const decretos = normas.map(async (j: any) => {
+      const guardarDecretos = async (normas: any) => {
+        const decretos = normas.map(async (j: any) => {
 
           const index = this.articles_proyects_all.findIndex(
             (co: any) =>
@@ -7636,9 +7636,9 @@ validateIdparte(idParte: any){
             return false;
           }
    
-      })
-      return await Promise.all(decretos) // Esperando que todas las peticiones se resuelvan.
-    }
+        })
+          return await Promise.all(decretos) // Esperando que todas las peticiones se resuelvan.
+      }
       
       const normas = await this.articles_proyects_group;
       
@@ -7661,32 +7661,32 @@ validateIdparte(idParte: any){
       );
 
     }else{
-      if(this.articles_proyects_all.length > 0){
+        if(this.articles_proyects_all.length > 0){
 
-        this.hidePreLoader();
- 
-        this.refreshData();
-
-        this.activeTab = this.activeTab + 1;
+          this.hidePreLoader();
   
-        /*Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Cuerpos Legales guardados',
-          showConfirmButton: true,
-          timer: 5000,
-        });*/
-      }else{
-      this.hidePreLoader();
+          this.refreshData();
+
+          this.activeTab = this.activeTab + 1;
+  
+          /*Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Cuerpos Legales guardados',
+            showConfirmButton: true,
+            timer: 5000,
+          });*/
+        }else{
+          this.hidePreLoader();
       
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ha ocurrido un error..',
-        showConfirmButton: true,
-        timer: 5000,
-      });
-      }
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ha ocurrido un error..',
+              showConfirmButton: true,
+              timer: 5000,
+            });
+        }
     }
     
     document.body.scrollTop = 0;

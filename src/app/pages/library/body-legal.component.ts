@@ -284,6 +284,30 @@ export class BodyLegalTypeComponent {
     this._router.navigate(['/norms/'+type]);
   }
 
+  sincronizar(){
+      
+      this.showPreLoader();
+
+      this.normas_articles.sincronizar().pipe().subscribe(
+        (data: any) => {
+
+        this.hidePreLoader();
+        },
+        (error: any) => {
+          
+          this.hidePreLoader();
+          
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            showConfirmButton: true,
+            timer: 5000,
+          });
+        }
+      );
+  }
+
   uploadDocument(){
 
     if (this.fileForm.invalid) {
@@ -311,23 +335,41 @@ export class BodyLegalTypeComponent {
             lista_errores += '<li>'+data.data.errores[err]+'</li>';
           }
 
-          modal_alert = {
-            title: 'Documentos Procesados!',
-            icon: 'info',
-            html:
-              'Tus Documentos fueron procesados pero <b>tuvimos algunos inconvenientes</b>:<br><a class="btn btn-success" href="'+data.data.informe_error+'" target="_new">Descargar Informe</a> '/* + lista_errores*/,
-            showConfirmButton: true,
-            showCloseButton: true,
-            showCancelButton: false,
-            focusConfirm: false,
-            confirmButtonText: 'Ok',
-            cancelButtonColor: 'rgb(243, 78, 78)',
-            confirmButtonColor: '#364574',
-            //timer: 5000
-          };
+          if(data.data && data.data.normas_save && data.data.normas_save > 0){
+            modal_alert = {
+              title: 'Documento Procesado!',
+              icon: 'info',
+              html:
+                'El Documento fue procesado pero <b>tuvimos algunos inconvenientes</b>:<br><a class="btn btn-success" href="'+data.data.informe_error+'" target="_new">Descargar Informe</a> '/* + lista_errores*/,
+              showConfirmButton: true,
+              showCloseButton: true,
+              showCancelButton: false,
+              focusConfirm: false,
+              confirmButtonText: 'Ok',
+              cancelButtonColor: 'rgb(243, 78, 78)',
+              confirmButtonColor: '#364574',
+              //timer: 5000
+            };
+          }else{
+            modal_alert = {
+              title: 'Documento no Procesado!',
+              icon: 'error',
+              html:
+                'El Documento no fue procesado porque <b>tuvimos algunos inconvenientes</b>:<br><a class="btn btn-success" href="'+data.data.informe_error+'" target="_new">Descargar Informe</a> '/* + lista_errores*/,
+              showConfirmButton: true,
+              showCloseButton: true,
+              showCancelButton: false,
+              focusConfirm: false,
+              confirmButtonText: 'Ok',
+              cancelButtonColor: 'rgb(243, 78, 78)',
+              confirmButtonColor: '#364574',
+              //timer: 5000
+            };
+          }
+          
         }else{
            modal_alert = {
-              title: 'Documentos Cargados!',
+              title: 'Documento Cargado!',
               icon: 'success',
               showConfirmButton: true,
               showCancelButton: false,
