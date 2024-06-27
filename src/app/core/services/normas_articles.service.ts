@@ -76,4 +76,8 @@ export class NormasArticlesAllService {
         return this.http.post(API_URL_BACK + 'norm_article/saveDocument', data, httpOptions4);
     
     }
+    
+    sincronizar(){
+        return this.http.get(API_URL_BACK + 'norm_article/sincronizar', /*httpOptions*/this.getToken());
+    }
 }
