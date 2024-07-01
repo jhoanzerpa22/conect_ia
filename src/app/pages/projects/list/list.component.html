@@ -90,7 +90,7 @@
                                     <i class="ri-pencil-line me-2 align-bottom text-muted"></i>Editar
                                 </a>
                             </li>
-                            <li>
+                            <li *ngIf="validateRol(1)">
                                 <a href="javascript:void(0);" class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#removeProjectModal" (click)="confirm(deleteModel,data.id)">
                                     <i class="ri-delete-bin-5-line me-2 align-middle float-start"></i>Borrar
                                 </a>
