@@ -89,20 +89,6 @@
                           
                           <div class="col-lg-6">
                             <div class="mb-3">
-                                <label for="customername-field" class="form-label">Fecha Publicación</label>
-                                <div class="form-icon right">
-                                    <input [ngClass]="{ 'is-invalid': submitted && f['fechaPublicacion'].errors }" class="form-control form-control-icon flatpickr-input" id="publicacion-input" type="text" formControlName="fechaPublicacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
-                                    <i class="ri-calendar-todo-fill"></i>
-                                    
-                                    <div *ngIf="submitted && f['fechaPublicacion'].errors" class="invalid-feedback" align="left">
-                                        <div *ngIf="f['fechaPublicacion'].errors['required']">La fecha de publicación es requerida</div>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                          
-                          <div class="col-lg-6">
-                            <div class="mb-3">
                                 <label for="customername-field" class="form-label">Fecha Promulgación</label>
                                 <div class="form-icon right">
                                     <input [ngClass]="{ 'is-invalid': submitted && f['fechaPromulgacion'].errors }" class="form-control form-control-icon flatpickr-input" id="promulgacion-input" type="text" formControlName="fechaPromulgacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
@@ -110,6 +96,20 @@
                                     
                                     <div *ngIf="submitted && f['fechaPromulgacion'].errors" class="invalid-feedback" align="left">
                                         <div *ngIf="f['fechaPromulgacion'].errors['required']">La fecha de promulgacion es requerida</div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          
+                          <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="customername-field" class="form-label">Fecha Publicación</label>
+                                <div class="form-icon right">
+                                    <input [ngClass]="{ 'is-invalid': submitted && f['fechaPublicacion'].errors }" class="form-control form-control-icon flatpickr-input" id="publicacion-input" type="text" formControlName="fechaPublicacion" mwlFlatpickr [altInput]="true" [convertModelValue]="true">
+                                    <i class="ri-calendar-todo-fill"></i>
+                                    
+                                    <div *ngIf="submitted && f['fechaPublicacion'].errors" class="invalid-feedback" align="left">
+                                        <div *ngIf="f['fechaPublicacion'].errors['required']">La fecha de publicación es requerida</div>
                                     </div>
                                 </div>
                             </div>
