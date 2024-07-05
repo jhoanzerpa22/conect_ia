@@ -80,4 +80,12 @@ export class NormasArticlesAllService {
     sincronizar(){
         return this.http.get(API_URL_BACK + 'norm_article/sincronizar', /*httpOptions*/this.getToken());
     }
+    
+    sincronizarNormas(){
+        return this.http.get(API_URL_BACK + 'norm_article/sincronizarNormas', /*httpOptions*/this.getToken());
+    }
+    
+    sincronizarNorma(normaId: any){
+        return this.http.get(API_URL_BACK + 'norm_article/sincronizarNorma/'+normaId, /*httpOptions*/this.getToken());
+    }
 }

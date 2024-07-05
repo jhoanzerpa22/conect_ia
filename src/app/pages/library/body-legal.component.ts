@@ -308,6 +308,88 @@ export class BodyLegalTypeComponent {
       );
   }
 
+  async sincronizarNormas(normas: any, total: any){
+
+    const response = []
+    const listError = []
+    let position: number = 0;
+    let errores: number = 0;
+    
+    for await (const norma of normas) {
+        try {
+
+            //const url = `${process.env.URL_BASE_BCN}${norma.normaId}`
+            const promise = new Promise((resolve, reject) => {
+                /*axios.get(url)
+                    .then(data => {
+                        resolve(data.data)
+                    })
+                    .catch(error => {
+                        reject(normId)
+                        listError.push(normId)
+                    })*/
+            
+                this.normas_articles.sincronizarNorma(norma.normaId).pipe().subscribe(
+                  (data: any) => {
+                    
+                    position = position + 1;
+                    this.showSetpSincronizar(position, total);
+                    
+                    resolve(data.data)
+                  },
+                  (error: any) => {
+                    position = position + 1;
+                    this.showSetpSincronizar(position, total);
+                    errores = errores + 1;
+                    this.showErrorSincronizar(errores);
+                    
+                    reject(norma.normaId)
+                    listError.push(norma.normaId)
+                    
+                });
+            
+          })
+
+          const normData = await promise
+          response.push(normData)
+            
+        } catch (e) { }
+    }
+    
+    console.log('FIn de peticiones de normas:', response);
+    this.hideSetpSincronizar();
+    this.hidePreLoader();
+  }
+  
+  async sincronizarStep(){
+      
+    this.showPreLoader();
+
+    this.normas_articles.sincronizarNormas().pipe().subscribe(
+      (data: any) => {
+
+        const normas_json: any = data.data;
+        const normas_total: any = (normas_json.normas.length > 0 ? normas_json.normas.length : 0);
+
+        this.sincronizarNormas(normas_json.normas, normas_total);
+
+        //this.hidePreLoader();
+      },
+      (error: any) => {
+        
+        this.hidePreLoader();
+        
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Ha ocurrido un error..',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+      }
+    );
+}
+
   uploadDocument(){
 
     if (this.fileForm.invalid) {
@@ -558,6 +640,32 @@ export class BodyLegalTypeComponent {
     if (preloader) {
         (document.getElementById("preloader") as HTMLElement).style.opacity = "0";
         (document.getElementById("preloader") as HTMLElement).style.visibility = "hidden";
+    }
+  }
+
+  // Step Sincronizar
+  showSetpSincronizar(step: any, normas: any) {
+    var preloader_step = document.getElementById("normas-sincronizar");
+    if (preloader_step) {
+        (document.getElementById("step-sincronizar") as HTMLElement).textContent = step;
+        (document.getElementById("total-sincronizar") as HTMLElement).textContent = normas;
+        (document.getElementById("normas-sincronizar") as HTMLElement).style.visibility = "visible";
+    }
+  }
+
+  // Step Sincronizar
+  hideSetpSincronizar() {
+    var preloader_step = document.getElementById("normas-sincronizar");
+    if (preloader_step) {
+        (document.getElementById("normas-sincronizar") as HTMLElement).style.visibility = "hidden";
+    }
+  }
+
+  // Error Sincronizar
+  showErrorSincronizar(errores: any) {
+    var preloader_error = document.getElementById("errores-sincronizar");
+    if (preloader_error) {
+        (document.getElementById("errores-sincronizar") as HTMLElement).textContent = errores;
     }
   }
 
