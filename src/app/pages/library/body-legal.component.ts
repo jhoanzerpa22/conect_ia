@@ -333,13 +333,14 @@ export class BodyLegalTypeComponent {
                   (data: any) => {
                     
                     position = position + 1;
-                    this.showSetpSincronizar(position, total);
+                    this.showStepSincronizar(position, total);
+                    this.showErrorSincronizar(errores);
                     
                     resolve(data.data)
                   },
                   (error: any) => {
                     position = position + 1;
-                    this.showSetpSincronizar(position, total);
+                    this.showStepSincronizar(position, total);
                     errores = errores + 1;
                     this.showErrorSincronizar(errores);
                     
@@ -357,7 +358,7 @@ export class BodyLegalTypeComponent {
     }
     
     console.log('FIn de peticiones de normas:', response);
-    this.hideSetpSincronizar();
+    this.hideStepSincronizar();
     this.hidePreLoader();
   }
   
@@ -644,7 +645,7 @@ export class BodyLegalTypeComponent {
   }
 
   // Step Sincronizar
-  showSetpSincronizar(step: any, normas: any) {
+  showStepSincronizar(step: any, normas: any) {
     var preloader_step = document.getElementById("normas-sincronizar");
     if (preloader_step) {
         (document.getElementById("step-sincronizar") as HTMLElement).textContent = step;
@@ -654,7 +655,7 @@ export class BodyLegalTypeComponent {
   }
 
   // Step Sincronizar
-  hideSetpSincronizar() {
+  hideStepSincronizar() {
     var preloader_step = document.getElementById("normas-sincronizar");
     if (preloader_step) {
         (document.getElementById("normas-sincronizar") as HTMLElement).style.visibility = "hidden";
