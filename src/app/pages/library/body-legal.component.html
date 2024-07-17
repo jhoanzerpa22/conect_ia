@@ -30,7 +30,7 @@
                     <input type="hidden" class="form-control" name="tipo" placeholder="Tipo" formControlName="tipo" value="" [(ngModel)]="tipo">
                 </div>
 
-                <div class="col-xxl-3 col-lg-3" style="padding: 10px;">
+                <div class="col-xxl-3 col-xl-2 col-lg-3" style="padding: 10px;">
                     <div class="form-check form-check-inline mb-2">
                         <input class="form-check-input" type="radio" formControlName="tipo_busqueda" value="by_id" id="flexRadioDefault1" [(ngModel)]="type_search">
                         <label class="form-check-label" for="flexRadioDefault1">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="col-xxl-7 col-lg-7">
+                <div class="col-xxl-7 col-xl-8 col-lg-7">
                     
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box">
@@ -56,11 +56,11 @@
                     <div>
                     <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="busquedaNorma()"><i class="ri-search-2-line label-icon align-middle fs-16"></i> <!--Buscar--></button>
                     
-                    <button type="button" style="margin-left:10px;" class="btn btn-success btn-label waves-effect left waves-light" (click)="addDocument(addDocumentModel)" *ngIf="validateRol(1)"><i class="ri-add-line label-icon align-middle fs-16"><!--ms-2--></i> Crear Documento</button>
+                    <button type="button" style="margin-left:10px;" class="btn btn-success waves-effect left waves-light" (click)="addDocument(addDocumentModel)" *ngIf="validateRol(1)"><!--btn-label <i class="ri-add-line label-icon align-middle fs-16"></i>--> Crear Documento</button>
                     
-                    <button type="button" style="margin-left:10px;" class="btn btn-primary btn-label waves-effect left waves-light" (click)="addDocument(uploadDocumentModel)" *ngIf="validateRol(1)"><i class="ri-file-excel-2-line label-icon align-middle fs-16"></i> Carga Masiva</button>
+                    <button type="button" style="margin-left:10px;" class="btn btn-primary waves-effect left waves-light" (click)="addDocument(uploadDocumentModel)" *ngIf="validateRol(1)"><!--btn-label <i class="ri-file-excel-2-line label-icon align-middle fs-16"></i>--> Carga Masiva</button>
                     
-                    <button type="button" style="margin-left:10px;" class="btn btn-warning btn-label waves-effect left waves-light" (click)="sincronizarStep()" *ngIf="validateRol(1)"><i class="ri-global-line label-icon align-middle fs-16"></i> Sincronizar</button>
+                    <button type="button" style="margin-left:10px;" class="btn btn-warning waves-effect left waves-light" (click)="sincronizarStep()" *ngIf="validateRol(1)"><!--btn-label <i class="ri-global-line label-icon align-middle fs-16"></i>--> Sincronizar</button>
                     </div>
                 </div>
                 </div>
