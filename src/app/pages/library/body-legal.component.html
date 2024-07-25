@@ -133,11 +133,16 @@
                                         <h5>{{data.TituloNorma ? data.TituloNorma : ''}}</h5>
                                     </td>
                                     <td>
-                                        <h4>{{data.Encabezado ? data.Encabezado : ''}}</h4>
+                                        <!--<h4>{{data.Encabezado ? data.Encabezado : ''}}</h4>-->
+                                        <p class="card-text mb-2" [style]="data.Encabezado && data.Encabezado.length > 850 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data.Encabezado ? (data.Encabezado.length > 850 ? formatArticle(data.Encabezado, data.idNorma) : data.Encabezado) : ''}}</p>
+                                            <p class="card-text">
+                                                <small class="text-success" style="cursor: pointer;" *ngIf="data.Encabezado && data.Encabezado.length > 850 && !validatShow(data.idNorma)" (click)="showText(data.idNorma)"><b>Leer más</b></small>
+                                                <small class="text-success" style="cursor: pointer;" *ngIf="data.Encabezado && data.Encabezado.length > 850 && validatShow(data.idNorma)" (click)="hideText(data.idNorma)"><b>Ocultar texto completo</b></small>
+                                            </p>
                                     </td>
                                     <td>
                                         Publicado el {{data ? data.FechaPublicacion : ''}}<br>
-                                        Vigencia: {{data ? data.InicioDeVigencia : ''}}
+                                        Promulgación: {{data ? data.FechaPromulgacion : ''}}
                                     </td>
                                     <td>
                                         
@@ -230,14 +235,19 @@
                                             <h5>{{data2.TituloNorma ? data2.TituloNorma : ''}}</h5>
                                         </td>
                                         <td>
-                                            <h4>{{data2.Encabezado ? data2.Encabezado : ''}}</h4>
+                                            <!--<h4>{{data2.Encabezado ? data2.Encabezado : ''}}</h4>-->
+                                            <p class="card-text mb-2" [style]="data2.Encabezado && data2.Encabezado.length > 850 ? 'min-height: 60px;' : 'min-height: 80px;'">{{data2.Encabezado ? (data2.Encabezado.length > 850 ? formatArticle(data2.Encabezado, data2.idNorma) : data2.Encabezado) : ''}}</p>
+                                            <p class="card-text">
+                                                <small class="text-success" style="cursor: pointer;" *ngIf="data2.Encabezado && data2.Encabezado.length > 850 && !validatShow(data2.idNorma)" (click)="showText(data2.idNorma)"><b>Leer más</b></small>
+                                                <small class="text-success" style="cursor: pointer;" *ngIf="data2.Encabezado && data2.Encabezado.length > 850 && validatShow(data2.idNorma)" (click)="hideText(data2.idNorma)"><b>Ocultar texto completo</b></small>
+                                            </p>
                                         </td>
                                         <td>
                                             <h5>{{data2.Tipo ? getTipoDocumento(data2.Tipo) : ''}}</h5>
                                         </td>
                                         <td>
                                             Publicado el {{data2 ? data2.FechaPublicacion : ''}}<br>
-                                            Vigencia: {{data2 ? data2.InicioDeVigencia : ''}}
+                                            Promulgación: {{data2 ? data2.FechaPromulgacion : ''}}
                                         </td>
                                         <td>
                                             

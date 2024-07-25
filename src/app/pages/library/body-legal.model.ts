@@ -7,6 +7,7 @@ export interface BodyLegalTypeModel {
   organismos?: any;
   dates?: any;
   FechaPublicacion?: any;
+  FechaPromulgacion?: any;
   InicioDeVigencia?: any;
   identificador?: any;
   TipoNumero?: any;
