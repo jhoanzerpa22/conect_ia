@@ -65,6 +65,7 @@ export class BodyLegalTypeComponent {
   tipo: any;
   
   excelFile: any;
+  showRow: any = [];
 
   constructor(private modalService: NgbModal, public service: BodyLegalService, public service_interno: BodyLegalInternoService, private formBuilder: UntypedFormBuilder, private projectsService: ProjectsService, private normas_articles: NormasArticlesAllService, private _router: Router, private route: ActivatedRoute,public toastService: ToastService, private TokenStorageService: TokenStorageService) {
     this.BodyLegalList = service.bodylegal$;
@@ -231,7 +232,7 @@ export class BodyLegalTypeComponent {
             
             if(data && data.data){
               const detail: any = data.data;
-              const info: any = data.data ? [{FechaPublicacion: detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '', InicioDeVigencia: detail.dates.fechaVigenciaNorma ? detail.dates.fechaVigenciaNorma : '', idNorma: detail.normaId, TipoNumero: {Compuesto: detail.identificador ? (detail.identificador.tipoNorma ? detail.identificador.tipoNorma+' '+detail.identificador.numero : '') : ''} , TituloNorma: detail.tituloNorma, Encabezado: detail.encabezado ? detail.encabezado.texto : '', interno: detail.interno }] : [];
+              const info: any = data.data ? [{FechaPublicacion: detail.dates.fechaPublicacionNorma ? detail.dates.fechaPublicacionNorma : '', InicioDeVigencia: detail.dates.fechaVigenciaNorma ? detail.dates.fechaVigenciaNorma : '', FechaPromulgacion: detail.dates.fechaPromulgacionNorma ? detail.dates.fechaPromulgacionNorma : '', idNorma: detail.normaId, TipoNumero: {Compuesto: detail.identificador ? (detail.identificador.tipoNorma ? detail.identificador.tipoNorma+' '+detail.identificador.numero : '') : ''} , TituloNorma: detail.tituloNorma, Encabezado: detail.encabezado ? detail.encabezado.texto : '', interno: detail.interno }] : [];
 
               this.service.bodylegal_data = info.filter((da: any) => { return da.interno != true});
               this.service_interno.bodylegal_data = info.filter((da: any) => { return da.interno == true});
@@ -282,6 +283,39 @@ export class BodyLegalTypeComponent {
   crearDocument(type: any){
     this.modalService.dismissAll();
     this._router.navigate(['/norms/'+type]);
+  }
+
+  formatArticle(texto:any, idNorma: any){
+    
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idNorma
+    );
+
+    return index != -1 ? texto : texto.substr(0,850)+'...';
+  }
+
+  showText(idNorma: any){
+    this.showRow.push(idNorma);
+  }
+
+  hideText(idNorma: any){
+    
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idNorma
+    );
+
+    this.showRow.splice(index, 1);
+  }
+
+  validatShow(idNorma: any){
+    const index = this.showRow.findIndex(
+      (co: any) =>
+        co == idNorma
+    );
+
+    return index != -1;
   }
 
   sincronizar(){
