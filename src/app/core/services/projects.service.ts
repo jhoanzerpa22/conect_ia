@@ -222,12 +222,13 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'norm/home', /*httpOptions*/this.getToken());
     }
     
-    getNormas(page: any, limit: any, ambito?: any, search?: any, tipo?: any){
+    getNormas(page: any, limit: any, ambito?: any, search?: any, tipo?: any, empresaId?: any){
         let ambito_url = ambito ? '&ambito='+ambito : ''
         let search_url = search ? '&search='+search : '';
         let tipo_url = tipo ? '&tipo='+tipo : '';
+        let empresaId_url = empresaId ? '&empresaId='+empresaId : '';
 
-        return this.http.get(API_URL_BACK + 'norm/all?limit='+limit+'&page='+page+ambito_url+search_url+tipo_url, /*httpOptions*/this.getToken());
+        return this.http.get(API_URL_BACK + 'norm/all?limit='+limit+'&page='+page+ambito_url+search_url+tipo_url+empresaId_url, /*httpOptions*/this.getToken());
     }
     
     getBodyLegalALl(project_id: any, page: number, limit: number){
