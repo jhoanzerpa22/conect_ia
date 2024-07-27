@@ -4385,8 +4385,9 @@ validateIdparte(idParte: any){
     this.showPreLoader();
     this.list_paginate = [];
     let tipo: any = this.project ? (this.project.tipo ? this.project.tipo : 'requisito') : 'requisito';
+    let empresaId: any = this.project ? (this.project.empresaId ? this.project.empresaId : null) : null;
 
-      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito, search, tipo).pipe().subscribe(
+      this.projectsService./*getBodyLegalALl(this.project_id, 1, 10)*//*getBodyLegal(this.project_id)*/getNormas(page, 12, ambito, search, tipo, empresaId).pipe().subscribe(
         (data: any) => {
           
           this.normasListWidgets = data.data.normas;
