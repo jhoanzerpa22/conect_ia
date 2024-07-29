@@ -773,6 +773,9 @@ export class TaskControlComponent implements OnInit {
 
   saveHallazgo(){
     if (this.hallazgoForm.valid) {
+
+    this.showPreLoader();
+
     let nombre: any = this.hallazgoForm.get('nombre')?.value;
     let descripcion: any = null;//this.hallazgoForm.get('descripcion')?.value;
     //this.hallazgos.push({id: (this.hallazgos.length + 1), nombre: nombre});
@@ -784,20 +787,58 @@ export class TaskControlComponent implements OnInit {
 
     const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.installation_article_id};
     
-    this.HallazgosDatas.push({
+    /*this.HallazgosDatas.push({
       id,
       nombre,
       fecha,
       estado,
       installation_article_id
-    });
-  
-    this.table.renderRows();
+    });*/
+
+    const formData = new FormData();
     
-    this.myFiles.push(this.selectedFile);
+    for (var j = 0; j < this.selectedFileEvaluation.length; j++) { 
+      formData.append("hallazgoImg", this.selectedFile[j]);
+    }
+    
+    formData.append('data', JSON.stringify(hallazgo_data));
+    
+    this.projectsService.createFinding(formData).pipe().subscribe(
+      (data: any) => {     
+       this.hidePreLoader();
+       
+       Swal.fire({
+        title: 'Hallazgo agregado!',
+        icon: 'success',
+        showConfirmButton: true,
+        showCancelButton: false,
+        confirmButtonColor: '#364574',
+        cancelButtonColor: 'rgb(243, 78, 78)',
+        confirmButtonText: 'OK',
+        timer: 5000
+      });
+        
+        this.hallazgoForm.reset();
+        this.table.renderRows();
+        this.myFiles.push(this.selectedFile);
+
+        this.getFindingsByInstallationArticle();
+        this.modalService.dismissAll()
+    },
+    (error: any) => {
       
-    this.hallazgoForm.reset();
-    this.modalService.dismissAll()
+      this.hidePreLoader();
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ha ocurrido un error..',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+      this.modalService.dismissAll()
+    });
+      
   }
   }
   
