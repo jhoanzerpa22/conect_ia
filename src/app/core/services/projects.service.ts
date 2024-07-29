@@ -316,6 +316,14 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluation/'+installation_article_id+'/evaluations', /*httpOptions*/this.getToken());
     }
 
+    createFinding(data: any){
+        const httpOptions4 = {
+            headers: new HttpHeaders({ /*'Content-Type': 'multipart/form-data',*/'Authorization': `Bearer ${localStorage.getItem('token')}`, "Accept": 'application/json', 'enctype': 'multipart/form-data', }),
+          };
+
+        return this.http.post(API_URL_BACK + 'evaluation/findings', data, httpOptions4);
+    }
+
     createTask(data: any): Observable<any> {
         
         return this.http.post(API_URL_BACK + 'evaluation/task', data, /*httpOptions*/this.getToken());
