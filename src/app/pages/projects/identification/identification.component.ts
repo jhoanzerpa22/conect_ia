@@ -7649,7 +7649,7 @@ validateIdparte(idParte: any){
         
         this.refreshData();
   
-        this.activeTab = this.activeTab + 1;
+        this.activeTab = 2;//this.activeTab + 1;
   
         /*Swal.fire({
           position: 'center',
@@ -7668,7 +7668,7 @@ validateIdparte(idParte: any){
   
           this.refreshData();
 
-          this.activeTab = this.activeTab + 1;
+          this.activeTab = 2;//this.activeTab + 1;
   
           /*Swal.fire({
             position: 'center',
@@ -7710,15 +7710,15 @@ validateIdparte(idParte: any){
     }
 
     if(this.activeTab == 1 && active == 2){
-      this.saveCuerpos();
+        this.saveCuerpos();
     }else{
 
-    this.activeTab = active;
-    this.restablecer();
-    
-    if(active == 4){
-      this.setChart();
-    }
+      this.activeTab = active;
+      this.restablecer();
+      
+      if(active == 4){
+        this.setChart();
+      }
     }
   }
 
