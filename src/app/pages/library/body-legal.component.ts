@@ -638,7 +638,7 @@ export class BodyLegalTypeComponent {
 
   pageTotal(totalRecords: any){
     let tp: number = round((totalRecords / 10),0);
-    return (tp * 10) > totalRecords ? tp : (tp + 1);
+    return (tp * 10) >= totalRecords ? tp : (tp + 1);
   }
 
   pageChange(page: any){
