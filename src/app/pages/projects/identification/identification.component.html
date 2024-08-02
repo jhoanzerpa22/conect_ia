@@ -200,17 +200,17 @@
                     </div>
                     <div class="mt-auto">
                         <div class="d-flex mb-2">
-                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'monitoreo')}">
-                                <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
-                                <div>Monitoreo</div>
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'permiso')}">
+                                <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
+                                <div>{{termino_permiso}}</div>
                             </div>
                             <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'reporte')}">
                                 <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                 <div>Reporte</div>
                             </div>
-                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'permiso')}">
-                                <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
-                                <div>Permiso</div>
+                            <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(data.normaId,'monitoreo')}">
+                                <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
+                                <div>Monitoreo</div>
                             </div>
                             <!--<div class="flex-shrink-0">
                                 <div><i class="ri-list-check align-bottom me-1 text-muted"></i>{{data.number ? data.number : '1/100'}}</div>
@@ -222,7 +222,7 @@
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpoVinculacion(data.normaId)}}</h5></div>
-                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? termino_articulo+' a gestionar' : termino_articulos+' a gestionar'}}</div>
+                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? termino_articulo+(termino_articulo == 'Compromiso' ? '' : ' a gestionar') : termino_articulos+(termino_articulos == 'Compromisos' ? '' : ' a gestionar')}}</div>
                             </div>
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpo(data.normaId)}}</h5></div>
@@ -924,7 +924,7 @@
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
                                                                     [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'permiso') ? 'btn-success' :'btn-light'"
-                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('articuloTipo',s.id, 'permiso')">Permiso</button>
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('articuloTipo',s.id, 'permiso')">{{termino_permiso}}</button>
                                                                     
                                                             <button
                                                             [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'reporte') ? 'btn-success' :'btn-light'"
@@ -1075,7 +1075,7 @@
                     
                     <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
                         <button
-                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('articuloTipo','permiso') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('articuloTipo','permiso')">Permiso</button>
+                                class="btn view-btn mb-2" [ngClass]="validateAttributeAll('articuloTipo','permiso') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('articuloTipo','permiso')">{{termino_permiso}}</button>
                                 
                         <button
                         class="btn view-btn mb-2" [ngClass]="validateAttributeAll('articuloTipo','reporte') ? 'btn-success' :'btn-light'" style="width: 100%;" (click)="setAttributeAll('articuloTipo','reporte')">Reporte</button>
@@ -2053,7 +2053,7 @@
                                             <div class="dropdown-menu dropdown-menu-dark" style="width: 100%;" ngbDropdownMenu>
                                                 <a class="dropdown-item" [ngClass]="!filtro_atributo ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro()">Todos</a>
                                                 
-                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">Permiso</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Permiso' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Permiso')">{{termino_permiso}}</a>
                                                 
                                                 <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Reporte' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Reporte')">Reporte</a>
                                                 
@@ -2448,17 +2448,17 @@
                             </div>
                             <div class="mt-auto">
                                 <div class="d-flex mb-2">
-                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'monitoreo')}">
-                                        <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
-                                        <div>Monitoreo</div>
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'permiso')}">
+                                        <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
+                                        <div>{{termino_permiso}}</div>
                                     </div>
                                     <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'reporte')}">
                                         <div><i style="font-size: 24px;" class="ri-git-repository-line"></i></div>
                                         <div>Reporte</div>
                                     </div>
-                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'permiso')}">
-                                        <div><i style="font-size: 24px;" class="ri-file-list-3-line"></i></div>
-                                        <div>Permiso</div>
+                                    <div class="flex-grow-1" [ngClass]="{'text-success': validateAttributeNorma(s.normaId,'monitoreo')}">
+                                        <div><i style="font-size: 24px;" class="ri-zoom-in-line"></i></div>
+                                        <div>Monitoreo</div>
                                     </div>
                                 </div>
                             </div>
@@ -2467,7 +2467,7 @@
                                 <div class="d-flex mb-2">
                                     <div class="flex-grow-1">
                                         <div><h5>{{byCuerpoVinculacion(s.normaId)}}</h5></div>
-                                        <div>{{byCuerpoVinculacion(s.normaId) == 1 ? termino_articulo+' a gestionar' : termino_articulos+' a gestionar'}}</div>
+                                        <div>{{byCuerpoVinculacion(s.normaId) == 1 ? termino_articulo+(termino_articulo == 'Compromiso' ? '' : ' a gestionar') : termino_articulos+(termino_articulos == 'Compromisos' ? '' : ' a gestionar')}}</div>
                                     </div>
                                     <div class="flex-grow-1">
                                         <div><h5>{{byCuerpo(s.normaId)}}</h5></div>
@@ -2568,7 +2568,7 @@
                                                                     
                                                                     <button
                                                                             [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'permiso') ? 'btn-success' :'btn-light'"
-                                                                            class="btn view-btn mb-2" style="width: 100%;">Permiso</button>
+                                                                            class="btn view-btn mb-2" style="width: 100%;">{{termino_permiso}}</button>
                                                                             
                                                                     <button
                                                                     [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'reporte') ? 'btn-success' :'btn-light'"
