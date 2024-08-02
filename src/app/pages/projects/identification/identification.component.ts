@@ -224,6 +224,16 @@ export class IdentificationComponent implements OnInit {
   filtro_estado: any;
   
   ambitos_filter: any = [];
+  
+  termino_cuerpo: any = 'Cuerpo Legal';
+  termino_articulo: any  = 'Artículo';
+  termino_permiso: any  = 'Permiso';
+  termino_otro: any  = 'Otra obligación';
+  
+  termino_cuerpos: any = 'Cuerpos Legales';
+  termino_articulos: any  = 'Artículos';
+  termino_permisos: any  = 'Permisos';
+  termino_otros: any  = 'Otras obligaciones';
 
   constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService, public service: listService, private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private ref: ChangeDetectorRef) {
     this.normasListWidgets = service.normas$;
@@ -4199,12 +4209,110 @@ validateIdparte(idParte: any){
         (data: any) => {
           this.project = data.data;
           this.getAmbitos(this.project);
+          this.getTerminos(this.project);
           this.getNormas(0);
       },
       (error: any) => {
         //this.error = error ? error : '';
         //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
       });
+   }
+
+   private getTerminos(project?: any){
+    let termino_cuerpo: any = '';
+    let termino_articulo: any = '';
+    let termino_permiso: any = '';
+    let termino_otro: any = '';
+    
+    let termino_cuerpos: any = '';
+    let termino_articulos: any = '';
+    let termino_permisos: any = '';
+    let termino_otros: any = '';
+
+    let tipo: any = project ? project.tipo : 'requisito';
+    switch (tipo) {
+      case 'requisito':
+        termino_cuerpo = 'Cuerpo legal';
+        termino_articulo = 'Artículo';
+        termino_permiso = 'Permiso';
+        termino_otro = 'Otra obligación';
+
+        termino_cuerpos = 'Cuerpos legales';
+        termino_articulos = 'Artículos';
+        termino_permisos = 'Permisos';
+        termino_otros = 'Otras obligaciones';
+        break;
+        
+      case 'ambiental':
+        termino_cuerpo = 'Permiso ambiental';
+        termino_articulo = 'Compromiso';
+        termino_permiso = 'PAS';
+        termino_otro = 'Otro compromiso';
+        
+        termino_cuerpos = 'Permisos ambientales';
+        termino_articulos = 'Compromisos';
+        termino_permisos = 'PAS';
+        termino_otros = 'Otros compromisos';
+        break;
+
+      case 'sectorial':
+        termino_cuerpo = 'Permiso sectorial';
+        termino_articulo = 'Exigencia';
+        termino_permiso = 'Permiso';
+        termino_otro = 'Otra obligación';
+        
+        termino_cuerpos = 'Permisos sectoriales';
+        termino_articulos = 'Exigencias';
+        termino_permisos = 'Permisos';
+        termino_otros = 'Otras obligaciones';
+        break;
+        
+      case 'social':
+        termino_cuerpo = 'Acuerdo social';
+        termino_articulo = 'Compromiso';
+        termino_permiso = 'Permiso';
+        termino_otro = 'Otro compromiso';
+
+        termino_cuerpos = 'Acuerdos sociales';
+        termino_articulos = 'Compromisos';
+        termino_permisos = 'Permisos';
+        termino_otros = 'Otros compromisos';
+        break;
+        
+      case 'otros':
+        termino_cuerpo = 'Documento';
+        termino_articulo = 'Exigencia';
+        termino_permiso = 'Permiso';
+        termino_otro = 'Otra obligación';
+
+        termino_cuerpos = 'Documentos';
+        termino_articulos = 'Exigencias';
+        termino_permisos = 'Permisos';
+        termino_otros = 'Otras obligaciones';
+        break;
+
+      default:
+        termino_cuerpo = 'Cuerpo Legal';
+        termino_articulo = 'Artículo';
+        termino_permiso = 'Permiso';
+        termino_otro = 'Otra obligación';
+        
+        termino_cuerpos = 'Cuerpos Legales';
+        termino_articulos = 'Artículos';
+        termino_permisos = 'Permisos';
+        termino_otros = 'Otras obligaciones';
+        break;
+    }
+    
+    this.termino_cuerpo = termino_cuerpo;
+    this.termino_articulo = termino_articulo;
+    this.termino_permiso = termino_permiso;
+    this.termino_otro = termino_otro;
+    
+    this.termino_cuerpos = termino_cuerpos;
+    this.termino_articulos = termino_articulos;
+    this.termino_permisos = termino_permisos;
+    this.termino_otros = termino_otros;
    }
 
    private getAmbitos(project?: any){
