@@ -951,7 +951,7 @@
                                                             
                                                             <button
                                                                     [ngClass]="validateAttribute('construccion',s.id, s.construccion, 'construccion') ? 'btn-success' :'btn-light'"
-                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('construccion',s.id, 'construccion')"  >Alta</button>
+                                                                    class="btn view-btn mb-2" style="width: 100%;" (click)="setAttribute('construccion',s.id, 'construccion')">Alta</button>
                                                                     
                                                             <button
                                                             [ngClass]="validateAttribute('operacion',s.id, s.operacion, 'operacion') ? 'btn-success' :'btn-light'"
@@ -991,8 +991,7 @@
                                     
                                         <ng-container *ngIf="s.hijas">
             
-                                            <div class="col-xxl-12" *ngFor="let item of s.hijas">
-
+                                            <div class="col-xxl-12" *ngFor="let item of s.hijas;">
                                                 <ng-container [ngTemplateOutlet]="myArticles" 
                                                 [ngTemplateOutletContext] ="{s: item }">
                                             </ng-container>
@@ -1002,7 +1001,7 @@
 
                                 </ng-template>
 
-                                <ng-container *ngFor="let g of articles_proyects_group_filter | filter_cuerpo:term3 ;let impar = odd;let par = even;">
+                                <ng-container *ngFor="let g of articles_proyects_group_filter | filter_cuerpo_articulo:term3;let impar = odd;let par = even;">
 
                                 <div class="card" style="box-shadow: none !important;">
                                     <!--<div class="card-header">
@@ -1031,11 +1030,11 @@
                                             <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && !validatShow3(g.normaId)" (click)="showText3(g.normaId)"><b>Leer más</b></small>
                                             <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && validatShow3(g.normaId)" (click)="hideText3(g.normaId)"><b>Ocultar texto completo</b></small>
                                         </p>
-                                    <ng-container *ngIf="!validateShowArticles(g.normaId)">
-                                    <ng-container *ngFor="let s of g.articulos">
+                                    <ng-container *ngIf="!validateShowArticles(g.normaId)">                                    
+                                    <ng-container *ngFor="let s of g.articulos;">
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
-                                        [ngTemplateOutletContext] ="{s:s }">
+                                        [ngTemplateOutletContext] ="{s:s}">
                                         </ng-container>
                             
                                     </ng-container>
@@ -2612,7 +2611,7 @@
                                             
                                                 <ng-container *ngIf="s.hijas">
                     
-                                                    <div class="col-xxl-12" *ngFor="let item of s.hijas">
+                                                    <div class="col-xxl-12" *ngFor="let item of s.hijas;">
         
                                                         <ng-container [ngTemplateOutlet]="myArticles" 
                                                         [ngTemplateOutletContext] ="{s: item }">
@@ -2638,7 +2637,7 @@
                                                     <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && validatShow3(g.normaId)" (click)="hideText3(g.normaId)"><b>Ocultar texto completo</b></small>
                                                 </p>
                                             <!--<ng-container *ngIf="!validateShowArticles(g.normaId)">-->
-                                            <ng-container *ngFor="let s of g.articulos">
+                                            <ng-container *ngFor="let s of g.articulos;">
                     
                                                 <ng-container [ngTemplateOutlet]="myArticles" 
                                                 [ngTemplateOutletContext] ="{s:s }">
