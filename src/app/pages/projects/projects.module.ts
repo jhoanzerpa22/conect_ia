@@ -9,6 +9,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FilterPipe } from './filter.pipe';
 import { FilterInstallationsPipe } from './filter_installations.pipe';
 import { FilterAreaPipe } from './filter_area.pipe';
+import { FilterCuerpoArticuloPipe } from './filter_articulo.pipe';
 
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
@@ -154,7 +155,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     TaskControlComponent,
     FilterPipe,
     FilterAreaPipe,
-    FilterInstallationsPipe
+    FilterInstallationsPipe,
+    FilterCuerpoArticuloPipe
   ],
   imports: [
     CommonModule,
