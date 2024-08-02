@@ -99,7 +99,7 @@
     <div class="col-sm">
         <div class="d-flex justify-content-sm-end gap-2">
             <div class="search-box ms-2">
-                <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" (keydown.enter)="searchChange(search)" [(ngModel)]="search"><!--"service.searchTerm"-->
+                <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el {{termino_cuerpo}}" (keydown.enter)="searchChange(search)" [(ngModel)]="search"><!--"service.searchTerm"-->
                 <i class="ri-search-line search-icon"></i>
             </div>
             <div>
@@ -222,7 +222,7 @@
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpoVinculacion(data.normaId)}}</h5></div>
-                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? 'Artículo a gestionar' : 'Artículos a gestionar'}}</div>
+                                <div>{{byCuerpoVinculacion(data.normaId) == 1 ? termino_articulo+' a gestionar' : termino_articulos+' a gestionar'}}</div>
                             </div>
                             <div class="flex-grow-1">
                                 <div><h5>{{byCuerpo(data.normaId)}}</h5></div>
@@ -305,12 +305,12 @@
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="{{selectList ? 'Buscar el cuerpo legal' : 'Buscar el Elemento'}}" [(ngModel)]="term2"><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="width: 400px; margin-right: 30px;" placeholder="{{selectList ? 'Buscar el '+termino_cuerpo : 'Buscar el Elemento'}}" [(ngModel)]="term2"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     <div class="btn-group" role="group" aria-label="Vinculación po">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="" (click)="onClickList(true)">
-                        <label class="btn btn-outline-primary" for="btnradio1">Cuerpos Legales</label>
+                        <label class="btn btn-outline-primary" for="btnradio1">{{termino_cuerpos}}</label>
                         
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"  (click)="onClickList(false)">
                         <label class="btn btn-outline-primary" for="btnradio2">Elementos</label>
@@ -376,7 +376,7 @@
 
                     <div *ngIf="articles_proyects_group.length > 0">            
                             <div class="list-group">
-                                    <h5 style="color: #405189;">CUERPOS LEGALES SELECCIONADOS</h5>
+                                    <h5 style="color: #405189;text-transform: uppercase;">{{termino_cuerpos}} SELECCIONADOS</h5>
 
                                     <ng-container *ngFor="let s of articles_proyects_group | filter_cuerpo:term2">
 
@@ -573,7 +573,7 @@
                     <div class="col-sm-1">
                     </div>
                     <div class="col-sm-7" style="color: white; font-size: 12px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word">
-                        {{selectCheckedCuerpos.length}} {{selectCheckedCuerpos.length > 1 ? 'Cuerpos Legales Seleccionados' : 'Cuerpo Legal Seleccionado'}}
+                        {{selectCheckedCuerpos.length}} {{selectCheckedCuerpos.length > 1 ? termino_cuerpos+' Seleccionados' : termino_cuerpo+' Seleccionado'}}
                     </div>
                     <div class="col-sm-4">
                         <button type="button" class="btn btn-primary waves-effect waves-light" style="color: #634A1F;font-family: Poppins;font-weight: 400;background-color: #fff;" data-bs-target="#showModal" (click)="openModal(content, 'multiple')">Vincular Selección</button>
@@ -674,7 +674,7 @@
 <!-- Add Cuerpos -->
 <ng-template #content2 role="document" let-modal>
     <div class="modal-header bg-light p-3">
-        <h5 class="modal-title" id="exampleModalLabel">Vincular Cuerpos Legales</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Vincular {{termino_cuerpos}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" id="close-modal"
             (click)="modal.dismiss('Cross click')"></button>
     </div>
@@ -690,7 +690,7 @@
 
             <div class="mb-3">
                 <div class="search-box">
-                    <input type="text" class="form-control" formControlName="search" placeholder="Buscar Cuerpo Legal..." [(ngModel)]="term6" (input)="changeBuscador2()"><!--"service.searchTerm"-->
+                    <input type="text" class="form-control" formControlName="search" placeholder="Buscar {{termino_cuerpo}}..." [(ngModel)]="term6" (input)="changeBuscador2()"><!--"service.searchTerm"-->
                     <i class="ri-search-line search-icon"></i>
                 </div>
             </div>
@@ -739,7 +739,7 @@
                     </select>
 
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="width: 400px;margin-right: 39px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="term3"><!--"service.searchTerm"-->
+                        <input type="text" class="form-control" style="width: 400px;margin-right: 39px;" placeholder="Buscar el {{termino_cuerpo}}" [(ngModel)]="term3"><!--"service.searchTerm"-->
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     
@@ -1070,7 +1070,7 @@
                     <div class="col-sm-1">
                     </div>
                     <div class="col-sm-2" style="color: white; font-size: 14px; font-family: Poppins; font-weight: 400; line-height: 13.86px; word-wrap: break-word; margin: auto;">
-                        {{selectCheckedVincular.length}} {{selectCheckedVincular.length > 1 ? 'Artículos Seleccionados' : 'Artículo Seleccionado'}}
+                        {{selectCheckedVincular.length}} {{selectCheckedVincular.length > 1 ? termino_articulos+' Seleccionados' : termino_articulo+' Seleccionado'}}
                     </div>
                     
                     <div class="col-xs-1 col" style="border-left: 3px solid #fff;">
@@ -1382,7 +1382,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">CUERPOS LEGALES</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_cuerpos}}</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -1404,7 +1404,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_articulos}} APLICABLES</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -1468,7 +1468,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_permisos}}</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -1529,7 +1529,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_otros}}</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -1555,7 +1555,7 @@
                                         <div class="card">
                                             <div class="card-body">
                 
-                                        <h4>Cuerpos Legales</h4>
+                                        <h4>{{termino_cuerpos}}</h4>
                                         <!--<apx-chart [series]="basicBarChartCuerpos.series" [chart]="basicBarChartCuerpos.chart" [dataLabels]="basicBarChartCuerpos.dataLabels" [legend]="basicBarChartCuerpos.legend" [plotOptions]="basicBarChartCuerpos.plotOptions" [xaxis]="basicBarChartCuerpos.xaxis" [colors]="basicBarChartCuerpos.colors" dir="ltr"></apx-chart>-->
                                         
                                         <div style="height: 266px;
@@ -1575,7 +1575,7 @@
                                         <div class="card">
                                             <div class="card-body">
                 
-                                        <h4>Artículos</h4>
+                                        <h4>{{termino_articulos}}</h4>
                                         
                                         <div style="height: 266px;
                                                 display: grid;
@@ -1619,7 +1619,7 @@
                                         <div class="card">
                                             <div class="card-body">
 
-                                        <h4>Permisos</h4>
+                                        <h4>{{termino_permisos}}</h4>
                                         
                                         <div style="height: 266px;
                                                 display: grid;
@@ -1683,7 +1683,7 @@
                                         <div class="card">
                                             <div class="card-body">
                 
-                                        <h4>Otras obligaciones</h4>
+                                        <h4>{{termino_otros}}</h4>
                                         
                                         <div style="height: 266px;
                                                 display: grid;
@@ -1711,10 +1711,10 @@
                                             <h4 class="flex-grow-1">Gestión por área</h4><!--card-title mb-0 -->
                                             <div class="d-flex gap-1">
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('cuerpoLegal')">
-                                                    Cuerpos
+                                                    {{termino_cuerpos}}
                                                 </button>
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('articulos')">
-                                                    Árticulos
+                                                    {{termino_articulos}}
                                                 </button>
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestion('instancias')">
                                                     Instancias
@@ -1741,7 +1741,7 @@
                                     <div class="card card-height-100">
                                         <div class="card-body">
                                             
-                                            <h4>Permisos por área</h4>
+                                            <h4>{{termino_permisos}} por área</h4>
 
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartPermisos)" [colors]="basicBarChartPermisos.colors"
                                                 [chart]="getChart(criticidad, basicBarChartPermisos.chart)" [dataLabels]="basicBarChartPermisos.dataLabels"
@@ -1796,7 +1796,7 @@
                                         <div class="card card-height-100">
                                             <div class="card-body">
                                                 
-                                                <h4>Otras Obligaciones por área</h4>
+                                                <h4>{{termino_otros}} por área</h4>
     
                                                     <apx-chart [series]="getSeries(criticidad, basicBarChartOtros)" [colors]="basicBarChartOtros.colors"
                                                         [chart]="getChart(criticidad, basicBarChartOtros.chart)" [dataLabels]="basicBarChartOtros.dataLabels"
@@ -1867,10 +1867,10 @@
                                             <h4 class="flex-grow-1">Gestión por Elemento y actividad</h4><!--card-title mb-0 -->
                                             <div class="d-flex gap-1">
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'cuerpoLegal' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('cuerpoLegal')">
-                                                    Cuerpos
+                                                    {{termino_cuerpos}}
                                                 </button>
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'articulos' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('articulos')">
-                                                    Árticulos
+                                                    {{termino_articulos}}
                                                 </button>
                                                 <button type="button" class="btn btn-sm" [ngClass]="select_gestion_instalacion == 'instancias' ? 'btn-soft-primary' : 'btn-soft-secondary'" (click)="selectGestionInstalacion('instancias')">
                                                     Instancias
@@ -1897,7 +1897,7 @@
                                     <div class="card card-height-100">
                                         <div class="card-body">
                                             
-                                            <h4>Permisos por Elemento y actividad</h4>
+                                            <h4>{{termino_permisos}} por Elemento y actividad</h4>
 
                                                 <apx-chart [series]="getSeries(criticidad, basicBarChartPermisosInstallations)" [colors]="basicBarChartPermisosInstallations.colors"
                                                     [chart]="getChart(criticidad, basicBarChartPermisosInstallations.chart)" [dataLabels]="basicBarChartPermisosInstallations.dataLabels"
@@ -1952,7 +1952,7 @@
                                         <div class="card card-height-100">
                                             <div class="card-body">
                                                 
-                                                <h4>Otras Obligaciones por Elemento y actividad</h4>
+                                                <h4>{{termino_otros}} por Elemento y actividad</h4>
     
                                                     <apx-chart [series]="getSeries(criticidad, basicBarChartOtrosInstallations)" [colors]="basicBarChartOtrosInstallations.colors"
                                                         [chart]="getChart(criticidad, basicBarChartOtrosInstallations.chart)" [dataLabels]="basicBarChartOtrosInstallations.dataLabels"
@@ -1970,7 +1970,7 @@
                         </li>
                         <li [ngbNavItem]="2">
                             <a ngbNavLink>
-                              Cuerpo Legal
+                              {{termino_cuerpo}}
                             </a>
                             <ng-template ngbNavContent>
                                 
@@ -1982,7 +1982,8 @@
                                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-disable" style="
                                             width: 100%;
                                             text-align: left;
-                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? 'CUERPO LEGAL' : filtro_cuerpo +' | '+(filtro_cuerpoTitulo.length > 120 ? filtro_cuerpoTitulo.substring(0, 120)+'...' : filtro_cuerpoTitulo) }}</button>    
+                                            text-transform: uppercase;
+                                        " data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>{{ !filtro_cuerpo ? termino_cuerpo : filtro_cuerpo +' | '+(filtro_cuerpoTitulo.length > 120 ? filtro_cuerpoTitulo.substring(0, 120)+'...' : filtro_cuerpoTitulo) }}</button>    
                                             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle></button>
                                             <div class="dropdown-menu dropdown-menu-dark"  style="width: 100%;height: 200px;overflow-y:scroll;" ngbDropdownMenu>
                                                 <!--<a class="dropdown-item" [ngClass]="!filtro_cuerpo ? 'active' : ''" href="javascript:void(0);" (click)="selectCuerpoFiltro()">Todos</a>-->
@@ -2058,7 +2059,7 @@
                                                 
                                                 <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Monitoreo' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Monitoreo')">Monitoreo</a>
                                                 
-                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">Otras Obligaciones</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_atributo && filtro_atributo == 'Otros' ? 'active' : ''" href="javascript:void(0);" (click)="selectAtributoFiltro('Otros')">{{termino_otros}}</a>
                                             </div>
                                         </div>
                 
@@ -2117,7 +2118,7 @@
                     <div class="col-xl-4 col-md-4">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">ARTÍCULOS APLICABLES</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_articulos}} APLICABLES</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -2181,7 +2182,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">PERMISOS</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_permisos}}</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -2240,7 +2241,7 @@
                     <div class="col-xl-3 col-md-3">
                         <div class="card card-height-100">
                             <div class="card-body align-self-center" style="text-align: center; width: 230px;">
-                                <p class="text-uppercase fw-medium text-muted mb-3">OTRAS OBLIGACIONES</p>
+                                <p class="text-uppercase fw-medium text-muted mb-3">{{termino_otros}}</p>
                                         
                                 <!--<div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0">
@@ -2397,7 +2398,7 @@
             <div class="col-sm">
                 <div class="d-flex justify-content-sm-end gap-2">
                     <div class="search-box ms-2">
-                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el cuerpo legal" [(ngModel)]="term4">
+                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el {{termino_cuerpo}}" [(ngModel)]="term4">
                         <i class="ri-search-line search-icon"></i>
                     </div>
                 </div>
@@ -2466,7 +2467,7 @@
                                 <div class="d-flex mb-2">
                                     <div class="flex-grow-1">
                                         <div><h5>{{byCuerpoVinculacion(s.normaId)}}</h5></div>
-                                        <div>{{byCuerpoVinculacion(s.normaId) == 1 ? 'Artículo a gestionar' : 'Artículos a gestionar'}}</div>
+                                        <div>{{byCuerpoVinculacion(s.normaId) == 1 ? termino_articulo+' a gestionar' : termino_articulos+' a gestionar'}}</div>
                                     </div>
                                     <div class="flex-grow-1">
                                         <div><h5>{{byCuerpo(s.normaId)}}</h5></div>
