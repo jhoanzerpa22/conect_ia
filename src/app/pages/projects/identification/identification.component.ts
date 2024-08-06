@@ -4630,6 +4630,23 @@ validateIdparte(idParte: any){
       });
   }
 
+  getFilterArticle(items?: any){
+    if (!items) {
+      return [];
+    }
+    if (!this.term3) {
+      return items;
+    }
+    const searchText = this.term3.toLowerCase();
+
+    return items.filter((item: any) => {
+
+        return (item.articulo && item.articulo.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (item.tipoParte && item.tipoParte.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (item.descripcion && item.descripcion.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (item.hijas && item.hijas.length > 0 && item.hijas.findIndex((ar3: any) => (ar3.articulo && ar3.articulo.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (ar3.tipoParte && ar3.tipoParte.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText)) || (ar3.descripcion && ar3.descripcion.replace(/[\n\r]/g, ' ').toLowerCase().includes(searchText))) != -1);
+
+
+    });
+  }
+
    /**
    * Open modal
    * @param content modal content
