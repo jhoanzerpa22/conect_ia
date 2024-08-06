@@ -910,7 +910,7 @@
                                                                 <h5 class="fs-16 mb-1" style="color: #405189;">{{s.articulo ? (s.articulo.length > 5 ?s.articulo : (s.tipoParte +' '+ s.articulo)) : s.tipoParte}}</h5>
                                                             </div>
                                                         </div>
-                                                        <div class="col pointer" [ngClass]="validateConfig('atributo') || validateConfig('componente') || validateConfig('fase') ? (validateConfig('atributo') && validateConfig('fase') ? 'col-xs-3 col-lg-3' : 'col-xs-5 col-lg-5') : 'col-xs-7 col-lg-7'" (click)="onCheckboxClickVincular(s.articuloId, s)">
+                                                        <div class="col pointer" [ngClass]="validateConfig('atributo') || validateConfig('componente') || validateConfig('fase') ? (validateConfig('atributo') && validateConfig('fase') ? 'col-xs-3 col-lg-3' : 'col-xs-5 col-lg-5') : 'col-xs-8 col-lg-8'" (click)="onCheckboxClickVincular(s.articuloId, s)">
                                                             <!--class="team-profile-img"-->
                                                                 <p class="card-text mb-2 align-self-center" style="text-align: justify;"><!-- [style]="s.descripcion && s.descripcion.length > 450 ? 'min-height: 60px;' : 'min-height: 80px;'"-->
                                                                     {{s.descripcion ? (s.descripcion.length > 450 ? formatArticle(s.descripcion, s.articuloId) : s.descripcion) : s.tipoParte}} 
@@ -920,7 +920,7 @@
                                                                 </p>-->
                                                         </div>
                                                         
-                                                        <div class="col-xs-1  col-lg-2 col" *ngIf="validateConfig('atributo')">
+                                                        <div class="col-xs-1 col-lg-2 col" *ngIf="validateConfig('atributo')">
                                                             <!--<i [ngClass]="{'icon-check': s.monitoreo}" style="font-size: 30px;" class="ri-zoom-in-line"></i>-->
                                                             <button
                                                                     [ngClass]="validateAttribute('articuloTipo',s.id, s.articuloTipo, 'permiso') ? 'btn-success' :'btn-light'"
@@ -946,7 +946,7 @@
                                                                 </select>
                                                         </div>-->
                                                         
-                                                        <div class="col-xs-1  col-lg-2 col" *ngIf="validateConfig('fase')">
+                                                        <div class="col-xs-1 col-lg-2 col" *ngIf="validateConfig('fase')">
                                                             <!--<i [ngClass]="{'icon-check': s.permiso}" style="font-size: 30px;" class="ri-file-list-3-line"></i>-->
                                                             
                                                             <button
@@ -974,7 +974,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>-->
-                                                        <div class="col-xs-1  col-lg-2 col">
+                                                        <div class="col-xs-1 col-lg-2 col">
                                                                 <button
                                                                     [ngClass]="byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'btn btn-light view-btn text-success' : 'btn btn-light view-btn'" style="width: 100%;" data-bs-target="#showModal" (click)="openModal3(content3, 'single', s)">{{byArticuloVinculacion(s.articuloId) > 0 && !onCheckVincular(s.articuloId) ? 'Modificar elementos' : 'Conectar elementos'}}</button>
                                                         </div>
@@ -991,7 +991,7 @@
                                     
                                         <ng-container *ngIf="s.hijas">
             
-                                            <div class="col-xxl-12" *ngFor="let item of s.hijas;">
+                                            <div class="col-xxl-12" *ngFor="let item of getFilterArticle(s.hijas);">
                                                 <ng-container [ngTemplateOutlet]="myArticles" 
                                                 [ngTemplateOutletContext] ="{s: item }">
                                             </ng-container>
@@ -1031,7 +1031,7 @@
                                             <small class="text-success" *ngIf="g.tituloNorma && g.tituloNorma.length > 250 && validatShow3(g.normaId)" (click)="hideText3(g.normaId)"><b>Ocultar texto completo</b></small>
                                         </p>
                                     <ng-container *ngIf="!validateShowArticles(g.normaId)">                                    
-                                    <ng-container *ngFor="let s of g.articulos;">
+                                    <ng-container *ngFor="let s of getFilterArticle(g.articulos);">
             
                                         <ng-container [ngTemplateOutlet]="myArticles" 
                                         [ngTemplateOutletContext] ="{s:s}">
