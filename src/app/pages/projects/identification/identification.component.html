@@ -728,7 +728,7 @@
             </div>
             <div class="col-sm-auto">
                 <div class="d-md-flex justify-content-sm-end gap-2">
-                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 400px;" placeholder="Todos" data-choices data-choices-search-false id="choices-priority-input3" (change)="selectEstado($event)">
+                    <select class="form-select" style="background-color: #F3F6F9;border: 0.621px solid #F3F6F9;width: 300px;" placeholder="Todos" data-choices data-choices-search-false id="choices-priority-input3" (change)="selectEstado($event)">
                         <option value="" [selected]="!filtro_estado">Todos</option>
                         <option value="1" [selected]="filtro_estado == '1'">
                             Por Gestionar
@@ -739,12 +739,12 @@
                     </select>
 
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="width: 400px;" placeholder="Buscar el {{termino_cuerpo}}" [(ngModel)]="term3">
+                        <input type="text" class="form-control" style="width: 300px;" placeholder="Buscar el {{termino_cuerpo}}" [(ngModel)]="term3">
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     
                     <div class="search-box ms-md-2 flex-shrink-0 mb-3 mb-md-0">
-                        <input type="text" class="form-control" style="width: 400px;margin-right: 39px;" placeholder="Buscar por {{termino_articulo}}" [(ngModel)]="term9">
+                        <input type="text" class="form-control" style="width: 300px;margin-right: 39px;" placeholder="Buscar por {{termino_articulo}}" [(ngModel)]="term9">
                         <i class="ri-search-line search-icon"></i>
                     </div>
                     
