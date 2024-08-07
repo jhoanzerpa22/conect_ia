@@ -7656,10 +7656,12 @@ validateIdparte(idParte: any){
     if(this.articles_proyects_all.length > 0){
 
       const deleteCuerpoProyect = async (b: any) => {
-      
+        console.log('deleteCuerpoProyect=>',b.normaId);
+
         let bCuerpo = new Promise((resolve, reject) => {
           this.projectsService.deleteNormaProyect(b.normaId, this.project_id).pipe().subscribe(
-            (data: any) => {     
+            (data: any) => {
+              console.log('BorroCuerpoProyect=>', b.normaId);     
             resolve('delete');
           },
           (error: any) => {
@@ -7691,7 +7693,7 @@ validateIdparte(idParte: any){
             );
       
             if(index3 == -1){
-     
+              console.log('Borrando===>',cu.normaId);
               return await deleteCuerpoProyect(cu)
               .then((b) => {
                 return b
@@ -7707,9 +7709,9 @@ validateIdparte(idParte: any){
       
       const cuerpos = await this.articles_proyects_all;
       
-      deleteDecretos(cuerpos)
+      await deleteDecretos(cuerpos)
       .then((a: any) => {
-        console.log('eliminados');
+        console.log('eliminados*******');
         }
       );
 
@@ -7717,10 +7719,13 @@ validateIdparte(idParte: any){
 
     if(this.articles_proyects_group.length > 0){
       const saveCuerpoProyect = async (j: any) => {
+
+        console.log('saveCuerpoProyect=>',j);
         
         let sCuerpo = new Promise((resolve, reject) => {
           this.projectsService.conectArticleProyect(j).pipe().subscribe(
-            (data: any) => {     
+            (data: any) => {
+              console.log('Guardo=>',j);
             resolve('guardado');
           },
           (error: any) => {
@@ -7752,7 +7757,7 @@ validateIdparte(idParte: any){
           );
     
           if(index == -1){
-   
+            console.log('Guardando',j);
             return await saveCuerpoProyect(j)
             .then((a) => {
               return a
@@ -7768,8 +7773,9 @@ validateIdparte(idParte: any){
       
       const normas = await this.articles_proyects_group;
       
-      guardarDecretos(normas)
+      await guardarDecretos(normas)
       .then((a: any) => {
+        console.log('Guardo');
         this.hidePreLoader();
         
         this.refreshData();
