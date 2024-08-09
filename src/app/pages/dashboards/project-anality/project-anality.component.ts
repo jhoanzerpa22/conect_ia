@@ -52,8 +52,6 @@ export class ProjectAnalityComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
-      this.getAreas(params['id']);
-      this.getInstallations(params['id']);
     });
 
     /**
@@ -75,7 +73,9 @@ export class ProjectAnalityComponent implements OnInit {
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
-          this.project = data.data;
+          this.project = data.data;      
+          this.getAreas(idProject, this.project.empresaId);      
+          this.getInstallations(idProject, this.project.empresaId);
       },
       (error: any) => {
         //this.error = error ? error : '';
@@ -83,8 +83,8 @@ export class ProjectAnalityComponent implements OnInit {
       });
    }
 
-   getAreas(idProject?: any) {
-    this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
+   getAreas(idProject?: any, empresaId?: any) {
+    this.projectsService.getAreasUser(empresaId)/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.areas_data = data.data;
       },
@@ -92,8 +92,8 @@ export class ProjectAnalityComponent implements OnInit {
       });
   }
 
-  getInstallations(idProject?: any) {
-    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
+  getInstallations(idProject?: any, empresaId?: any) {
+    this.projectsService.getInstallationsUser(empresaId)/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.installations_data = data.data;
       },

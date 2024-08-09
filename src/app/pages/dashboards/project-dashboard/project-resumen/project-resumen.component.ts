@@ -34,6 +34,7 @@ export class ProjectResumenComponent implements OnInit {
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
+  empresaId: any;
   type: any = '';
   project: any = {};
   projects: any = [];
@@ -197,15 +198,12 @@ export class ProjectResumenComponent implements OnInit {
 
       if(params['id']){
         this.project_id = params['id'];
-        this.getProject(params['id']);    
-        this.getAreas(params['id']);
+        this.getProject(params['id'], true);
         this.getArticleProyect(params['id']);
         this.getEvaluations(params['id']);
-        this.getInstallations(params['id']);
         //this.getDashboardNew(params['id'], true);
-        this.getDashboard(params['id'], true);
-        this.getDashboardArea(params['id'], 'instancias', true);
-        this.getDashboardInstalaciones(params['id'], 'instancias', true);
+        //this.getDashboardArea(params['id'], 'instancias', true); Esperar empresaId
+        //this.getDashboardInstalaciones(params['id'], 'instancias', true); Esperar empresaId
         //this.getDashboardCuerpo(params['id'], true);
         //this.getDashboardAreaCuerpo(params['id'], 'instancias', true);
       }else{
@@ -256,15 +254,13 @@ export class ProjectResumenComponent implements OnInit {
             this.filtro_proyecto = proyectos[0].nombre;
             this.project_id = proyecto;
             
-            this.getProject(proyecto);    
-            this.getAreas(proyecto);
+            this.getProject(proyecto, true);
             this.getArticleProyect(proyecto);
             this.getEvaluations(proyecto);
-            this.getInstallations(proyecto);
             //this.getDashboardNew(proyecto, true);
-            this.getDashboard(proyecto, true);
-            this.getDashboardArea(proyecto, 'instancias', true);
-            this.getDashboardInstalaciones(proyecto, 'instancias', true);
+            //this.getDashboard(proyecto, true);Esperar empresaId
+            //this.getDashboardArea(proyecto, 'instancias', true);Esperar empresaId
+            //this.getDashboardInstalaciones(proyecto, 'instancias', true);Esperar empresaId
             //this.getDashboardCuerpo(proyecto, true);
             //this.getDashboardAreaCuerpo(proyecto, 'instancias', true);
           }
@@ -291,10 +287,20 @@ export class ProjectResumenComponent implements OnInit {
     this._location.back();
   }
 
-  getProject(idProject?: any){
+  getProject(idProject?: any, initial?: boolean){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
           this.project = data.data;
+          this.empresaId = this.project.empresaId;
+          
+          this.getAreas(idProject, this.empresaId);
+          this.getInstallations(idProject, this.empresaId);
+
+          if(initial){
+            this.getDashboard(idProject, this.empresaId, true);
+            this.getDashboardArea(idProject, this.empresaId, 'instancias', true);
+            this.getDashboardInstalaciones(idProject, this.empresaId, 'instancias', true);
+          }
       },
       (error: any) => {
         //this.error = error ? error : '';
@@ -332,8 +338,8 @@ export class ProjectResumenComponent implements OnInit {
   
   }
 
-  getInstallations(idProject?: any) {
-    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
+  getInstallations(idProject?: any, empresaId?: any) {
+    this.projectsService.getInstallationsUser(empresaId)/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
           let obj: any = data.data;
           let lista: any = [];
@@ -8921,22 +8927,22 @@ getChart(criticidad: any, config: any){
   }
   
 
-  private resetFiltro(project_id?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
+  private resetFiltro(project_id?: any, empresaId?: any, refresh?: boolean, areaId?: any/*, atributo?: any*/, criticidad?: any){
     
     //this.getDashboardNew(project_id, refresh, areaId, criticidad, this.tipo);
-    this.getDashboard(project_id, refresh, areaId/*, atributo*/, criticidad);
-    this.getDashboardArea(project_id, 'instancias', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
-    this.getDashboardInstalaciones(project_id, 'instancias', refresh, undefined, areaId, undefined, criticidad);
+    this.getDashboard(project_id, empresaId, refresh, areaId/*, atributo*/, criticidad);
+    this.getDashboardArea(project_id, empresaId, 'instancias', refresh, undefined,areaId, undefined, criticidad); //cuerpoLegal, articulos, instancias
+    this.getDashboardInstalaciones(project_id, empresaId, 'instancias', refresh, undefined, areaId, undefined, criticidad);
 
   }
 
-  private resetFiltroCuerpo(project_id?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+  private resetFiltroCuerpo(project_id?: any, empresaId?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
 
     atributo = atributo ? atributo.toLowerCase() : atributo;
     
-    this.getDashboardCuerpo(project_id, cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
-    this.getDashboardAreaCuerpo(project_id, 'instancias', cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
-    this.getDashboardInstallationCuerpo(project_id, 'instancias',cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
+    this.getDashboardCuerpo(project_id, empresaId, cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
+    this.getDashboardAreaCuerpo(project_id, empresaId, 'instancias', cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
+    this.getDashboardInstallationCuerpo(project_id, empresaId, 'instancias',cuerpoId, refresh, areaId, atributo, criticidad, articuloId);
   }
 
   private setChart(){
@@ -8984,8 +8990,8 @@ getChart(criticidad: any, config: any){
     }
   }
 
-  getAreas(idProject?: any) {
-    this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
+  getAreas(idProject?: any, empresaId?: any) {
+    this.projectsService.getAreasUser(empresaId)/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
     
           const resp: any = data.data;
@@ -9126,7 +9132,7 @@ getChart(criticidad: any, config: any){
   selectCriticidadCuerpo(criticidad?: any){
     this.criticidad_cuerpo = criticidad;
     
-    this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.filtro_atributo, criticidad,this.filtro_articuloId);
+    this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.filtro_atributo, criticidad,this.filtro_articuloId);
     
     this.setChartCuerpos();
   }
@@ -9150,10 +9156,10 @@ getChart(criticidad: any, config: any){
     this.filtro_atributo = atributo;
     
     if(atributo){
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), atributo, this.criticidad_cuerpo,this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), atributo, this.criticidad_cuerpo,this.filtro_articuloId);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), undefined, this.criticidad_cuerpo,this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), undefined, this.criticidad_cuerpo,this.filtro_articuloId);
     }
   }
 
@@ -9165,7 +9171,7 @@ getChart(criticidad: any, config: any){
     if(cuerpo){
   
       this.getArticulos();    
-      this.resetFiltroCuerpo(this.project_id, normaId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo,this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, normaId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo,this.filtro_articuloId);
 
       /*const index = this.articles_proyects_group.findIndex(
         (ap: any) =>
@@ -9181,21 +9187,20 @@ getChart(criticidad: any, config: any){
 
   }
   
-  selectProjectFiltro(id?: any, nombre?: any){
+  selectProjectFiltro(id?: any, nombre?: any, empresaId?: any){
     this.filtro_proyectoId = id > 0 ? id : null;
     this.filtro_proyecto = id > 0 ? nombre : null;
     
     if(id > 0){
       
       this.project_id = id;
+      this.empresaId = empresaId;
             
-      this.getProject(id);    
-      this.getAreas(id);
+      this.getProject(id);
       this.getArticleProyect(id);
       this.getEvaluations(id);
-      this.getInstallations(id);
       
-      this.resetFiltro(this.project_id, true, this.filtro_area, this. criticidad);
+      this.resetFiltro(this.project_id, empresaId, true, this.filtro_area, this. criticidad);
     
       this.setChart();
       this.setChartCuerpos();
@@ -9214,16 +9219,16 @@ getChart(criticidad: any, config: any){
     
     if(id > 0){
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo, id);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo, id);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, (this.filtro_area_cuerpo ? this.filtro_area_cuerpo.id : null), this.tipo_cuerpo, this.criticidad_cuerpo);
     }
   }
   
   selectGestion(x: any) {
     this.select_gestion = x;
-    this.getDashboardArea(this.project_id, x, true, undefined, this.filtro_area, undefined, this.criticidad);
+    this.getDashboardArea(this.project_id, this.empresaId, x, true, undefined, this.filtro_area, undefined, this.criticidad);
     /*if (x == 'all') {
         this.basicBarChart.series = [{
             data: [1010, 1640, 490, 1255, 1050, 689, 800, 420, 1085, 589],
@@ -9246,7 +9251,7 @@ getChart(criticidad: any, config: any){
 
   selectGestionInstalacion(x: any) {
     this.select_gestion_instalacion = x;
-    this.getDashboardInstalaciones(this.project_id, x, true, undefined, this.filtro_area, undefined, this.criticidad);
+    this.getDashboardInstalaciones(this.project_id, this.empresaId, x, true, undefined, this.filtro_area, undefined, this.criticidad);
   }
   
   selectAreaChart(id?: any){
@@ -9258,12 +9263,12 @@ getChart(criticidad: any, config: any){
     this.filtro_area = id;
 
     if(existe_area != -1){
-      this.resetFiltro(this.project_id, true, id, /*this.tipo,*/ this.criticidad);
+      this.resetFiltro(this.project_id, this.empresaId, true, id, /*this.tipo,*/ this.criticidad);
 
       this.areas_select_chart.push({id: id, nombre: this.areas_chart[existe_area].nombre});
       this.getChildrenChart(id);
     }else{
-      this.resetFiltro(this.project_id, true);
+      this.resetFiltro(this.project_id, this.empresaId, true);
     }
     this.setChart();
   }
@@ -9273,10 +9278,10 @@ getChart(criticidad: any, config: any){
     
     if(id > 0){
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, id, this.tipo_cuerpo, this.criticidad_cuerpo, this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, id, this.tipo_cuerpo, this.criticidad_cuerpo, this.filtro_articuloId);
     }else{
       
-      this.resetFiltroCuerpo(this.project_id, this.filtro_cuerpoId, true, null, this.tipo_cuerpo, this.criticidad_cuerpo, this.filtro_articuloId);
+      this.resetFiltroCuerpo(this.project_id, this.empresaId, this.filtro_cuerpoId, true, null, this.tipo_cuerpo, this.criticidad_cuerpo, this.filtro_articuloId);
     }
   }
   
@@ -9299,14 +9304,14 @@ getChart(criticidad: any, config: any){
 
     if(this.areas_select_chart.length > 0){
       
-      this.resetFiltro(this.project_id, true, this.areas_select_chart[(this.areas_select_chart.length - 1)].id, /*this.tipo,*/ this.criticidad);
+      this.resetFiltro(this.project_id, this.empresaId, true, this.areas_select_chart[(this.areas_select_chart.length - 1)].id, /*this.tipo,*/ this.criticidad);
 
       this.filtro_area = this.areas_select_chart[(this.areas_select_chart.length - 1)].id;
 
       this.getChildrenChart(this.areas_select_chart[(this.areas_select_chart.length - 1)].id);
     }else{
       
-      this.resetFiltro(this.project_id, true, undefined, /*this.tipo,*/ this.criticidad);
+      this.resetFiltro(this.project_id, this.empresaId, true, undefined, /*this.tipo,*/ this.criticidad);
 
       this.filtro_area = undefined;
       this.areas_chart = this.areas;
@@ -9323,12 +9328,13 @@ getChart(criticidad: any, config: any){
       this.filtro_cuerpoTitulo = this.articles_proyects_group[0].tituloNorma;
 
       this.getArticulos();
-      this.getDashboardCuerpo(this.project_id, this.articles_proyects_group[0].normaId);
-      this.getDashboardAreaCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
-      this.getDashboardInstallationCuerpo(this.project_id, 'instancias',this.articles_proyects_group[0].normaId);
+      this.getDashboardCuerpo(this.project_id, this.empresaId, this.articles_proyects_group[0].normaId);
+      this.getDashboardAreaCuerpo(this.project_id, this.empresaId, 'instancias',this.articles_proyects_group[0].normaId);
+      this.getDashboardInstallationCuerpo(this.project_id, this.empresaId, 'instancias',this.articles_proyects_group[0].normaId);
     }
   }
 
+  /*Actualmente no se esta usando*/
   getDashboardNew(idProject?: any, refresh?: boolean, areaId?: any, criticidad?: any, cumplimiento?: any){
 
     const filter = cumplimiento ? cumplimiento : undefined;
@@ -9348,8 +9354,8 @@ getChart(criticidad: any, config: any){
     });
  }
 
-  getDashboard(idProject?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
-    this.projectsService.getDashboardEvaluations(idProject, undefined, areaId, undefined, undefined).pipe().subscribe(
+  getDashboard(idProject?: any, empresaId?: any, refresh?: boolean, areaId?: any, /*atributo?: any,*/ criticidad?: any){
+    this.projectsService.getDashboardEvaluations(idProject, empresaId, undefined, areaId, undefined, undefined).pipe().subscribe(
       (data: any) => {
        console.log('dataDashboard',data);
        this.dashboard = data.data;
@@ -9364,8 +9370,8 @@ getChart(criticidad: any, config: any){
     });
  }
 
- getDashboardCuerpo(idProject?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-     this.projectsService.getDashboardEvaluations(idProject, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
+ getDashboardCuerpo(idProject?: any, empresaId?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+     this.projectsService.getDashboardEvaluations(idProject, empresaId, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
        (data: any) => {
         console.log('dataDashboardCuerpo',data);
         this.dashboardCuerpo = data.data;
@@ -9380,8 +9386,8 @@ getChart(criticidad: any, config: any){
      });
   }
 
- getDashboardArea(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
-     this.projectsService.getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined).pipe().subscribe(
+ getDashboardArea(idProject?: any, empresaId?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+     this.projectsService.getDashboardAreaEvaluations(idProject, empresaId, type, cuerpoId, areaId, atributo, undefined).pipe().subscribe(
        (data: any) => {
          console.log('dataDashboardArea',data);
          this.dashboardArea = data.data;
@@ -9397,8 +9403,8 @@ getChart(criticidad: any, config: any){
      });
   }
   
- getDashboardInstalaciones(idProject?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
-   this.projectsService.getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined).pipe().subscribe(
+ getDashboardInstalaciones(idProject?: any, empresaId?: any, type?: any, refresh?: boolean, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any){
+   this.projectsService.getDashboardInstalationsEvaluations(idProject, empresaId, type, cuerpoId, areaId, atributo, undefined).pipe().subscribe(
      (data: any) => {
        console.log('dataDashboardInstalaciones',data);
        this.dashboardInstallation = data.data;
@@ -9414,8 +9420,8 @@ getChart(criticidad: any, config: any){
    });
 }
 
-  getDashboardAreaCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-      this.projectsService./*getDashboardAreaByCuerpo*/getDashboardAreaEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
+  getDashboardAreaCuerpo(idProject?: any, empresaId?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+      this.projectsService.getDashboardAreaEvaluations(idProject, empresaId, type, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
         (data: any) => {
           console.log('dataDashboardAreaCuerpo',data);
           this.dashboardAreaCuerpo = data.data;
@@ -9431,8 +9437,8 @@ getChart(criticidad: any, config: any){
    }
    
 
-   getDashboardInstallationCuerpo(idProject?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
-     this.projectsService./*getDashboardInstallationByCuerpo*/getDashboardInstalationsEvaluations(idProject, type, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
+   getDashboardInstallationCuerpo(idProject?: any, empresaId?: any, type?: any, cuerpoId?: any, refresh?: boolean, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+     this.projectsService.getDashboardInstalationsEvaluations(idProject, empresaId, type, cuerpoId, areaId, atributo, undefined, articuloId).pipe().subscribe(
        (data: any) => {
          console.log('dataDashboardInstallationCuerpo',data);
          this.dashboardInstallationCuerpo = data.data;
