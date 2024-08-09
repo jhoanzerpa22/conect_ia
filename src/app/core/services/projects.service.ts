@@ -125,8 +125,10 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'project/installation/project/'+project_id, /*httpOptions*/this.getToken());
     }
 
-    getInstallationsUser(){
-        return this.http.get(API_URL_BACK + 'project/installation/user', /*httpOptions*/this.getToken());
+    getInstallationsUser(empresaId?: any){
+        const empresaIdURL = empresaId ? '?empresaId='+empresaId : '';
+
+        return this.http.get(API_URL_BACK + 'project/installation/user'+empresaIdURL, /*httpOptions*/this.getToken());
     }
     
     getInstallationsItems(installation_id: any){
@@ -176,17 +178,19 @@ export class ProjectsService {
     deleteInstallation(id: any): Observable<any> {
         return this.http.delete(API_URL_BACK + 'project/installation/'+id, /*httpOptions*/this.getToken());
     }
-
-    getAreasAll(project_id: any){
-        return this.http.get(API_URL_BACK + 'project/areas/all', /*httpOptions*/this.getToken());
+    
+    getAreasAll(project_id: any, empresaId?: any){
+        const empresaIdURL = empresaId ? '?empresaId='+empresaId : '';
+        return this.http.get(API_URL_BACK + 'project/areas/all'+empresaIdURL, /*httpOptions*/this.getToken());
     }
 
     getAreas(project_id: any){
         return this.http.get(API_URL_BACK + 'project/areas/project/'+project_id, /*httpOptions*/this.getToken());
     }
 
-    getAreasUser(){
-        return this.http.get(API_URL_BACK + 'project/areas/user', /*httpOptions*/this.getToken());
+    getAreasUser(empresaId?: any){
+        const empresaIdURL = empresaId ? '?empresaId='+empresaId : '';
+        return this.http.get(API_URL_BACK + 'project/areas/user'+empresaIdURL, /*httpOptions*/this.getToken());
     }
     
     getAreasItems(area_id: any){
@@ -415,7 +419,7 @@ export class ProjectsService {
         return this.http.get(API_URL_BACK + 'evaluacionProyecto/deleteEvaluationInstallation/'+idEvaluation+'/'+installation_article_id, this.getToken());
     }
 
-    getDashboard(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+    getDashboard(project_id: any, empresaId?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
         
         switch (criticidad) {
             case 'Alta':
@@ -433,7 +437,7 @@ export class ProjectsService {
                 break;
         }
 
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics', { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics', { projectId: project_id, empresaId, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
@@ -441,7 +445,7 @@ export class ProjectsService {
         } }, this.getToken());
     }
     
-    getDashboardEvaluationsNew(project_id: any, filter?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+    getDashboardEvaluationsNew(project_id: any, empresaId?: any, filter?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
         
         switch (criticidad) {
             case 'Alta':
@@ -463,7 +467,7 @@ export class ProjectsService {
             filter = filter.toLowerCase();
         }
 //installations
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/data', { projectId: project_id, /*areaId,*/ filters: filter, criticity: criticidad, areaId: areaId/*{
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/data', { projectId: project_id, empresaId, /*areaId,*/ filters: filter, criticity: criticidad, areaId: areaId/*{
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
@@ -471,7 +475,7 @@ export class ProjectsService {
         }*/ }, this.getToken());
     }
     
-    getDashboardArea(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+    getDashboardArea(project_id: any, empresaId?: any, type?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
             case 'Alta':
@@ -488,7 +492,7 @@ export class ProjectsService {
                 criticidad = undefined;
                 break;
         }
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal?type='+type, { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal?type='+type, { projectId: project_id, empresaId, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
@@ -496,7 +500,7 @@ export class ProjectsService {
         } }, this.getToken());
     }
 
-    getDashboardInstalations(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+    getDashboardInstalations(project_id: any, empresaId?: any, type?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
             case 'Alta':
@@ -513,7 +517,7 @@ export class ProjectsService {
                 criticidad = undefined;
                 break;
         }
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal/instalaciones?type='+type, { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphics/horizontal/instalaciones?type='+type, { projectId: project_id,empresaId, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
@@ -521,7 +525,7 @@ export class ProjectsService {
         } }, this.getToken());
     }
 
-    getDashboardEvaluations(project_id: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
+    getDashboardEvaluations(project_id: any, empresaId?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){
         
         switch (criticidad) {
             case 'Alta':
@@ -539,7 +543,7 @@ export class ProjectsService {
                 break;
         }
 
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphicsEvaluations', { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphicsEvaluations', { projectId: project_id, empresaId, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
@@ -547,7 +551,7 @@ export class ProjectsService {
         } }, this.getToken());
     }
 
-    getDashboardAreaEvaluations(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+    getDashboardAreaEvaluations(project_id: any, empresaId?: any, type?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
             case 'Alta':
@@ -564,7 +568,7 @@ export class ProjectsService {
                 criticidad = undefined;
                 break;
         }
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphicsEvaluations/horizontal?type='+type, { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphicsEvaluations/horizontal?type='+type, { projectId: project_id, empresaId, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,
@@ -572,7 +576,7 @@ export class ProjectsService {
         } }, this.getToken());
     }
 
-    getDashboardInstalationsEvaluations(project_id: any, type: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
+    getDashboardInstalationsEvaluations(project_id: any, empresaId?: any, type?: any, cuerpoId?: any, areaId?: any, atributo?: any, criticidad?: any, articuloId?: any){ //'instancias' | 'cuerpoLegal' | 'articulos'
         
         switch (criticidad) {
             case 'Alta':
@@ -589,7 +593,7 @@ export class ProjectsService {
                 criticidad = undefined;
                 break;
         }
-        return this.http.post(API_URL_BACK + 'dashboard/project/graphicsEvaluations/horizontal/instalaciones?type='+type, { projectId: project_id, areaId, filters: {
+        return this.http.post(API_URL_BACK + 'dashboard/project/graphicsEvaluations/horizontal/instalaciones?type='+type, { projectId: project_id, empresaId, areaId, filters: {
             articuloTipo: atributo,
             criticidad: criticidad,
             normaId: cuerpoId,

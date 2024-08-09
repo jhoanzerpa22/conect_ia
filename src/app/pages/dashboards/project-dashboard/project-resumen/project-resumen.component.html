@@ -46,7 +46,7 @@
                                             <!--<a class="dropdown-item" [ngClass]="!filtro_proyecto ? 'active' : ''" href="javascript:void(0);" (click)="selectProjectFiltro()">Todos</a>-->
 
                                             <ng-container *ngFor="let p of projects;">
-                                                <a class="dropdown-item" [ngClass]="filtro_proyectoId && filtro_proyectoId == p.id ? 'active' : ''"  href="javascript:void(0);" (click)="selectProjectFiltro(p.id, p.nombre)">{{p.nombre}}</a>
+                                                <a class="dropdown-item" [ngClass]="filtro_proyectoId && filtro_proyectoId == p.id ? 'active' : ''"  href="javascript:void(0);" (click)="selectProjectFiltro(p.id, p.nombre, p.empresaId)">{{p.nombre}}</a>
                                             </ng-container>
                                         </div>
                                     </div>

@@ -59,9 +59,6 @@ export class ProjectAnalityComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.project_id = params['id'];
       this.getProject(params['id']);
-      this.getAreas(params['id']);
-      this.getInstallations(params['id']);
-      this.getArticlesInstallation();
     });
 
     /**
@@ -84,6 +81,10 @@ export class ProjectAnalityComponent implements OnInit {
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
           this.project = data.data;
+          
+          this.getAreas(idProject, this.project.empresaId);
+          this.getInstallations(idProject, this.project.empresaId);      
+          this.getArticlesInstallation(this.project.empresaId);
       },
       (error: any) => {
         //this.error = error ? error : '';
@@ -91,8 +92,8 @@ export class ProjectAnalityComponent implements OnInit {
       });
    }
 
-   getAreas(idProject?: any) {
-    this.projectsService.getAreasUser()/*getAreas(idProject)*/.pipe().subscribe(
+   getAreas(idProject?: any, empresaId?: any) {
+    this.projectsService.getAreasUser(empresaId)/*getAreas(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.areas_data = data.data;
       },
@@ -100,8 +101,8 @@ export class ProjectAnalityComponent implements OnInit {
       });
   }
 
-  getInstallations(idProject?: any) {
-    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
+  getInstallations(idProject?: any, empresaId?: any) {
+    this.projectsService.getInstallationsUser(empresaId)/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
           this.installations_data = data.data;
       },
@@ -493,9 +494,9 @@ layers = [
     this.TeamMembers = TeamMembers;
   }
 
-  private getArticlesInstallation() {
+  private getArticlesInstallation(empresaId?: any) {
 
-      this.projectsService./*getArticlesInstallationByProyecto(this.project_id)*/getInstallationsUser()/*getInstallations(this.project_id)*/.pipe().subscribe(
+      this.projectsService./*getArticlesInstallationByProyecto(this.project_id)*/getInstallationsUser(empresaId)/*getInstallations(this.project_id)*/.pipe().subscribe(
         (data: any) => {
           let obj: any = data.data;
           let lista: any = [];

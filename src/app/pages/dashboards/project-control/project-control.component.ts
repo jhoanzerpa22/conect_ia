@@ -109,10 +109,7 @@ export class ProjectControlComponent implements OnInit {
       this.project_id = params['id'];
       this.search.proyecto_id = params['id'];
       this.getProject(params['id']);
-      this.getAreas();
-      this.getAreasTree();
       this.getEvaluations(params['id']);
-      this.getInstallations(params['id']);
       this.getArticleProyect(params['id']);
     });
 
@@ -278,6 +275,10 @@ export class ProjectControlComponent implements OnInit {
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
           this.project = data.data;
+          
+          this.getAreas(this.project.empresaId);
+          this.getAreasTree(this.project.empresaId);      
+          this.getInstallations(idProject, this.project.empresaId);
       },
       (error: any) => {
         //this.error = error ? error : '';
@@ -318,9 +319,9 @@ export class ProjectControlComponent implements OnInit {
   
   }
 
-  private getAreasTree(){
+  private getAreasTree(empresaId?: any){
     this.showPreLoader();
-      this.projectsService.getAreasAll(this.project_id).pipe().subscribe(
+      this.projectsService.getAreasAll(this.project_id, empresaId).pipe().subscribe(
         (data: any) => {
           let obj: any = data.data;
           let tree_data: any = [];
@@ -371,8 +372,8 @@ export class ProjectControlComponent implements OnInit {
     return tree_data;
   }
 
-  getInstallations(idProject?: any) {
-    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
+  getInstallations(idProject?: any, empresaId?: any) {
+    this.projectsService.getInstallationsUser(empresaId)/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
           let obj: any = data.data;
           let lista: any = [];
@@ -1854,8 +1855,8 @@ selectCuerpoFiltro(cuerpo?: any, normaId?: any, titulo?: any){
     }
   }
 
-  getAreas() {
-    this.projectsService.getAreasUser().pipe().subscribe(
+  getAreas(empresaId?: any) {
+    this.projectsService.getAreasUser(empresaId).pipe().subscribe(
         (data: any) => {
           this.areas = data.data;
           this.areas_chart = data.data;
