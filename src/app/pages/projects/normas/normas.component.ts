@@ -148,7 +148,7 @@ export class NormasComponent implements OnInit{
           }
           //this.dataSource.data = this.normas_all;
           this.service.normas_data = this.normas_all;
-          this.total_paginate = this.normas_all.lenght > 0 ? this.normas_all.lenght : 0;
+          this.total_paginate = this.normas_all.length > 0 ? this.normas_all.length : 0;
 
           this.hidePreLoader();
       },

@@ -38,7 +38,7 @@
         <div class="card-body">
           
           <div class="row g-0 mb-3 text-center">
-            <div class="col-md-4">
+            <div class="col-md-3">
                     <h6>CUMPLIMIENTO</h6>
                     
                     <div class="col-lg-12 col">
@@ -46,12 +46,17 @@
                     </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h6>FECHA EVALUACIÓN</h6>
                 {{articulo.evaluations && articulo.evaluations.fecha_evaluacion ? (articulo.evaluations.fecha_evaluacion | date:"dd-MM-yy" ) : (evaluation.fechaFinalizacion | date:"dd-MM-yy") }}
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <h6>FECHA VENCIMIENTO</h6>
+                {{articulo.evaluations && articulo.evaluations.fecha_vencimiento ? (articulo.evaluations.fecha_vencimiento | date:"dd-MM-yy" ) : '-' }}
+            </div>
+            
+            <div class="col-md-3">
                 <h6>RESPONSABLE</h6>
                 {{articulo.evaluations && articulo.evaluations.evaluador && articulo.evaluations.evaluador.nombre ? articulo.evaluations.evaluador.nombre + ' ' + articulo.evaluations.evaluador.apellido : (evaluation.evaluador && evaluation.evaluador.nombre ? evaluation.evaluador.nombre + ' ' + evaluation.evaluador.apellido : '-') }}
             </div>
@@ -200,7 +205,7 @@
                         </a>
                         <ng-template ngbNavContent>
 
-                            <div class="list-group" *ngIf="!showDetailEvaluation && (!evaluations || evaluations.lenght < 1)">
+                            <div class="list-group" *ngIf="!showDetailEvaluation && (!evaluations || evaluations.length < 1)">
 
                                 <div class="team-list list-view-filter row" style="cursor:pointer;"> 
                                     <div class="col">
@@ -245,8 +250,8 @@
                                 </div>
                             </div>
 
-                            <div class="list-group" *ngIf="!showDetailEvaluation && evaluations"><!-- && evaluations.lenght > 0-->
-                                <!-- *ngIf="hallazgos.lenght > 0"-->
+                            <div class="list-group" *ngIf="!showDetailEvaluation && evaluations"><!-- && evaluations.length > 0-->
+                                <!-- *ngIf="hallazgos.length > 0"-->
                                 <!--<ng-container *ngFor="let ig of installations_group | filter:term2">-->
                                 
                                     <ng-container *ngFor="let h of evaluations;">
