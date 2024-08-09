@@ -144,6 +144,16 @@ export class TaskControlComponent implements OnInit {
   evaluation_id: any = '';
   descripcion: any;
 
+  notificaciones: boolean = false;
+  fecha_active: any = null;
+  fecha_vencimiento: any = null;
+  fecha_notificacion: any = null;
+  fecha_notificacion5: any = null;
+  fecha_notificacion10: any = null;
+  fecha_notificacion15: any = null;
+  fecha_notificacion30: any = null;
+  periodicidad: any = null;
+
   constructor(private modalService: NgbModal, public service: RecentService, private formBuilder: UntypedFormBuilder, private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private workPlanService: WorkPlanService, private userService: UserProfileService, public toastService: ToastService, private sanitizer: DomSanitizer, private renderer: Renderer2, private TokenStorageService: TokenStorageService, private http: HttpClient) {
     this.recentData = service.recents$;
     this.total = service.total$;
@@ -521,6 +531,16 @@ export class TaskControlComponent implements OnInit {
 
           if(this.articulo && this.articulo.evaluations && this.articulo.evaluations.notificaciones) {
             this.active_notify = this.articulo.evaluations.notificaciones;
+            
+            this.notificaciones = this.articulo.evaluations.notificaciones;
+            this.fecha_active = this.articulo.evaluations.fecha_active;
+            this.fecha_vencimiento = this.articulo.evaluations.fecha_vencimiento;
+            this.fecha_notificacion = this.articulo.evaluations.fecha_notificacion;
+            this.fecha_notificacion5 = this.articulo.evaluations.fecha_notificacion5;
+            this.fecha_notificacion10 = this.articulo.evaluations.fecha_notificacion10;
+            this.fecha_notificacion15 = this.articulo.evaluations.fecha_notificacion15;
+            this.fecha_notificacion30 = this.articulo.evaluations.fecha_notificacion30;
+            this.periodicidad = this.articulo.evaluations.periodicidad;
           }else{
             this.active_notify = false;
           }
@@ -720,7 +740,16 @@ export class TaskControlComponent implements OnInit {
       comentario: comentario,
       proyectoId: this.project_id,
       evaluationProyectId: this.evaluation_id,
-      active: true
+      active: true,
+      notificaciones: this.notificaciones,
+      fecha_active: this.fecha_active,
+      fecha_vencimiento: this.fecha_vencimiento,
+      fecha_notificacion: this.fecha_notificacion,
+      fecha_notificacion5: this.fecha_notificacion5,
+      fecha_notificacion10: this.fecha_notificacion10,
+      fecha_notificacion15: this.fecha_notificacion15,
+      fecha_notificacion30: this.fecha_notificacion30,
+      periodicidad: this.periodicidad
     };
 
     const formData = new FormData();
@@ -1569,6 +1598,16 @@ parseHtmlString(texto: any){
         fecha: null
       };
 
+      this.notificaciones = false;
+      this.fecha_active = null;
+      this.fecha_vencimiento = null;
+      this.fecha_notificacion = null;
+      this.fecha_notificacion5 = null;
+      this.fecha_notificacion10 = null;
+      this.fecha_notificacion15 = null;
+      this.fecha_notificacion30 = null;
+      this.periodicidad = null;
+
         this.saveNotify(evaluation_id, dataNotify);
 
     }
@@ -1618,6 +1657,16 @@ parseHtmlString(texto: any){
         fecha_notificada: null,
         periodicidad: periodicidad
       };
+
+        this.notificaciones = true;
+        this.fecha_active = fecha_active;
+        this.fecha_vencimiento = fecha_vencimiento;
+        this.fecha_notificacion = fecha_notificacion;
+        this.fecha_notificacion5 = fecha_notificacion5 > new Date(fecha_active) ? fecha_notificacion5 : null;
+        this.fecha_notificacion10 = fecha_notificacion10 > new Date(fecha_active) ? fecha_notificacion10 : null;
+        this.fecha_notificacion15 = fecha_notificacion15 > new Date(fecha_active) ? fecha_notificacion15 : null;
+        this.fecha_notificacion30 = fecha_notificacion30 > new Date(fecha_active) ? fecha_notificacion30 : null;
+        this.periodicidad = periodicidad;
 
       this.saveNotify(this.evaluation_id, dataNotify, true);
   

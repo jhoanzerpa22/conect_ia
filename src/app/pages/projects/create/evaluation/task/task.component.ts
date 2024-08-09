@@ -242,7 +242,7 @@ export class EvaluationTaskComponent implements OnInit {
         (ev: any) =>
           ev.id == this.idEvaluation
       );
-      this.count_evaluations = evaluation_data.lenght;
+      this.count_evaluations = evaluation_data.length;
       this.evaluation = index != -1 ? evaluation_data[index] : {};
   },
   (error: any) => {

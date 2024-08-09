@@ -576,7 +576,7 @@ getArticulos(){
   }
   
   getEvaluationsAll(proyectos_ids: any){
-    //if(proyectos_ids.lenght > 0){
+    //if(proyectos_ids.length > 0){
     this.projectsService.getEvaluationsAll(proyectos_ids).pipe().subscribe(
       (data: any) => {
         this.evaluations = data.data;
@@ -590,7 +590,7 @@ getArticulos(){
   }
   
   getTasksAll(proyectos_ids: any){
-    //if(proyectos_ids.lenght > 0){
+    //if(proyectos_ids.length > 0){
     this.projectsService.getTasksAll(proyectos_ids).pipe().subscribe(
       (data: any) => {
         this.tareas = data.data;
