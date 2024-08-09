@@ -291,6 +291,7 @@ export class TaskControlComponent implements OnInit {
   );
 
   const evaluation_id: any = evaluation != -1 ? this.evaluations[evaluation].id : null;
+  this.evaluation_id = evaluation_id;
 
   this.idEvaluation = evaluation != -1 ? this.evaluations[evaluation].evaluationProyectId
   : null;
@@ -823,7 +824,7 @@ export class TaskControlComponent implements OnInit {
   }
 
   saveHallazgo(){
-    if (this.hallazgoForm.valid) {
+    if (this.hallazgoForm.valid && this.evaluation_id) {
 
     this.showPreLoader();
 
@@ -836,7 +837,7 @@ export class TaskControlComponent implements OnInit {
     let estado: any = 2;
     let installation_article_id: any = this.installation_article_id;
 
-    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.installation_article_id};
+    const hallazgo_data: any = {id: id, nombre: nombre,/* descripcion: descripcion,*/ fecha: fecha, estado: estado, installationArticleId: this.installation_article_id, evaluationId: this.evaluation_id};
     
     /*this.HallazgosDatas.push({
       id,
@@ -890,7 +891,16 @@ export class TaskControlComponent implements OnInit {
       this.modalService.dismissAll()
     });
       
+  }else{
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'Debe cargar una evaluación inicial',
+      showConfirmButton: true,
+      timer: 5000,
+    });
   }
+
   }
   
   changeStatus(e: any){
@@ -1407,11 +1417,22 @@ parseHtmlString(texto: any){
    * @param content modal content
    */
   openModal(content: any) {
-    this.submitted = false;
 
-    this.selectedFile = [];
-    this.imgHallazgos = {};
-    this.modalService.open(content, { size: 'lg', centered: true });
+    if(this.evaluation_id){
+      this.submitted = false;
+
+      this.selectedFile = [];
+      this.imgHallazgos = {};
+      this.modalService.open(content, { size: 'lg', centered: true });
+    }else{
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Debe cargar una Evaluación inicial.',
+        showConfirmButton: true,
+        timer: 5000,
+      });
+    }
   }
   
   editModal(content: any, id: any) {
