@@ -142,6 +142,8 @@ export class TaskControlComponent implements OnInit {
 
   active_notify: boolean = false;
   evaluation_id: any = '';
+  idEvaluation: any = '';
+  EvaluationProyectId: any = '';
   descripcion: any;
 
   notificaciones: boolean = false;
@@ -290,7 +292,10 @@ export class TaskControlComponent implements OnInit {
 
   const evaluation_id: any = evaluation != -1 ? this.evaluations[evaluation].id : null;
 
-   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, evaluation_id).pipe().subscribe(
+  this.idEvaluation = evaluation != -1 ? this.evaluations[evaluation].evaluationProyectId
+  : null;
+
+   this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, this.idEvaluation).pipe().subscribe(
      (data: any) => {
        this.workPlan = data.data;
    },
@@ -300,10 +305,27 @@ export class TaskControlComponent implements OnInit {
    });
 }
 
+/**Esta evaluacion es la creada en el proyecto activa */
  getEvaluations(){
   this.projectsService.getEvaluations(this.project_id).pipe().subscribe(
     (data: any) => {
       this.evaluation = data.data;
+
+      if(Array.isArray(this.evaluation)){
+        
+        const evaluation: any = this.evaluations.findIndex(
+          (co: any) =>
+            co.active == true
+        );
+
+        const evaluationId: any = evaluation != -1 ? this.evaluation[evaluation].id : null;
+
+        this.EvaluationProyectId = evaluationId;
+      }else{
+        this.EvaluationProyectId = this.evaluation.id;
+      }
+
+
   },
   (error: any) => {
     //this.error = error ? error : '';
@@ -739,7 +761,7 @@ export class TaskControlComponent implements OnInit {
       installationArticleId: this.installation_article_id,
       comentario: comentario,
       proyectoId: this.project_id,
-      evaluationProyectId: this.evaluation_id,
+      evaluationProyectId: this.idEvaluation ? this.idEvaluation : this.EvaluationProyectId,
       active: true,
       notificaciones: this.notificaciones,
       fecha_active: this.fecha_active,
@@ -1068,7 +1090,7 @@ export class TaskControlComponent implements OnInit {
                   responsableId: user_id,
                   descripcion: null,
                   proyectoId: this.project_id,
-                  evaluationProyectId: this.evaluation_id,
+                  evaluationProyectId: this.idEvaluation ? this.idEvaluation : this.EvaluationProyectId,
                   empresaId: this.userData.empresaId
                 };
             
