@@ -1569,7 +1569,7 @@ parseHtmlString(texto: any){
         fecha: null
       };
 
-      this.saveNotify(evaluation_id, dataNotify);
+        this.saveNotify(evaluation_id, dataNotify);
 
     }
 
@@ -1628,6 +1628,8 @@ parseHtmlString(texto: any){
   }
 
   saveNotify(evaluation_id: any, dataNotify: any, modal?: boolean){
+
+    if(evaluation_id){
     
     this.showPreLoader();
     
@@ -1661,6 +1663,12 @@ parseHtmlString(texto: any){
         this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
         
       });
+
+      }else{
+        
+        this.modalService.dismissAll();
+
+      }
 
   }
 

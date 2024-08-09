@@ -36,6 +36,7 @@ export class ProjectEvaluationsComponent implements OnInit {
   @ViewChild('scrollRef') scrollRef: any;
 
   project_id: any = '';
+  empresaId: any;
   project: any = {};
   idEvaluation: any = '';
 
@@ -83,7 +84,6 @@ export class ProjectEvaluationsComponent implements OnInit {
       this.idEvaluation = params['idEvaluation'];
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
-      this.getInstallations(params['id']);
       this.getDeleteInstallations(this.idEvaluation);
     });
 
@@ -111,7 +111,9 @@ export class ProjectEvaluationsComponent implements OnInit {
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
-          this.project = data.data;
+          this.project = data.data;  
+          this.empresaId = this.project.empresaId;    
+          this.getInstallations(idProject, this.project.empresaId);
       },
       (error: any) => {
         //this.error = error ? error : '';
@@ -165,8 +167,8 @@ getCategoryStatus(estado?: any){
   
   }
 
-  getInstallations(idProject?: any) {
-    this.projectsService.getInstallationsUser()/*getInstallations(idProject)*/.pipe().subscribe(
+  getInstallations(idProject?: any, empresaId?: any) {
+    this.projectsService.getInstallationsUser(empresaId)/*getInstallations(idProject)*/.pipe().subscribe(
         (data: any) => {
           let obj: any = data.data;
           let lista: any = [];
@@ -979,7 +981,7 @@ layers = [
     this.projectsService.homologarEvaluationByInstallation(this.id_evaluation ,this.project_id, this.id_installation).pipe().subscribe(
       (data: any) => {
         
-        this.getInstallations(this.project_id);
+        this.getInstallations(this.project_id, this.empresaId);
         this.modalService.dismissAll();
         this.modalService.open(contentSuccess, { centered: true });
     },
