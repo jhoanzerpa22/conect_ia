@@ -716,9 +716,12 @@ export class TaskControlComponent implements OnInit {
   }
 
   saveEvaluation(){
-    if(!this.status || (this.getCategoryStatus(this.status) != 'CUMPLE' && this.getCategoryStatus(this.status) != 'NO CUMPLE' && this.getCategoryStatus(this.status) != 'CUMPLE PARCIALMENTE') || (this.status && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)){
+    let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
+    let comentario: any = this.evaluacionForm.get('comentario')?.value;
+    
+    if(!this.status || !fecha_evaluacion || (this.getCategoryStatus(this.status) != 'CUMPLE' && this.getCategoryStatus(this.status) != 'NO CUMPLE' && this.getCategoryStatus(this.status) != 'CUMPLE PARCIALMENTE') /*|| (this.status && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1)*/){
 
-      if(this.status && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
+      /*if(this.status && (this.getCategoryStatus(this.status) == 'NO CUMPLE' || this.getCategoryStatus(this.status) == 'CUMPLE PARCIALMENTE') && this.HallazgosDatas.length < 1){
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -726,22 +729,20 @@ export class TaskControlComponent implements OnInit {
           showConfirmButton: true,
           timer: 5000,
         });
-      }else{
+      }else{*/
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: 'Debe asignar un estado a la evaluación y cargar una imagen o comentario.',
+          title: 'Debe asignar un estado a la evaluación, una fecha de Evaluación y cargar una imagen o comentario.',
           showConfirmButton: true,
           timer: 5000,
         });
-      }
+      //}
 
   } else{
     
     this.showPreLoader();
 
-    let fecha_evaluacion: any = this.evaluacionForm.get('fecha_evaluacion')?.value;
-    let comentario: any = this.evaluacionForm.get('comentario')?.value;
     let hallazgos: any = [];
 
     for (var h = 0; h < this.HallazgosDatas.length; h++) {
@@ -756,7 +757,7 @@ export class TaskControlComponent implements OnInit {
     }
 
     const evaluations: any = {
-      fecha_evaluacion: fecha_evaluacion,
+      fecha_evaluacion: fecha_evaluacion ? fecha_evaluacion : null,
       hallazgos: hallazgos,
       estado: this.status,
       installationArticleId: this.installation_article_id,
