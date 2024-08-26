@@ -511,8 +511,8 @@ export class TaskControlComponent implements OnInit {
                     (ar: any) =>
                       ar.evaluations && ar.evaluations.active == true
                   );
-                  
-                  if(index == -1 && (index_articulo == -1 || (index_articulo != -1 && cuerpos[i].articulos[j].evaluations && cuerpos[i].articulos[j].evaluations.active == true))){
+
+                  if(index == -1 /*&& (index_articulo == -1 || (index_articulo != -1 && cuerpos[i].articulos[j].evaluations && cuerpos[i].articulos[j].evaluations.active == true))*/){
 
                     articulos_group.push(cuerpos[i].articulos[j].articuloId);
                     procede = true;
@@ -525,6 +525,8 @@ export class TaskControlComponent implements OnInit {
               }
             }
           }
+
+          console.log('CuerpoArticulo',cuerpo_articulos);
 
           this.cuerpoLegal = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].cuerpoLegal : '';
           this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];/*data.data.data.length > 0 ? data.data.data[0].articulos : [];*/
