@@ -325,7 +325,18 @@
                                                 <div class="col-md-6">
                                                         <h6 style="color: #405189;"><b>EVIDENCIA CARGADA 
                                                         </b></h6>
-                                                        <img (error)="imgError($event)" src="{{evaluationDetail.evaluacionImg ? evaluationDetail.evaluacionImg[0] : ''}}" alt="Hallazgo respaldo" class="users-avatar-shadow avatar mr-3" height="64" width="64" style="cursor:pointer;" (click)="viewFile(evaluationDetail.evaluacionImg ? evaluationDetail.evaluacionImg[0] : null)">
+                                                        <ng-container *ngIf="evaluationDetail.evaluacionImg && evaluationDetail.evaluacionImg.length > 1">
+                                                            <ng-container *ngFor="let img of evaluationDetail.evaluacionImg;">
+                                                            <img (error)="imgError($event)" src="{{img}}" alt="Hallazgo respaldo" class="users-avatar-shadow avatar mr-3" height="64" width="64" style="cursor:pointer;" (click)="viewFile(img)">
+                                                            </ng-container>
+
+                                                        </ng-container>
+                                                        
+                                                        <ng-container *ngIf="!evaluationDetail.evaluacionImg || evaluationDetail.evaluacionImg.length < 2">
+
+                                                            <img (error)="imgError($event)" src="{{evaluationDetail.evaluacionImg ? evaluationDetail.evaluacionImg[0] : ''}}" alt="Hallazgo respaldo" class="users-avatar-shadow avatar mr-3" height="64" width="64" style="cursor:pointer;" (click)="viewFile(evaluationDetail.evaluacionImg ? evaluationDetail.evaluacionImg[0] : null)">
+
+                                                        </ng-container>
                                                         <!--<a href="javascript:void(0);" class="link-success" title="Descargar" (click)="downloadFile(evaluationDetail.evaluacionImg ? evaluationDetail.evaluacionImg[0]: null)"><i class="ri-download-2-line align-bottom me-1"></i></a>-->                    
                                                 </div>
                                                 
