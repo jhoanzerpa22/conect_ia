@@ -526,8 +526,6 @@ export class TaskControlComponent implements OnInit {
             }
           }
 
-          console.log('CuerpoArticulo',cuerpo_articulos);
-
           this.cuerpoLegal = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].cuerpoLegal : '';
           this.articulosDatas = cuerpo_articulos.length > 0 ? cuerpo_articulos[0].articulos : [];/*data.data.data.length > 0 ? data.data.data[0].articulos : [];*/
           let articulo_filter: any = this.articulosDatas.filter((data: any) => {
