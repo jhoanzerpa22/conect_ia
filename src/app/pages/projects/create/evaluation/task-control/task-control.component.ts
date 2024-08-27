@@ -296,6 +296,8 @@ export class TaskControlComponent implements OnInit {
   this.idEvaluation = evaluation != -1 ? this.evaluations[evaluation].evaluationProyectId
   : null;
 
+  if(this.idEvaluation){
+
    this.workPlanService.getByParams(this.project_id, this.installation_id, this.articulo.normaId, this.idEvaluation).pipe().subscribe(
      (data: any) => {
        this.workPlan = data.data;
@@ -304,6 +306,7 @@ export class TaskControlComponent implements OnInit {
      //this.error = error ? error : '';
      //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
    });
+  }
 }
 
 /**Esta evaluacion es la creada en el proyecto activa */
@@ -925,10 +928,39 @@ export class TaskControlComponent implements OnInit {
       }
   }
   
+  addFileSelected(event: any){
+    
+    let selectedFileNow: any = event;
+    this.selectedFile.push(selectedFileNow);
+    let name_file: any = event.name;
+    let size_file: any = (event.size / 1000000).toFixed(2) + "MB";
+
+    var reader = new FileReader();
+    reader.readAsDataURL(selectedFileNow);
+    reader.onload = (_event) => {
+      this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
+      }
+  }
+  
+  addFileSelectedEvaluation(event: any){
+    
+    let selectedFileEvaluationNow: any = event;
+    //console.log(event);
+    this.selectedFileEvaluation.push(selectedFileEvaluationNow);
+    let name_file: any = event.name;
+    let size_file: any = (event.size / 1000000).toFixed(2) + "MB";
+
+    var reader = new FileReader();
+    reader.readAsDataURL(selectedFileEvaluationNow);
+    reader.onload = (_event) => {
+      console.log(reader.result);
+      this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result });
+      }
+  }
+  
   onFileSelectedEvaluation(event: any){
     let selectedFileEvaluationNow: any = <File>event[0];
     this.selectedFileEvaluation.push(selectedFileEvaluationNow);
-
     let name_file: any = selectedFileEvaluationNow.name;
     let size_file: any = (selectedFileEvaluationNow.size / 1000000).toFixed(2) + "MB";
     var reader = new FileReader();
