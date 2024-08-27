@@ -118,8 +118,9 @@ import {
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
-  maxFilesize: 50,
-  acceptedFiles: 'image/*'
+  autoProcessQueue: false,
+  maxFilesize: 500,
+  acceptedFiles: 'image/*,application/*'
 };
 
 @NgModule({
@@ -151,7 +152,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     EvaluationTaskComponent,
     EvaluationTaskViewComponent,
     EvaluationDetailAllComponent,
-    TaskControlComponent,
     TaskControlComponent,
     FilterPipe,
     FilterAreaPipe,
@@ -199,6 +199,12 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ScrollingModule,
     AutocompleteLibModule,
     OrganizationChartModule
+  ],
+  providers: [
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

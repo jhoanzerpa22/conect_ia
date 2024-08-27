@@ -1146,6 +1146,36 @@ export class EvaluationTaskComponent implements OnInit {
       this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
       }
   }
+  addFileSelected(event: any){
+    
+    let selectedFileNow: any = event;
+    this.selectedFile.push(selectedFileNow);
+    let name_file: any = event.name;
+    let size_file: any = (event.size / 1000000).toFixed(2) + "MB";
+
+    var reader = new FileReader();
+    reader.readAsDataURL(selectedFileNow);
+    reader.onload = (_event) => {
+      this.imgHallazgos = {name: name_file, size: size_file, imagen: reader.result };
+      }
+  }
+  
+  addFileSelectedEvaluation(event: any){
+    
+    let selectedFileEvaluationNow: any = event;
+    //console.log(event);
+    this.selectedFileEvaluation.push(selectedFileEvaluationNow);
+    let name_file: any = event.name;
+    let size_file: any = (event.size / 1000000).toFixed(2) + "MB";
+
+    var reader = new FileReader();
+    reader.readAsDataURL(selectedFileEvaluationNow);
+    reader.onload = (_event) => {
+      console.log(reader.result);
+      this.imgEvaluations.push({name: name_file, size: size_file, imagen: reader.result, save: false });
+      }
+  }
+  
   
 onFileSelectedEvaluation(event: any){
   let selectedFileEvaluationNow: any = <File>event[0];
