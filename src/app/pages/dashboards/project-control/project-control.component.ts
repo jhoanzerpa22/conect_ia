@@ -7,6 +7,7 @@ import { round } from 'lodash';
 import { TokenStorageService } from '../../../core/services/token-storage.service';
 
 import { estadosData } from '../../projects/estados';
+import { UserProfileService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-project-control',
@@ -87,7 +88,11 @@ export class ProjectControlComponent implements OnInit {
   areas_select_chart: any = [];
   showData: boolean = false;
 
-  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private TokenStorageService: TokenStorageService) {
+  proyectos_permisos: any = [];
+  areas_permisos: any = [];
+  areas_permisos_all: any = [];
+
+  constructor(private _router: Router, private route: ActivatedRoute, private projectsService: ProjectsService, private userService: UserProfileService, private TokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -111,6 +116,7 @@ export class ProjectControlComponent implements OnInit {
       this.getProject(params['id']);
       this.getEvaluations(params['id']);
       this.getArticleProyect(params['id']);
+      this.getPermisos();
     });
 
     /**
@@ -135,6 +141,91 @@ export class ProjectControlComponent implements OnInit {
       (r: any) =>
         r == rol
     ) != -1;
+  }
+
+  async searchHijaArea(areaId: any, areas_permisos_array: any){
+
+    let areas_hijas: any = this.areas_all.filter((bb1: any) => {
+      return bb1.areaId == areaId;
+    });
+
+    for (let index = 0; index < areas_hijas.length; index++) {
+      const area_id = areas_hijas[index].id;
+
+      areas_permisos_array.push(area_id.toString());
+
+      areas_permisos_array = await this.searchHijaArea(area_id, areas_permisos_array);
+      
+    }
+
+    return areas_permisos_array;
+  }
+
+  async searchPadreArea(area_permiso: any, areas_permisos_array: any){
+    
+    const index_area = this.areas_all.findIndex(
+      (all2: any) =>
+        all2.id == area_permiso
+    );
+
+    if(index_area != -1){
+
+      const area = this.areas_all[index_area];
+
+      if(area.areaId){
+        areas_permisos_array.push(area.areaId.toString());
+
+        areas_permisos_array = await this.searchPadreArea(area.areaId, areas_permisos_array);
+      }
+    }
+
+    return areas_permisos_array;
+
+  }
+
+  async sincronizarAreasPermisos(){
+   let areas_permisos_array: any = [];
+   
+   for (let index = 0; index < this.areas_permisos.length; index++) {
+    const area_permiso = this.areas_permisos[index];
+    
+    areas_permisos_array.push(area_permiso);
+
+        const index_area = this.areas_all.findIndex(
+          (all2: any) =>
+            all2.id == area_permiso
+        );
+
+        if(index_area != -1){
+
+          const area = this.areas_all[index_area];
+
+          if(area.areaId){
+            areas_permisos_array.push(area.areaId.toString());
+
+            areas_permisos_array = await this.searchPadreArea(area.areaId, areas_permisos_array);
+          }
+
+          areas_permisos_array = await this.searchHijaArea(area.id, areas_permisos_array);
+
+        }
+   }
+
+   this.areas_permisos_all = areas_permisos_array;
+   console.log('Areas_permisos_all',this.areas_permisos_all);
+  }
+
+  validatePermiso(area: any){
+    if((this.validateRol(3) || this.validateRol(4)) && this.areas_permisos.length > 0){
+    
+    return this.areas_permisos_all.findIndex(
+      (ap: any) =>
+        ap == area.id
+    ) != -1;
+
+    }else{
+      return true;
+    }
   }
 
   async validateAreaChildren(tree_data: any, instalaciones_all: any): Promise<boolean>{
@@ -271,6 +362,31 @@ export class ProjectControlComponent implements OnInit {
     this._router.navigate(['/'+this.project_id+'/project-dashboard/resumen/control']);
   }
 
+  private getPermisos(){
+    const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
+    this.userService.getPermisos(id).pipe().subscribe(
+      (data: any) => {        
+        const proyectos: any = data.data.projects;
+        const areas: any = data.data.areas;
+
+        let proyectos_id: any = [];
+        let areas_id: any = [];
+
+        for (let i1 = 0; i1 < proyectos.length; i1++) {
+          proyectos_id.push(proyectos[i1].proyectoId.toString());
+        }
+        
+        for (let i2 = 0; i2 < areas.length; i2++) {
+          areas_id.push(areas[i2].areaId.toString());
+        }
+
+        this.proyectos_permisos = proyectos_id;
+        this.areas_permisos = areas_id;
+    },
+    (error: any) => {
+    });
+  }
+
   getProject(idProject?: any){
       this.projectsService.getById(idProject).pipe().subscribe(
         (data: any) => {
@@ -340,6 +456,9 @@ export class ProjectControlComponent implements OnInit {
 
           this.tree_data = tree_data;
           this.areas_tree = tree_data_org;
+
+          console.log('Areas_all',this.areas_all);        
+          this.sincronizarAreasPermisos();
 
           this.hidePreLoader();
       },
