@@ -337,7 +337,7 @@
             
                                                     <div class="col-xxl-12" *ngFor="let it of s.children">
         
-                                                        <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(it,installations_group_filter,'HIJO 2') && (!areas_select_chart[index] || areas_select_chart[index].nombre == it.nombre)">
+                                                        <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(it,installations_group_filter,'HIJO 2') && (!areas_select_chart[index] || areas_select_chart[index].nombre == it.nombre) && validatePermiso(it)">
                                                             <ng-container [ngTemplateOutlet]="myAreas" [ngTemplateOutletContext]="{s: it, type: 2, index: index+1 }">
                                                             </ng-container>
                                                         </ng-container>
@@ -348,7 +348,7 @@
                                     </ng-template>         
                                         <div class="list-group" *ngIf="showData">
                                             <ng-container *ngFor="let td of tree_data">
-                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(td,installations_group_filter,'PADRE') && (!areas_select_chart[0] || areas_select_chart[0].nombre == td.nombre)">
+                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(td,installations_group_filter,'PADRE') && (!areas_select_chart[0] || areas_select_chart[0].nombre == td.nombre) && validatePermiso(td)">
                                                 
                                     <div *ngIf="installations_group_filter.length > 0 && validIndexArea(installations_group_filter, td.nombre)">
                                         
@@ -373,7 +373,7 @@
             
                                             <div class="col-xxl-12" *ngFor="let item of td.children">
                                                 
-                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(item,installations_group_filter,'HIJO 1') && (!areas_select_chart[1] || areas_select_chart[1].nombre == item.nombre)">
+                                                <ng-container *ngIf="installations_group_filter.length > 0 && validDataArea(item,installations_group_filter,'HIJO 1') && (!areas_select_chart[1] || areas_select_chart[1].nombre == item.nombre) && validatePermiso(item)">
                                                 
                                                     <ng-container [ngTemplateOutlet]="myAreas" [ngTemplateOutletContext]="{s: item, type: 1, index: 2 }">
                                                     </ng-container>

@@ -7,6 +7,8 @@ import {Location} from '@angular/common';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../../toast-service';
 
 @Component({
   selector: 'app-settings',
@@ -46,8 +48,14 @@ export class SettingsComponent implements OnInit {
   ];
 
   empresaUsuario: any = '';
+  
+  proyectos_permisos: any = [];
+  areas_permisos: any = [];
+  areas_permisos_all: any = [];
+  areas_all: any = [];
+  areaForm!: UntypedFormGroup;
 
-  constructor(private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location, private projectsService: ProjectsService) { }
+  constructor(private modalService: NgbModal, public toastService: ToastService, private TokenStorageService: TokenStorageService, private formBuilder: UntypedFormBuilder, private userService: UserProfileService, private router: Router, private authenticationService: AuthenticationService, private _location: Location, private projectsService: ProjectsService) { }
 
   ngOnInit(): void {
     this.userData =  !this.TokenStorageService.getUserProfile() ? this.TokenStorageService.getUser() : this.TokenStorageService.getUserProfile();
@@ -78,10 +86,16 @@ export class SettingsComponent implements OnInit {
       cpassword: ['', [Validators.required]]
     });
 
+    this.areaForm = this.formBuilder.group({
+      ids: [''],
+      areas: ['', [Validators.required]],
+    });
+
     this.rol = this.userData.rol[0];
     this.rol_user = this.userLogin.rol[0];
 
     this.getAreas();
+    this.getAreasTree(this.userData.empresaId);  
     this.getProjects();
     this.getPermisos();
     this.getEmpresas();
@@ -166,6 +180,49 @@ export class SettingsComponent implements OnInit {
       }
     };
   }
+
+  async sincronizarAreasPermisos(){
+    let areas_permisos_array: any = [];
+    
+    for (let index = 0; index < this.areas_permisos.length; index++) {
+     const area_permiso = this.areas_permisos[index];
+     
+         const index_area = this.areas_all.findIndex(
+           (all2: any) =>
+             all2.id == area_permiso
+         );
+
+         console.log('Area_permiso',index_area, area_permiso);
+ 
+         if(index_area != -1){
+ 
+           const area = this.areas_all[index_area];
+           
+           if(area.areaId){ 
+
+              const index_padre = this.areas_all.findIndex(
+                (all2: any) =>
+                  all2.id == area.areaId
+              );
+      
+              if(index_padre != -1){
+      
+                const area_padre = this.areas_all[index_padre];
+              
+                areas_permisos_array.push({id: area.id.toString(), nombre: area.nombre, padre: area_padre.nombre});
+              }
+
+           }else{
+ 
+              areas_permisos_array.push({id: area.id.toString(), nombre: area.nombre, padre: null});
+           }
+ 
+         }
+    }
+ 
+    this.areas_permisos_all = areas_permisos_array;
+    console.log('Areas_permisos_all',this.areas_permisos_all);
+   }
   
   private getEmpresas(){
     this.Empresas = [];
@@ -208,6 +265,9 @@ export class SettingsComponent implements OnInit {
 
         this.userForm.get('projects')?.setValue(proyectos_id);
         this.userForm.get('areas')?.setValue(areas_id);
+
+        this.proyectos_permisos = proyectos_id;
+        this.areas_permisos = areas_id;
     },
     (error: any) => {
     });
@@ -242,6 +302,60 @@ private getAreas() {
       //this.toastService.show(error, { classname: 'bg-danger text-white', delay: 5000 });
     });
     document.getElementById('elmLoader')?.classList.add('d-none')
+}
+
+private getAreasTree(empresaId?: any){
+  this.showPreLoader();
+    this.projectsService.getAreasAll(1, empresaId).pipe().subscribe(
+      (data: any) => {
+        let obj: any = data.data;
+        let tree_data: any = [];
+        let tree_data_org: any = [];
+        this.areas_all = [];
+        
+        for (let c in obj) {
+          let padre: any = obj[c].padre;
+
+            this.areas_all.push({ id: padre.id, nombre: padre.nombre, descripcion: padre.descripcion, areaId: padre.areaId });
+
+            tree_data.push({ id: padre.id, nombre: padre.nombre/*, area: padre.area ? padre.area.nombre : ''*/, descripcion: padre.descripcion, areaId: padre.areaId, children: padre.hijas.length > 0 ? this.getHijas(padre.hijas) : null });
+              
+            tree_data_org.push({ id: padre.id, label: padre.nombre, areaId: padre.areaId, expanded: padre.hijas.length > 0 ? true : false, children: padre.hijas.length > 0 ? this.getHijasOrg(padre.hijas) : null });
+            
+        }
+
+        console.log('Areas_all',this.areas_all);        
+        this.sincronizarAreasPermisos();
+
+        this.hidePreLoader();
+    },
+    (error: any) => {
+      //this.hidePreLoader();
+      //this.error = error ? error : '';
+    });
+    document.getElementById('elmLoader')?.classList.add('d-none')
+  //}, 1200);
+}
+
+private getHijas(hijos: any){
+  let tree_data: any = [];
+  for (let d in hijos) {
+      this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId });
+
+      tree_data.push({ id: hijos[d].id, nombre: hijos[d].nombre/*, area: hijos[d].area ? hijos[d].area.nombre : ''*/, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId, children: hijos[d].hijas.length > 0 ? this.getHijas(hijos[d].hijas) : null });
+  }
+  return tree_data;
+}
+
+private getHijasOrg(hijos: any){
+  let tree_data: any = [];
+  
+  for (let d in hijos) {
+    this.areas_all.push({ id: hijos[d].id, nombre: hijos[d].nombre, descripcion: hijos[d].descripcion, areaId: hijos[d].areaId });
+    
+    tree_data.push({ id: hijos[d].id, label: hijos[d].nombre, areaId: hijos[d].areaId, expanded: hijos[d].hijas.length > 0 ? true : false, children: hijos[d].hijas.length > 0 ? this.getHijasOrg(hijos[d].hijas) : null });
+  }
+  return tree_data;
 }
 
 selectRol(event: any){
@@ -343,6 +457,12 @@ getChildren(padre_id: any){
     if (this.userForm.valid) {
       
       //let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
+
+      let areas_permisos = [];
+
+      for (let index = 0; index < this.areas_permisos_all.length; index++) {
+        areas_permisos.push(this.areas_permisos_all[index].id);
+      }
       
       this.empresaUsuario = this.userForm.get('empresa')?.value;
 
@@ -354,11 +474,12 @@ getChildren(padre_id: any){
         email: this.userForm.get('email')?.value,
         rol: [this.userForm.get('rol')?.value > 0 ? this.userForm.get('rol')?.value : this.rol_user],
         projects: this.userForm.get('projects')?.value,
-        areas: this.userForm.get('areas')?.value/*area_id ? area_id : null*/,
+        areas: areas_permisos/*this.userForm.get('areas')?.value*//*area_id ? area_id : null*/,
         empresa: typeof this.empresaUsuario === 'string' ? this.empresaUsuario : this.empresaUsuario.name,//this.userForm.get('empresa')?.value
       };
       
       const id = this.userData.id ? this.userData.id : (this.userData._id ? this.userData._id : null);
+
       this.userService.update(id, data).pipe().subscribe(
         (data: any) => {
           
@@ -439,6 +560,103 @@ getChildren(padre_id: any){
       return "Super Admin";
     }
   }
+
+  saveArea(){
+
+    if (this.areaForm.valid) {
+      this.showPreLoader();
+      const area = this.areaForm.get('areas')?.value;
+
+      console.log('AreaidSelect', this.area_id_select);
+
+      let area_id = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].value : null;
+      let area_nombre = this.area_id_select[this.area_id_select.length - 1] ? this.area_id_select[this.area_id_select.length - 1].label : null;
+
+      const exist_area = this.areas_permisos_all.findIndex(
+        (all2: any) =>
+          all2.id == area_id
+      );
+
+      if(exist_area != -1){ 
+
+        this.hidePreLoader();
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: '¡El area '+area_nombre+' ya se encuentra registrada!',
+          showConfirmButton: true,
+          timer: 5000,
+        });
+
+      }else{
+
+        let area_padre_nombre = this.area_id_select[this.area_id_select.length - 2] ? this.area_id_select[this.area_id_select.length - 2].label : null;
+
+        this.areas_permisos_all.push({id: area_id, nombre: area_nombre, padre: area_padre_nombre});
+  
+        this.items = [];
+        this.area_id_select = [];
+        this.areaForm.reset();
+  
+        this.hidePreLoader();
+        this.modalService.dismissAll();
+      }
+      
+    }
+  }
+
+  /**
+   * Open modal
+   * @param content modal content
+   */
+  openModal(content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'lg', centered: true });
+  }
+
+  /**
+  * Form data get
+  */
+  get form() {
+    //return this.folderForm.controls;
+    return this.areaForm.controls;
+  }
+
+  /**
+  * Confirmation mail model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      const index_permiso = this.areas_permisos_all.findIndex(
+        (all2: any) =>
+          all2.id == id
+      );
+
+      if(index_permiso != -1){ 
+        this.areas_permisos_all.splice(index_permiso, 1);
+      }
+      /*this.projectsService.deleteInstallation(id)
+      .subscribe(
+        response => {*/
+          this.toastService.show('El registro ha sido borrado.', { classname: 'bg-success text-center text-white', delay: 5000 });
+          
+          document.getElementById('lj_'+id)?.remove();
+        /*},
+        error => {
+          console.log(error);
+          this.toastService.show('Ha ocurrido un error..', { classname: 'bg-danger text-white', delay: 5000 });
+        });*/
+    }
+  }
+  
 
   regresar() {
     this._location.back();
