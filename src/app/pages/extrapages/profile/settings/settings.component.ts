@@ -97,7 +97,6 @@ export class SettingsComponent implements OnInit {
     this.getAreas();
     this.getAreasTree(this.userData.empresaId);  
     this.getProjects();
-    this.getPermisos();
     this.getEmpresas();
 
   }
@@ -268,6 +267,7 @@ export class SettingsComponent implements OnInit {
 
         this.proyectos_permisos = proyectos_id;
         this.areas_permisos = areas_id;
+        this.sincronizarAreasPermisos();
     },
     (error: any) => {
     });
@@ -324,8 +324,8 @@ private getAreasTree(empresaId?: any){
             
         }
 
-        console.log('Areas_all',this.areas_all);        
-        this.sincronizarAreasPermisos();
+        console.log('Areas_all',this.areas_all);
+        this.getPermisos();
 
         this.hidePreLoader();
     },
